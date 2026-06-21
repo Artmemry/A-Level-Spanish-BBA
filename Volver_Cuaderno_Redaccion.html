@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Volver · Cuaderno de redacción (gap-fill)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --ink: #1f2937;
+    --accent: #7c2d12;
+    --accent-light: #fbe9e1;
+    --rose: #f1d2c7;
+    --amber: #fef3c7;
+    --blue: #dbeafe;
+    --green: #dcfce7;
+    --grey: #e5e7eb;
+    --grey-dk: #6b7280;
+    --ok: #15803d;
+    --err: #b91c1c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Calibri', 'Helvetica Neue', Arial, sans-serif;
+    background: #faf7f5;
+    color: var(--ink);
+    line-height: 1.55;
+    margin: 0;
+    padding: 0 0 80px 0;
+  }
+  header {
+    background: linear-gradient(135deg, var(--accent), #9a3412);
+    color: #fff;
+    padding: 28px 32px 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+  }
+  header h1 {
+    margin: 0 0 6px 0;
+    font-size: 32px;
+    letter-spacing: .5px;
+  }
+  header .subtitle {
+    font-style: italic;
+    opacity: .9;
+    font-size: 15px;
+  }
+  header .meta {
+    margin-top: 8px;
+    font-size: 13px;
+    opacity: .8;
+  }
+  .container {
+    max-width: 980px;
+    margin: 24px auto;
+    padding: 0 24px;
+  }
+  .toolbar {
+    position: sticky;
+    top: 0;
+    background: rgba(250,247,245,.95);
+    backdrop-filter: blur(8px);
+    padding: 12px 0;
+    border-bottom: 1px solid var(--grey);
+    z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .toolbar button, .toolbar select {
+    font: inherit;
+    padding: 8px 14px;
+    border: 1px solid var(--grey);
+    background: #fff;
+    color: var(--ink);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .toolbar button:hover { background: var(--accent-light); border-color: var(--accent); }
+  .toolbar button.primary {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .toolbar button.primary:hover { background: #9a3412; }
+  .toolbar .status {
+    color: var(--grey-dk);
+    font-size: 13px;
+    margin-left: auto;
+  }
+  .progress {
+    height: 6px;
+    background: var(--grey);
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 6px 0 0 0;
+  }
+  .progress > div {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #ea580c);
+    width: 0%;
+    transition: width .3s;
+  }
+  .reference {
+    background: #fff;
+    border: 1px solid var(--grey);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 24px;
+  }
+  .reference summary {
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--accent);
+    list-style: none;
+  }
+  .reference summary::before {
+    content: "▸ ";
+    display: inline-block;
+    transition: transform .2s;
+  }
+  .reference[open] summary::before { content: "▾ "; }
+  .ref-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+    margin-top: 12px;
+  }
+  .ref-card {
+    background: var(--accent-light);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+  .ref-card h4 {
+    margin: 0 0 6px 0;
+    color: var(--accent);
+    font-size: 14px;
+  }
+  .ref-card span { display: inline-block; margin: 2px 4px 2px 0; }
+  .ref-card .vocab { background: #fff; padding: 1px 7px; border-radius: 4px; font-style: italic; }
+
+  .essay {
+    background: #fff;
+    border: 1px solid var(--grey);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin: 22px 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  }
+  .essay-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .essay-num {
+    background: var(--accent);
+    color: #fff;
+    font-weight: bold;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 13px;
+    letter-spacing: .5px;
+  }
+  .essay h2 {
+    font-size: 18px;
+    color: var(--accent);
+    margin: 0;
+    flex: 1;
+    line-height: 1.35;
+  }
+  .essay .essay-tools {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  .essay .essay-tools button {
+    font: inherit;
+    font-size: 12px;
+    padding: 4px 10px;
+    border: 1px solid var(--grey);
+    background: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .essay .essay-tools button:hover { background: var(--accent-light); }
+  .paragraph {
+    margin: 16px 0;
+    padding: 14px 18px;
+    background: #fcfaf9;
+    border-left: 4px solid var(--rose);
+    border-radius: 0 8px 8px 0;
+  }
+  .paragraph .plabel {
+    font-weight: bold;
+    color: var(--accent);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    margin-bottom: 6px;
+  }
+  .paragraph p {
+    margin: 0;
+    text-align: justify;
+  }
+
+  input.gap {
+    font: inherit;
+    font-style: italic;
+    color: var(--accent);
+    background: #fffbeb;
+    border: none;
+    border-bottom: 2px dotted var(--accent);
+    padding: 0 4px;
+    margin: 0 2px;
+    min-width: 60px;
+    width: var(--gw, 110px);
+    text-align: center;
+    transition: all .15s;
+  }
+  input.gap:focus {
+    outline: none;
+    background: var(--amber);
+    border-bottom-style: solid;
+  }
+  input.gap.ok {
+    background: var(--green);
+    color: var(--ok);
+    border-bottom-color: var(--ok);
+    font-style: normal;
+    font-weight: bold;
+  }
+  input.gap.err {
+    background: #fecaca;
+    color: var(--err);
+    border-bottom-color: var(--err);
+  }
+  input.gap.revealed {
+    background: var(--blue);
+    color: #1e40af;
+    font-style: normal;
+  }
+
+  .wordbank {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: var(--amber);
+    border-radius: 6px;
+    font-size: 13px;
+    display: none;
+  }
+  .wordbank.show { display: block; }
+  .wordbank b { color: var(--accent); }
+  .wordbank span {
+    display: inline-block;
+    background: #fff;
+    padding: 2px 8px;
+    margin: 2px 4px 2px 0;
+    border-radius: 4px;
+    font-style: italic;
+  }
+
+  footer.main-footer {
+    text-align: center;
+    color: var(--grey-dk);
+    font-size: 13px;
+    margin: 40px 0 20px;
+    font-style: italic;
+  }
+
+  @media print {
+    .toolbar, .essay-tools, .wordbank { display: none !important; }
+    .essay { break-inside: avoid; box-shadow: none; }
+    input.gap { background: transparent; border-bottom: 1px solid #000; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>VOLVER · Cuaderno de redacción</h1>
+  <div class="subtitle">10 ensayos modelo en formato hueco · PEEL · Edexcel A-Level Paper 2</div>
+  <div class="meta">Pedro Almodóvar (2006) · Práctica de escritura</div>
+</header>
+
+<div class="container">
+
+<div class="toolbar">
+  <button class="primary" onclick="downloadWork()">⬇ Descargar mi trabajo</button>
+  <button onclick="checkAll()">✓ Comprobar todo</button>
+  <button onclick="revealAll()">👁 Mostrar respuestas</button>
+  <button onclick="clearAll()">🗑 Reiniciar</button>
+  <span class="status" id="status">Sin guardar</span>
+</div>
+<div class="progress"><div id="progressBar"></div></div>
+
+<details class="reference">
+  <summary>Panel de referencia — léxico, conectores y gramática</summary>
+  <div class="ref-grid">
+    <div class="ref-card">
+      <h4>Léxico crítico</h4>
+      <span class="vocab">la sororidad</span>
+      <span class="vocab">el plano cenital</span>
+      <span class="vocab">el primer plano</span>
+      <span class="vocab">la banda sonora</span>
+      <span class="vocab">el leitmotiv</span>
+      <span class="vocab">la intertextualidad</span>
+      <span class="vocab">el melodrama</span>
+      <span class="vocab">la elipsis</span>
+      <span class="vocab">el realismo mágico</span>
+      <span class="vocab">el patriarcado</span>
+    </div>
+    <div class="ref-card">
+      <h4>Conectores</h4>
+      <span class="vocab">cabe destacar que…</span>
+      <span class="vocab">no obstante</span>
+      <span class="vocab">sin embargo</span>
+      <span class="vocab">conviene matizar</span>
+      <span class="vocab">por tanto</span>
+      <span class="vocab">en última instancia</span>
+      <span class="vocab">en conclusión</span>
+    </div>
+    <div class="ref-card">
+      <h4>Gramática A*</h4>
+      <span class="vocab">es significativo que + subj.</span>
+      <span class="vocab">se podría argumentar que…</span>
+      <span class="vocab">no solo… sino también</span>
+      <span class="vocab">más que A, B</span>
+      <span class="vocab">si bien… no obstante…</span>
+    </div>
+    <div class="ref-card">
+      <h4>Citas de oro</h4>
+      <span class="vocab">«Si te pregunta algo de Paco, tú no sabes nada»</span>
+      <span class="vocab">«He vuelto para pedirte perdón»</span>
+      <span class="vocab">«Veinte años no es nada»</span>
+      <span class="vocab">«Tu padre se ha ido para siempre»</span>
+    </div>
+  </div>
+</details>
+
+<div id="essays"></div>
+
+<footer class="main-footer">
+  Tu trabajo se guarda automáticamente en este navegador. Pulsa «Descargar mi trabajo» para llevártelo.
+</footer>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────
+// Data: 10 model essays. [[gap|hint]] = blank with optional hint.
+// ─────────────────────────────────────────────────────────────────────────
+const ESSAYS = [
+  {
+    title: "Analiza la importancia de la solidaridad femenina en Volver.",
+    paragraphs: [
+      { label: "Párrafo 1 — tesis",
+        text: "La [[solidaridad femenina|tema central]] constituye el verdadero hilo conductor de Volver, sin el cual la trama no podría sostenerse. Desde la secuencia inicial en el [[cementerio|escenario de apertura]], donde las mujeres del pueblo limpian las tumbas, hasta la complicidad silenciosa entre Raimunda, Paula y Regina para deshacerse del cadáver de Paco, Almodóvar muestra cómo las mujeres operan en una red de [[apoyo]] continua. Esta red opera al margen del mundo [[patriarcal|adj. sobre 'patriarcado']]: las mujeres no juzgan, ayudan; no preguntan, ofrecen. Es una alternativa al mundo masculino. [[Por lo tanto|conector conclusivo]], la solidaridad no es un tema secundario sino la columna [[vertebral]] del filme." },
+      { label: "Párrafo 2 — desarrollo",
+        text: "La solidaridad funciona tanto entre hermanas de sangre como entre vecinas que actúan como hermanas [[elegidas|adj. opuesto a 'biológicas']]. Sole acoge a su madre Irene en su piso pese al miedo, manteniendo el secreto de su «[[aparición]]» mientras corta el pelo a sus clientas en una peluquería [[clandestina|adj. opuesto a 'legal']]. Por su parte, Agustina cuida a la tía Paula hasta su muerte sin recibir nada a cambio, y luego carga con el peso de su propio [[cáncer]] en soledad. Almodóvar yuxtapone los lazos biológicos y los lazos de comunidad para sugerir que la verdadera familia de las mujeres se construye a partir del [[cuidado|sustantivo de 'cuidar']]. La hermandad es un acto, no una [[herencia|opuesto a 'acto']]. La solidaridad sustituye o amplía la familia tradicional." },
+      { label: "Párrafo 3 — matiz",
+        text: "Más allá del apoyo cotidiano, la solidaridad femenina permite a los personajes redimir el [[pasado]] y reescribir el [[futuro]]. La reconciliación final entre Raimunda e Irene solo es posible gracias a la mediación de Sole y al perdón colectivo. La canción «[[Volver]]», cantada por Raimunda mientras Irene la escucha desde el coche, simboliza esta reconexión emocional, y el último plano, con las cuatro mujeres juntas en el pueblo, confirma la restauración del vínculo. Almodóvar sugiere que la solidaridad femenina cura los traumas que el patriarcado ha infligido a estas mujeres a lo largo de [[generaciones]]. Donde los hombres han fracturado, las mujeres [[reconstruyen]]. La solidaridad no es solo una estrategia de supervivencia: es, [[en última instancia|conector conclusivo de alto nivel]], el motor de la sanación." }
+    ]
+  },
+  {
+    title: "Evalúa hasta qué punto los secretos y las mentiras son el motor de la trama en Volver.",
+    paragraphs: [
+      { label: "Párrafo 1 — tesis",
+        text: "Los secretos son, sin duda, el [[motor]] narrativo principal de Volver, hasta el punto de que la película no podría avanzar sin ellos. La trama se articula en torno a tres grandes mentiras: el supuesto retorno de Irene desde el [[más allá|expresión para 'el mundo de los muertos']], el [[asesinato]] de Paco a manos de Paula, y la verdad sobre el [[incesto|crimen del padre]] cometido por el padre de Raimunda. Cada una se revela gradualmente, generando giros dramáticos. Almodóvar construye así un melodrama clásico en el que la información oculta se convierte en energía narrativa: cada secreto [[guardado]] retrasa el desenlace, cada secreto [[revelado]] lo precipita. Sin esta arquitectura de ocultaciones, el filme perdería tanto su [[tensión]] como su sentido temático." },
+      { label: "Párrafo 2 — desarrollo",
+        text: "[[No obstante|conector de contraste de alto nivel]], las mentiras en Volver no son simplemente un recurso argumental: son una forma de [[protección]]. Raimunda esconde el cuerpo de Paco para proteger a Paula del trauma y de la [[justicia]]. Irene se oculta durante años para no enfrentarse al peso del crimen pasional que cometió. Sole inventa que Irene es una inmigrante [[rusa|nacionalidad]] para protegerla del juicio social del pueblo. Estas mentiras tienen una raíz emocional, no perversa: las mujeres mienten para [[sobrevivir]] en un mundo donde la verdad sería juzgada con dureza. Almodóvar las presenta con [[empatía|opuesto a 'condena']], no con condena. Los secretos funcionan como motor de la trama precisamente porque están enraizados en la lógica de protección femenina que construye la película." },
+      { label: "Párrafo 3 — matiz",
+        text: "Conviene, sin embargo, [[matizar]] la afirmación: si los secretos hacen avanzar la acción, su [[revelación]] es lo que en última instancia permite la resolución. El momento culminante del filme es la [[confesión]] de Irene a Raimunda, donde por fin se enuncian el incesto del padre y la muerte de la amante en el incendio. Solo cuando este secreto sale a la luz, las protagonistas pueden [[reconciliarse]]. Almodóvar usa una técnica clásica del secreto: lo oculto envenena, lo dicho [[cura|opuesto a 'envenena']]. La narrativa no favorece el silencio sino su [[ruptura]]. Los secretos son el motor del conflicto, pero la verdad lo es de la resolución, y ambos son [[indisociables|inseparables]] del éxito narrativo de la película." }
+    ]
+  },
+  {
+    title: "Analiza cómo el pasado influye en el comportamiento de los personajes en el presente.",
+    paragraphs: [
+      { label: "Párrafo 1 — tesis",
+        text: "En Volver, el pasado no es un escenario cerrado sino una [[fuerza|sustantivo: 'algo que actúa']] activa que condiciona cada decisión presente. Raimunda esconde una historia de [[abuso paterno|trauma de la infancia]] que explica su intolerancia hacia Paco, su distancia con su madre y su obsesión por proteger a [[Paula]]. La frase «mi madre nos ha dejado solas», pronunciada al inicio, resume su [[trauma]] sin nombrarlo. Almodóvar trabaja con un concepto de tiempo [[cíclico|opuesto a 'lineal']]: las heridas del pasado reaparecen en cada nueva relación, en cada nuevo conflicto, hasta que se [[integran]] conscientemente. El comportamiento presente de Raimunda solo es legible a la luz de un pasado que ella misma se niega a [[articular|sinón. de 'expresar verbalmente']]." },
+      { label: "Párrafo 2 — desarrollo",
+        text: "Lo mismo se observa en los demás personajes femeninos, cuyo presente está moldeado por traumas [[heredados]]. Irene regresa del «[[más allá|expresión para el mundo de los muertos]]» (en realidad, de su escondite tras el incendio) cargando el peso de un crimen pasional cometido años atrás. Agustina busca obsesivamente a su [[madre]] desaparecida, una ausencia que define toda su vida adulta. Sole vive de una [[clandestinidad|adj. de 'clandestino']] doble: peluquera ilegal y cómplice del secreto materno. Almodóvar muestra que ninguna mujer parte de [[cero|expresión: 'desde el principio']]: cada una arrastra una historia que el pueblo conoce, susurra y juzga. La memoria [[colectiva|opuesto a 'individual']] del lugar opera como un archivo invisible. Sin la presión del pasado sobre el presente, las acciones de estos personajes resultarían [[incomprensibles]]." },
+      { label: "Párrafo 3 — matiz",
+        text: "[[Sin embargo|conector de contraste]], el filme propone que el pasado no condena: puede ser reelaborado y, finalmente, [[transformado]]. Cuando Irene confiesa el [[incesto]] y la causa real del incendio, Raimunda comienza un proceso de duelo y reconciliación. La canción «Volver» —«volver con la [[frente marchita|imagen del envejecimiento]]»— funciona como banda sonora de esta reescritura del pasado, y el último plano, con las cuatro mujeres reunidas, confirma que el [[ciclo]] puede cerrarse. Almodóvar matiza así su propio mensaje: el pasado influye, pero no [[determina|opuesto a 'libera']]. El presente es un espacio donde las mujeres pueden, mediante el habla y el cuidado mutuo, romper la repetición del trauma. La influencia del pasado es decisiva, pero también [[superable]], y esa superación constituye el corazón emocional del filme." }
+    ]
+  },
+  {
+    title: "Evalúa hasta qué punto Volver puede considerarse una crítica del patriarcado.",
+    paragraphs: [
+      { label: "Párrafo 1 — tesis",
+        text: "Volver es, en gran medida, una [[crítica]] frontal al sistema patriarcal y a su violencia [[estructural|adj. de 'estructura']] sobre las mujeres. Los hombres del filme están casi todos asociados al [[daño|sinón. de 'perjuicio']]: Paco intenta abusar de Paula, el padre de Raimunda la violó cuando era niña. Almodóvar diseña así un universo invertido respecto a la tradición cinematográfica: las mujeres son los [[sujetos|opuesto a 'objetos']], los hombres los [[objetos]] del relato. En este sentido, la película funciona como [[denuncia]] del orden social dominante en la España rural y urbana." },
+      { label: "Párrafo 2 — desarrollo",
+        text: "La crítica se extiende, además, a las consecuencias [[intergeneracionales|que pasan de una generación a otra]] del patriarcado, no solo a sus actos individuales. El abuso del padre de Raimunda no afecta solo a ella: silencia a [[Irene]], fractura el vínculo madre-hija casi una generación, y reaparece cuando Paco intenta reproducir el patrón con [[Paula]]. La violencia masculina se transmite por generaciones como una [[herencia]] tóxica. Almodóvar muestra que el patriarcado no es un acto puntual sino una [[estructura]]: el padre de Raimunda no es una excepción monstruosa, sino un [[eslabón|elemento de una 'cadena']] en una cadena. La película no se limita a condenar a un mal hombre; cuestiona todo un orden tradicional, y crea una utopía [[femenina]]." },
+      { label: "Párrafo 3 — matiz",
+        text: "[[No obstante|conector de contraste de alto nivel]], conviene matizar la lectura: la crítica del patriarcado se construye más por [[contraste|opuesto a 'discurso explícito']] que por discurso explícito. Almodóvar no incluye monólogos feministas ni etiqueta a sus personajes como [[activistas]]. La crítica emerge de las imágenes —el [[congelador]] donde duerme Paco, la red femenina que actúa sin pedir permiso— y de las ausencias: ningún hombre [[resuelve]] nada, ninguno ofrece consuelo. Esta estrategia es eficaz: el espectador deduce la crítica observando un mundo donde las mujeres construyen y los hombres [[destruyen]]. La fuerza crítica de Volver reside precisamente en esta [[sutileza|sinón. de 'matiz, delicadeza']]: el patriarcado queda denunciado sin que el filme lo declare." }
+    ]
+  },
+  {
+    title: "Analiza el papel de las relaciones madre-hija en la película.",
+    paragraphs: [
+      { label: "Párrafo 1 — tesis",
+        text: "Las relaciones entre madres e hijas son el [[centro emocional|núcleo afectivo]] de la película Volver. Hay tres parejas importantes: Raimunda y su hija [[Paula]], Raimunda y su madre [[Irene]], e Irene y su otra hija [[Sole]]. Cada relación es diferente: amor y protección, una pelea sin resolver, y un reencuentro en [[secreto]]. Almodóvar muestra cómo el amor entre madres e hijas pasa de una [[generación]] a otra. A veces las hijas cuidan de las madres, y a veces las madres necesitan a sus hijas. Sin estas tres relaciones, la película no podría hablar del [[cuidado|sustantivo de 'cuidar']] entre mujeres." },
+      { label: "Párrafo 2 — desarrollo",
+        text: "Estas relaciones son complicadas porque hay muchos [[silencios]] y secretos entre las mujeres. Por ejemplo, Raimunda piensa durante muchos años que su madre quería más a [[Sole]] y no a ella. Irene sabía que su [[marido]] abusaba de Raimunda, pero no hizo nada. Por eso, hay un [[muro|metáfora de barrera]] entre madre e hija que solo desaparece al final. Almodóvar nos enseña que las madres no son [[perfectas]]. Pueden tener errores y culpa, pero esto es realista y humano. Así, las relaciones madre-hija son difíciles, pero [[hablar]] de los secretos es lo que permite curar el pasado." },
+      { label: "Párrafo 3 — matiz",
+        text: "Por último, la relación entre madres e hijas es lo que permite [[curar|sinón. de 'sanar']] el pasado. Al final, Raimunda e Irene se reconcilian en el pueblo y hablan por fin del [[incesto]] y del incendio. En la última escena, vemos a Paula, Raimunda, Sole e Irene [[juntas|adj. femenino plural]]. Esta imagen muestra que, para Almodóvar, una mujer solo puede estar [[completa]] cuando se reconcilia con su madre. El cuidado entre generaciones es muy importante en la película. Por eso, las relaciones madre-hija son [[centrales]]: organizan la historia y transmiten el [[mensaje]] principal del director." }
+    ]
+  },
+  {
+    title: "Evalúa la importancia de los símbolos recurrentes en Volver.",
+    paragraphs: [
+      { label: "Párrafo 1 — tesis",
+        text: "Los símbolos recurrentes en Volver no son [[ornamentales|adj.: 'puramente decorativos']]: cumplen una función narrativa y temática [[esencial]]. Tres destacan especialmente: el [[rojo|color clave del filme]], el viento [[solano|adj. del viento manchego]] y la [[comida]]. El rojo aparece en la ropa de Raimunda, en el cuchillo del crimen y en la sangre de Paco; el viento abre y cierra el filme, evocando la [[locura]] y a los muertos; la comida circula constantemente como signo de cuidado. Cada símbolo opera en varias capas simultáneas: estética, [[psicológica|adj. de 'psicología']] y cultural. Almodóvar los utiliza para tejer una red de significados que el espectador percibe sin necesidad de explicación verbal. Los símbolos no acompañan la trama: la [[sostienen]]." },
+      { label: "Párrafo 2 — desarrollo",
+        text: "El [[rojo|color]] es probablemente el símbolo más insistente y multifacético de la película. Aparece en el título, en el delantal de Raimunda, en el camión y coche rojo que transporta el [[congelador]], en la sangre de Paco, en los pétalos de las tumbas y en el cartel del [[restaurante|negocio que Raimunda monta]]. Almodóvar lo distribuye estratégicamente en planos clave. El rojo condensa significados aparentemente [[opuestos|adj. 'contrarios']]: la pasión, la violencia, la fertilidad, la muerte y las flores para los muertos. El rojo encarna la propia ambigüedad [[moral]] del filme, donde matar puede ser un acto de [[protección]]. La importancia del rojo radica en su capacidad de unificar los temas centrales —violencia, mujeres, vida y muerte— en una sola gama [[cromática|adj. relativo al color]]." },
+      { label: "Párrafo 3 — matiz",
+        text: "Otros símbolos amplían el universo [[manchego|adj. de La Mancha]] de la película y le confieren autenticidad cultural. El viento solano se asocia tradicionalmente con la [[locura]] y los muertos en La Mancha. La comida —el flan, la morcilla, el cocido— está presente en escenas clave: Raimunda alimenta a los del rodaje, Sole hace [[flan|postre típico]] para sus clientas, Agustina trae dulces. El cementerio en la primera escena introduce el [[ritual]] del cuidado de los muertos. Estos símbolos enraízan la película en una tradición [[regional|adj. de 'región']] concreta, dando peso histórico a lo que de otro modo sería un melodrama urbano. La Mancha es [[protagonista]]. La importancia simbólica del filme reside, en última instancia, en cómo Almodóvar transforma elementos cotidianos manchegos en lenguaje cinematográfico [[universal|opuesto a 'local']]." }
+    ]
+  },
+  {
+    title: "Analiza el contraste entre la vida rural y la vida urbana en la película.",
+    paragraphs: [
+      { label: "Párrafo 1 — tesis",
+        text: "El pueblo manchego representa un espacio de [[tradición]] y de ritos colectivos. Allí, las mujeres ancianas friegan tumbas en el [[cementerio]], la tía Paula espera pacientemente a sus visitantes, y los velatorios tradicionales marcan el ritmo de la vida [[comunitaria|adj. de 'comunidad']]. Este espacio rural está dominado por la [[memoria]], el pasado y las relaciones intergeneracionales. El pueblo funciona como un repositorio de la historia familiar y colectiva. [[Sin embargo|conector de contraste]], también es un lugar de secretos y silencios, donde el pasado traumático de Raimunda permanece [[oculto]] durante años, lo que crea tensión entre tradición y verdad." },
+      { label: "Párrafo 2 — desarrollo",
+        text: "Madrid, en cambio, se presenta de forma doble y [[contradictoria|adj. 'que contradice']]. Por un lado, es una metrópolis moderna donde hay oportunidades de [[trabajo]] para Raimunda y la posibilidad de escapar del pasado. El equipo de rodaje cinematográfico, los inmigrantes, los hospitales modernos para Agustina y los restaurantes representan la España urbana y [[cosmopolita|adj. 'abierta al mundo']]. Este Madrid moderno simboliza la [[libertad]], el anonimato y la reinvención personal. Raimunda puede construir una [[nueva]] identidad lejos de su historia familiar. Por otro lado, existe una comunidad casi rural en el barrio donde viven Raimunda y Sole, un espacio donde el campo sigue presente, incluso en el habla y por ejemplo la [[comida]] que traen del pueblo, mostrando que lo rural y lo urbano [[coexisten|verbo: 'existen juntos']]." },
+      { label: "Párrafo 3 — matiz",
+        text: "Almodóvar nos muestra contrastes, pero también [[similitudes|opuesto a 'diferencias']] importantes entre ambos mundos. Los personajes principales y secundarios, como las vecinas, pertenecen a ambos espacios y mantienen [[vínculos|sinón. de 'lazos']] emocionales con el pueblo mientras viven en la ciudad. La [[solidaridad femenina|tema central]], el apoyo mutuo y el sentido de comunidad existen tanto en el pueblo como en Madrid, lo que sugiere que ciertos valores [[trascienden|verbo: 'van más allá de']] la geografía. Esta dualidad refleja la experiencia de muchos españoles que emigraron del campo a la ciudad pero mantuvieron sus [[raíces|metáfora de origen]] culturales." }
+    ]
+  },
+  {
+    title: "Evalúa hasta qué punto Volver es una película de redención y nuevos comienzos.",
+    paragraphs: [
+      { label: "Párrafo 1 — tesis",
+        text: "Volver puede considerarse, en gran medida, una película sobre la [[redención]] y los nuevos comienzos, aunque con matices importantes. Cada protagonista experimenta una forma de [[renacimiento|sinón. de 'nuevo comienzo']]. Raimunda confronta el trauma del incesto y libera a su hija de la repetición; Irene regresa del «[[más allá|expresión para 'mundo de los muertos']]» para reparar lo no dicho; Sole rompe la rutina mediocre de su peluquería clandestina; incluso Paula, en silencio, comienza una nueva relación con su madre después de matar a Paco. Almodóvar crea una trama [[clásica|adj. 'tradicional, canónica']]: el dolor lleva a la confesión, la confesión al perdón, el perdón a la [[transformación]]. El arco general del filme es claramente [[redentor|adj. de 'redención']]." },
+      { label: "Párrafo 2 — desarrollo",
+        text: "La redención, [[sin embargo|conector de contraste]], no es total ni triunfante: tiene un coste y conserva [[cicatrices|marcas que deja una herida]]. Paco está muerto, no perdonado; el padre de Raimunda murió en un incendio, sin asumir su [[crimen]]; Agustina recibe el cuidado de Irene, la asesina de su madre. La película no maquilla los daños [[permanentes]]. Almodóvar evita el final feliz [[convencional|adj. 'tradicional']]. Sus personajes ganan estabilidad emocional y vínculo, pero pierden personas, oportunidades y años. La redención es real, pero [[parcial|opuesto a 'total']]. Calificar Volver como película de «nuevos comienzos» es exacto, pero conviene añadir que esos comienzos parten siempre de la [[herida|sinón. de 'lesión emocional']]." },
+      { label: "Párrafo 3 — matiz",
+        text: "Lo distintivo de la producción es que el nuevo comienzo se construye sobre la [[memoria|opuesto a 'olvido']], no sobre el olvido, un tema muy español. La canción «Volver» —«[[veinte años no es nada|cita del tango: el tiempo no borra]]»— articula esta tesis: el pasado no se borra, se [[incorpora|verbo: 'se hace parte de uno']]. Raimunda no olvida el abuso paterno: lo nombra, lo comparte con su madre, y solo entonces se libera. Irene no abandona su [[crimen]]: lo asume y lo expía cuidando a Agustina. Almodóvar propone lo siguiente: el verdadero comienzo nuevo no nace de la [[negación|opuesto a 'aceptación']] del pasado sino de su asimilación [[consciente|opuesto a 'inconsciente']]. Es una posición que tal vez se refiere al país. Volver es una película de redención, pero de una redención lúcida que rechaza la [[amnesia|sinón. médico de 'olvido']]." }
+    ]
+  },
+  {
+    title: "Analiza cómo Almodóvar representa la resiliencia femenina frente a la adversidad.",
+    paragraphs: [
+      { label: "Párrafo 1 — tesis",
+        text: "La [[resiliencia femenina|capacidad de superación de las mujeres]] es uno de los grandes temas de Volver. Raimunda es el ejemplo principal: víctima de [[incesto]] en la infancia, ruptura con su madre en su adolescencia, casada con un hombre débil que intenta abusar de su hija, asume el cadáver, alquila el restaurante, monta el catering del rodaje y mantiene a [[Paula]]. Todo en pocos días. Almodóvar la filma sin lágrimas [[heroicas|adj. 'de héroe']]: Raimunda llora poco y trabaja mucho. La resiliencia se muestra en la [[acción|opuesto a 'queja']], no en la queja. Es una representación de mujeres españolas modernas, [[independientes]] y determinadas. El director propone así una imagen de la mujer resiliente alejada de verse como [[víctima|sinón. de 'mártir']]." },
+      { label: "Párrafo 2 — desarrollo",
+        text: "La resiliencia se vive, además, de forma [[colectiva|opuesto a 'individual']], no individual. Cuando Raimunda necesita transportar el congelador, [[Regina|nombre de la vecina prostituta]], la prostituta del piso, se enrolla sin pedir explicaciones. Cuando la tía Paula muere, [[Agustina]] se encarga del entierro. Las vecinas contribuyen lo necesario para el restaurante. Almodóvar sugiere que las mujeres resisten porque no resisten [[solas]]. Su fortaleza es [[solidaria|adj. de 'solidaridad']]. Esto es una crítica implícita al modelo masculino del [[héroe solitario|figura del individualismo masculino]]. La resiliencia femenina, en Volver, es por definición una resiliencia [[compartida|sinón. de 'colectiva']]." },
+      { label: "Párrafo 3 — matiz",
+        text: "[[Finalmente|conector de cierre]], la resiliencia se manifiesta también como capacidad de transformar el [[dolor]] en cuidado. Irene, tras años de [[culpa]], dedica su nueva vida a cuidar a Agustina, hija de la mujer con la que su marido la había engañado. Raimunda logra mostrar su [[amor]] a Irene. Trágicamente, Paula, hermana e hija, asume su papel de hermana y socia de Raimunda. Almodóvar plantea una ética del trauma [[productivo|opuesto a 'destructivo']]: lo que han sufrido lo cambian en cuidado. La resiliencia femenina del filme es no solo [[resistir]], sino convertir la resistencia en forma de [[amor]]." }
+    ]
+  },
+  {
+    title: "Evalúa la importancia de la muerte y los rituales en torno a ella en Volver.",
+    paragraphs: [
+      { label: "Párrafo 1 — tesis",
+        text: "La muerte y los rituales que la rodean [[estructuran|verbo: 'dan forma a']] Volver desde el primer plano hasta el último. La película abre en el cementerio del pueblo, donde las mujeres friegan las [[lápidas|piedras de las tumbas]] de sus familiares. Luego aprendemos de la muerte de Paco a manos de Paula, seguida por la muerte de la [[tía Paula|personaje del pueblo, no Paula la hija]] y su velatorio tradicional. Finalmente, Irene confiesa la verdad sobre el [[incendio]] en el que murieron el padre de Raimunda y su amante. Almodóvar convierte la muerte en una presencia [[constante|opuesto a 'puntual']], no en un hecho puntual. La trama no avanza a pesar de los muertos, sino gracias a ellos: cada muerte libera información crucial o reestablece una relación familiar. La manera en que los personajes gestionan la muerte —con pragmatismo y humor [[negro|tipo de humor sobre temas tabú]]— muestra su resiliencia. Sin la muerte como motor narrativo, Volver perdería su estructura central y su capacidad de explorar el pasado familiar." },
+      { label: "Párrafo 2 — desarrollo",
+        text: "Los rituales en torno a la muerte revelan, además, el contraste entre la cultura [[rural|opuesto a 'urbana']] manchega y la urbana. En el pueblo, el cuidado de las tumbas, los velatorios en el domicilio y las visitas a las [[viudas|mujeres cuyos maridos han muerto]] forman parte del calendario social. En Madrid, en cambio, la muerte de Paco se gestiona en un [[congelador|electrodoméstico clave para esconder el cadáver]] alquilado y un río anónimo. Nadie llora a Paco; nadie lo entierra [[ritualmente|adv. de 'ritual']]. Almodóvar muestra cómo la urbanización ha [[desritualizado|verbo: 'quitar el ritual a']] la muerte: lo que en el pueblo es ceremonia compartida, en la ciudad es problema [[logístico|adj. 'de organización práctica']]. El director presenta ambos modelos sin juzgar ni [[idealizar|verbo: 'presentar como ideal']] ninguno de los dos. La importancia de los rituales es de apoyar la cohesión [[comunitaria|adj. de 'comunidad']], valor que la ciudad ha perdido." },
+      { label: "Párrafo 3 — matiz",
+        text: "Como contraste entre lo rural y lo urbano, la película destaca la visión [[tradicional]] manchega que niega la muerte como [[final absoluto|expresión: 'el fin definitivo']]. Irene aparece como un [[fantasma|aparición de un muerto]] durante gran parte de la película, hasta que se revela que está viva, y logró vivir en el pueblo gracias a sus supersticiones. Paco está muerto, pero su presencia sigue siendo real como [[amenaza|peligro latente]]: condiciona cada decisión de Raimunda. Los muertos siguen actuando e influyendo en la vida de los personajes. Almodóvar usa la interpretación manchega de la muerte: morir no es [[desaparecer]], sino modificar el modo de presencia. Esta visión combina creencias populares ancestrales con una perspectiva moderna sobre la [[memoria]] familiar, creando una representación única de la muerte como presencia continua. Así, la muerte en Volver no es [[clausura|sinón. de 'cierre definitivo']]: es el momento donde se reorganiza la vida de los vivos y se revelan secretos del pasado." }
+    ]
+  }
+];
+
+// ─────────────────────────────────────────────────────────────────────────
+// Render
+// ─────────────────────────────────────────────────────────────────────────
+const STORAGE_KEY = "volver-workbook-v1";
+
+function escapeHtml(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+// Fisher-Yates shuffle (in-place, returns the array)
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function parseParagraph(text, idPrefix) {
+  let html = "";
+  let i = 0, gapIdx = 0;
+  const gaps = [];
+  while (i < text.length) {
+    const start = text.indexOf("[[", i);
+    if (start === -1) { html += escapeHtml(text.slice(i)); break; }
+    html += escapeHtml(text.slice(i, start));
+    const end = text.indexOf("]]", start);
+    const inside = text.slice(start + 2, end);
+    const [answer, hint] = inside.split("|");
+    const id = `${idPrefix}-g${gapIdx}`;
+    const width = Math.max(60, Math.min(220, answer.length * 9 + 16));
+    const title = hint ? `Pista: ${hint}` : "Escribe la palabra que falta";
+    html += `<input class="gap" id="${id}" data-answer="${escapeHtml(answer)}" data-hint="${escapeHtml(hint || "")}" autocomplete="off" spellcheck="false" title="${escapeHtml(title)}" style="--gw: ${width}px;">`;
+    gaps.push({ id, answer, hint });
+    gapIdx++;
+    i = end + 2;
+  }
+  return { html, gaps };
+}
+
+function renderEssays() {
+  const root = document.getElementById("essays");
+  ESSAYS.forEach((essay, ei) => {
+    const eEl = document.createElement("section");
+    eEl.className = "essay";
+    let allGaps = [];
+
+    const paragraphsHtml = essay.paragraphs.map((para, pi) => {
+      const prefix = `e${ei}-p${pi}`;
+      const { html, gaps } = parseParagraph(para.text, prefix);
+      allGaps = allGaps.concat(gaps);
+      const bankId = `${prefix}-bank`;
+      // Shuffle the bank order so it doesn't mirror the gap order — defeats the purpose otherwise
+      const shuffled = shuffle(gaps.slice());
+      const bankItems = shuffled.map(g => `<span>${escapeHtml(g.answer)}</span>`).join(" ");
+      return `
+        <div class="paragraph">
+          <div class="plabel">${escapeHtml(para.label)}</div>
+          <p>${html}</p>
+          <div class="wordbank" id="${bankId}"><b>Banco de palabras (orden aleatorio):</b> ${bankItems}</div>
+        </div>`;
+    }).join("");
+
+    eEl.innerHTML = `
+      <div class="essay-header">
+        <span class="essay-num">Título ${ei + 1}</span>
+        <h2>${escapeHtml(essay.title)}</h2>
+      </div>
+      <div class="essay-tools">
+        <button onclick="checkEssay(${ei})">✓ Comprobar este ensayo</button>
+        <button onclick="toggleBank(${ei})">📚 Mostrar banco de palabras</button>
+        <button onclick="revealEssay(${ei})">👁 Mostrar respuestas</button>
+        <button onclick="clearEssay(${ei})">↺ Reiniciar este ensayo</button>
+      </div>
+      ${paragraphsHtml}
+    `;
+    root.appendChild(eEl);
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Checking, revealing, clearing
+// ─────────────────────────────────────────────────────────────────────────
+function normalize(s) {
+  return (s || "").trim().toLowerCase()
+    .replace(/[«»""""'']/g, "")
+    .replace(/\s+/g, " ");
+}
+
+function checkInput(input) {
+  const want = normalize(input.dataset.answer);
+  const got = normalize(input.value);
+  input.classList.remove("ok", "err", "revealed");
+  if (!got) return null;
+  if (got === want) { input.classList.add("ok"); return true; }
+  input.classList.add("err"); return false;
+}
+
+function checkAll() {
+  document.querySelectorAll("input.gap").forEach(checkInput);
+  updateStatus("Comprobado");
+}
+function checkEssay(ei) {
+  document.querySelectorAll(`#essays > section:nth-child(${ei + 1}) input.gap`).forEach(checkInput);
+  updateStatus(`Ensayo ${ei + 1} comprobado`);
+}
+function revealAll() {
+  document.querySelectorAll("input.gap").forEach(inp => {
+    if (!inp.value.trim()) { inp.value = inp.dataset.answer; inp.classList.add("revealed"); }
+  });
+  save();
+  updateProgress();
+  updateStatus("Respuestas mostradas");
+}
+function revealEssay(ei) {
+  document.querySelectorAll(`#essays > section:nth-child(${ei + 1}) input.gap`).forEach(inp => {
+    if (!inp.value.trim()) { inp.value = inp.dataset.answer; inp.classList.add("revealed"); }
+  });
+  save();
+  updateProgress();
+}
+function clearAll() {
+  if (!confirm("¿Borrar todas tus respuestas? Esta acción no se puede deshacer.")) return;
+  document.querySelectorAll("input.gap").forEach(inp => {
+    inp.value = "";
+    inp.classList.remove("ok", "err", "revealed");
+  });
+  save();
+  updateProgress();
+  updateStatus("Borrado");
+}
+function clearEssay(ei) {
+  document.querySelectorAll(`#essays > section:nth-child(${ei + 1}) input.gap`).forEach(inp => {
+    inp.value = "";
+    inp.classList.remove("ok", "err", "revealed");
+  });
+  save();
+  updateProgress();
+}
+function toggleBank(ei) {
+  document.querySelectorAll(`#essays > section:nth-child(${ei + 1}) .wordbank`).forEach(b => b.classList.toggle("show"));
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Save / load (localStorage)
+// ─────────────────────────────────────────────────────────────────────────
+function save() {
+  const data = {};
+  document.querySelectorAll("input.gap").forEach(inp => { if (inp.value) data[inp.id] = inp.value; });
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ when: new Date().toISOString(), data }));
+    updateStatus("Guardado · " + new Date().toLocaleTimeString());
+  } catch(e) {
+    updateStatus("⚠ No se pudo guardar");
+  }
+}
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const { data } = JSON.parse(raw);
+    Object.entries(data).forEach(([id, val]) => {
+      const inp = document.getElementById(id);
+      if (inp) inp.value = val;
+    });
+  } catch(e) {}
+}
+function updateStatus(t) { document.getElementById("status").textContent = t; }
+function updateProgress() {
+  const inputs = document.querySelectorAll("input.gap");
+  const filled = [...inputs].filter(i => i.value.trim().length > 0).length;
+  const pct = inputs.length ? (filled / inputs.length * 100) : 0;
+  document.getElementById("progressBar").style.width = pct.toFixed(1) + "%";
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Blob download — student work as standalone HTML
+// ─────────────────────────────────────────────────────────────────────────
+function downloadWork() {
+  const studentName = prompt("Tu nombre (opcional, para la cabecera):", "") || "Estudiante";
+  const today = new Date().toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" });
+
+  // Build a clean HTML document with answers baked in as text (not inputs)
+  let body = `<header style="background:#7c2d12;color:#fff;padding:24px 32px;">
+    <h1 style="margin:0;font-size:28px;">VOLVER · Trabajo de redacción</h1>
+    <div style="font-style:italic;opacity:.9;margin-top:4px;">${escapeHtml(studentName)} · ${escapeHtml(today)}</div>
+  </header><main style="max-width:920px;margin:24px auto;padding:0 24px;">`;
+
+  ESSAYS.forEach((essay, ei) => {
+    body += `<section style="background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:20px 24px;margin:20px 0;">
+      <div style="background:#7c2d12;color:#fff;display:inline-block;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:bold;">Título ${ei + 1}</div>
+      <h2 style="color:#7c2d12;margin:8px 0 12px 0;font-size:17px;">${escapeHtml(essay.title)}</h2>`;
+
+    essay.paragraphs.forEach((para, pi) => {
+      const prefix = `e${ei}-p${pi}`;
+      // Replace [[answer|hint]] with the student's filled value (or [____] if empty)
+      let rendered = "";
+      let i = 0, gIdx = 0;
+      while (i < para.text.length) {
+        const start = para.text.indexOf("[[", i);
+        if (start === -1) { rendered += escapeHtml(para.text.slice(i)); break; }
+        rendered += escapeHtml(para.text.slice(i, start));
+        const end = para.text.indexOf("]]", start);
+        const inside = para.text.slice(start + 2, end);
+        const [answer] = inside.split("|");
+        const inp = document.getElementById(`${prefix}-g${gIdx}`);
+        const val = inp && inp.value.trim();
+        const isCorrect = val && normalize(val) === normalize(answer);
+        if (val) {
+          const color = isCorrect ? "#15803d" : "#b91c1c";
+          rendered += `<span style="color:${color};font-weight:bold;border-bottom:1px solid ${color};padding:0 2px;">${escapeHtml(val)}</span>`;
+        } else {
+          rendered += `<span style="color:#9ca3af;font-style:italic;">[ ___________ ]</span>`;
+        }
+        gIdx++;
+        i = end + 2;
+      }
+      body += `<div style="margin:14px 0;padding:12px 16px;background:#fcfaf9;border-left:4px solid #f1d2c7;border-radius:0 6px 6px 0;">
+        <div style="color:#7c2d12;font-weight:bold;font-size:12px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;">${escapeHtml(para.label)}</div>
+        <p style="margin:0;text-align:justify;line-height:1.55;">${rendered}</p>
+      </div>`;
+    });
+
+    body += `</section>`;
+  });
+  body += `</main>
+    <footer style="text-align:center;color:#6b7280;font-size:12px;margin:24px 0;">
+      Generado con el cuaderno de redacción Volver · Verde = correcto · Rojo = incorrecto · Gris = sin responder
+    </footer>`;
+
+  const totalGaps = document.querySelectorAll("input.gap").length;
+  const filledGaps = [...document.querySelectorAll("input.gap")].filter(i => i.value.trim()).length;
+  const correctGaps = [...document.querySelectorAll("input.gap")].filter(i => normalize(i.value) === normalize(i.dataset.answer)).length;
+
+  const summary = `<div style="background:#fef3c7;border:1px solid #fbbf24;border-radius:8px;padding:14px 18px;max-width:920px;margin:24px auto;font-family:Calibri,Helvetica,Arial,sans-serif;">
+    <b>Resumen:</b> ${filledGaps} de ${totalGaps} huecos completados · ${correctGaps} correctos (${totalGaps ? (correctGaps/totalGaps*100).toFixed(0) : 0}%)
+  </div>`;
+
+  const html = `<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><title>Volver · Trabajo de ${escapeHtml(studentName)}</title>
+<style>body{font-family:Calibri,Helvetica,Arial,sans-serif;background:#faf7f5;color:#1f2937;margin:0;line-height:1.55;}</style>
+</head><body>${body}${summary}</body></html>`;
+
+  const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  const safeName = studentName.replace(/[^a-zA-Z0-9_-]+/g, "_") || "estudiante";
+  a.href = url;
+  a.download = `Volver_redaccion_${safeName}_${new Date().toISOString().slice(0,10)}.html`;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 100);
+  updateStatus("⬇ Descargado");
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Init
+// ─────────────────────────────────────────────────────────────────────────
+renderEssays();
+load();
+updateProgress();
+document.addEventListener("input", e => {
+  if (e.target.classList.contains("gap")) {
+    e.target.classList.remove("ok", "err", "revealed");
+    save();
+    updateProgress();
+  }
+});
+</script>
+</body>
+</html>

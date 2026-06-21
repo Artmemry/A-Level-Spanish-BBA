@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Práctica interactiva: "cuando" para hablar del futuro</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; }
+    h1 { color: #2c3e50; }
+    .instructions { background: #f9f9f9; border-left: 4px solid #2980b9; padding: 10px; margin-bottom: 20px; }
+    .activity { margin-bottom: 30px; }
+    input[type="text"] { width: 140px; padding: 3px; margin: 2px 0; }
+    select { padding: 3px; }
+    .feedback { margin-left: 10px; font-weight: bold; min-width: 20px; display: inline-block; }
+    .correct { color: green; }
+    .incorrect { color: red; }
+    textarea { width: 100%; }
+  </style>
+</head>
+<body>
+  <h1>Práctica interactiva: "cuando" para hablar del futuro</h1>
+  <div class="instructions">
+    <p>
+      <strong>Recuerda:</strong> Cuando hablas del futuro con <b>cuando</b>, la forma del verbo cambia.<br>
+      Usa <b>cuando sea mayor</b> o <b>cuando termine...</b> + futuro (ir a + infinitivo o futuro simple).<br>
+      <em>Ejemplo:</em> Cuando sea mayor, <b>seré</b> médico.<br>
+      <em>Nota:</em> No necesitas escribir tildes (acentos). La corrección es instantánea y flexible.
+    </p>
+  </div>
+
+  <form id="worksheet" autocomplete="off" onsubmit="return false;">
+    <div class="activity">
+      <label>1. Elige la opción correcta para completar la frase:</label>
+      <ol>
+        <li>
+          Cuando termine mis exámenes,
+          <select id="q11" onchange="checkSelect(11)">
+            <option value="">--elige--</option>
+            <option>iré</option>
+            <option>ire</option>
+            <option>voy</option>
+            <option>fui</option>
+          </select> al cine. <span id="f11" class="feedback"></span>
+        </li>
+        <li>
+          Cuando sea mayor,
+          <select id="q12" onchange="checkSelect(12)">
+            <option value="">--elige--</option>
+            <option>tendré</option>
+            <option>tendre</option>
+            <option>tengo</option>
+            <option>tenía</option>
+            <option>tenia</option>
+          </select> una familia. <span id="f12" class="feedback"></span>
+        </li>
+        <li>
+          Cuando termine la universidad,
+          <select id="q13" onchange="checkSelect(13)">
+            <option value="">--elige--</option>
+            <option>buscaré</option>
+            <option>buscare</option>
+            <option>busco</option>
+            <option>busqué</option>
+            <option>busque</option>
+          </select> un piso. <span id="f13" class="feedback"></span>
+        </li>
+        <li>
+          Cuando sea mayor,
+          <select id="q14" onchange="checkSelect(14)">
+            <option value="">--elige--</option>
+            <option>viajaré</option>
+            <option>viajare</option>
+            <option>viajo</option>
+            <option>viajé</option>
+            <option>viaje</option>
+          </select> mucho. <span id="f14" class="feedback"></span>
+        </li>
+        <li>
+          Cuando termine mis estudios,
+          <select id="q15" onchange="checkSelect(15)">
+            <option value="">--elige--</option>
+            <option>me relajaré</option>
+            <option>me relajare</option>
+            <option>me relajo</option>
+            <option>me relajé</option>
+            <option>me relaje</option>
+          </select>. <span id="f15" class="feedback"></span>
+        </li>
+      </ol>
+    </div>
+
+    <div class="activity">
+      <label>2. Completa las frases con el verbo correcto en futuro (yo):</label>
+      <ol>
+        <li>Cuando sea mayor, <input type="text" id="q1" oninput="checkInput(1)"> (viajar) por el mundo. <span id="f1" class="feedback"></span></li>
+        <li>Cuando termine mis exámenes, <input type="text" id="q2" oninput="checkInput(2)"> (descansar) mucho. <span id="f2" class="feedback"></span></li>
+        <li>Cuando termine la universidad, <input type="text" id="q3" oninput="checkInput(3)"> (buscar) trabajo. <span id="f3" class="feedback"></span></li>
+        <li>Cuando sea mayor, <input type="text" id="q4" oninput="checkInput(4)"> (tener) mi propia casa. <span id="f4" class="feedback"></span></li>
+        <li>Cuando termine mis estudios, <input type="text" id="q5" oninput="checkInput(5)"> (celebrar) con mis amigos. <span id="f5" class="feedback"></span></li>
+        <li>Cuando termine mis exámenes, <input type="text" id="q6" oninput="checkInput(6)"> (comer) pizza. <span id="f6" class="feedback"></span></li>
+        <li>Cuando sea mayor, <input type="text" id="q7" oninput="checkInput(7)"> (vivir) en otro país. <span id="f7" class="feedback"></span></li>
+        <li>Cuando termine la universidad, <input type="text" id="q8" oninput="checkInput(8)"> (empezar) a trabajar. <span id="f8" class="feedback"></span></li>
+        <li>Cuando termine mis estudios, <input type="text" id="q9" oninput="checkInput(9)"> (viajar) por Europa. <span id="f9" class="feedback"></span></li>
+        <li>Cuando sea mayor, <input type="text" id="q10" oninput="checkInput(10)"> (aprender) a conducir. <span id="f10" class="feedback"></span></li>
+      </ol>
+    </div>
+  </form>
+
+  <div class="activity">
+    <label>3. Escribe frases completas usando "cuando sea mayor" o "cuando termine..." y el futuro:</label>
+    <ul>
+      <li>ser famoso</li>
+      <li>salir con mis amigos</li>
+      <li>comprar un coche</li>
+      <li>adoptar un perro</li>
+      <li>ahorrar dinero</li>
+      <li>me mudar a otra ciudad</li>
+      <li>hacer voluntariado</li>
+      <li>relajarme</li>
+      <li>aprender otro idioma</li>
+      <li>conocer nuevas culturas</li>
+    </ul>
+    <p>Ejemplo: Cuando sea mayor, sere famoso.</p>
+    <textarea rows="8" cols="80" placeholder="Escribe tus frases aquí..."></textarea>
+  </div>
+
+  <script>
+    // Remove accents for comparison
+    function removeAccents(str) {
+      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
+    // Acceptable answers (without accents)
+    const answers = [
+      ["viajare", "voy a viajar"],
+      ["descansare", "voy a descansar"],
+      ["buscare", "voy a buscar"],
+      ["tendre", "voy a tener"],
+      ["celebrare", "voy a celebrar"],
+      ["comere", "voy a comer"],
+      ["vivire", "voy a vivir"],
+      ["empezare", "voy a empezar"],
+      ["viajare", "voy a viajar"],
+      ["aprendere", "voy a aprender"]
+    ];
+
+    // Multiple choice correct answers (with and without accents)
+    const mcAnswers = [
+      ["ire", "iré"],
+      ["tendre", "tendré"],
+      ["buscare", "buscaré"],
+      ["viajare", "viajaré"],
+      ["me relajare", "me relajaré"]
+    ];
+
+    function normalize(str) {
+      return removeAccents(str.trim().toLowerCase().replace(/\s+/g, " "));
+    }
+
+    // For MCQ: accept with or without accents
+    function checkSelect(num) {
+      const user = normalize(document.getElementById("q" + num).value);
+      const corrects = mcAnswers[num - 11].map(normalize);
+      const feedback = document.getElementById("f" + num);
+      if (!user) {
+        feedback.textContent = "";
+      } else if (corrects.includes(user)) {
+        feedback.textContent = "¡Correcto!";
+        feedback.className = "feedback correct";
+      } else {
+        feedback.textContent = "Inténtalo otra vez";
+        feedback.className = "feedback incorrect";
+      }
+    }
+
+    // For fill-in-the-blank: only check when answer is long enough
+    function checkInput(num) {
+      const userRaw = document.getElementById("q" + num).value;
+      const user = normalize(userRaw);
+      const corrects = answers[num - 1].map(normalize);
+      const feedback = document.getElementById("f" + num);
+
+      // Determine minimum length to check (for single word or "voy a ...")
+      let minLength = Math.min(...corrects.map(ans => ans.length));
+      // For "voy a ..." allow checking as soon as user types "voy a ...", which is at least 8 chars
+      if (user.startsWith("voy a ")) minLength = 7;
+
+      if (!user) {
+        feedback.textContent = "";
+      } else if (user.length < minLength) {
+        feedback.textContent = ""; // Don't show error yet
+      } else if (corrects.includes(user)) {
+        feedback.textContent = "¡Correcto!";
+        feedback.className = "feedback correct";
+      } else {
+        feedback.textContent = "Inténtalo otra vez";
+        feedback.className = "feedback incorrect";
+      }
+    }
+  </script>
+</body>
+</html>

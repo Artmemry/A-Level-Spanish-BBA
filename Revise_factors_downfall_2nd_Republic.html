@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Segunda República Española - Ejercicio Interactivo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            background: #f5f5f5;
+        }
+        
+        h1 {
+            color: #8b0000;
+            margin-bottom: 10px;
+            font-size: 2em;
+            text-align: center;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #555;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        
+        .intro {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 5px solid #8b0000;
+        }
+        
+        .keyboard {
+            position: sticky;
+            top: 10px;
+            z-index: 1000;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 2px solid #8b0000;
+        }
+        
+        .accent-btn {
+            padding: 8px 15px;
+            border: 1px solid #bdc3c7;
+            background: #ecf0f1;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 1.1em;
+            transition: all 0.2s;
+        }
+        
+        .accent-btn:hover {
+            background: #8b0000;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .factor-section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .factor-title {
+            color: #8b0000;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #8b0000;
+        }
+        
+        .reading-text {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            line-height: 1.9;
+        }
+        
+        .exercise-block {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .exercise-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .question {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        
+        .question-text {
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .choice-option {
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 10px;
+            background: white;
+        }
+        
+        .choice-option:hover {
+            background: #e8f4f8;
+            border-color: #3498db;
+        }
+        
+        .choice-option.selected {
+            background: #3498db;
+            color: white;
+            border-color: #2980b9;
+        }
+        
+        .choice-option.correct-answer {
+            background: #27ae60;
+            color: white;
+            border-color: #229954;
+        }
+        
+        .choice-option.wrong-answer {
+            background: #e74c3c;
+            color: white;
+            border-color: #c0392b;
+        }
+        
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .vocab-column {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .vocab-item {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+            text-align: center;
+        }
+        
+        .vocab-item:hover {
+            background: #e8f4f8;
+            border-color: #3498db;
+        }
+        
+        .vocab-item.selected {
+            background: #3498db;
+            color: white;
+            border-color: #2980b9;
+        }
+        
+        .vocab-item.matched {
+            background: #27ae60;
+            color: white;
+            border-color: #229954;
+            cursor: default;
+        }
+        
+        .gapfill-text {
+            line-height: 2.2;
+        }
+        
+        input.gap-input {
+            border: none;
+            border-bottom: 2px solid #3498db;
+            padding: 4px 8px;
+            font-size: 1em;
+            min-width: 150px;
+            background: transparent;
+            transition: all 0.2s;
+            margin: 0 5px;
+        }
+        
+        input.gap-input:focus {
+            outline: none;
+            background: #e3f2fd;
+            border-bottom-color: #2980b9;
+        }
+        
+        input.gap-input.correct {
+            border-bottom-color: #27ae60;
+            background: #d4edda;
+        }
+        
+        input.gap-input.incorrect {
+            border-bottom-color: #e74c3c;
+            background: #f8d7da;
+        }
+        
+        .word-bank {
+            background: #fff9e6;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            border: 1px solid #f0e68c;
+        }
+        
+        .word-bank strong {
+            color: #8b6914;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .check-btn {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .check-btn:hover {
+            background: #229954;
+            transform: translateY(-2px);
+        }
+        
+        .download-btn {
+            background: #3498db;
+            color: white;
+        }
+        
+        .download-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .reset-btn {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .reset-btn:hover {
+            background: #7f8c8d;
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+            text-align: center;
+            font-size: 1.1em;
+        }
+        
+        .result.show {
+            display: block;
+        }
+        
+        .result.success {
+            background: #d4edda;
+            border: 2px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .result.partial {
+            background: #fff3cd;
+            border: 2px solid #ffeaa7;
+            color: #856404;
+        }
+        
+        .hint {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>La Segunda República Española (1931-1939)</h1>
+    <p class="subtitle">Los factores del colapso democrático (1931-1936)</p>
+    
+    <div class="intro">
+        <p><strong>Introducción:</strong> La Segunda República Española comenzó en 1931 y terminó oficialmente en 1939 con la victoria de Franco. Sin embargo, los años críticos fueron 1931-1936, cuando varios factores llevaron al país a la polarización extrema y al golpe militar de julio de 1936. En este ejercicio, explorarás los ocho factores principales que los historiadores identifican como causas del colapso democrático.</p>
+    </div>
+    
+    <div class="keyboard">
+        <button class="accent-btn" data-char="á">á</button>
+        <button class="accent-btn" data-char="é">é</button>
+        <button class="accent-btn" data-char="í">í</button>
+        <button class="accent-btn" data-char="ó">ó</button>
+        <button class="accent-btn" data-char="ú">ú</button>
+        <button class="accent-btn" data-char="ñ">ñ</button>
+        <button class="accent-btn" data-char="¿">¿</button>
+        <button class="accent-btn" data-char="¡">¡</button>
+    </div>
+    
+    <div id="exercises"></div>
+    
+    <div class="actions">
+        <button class="check-btn" onclick="checkAllAnswers()">Verificar todas las respuestas</button>
+        <button class="download-btn" onclick="downloadResults()">Descargar resultados</button>
+        <button class="reset-btn" onclick="resetAll()">Reiniciar todo</button>
+    </div>
+    
+    <div class="result" id="finalResult"></div>
+
+    <script>
+        const factors = [
+            {
+                id: 1,
+                title: "1. La Crisis Económica",
+                text: "En 1929, la crisis de Wall Street provocó una crisis económica mundial. España sufrió mucho porque sus exportaciones (frutas, aceite de oliva, acero) cayeron. Había menos dinero para las reformas que el gobierno quería hacer. Los campesinos perdieron trabajo y la producción industrial bajó hasta un 50%. Esta situación económica creó mucha tensión social.",
+                comprehension: {
+                    question: "¿Cuál fue el efecto principal de la crisis de 1929 en España?",
+                    options: [
+                        "España tuvo más dinero para reformas",
+                        "Las exportaciones españolas cayeron y hubo menos fondos para reformas",
+                        "La producción industrial aumentó un 50%",
+                        "Los campesinos encontraron más trabajo"
+                    ],
+                    correct: 1
+                },
+                vocab: {
+                    spanish: ["provocar", "caer", "fondos", "tensión"],
+                    english: ["to cause", "to fall", "funds", "tension"]
+                },
+                gapfill: {
+                    text: "La crisis económica <gap>1</gap> una situación muy difícil. Las <gap>2</gap> españolas cayeron y no había <gap>3</gap> para las reformas. El <gap>4</gap> perdió trabajo y la <gap>5</gap> social aumentó. Muchas <gap>6</gap> cerraron y la situación <gap>7</gap> día tras día.",
+                    answers: ["provocó", "exportaciones", "fondos", "campesinado", "tensión", "fábricas", "empeoraba"],
+                    wordBank: ["empeoraba", "fondos", "tensión", "exportaciones", "fábricas", "provocó", "campesinado"]
+                }
+            },
+            {
+                id: 2,
+                title: "2. La División Social",
+                text: "El historiador Paul Preston habla de una 'división social' profunda. Había dos grupos con intereses opuestos: por un lado, los trabajadores sin tierra y los obreros industriales; por otro lado, los grandes propietarios de tierra y los industriales. El partido PSOE representaba a los trabajadores, y el partido CEDA representaba a los propietarios. Cada grupo intentó usar el poder del Estado para imponer su visión. Esta división hizo imposible el compromiso político.",
+                comprehension: {
+                    question: "Según Paul Preston, ¿qué hizo imposible el compromiso político?",
+                    options: [
+                        "La crisis económica internacional",
+                        "Los intereses opuestos entre trabajadores y propietarios",
+                        "La falta de partidos políticos",
+                        "El apoyo de otros países europeos"
+                    ],
+                    correct: 1
+                },
+                vocab: {
+                    spanish: ["propietario", "obrero", "imponer", "compromiso"],
+                    english: ["landowner", "worker", "to impose", "compromise"]
+                },
+                gapfill: {
+                    text: "Los <gap>1</gap> sin tierra querían reformas, pero los grandes <gap>2</gap> se oponían. Ningún grupo quería hacer un <gap>3</gap> político. El <gap>4</gap> intentó <gap>5</gap> su visión usando el poder del <gap>6</gap>. Esta <gap>7</gap> social hizo imposible la estabilidad.",
+                    answers: ["trabajadores", "propietarios", "compromiso", "PSOE", "imponer", "Estado", "división"],
+                    wordBank: ["imponer", "división", "compromiso", "Estado", "propietarios", "PSOE", "trabajadores"]
+                }
+            },
+            {
+                id: 3,
+                title: "3. La Reforma Agraria Fracasada",
+                text: "La reforma agraria fue un gran fracaso. Entre 1931 y 1933, el gobierno solo dio tierra a 6.000 campesinos (45.000 hectáreas). Era muy poco. En 1936, casi 100.000 campesinos ocuparon ilegalmente 400.000 hectáreas porque estaban desesperados. Esta situación creó una polarización enorme entre los campesinos pobres y los terratenientes ricos.",
+                comprehension: {
+                    question: "¿Por qué ocuparon tierra ilegalmente los campesinos en 1936?",
+                    options: [
+                        "Porque la reforma agraria oficial era insuficiente",
+                        "Porque querían comenzar una guerra",
+                        "Porque el gobierno se lo pidió",
+                        "Porque tenían mucho dinero"
+                    ],
+                    correct: 0
+                },
+                vocab: {
+                    spanish: ["fracaso", "desesperado", "terrateniente", "polarización"],
+                    english: ["failure", "desperate", "landowner", "polarization"]
+                },
+                gapfill: {
+                    text: "La reforma agraria fue un <gap>1</gap> total. El gobierno dio tierra a muy pocos <gap>2</gap>. Los campesinos estaban <gap>3</gap> y ocuparon tierra ilegalmente. Los <gap>4</gap> ricos se opusieron violentamente. Esta situación creó una <gap>5</gap> política muy peligrosa. Las <gap>6</gap> de tierra aumentaron y la <gap>7</gap> entre ricos y pobres se intensificó.",
+                    answers: ["fracaso", "campesinos", "desesperados", "terratenientes", "polarización", "ocupaciones", "división"],
+                    wordBank: ["terratenientes", "polarización", "desesperados", "ocupaciones", "fracaso", "división", "campesinos"]
+                }
+            },
+            {
+                id: 4,
+                title: "4. La Cuestión Religiosa",
+                text: "La Constitución de 1931 atacó la educación religiosa y las órdenes religiosas. Esto forzó la dimisión de líderes moderados y dio base para la movilización de la derecha bajo Gil Robles y su partido CEDA. En mayo de 1931, hubo violencia anticlerical: quemaron iglesias en varias ciudades. Esto alienó a la opinión católica, que era muy importante en España. La cuestión religiosa dividió profundamente al país.",
+                comprehension: {
+                    question: "¿Qué efecto tuvo el ataque a la educación religiosa en 1931?",
+                    options: [
+                        "Unió a todos los españoles",
+                        "No tuvo ningún efecto importante",
+                        "Movilizó a la derecha católica y alienó a muchos españoles",
+                        "Mejoró la situación política"
+                    ],
+                    correct: 2
+                },
+                vocab: {
+                    spanish: ["dimisión", "quemar", "alienar", "movilización"],
+                    english: ["resignation", "to burn", "to alienate", "mobilization"]
+                },
+                gapfill: {
+                    text: "La violencia anticlerical <gap>1</gap> iglesias en varias ciudades. Esto <gap>2</gap> a muchos católicos españoles. La <gap>3</gap> de líderes moderados dejó el campo libre a la derecha radical. Gil Robles organizó la <gap>4</gap> de la derecha católica. La cuestión <gap>5</gap> dividió profundamente a la sociedad. Muchos <gap>6</gap> perdieron su trabajo y el partido <gap>7</gap> ganó apoyo popular.",
+                    answers: ["quemó", "alienó", "dimisión", "movilización", "religiosa", "sacerdotes", "CEDA"],
+                    wordBank: ["CEDA", "movilización", "alienó", "religiosa", "dimisión", "sacerdotes", "quemó"]
+                }
+            },
+            {
+                id: 5,
+                title: "5. La Cuestión Militar",
+                text: "El ministro Azaña hizo reformas militares para reducir el número de oficiales. Sin embargo, estas reformas tuvieron un efecto contrario: los oficiales que quedaron en el ejército eran conservadores radicales, nacionalistas y africanistas (veteranos de las guerras en Marruecos). El ejército se convirtió en el centro de la conspiración anti-republicana. Muchos oficiales empezaron a planear un golpe de estado contra la República.",
+                comprehension: {
+                    question: "¿Cuál fue el resultado inesperado de las reformas militares de Azaña?",
+                    options: [
+                        "El ejército apoyó más la República",
+                        "Los oficiales que quedaron eran más conservadores y anti-republicanos",
+                        "El ejército desapareció completamente",
+                        "Todos los oficiales dimitieron"
+                    ],
+                    correct: 1
+                },
+                vocab: {
+                    spanish: ["quedar", "golpe de estado", "conspiración", "veteranos"],
+                    english: ["to remain", "coup d'état", "conspiracy", "veterans"]
+                },
+                gapfill: {
+                    text: "Las reformas militares del ministro <gap>1</gap> no funcionaron bien. Los oficiales que <gap>2</gap> en el ejército eran muy conservadores. Muchos eran <gap>3</gap> de las guerras en Marruecos. Organizaron una <gap>4</gap> secreta contra el gobierno. Planearon un <gap>5</gap> para derrocar la República. El <gap>6</gap> se convirtió en el centro de la oposición. Los <gap>7</gap> prepararon su rebelión para 1936.",
+                    answers: ["Azaña", "quedaron", "veteranos", "conspiración", "golpe de estado", "ejército", "militares"],
+                    wordBank: ["ejército", "conspiración", "Azaña", "militares", "golpe de estado", "veteranos", "quedaron"]
+                }
+            },
+            {
+                id: 6,
+                title: "6. La Violencia Política",
+                text: "Entre abril y julio de 1936, hubo tantas huelgas como en todo el año 1931. Los trabajadores exigían menos trabajo y más salario. Los 'crímenes sociales' se volvieron comunes. En octubre de 1934, hubo una revolución en Asturias con más de 1.200 muertos. La represión fue muy violenta. La izquierda aprendió que no podía estar dividida. La derecha, especialmente la Falange, fue responsable del aumento de violencia en las calles en 1936.",
+                comprehension: {
+                    question: "¿Qué aprendió la izquierda después de la Revolución de Asturias en 1934?",
+                    options: [
+                        "Que debía abandonar la política",
+                        "Que no podía estar dividida electoralmente",
+                        "Que la violencia siempre funciona",
+                        "Que debía apoyar a la derecha"
+                    ],
+                    correct: 1
+                },
+                vocab: {
+                    spanish: ["huelga", "exigir", "represión", "aumentar"],
+                    english: ["strike", "to demand", "repression", "to increase"]
+                },
+                gapfill: {
+                    text: "Las <gap>1</gap> aumentaron mucho en 1936. Los trabajadores <gap>2</gap> mejores condiciones de trabajo. La <gap>3</gap> política se intensificó en las calles. En <gap>4</gap> hubo una revolución con más de 1.200 muertos. La <gap>5</gap> fue muy violenta. La <gap>6</gap>, especialmente la Falange, aumentó sus ataques. Los <gap>7</gap> políticos se volvieron comunes en las ciudades.",
+                    answers: ["huelgas", "exigían", "violencia", "Asturias", "represión", "derecha", "asesinatos"],
+                    wordBank: ["represión", "Asturias", "asesinatos", "exigían", "derecha", "violencia", "huelgas"]
+                }
+            },
+            {
+                id: 7,
+                title: "7. La Inestabilidad Gubernamental",
+                text: "Entre 1931 y 1936, España tuvo dieciocho gobiernos diferentes en solo cinco años. Esto mostró la fragilidad extrema del sistema político. El país no encontró ningún camino hacia el compromiso. Las Cortes (el parlamento) estaban divididas en dos grupos antagonistas e intolerantes. Los debates políticos consistían en ataques personales, acusaciones y obstruccionismo. Era imposible gobernar eficazmente en esta situación.",
+                comprehension: {
+                    question: "¿Qué mostró tener dieciocho gobiernos en cinco años?",
+                    options: [
+                        "Que la democracia funcionaba perfectamente",
+                        "La extrema fragilidad del sistema político",
+                        "Que había muchos políticos competentes",
+                        "Que el país estaba muy unido"
+                    ],
+                    correct: 1
+                },
+                vocab: {
+                    spanish: ["fragilidad", "antagonista", "acusaciones", "obstruccionismo"],
+                    english: ["fragility", "antagonistic", "accusations", "obstructionism"]
+                },
+                gapfill: {
+                    text: "Los dieciocho gobiernos en cinco años mostraron la <gap>1</gap> del sistema político. Las <gap>2</gap> (el parlamento) estaban muy divididas. Los grupos eran <gap>3</gap> e intolerantes. Los debates consistían en <gap>4</gap> personales y acusaciones. El <gap>5</gap> político hacía imposible aprobar leyes. No había ningún <gap>6</gap> posible. La <gap>7</gap> democrática estaba en crisis total.",
+                    answers: ["fragilidad", "Cortes", "antagonistas", "ataques", "obstruccionismo", "compromiso", "República"],
+                    wordBank: ["compromiso", "República", "ataques", "fragilidad", "antagonistas", "obstruccionismo", "Cortes"]
+                }
+            },
+            {
+                id: 8,
+                title: "8. El Contexto Internacional",
+                text: "La Segunda República no recibió apoyo de las democracias occidentales como Francia o Gran Bretaña. Al mismo tiempo, el fascismo crecía en Europa con Mussolini en Italia y Hitler en Alemania. Esto dio valor a la derecha española. En marzo de 1934, los conspiradores convencieron a Mussolini de ayudar un futuro golpe militar. El contexto internacional fue muy negativo para la República y muy favorable para sus enemigos.",
+                comprehension: {
+                    question: "¿Cómo afectó el contexto internacional a la República?",
+                    options: [
+                        "Las democracias occidentales dieron mucho apoyo",
+                        "El fascismo europeo dio valor a la derecha española",
+                        "Todos los países apoyaron la democracia española",
+                        "No tuvo ningún efecto en España"
+                    ],
+                    correct: 1
+                },
+                vocab: {
+                    spanish: ["apoyo", "crecer", "dar valor", "conspiradores"],
+                    english: ["support", "to grow", "to embolden", "conspirators"]
+                },
+                gapfill: {
+                    text: "Las democracias occidentales no dieron <gap>1</gap> a la República española. El <gap>2</gap> crecía en Europa con Mussolini y Hitler. Esto <gap>3</gap> a la derecha española. Los <gap>4</gap> convencieron a Mussolini de ayudar un futuro golpe. El <gap>5</gap> internacional fue muy negativo para la democracia. <gap>6</gap> y Gran Bretaña mantuvieron una política de no intervención. Los <gap>7</gap> españoles recibieron ayuda externa mientras la República quedaba aislada.",
+                    answers: ["apoyo", "fascismo", "animó", "conspiradores", "contexto", "Francia", "rebeldes"],
+                    wordBank: ["rebeldes", "contexto", "fascismo", "Francia", "apoyo", "conspiradores", "animó"]
+                }
+            }
+        ];
+
+        let currentInput = null;
+        let vocabState = {};
+
+        function shuffleArray(arr) {
+            const newArr = [...arr];
+            for (let i = newArr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+            }
+            return newArr;
+        }
+
+        function initExercises() {
+            const container = document.getElementById('exercises');
+            container.innerHTML = '';
+
+            factors.forEach(factor => {
+                const section = document.createElement('div');
+                section.className = 'factor-section';
+
+                let html = `
+                    <h2 class="factor-title">${factor.title}</h2>
+                    <div class="reading-text">${factor.text}</div>
+                `;
+
+                // Comprehension
+                html += `
+                    <div class="exercise-block">
+                        <div class="exercise-title">📖 Comprensión</div>
+                        <div class="question">
+                            <div class="question-text">${factor.comprehension.question}</div>
+                `;
+                
+                factor.comprehension.options.forEach((option, idx) => {
+                    html += `
+                        <div class="choice-option" data-factor="${factor.id}" data-index="${idx}" onclick="selectChoice(${factor.id}, ${idx})">
+                            ${String.fromCharCode(65 + idx)}. ${option}
+                        </div>
+                    `;
+                });
+
+                html += `</div></div>`;
+
+                // Vocabulary
+                html += `
+                    <div class="exercise-block">
+                        <div class="exercise-title">📚 Vocabulario</div>
+                        <p class="hint">Haz clic en una palabra española y luego en su traducción inglesa</p>
+                        <div class="vocab-grid">
+                            <div class="vocab-column">
+                `;
+
+                factor.vocab.spanish.forEach((word, idx) => {
+                    html += `
+                        <div class="vocab-item" data-factor="${factor.id}" data-type="spanish" data-id="${idx}" onclick="selectVocab(${factor.id}, 'spanish', ${idx})">
+                            ${word}
+                        </div>
+                    `;
+                });
+
+                html += `</div><div class="vocab-column">`;
+
+                const shuffledEnglish = shuffleArray(factor.vocab.english.map((word, idx) => ({ word, idx })));
+                shuffledEnglish.forEach(item => {
+                    html += `
+                        <div class="vocab-item" data-factor="${factor.id}" data-type="english" data-id="${item.idx}" onclick="selectVocab(${factor.id}, 'english', ${item.idx})">
+                            ${item.word}
+                        </div>
+                    `;
+                });
+
+                html += `</div></div></div>`;
+
+                // Gap fill
+                const gapText = factor.gapfill.text.replace(/<gap>(\d+)<\/gap>/g, (match, num) => {
+                    return `<input type="text" class="gap-input" data-factor="${factor.id}" data-gap="${num}" placeholder="...">`;
+                });
+
+                html += `
+                    <div class="exercise-block">
+                        <div class="exercise-title">✍️ Completa el texto</div>
+                        <div class="word-bank">
+                            <strong>Palabras disponibles:</strong> ${factor.gapfill.wordBank.join(', ')}
+                        </div>
+                        <div class="question">
+                            <div class="gapfill-text">${gapText}</div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button class="check-btn" onclick="checkSingleFactor(${factor.id})" style="padding: 10px 20px;">
+                            Verificar este factor
+                        </button>
+                    </div>
+                    <div class="result" id="result-${factor.id}" style="margin-top: 15px;"></div>
+                `;
+
+                section.innerHTML = html;
+                container.appendChild(section);
+            });
+
+            // Accent keyboard listeners
+            document.querySelectorAll('.accent-btn').forEach(btn => {
+                btn.onclick = function() {
+                    const char = this.dataset.char;
+                    if (currentInput) {
+                        const pos = currentInput.selectionStart;
+                        const val = currentInput.value;
+                        currentInput.value = val.slice(0, pos) + char + val.slice(pos);
+                        currentInput.focus();
+                        currentInput.setSelectionRange(pos + 1, pos + 1);
+                    }
+                };
+            });
+
+            // Track focused input
+            document.querySelectorAll('input.gap-input').forEach(input => {
+                input.addEventListener('focus', function() {
+                    currentInput = this;
+                });
+            });
+        }
+
+        function selectChoice(factorId, index) {
+            const choices = document.querySelectorAll(`[data-factor="${factorId}"].choice-option`);
+            choices.forEach(c => c.classList.remove('selected'));
+            choices[index].classList.add('selected');
+        }
+
+        function selectVocab(factorId, type, id) {
+            const key = `vocab-${factorId}`;
+            if (!vocabState[key]) vocabState[key] = {};
+
+            const item = document.querySelector(`[data-factor="${factorId}"][data-type="${type}"][data-id="${id}"]`);
+            
+            if (item.classList.contains('matched')) return;
+
+            // Clear previous selections if both slots filled
+            if (vocabState[key].spanish !== undefined && vocabState[key].english !== undefined) {
+                document.querySelectorAll(`[data-factor="${factorId}"].vocab-item.selected`).forEach(el => {
+                    if (!el.classList.contains('matched')) el.classList.remove('selected');
+                });
+                vocabState[key] = {};
+            }
+
+            if (type === 'spanish') {
+                vocabState[key].spanish = id;
+                vocabState[key].spanishEl = item;
+            } else {
+                vocabState[key].english = id;
+                vocabState[key].englishEl = item;
+            }
+
+            item.classList.add('selected');
+
+            // Check if match
+            if (vocabState[key].spanish !== undefined && vocabState[key].english !== undefined) {
+                if (vocabState[key].spanish === vocabState[key].english) {
+                    vocabState[key].spanishEl.classList.add('matched');
+                    vocabState[key].englishEl.classList.add('matched');
+                    vocabState[key].spanishEl.classList.remove('selected');
+                    vocabState[key].englishEl.classList.remove('selected');
+                } else {
+                    setTimeout(() => {
+                        vocabState[key].spanishEl.classList.remove('selected');
+                        vocabState[key].englishEl.classList.remove('selected');
+                    }, 600);
+                }
+                vocabState[key] = {};
+            }
+        }
+
+        function normalize(text) {
+            return text.toLowerCase().trim().replace(/\s+/g, ' ');
+        }
+
+        function checkSingleFactor(factorId) {
+            const factor = factors.find(f => f.id === factorId);
+            let correct = 0;
+            let total = 0;
+
+            // Check comprehension
+            total++;
+            const choices = document.querySelectorAll(`[data-factor="${factorId}"].choice-option`);
+            const correctIdx = factor.comprehension.correct;
+            
+            choices.forEach((choice, idx) => {
+                choice.classList.remove('correct-answer', 'wrong-answer');
+                if (idx === correctIdx) {
+                    choice.classList.add('correct-answer');
+                    if (choice.classList.contains('selected')) correct++;
+                } else if (choice.classList.contains('selected')) {
+                    choice.classList.add('wrong-answer');
+                }
+            });
+
+            // Check vocabulary
+            total++;
+            const matched = document.querySelectorAll(`[data-factor="${factorId}"].vocab-item.matched`);
+            if (matched.length === factor.vocab.spanish.length * 2) correct++;
+
+            // Check gap fills
+            factor.gapfill.answers.forEach((answer, idx) => {
+                total++;
+                const input = document.querySelector(`input[data-factor="${factorId}"][data-gap="${idx + 1}"]`);
+                if (input) {
+                    input.classList.remove('correct', 'incorrect');
+                    if (normalize(input.value) === normalize(answer)) {
+                        input.classList.add('correct');
+                        correct++;
+                    } else {
+                        input.classList.add('incorrect');
+                    }
+                }
+            });
+
+            // Show result for this factor
+            const result = document.getElementById(`result-${factorId}`);
+            result.className = 'result show';
+            const percent = Math.round((correct / total) * 100);
+            
+            if (percent === 100) {
+                result.className += ' success';
+                result.innerHTML = `<strong>¡Perfecto!</strong> ${correct}/${total} correctas (${percent}%) ✓`;
+            } else if (percent >= 70) {
+                result.className += ' partial';
+                result.innerHTML = `<strong>Bien</strong> - ${correct}/${total} correctas (${percent}%) - Revisa las respuestas en rojo`;
+            } else {
+                result.className += ' partial';
+                result.innerHTML = `<strong>Resultado:</strong> ${correct}/${total} correctas (${percent}%) - Revisa el texto y vuelve a intentarlo`;
+            }
+
+            result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function checkAllAnswers() {
+            let correct = 0;
+            let total = 0;
+
+            factors.forEach(factor => {
+                // Check comprehension
+                total++;
+                const choices = document.querySelectorAll(`[data-factor="${factor.id}"].choice-option`);
+                const correctIdx = factor.comprehension.correct;
+                
+                choices.forEach((choice, idx) => {
+                    choice.classList.remove('correct-answer', 'wrong-answer');
+                    if (idx === correctIdx) {
+                        choice.classList.add('correct-answer');
+                        if (choice.classList.contains('selected')) correct++;
+                    } else if (choice.classList.contains('selected')) {
+                        choice.classList.add('wrong-answer');
+                    }
+                });
+
+                // Check vocabulary
+                total++;
+                const matched = document.querySelectorAll(`[data-factor="${factor.id}"].vocab-item.matched`);
+                if (matched.length === factor.vocab.spanish.length * 2) correct++;
+
+                // Check gap fills
+                factor.gapfill.answers.forEach((answer, idx) => {
+                    total++;
+                    const input = document.querySelector(`input[data-factor="${factor.id}"][data-gap="${idx + 1}"]`);
+                    if (input) {
+                        input.classList.remove('correct', 'incorrect');
+                        if (normalize(input.value) === normalize(answer)) {
+                            input.classList.add('correct');
+                            correct++;
+                        } else {
+                            input.classList.add('incorrect');
+                        }
+                    }
+                });
+            });
+
+            const result = document.getElementById('finalResult');
+            result.className = 'result show';
+            const percent = Math.round((correct / total) * 100);
+            
+            if (percent === 100) {
+                result.className += ' success';
+                result.innerHTML = `<strong>¡Excelente!</strong> ${correct}/${total} correctas (${percent}%) 🎉<br>Tienes un conocimiento profundo del tema.`;
+            } else if (percent >= 70) {
+                result.className += ' partial';
+                result.innerHTML = `<strong>¡Muy bien!</strong> ${correct}/${total} correctas (${percent}%) 👍<br>Buen trabajo.`;
+            } else {
+                result.className += ' partial';
+                result.innerHTML = `<strong>Resultado:</strong> ${correct}/${total} correctas (${percent}%)<br>Revisa y vuelve a intentarlo.`;
+            }
+
+            result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function downloadResults() {
+            let txt = 'LA SEGUNDA REPÚBLICA ESPAÑOLA (1931-1939)\n';
+            txt += 'Factores del colapso democrático (1931-1936)\n';
+            txt += '='.repeat(60) + '\n\n';
+            
+            let correct = 0;
+            let total = 0;
+
+            factors.forEach(factor => {
+                txt += `\n${factor.title}\n${'-'.repeat(60)}\n\n`;
+
+                // Comprehension
+                total++;
+                const selected = document.querySelector(`[data-factor="${factor.id}"].choice-option.selected`);
+                const selectedIdx = selected ? parseInt(selected.dataset.index) : -1;
+                const isCorrect = selectedIdx === factor.comprehension.correct;
+                if (isCorrect) correct++;
+
+                txt += `COMPRENSIÓN:\n`;
+                txt += `Pregunta: ${factor.comprehension.question}\n`;
+                txt += `Tu respuesta: ${selectedIdx >= 0 ? factor.comprehension.options[selectedIdx] : '(sin responder)'}\n`;
+                txt += `Correcta: ${factor.comprehension.options[factor.comprehension.correct]}\n`;
+                txt += `Estado: ${isCorrect ? '✓ CORRECTO' : '✗ INCORRECTO'}\n\n`;
+
+                // Vocabulary
+                total++;
+                const matched = document.querySelectorAll(`[data-factor="${factor.id}"].vocab-item.matched`);
+                const vocabCorrect = matched.length === factor.vocab.spanish.length * 2;
+                if (vocabCorrect) correct++;
+                txt += `VOCABULARIO: ${vocabCorrect ? '✓ COMPLETO' : '✗ INCOMPLETO'}\n\n`;
+
+                // Gap fills
+                txt += `TEXTO COMPLETADO:\n`;
+                factor.gapfill.answers.forEach((answer, idx) => {
+                    total++;
+                    const input = document.querySelector(`input[data-factor="${factor.id}"][data-gap="${idx + 1}"]`);
+                    const userAnswer = input ? input.value.trim() : '';
+                    const isCorrect = normalize(userAnswer) === normalize(answer);
+                    if (isCorrect) correct++;
+                    txt += `${idx + 1}. "${userAnswer || '(vacío)'}" → Correcta: "${answer}" ${isCorrect ? '✓' : '✗'}\n`;
+                });
+                txt += '\n';
+            });
+
+            txt += '='.repeat(60) + '\n';
+            txt += `PUNTUACIÓN FINAL: ${correct}/${total} (${Math.round((correct/total)*100)}%)\n`;
+            
+            const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `segunda_republica_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function resetAll() {
+            document.querySelectorAll('.choice-option').forEach(el => {
+                el.classList.remove('selected', 'correct-answer', 'wrong-answer');
+            });
+
+            document.querySelectorAll('.vocab-item').forEach(el => {
+                el.classList.remove('selected', 'matched');
+            });
+
+            document.querySelectorAll('input.gap-input').forEach(input => {
+                input.value = '';
+                input.classList.remove('correct', 'incorrect');
+            });
+
+            document.getElementById('finalResult').className = 'result';
+            vocabState = {};
+            currentInput = null;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        initExercises();
+    </script>
+</body>
+</html>

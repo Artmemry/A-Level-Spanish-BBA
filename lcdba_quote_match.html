@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>La Casa de Bernarda Alba — Quote & Scene Matching</title>
+<style>
+  :root{
+    --bg:#1a1410;
+    --panel:#241b14;
+    --ink:#f4ebd9;
+    --muted:#bfa37a;
+    --accent:#c9302c;      /* Lorca red */
+    --accent2:#3a6b3a;     /* Adela green */
+    --gold:#d4a64a;
+    --wall:#f1ece1;        /* white wall */
+    --good:#5fa463;
+    --bad:#d35a5a;
+    --shadow:0 10px 30px rgba(0,0,0,.4);
+    --mono:ui-monospace,Menlo,Consolas,monospace;
+    --serif:"Iowan Old Style","Palatino Linotype",Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--serif);min-height:100vh}
+  body{
+    background:
+      radial-gradient(circle at 10% 0%,rgba(201,48,44,.12),transparent 40%),
+      radial-gradient(circle at 90% 100%,rgba(212,166,74,.10),transparent 50%),
+      var(--bg);
+  }
+  header{
+    padding:28px 24px 12px;
+    text-align:center;
+    border-bottom:1px solid rgba(212,166,74,.2);
+  }
+  header h1{margin:0;font-size:28px;letter-spacing:.5px;color:var(--wall)}
+  header .sub{color:var(--muted);font-style:italic;margin-top:6px;font-size:14px}
+
+  .wrap{max-width:980px;margin:0 auto;padding:18px 18px 140px}
+
+  .controls{
+    display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+    background:var(--panel);border:1px solid rgba(212,166,74,.18);
+    border-radius:12px;padding:12px 14px;margin-bottom:14px;
+  }
+  .modes{display:flex;gap:6px;flex-wrap:wrap}
+  .mode-btn,.btn{
+    background:transparent;color:var(--ink);
+    border:1px solid rgba(212,166,74,.4);
+    padding:8px 12px;border-radius:8px;font:inherit;cursor:pointer;
+    transition:.15s;
+  }
+  .mode-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+  .mode-btn:hover,.btn:hover{border-color:var(--gold)}
+  .btn.primary{background:var(--gold);color:#1a1410;border-color:var(--gold);font-weight:600}
+  .btn.primary:hover{background:#e8b95a}
+  .btn.ghost{background:transparent}
+  .score{font-family:var(--mono);color:var(--gold)}
+
+  .theme-bar{
+    display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;
+  }
+  .theme-pill{
+    background:rgba(212,166,74,.08);
+    border:1px solid rgba(212,166,74,.25);
+    color:var(--muted);padding:5px 9px;border-radius:999px;font-size:12px;
+    font-family:var(--mono);
+  }
+  .theme-pill .freq{color:var(--gold);margin-left:4px}
+
+  .card{
+    background:var(--wall);
+    color:#2a2118;
+    border-radius:14px;
+    padding:24px 22px;
+    box-shadow:var(--shadow);
+    position:relative;
+    overflow:hidden;
+  }
+  .card::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--accent);
+  }
+  .quote{
+    font-size:22px;line-height:1.4;font-style:italic;margin:6px 0 18px;
+    quotes:"«" "»";
+  }
+  .quote::before{content:open-quote;color:var(--accent);font-size:32px;line-height:0;vertical-align:-8px;margin-right:4px}
+  .quote::after{content:close-quote;color:var(--accent);font-size:32px;line-height:0;vertical-align:-8px;margin-left:2px}
+  .scene-hint{font-size:13px;color:#6b5740;font-family:var(--mono);margin-bottom:8px}
+  .scene-hint b{color:var(--accent2)}
+
+  .ask{margin-top:14px;color:#3a2c1f;font-weight:600;font-size:14px;letter-spacing:.3px;text-transform:uppercase}
+
+  .answer-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .input{
+    flex:1;min-width:200px;
+    padding:10px 12px;border-radius:8px;
+    border:1.5px solid #c8b990;background:#fffaf0;color:#2a2118;
+    font:inherit;font-size:16px;
+  }
+  .input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(201,48,44,.15)}
+  .choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin-top:8px}
+  .choice{
+    background:#fffaf0;border:1.5px solid #c8b990;color:#2a2118;
+    padding:10px 12px;border-radius:8px;font:inherit;text-align:left;cursor:pointer;
+  }
+  .choice:hover{border-color:var(--accent);background:#fff3df}
+  .choice.correct{background:#d6efd4;border-color:var(--good)}
+  .choice.wrong{background:#f7dada;border-color:var(--bad)}
+
+  .feedback{margin-top:14px;min-height:22px;font-size:14px}
+  .feedback.good{color:var(--good)}
+  .feedback.bad{color:var(--bad)}
+  .feedback .explain{display:block;color:#5e4a32;font-style:italic;margin-top:4px}
+
+  .next-row{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px}
+  .progress{font-family:var(--mono);font-size:12px;color:#6b5740}
+
+  /* Floating accent keyboard */
+  .kbd{
+    position:fixed;left:50%;transform:translateX(-50%);bottom:18px;
+    display:flex;gap:8px;background:rgba(36,27,20,.92);
+    backdrop-filter:blur(6px);
+    padding:10px 12px;border-radius:14px;
+    border:1px solid rgba(212,166,74,.35);
+    box-shadow:var(--shadow);
+    z-index:50;
+    user-select:none;
+  }
+  .kbd .key{
+    width:44px;height:44px;border-radius:10px;
+    background:#3a2c1f;color:var(--wall);border:1px solid rgba(212,166,74,.3);
+    font-size:22px;font-family:var(--serif);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:.1s;
+  }
+  .kbd .key:hover{background:var(--accent);border-color:var(--accent)}
+  .kbd .key:active{transform:scale(.94)}
+  .kbd .label{
+    font-size:11px;color:var(--muted);align-self:center;
+    padding-right:6px;font-family:var(--mono);letter-spacing:.5px;
+  }
+  .kbd .drag{cursor:grab;font-size:14px;color:var(--muted);align-self:center;padding:0 4px}
+  .kbd.dragging{cursor:grabbing}
+
+  .final-card{text-align:center;padding:40px 22px}
+  .final-card h2{margin:0 0 8px;color:var(--accent)}
+  .final-card .grade{font-size:42px;color:var(--gold);font-family:var(--mono);margin:14px 0}
+
+  details{margin-top:16px;color:var(--muted);font-size:13px}
+  details summary{cursor:pointer;color:var(--gold)}
+
+  @media (max-width:520px){
+    .quote{font-size:18px}
+    .kbd .key{width:38px;height:38px;font-size:18px}
+    header h1{font-size:22px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>La Casa de Bernarda Alba — Quote &amp; Scene Matching</h1>
+  <div class="sub">Federico García Lorca · Edexcel A-Level revision · 2018–2025 theme frequency</div>
+</header>
+
+<div class="wrap">
+
+  <div class="theme-bar" id="themeBar"></div>
+
+  <div class="controls">
+    <div class="modes">
+      <button class="mode-btn active" data-mode="character">Who said it?</button>
+      <button class="mode-btn" data-mode="theme">Theme</button>
+      <button class="mode-btn" data-mode="act">Which Act?</button>
+      <button class="mode-btn" data-mode="mixed">Mixed</button>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <span class="score" id="score">0 / 0</span>
+      <button class="btn ghost" id="resetBtn">Reset</button>
+      <button class="btn primary" id="downloadBtn">↓ Save .html</button>
+    </div>
+  </div>
+
+  <div id="cardHost"></div>
+
+  <details>
+    <summary>About this exercise</summary>
+    <p>Each quote is tagged by Act, speaker, and theme. The deck is weighted toward the themes that
+    recur most across Edexcel papers 2018–2025: repression, the female characters and women's role,
+    and the house's symbols and colours. Type Spanish names using the floating accent keyboard at
+    the bottom — drag it sideways if it's in the way.</p>
+  </details>
+</div>
+
+<!-- Floating 5-accent keyboard -->
+<div class="kbd" id="kbd" role="toolbar" aria-label="Spanish accents">
+  <span class="drag" title="Drag">⋮⋮</span>
+  <span class="label">Acentos</span>
+  <button class="key" data-c="á">á</button>
+  <button class="key" data-c="é">é</button>
+  <button class="key" data-c="í">í</button>
+  <button class="key" data-c="ó">ó</button>
+  <button class="key" data-c="ú">ú</button>
+  <button class="key" data-c="ñ" title="extra">ñ</button>
+  <button class="key" data-c="¿" title="extra">¿</button>
+  <button class="key" data-c="¡" title="extra">¡</button>
+</div>
+
+<script>
+/* ------------ DATA ------------- */
+const THEMES = [
+  ["Repression",4],
+  ["Symbols / house / colours",4],
+  ["Female characters · women's role",4],
+  ["Class & money",2],
+  ["Stage directions / technique",1],
+  ["Maternity",1],
+  ["Envy & rivalry",1],
+  ["Freedom",1],
+  ["Patriarchy",1],
+  ["Honour · qué dirán",1],
+];
+
+const CHARACTERS = ["Bernarda","Adela","La Poncia","María Josefa","Martirio","Angustias","Magdalena","Amelia","Criada"];
+
+const QUOTES = [
+  { q:"En ocho años que dure el luto no ha de entrar en esta casa el viento de la calle.",
+    who:"Bernarda", act:1, theme:"Repression",
+    note:"Opening salvo of mourning. Eight years of confinement — the literal sealing of the house." },
+  { q:"Hilo y aguja para las hembras. Látigo y mula para el varón.",
+    who:"Bernarda", act:1, theme:"Patriarchy",
+    note:"Bernarda voices the patriarchal order even while ruling a house of women." },
+  { q:"¡Quiero salir! ¡Bernarda! ¡A casarme a la orilla del mar!",
+    who:"María Josefa", act:1, theme:"Freedom",
+    note:"The grandmother — locked away — becomes the play's purest cry for freedom." },
+  { q:"Las cosas no son nunca a gusto nuestro.",
+    who:"La Poncia", act:2, theme:"Female characters · women's role",
+    note:"La Poncia's worldly resignation — survival, not rebellion." },
+  { q:"Yo no he podido ser de otra manera.",
+    who:"Adela", act:3, theme:"Freedom",
+    note:"Adela's defence just before her final defiance — identity against repression." },
+  { q:"Mi hija ha muerto virgen. ¡Silencio, he dicho! ¡Silencio!",
+    who:"Bernarda", act:3, theme:"Honour · qué dirán",
+    note:"The closing line — appearance preserved at any cost. Honour over truth." },
+  { q:"Nací para tener los ojos abiertos.",
+    who:"Martirio", act:2, theme:"Envy & rivalry",
+    note:"Martirio's vigilance — bitter, watchful, the engine of the play's catastrophe." },
+  { q:"¡Hija, déjame salir! ¡Llévame al campo!",
+    who:"María Josefa", act:3, theme:"Repression",
+    note:"Echoed plea in Act 3, now cradling a lamb as if it were a child — maternity warped by confinement." },
+  { q:"Aquí se hace lo que yo mando.",
+    who:"Bernarda", act:1, theme:"Repression",
+    note:"The tyrant's creed, declared early." },
+  { q:"Tengo el corazón lleno de una fuerza tan mala…",
+    who:"Martirio", act:3, theme:"Envy & rivalry",
+    note:"Martirio confessing the violence of her jealousy over Pepe el Romano." },
+  { q:"No, no callaré. No quiero estar encerrada.",
+    who:"Adela", act:3, theme:"Freedom",
+    note:"Adela rips the symbol of authority — her sister's engagement — to pieces." },
+  { q:"¡A ella, a ella y a su madre!",
+    who:"Bernarda", act:1, theme:"Class & money",
+    note:"Bernarda turns the village mourners on a 'lesser' woman — class snobbery laid bare." },
+  { q:"Pepe el Romano se casa con Angustias por su dinero.",
+    who:"La Poncia", act:2, theme:"Class & money",
+    note:"La Poncia names what everyone knows — marriage as economic transaction." },
+  { q:"(Aparece MARÍA JOSEFA, la madre de Bernarda, viejísima, ataviada con flores en la cabeza y en el pecho.)",
+    who:"Criada", act:1, theme:"Stage directions / technique",
+    note:"Lorca's didascalia — flowers worn by a 'caged' old woman, a visual emblem of stifled vitality.",
+    stageDir:true },
+  { q:"Malditas sean las mujeres.",
+    who:"Bernarda", act:2, theme:"Female characters · women's role",
+    note:"Bernarda's curse — internalised misogyny within an entirely female household." },
+  { q:"Pensamientos malos son los que tengo.",
+    who:"Adela", act:2, theme:"Repression",
+    note:"Adela admits to forbidden desire — repression breeds 'bad thoughts'." },
+  { q:"Yo veo que cada cosa tiene su tiempo.",
+    who:"La Poncia", act:2, theme:"Female characters · women's role",
+    note:"La Poncia's folk-wisdom — and warning — about the house's gathering storm." },
+  { q:"Yo no quiero estar con vosotras. ¡Dejadme ya!",
+    who:"Adela", act:2, theme:"Freedom",
+    note:"Adela rejecting the collective fate of her sisters." },
+  { q:"(Suena un disparo.)",
+    who:"Criada", act:3, theme:"Stage directions / technique",
+    note:"Off-stage gunshot — Lorca's pivot to tragedy through sound, not sight.",
+    stageDir:true },
+  { q:"¡Madre, madre, yo quisiera no ser de carne!",
+    who:"Martirio", act:3, theme:"Maternity",
+    note:"Martirio collapses into her mother — daughter-figure crying for unborn self." },
+  { q:"Esta casa parece un infierno.",
+    who:"Magdalena", act:2, theme:"Symbols / house / colours",
+    note:"The house itself — white walls, locked doors — becomes hell on stage." },
+  { q:"¡Ay qué pradera de luto!",
+    who:"Adela", act:1, theme:"Symbols / house / colours",
+    note:"Black mourning sweeps the white walls — Lorca's chromatic shorthand for grief." },
+  { q:"Abanico (le da un abanico redondo y plano, con flores rojas y verdes).",
+    who:"Criada", act:1, theme:"Symbols / house / colours",
+    note:"Adela's red-and-green fan — colour bursts in a black-clad room. Bernarda smashes it.",
+    stageDir:true },
+  { q:"¡Yo soy tu padre!",
+    who:"Bernarda", act:3, theme:"Patriarchy",
+    note:"Bernarda claims paternal authority — gender role transplanted onto her tyranny." },
+  { q:"Aquí no se vuelve a decir ni media palabra. ¡Nada de llantos!",
+    who:"Bernarda", act:3, theme:"Honour · qué dirán",
+    note:"Even mourning the dead daughter must be silent — image first." },
+];
+
+/* ------------ STATE ------------- */
+let mode = "character";
+let order = [];
+let idx = 0;
+let score = 0;
+let answered = 0;
+let lastFocusInput = null;
+
+/* ------------ INIT ------------- */
+function shuffled(a){return a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(p=>p[1])}
+
+function renderThemes(){
+  const bar = document.getElementById("themeBar");
+  bar.innerHTML = "";
+  THEMES.forEach(([name,freq])=>{
+    const p = document.createElement("span");
+    p.className = "theme-pill";
+    p.innerHTML = `${name} <span class="freq">·${freq}</span>`;
+    bar.appendChild(p);
+  });
+}
+
+function startRound(){
+  order = shuffled(QUOTES.slice());
+  idx = 0; score = 0; answered = 0;
+  updateScore();
+  renderCard();
+}
+function updateScore(){
+  document.getElementById("score").textContent = `${score} / ${answered}`;
+}
+
+/* ------------ CARD RENDER ------------- */
+function renderCard(){
+  const host = document.getElementById("cardHost");
+  if(idx >= order.length){ renderFinal(); return; }
+  const item = order[idx];
+  const askMode = mode === "mixed" ? ["character","theme","act"][idx%3] : mode;
+
+  let body = "";
+  if(askMode === "character"){
+    body = `
+      <div class="ask">Who said it?</div>
+      <div class="answer-row">
+        <input class="input" id="charInput" placeholder="Type the speaker — e.g. Mar${"í"}a Josefa"
+          autocomplete="off" spellcheck="false">
+        <button class="btn primary" id="submitBtn">Check</button>
+      </div>
+      <div style="font-size:12px;color:#6b5740;margin-top:6px;font-family:var(--mono)">
+        ${CHARACTERS.join(" · ")}
+      </div>
+    `;
+  } else if(askMode === "theme"){
+    const opts = shuffled([item.theme, ...shuffled(THEMES.filter(t=>t[0]!==item.theme).map(t=>t[0])).slice(0,3)]);
+    body = `
+      <div class="ask">Which theme does this quote most clearly serve?</div>
+      <div class="choices" id="choices">
+        ${opts.map(o=>`<button class="choice" data-v="${o}">${o}</button>`).join("")}
+      </div>
+    `;
+  } else if(askMode === "act"){
+    body = `
+      <div class="ask">Which Act?</div>
+      <div class="choices" id="choices">
+        ${[1,2,3].map(n=>`<button class="choice" data-v="${n}">Act ${n}</button>`).join("")}
+      </div>
+    `;
+  }
+
+  host.innerHTML = `
+    <div class="card">
+      <div class="scene-hint">
+        ${item.stageDir ? "<b>STAGE DIRECTION</b> · " : ""}
+        Act ${item.act} · theme tag: <b>${item.theme}</b>${askMode!=="theme"?"":" (hidden — your job)"}
+      </div>
+      <div class="quote">${item.q}</div>
+      ${body}
+      <div class="feedback" id="feedback"></div>
+      <div class="next-row">
+        <span class="progress">${idx+1} / ${order.length}</span>
+        <button class="btn" id="nextBtn" style="display:none">Next →</button>
+      </div>
+    </div>
+  `;
+
+  // hide theme tag if asked about theme
+  if(askMode === "theme"){
+    host.querySelector(".scene-hint").innerHTML =
+      `${item.stageDir ? "<b>STAGE DIRECTION</b> · " : ""}Act ${item.act} · speaker: <b>${item.who}</b>`;
+  }
+  if(askMode === "act"){
+    host.querySelector(".scene-hint").innerHTML =
+      `${item.stageDir ? "<b>STAGE DIRECTION</b> · " : ""}speaker: <b>${item.who}</b> · theme: <b>${item.theme}</b>`;
+  }
+
+  // wire interactions
+  if(askMode === "character"){
+    const inp = document.getElementById("charInput");
+    inp.focus();
+    inp.addEventListener("focus",()=> lastFocusInput = inp);
+    lastFocusInput = inp;
+    document.getElementById("submitBtn").onclick = ()=> checkChar(item, inp.value);
+    inp.addEventListener("keydown",e=>{ if(e.key==="Enter") checkChar(item, inp.value); });
+  } else {
+    host.querySelectorAll(".choice").forEach(btn=>{
+      btn.onclick = ()=>{
+        const v = btn.dataset.v;
+        const right = (askMode==="theme") ? (v===item.theme) : (parseInt(v)===item.act);
+        markChoice(btn, right, item, askMode);
+      };
+    });
+  }
+}
+
+function normalize(s){
+  return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").trim();
+}
+function checkChar(item, val){
+  if(!val.trim()) return;
+  const correct = normalize(val) === normalize(item.who);
+  showFeedback(correct, item);
+  answered++;
+  if(correct) score++;
+  updateScore();
+}
+function markChoice(btn, right, item, askMode){
+  // disable all
+  btn.parentElement.querySelectorAll(".choice").forEach(b=>b.disabled=true);
+  if(right){ btn.classList.add("correct"); }
+  else{
+    btn.classList.add("wrong");
+    // highlight correct one
+    btn.parentElement.querySelectorAll(".choice").forEach(b=>{
+      const ok = (askMode==="theme") ? (b.dataset.v===item.theme) : (parseInt(b.dataset.v)===item.act);
+      if(ok) b.classList.add("correct");
+    });
+  }
+  answered++; if(right) score++;
+  updateScore();
+  showFeedback(right, item);
+}
+function showFeedback(ok, item){
+  const fb = document.getElementById("feedback");
+  fb.className = "feedback " + (ok?"good":"bad");
+  fb.innerHTML = (ok ? "✓ Correct." : `✗ Not quite — it was <b>${item.who}</b>, Act ${item.act}, theme “${item.theme}”.`)
+    + `<span class="explain">${item.note}</span>`;
+  document.getElementById("nextBtn").style.display = "inline-block";
+  document.getElementById("nextBtn").onclick = ()=>{ idx++; renderCard(); };
+  document.getElementById("nextBtn").focus();
+}
+
+function renderFinal(){
+  const pct = answered? Math.round(100*score/answered) : 0;
+  const grade = pct>=85?"A*":pct>=70?"A":pct>=60?"B":pct>=50?"C":"Keep going";
+  document.getElementById("cardHost").innerHTML = `
+    <div class="card final-card">
+      <h2>Telón.</h2>
+      <div class="grade">${score} / ${answered}  ·  ${pct}%</div>
+      <div style="color:#5e4a32;font-style:italic">Indicative band: <b>${grade}</b></div>
+      <div style="margin-top:18px">
+        <button class="btn primary" onclick="startRound()">Run another round</button>
+      </div>
+    </div>
+  `;
+}
+
+/* ------------ MODE BUTTONS ------------- */
+document.querySelectorAll(".mode-btn").forEach(b=>{
+  b.onclick = ()=>{
+    document.querySelectorAll(".mode-btn").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    mode = b.dataset.mode;
+    startRound();
+  };
+});
+document.getElementById("resetBtn").onclick = startRound;
+
+/* ------------ ACCENT KEYBOARD ------------- */
+document.querySelectorAll(".kbd .key").forEach(k=>{
+  k.addEventListener("mousedown",e=> e.preventDefault()); // keep focus
+  k.addEventListener("click",()=>{
+    const c = k.dataset.c;
+    const inp = lastFocusInput || document.activeElement;
+    if(inp && (inp.tagName==="INPUT" || inp.tagName==="TEXTAREA")){
+      const s = inp.selectionStart ?? inp.value.length;
+      const e = inp.selectionEnd ?? inp.value.length;
+      inp.value = inp.value.slice(0,s) + c + inp.value.slice(e);
+      inp.focus();
+      inp.selectionStart = inp.selectionEnd = s + c.length;
+    }
+  });
+});
+
+// draggable keyboard (horizontal)
+(function(){
+  const kbd = document.getElementById("kbd");
+  const handle = kbd.querySelector(".drag");
+  let startX=0, startLeft=0, dragging=false;
+  handle.addEventListener("mousedown",e=>{
+    dragging=true; startX=e.clientX;
+    const r = kbd.getBoundingClientRect();
+    kbd.style.left = r.left + "px";
+    kbd.style.transform = "none";
+    startLeft = r.left;
+    kbd.classList.add("dragging");
+    e.preventDefault();
+  });
+  window.addEventListener("mousemove",e=>{
+    if(!dragging) return;
+    let nl = startLeft + (e.clientX - startX);
+    nl = Math.max(4, Math.min(window.innerWidth - kbd.offsetWidth - 4, nl));
+    kbd.style.left = nl + "px";
+  });
+  window.addEventListener("mouseup",()=>{ dragging=false; kbd.classList.remove("dragging"); });
+})();
+
+/* ------------ BLOB DOWNLOAD ------------- */
+document.getElementById("downloadBtn").onclick = ()=>{
+  const html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+  const blob = new Blob([html], {type:"text/html;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "lcdba_quote_match.html";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 1500);
+};
+
+/* ------------ GO ------------- */
+renderThemes();
+startRound();
+</script>
+</body>
+</html>

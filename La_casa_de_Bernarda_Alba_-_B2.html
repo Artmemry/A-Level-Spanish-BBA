@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La casa de Bernarda Alba - B2 Spanish</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            color: #7f8c8d;
+        }
+
+        .counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .instructions {
+            background: #e8f4fd;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-score {
+            background: #ecf0f1;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+
+        .sentence {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .sentence:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .english {
+            font-style: italic;
+            color: #6c757d;
+            margin-bottom: 10px;
+            padding: 8px;
+            background: #e9ecef;
+            border-left: 3px solid #6c757d;
+            border-radius: 4px;
+        }
+
+        .original {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .original strong {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            border: 1px solid #ffeaa7;
+        }
+
+        .input-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            background: white;
+            color: #333;
+            width: 200px;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+
+        .multi-verb-inputs {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .verb-separator {
+            color: #3498db;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .check-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .check-btn:hover {
+            background: #2980b9;
+        }
+
+        .hint-button {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .hint-button:hover {
+            background: #7f8c8d;
+        }
+
+        .hint-system {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            color: #6c757d;
+            font-size: 0.9em;
+            display: none;
+        }
+
+        .hint-system.active {
+            display: block;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            min-height: 20px;
+        }
+
+        .correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .print-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 20px auto;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .print-btn:hover {
+            background: #5a6268;
+        }
+
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            .counter, .check-btn, .hint-button, .print-btn {
+                display: none;
+            }
+            .section {
+                border: 1px solid #ccc;
+                box-shadow: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .counter {
+                position: static;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+            
+            input[type="text"] {
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .multi-verb-inputs {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>La casa de Bernarda Alba</h1>
+        <p>Ejercicios de español B2 - Federico García Lorca</p>
+    </div>
+
+    <div class="counter">
+        <div>Correctas: <span id="correct-count">0</span>/50</div>
+        <div>Progreso: <span id="progress">0%</span></div>
+    </div>
+
+    <div class="instructions">
+        <h3>📚 Instrucciones:</h3>
+        <p>Completa las frases sobre "La casa de Bernarda Alba" con la forma correcta del verbo o la palabra adecuada. Si hay errores pequeños de acentos u ortografía, no te preocupes - el sistema los acepta.</p>
+        <p><strong>💡 Ayuda:</strong> Cada pregunta tiene un botón de "Pista" si necesitas ayuda.</p>
+    </div>
+
+    <div class="section" id="subjunctive-indicative">
+        <h2>
+            Subjuntivo e Indicativo
+            <span class="section-score" id="subjunctive-indicative-score">0/20</span>
+        </h2>
+
+        <div class="sentence" data-answer="preserve,impida" data-multi="true">
+            <div class="english">Bernarda wants her daughters' honor to be preserved, even if it prevents their happiness.</div>
+            <div class="original">Bernarda quiere que la honra de sus hijas se <strong>___</strong> (preservar) aunque les <strong>___</strong> (impedir) la felicidad.</div>
+            <div class="input-container">
+                <div class="multi-verb-inputs">
+                    <input type="text" placeholder="preservar..." />
+                    <span class="verb-separator">y</span>
+                    <input type="text" placeholder="impedir..." />
+                </div>
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q1-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q1-hint">
+                <strong>Pista:</strong> "Quiere que" necesita subjuntivo. "Aunque" también. Preservar → preserve, Impedir → impida.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="sean">
+            <div class="english">It's sad that the girls are not free to choose.</div>
+            <div class="original">Es triste que las muchachas no <strong>___</strong> (ser) libres para elegir.</div>
+            <div class="input-container">
+                <input type="text" placeholder="ser..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q2-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q2-hint">
+                <strong>Pista:</strong> "Es triste que" expresa emoción, por eso necesita subjuntivo. Ser → sean (ellas).
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="habla">
+            <div class="english">Martirio never speaks her true feelings to her mother.</div>
+            <div class="original">Martirio nunca <strong>___</strong> (hablar) de sus verdaderos sentimientos a su madre.</div>
+            <div class="input-container">
+                <input type="text" placeholder="hablar..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q3-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q3-hint">
+                <strong>Pista:</strong> Es una acción habitual de Martirio. Usa el presente de indicativo (ella habla).
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="mienta">
+            <div class="english">Bernarda doesn't allow anyone to lie in her house.</div>
+            <div class="original">Bernarda no permite que nadie <strong>___</strong> (mentir) en su casa.</div>
+            <div class="input-container">
+                <input type="text" placeholder="mentir..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q4-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q4-hint">
+                <strong>Pista:</strong> "No permite que" necesita subjuntivo. Mentir cambia e→ie: mienta.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="salga">
+            <div class="english">It's impossible for Adela to escape from her mother's control.</div>
+            <div class="original">Es imposible que Adela <strong>___</strong> (salir) del control de su madre.</div>
+            <div class="input-container">
+                <input type="text" placeholder="salir..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q5-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q5-hint">
+                <strong>Pista:</strong> "Es imposible que" expresa imposibilidad, usa subjuntivo. Salir → salga.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="cree">
+            <div class="english">Bernarda believes that women should obey men.</div>
+            <div class="original">Bernarda <strong>___</strong> (creer) que las mujeres deben obedecer a los hombres.</div>
+            <div class="input-container">
+                <input type="text" placeholder="creer..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q6-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q6-hint">
+                <strong>Pista:</strong> "Creer" expresa una opinión como un hecho. Usa indicativo: ella cree.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="rompe">
+            <div class="english">Adela breaks her mother's walking stick as a symbol of rebellion.</div>
+            <div class="original">Adela <strong>___</strong> (romper) el bastón de su madre como símbolo de rebelión.</div>
+            <div class="input-container">
+                <input type="text" placeholder="romper..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q7-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q7-hint">
+                <strong>Pista:</strong> Es una acción que hace Adela en la obra. Presente de indicativo: ella rompe.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="se atreve">
+            <div class="english">No one dares to contradict Bernarda in her own house.</div>
+            <div class="original">Nadie <strong>___</strong> (atreverse) a contradecir a Bernarda en su propia casa.</div>
+            <div class="input-container">
+                <input type="text" placeholder="atreverse..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q8-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q8-hint">
+                <strong>Pista:</strong> Es un verbo reflexivo. Nadie se atreve (presente de indicativo).
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="viva">
+            <div class="english">Bernarda wants everyone to live according to her rules.</div>
+            <div class="original">Bernarda quiere que todo el mundo <strong>___</strong> (vivir) según sus reglas.</div>
+            <div class="input-container">
+                <input type="text" placeholder="vivir..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q9-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q9-hint">
+                <strong>Pista:</strong> "Quiere que" necesita subjuntivo. Vivir → viva.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="tenga">
+            <div class="english">She doesn't want anyone to have more freedom than she allows.</div>
+            <div class="original">No quiere que nadie <strong>___</strong> (tener) más libertad de la que ella permite.</div>
+            <div class="input-container">
+                <input type="text" placeholder="tener..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q10-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q10-hint">
+                <strong>Pista:</strong> "No quiere que" es negativo y necesita subjuntivo. Tener → tenga.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="fuera,fuese">
+            <div class="english">Bernarda ordered that no one go out during the mourning period.</div>
+            <div class="original">Bernarda ordenó que nadie <strong>___</strong> (salir - imperfecto de subjuntivo) durante el período de luto.</div>
+            <div class="input-container">
+                <input type="text" placeholder="salir..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q11-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q11-hint">
+                <strong>Pista:</strong> "Ordenó que" en pasado necesita imperfecto de subjuntivo. Salir → fuera o fuese.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="haya muerto">
+            <div class="english">It's tragic that Adela has died for love.</div>
+            <div class="original">Es trágico que Adela <strong>___</strong> (morir - pretérito perfecto de subjuntivo) por amor.</div>
+            <div class="input-container">
+                <input type="text" placeholder="haya + participio..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q12-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q12-hint">
+                <strong>Pista:</strong> Pretérito perfecto de subjuntivo: haya + participio. Morir → muerto.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="puede">
+            <div class="english">Bernarda believes she can control everything in her house.</div>
+            <div class="original">Bernarda cree que <strong>___</strong> (poder) controlar todo en su casa.</div>
+            <div class="input-container">
+                <input type="text" placeholder="poder..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q13-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q13-hint">
+                <strong>Pista:</strong> "Cree que" expresa una creencia, usa indicativo. Ella puede.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="estuviera,estuviese">
+            <div class="english">She wished that Pepe el Romano were not in the village.</div>
+            <div class="original">Deseaba que Pepe el Romano no <strong>___</strong> (estar - imperfecto de subjuntivo) en el pueblo.</div>
+            <div class="input-container">
+                <input type="text" placeholder="estar..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q14-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q14-hint">
+                <strong>Pista:</strong> "Deseaba que" necesita imperfecto de subjuntivo. Estar → estuviera/estuviese.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="sepa">
+            <div class="english">She doesn't want anyone to know her family's secrets.</div>
+            <div class="original">No quiere que nadie <strong>___</strong> (saber) los secretos de su familia.</div>
+            <div class="input-container">
+                <input type="text" placeholder="saber..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q15-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q15-hint">
+                <strong>Pista:</strong> "No quiere que" necesita subjuntivo. Saber → sepa.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="siente">
+            <div class="english">Martirio feels jealous of her sister Adela.</div>
+            <div class="original">Martirio <strong>___</strong> (sentir) celos de su hermana Adela.</div>
+            <div class="input-container">
+                <input type="text" placeholder="sentir..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q16-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q16-hint">
+                <strong>Pista:</strong> Es un hecho sobre los sentimientos de Martirio. Indicativo: ella siente.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="hubiera,hubiese">
+            <div class="english">If there had been more freedom, the tragedy might have been avoided.</div>
+            <div class="original">Si <strong>___</strong> (haber - pluscuamperfecto de subjuntivo) más libertad, la tragedia se podría haber evitado.</div>
+            <div class="input-container">
+                <input type="text" placeholder="haber..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q17-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q17-hint">
+                <strong>Pista:</strong> Oración condicional irreal en pasado. Haber → hubiera/hubiese.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="diga">
+            <div class="english">Bernarda forbids anyone to say anything about her family.</div>
+            <div class="original">Bernarda prohíbe que alguien <strong>___</strong> (decir) algo sobre su familia.</div>
+            <div class="input-container">
+                <input type="text" placeholder="decir..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q18-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q18-hint">
+                <strong>Pista:</strong> "Prohíbe que" necesita subjuntivo. Decir → diga.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="era">
+            <div class="english">Everyone knew that Bernarda was the strictest mother in the village.</div>
+            <div class="original">Todo el mundo sabía que Bernarda <strong>___</strong> (ser) la madre más estricta del pueblo.</div>
+            <div class="input-container">
+                <input type="text" placeholder="ser..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q19-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q19-hint">
+                <strong>Pista:</strong> "Sabía que" expresa conocimiento de un hecho. Indicativo pasado: era.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="pudiera,pudiese">
+            <div class="english">Adela wanted to be able to love freely.</div>
+            <div class="original">Adela quería que <strong>___</strong> (poder - imperfecto de subjuntivo) amar libremente.</div>
+            <div class="input-container">
+                <input type="text" placeholder="poder..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q20-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q20-hint">
+                <strong>Pista:</strong> "Quería que" necesita imperfecto de subjuntivo. Poder → pudiera/pudiese.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="opresión">
+            <div class="english">The oppression in the house is suffocating for the daughters.</div>
+            <div class="original">La <strong>___</strong> en la casa es asfixiante para las hijas.</div>
+            <div class="input-container">
+                <input type="text" placeholder="sustantivo..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q41-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q41-hint">
+                <strong>Pista:</strong> Acción de oprimir, de ejercer presión sobre alguien para dominarlo.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="soltera">
+            <div class="english">In that era, being a spinster was considered a social failure.</div>
+            <div class="original">En esa época, quedarse <strong>___</strong> se consideraba un fracaso social.</div>
+            <div class="input-container">
+                <input type="text" placeholder="adjetivo..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q42-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q42-hint">
+                <strong>Pista:</strong> Mujer que no se ha casado. Lo opuesto de casada.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="suicidio">
+            <div class="english">Adela's suicide is the tragic climax of the play.</div>
+            <div class="original">El <strong>___</strong> de Adela es el clímax trágico de la obra.</div>
+            <div class="input-container">
+                <input type="text" placeholder="sustantivo..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q43-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q43-hint">
+                <strong>Pista:</strong> Acto de quitarse la vida voluntariamente.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="chisme">
+            <div class="english">Village gossip influences all of Bernarda's decisions.</div>
+            <div class="original">El <strong>___</strong> del pueblo influye en todas las decisiones de Bernarda.</div>
+            <div class="input-container">
+                <input type="text" placeholder="sustantivo..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q44-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q44-hint">
+                <strong>Pista:</strong> Comentarios y rumores sobre la vida privada de otras personas.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="herencia">
+            <div class="english">Angustias's inheritance makes her attractive to Pepe el Romano.</div>
+            <div class="original">La <strong>___</strong> de Angustias la hace atractiva para Pepe el Romano.</div>
+            <div class="input-container">
+                <input type="text" placeholder="sustantivo..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q45-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q45-hint">
+                <strong>Pista:</strong> Dinero o propiedades que se reciben cuando muere un familiar.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="dote">
+            <div class="english">In those times, a woman's dowry determined her marriage prospects.</div>
+            <div class="original">En esa época, la <strong>___</strong> de una mujer determinaba sus posibilidades de matrimonio.</div>
+            <div class="input-container">
+                <input type="text" placeholder="sustantivo..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q46-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q46-hint">
+                <strong>Pista:</strong> Dinero o bienes que la familia de la novia daba al marido en el matrimonio.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="virginidad">
+            <div class="english">Bernarda obsesses over protecting her daughters' purity.</div>
+            <div class="original">Bernarda se obsesiona con proteger la <strong>___</strong> de sus hijas.</div>
+            <div class="input-container">
+                <input type="text" placeholder="sustantivo..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q47-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q47-hint">
+                <strong>Pista:</strong> Estado de pureza, especialmente sexual. Muy importante en la sociedad tradicional.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <div class="section" id="pronouns">
+        <h2>
+            Pronombres
+            <span class="section-score" id="pronouns-score">0/16</span>
+        </h2>
+
+        <div class="sentence" data-answer="se">
+            <div class="english">The sisters speak to each other in secret.</div>
+            <div class="original">Las hermanas <strong>___</strong> hablan en secreto.</div>
+            <div class="input-container">
+                <input type="text" placeholder="pronombre..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q11-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q11-hint">
+                <strong>Pista:</strong> Las hermanas hablan entre ellas. Usa el pronombre reflexivo "se".
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="les">
+            <div class="english">Bernarda forbids them from going out.</div>
+            <div class="original">Bernarda <strong>___</strong> prohíbe salir de casa.</div>
+            <div class="input-container">
+                <input type="text" placeholder="pronombre..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q12-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q12-hint">
+                <strong>Pista:</strong> "Prohíbe a ellas" = les prohíbe. Es un pronombre de objeto indirecto.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="la">
+            <div class="english">Adela confronts her mother, challenging her authority.</div>
+            <div class="original">Adela confronta a su madre y <strong>___</strong> desafía.</div>
+            <div class="input-container">
+                <input type="text" placeholder="pronombre..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q13-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q13-hint">
+                <strong>Pista:</strong> "Desafía a su madre" = la desafía. Pronombre de objeto directo femenino.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="quien">
+            <div class="english">Magdalena, who is the most resigned, cries the most.</div>
+            <div class="original">Magdalena, <strong>___</strong> es la más resignada, es la que más llora.</div>
+            <div class="input-container">
+                <input type="text" placeholder="pronombre..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q14-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q14-hint">
+                <strong>Pista:</strong> Es un pronombre relativo para personas. "Quien" se refiere a Magdalena.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="lo que">
+            <div class="english">What Bernarda fears most is the village gossip.</div>
+            <div class="original"><strong>___</strong> más teme Bernarda es el chismorreo del pueblo.</div>
+            <div class="input-container">
+                <input type="text" placeholder="pronombre..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q15-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q15-hint">
+                <strong>Pista:</strong> "What" en español se traduce como "lo que" cuando introduce una oración.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="se">
+            <div class="english">They don't dare to challenge their mother.</div>
+            <div class="original">Ellas no <strong>___</strong> atreven a desafiar a su madre.</div>
+            <div class="input-container">
+                <input type="text" placeholder="pronombre..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q16-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q16-hint">
+                <strong>Pista:</strong> "Atreverse" es un verbo reflexivo. Ellas no se atreven.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="que">
+            <div class="english">The only freedom that they know is very limited.</div>
+            <div class="original">La única libertad <strong>___</strong> conocen es muy limitada.</div>
+            <div class="input-container">
+                <input type="text" placeholder="pronombre..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q17-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q17-hint">
+                <strong>Pista:</strong> Es un pronombre relativo simple. "La libertad que conocen".
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="le">
+            <div class="english">Fear prevents Adela from telling her mother the truth.</div>
+            <div class="original">El miedo <strong>___</strong> impide a Adela decir la verdad a su madre.</div>
+            <div class="input-container">
+                <input type="text" placeholder="pronombre..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q18-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q18-hint">
+                <strong>Pista:</strong> "Impide a Adela" = le impide. Pronombre de objeto indirecto.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="nos">
+            <div class="english">The sisters tell each other: "We must be careful with mother."</div>
+            <div class="original">Las hermanas <strong>___</strong> dicen: "Debemos tener cuidado con madre".</div>
+            <div class="input-container">
+                <input type="text" placeholder="pronombre..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q26-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q26-hint">
+                <strong>Pista:</strong> "Se dicen a sí mismas" = nos dicen. Pronombre reflexivo plural.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="cuyo">
+            <div class="english">Pepe el Romano, whose money attracts Angustias, causes conflict.</div>
+            <div class="original">Pepe el Romano, <strong>___</strong> dinero atrae a Angustias, causa conflicto.</div>
+            <div class="input-container">
+                <input type="text" placeholder="pronombre..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q27-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q27-hint">
+                <strong>Pista:</strong> Indica posesión. "Whose" = cuyo (masculino, singular).
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="las">
+            <div class="english">Bernarda controls her daughters and watches them constantly.</div>
+            <div class="original">Bernarda controla a sus hijas y <strong>___</strong> vigila constantemente.</div>
+            <div class="input-container">
+                <input type="text" placeholder="pronombre..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q28-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q28-hint">
+                <strong>Pista:</strong> "Vigila a sus hijas" = las vigila. Pronombre de objeto directo femenino plural.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="conmigo">
+            <div class="english">Adela says to Pepe: "Come with me, let's escape from here."</div>
+            <div class="original">Adela le dice a Pepe: "Ven <strong>___</strong>, escapemos de aquí".</div>
+            <div class="input-container">
+                <input type="text" placeholder="pronombre..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q29-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q29-hint">
+                <strong>Pista:</strong> "With me" = conmigo. Forma especial del pronombre con preposición.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="se lo">
+            <div class="english">When Martirio finds out about Adela's secret, she tells it to her mother.</div>
+            <div class="original">Cuando Martirio descubre el secreto de Adela, <strong>___</strong> cuenta a su madre.</div>
+            <div class="input-container">
+                <input type="text" placeholder="pronombres..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q30-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q30-hint">
+                <strong>Pista:</strong> "Le cuenta el secreto" = se lo cuenta. Le + lo = se lo.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="te">
+            <div class="english">Adela tells Martirio: "I hate you for being envious."</div>
+            <div class="original">Adela le dice a Martirio: "<strong>___</strong> odio por ser envidiosa".</div>
+            <div class="input-container">
+                <input type="text" placeholder="pronombre..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q31-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q31-hint">
+                <strong>Pista:</strong> "I hate you" = te odio. Pronombre de objeto directo segunda persona.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="donde">
+            <div class="english">The house where they live becomes a prison for all of them.</div>
+            <div class="original">La casa <strong>___</strong> viven se convierte en una prisión para todas.</div>
+            <div class="input-container">
+                <input type="text" placeholder="pronombre..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q32-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q32-hint">
+                <strong>Pista:</strong> "Where" como pronombre relativo de lugar = donde.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="me">
+            <div class="english">Magdalena says: "Mother never listens to me."</div>
+            <div class="original">Magdalena dice: "Madre nunca <strong>___</strong> escucha".</div>
+            <div class="input-container">
+                <input type="text" placeholder="pronombre..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q33-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q33-hint">
+                <strong>Pista:</strong> "Nunca me escucha" = never listens to me. Pronombre de objeto directo primera persona.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <div class="section" id="vocabulary">
+        <h2>
+            Vocabulario Clave
+            <span class="section-score" id="vocabulary-score">0/14</span>
+        </h2>
+
+        <div class="sentence" data-answer="luto">
+            <div class="english">Bernarda imposes eight years of mourning on her daughters.</div>
+            <div class="original">Bernarda impone ocho años de <strong>___</strong> a sus hijas.</div>
+            <div class="input-container">
+                <input type="text" placeholder="sustantivo..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q19-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q19-hint">
+                <strong>Pista:</strong> Período de dolor después de una muerte. Se viste de negro. Empieza con "l".
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="honra">
+            <div class="english">Honor is very important for Bernarda.</div>
+            <div class="original">La <strong>___</strong> es muy importante para Bernarda.</div>
+            <div class="input-container">
+                <input type="text" placeholder="sustantivo..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q20-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q20-hint">
+                <strong>Pista:</strong> Es sinónimo de "honor". Es lo que Bernarda quiere proteger de su familia.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="bastón">
+            <div class="english">Bernarda's walking stick symbolizes her power.</div>
+            <div class="original">El <strong>___</strong> de Bernarda simboliza su poder.</div>
+            <div class="input-container">
+                <input type="text" placeholder="sustantivo..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q21-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q21-hint">
+                <strong>Pista:</strong> Objeto que usa la gente mayor para caminar. Adela lo rompe al final.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="envidia">
+            <div class="english">There is jealousy between the sisters.</div>
+            <div class="original">Hay <strong>___</strong> entre las hermanas.</div>
+            <div class="input-container">
+                <input type="text" placeholder="sustantivo..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q22-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q22-hint">
+                <strong>Pista:</strong> Sentimiento negativo cuando otra persona tiene algo que tú quieres.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="libertad">
+            <div class="english">Adela desperately seeks freedom.</div>
+            <div class="original">Adela busca desesperadamente la <strong>___</strong>.</div>
+            <div class="input-container">
+                <input type="text" placeholder="sustantivo..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q23-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q23-hint">
+                <strong>Pista:</strong> Lo opuesto de la prisión. Poder hacer lo que quieres.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="autoridad">
+            <div class="english">Bernarda exercises absolute authority in her house.</div>
+            <div class="original">Bernarda ejerce una <strong>___</strong> absoluta en su casa.</div>
+            <div class="input-container">
+                <input type="text" placeholder="sustantivo..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q24-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q24-hint">
+                <strong>Pista:</strong> Poder para mandar y controlar a otras personas.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="rebelión">
+            <div class="english">Adela's rebellion ends tragically.</div>
+            <div class="original">La <strong>___</strong> de Adela termina trágicamente.</div>
+            <div class="input-container">
+                <input type="text" placeholder="sustantivo..." />
+            </div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <button type="button" class="hint-button" onclick="toggleHint('q25-hint')">💡 Pista</button>
+            
+            <div class="hint-system" id="q25-hint">
+                <strong>Pista:</strong> Acción de resistir o luchar contra la autoridad.
+            </div>
+            
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">Imprimir Resultados</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Helper function to remove accents and normalize text for Spanish
+            function normalizeText(text) {
+                return text
+                    .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Remove accents
+                    .toLowerCase() // Convert to lowercase
+                    .replace(/['']/g, '') // Remove apostrophes
+                    .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"") // Remove punctuation
+                    .replace(/\s+/g,'') // Remove all whitespace
+                    .trim(); // Trim leading/trailing whitespace
+            }
+
+            // Function to calculate Levenshtein distance for misspelling tolerance
+            function levenshteinDistance(a, b) {
+                const an = a.length;
+                const bn = b.length;
+                if (an === 0) return bn;
+                if (bn === 0) return an;
+
+                const matrix = [];
+                for (let i = 0; i <= an; i++) {
+                    matrix[i] = [i];
+                }
+                for (let j = 1; j <= bn; j++) {
+                    matrix[0][j] = j;
+                }
+
+                for (let i = 1; i <= an; i++) {
+                    for (let j = 1; j <= bn; j++) {
+                        const cost = (a[i - 1] === b[j - 1]) ? 0 : 1;
+                        matrix[i][j] = Math.min(
+                            matrix[i - 1][j] + 1,      // Deletion
+                            matrix[i][j - 1] + 1,      // Insertion
+                            matrix[i - 1][j - 1] + cost // Substitution
+                        );
+                    }
+                }
+                return matrix[an][bn];
+            }
+
+            // Misspelling tolerance
+            const MISSPELL_TOLERANCE = 2;
+
+            // Initialize counters
+            let correctCount = 0;
+            const totalQuestions = 50;
+
+            const correctCountSpan = document.getElementById('correct-count');
+            const progressSpan = document.getElementById('progress');
+
+            // Get all sections for individual scores
+            const sections = {
+                'subjunctive-indicative': {
+                    element: document.getElementById('subjunctive-indicative'),
+                    scoreSpan: document.getElementById('subjunctive-indicative-score'),
+                    correct: 0,
+                    total: 20
+                },
+                'pronouns': {
+                    element: document.getElementById('pronouns'),
+                    scoreSpan: document.getElementById('pronouns-score'),
+                    correct: 0,
+                    total: 16
+                },
+                'vocabulary': {
+                    element: document.getElementById('vocabulary'),
+                    scoreSpan: document.getElementById('vocabulary-score'),
+                    correct: 0,
+                    total: 14
+                }
+            };
+
+            function checkAnswer(sentenceDiv, userAnswers, correctAnswers) {
+                let isCorrect = false;
+                
+                // For multi-input questions, we need to check both answers
+                if (userAnswers.length === 2 && correctAnswers.length === 2) {
+                    // Check if both answers match (in order)
+                    const answer1Match = correctAnswers[0].some(correct => {
+                        const distance = levenshteinDistance(normalizeText(userAnswers[0]), normalizeText(correct));
+                        const lengthDiff = Math.abs(normalizeText(userAnswers[0]).length - normalizeText(correct).length);
+                        return normalizeText(userAnswers[0]) === normalizeText(correct) || 
+                               (distance <= MISSPELL_TOLERANCE && lengthDiff <= MISSPELL_TOLERANCE);
+                    });
+                    
+                    const answer2Match = correctAnswers[1].some(correct => {
+                        const distance = levenshteinDistance(normalizeText(userAnswers[1]), normalizeText(correct));
+                        const lengthDiff = Math.abs(normalizeText(userAnswers[1]).length - normalizeText(correct).length);
+                        return normalizeText(userAnswers[1]) === normalizeText(correct) || 
+                               (distance <= MISSPELL_TOLERANCE && lengthDiff <= MISSPELL_TOLERANCE);
+                    });
+                    
+                    isCorrect = answer1Match && answer2Match;
+                } else {
+                    // Single answer or comma-separated input
+                    const userInput = userAnswers.join(',');
+                    const allCorrectAnswers = correctAnswers.flat();
+                    
+                    for (const normalizedCorrectAnswer of allCorrectAnswers.map(ans => normalizeText(ans))) {
+                        const normalizedUserAnswer = normalizeText(userInput);
+                        const lengthDiff = Math.abs(normalizedUserAnswer.length - normalizedCorrectAnswer.length);
+                        const distance = levenshteinDistance(normalizedUserAnswer, normalizedCorrectAnswer);
+
+                        if (normalizedUserAnswer === normalizedCorrectAnswer ||
+                            (distance <= MISSPELL_TOLERANCE && lengthDiff <= MISSPELL_TOLERANCE)) {
+                            isCorrect = true;
+                            break;
+                        }
+                    }
+                }
+                
+                return isCorrect;
+            }
+
+            // Hint function
+            window.toggleHint = function(hintId) {
+                const hint = document.getElementById(hintId);
+                const button = document.querySelector(`button[onclick="toggleHint('${hintId}')"]`);
+                if (hint && button) {
+                    const isVisible = hint.classList.contains('active');
+                    
+                    hint.classList.toggle('active');
+                    button.textContent = isVisible ? '💡 Pista' : '💡 Ocultar';
+                }
+            };
+
+            document.querySelectorAll('.check-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const sentenceDiv = this.closest('.sentence');
+                    const feedbackDiv = sentenceDiv.querySelector('.feedback');
+                    const isMultiInput = sentenceDiv.hasAttribute('data-multi');
+                    
+                    let userAnswers = [];
+                    let correctAnswers = [];
+                    
+                    if (isMultiInput) {
+                        // Handle multi-input questions
+                        const inputs = sentenceDiv.querySelectorAll('input[type="text"]');
+                        userAnswers = Array.from(inputs).map(input => input.value.trim());
+                        
+                        // Split the data-answer into two parts for multi-input
+                        const answerParts = sentenceDiv.dataset.answer.split(',');
+                        correctAnswers = [
+                            answerParts.slice(0, Math.ceil(answerParts.length / 2)),
+                            answerParts.slice(Math.ceil(answerParts.length / 2))
+                        ];
+                    } else {
+                        // Handle single input questions
+                        const input = sentenceDiv.querySelector('input[type="text"]');
+                        const rawUserAnswer = input.value.trim();
+                        
+                        // Check if user entered comma-separated values
+                        if (rawUserAnswer.includes(',')) {
+                            userAnswers = rawUserAnswer.split(',').map(ans => ans.trim());
+                        } else {
+                            userAnswers = [rawUserAnswer];
+                        }
+                        
+                        correctAnswers = [sentenceDiv.dataset.answer.split(',').map(ans => ans.trim())];
+                    }
+
+                    // Find the parent section to update its score
+                    const parentSectionId = sentenceDiv.closest('.section').id;
+                    const section = sections[parentSectionId];
+
+                    // Check if already checked to reset counts
+                    if (feedbackDiv.classList.contains('correct') || feedbackDiv.classList.contains('incorrect')) {
+                        if (feedbackDiv.classList.contains('correct')) {
+                            correctCount--;
+                            section.correct--;
+                        }
+                        feedbackDiv.classList.remove('correct', 'incorrect');
+                    }
+
+                    const isCorrect = checkAnswer(sentenceDiv, userAnswers, correctAnswers);
+
+                    if (isCorrect) {
+                        feedbackDiv.textContent = '¡Correcto! ✅';
+                        feedbackDiv.classList.add('correct');
+                        correctCount++;
+                        section.correct++;
+                    } else {
+                        // Display the correct answers for clarity in feedback
+                        feedbackDiv.textContent = `Incorrecto. La respuesta correcta: ${sentenceDiv.dataset.answer.split(',').map(ans => ans.trim()).join(' o ')}.`;
+                        feedbackDiv.classList.add('incorrect');
+                    }
+
+                    // Update global counters
+                    correctCountSpan.textContent = correctCount;
+                    progressSpan.textContent = `${Math.round((correctCount / totalQuestions) * 100)}%`;
+
+                    // Update individual section scores
+                    section.scoreSpan.textContent = `${section.correct}/${section.total}`;
+                });
+            });
+
+            // Add Enter key support for inputs
+            document.querySelectorAll('input[type="text"]').forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        const checkBtn = this.closest('.sentence').querySelector('.check-btn');
+                        checkBtn.click();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

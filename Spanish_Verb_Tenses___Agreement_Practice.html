@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spanish Verb & Agreement Practice</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; max-width: 800px; background: #f7f7f7; }
+        .question { margin-bottom: 15px; padding: 10px; background: #fff; border-radius: 5px; }
+        .result { margin-top: 30px; border-top: 2px solid #ccc; padding-top: 20px; background: white; }
+        .hidden { display: none; }
+        input[type="text"] { width: 300px; padding: 5px; margin-left: 10px; }
+        .correct { border: 2px solid green; background: #eaffea; }
+        .incorrect { border: 2px solid red; background: #ffeaea; }
+        .feedback { display: inline-block; margin-left: 10px; font-weight: bold; }
+        button { padding: 10px 15px; font-size: 16px; margin-top: 20px; background: #007bff; color: white; border: none; border-radius: 5px; }
+        button:hover { background: #0056b3; }
+        label { display: inline-block; width: 220px; }
+        .progress { text-align: center; font-size: 1.2em; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Spanish Verb Tenses & Agreement Practice</h1>
+<p>Translate the phrase or conjugate the verb correctly in Spanish. Press Enter to check. Edit and retry until correct!</p>
+<div class="progress" id="progress">Loading questions...</div>
+<div id="quiz"></div>
+<button onclick="submitAnswers()">Final Submit</button>
+<button onclick="resetQuiz()">Try Again</button>
+
+<div id="result" class="result hidden">
+    <h2>Results</h2>
+    <p id="score"></p>
+    <h3>Incorrect Answers</h3>
+    <ul id="errors"></ul>
+    <button onclick="window.print()">Print / Save as PDF</button>
+</div>
+
+<script>
+    const pairs = [
+        // Verb conjugation & agreement examples
+        ["he speaks", "habla"],
+        ["we spoke", "hablamos"],
+        ["they had eaten", "habian comido"],
+        ["you (formal) will write", "escribira"],
+        ["she is reading", "esta leyendo"],
+        ["we are going to leave", "vamos a salir"],
+        ["they would go", "irian"],
+        ["if I had", "si tuviera"],
+        ["it is important that you come", "es importante que vengas"],
+        ["she has seen", "ha visto"],
+        ["they had gone", "habian ido"],
+        ["we will have arrived", "habremos llegado"],
+        ["it was necessary that he studied", "era necesario que estudiara"],
+        ["they speak", "hablan"],
+        ["you (plural) would have come", "habriais venido"],
+        ["happy (feminine plural)", "felices"],
+        ["tired (masculine singular)", "cansado"],
+        ["interesting (feminine singular)", "interesante"],
+        ["small (masculine plural)", "pequenos"],
+        ["old (feminine plural)", "viejas"]
+    ];
+
+    let allQuestions = [];
+    function generateQuestions() {
+        allQuestions = [];
+        pairs.forEach(pair => {
+            allQuestions.push({
+                prompt: pair[0],
+                answers: pair[1].split("/").map(a => normalize(a)),
+                direction: "toSpanish"
+            });
+        });
+        shuffle(allQuestions);
+    }
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function normalize(text) {
+        return text
+            .toLowerCase()
+            .replace(/[áàäâ]/g, "a")
+            .replace(/[éèêë]/g, "e")
+            .replace(/[íìïî]/g, "i")
+            .replace(/[óòöô]/g, "o")
+            .replace(/[úùüû]/g, "u")
+            .replace(/ñ/g, "n")
+            .replace(/[^a-z0-9]/gi, "")
+            .trim();
+    }
+
+    function createQuestionElement(question, idx) {
+        const dir = "→ Spanish";
+        const div = document.createElement("div");
+        div.className = "question";
+        div.innerHTML = `
+            <label>${idx+1}. ${question.prompt} <span style="color:#888;font-size:0.9em;">${dir}</span></label>
+            <input type="text" id="q${idx}" 
+                   onkeydown="checkAnswer(event, this, ${idx})" 
+                   autocomplete="off"
+                   data-answers="${question.answers.join(',')}">
+            <span class="feedback" id="f${idx}"></span>
+        `;
+        return div;
+    }
+
+    window.checkAnswer = function(event, input, idx) {
+        if (event.key === "Enter") {
+            const userAnswer = normalize(input.value);
+            const correctAnswers = input.dataset.answers.split(",");
+            const isCorrect = correctAnswers.includes(userAnswer);
+
+            const feedbackSpan = document.getElementById("f"+idx);
+            input.classList.remove("correct", "incorrect");
+            if (isCorrect) {
+                input.classList.add("correct");
+                feedbackSpan.textContent = "✓ Correct!";
+                feedbackSpan.style.color = "green";
+            } else {
+                input.classList.add("incorrect");
+                feedbackSpan.textContent = "✗ Try again";
+                feedbackSpan.style.color = "red";
+            }
+            const nextInput = document.getElementById("q" + (idx + 1));
+            nextInput ? nextInput.focus() : input.blur();
+        }
+    };
+
+    function submitAnswers() {
+        let correctCount = 0;
+        const errors = [];
+        allQuestions.forEach((q, idx) => {
+            const input = document.getElementById("q"+idx);
+            const userAnswer = normalize(input.value);
+            const isCorrect = input.dataset.answers.split(",").includes(userAnswer);
+            if (isCorrect) correctCount++;
+            else errors.push({
+                prompt: input.previousElementSibling.textContent,
+                correct: input.dataset.answers.replace(/,/g, " / "),
+                user: input.value
+            });
+        });
+
+        document.getElementById("score").innerHTML =
+            `<strong>Final Score:</strong> ${correctCount}/${allQuestions.length}`;
+
+        const errorList = document.getElementById("errors");
+        errorList.innerHTML = errors.map(e => `
+            <li>
+                <strong>${e.prompt}</strong><br>
+                Your answer: <em>${e.user}</em><br>
+                Possible answers: ${e.correct}
+            </li>
+        `).join("");
+
+        document.getElementById("result").classList.remove("hidden");
+    }
+
+    function resetQuiz() {
+        document.getElementById("result").classList.add("hidden");
+        generateQuestions();
+        const quizDiv = document.getElementById("quiz");
+        quizDiv.innerHTML = "";
+        allQuestions.forEach((q, idx) => {
+            quizDiv.appendChild(createQuestionElement(q, idx));
+        });
+        document.getElementById("progress").textContent = `Questions loaded: ${allQuestions.length}`;
+    }
+
+    // Initialize on load
+    generateQuestions();
+    resetQuiz();
+</script>
+</body>
+</html>

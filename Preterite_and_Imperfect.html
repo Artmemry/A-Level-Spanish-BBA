@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Práctica Pretérito vs Imperfecto</title>
+    <style>
+        .exercise {margin: 20px; padding: 20px; border: 1px solid #ccc; background: white;}
+        .question {margin: 15px 0;}
+        input {width: 300px; padding: 5px; margin-left: 10px; font-size: 16px;}
+        .correct {background: #e6ffe6; border: 2px solid green;}
+        .incorrect {background: #ffe6e6; border: 2px solid red;}
+        .accent-buttons {margin: 10px 0;}
+        .accent-btn {cursor: pointer; padding: 8px 12px; margin: 3px; background: #f0f0f0; border: 1px solid #ccc;}
+        .score {font-weight: bold; margin-top: 10px; font-size: 18px;}
+        h2 {color: #2c3e50;}
+        body {background: #f8f9fa; padding: 20px;}
+        .print-btn {background: #28a745; margin-left: 10px;}
+        .total-score {font-size: 20px; color: #2c3e50; margin-top: 20px;}
+        @media print {
+            .accent-buttons, button, input { display: none; }
+            .print-version p {margin: 10px 0; font-size: 12pt;}
+            .correct-print {color: green;}
+            .incorrect-print {color: red;}
+        }
+    </style>
+</head>
+<body>
+
+<!-- Part I - Pretérito -->
+<div class="exercise">
+    <h2>PARTE I - Pretérito (25 preguntas)</h2>
+    <div class="accent-buttons">
+        <button class="accent-btn" onclick="insertChar('á')">á</button>
+        <button class="accent-btn" onclick="insertChar('é')">é</button>
+        <button class="accent-btn" onclick="insertChar('í')">í</button>
+        <button class="accent-btn" onclick="insertChar('ó')">ó</button>
+        <button class="accent-btn" onclick="insertChar('ú')">ú</button>
+        <button class="accent-btn" onclick="insertChar('ñ')">ñ</button>
+    </div>
+    <div id="part1"></div>
+    <div class="score">Puntuación Parte I: <span id="score1">0</span>/25</div>
+</div>
+
+<!-- Part II - Imperfecto -->
+<div class="exercise">
+    <h2>PARTE II - Imperfecto (25 preguntas)</h2>
+    <div class="accent-buttons">
+        <button class="accent-btn" onclick="insertChar('á')">á</button>
+        <button class="accent-btn" onclick="insertChar('é')">é</button>
+        <button class="accent-btn" onclick="insertChar('í')">í</button>
+        <button class="accent-btn" onclick="insertChar('ó')">ó</button>
+        <button class="accent-btn" onclick="insertChar('ú')">ú</button>
+        <button class="accent-btn" onclick="insertChar('ñ')">ñ</button>
+    </div>
+    <div id="part2"></div>
+    <div class="score">Puntuación Parte II: <span id="score2">0</span>/25</div>
+</div>
+
+<!-- Part III - Mixed -->
+<div class="exercise">
+    <h2>PARTE III - Uso Mixto (25 preguntas)</h2>
+    <div class="accent-buttons">
+        <button class="accent-btn" onclick="insertChar('á')">á</button>
+        <button class="accent-btn" onclick="insertChar('é')">é</button>
+        <button class="accent-btn" onclick="insertChar('í')">í</button>
+        <button class="accent-btn" onclick="insertChar('ó')">ó</button>
+        <button class="accent-btn" onclick="insertChar('ú')">ú</button>
+        <button class="accent-btn" onclick="insertChar('ñ')">ñ</button>
+    </div>
+    <div id="part3"></div>
+    <div class="score">Puntuación Parte III: <span id="score3">0</span>/25</div>
+</div>
+
+<div class="total-score">Puntuación Total: <span id="totalScore">0</span>/75</div>
+<button class="print-btn" onclick="printResults()">Imprimir Todos los Resultados</button>
+
+<script>
+let currentFocusedInput = null;
+
+const exercises = {
+    part1: [
+        {q: "1. Ayer yo ___ (comprar) un coche nuevo.", a: "compré"},
+        {q: "2. ¿Dónde ___ (poner) tú las llaves ayer?", a: "pusiste"},
+        {q: "3. Nosotros ___ (terminar) el proyecto a tiempo.", a: "terminamos"},
+        {q: "4. Ellos ___ (venir) a la fiesta el sábado.", a: "vinieron"},
+        {q: "5. Yo ___ (empezar) a trabajar a las 8:00.", a: "empecé"},
+        {q: "6. ¿Cuándo ___ (saber) la verdad?", a: "supiste"},
+        {q: "7. Los niños ___ (romper) la ventana.", a: "rompieron"},
+        {q: "8. Ella ___ (conducir) hasta Madrid.", a: "condujo"},
+        {q: "9. Tú ___ (pedir) una pizza anoche.", a: "pediste"},
+        {q: "10. Yo ___ (dormir) solo 5 horas.", a: "dormí"},
+        {q: "11. ¿Qué ___ (hacer) ustedes el viernes?", a: "hicieron"},
+        {q: "12. Él ___ (escribir) una carta larga.", a: "escribió"},
+        {q: "13. Nosotros ___ (ver) una película buena.", a: "vimos"},
+        {q: "14. ¿Quién ___ (abrir) la puerta?", a: "abrió"},
+        {q: "15. Yo ___ (decir) la verdad.", a: "dije"},
+        {q: "16. Ellos ___ (traer) los documentos.", a: "trajeron"},
+        {q: "17. Tú ___ (servir) la cena rápidamente.", a: "serviste"},
+        {q: "18. Ella ___ (morir) en 1990.", a: "murió"},
+        {q: "19. ¿Cuánto ___ (costar) el vestido?", a: "costó"},
+        {q: "20. Nosotros ___ (leer) todo el libro.", a: "leímos"},
+        {q: "21. Yo ___ (construir) esta casa en 2010.", a: "construí"},
+        {q: "22. ¿Dónde ___ (estar) anoche?", a: "estuviste"},
+        {q: "23. El avión ___ (aterrizar) a tiempo.", a: "aterrizó"},
+        {q: "24. Ustedes ___ (conseguir) las entradas.", a: "consiguieron"},
+        {q: "25. Tú ___ (preferir) no venir.", a: "preferiste"}
+    ],
+    part2: [
+        {q: "26. Cuando era niño, yo ___ (jugar) al fútbol.", a: "jugaba"},
+        {q: "27. Siempre ___ (llover) en abril.", a: "llovía"},
+        {q: "28. Nosotros ___ (ir) a la playa cada verano.", a: "íbamos"},
+        {q: "29. ¿Cómo ___ (ser) tu abuela físicamente?", a: "era"},
+        {q: "30. Mientras yo ___ (estudiar), mi hermano veía TV.", a: "estudiaba"},
+        {q: "31. De pequeño, ___ (tener) miedo a la oscuridad.", a: "tenía"},
+        {q: "32. Ellos ___ (vivir) en España por 10 años.", a: "vivían"},
+        {q: "33. Tú siempre ___ (llegar) tarde.", a: "llegabas"},
+        {q: "34. ¿Qué ___ (hacer) usted los domingos?", a: "hacía"},
+        {q: "35. Yo ___ (leer) cuando sonó el teléfono.", a: "leía"},
+        {q: "36. Nosotras ___ (ser) muy buenas amigas.", a: "éramos"},
+        {q: "37. ___ (Hacer) mucho frío en invierno.", a: "Hacía"},
+        {q: "38. Mientras ___ (caminar), pensaba en ti.", a: "caminaba"},
+        {q: "39. Los pájaros ___ (cantar) todas las mañanas.", a: "cantaban"},
+        {q: "40. Tú ___ (ver) la televisión cada noche.", a: "veías"},
+        {q: "41. Yo ___ (querer) ser médico de niño.", a: "quería"},
+        {q: "42. ¿Dónde ___ (estar) tu casa de la infancia?", a: "estaba"},
+        {q: "43. Ella ___ (llevar) gafas de pequeña.", a: "llevaba"},
+        {q: "44. Nosotros ___ (comer) juntos siempre.", a: "comíamos"},
+        {q: "45. La ciudad ___ (tener) menos habitantes.", a: "tenía"},
+        {q: "46. ¿Cuántos años ___ (tener) cuando empezó la guerra?", a: "tenías"},
+        {q: "47. Yo ___ (pensar) que eras más alto.", a: "pensaba"},
+        {q: "48. Ustedes ___ (jugar) en este parque.", a: "jugaban"},
+        {q: "49. El sol ___ (brillar) intensamente.", a: "brillaba"},
+        {q: "50. Tú ___ (soñar) con ser famoso.", a: "soñabas"}
+    ],
+    part3: [
+        {q: "51. Mientras yo ___ (cocinar), el teléfono ___ (sonar).", a: "cocinaba/sonó"},
+        {q: "52. Cuando ___ (tener) 15 años, ___ (romper) mi brazo.", a: "tenía/rompí"},
+        {q: "53. Siempre ___ (visitar) a mis abuelos cuando ___ (vivir) cerca.", a: "visitaba/vivían"},
+        {q: "54. Ayer ___ (llover) cuando nosotros ___ (salir).", a: "llovía/salimos"},
+        {q: "55. Mientras ellos ___ (estudiar), yo ___ (preparar) la cena.", a: "estudiaban/preparaba"},
+        {q: "56. El año pasado ___ (viajar) a Italia porque siempre ___ (querer) ver Roma.", a: "viajé/quería"},
+        {q: "57. Cuando ___ (ser) joven, nunca ___ (beber) café.", a: "era/bebía"},
+        {q: "58. ___ (Hacer) sol cuando el accidente ___ (ocurrir).", a: "Hacía/ocurrió"},
+        {q: "59. Mientras tú ___ (dormir), yo ___ (limpiar) la casa.", a: "dormías/limpié"},
+        {q: "60. Cada vez que ___ (ir) al parque, ___ (ver) a mis amigos.", a: "iba/veía"},
+        {q: "61. A las 8 anoche, yo ___ (leer) y mi hermana ___ (mirar) TV.", a: "leía/miraba"},
+        {q: "62. Cuando ___ (llegar) a casa, mis padres ya ___ (dormir).", a: "llegué/dormían"},
+        {q: "63. De repente, ___ (escuchar) un ruido mientras ___ (trabajar).", a: "escuché/trabajaba"},
+        {q: "64. Todos los días ___ (levantarse) temprano, pero ayer ___ (dormir) hasta tarde.", a: "se levantaba/durmió"},
+        {q: "65. Cuando ___ (conocer) a María, ella ___ (estudiar) medicina.", a: "conocí/estudiaba"},
+        {q: "66. Mientras nosotros ___ (caminar) por el bosque, ___ (ver) un oso.", a: "caminábamos/vimos"},
+        {q: "67. ___ (Ser) las 10 cuando finalmente ___ (llegar).", a: "Eran/llegué"},
+        {q: "68. Cada verano ___ (nadar) en el lago que ___ (estar) cerca de casa.", a: "nadaba/estaba"},
+        {q: "69. Ayer ___ (empezar) a llover mientras yo ___ (correr).", a: "empezó/corría"},
+        {q: "70. Cuando ___ (ser) niño, ___ (tener) un perro que ___ (llamarse) Max.", a: "era/tenía/se llamaba"},
+        {q: "71. Mientras tú ___ (hablar), yo ___ (entender) todo.", a: "hablabas/entendí"},
+        {q: "72. ___ (Estar) oscuro cuando ___ (salir) de casa.", a: "Estaba/salí"},
+        {q: "73. Cada vez que ___ (llover), el techo ___ (gotear).", a: "llovía/goteaba"},
+        {q: "74. El mes pasado ___ (decidir) cambiar de trabajo porque siempre ___ (sentirse) estresado.", a: "decidí/se sentía"},
+        {q: "75. Cuando ___ (llegar) a la estación, el tren ya ___ (irse).", a: "llegué/se había ido"}
+    ]
+};
+
+function trackFocus(input) {
+    currentFocusedInput = input;
+}
+
+function insertChar(char) {
+    if (!currentFocusedInput) return;
+    const start = currentFocusedInput.selectionStart;
+    const end = currentFocusedInput.selectionEnd;
+    const value = currentFocusedInput.value;
+    currentFocusedInput.value = value.slice(0, start) + char + value.slice(end);
+    currentFocusedInput.focus();
+    currentFocusedInput.selectionStart = currentFocusedInput.selectionEnd = start + char.length;
+}
+
+function normalize(str) {
+    return str.trim().toLowerCase()
+        .replace(/[áàäâ]/g, "a")
+        .replace(/[éèëê]/g, "e")
+        .replace(/[íìïî]/g, "i")
+        .replace(/[óòöô]/g, "o")
+        .replace(/[úùüû]/g, "u")
+        .replace(/[ñ]/g, "n")
+        .replace(/[^a-z0-9]/g, "");
+}
+
+function checkAnswer(event, input, part) {
+    if (event.key === "Enter") {
+        let correct = false;
+        const expected = input.dataset.answer.split("/");
+        const user = input.value.split("/").map(s => normalize(s));
+        if (expected.length === user.length) {
+            correct = expected.every((ans, i) => normalize(ans) === user[i]);
+        }
+        input.classList.remove("correct", "incorrect");
+        if (correct) {
+            input.classList.add("correct");
+        } else {
+            input.classList.add("incorrect");
+        }
+        updateScore(part);
+        // Move to next input
+        const allInputs = Array.from(document.querySelectorAll(`#${part} input`));
+        const idx = allInputs.indexOf(input);
+        if (idx >= 0 && idx < allInputs.length - 1) {
+            allInputs[idx + 1].focus();
+        }
+    }
+}
+
+function updateScore(part) {
+    const partNumber = part.slice(-1);
+    const inputs = document.querySelectorAll(`#${part} input`);
+    let score = 0;
+    inputs.forEach((input, idx) => {
+        const expected = input.dataset.answer.split("/");
+        const user = input.value.split("/").map(s => normalize(s));
+        if (expected.length === user.length && expected.every((ans, i) => normalize(ans) === user[i])) {
+            score++;
+        }
+    });
+    document.getElementById(`score${partNumber}`).textContent = score;
+    updateTotalScore();
+}
+
+function updateTotalScore() {
+    const scores = [1, 2, 3].map(n => parseInt(document.getElementById(`score${n}`).textContent));
+    document.getElementById('totalScore').textContent = scores.reduce((a, b) => a + b, 0);
+}
+
+function createExercises() {
+    ['part1', 'part2', 'part3'].forEach(part => {
+        const container = document.getElementById(part);
+        exercises[part].forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'question';
+            div.innerHTML = `
+                ${item.q}
+                <input type="text"
+                       data-answer="${item.a}"
+                       onfocus="trackFocus(this)"
+                       onkeydown="checkAnswer(event, this, '${part}')">
+            `;
+            container.appendChild(div);
+        });
+    });
+}
+
+function printResults() {
+    let printContent = '<h2>Resultados Completos</h2>';
+    ['part1', 'part2', 'part3'].forEach((part, index) => {
+        printContent += `<h3>Parte ${index + 1}</h3>`;
+        printContent += Array.from(document.querySelectorAll(`#${part} .question`)).map((question, qIndex) => {
+            const input = question.querySelector('input');
+            const correct = input.classList.contains('correct');
+            return `
+                <p>
+                    ${exercises[part][qIndex].q} 
+                    <strong>Tu respuesta:</strong> ${input.value || "---"}<br>
+                    <strong>Correcta:</strong> ${exercises[part][qIndex].a}<br>
+                    <span class="${correct ? 'correct-print' : 'incorrect-print'}">
+                        ${correct ? '✓ Correcto' : '✗ Incorrecto'}
+                    </span>
+                </p>
+            `;
+        }).join('');
+    });
+    printContent += `<h3>Puntuación Total: ${document.getElementById('totalScore').textContent}/75</h3>`;
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+        <html>
+            <head>
+                <title>Resultados Completos</title>
+                <style>
+                    body { font-family: Arial; padding: 20px; }
+                    h2 { color: #2c3e50; }
+                    h3 { color: #34495e; }
+                    p { border-bottom: 1px solid #eee; padding: 10px; }
+                    strong { color: #666; display: inline-block; width: 120px; }
+                    .correct-print { color: green; }
+                    .incorrect-print { color: red; }
+                </style>
+            </head>
+            <body class="print-version">${printContent}</body>
+        </html>
+    `);
+    printWindow.document.close();
+    printWindow.print();
+}
+
+window.onload = function() {
+    createExercises();
+};
+</script>
+</body>
+</html>

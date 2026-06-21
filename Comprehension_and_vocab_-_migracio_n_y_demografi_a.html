@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica Interactiva: Jóvenes de Origen Migratorio en España</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .content-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+        
+        .reading-text {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .reading-text h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        
+        .reading-text h3 {
+            color: #764ba2;
+            margin: 20px 0 10px 0;
+            font-size: 18px;
+        }
+        
+        .reading-text p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .reading-text ul {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .reading-text li {
+            margin-bottom: 8px;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .tab:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        .tab.active {
+            background: #764ba2;
+        }
+        
+        .activity-section {
+            display: none;
+        }
+        
+        .activity-section.active {
+            display: block;
+        }
+        
+        .question {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .option {
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        .option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        
+        .option.selected {
+            border-color: #667eea;
+            background: #e8eeff;
+        }
+        
+        .option.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .option.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .explanation {
+            margin-top: 10px;
+            padding: 10px;
+            background: #fff3cd;
+            border-radius: 5px;
+            font-size: 14px;
+            border-left: 3px solid #ffc107;
+        }
+        
+        .gap-fill-text {
+            font-size: 16px;
+            line-height: 2;
+        }
+        
+        .gap-input {
+            display: inline-block;
+            min-width: 120px;
+            padding: 5px 10px;
+            border: none;
+            border-bottom: 2px solid #667eea;
+            margin: 0 5px;
+            font-size: 16px;
+        }
+        
+        .gap-input.correct {
+            background: #d4edda;
+            border-bottom-color: #28a745;
+        }
+        
+        .gap-input.incorrect {
+            background: #f8d7da;
+            border-bottom-color: #dc3545;
+        }
+        
+        .answers-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 8px;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .btn-check {
+            background: #28a745;
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-check:hover {
+            background: #218838;
+        }
+        
+        .btn-reset {
+            background: #ff9800;
+            color: white;
+        }
+        
+        .btn-reset:hover {
+            background: #e68900;
+        }
+        
+        .btn-back {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-back:hover {
+            background: #5a6268;
+        }
+        
+        .score-box {
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 20px;
+        }
+        
+        .score-box .score {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        /* Image styling */
+        .image-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .content-image {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 10px 0;
+        }
+        
+        .image-caption {
+            font-style: italic;
+            color: #666;
+            margin-top: 5px;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .image-source {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+            text-align: center;
+        }
+        
+        .image-source a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .image-source a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                width: 100%;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Práctica Interactiva</h1>
+            <p>Jóvenes de Origen Migratorio en España</p>
+        </div>
+        
+        <div class="content-box">
+            <div class="reading-text" id="readingText">
+                <h2>DEMOGRAFÍA - Población Extranjera en España</h2>
+                <p><strong>Actualizado:</strong> Jueves, 9 mayo 2024</p>
+                
+                <div class="image-container">
+                    <img src="https://phantom-elmundo.unidadeditorial.es/ba292c13e212e11aa79ef47b90224fa8/crop/0x0/3072x2048/resize/1220/f/webp/assets/multimedia/imagenes/2024/05/09/17152440780091.jpg" 
+                         alt="Mujeres extranjeras pasean por Madrid" 
+                         class="content-image">
+                    <p class="image-caption">Mujeres extranjeras pasean por Madrid</p>
+                    <p class="image-source">Fuente: <a href="https://www.elmundo.es" target="_blank">El Mundo</a></p>
+                </div>
+                
+                <p>La <strong>población de nacionalidad extranjera residente</strong> en España ha superado en el primer trimestre del año el <strong>récord de 6,58 millones</strong> de personas tras sumar a 85.684 entre enero y marzo, según los datos provisionales de población publicados este jueves por el INE.</p>
+                
+                <p>De esta forma, el número total de residentes en el país se situó al término de ese periodo en <strong>48.692.804 habitantes</strong>, de los que 42.111.776 (el 86,5%) son de nacionalidad española. Este grupo ha perdido 3.300 miembros en los primeros tres meses del año.</p>
+                
+                <p>El incremento de la población registrado en el primer trimestre ha sido <strong>inferior al que se produjo en el mismo periodo de 2023</strong>, cuando el país sumó 147.828 habitantes, casi el doble que ahora; y también más débil del registrado en el mismo periodo de 2022 (122.418 residentes nuevos).</p>
+                
+                <p>El INE ha explicado que "el crecimiento poblacional de España <strong>se debió casi en su totalidad al incremento de personas nacidas en el extranjero</strong>", un colectivo que dista del de nacionalidad extranjera porque ha habido parte de este grupo que ya ha adquirido la nacionalidad española. De ahí que en total residan en el país <strong>8,91 millones de personas nacidas en otros países</strong>.</p>
+                
+                <p>Si se atiende al país de nacimiento y no a la nacionalidad, España cuenta con <strong>39,77 millones de nativos</strong> y 8,91 millones de extranjeros.</p>
+                
+                <h3>Principales Nacionalidades</h3>
+                <p>El crecimiento de los residentes foráneos se debió principalmente al incremento de los ciudadanos <strong>inmigrantes</strong>, que llegaron al país en ese periodo. Sus principales nacionalidades fueron:</p>
+                <ul>
+                    <li><strong>Colombiana</strong>: 39.200 nuevos residentes</li>
+                    <li><strong>Marroquí</strong>: 26.000 nuevos residentes</li>
+                    <li><strong>Venezolana</strong>: 22.600 nuevos residentes</li>
+                    <li><strong>Perú</strong>: 15.600 nuevos residentes</li>
+                    <li><strong>Italia</strong>: 9.700 nuevos residentes</li>
+                </ul>
+                
+                <p>En cuarto lugar figura España, ya que el país recibió a 18.500 emigrantes retornados.</p>
+                
+                <p>La llegada de población de estos países estuvo compensada por la <strong>salida de residentes a otros países</strong>. En total, en el primer trimestre se fueron de España 10.000 ciudadanos nativos; 9.900 marroquíes; 8.000 rumanos; 7.800 colombianos; y 3.300 británicos, entre otros.</p>
+                
+                <h3>SEIS REGIONES PIERDEN POBLACIÓN</h3>
+                <p>Por comunidades autónomas, <strong>Madrid fue la que registró el mayor incremento</strong> de población en el primer trimestre (un 0,44% más), seguida de Melilla, la Comunidad Valenciana y Cataluña. Hubo seis que perdieron habitantes: Aragón, Extremadura, Castilla y León, el Principado de Asturias, Cantabria y Ceuta.</p>
+                
+                <h3>Evolución por Edad</h3>
+                <p>Si se analiza la evolución de la población por edad, se observa que el grupo quinquenal que más ha incrementado el número de residentes es el <strong>de 80 a 84 años</strong> (con 26.200 habitantes más), seguido del de <strong>65 a 69 años</strong> (con 25.900 personas más) y el de <strong>60 a 64 años</strong> (+22.444).</p>
+                
+                <p>Las franjas de población más joven son las que más habitantes pierden. El grupo con más pérdida es del <strong>40 a 44 años (-25.800)</strong>, seguido del de <strong>niños de 5 a 9 años (-15.300)</strong>, de 0 a 4 años (-11.700), y de 45 a 49 años (-5.000).</p>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('reading')">📖 Lectura</button>
+                <button class="tab" onclick="showTab('activity1')">Actividad 1</button>
+                <button class="tab" onclick="showTab('activity5')">Actividad 5</button>
+                <button class="tab" onclick="showTab('activity7')">Actividad 7</button>
+                <button class="tab" onclick="showTab('activity9')">Actividad 9</button>
+            </div>
+            
+            <!-- Reading Tab -->
+            <div id="reading" class="activity-section active">
+                <p style="text-align: center; color: #667eea; font-size: 18px;">👆 Lee el texto arriba y luego practica con las actividades</p>
+            </div>
+            
+            <!-- Activity 1 -->
+            <div id="activity1" class="activity-section">
+                <h2 style="margin-bottom: 20px;">Actividad 1: Opción Múltiple</h2>
+                <div id="activity1Questions"></div>
+                <div class="buttons">
+                    <button class="btn btn-check" onclick="checkActivity('activity1')">Comprobar Respuestas</button>
+                    <button class="btn btn-reset" onclick="resetActivity('activity1')">Reintentar</button>
+                </div>
+                <div id="activity1Score"></div>
+            </div>
+            
+            <!-- Activity 5 -->
+            <div id="activity5" class="activity-section">
+                <h2 style="margin-bottom: 20px;">Actividad 5: Verdadero/Falso/No Mencionado</h2>
+                <div id="activity5Questions"></div>
+                <div class="buttons">
+                    <button class="btn btn-check" onclick="checkActivity('activity5')">Comprobar Respuestas</button>
+                    <button class="btn btn-reset" onclick="resetActivity('activity5')">Reintentar</button>
+                </div>
+                <div id="activity5Score"></div>
+            </div>
+            
+            <!-- Activity 7 -->
+            <div id="activity7" class="activity-section">
+                <h2 style="margin-bottom: 20px;">Actividad 7: Opción Múltiple (3 opciones)</h2>
+                <div id="activity7Questions"></div>
+                <div class="buttons">
+                    <button class="btn btn-check" onclick="checkActivity('activity7')">Comprobar Respuestas</button>
+                    <button class="btn btn-reset" onclick="resetActivity('activity7')">Reintentar</button>
+                </div>
+                <div id="activity7Score"></div>
+            </div>
+            
+            <!-- Activity 9 -->
+            <div id="activity9" class="activity-section">
+                <h2 style="margin-bottom: 20px;">Actividad 9: Rellenar Huecos</h2>
+                <div class="question">
+                    <div class="gap-fill-text" id="gapFillText"></div>
+                </div>
+                <div class="answers-box" id="correctAnswers" style="display: none;">
+                    <strong>Respuestas correctas:</strong>
+                    <ul id="answersList"></ul>
+                </div>
+                <div class="buttons">
+                    <button class="btn btn-check" onclick="checkActivity('activity9')">Comprobar Respuestas</button>
+                    <button class="btn btn-reset" onclick="resetActivity('activity9')">Reintentar</button>
+                </div>
+                <div id="activity9Score"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const activities = {
+            activity1: {
+                questions: [
+                    {
+                        q: '¿Qué cifra alcanzó la población de nacionalidad extranjera en el primer trimestre de 2024?',
+                        options: ['8,91 millones', '6,58 millones', '7,45 millones', '5,32 millones'],
+                        correct: 1
+                    },
+                    {
+                        q: '¿Qué nacionalidad tuvo el mayor incremento de nuevos residentes en España?',
+                        options: ['Marroquí', 'Venezolana', 'Colombiana', 'Italiana'],
+                        correct: 2
+                    },
+                    {
+                        q: '¿Qué región tuvo el mayor aumento de población en el primer trimestre?',
+                        options: ['Cataluña', 'Madrid', 'Aragón', 'Melilla'],
+                        correct: 1
+                    },
+                    {
+                        q: '¿Cuál fue el grupo de edad que más creció en población?',
+                        options: ['De 65 a 69 años', 'De 80 a 84 años', 'De 60 a 64 años', 'De 40 a 44 años'],
+                        correct: 1
+                    }
+                ]
+            },
+            activity5: {
+                questions: [
+                    {
+                        q: 'La población de nacionalidad extranjera alcanzó los 8,91 millones en 2024.',
+                        options: ['Verdadero', 'Falso', 'No mencionado'],
+                        correct: 1,
+                        explanation: 'Los 8,91 millones son personas nacidas en el extranjero. La población de nacionalidad extranjera fue de 6,58 millones.'
+                    },
+                    {
+                        q: 'La Comunidad de Madrid fue la región que más perdió población en el primer trimestre de 2024.',
+                        options: ['Verdadero', 'Falso', 'No mencionado'],
+                        correct: 1,
+                        explanation: 'Madrid tuvo el mayor incremento de población (0,44%).'
+                    },
+                    {
+                        q: 'En el primer trimestre, llegaron a España más colombianos que venezolanos.',
+                        options: ['Verdadero', 'Falso', 'No mencionado'],
+                        correct: 0,
+                        explanation: 'Llegaron 39.200 colombianos frente a 22.600 venezolanos.'
+                    },
+                    {
+                        q: 'El grupo de edad de 85 a 89 años creció significativamente en el primer trimestre.',
+                        options: ['Verdadero', 'Falso', 'No mencionado'],
+                        correct: 1,
+                        explanation: 'Este grupo disminuyó en 17.818 personas.'
+                    },
+                    {
+                        q: 'La salida de residentes extranjeros equilibró el número de llegadas a España.',
+                        options: ['Verdadero', 'Falso', 'No mencionado'],
+                        correct: 0,
+                        explanation: 'El texto menciona que la llegada estuvo compensada por la salida de residentes.'
+                    },
+                    {
+                        q: 'La Comunidad Valenciana fue una de las regiones con más crecimiento poblacional.',
+                        options: ['Verdadero', 'Falso', 'No mencionado'],
+                        correct: 0,
+                        explanation: 'Se menciona junto a Madrid, Melilla y Cataluña como regiones con crecimiento.'
+                    }
+                ]
+            },
+            activity7: {
+                questions: [
+                    {
+                        q: '¿Qué porcentaje de la población española tiene nacionalidad española?',
+                        options: ['86,5%', '90%', '79%'],
+                        correct: 0
+                    },
+                    {
+                        q: '¿Cuántos ciudadanos colombianos llegaron a España en el primer trimestre?',
+                        options: ['26.000', '22.600', '39.200'],
+                        correct: 2
+                    },
+                    {
+                        q: '¿Qué grupo de edad perdió más población?',
+                        options: ['40 a 44 años', '0 a 4 años', '10 a 14 años'],
+                        correct: 0
+                    },
+                    {
+                        q: '¿Cuántos ciudadanos nativos abandonaron España en este periodo?',
+                        options: ['10.000', '9.900', '8.000'],
+                        correct: 0
+                    },
+                    {
+                        q: '¿Cuántos emigrantes retornados llegaron a España en el primer trimestre?',
+                        options: ['18.500', '15.600', '7.400'],
+                        correct: 0
+                    },
+                    {
+                        q: '¿Qué región tuvo el segundo mayor incremento de población?',
+                        options: ['Madrid', 'Melilla', 'Cataluña'],
+                        correct: 1
+                    },
+                    {
+                        q: '¿Cuántos británicos abandonaron España en el primer trimestre?',
+                        options: ['4.500', '3.300', '3.000'],
+                        correct: 1
+                    }
+                ]
+            }
+        };
+
+        const gapFillData = {
+            text: 'En el primer trimestre de 2024, España alcanzó un récord de ___ millones de personas extranjeras, principalmente de nacionalidad ___, ___ y ___. En cuanto a la evolución por edades, el grupo de ___ registró el mayor aumento, mientras que las edades más jóvenes, especialmente entre ___ y ___, sufrieron descensos importantes.',
+            answers: ['6,58', 'colombiana', 'marroquí', 'venezolana', '80 a 84 años', '40 a 44 años', '5 a 9 años'],
+            // Flexible alternatives for age ranges
+            alternatives: [
+                ['6,58', '6.58'], 
+                ['colombiana'], 
+                ['marroquí'], 
+                ['venezolana'],
+                ['80 a 84 años', '80-84 años', '80 a 84', '80-84'],
+                ['40 a 44 años', '40-44 años', '40 a 44', '40-44'],
+                ['5 a 9 años', '5-9 años', '5 a 9', '5-9']
+            ]
+        };
+
+        let userAnswers = {};
+
+        function initActivities() {
+            // Initialize Activity 1
+            renderMultipleChoice('activity1');
+            
+            // Initialize Activity 5
+            renderTrueFalse('activity5');
+            
+            // Initialize Activity 7
+            renderMultipleChoice('activity7');
+            
+            // Initialize Activity 9
+            renderGapFill();
+        }
+
+        function renderMultipleChoice(activityId) {
+            const container = document.getElementById(activityId + 'Questions');
+            const activity = activities[activityId];
+            
+            container.innerHTML = activity.questions.map((q, qIndex) => `
+                <div class="question">
+                    <div class="question-text">${qIndex + 1}. ${q.q}</div>
+                    <div class="options">
+                        ${q.options.map((option, oIndex) => `
+                            <div class="option" onclick="selectOption('${activityId}', ${qIndex}, ${oIndex})">
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderTrueFalse(activityId) {
+            const container = document.getElementById(activityId + 'Questions');
+            const activity = activities[activityId];
+            
+            container.innerHTML = activity.questions.map((q, qIndex) => `
+                <div class="question">
+                    <div class="question-text">${qIndex + 1}. ${q.q}</div>
+                    <div class="options">
+                        ${q.options.map((option, oIndex) => `
+                            <div class="option" onclick="selectOption('${activityId}', ${qIndex}, ${oIndex})">
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="explanation" id="${activityId}-explanation-${qIndex}" style="display: none;">
+                        <strong>Explicación:</strong> ${q.explanation}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderGapFill() {
+            const parts = gapFillData.text.split('___');
+            let html = '';
+            
+            parts.forEach((part, i) => {
+                html += part;
+                if (i < gapFillData.answers.length) {
+                    html += `<input type="text" class="gap-input" id="gap-${i}" />`;
+                }
+            });
+            
+            document.getElementById('gapFillText').innerHTML = html;
+            
+            const answersList = document.getElementById('answersList');
+            answersList.innerHTML = gapFillData.answers.map(answer => 
+                `<li>${answer}</li>`
+            ).join('');
+        }
+
+        function selectOption(activityId, questionIndex, optionIndex) {
+            const key = `${activityId}-${questionIndex}`;
+            userAnswers[key] = optionIndex;
+            
+            // Update UI
+            const question = document.querySelectorAll(`#${activityId}Questions .question`)[questionIndex];
+            const options = question.querySelectorAll('.option');
+            options.forEach((opt, idx) => {
+                opt.classList.remove('selected');
+                if (idx === optionIndex) {
+                    opt.classList.add('selected');
+                }
+            });
+        }
+
+        function checkActivity(activityId) {
+            if (activityId === 'activity9') {
+                checkGapFill();
+                return;
+            }
+            
+            const activity = activities[activityId];
+            let correct = 0;
+            
+            activity.questions.forEach((q, qIndex) => {
+                const userAnswer = userAnswers[`${activityId}-${qIndex}`];
+                const isCorrect = userAnswer === q.correct;
+                
+                if (isCorrect) correct++;
+                
+                const question = document.querySelectorAll(`#${activityId}Questions .question`)[qIndex];
+                const options = question.querySelectorAll('.option');
+                
+                options.forEach((opt, oIndex) => {
+                    opt.onclick = null;
+                    opt.classList.remove('selected');
+                    
+                    if (oIndex === q.correct) {
+                        opt.classList.add('correct');
+                    } else if (oIndex === userAnswer && userAnswer !== q.correct) {
+                        opt.classList.add('incorrect');
+                    }
+                });
+                
+                // Show explanation for activity5
+                if (activityId === 'activity5') {
+                    const explanation = document.getElementById(`${activityId}-explanation-${qIndex}`);
+                    if (explanation) {
+                        explanation.style.display = 'block';
+                    }
+                }
+            });
+            
+            const scoreBox = document.getElementById(activityId + 'Score');
+            const percentage = Math.round((correct / activity.questions.length) * 100);
+            scoreBox.innerHTML = `
+                <div class="score-box" style="margin-top: 20px;">
+                    <div>Puntuación</div>
+                    <div class="score">${correct} / ${activity.questions.length}</div>
+                    <div>${percentage}% correcto</div>
+                </div>
+            `;
+        }
+
+        function checkGapFill() {
+            let correct = 0;
+            
+            gapFillData.answers.forEach((answer, i) => {
+                const input = document.getElementById(`gap-${i}`);
+                const userAnswer = input.value.trim().toLowerCase();
+                const correctAnswers = gapFillData.alternatives[i].map(a => a.toLowerCase());
+                
+                if (correctAnswers.includes(userAnswer)) {
+                    correct++;
+                    input.classList.add('correct');
+                    input.classList.remove('incorrect');
+                } else {
+                    input.classList.add('incorrect');
+                    input.classList.remove('correct');
+                }
+                input.disabled = true;
+            });
+            
+            document.getElementById('correctAnswers').style.display = 'block';
+            
+            const scoreBox = document.getElementById('activity9Score');
+            const percentage = Math.round((correct / gapFillData.answers.length) * 100);
+            scoreBox.innerHTML = `
+                <div class="score-box" style="margin-top: 20px;">
+                    <div>Puntuación</div>
+                    <div class="score">${correct} / ${gapFillData.answers.length}</div>
+                    <div>${percentage}% correcto</div>
+                </div>
+            `;
+        }
+
+        function resetActivity(activityId) {
+            if (activityId === 'activity9') {
+                gapFillData.answers.forEach((answer, i) => {
+                    const input = document.getElementById(`gap-${i}`);
+                    input.value = '';
+                    input.disabled = false;
+                    input.classList.remove('correct', 'incorrect');
+                });
+                document.getElementById('correctAnswers').style.display = 'none';
+                document.getElementById('activity9Score').innerHTML = '';
+            } else {
+                // Clear user answers
+                Object.keys(userAnswers).forEach(key => {
+                    if (key.startsWith(activityId)) {
+                        delete userAnswers[key];
+                    }
+                });
+                
+                // Re-render the activity
+                if (activityId === 'activity5') {
+                    renderTrueFalse(activityId);
+                } else {
+                    renderMultipleChoice(activityId);
+                }
+                
+                // Clear score
+                document.getElementById(activityId + 'Score').innerHTML = '';
+            }
+        }
+
+        function showTab(tabName) {
+            // Hide all sections
+            document.querySelectorAll('.activity-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize on page load
+        window.onload = initActivities;
+    </script>
+</body>
+</html>

@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Desempleo en España - Actividad</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 35px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.2em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 15px;
+            font-style: italic;
+            font-size: 1.05em;
+        }
+        
+        .article-info {
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+        }
+        
+        .article-info p {
+            color: #2c3e50;
+            margin: 5px 0;
+            font-size: 0.95em;
+        }
+        
+        .reading-text {
+            background: #f8f9fa;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            border-left: 5px solid #e74c3c;
+            line-height: 1.8;
+        }
+        
+        .reading-text h2 {
+            color: #e74c3c;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .reading-text p {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .highlight-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        
+        .highlight-box strong {
+            color: #856404;
+        }
+        
+        .student-name {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .student-name input {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            width: 320px;
+            max-width: 100%;
+        }
+        
+        .section {
+            background: #f8f9fa;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .question {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .question h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .short-answer {
+            min-height: 60px;
+        }
+        
+        .multiple-choice {
+            margin-top: 10px;
+        }
+        
+        .multiple-choice label {
+            display: block;
+            padding: 12px;
+            margin: 8px 0;
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .multiple-choice label:hover {
+            background: #e9ecef;
+            border-color: #3498db;
+        }
+        
+        .multiple-choice input[type="radio"],
+        .multiple-choice input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .data-box {
+            background: #d1ecf1;
+            border: 2px solid #17a2b8;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+        }
+        
+        .data-box strong {
+            color: #0c5460;
+        }
+        
+        .accent-keyboard {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        
+        .accent-keyboard h4 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-size: 0.9em;
+        }
+        
+        .accent-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            margin: 3px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        
+        .accent-btn:hover {
+            background: #2c3e50;
+            transform: scale(1.1);
+        }
+        
+        .accent-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            transition: transform 0.2s;
+            font-weight: bold;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .accent-keyboard {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+                padding: 10px;
+            }
+            
+            .accent-btn {
+                padding: 6px 10px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>El Desempleo en España</h1>
+        <p class="subtitle">Actividad de Comprensión Lectora y Análisis</p>
+        
+        <div class="article-info">
+            <p><strong>Fuente:</strong> EL PAÍS - "España logra su mejor tasa de paro en 17 años"</p>
+            <p><strong>Fecha:</strong> 1 de febrero, 2026</p>
+            <p><strong>Autor:</strong> Emilio Sánchez Hidalgo</p>
+        </div>
+        
+        <div class="student-name">
+            <input type="text" id="studentName" placeholder="Escribe tu nombre completo aquí" />
+        </div>
+        
+        <!-- TEXTO DE LECTURA SIMPLIFICADO -->
+        <div class="reading-text">
+            <h2>📰 Texto: El Desempleo en España - Buenas Noticias con Desafíos</h2>
+            
+            <p>España ha alcanzado un hito histórico: la tasa de desempleo ha bajado del 10% por primera vez en 17 años, situándose en un 9,93%. Sin embargo, 2,47 millones de personas todavía están sin trabajo.</p>
+            
+            <p><strong>El caso de María José Torres</strong> ilustra los desafíos que enfrentan muchos españoles. Esta mujer de 55 años de Granada lleva cuatro años desempleada. Trabajó casi sin parar hasta los 51 años, tiene más de 30 años cotizados, pero solo ha conseguido una entrevista de trabajo en todo este tiempo. Un empleado público le dijo: "Con tu edad y en España lo tienes difícil". María José recibe una prestación de 480 euros al mes, su único ingreso.</p>
+            
+            <div class="highlight-box">
+                <strong>Datos Clave:</strong>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Tasa de paro actual: 9,93%</li>
+                    <li>Total de desempleados: 2,47 millones</li>
+                    <li>Empleos creados en el último año: 605.000</li>
+                    <li>Parados de larga duración (más de 1 año): casi 1 millón</li>
+                </ul>
+            </div>
+            
+            <p><strong>¿Quiénes son los más afectados?</strong></p>
+            
+            <p><em>Por región:</em> El desempleo es mucho mayor en el sur. Granada tiene una tasa del 17,3%, la segunda más alta del país, mientras que Gipuzkoa tiene solo un 6,4%. Los expertos explican que regiones como Andalucía, Extremadura y Castilla-La Mancha sufren más porque dependen demasiado de sectores poco productivos como el turismo y la agricultura.</p>
+            
+            <p><em>Por edad:</em> El paro afecta especialmente a dos grupos: los jóvenes (al empezar su carrera) y los mayores (al final). Entre los 16 y 19 años, la tasa es del 30,4%. Para personas mayores de 50 años, el problema es grave: el 56% de quienes llevan más de un año en paro tienen más de 45 años. Los expertos dicen que si una persona de 50 años no encuentra trabajo en el primer año, está "prácticamente acabada".</p>
+            
+            <p><em>Por educación:</em> Cuanta más formación, menos paro. Las personas con estudios superiores tienen una tasa del 6,3%, mientras que quienes terminaron solo la primera etapa de secundaria rondan el 20%.</p>
+            
+            <p><em>Por sexo:</em> Hay 1,32 millones de mujeres desempleadas frente a 1,15 millones de hombres. La tasa de desempleo de las mujeres (11,2%) es mayor que la de los varones (8,8%).</p>
+            
+            <p><strong>El impacto emocional:</strong> El desempleo afecta gravemente la salud mental. El 9,4% de los parados dicen que nunca se sienten felices (casi el doble que los trabajadores). Se sienten más solos y sufren más ansiedad crónica.</p>
+            
+            <p><strong>Comparación con 2008:</strong> La última vez que España tuvo menos del 10% de paro fue en 2008, durante la burbuja inmobiliaria. Entonces se construían 600.000 viviendas al año; ahora solo 100.000. Los expertos coinciden en que la economía actual es mucho más sana y sostenible, aunque quedan desafíos por resolver.</p>
+        </div>
+        
+        <form id="activityForm">
+            <!-- PARTE 1: Comprensión del Texto -->
+            <div class="section">
+                <h2>Parte 1: Comprensión General</h2>
+                
+                <div class="question">
+                    <h3>1. ¿Cuál es la tasa de desempleo actual en España?</h3>
+                    <div class="multiple-choice">
+                        <label><input type="radio" name="q1" value="a" /> 6%</label>
+                        <label><input type="radio" name="q1" value="b" /> 9,93%</label>
+                        <label><input type="radio" name="q1" value="c" /> 10,35%</label>
+                        <label><input type="radio" name="q1" value="d" /> 17,3%</label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <h3>2. ¿Por qué es histórico este dato?</h3>
+                    <textarea class="short-answer" name="q2" placeholder="Explica por qué esta tasa de paro es un hito histórico para España"></textarea>
+                </div>
+                
+                <div class="question">
+                    <h3>3. ¿Cuántas personas están desempleadas en España?</h3>
+                    <textarea class="short-answer" name="q3" placeholder="Número total de desempleados"></textarea>
+                </div>
+            </div>
+            
+            <!-- PARTE 2: El Caso Personal -->
+            <div class="section">
+                <h2>Parte 2: El Testimonio de María José</h2>
+                
+                <div class="question">
+                    <h3>4. Resume la situación de María José Torres:</h3>
+                    <div class="data-box">
+                        <strong>Información del texto:</strong> 55 años, de Granada, 4 años en paro, más de 30 años cotizados, solo una entrevista de trabajo, recibe 480 euros al mes.
+                    </div>
+                    <textarea name="q4" placeholder="¿Qué problemas enfrenta María José? ¿Cómo afecta el desempleo a su vida diaria?"></textarea>
+                </div>
+                
+                <div class="question">
+                    <h3>5. ¿Qué le dijo el empleado público sobre sus posibilidades de encontrar trabajo?</h3>
+                    <textarea class="short-answer" name="q5"></textarea>
+                </div>
+                
+                <div class="question">
+                    <h3>6. ¿Cómo se siente María José con su situación?</h3>
+                    <textarea name="q6" placeholder="Describe el impacto emocional del desempleo en María José según el texto"></textarea>
+                </div>
+            </div>
+            
+            <!-- PARTE 3: Análisis de Datos -->
+            <div class="section">
+                <h2>Parte 3: Los Perfiles del Desempleo</h2>
+                
+                <div class="question">
+                    <h3>7. Diferencias regionales: Compara las tasas de paro entre Granada y Gipuzkoa</h3>
+                    <div class="data-box">
+                        <strong>Datos del texto:</strong> Granada 17,3% | Gipuzkoa 6,4%
+                    </div>
+                    <textarea name="q7" placeholder="¿Por qué hay tanta diferencia? ¿Qué factores económicos explican esta disparidad según los expertos?"></textarea>
+                </div>
+                
+                <div class="question">
+                    <h3>8. ¿Cuáles son los dos grupos de edad más afectados por el desempleo?</h3>
+                    <div class="multiple-choice">
+                        <label><input type="checkbox" name="q8_youth" /> Jóvenes (16-29 años)</label>
+                        <label><input type="checkbox" name="q8_midcareer" /> Personas en mitad de carrera (30-45 años)</label>
+                        <label><input type="checkbox" name="q8_older" /> Mayores de 50 años</label>
+                        <label><input type="checkbox" name="q8_retired" /> Personas cerca de la jubilación</label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <h3>9. ¿Cuál es la tasa de paro juvenil (16-19 años)?</h3>
+                    <div class="multiple-choice">
+                        <label><input type="radio" name="q9" value="a" /> 9,93%</label>
+                        <label><input type="radio" name="q9" value="b" /> 17,3%</label>
+                        <label><input type="radio" name="q9" value="c" /> 23,4%</label>
+                        <label><input type="radio" name="q9" value="d" /> 30,4%</label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <h3>10. Relación entre educación y desempleo:</h3>
+                    <div class="data-box">
+                        <strong>Datos:</strong> Estudios superiores = 6,3% de paro | Primera etapa de secundaria = 20% de paro
+                    </div>
+                    <textarea name="q10" placeholder="¿Qué patrón observas? ¿Por qué crees que la educación influye tanto en las oportunidades de empleo?"></textarea>
+                </div>
+                
+                <div class="question">
+                    <h3>11. Desempleo por sexo: ¿Hay más hombres o mujeres desempleadas?</h3>
+                    <textarea class="short-answer" name="q11" placeholder="Indica el número de hombres y mujeres desempleadas y sus tasas de paro"></textarea>
+                </div>
+            </div>
+            
+            <!-- PARTE 4: Impacto Social y Emocional -->
+            <div class="section">
+                <h2>Parte 4: Consecuencias del Desempleo</h2>
+                
+                <div class="question">
+                    <h3>12. ¿Cómo afecta el desempleo a la salud mental de las personas?</h3>
+                    <textarea name="q12" placeholder="Menciona al menos tres consecuencias emocionales del desempleo según el texto"></textarea>
+                </div>
+                
+                <div class="question">
+                    <h3>13. El texto menciona que muchos mayores de 50 años que no trabajan son "inactivos" en lugar de "parados". ¿Qué significa esto?</h3>
+                    <textarea name="q13" placeholder="Explica la diferencia entre estar en paro y ser inactivo"></textarea>
+                </div>
+            </div>
+            
+            <!-- PARTE 5: Comparación Histórica -->
+            <div class="section">
+                <h2>Parte 5: España 2026 vs España 2008</h2>
+                
+                <div class="question">
+                    <h3>14. ¿En qué se diferencia la economía española actual de la de 2008?</h3>
+                    <div class="data-box">
+                        <strong>Pista:</strong> Piensa en la burbuja inmobiliaria, el sector de construcción, y la estabilidad económica.
+                    </div>
+                    <textarea name="q14" placeholder="Explica las principales diferencias entre ambas economías"></textarea>
+                </div>
+                
+                <div class="question">
+                    <h3>15. Los expertos dicen que la economía actual es "más sana". ¿Qué significa esto?</h3>
+                    <div class="multiple-choice">
+                        <label><input type="radio" name="q15" value="a" /> Hay más empleos en total</label>
+                        <label><input type="radio" name="q15" value="b" /> El crecimiento es más sostenible y equilibrado</label>
+                        <label><input type="radio" name="q15" value="c" /> La construcción es el sector más importante</label>
+                        <label><input type="radio" name="q15" value="d" /> Todos los españoles tienen trabajo</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PARTE 6: Opinión Personal -->
+            <div class="section">
+                <h2>Parte 6: Reflexión y Opinión Personal</h2>
+                
+                <div class="question">
+                    <h3>16. ¿Qué soluciones propones para ayudar a personas como María José a encontrar empleo?</h3>
+                    <textarea name="q16" placeholder="Piensa en programas de formación, políticas de empresa, apoyo gubernamental, etc."></textarea>
+                </div>
+                
+                <div class="question">
+                    <h3>17. En tu opinión, ¿por qué crees que las empresas discriminan a los trabajadores mayores?</h3>
+                    <textarea name="q17" placeholder="Analiza los posibles motivos y si te parece justo o injusto"></textarea>
+                </div>
+                
+                <div class="question">
+                    <h3>18. ¿Crees que una tasa de paro del 9,93% es buena o mala? Justifica tu respuesta.</h3>
+                    <div class="data-box">
+                        <strong>Contexto:</strong> Media europea = 6% | Granada = 17,3% | Gipuzkoa = 6,4%
+                    </div>
+                    <textarea name="q18" placeholder="Considera el contexto histórico y las comparaciones regionales e internacionales"></textarea>
+                </div>
+            </div>
+            
+            <button type="button" class="submit-btn" onclick="downloadResults()">📥 Descargar Mis Respuestas</button>
+        </form>
+    </div>
+    
+    <div class="accent-keyboard">
+        <h4>Teclado de Acentos</h4>
+        <button class="accent-btn" onclick="insertChar('á')">á</button>
+        <button class="accent-btn" onclick="insertChar('é')">é</button>
+        <button class="accent-btn" onclick="insertChar('í')">í</button>
+        <button class="accent-btn" onclick="insertChar('ó')">ó</button>
+        <button class="accent-btn" onclick="insertChar('ú')">ú</button>
+        <button class="accent-btn" onclick="insertChar('ñ')">ñ</button>
+        <button class="accent-btn" onclick="insertChar('ü')">ü</button>
+        <br>
+        <button class="accent-btn" onclick="insertChar('Á')">Á</button>
+        <button class="accent-btn" onclick="insertChar('É')">É</button>
+        <button class="accent-btn" onclick="insertChar('Í')">Í</button>
+        <button class="accent-btn" onclick="insertChar('Ó')">Ó</button>
+        <button class="accent-btn" onclick="insertChar('Ú')">Ú</button>
+        <button class="accent-btn" onclick="insertChar('Ñ')">Ñ</button>
+        <button class="accent-btn" onclick="insertChar('¿')">¿</button>
+        <button class="accent-btn" onclick="insertChar('¡')">¡</button>
+    </div>
+    
+    <script>
+        let lastFocusedElement = null;
+        
+        document.querySelectorAll('textarea, input[type="text"]').forEach(el => {
+            el.addEventListener('focus', function() {
+                lastFocusedElement = this;
+            });
+        });
+        
+        function insertChar(char) {
+            const el = lastFocusedElement || document.activeElement;
+            
+            if (el && (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT')) {
+                const start = el.selectionStart;
+                const end = el.selectionEnd;
+                const text = el.value;
+                
+                el.value = text.substring(0, start) + char + text.substring(end);
+                el.selectionStart = el.selectionEnd = start + 1;
+                el.focus();
+            }
+        }
+        
+        function downloadResults() {
+            const studentName = document.getElementById('studentName').value.trim();
+            
+            if (!studentName) {
+                alert('Por favor, escribe tu nombre antes de descargar los resultados.');
+                return;
+            }
+            
+            const form = document.getElementById('activityForm');
+            const formData = new FormData(form);
+            
+            let results = `EL DESEMPLEO EN ESPAÑA - ACTIVIDAD DE COMPRENSIÓN\n`;
+            results += `${'='.repeat(70)}\n`;
+            results += `Estudiante: ${studentName}\n`;
+            results += `Fecha: ${new Date().toLocaleDateString('es-ES')}\n`;
+            results += `Fuente: EL PAÍS - 1 de febrero, 2026\n`;
+            results += `${'='.repeat(70)}\n\n`;
+            
+            // PARTE 1
+            results += `PARTE 1: COMPRENSIÓN GENERAL\n`;
+            results += `${'='.repeat(70)}\n\n`;
+            
+            results += `1. ¿Cuál es la tasa de desempleo actual en España?\n`;
+            const q1Map = {a: '6%', b: '9,93%', c: '10,35%', d: '17,3%'};
+            results += `Respuesta: ${q1Map[formData.get('q1')] || '[Sin respuesta]'}\n\n`;
+            
+            results += `2. ¿Por qué es histórico este dato?\n`;
+            results += `${formData.get('q2') || '[Sin respuesta]'}\n\n`;
+            
+            results += `3. ¿Cuántas personas están desempleadas en España?\n`;
+            results += `${formData.get('q3') || '[Sin respuesta]'}\n\n`;
+            
+            // PARTE 2
+            results += `\nPARTE 2: EL TESTIMONIO DE MARÍA JOSÉ\n`;
+            results += `${'='.repeat(70)}\n\n`;
+            
+            results += `4. Resume la situación de María José Torres:\n`;
+            results += `${formData.get('q4') || '[Sin respuesta]'}\n\n`;
+            
+            results += `5. ¿Qué le dijo el empleado público sobre sus posibilidades?\n`;
+            results += `${formData.get('q5') || '[Sin respuesta]'}\n\n`;
+            
+            results += `6. ¿Cómo se siente María José con su situación?\n`;
+            results += `${formData.get('q6') || '[Sin respuesta]'}\n\n`;
+            
+            // PARTE 3
+            results += `\nPARTE 3: LOS PERFILES DEL DESEMPLEO\n`;
+            results += `${'='.repeat(70)}\n\n`;
+            
+            results += `7. Diferencias regionales: Granada vs Gipuzkoa\n`;
+            results += `${formData.get('q7') || '[Sin respuesta]'}\n\n`;
+            
+            results += `8. Grupos de edad más afectados:\n`;
+            if (form.querySelector('input[name="q8_youth"]').checked) results += `  ✓ Jóvenes (16-29 años)\n`;
+            if (form.querySelector('input[name="q8_midcareer"]').checked) results += `  ✓ Personas en mitad de carrera (30-45 años)\n`;
+            if (form.querySelector('input[name="q8_older"]').checked) results += `  ✓ Mayores de 50 años\n`;
+            if (form.querySelector('input[name="q8_retired"]').checked) results += `  ✓ Personas cerca de la jubilación\n`;
+            results += `\n`;
+            
+            results += `9. Tasa de paro juvenil (16-19 años):\n`;
+            const q9Map = {a: '9,93%', b: '17,3%', c: '23,4%', d: '30,4%'};
+            results += `Respuesta: ${q9Map[formData.get('q9')] || '[Sin respuesta]'}\n\n`;
+            
+            results += `10. Relación entre educación y desempleo:\n`;
+            results += `${formData.get('q10') || '[Sin respuesta]'}\n\n`;
+            
+            results += `11. Desempleo por sexo:\n`;
+            results += `${formData.get('q11') || '[Sin respuesta]'}\n\n`;
+            
+            // PARTE 4
+            results += `\nPARTE 4: CONSECUENCIAS DEL DESEMPLEO\n`;
+            results += `${'='.repeat(70)}\n\n`;
+            
+            results += `12. Impacto en la salud mental:\n`;
+            results += `${formData.get('q12') || '[Sin respuesta]'}\n\n`;
+            
+            results += `13. Diferencia entre "parados" e "inactivos":\n`;
+            results += `${formData.get('q13') || '[Sin respuesta]'}\n\n`;
+            
+            // PARTE 5
+            results += `\nPARTE 5: ESPAÑA 2026 vs ESPAÑA 2008\n`;
+            results += `${'='.repeat(70)}\n\n`;
+            
+            results += `14. Diferencias entre la economía actual y la de 2008:\n`;
+            results += `${formData.get('q14') || '[Sin respuesta]'}\n\n`;
+            
+            results += `15. ¿Qué significa que la economía actual sea "más sana"?\n`;
+            const q15Map = {
+                a: 'Hay más empleos en total',
+                b: 'El crecimiento es más sostenible y equilibrado',
+                c: 'La construcción es el sector más importante',
+                d: 'Todos los españoles tienen trabajo'
+            };
+            results += `Respuesta: ${q15Map[formData.get('q15')] || '[Sin respuesta]'}\n\n`;
+            
+            // PARTE 6
+            results += `\nPARTE 6: REFLEXIÓN Y OPINIÓN PERSONAL\n`;
+            results += `${'='.repeat(70)}\n\n`;
+            
+            results += `16. Soluciones para ayudar a personas como María José:\n`;
+            results += `${formData.get('q16') || '[Sin respuesta]'}\n\n`;
+            
+            results += `17. ¿Por qué discriminan las empresas a trabajadores mayores?\n`;
+            results += `${formData.get('q17') || '[Sin respuesta]'}\n\n`;
+            
+            results += `18. Evaluación de la tasa de paro del 9,93%:\n`;
+            results += `${formData.get('q18') || '[Sin respuesta]'}\n\n`;
+            
+            results += `${'='.repeat(70)}\n`;
+            results += `FIN DEL CUESTIONARIO\n`;
+            
+            const blob = new Blob([results], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Desempleo_España_${studentName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('¡Resultados descargados exitosamente!');
+        }
+    </script>
+</body>
+</html>

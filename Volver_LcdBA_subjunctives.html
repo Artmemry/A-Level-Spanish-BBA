@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Subjunctive Practice: Lorca & Almodóvar</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    .exercise { margin-bottom: 20px; }
+    .correct { color: green; }
+    .incorrect { color: red; }
+    input[type="text"] { width: 150px; }
+  </style>
+</head>
+<body>
+
+<h1>Práctica del subjuntivo: Lorca y Almodóvar</h1>
+<div id="exercises"></div>
+
+<script>
+const exercises = [
+  // La casa de Bernarda Alba
+  { template: "Es improbable que Adela [aceptar] el matrimonio", answer: "acepte" },
+  { template: "Para que las hijas no [romper] las normas", answer: "rompan" },
+  { template: "Es necesario que Bernarda [mantener] el orden", answer: "mantenga" },
+  { template: "Es posible que Angustias no [saber] toda la verdad", answer: "sepa" },
+  { template: "A menos que Martirio [confesar] sus sentimientos", answer: "confiese" },
+  { template: "Es una lástima que Pepe el Romano no [amar] a Adela", answer: "ame" },
+  { template: "Es mejor que las hijas [obedecer] a su madre", answer: "obedezcan" },
+  { template: "Es dudoso que Bernarda [permitir] la libertad", answer: "permita" },
+  { template: "Ojalá Adela no [morir]", answer: "muera" },
+  { template: "Es raro que Poncia [aceptar] tanta represión", answer: "acepte" },
+  { template: "Antes de que Bernarda [entrar], todo está tranquilo", answer: "entre" },
+  { template: "Es importante que las mujeres [callar] sus deseos", answer: "callen" },
+  { template: "Aunque Bernarda [negar] la realidad", answer: "niegue" },
+  { template: "No creo que Adela [ceder] fácilmente", answer: "ceda" },
+  { template: "Es una injusticia que las mujeres no [poder] elegir", answer: "puedan" },
+  { template: "Es probable que Martirio [sentir] celos", answer: "sienta" },
+  { template: "Es lógico que la presión [afectar] a todas", answer: "afecte" },
+  { template: "Es bueno que Poncia [decir] la verdad", answer: "diga" },
+  { template: "No pienso que Bernarda [cambiar]", answer: "cambie" },
+  { template: "Es importante que el público [reflexionar]", answer: "reflexione" },
+  { template: "En caso de que haya rebeldía, Bernarda [castigar]", answer: "castigue" },
+  { template: "Para que Bernarda no [perder] el control", answer: "pierda" },
+  { template: "No es seguro que Pepe [casarse] con Angustias", answer: "se case" },
+  { template: "Es sorprendente que las hijas no [rebelarse]", answer: "se rebelen" },
+  { template: "Es posible que Poncia [ver] más que las otras", answer: "vea" },
+
+  // Volver
+  { template: "Es probable que Irene [estar] viva todavía", answer: "esté" },
+  { template: "A menos que Raimunda [confesar] la verdad", answer: "confiese" },
+  { template: "Es importante que Sole [mantener] el secreto", answer: "mantenga" },
+  { template: "Es posible que Paula no [entender] lo que ocurrió", answer: "entienda" },
+  { template: "No creo que Paco [decir] la verdad", answer: "diga" },
+  { template: "Es bueno que Raimunda [cuidar] a su hija", answer: "cuide" },
+  { template: "Ojalá Irene [reconciliarse] con su hija", answer: "se reconcilie" },
+  { template: "Es mejor que Raimunda [olvidar] su pasado", answer: "olvide" },
+  { template: "Es poco probable que Paco [volver]", answer: "vuelva" },
+  { template: "Es raro que Irene [ocultarse] durante años", answer: "se oculte" },
+  { template: "Para que Sole no [sufrir] sola", answer: "sufra" },
+  { template: "Es necesario que Raimunda [trabajar] duro", answer: "trabaje" },
+  { template: "Aunque Paula [tener] miedo", answer: "tenga" },
+  { template: "Es posible que el pueblo [saber] el secreto", answer: "sepa" },
+  { template: "No pienso que Irene [culparse]", answer: "se culpe" },
+  { template: "Es sorprendente que Raimunda [lograr] tanto", answer: "logre" },
+  { template: "En caso de que alguien [preguntar], Sole miente", answer: "pregunte" },
+  { template: "Es probable que Raimunda [necesitar] ayuda", answer: "necesite" },
+  { template: "Es importante que Paula [seguir] adelante", answer: "siga" },
+  { template: "Para que el restaurante [funcionar], Raimunda cocina", answer: "funcione" },
+  { template: "Es bueno que Irene [cuidar] de su nieta", answer: "cuide" },
+  { template: "Es lógico que Sole [temer] por su madre", answer: "tema" },
+  { template: "No creo que Irene [perdonar] del todo", answer: "perdone" },
+  { template: "Es necesario que todas [superar] el trauma", answer: "superen" },
+  { template: "Es poco probable que la familia [volver] a la normalidad", answer: "vuelva" }
+];
+
+const container = document.getElementById("exercises");
+
+exercises.forEach((ex, index) => {
+  const div = document.createElement("div");
+  div.classList.add("exercise");
+  div.innerHTML = `
+    <label>${index + 1}. ${ex.template.replace("[", "<strong>[").replace("]", "]</strong>")}</label><br>
+    <input type="text" id="answer-${index}" />
+    <button onclick="checkAnswer(${index})">Comprobar</button>
+    <span id="result-${index}"></span>
+  `;
+  container.appendChild(div);
+});
+
+function checkAnswer(index) {
+  const input = document.getElementById(`answer-${index}`);
+  const result = document.getElementById(`result-${index}`);
+  const correct = exercises[index].answer.toLowerCase();
+  if (input.value.trim().toLowerCase() === correct) {
+    result.innerHTML = "✔️ Correcto";
+    result.className = "correct";
+  } else {
+    result.innerHTML = `✘ Incorrecto. Respuesta: ${correct}`;
+    result.className = "incorrect";
+  }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Práctica del Pretérito</title>
+    <style>
+        .exercise {margin: 20px; padding: 20px; border: 1px solid #ccc; background: white;}
+        .question {margin: 15px 0;}
+        input {width: 250px; padding: 5px; margin-left: 10px; font-size: 16px;}
+        .correct {background: #e6ffe6; border: 2px solid green;}
+        .incorrect {background: #ffe6e6; border: 2px solid red;}
+        .accent-buttons {margin: 10px 0;}
+        .accent-btn {cursor: pointer; padding: 8px 12px; margin: 3px; background: #f0f0f0; border: 1px solid #ccc;}
+        .score {font-weight: bold; margin-top: 10px; font-size: 18px;}
+        h2 {color: #2c3e50;}
+        body {background: #f8f9fa; padding: 20px;}
+        .print-btn {background: #28a745; margin-left: 10px;}
+        
+        @media print {
+            .accent-buttons, button, input { display: none; }
+            .print-version p {margin: 10px 0; font-size: 14pt;}
+            .correct-print {color: green; content: " ✓";}
+            .incorrect-print {color: red; content: " ✗";}
+        }
+    </style>
+</head>
+<body>
+
+<div class="exercise">
+    <h2>PARTE I - Complete con el verbo indicado en el pretérito</h2>
+    <div class="accent-buttons">
+        <button class="accent-btn" onclick="insertChar('á')">á</button>
+        <button class="accent-btn" onclick="insertChar('é')">é</button>
+        <button class="accent-btn" onclick="insertchar('í')">í</button>
+        <button class="accent-btn" onclick="insertchar('ó')">ó</button>
+        <button class="accent-btn" onclick="insertchar('ú')">ú</button>
+        <button class="accent-btn" onclick="insertchar('ñ')">ñ</button>
+    </div>
+    <div id="part1"></div>
+    <div class="score">
+        Puntuación: <span id="score1">0</span>/30
+        <button class="print-btn" onclick="printResults()">Imprimir Resultados</button>
+    </div>
+</div>
+
+<script>
+let currentFocusedInput = null;
+
+const exercises = {
+    part1: [
+        {q: "1. Yo (hablar) ", a: "hablé"},
+        {q: "2. Yo (comer) ", a: "comí"},
+        {q: "3. Yo (vivir) ", a: "viví"},
+        {q: "4. Yo (hacer) ", a: "hice"},
+        {q: "5. Yo (dar) ", a: "di"},
+        {q: "6. Yo (ver) ", a: "vi"},
+        {q: "7. Yo (poner) ", a: "puse"},
+        {q: "8. Yo (saber) ", a: "supe"},
+        {q: "9. Yo (traer) ", a: "traje"},
+        {q: "10. Yo (decir) ", a: "dije"},
+        {q: "11. Tú (bailar) ", a: "bailaste"},
+        {q: "12. Tú (beber) ", a: "bebiste"},
+        {q: "13. Tú (escribir) ", a: "escribiste"},
+        {q: "14. Tú (dormir) ", a: "dormiste"},
+        {q: "15. Tú (venir) ", a: "viniste"},
+        {q: "16. Él (trabajar) ", a: "trabajó"},
+        {q: "17. Ella (correr) ", a: "corrió"},
+        {q: "18. Usted (abrir) ", a: "abrió"},
+        {q: "19. Él (pedir) ", a: "pidió"},
+        {q: "20. Ella (morir) ", a: "murió"},
+        {q: "21. Nosotros (cantar) ", a: "cantamos"},
+        {q: "22. Nosotros (aprender) ", a: "aprendimos"},
+        {q: "23. Nosotros (salir) ", a: "salimos"},
+        {q: "24. Nosotros (volver) ", a: "volvimos"},
+        {q: "25. Nosotros (leer) ", a: "leímos"},
+        {q: "26. Ellos (estudiar) ", a: "estudiaron"},
+        {q: "27. Ellas (vender) ", a: "vendieron"},
+        {q: "28. Ustedes (recibir) ", a: "recibieron"},
+        {q: "29. Ellos (conducir) ", a: "condujeron"},
+        {q: "30. Ellas (servir) ", a: "sirvieron"}
+    ]
+};
+
+function createExercises() {
+    const container = document.getElementById('part1');
+    exercises.part1.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'question';
+        div.innerHTML = `
+            ${item.q}
+            <input type="text"
+                   data-answer="${item.a}"
+                   onfocus="trackFocus(this)"
+                   onkeydown="checkAnswer(event, this, 'part1')">
+        `;
+        container.appendChild(div);
+    });
+}
+
+function trackFocus(input) {
+    currentFocusedInput = input;
+}
+
+function insertChar(char) {
+    if (currentFocusedInput) {
+        const start = currentFocusedInput.selectionStart;
+        const end = currentFocusedInput.selectionEnd;
+        currentFocusedInput.value = 
+            currentFocusedInput.value.slice(0, start) +
+            char +
+            currentFocusedInput.value.slice(end);
+        currentFocusedInput.selectionStart = currentFocusedInput.selectionEnd = start + 1;
+        currentFocusedInput.focus();
+    }
+}
+
+function checkAnswer(event, input, part) {
+    if (event.key === 'Enter') {
+        const userAnswer = normalize(input.value);
+        const correctAnswer = normalize(input.dataset.answer);
+        
+        input.classList.remove('correct', 'incorrect');
+        input.classList.add(userAnswer === correctAnswer ? 'correct' : 'incorrect');
+        
+        updateScore(part);
+        if (userAnswer === correctAnswer) {
+            focusNextInput(input);
+        }
+    }
+}
+
+function normalize(str) {
+    return str.toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z]/g, '');
+}
+
+function updateScore(part) {
+    const inputs = document.querySelectorAll(`#${part} input`);
+    let score = 0;
+    
+    inputs.forEach(input => {
+        if (normalize(input.value) === normalize(input.dataset.answer)) {
+            score++;
+        }
+    });
+    
+    document.getElementById(`score${part.slice(-1)}`).textContent = score;
+}
+
+function focusNextInput(currentInput) {
+    const allInputs = Array.from(document.querySelectorAll('input'));
+    const currentIndex = allInputs.indexOf(currentInput);
+    if (currentIndex < allInputs.length - 1) {
+        allInputs[currentIndex + 1].focus();
+    }
+}
+
+function printResults() {
+    const printContent = `
+        <h2>Resultados del Pretérito</h2>
+        ${Array.from(document.querySelectorAll('#part1 .question')).map((question, index) => {
+            const input = question.querySelector('input');
+            const correct = input.classList.contains('correct');
+            return `
+                <p>
+                    ${exercises.part1[index].q} 
+                    <strong>Tu respuesta:</strong> ${input.value || "---"}<br>
+                    <strong>Correcta:</strong> ${exercises.part1[index].a}<br>
+                    <span class="${correct ? 'correct-print' : 'incorrect-print'}">
+                        ${correct ? '✓ Correcto' : '✗ Incorrecto'}
+                    </span>
+                </p>
+            `;
+        }).join('')}
+        <h3>Puntuación Final: ${document.getElementById('score1').textContent}/30</h3>
+    `;
+
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+        <html>
+            <head>
+                <title>Resultados Pretérito</title>
+                <style>
+                    body { font-family: Arial; padding: 20px; }
+                    h2 { color: #2c3e50; }
+                    p { border-bottom: 1px solid #eee; padding: 10px; }
+                    strong { color: #666; display: inline-block; width: 120px; }
+                    .correct-print { color: green; }
+                    .incorrect-print { color: red; }
+                </style>
+            </head>
+            <body class="print-version">${printContent}</body>
+        </html>
+    `);
+    printWindow.document.close();
+    printWindow.print();
+}
+
+// Initialize
+createExercises();
+document.querySelector('input')?.focus();
+</script>
+</body>
+</html>

@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafíos Gramaticales B2 - 100 Ejercicios</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+            min-height: 100vh;
+        }
+        .exercise-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .input-field {
+            transition: all 0.3s ease;
+            border: 2px solid #e2e8f0;
+            font-family: 'Inter', sans-serif;
+        }
+        .input-field:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            outline: none;
+        }
+        .input-field.correct {
+            border-color: #10b981;
+            background-color: #ecfdf5;
+        }
+        .input-field.incorrect {
+            border-color: #ef4444;
+            background-color: #fef2f2;
+        }
+        .progress-bar {
+            transition: width 0.5s ease;
+        }
+        .category-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+        }
+        .exercise-item {
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+        .exercise-item:hover {
+            border-color: #d1d5db;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .accent-keyboard {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            display: none;
+        }
+        .accent-btn {
+            padding: 5px 10px;
+            margin: 2px;
+            background: #f3f4f6;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .accent-btn:hover {
+            background: #e5e7eb;
+        }
+        .show-accent-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: #4f46e5;
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="container mx-auto max-w-6xl">
+        <div class="exercise-container p-8 mb-8">
+            <header class="text-center mb-8">
+                <div class="inline-block bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-2 rounded-full text-sm font-semibold mb-4">
+                    Gramática B2 Avanzada
+                </div>
+                <h1 class="text-4xl font-bold text-gray-800 mb-4">Desafíos Gramaticales B2</h1>
+                <p class="text-gray-600 text-lg mb-6">100 ejercicios enfocados en los errores más comunes</p>
+                
+                <div class="flex flex-wrap justify-center gap-2 mb-6">
+                    <span class="category-badge bg-red-100 text-red-800">Subjuntivo</span>
+                    <span class="category-badge bg-blue-100 text-blue-800">Por/Para</span>
+                    <span class="category-badge bg-green-100 text-green-800">Ser/Estar</span>
+                    <span class="category-badge bg-yellow-100 text-yellow-800">Pretéritos</span>
+                    <span class="category-badge bg-purple-100 text-purple-800">Pronombres</span>
+                    <span class="category-badge bg-pink-100 text-pink-800">Gustar</span>
+                    <span class="category-badge bg-indigo-100 text-indigo-800">Falsos amigos</span>
+                    <span class="category-badge bg-gray-100 text-gray-800">Preposiciones</span>
+                    <span class="category-badge bg-orange-100 text-orange-800">Expresiones</span>
+                    <span class="category-badge bg-teal-100 text-teal-800">Voz pasiva</span>
+                </div>
+            </header>
+
+            <div class="mb-8">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm font-medium text-gray-700">Progreso</span>
+                    <span class="text-sm text-gray-500" id="progress-text">0/100 ejercicios completados</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-4">
+                    <div class="progress-bar bg-gradient-to-r from-indigo-500 to-purple-600 h-4 rounded-full" id="progress-bar" style="width: 0%"></div>
+                </div>
+                <div class="mt-2 flex justify-between">
+                    <span class="text-lg font-semibold text-gray-700">Precisión: <span id="accuracy-display">0%</span></span>
+                    <span class="text-lg font-semibold text-gray-700">Puntuación: <span id="score-display">0/100</span></span>
+                </div>
+            </div>
+
+            <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+                <div class="flex flex-wrap gap-2 mb-3">
+                    <button onclick="filterByCategory('all', this)" class="filter-btn active px-3 py-1 text-sm rounded-full bg-gray-700 text-white">Todos</button>
+                    <button onclick="filterByCategory('subjuntivo', this)" class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700">Subjuntivo</button>
+                    <button onclick="filterByCategory('por-para', this)" class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700">Por/Para</button>
+                    <button onclick="filterByCategory('ser-estar', this)" class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700">Ser/Estar</button>
+                    <button onclick="filterByCategory('preteritos', this)" class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700">Pretéritos</button>
+                    <button onclick="filterByCategory('pronombres', this)" class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700">Pronombres</button>
+                    <button onclick="filterByCategory('gustar', this)" class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700">Gustar</button>
+                    <button onclick="filterByCategory('falsos-amigos', this)" class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700">Falsos amigos</button>
+                    <button onclick="filterByCategory('preposiciones', this)" class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700">Preposiciones</button>
+                    <button onclick="filterByCategory('expresiones', this)" class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700">Expresiones</button>
+                    <button onclick="filterByCategory('voz-pasiva', this)" class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700">Voz pasiva</button>
+                </div>
+                <div class="flex items-center gap-4">
+                    <label class="flex items-center">
+                        <input type="checkbox" id="show-completed" class="mr-2">
+                        <span class="text-sm">Mostrar ejercicios completados</span>
+                    </label>
+                    <button onclick="resetAll()" class="px-4 py-2 bg-red-500 text-white text-sm rounded hover:bg-red-600">Reiniciar</button>
+                </div>
+            </div>
+
+            <div id="exercises-container" class="space-y-4">
+                <!-- Exercises will be inserted here by JavaScript -->
+            </div>
+
+            <div id="final-results" class="hidden mt-8 p-6 bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-lg text-center">
+                <h3 class="text-2xl font-bold text-green-800 mb-2">🎉 ¡Felicidades!</h3>
+                <p class="text-green-700 mb-4">¡Has completado todos los ejercicios!</p>
+                <div id="final-score" class="text-3xl font-bold text-green-800 mb-4"></div>
+                <div id="category-breakdown" class="text-sm text-gray-600"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating accent keyboard -->
+    <div class="accent-keyboard" id="accentKeyboard">
+        <div class="grid grid-cols-4 gap-1">
+            <button class="accent-btn" onclick="insertAccent('á')">á</button>
+            <button class="accent-btn" onclick="insertAccent('é')">é</button>
+            <button class="accent-btn" onclick="insertAccent('í')">í</button>
+            <button class="accent-btn" onclick="insertAccent('ó')">ó</button>
+            <button class="accent-btn" onclick="insertAccent('ú')">ú</button>
+            <button class="accent-btn" onclick="insertAccent('ü')">ü</button>
+            <button class="accent-btn" onclick="insertAccent('ñ')">ñ</button>
+            <button class="accent-btn" onclick="insertAccent('¿')">¿</button>
+            <button class="accent-btn" onclick="insertAccent('¡')">¡</button>
+            <button class="accent-btn" onclick="hideAccentKeyboard()">×</button>
+        </div>
+    </div>
+
+    <div class="show-accent-btn" onclick="toggleAccentKeyboard()">á</div>
+
+    <script>
+        // 100 B2 Spanish Grammar Exercises - FULL VERSION
+        const exercises = [
+            // Subjuntivo (25)
+            { id: 1, category: 'subjuntivo', sentence: "Espero que _____ (venir) a la fiesta.", answer: "vengas", explanation: "Se usa subjuntivo después de verbos de deseo como 'esperar que'.", type: "subjunctive" },
+            { id: 2, category: 'subjuntivo', sentence: "Dudo que _____ (saber) la respuesta.", answer: "sepa", explanation: "Se usa subjuntivo después de verbos de duda como 'dudar que'.", type: "subjunctive" },
+            { id: 3, category: 'subjuntivo', sentence: "No creo que _____ (llover) mañana.", answer: "llueva", explanation: "Se usa subjuntivo con 'no creer que'.", type: "subjunctive" },
+            { id: 4, category: 'subjuntivo', sentence: "Busco un apartamento que _____ (tener) terraza.", answer: "tenga", explanation: "Subjuntivo en cláusulas adjetivas cuando el antecedente es indefinido.", type: "subjunctive" },
+            { id: 5, category: 'subjuntivo', sentence: "Es importante que _____ (estudiar) todos los días.", answer: "estudies", explanation: "Subjuntivo después de expresiones de necesidad/importancia.", type: "subjunctive" },
+            { id: 6, category: 'subjuntivo', sentence: "Antes de que _____ (salir), apaga las luces.", answer: "salgas", explanation: "Subjuntivo después de 'antes de que'.", type: "subjunctive" },
+            { id: 7, category: 'subjuntivo', sentence: "A menos que _____ (llegar) temprano, no habrá asientos.", answer: "llegues", explanation: "Subjuntivo después de 'a menos que'.", type: "subjunctive" },
+            { id: 8, category: 'subjuntivo', sentence: "Con tal de que _____ (hacer) el trabajo, no me importa cómo.", answer: "hagas", explanation: "Subjuntivo después de 'con tal de que'.", type: "subjunctive" },
+            { id: 9, category: 'subjuntivo', sentence: "No hay nadie que _____ (poder) ayudarme.", answer: "pueda", explanation: "Subjuntivo después de expresiones negativas con 'nadie que'.", type: "subjunctive" },
+            { id: 10, category: 'subjuntivo', sentence: "Ojalá _____ (tener) más tiempo libre.", answer: "tenga", explanation: "'Ojalá' siempre va seguido de subjuntivo.", type: "subjunctive" },
+            { id: 11, category: 'subjuntivo', sentence: "Quizás _____ (ir) al cine esta noche.", answer: "vayamos", explanation: "Subjuntivo con 'quizás' cuando hay duda.", type: "subjunctive" },
+            { id: 12, category: 'subjuntivo', sentence: "No conozco a nadie que _____ (hablar) ruso aquí.", answer: "hable", explanation: "Subjuntivo en cláusulas adjetivas con antecedente negativo.", type: "subjunctive" },
+            { id: 13, category: 'subjuntivo', sentence: "Cuando _____ (llegar), avísame.", answer: "llegues", explanation: "Subjuntivo para acciones futuras con 'cuando'.", type: "subjunctive" },
+            { id: 14, category: 'subjuntivo', sentence: "Te llamaré en cuanto _____ (terminar).", answer: "termine", explanation: "Subjuntivo con 'en cuanto' para acciones futuras.", type: "subjunctive" },
+            { id: 15, category: 'subjuntivo', sentence: "Aunque _____ (ser) difícil, lo intentaré.", answer: "sea", explanation: "Subjuntivo con 'aunque' cuando expresa concesión.", type: "subjunctive" },
+            { id: 16, category: 'subjuntivo', sentence: "Para que _____ (entender) mejor, te lo explicaré otra vez.", answer: "entiendas", explanation: "Subjuntivo después de 'para que'.", type: "subjunctive" },
+            { id: 17, category: 'subjuntivo', sentence: "Sin que _____ (saber) nadie, salimos de casa.", answer: "sepa", explanation: "Subjuntivo después de 'sin que'.", type: "subjunctive" },
+            { id: 18, category: 'subjuntivo', sentence: "Me alegro de que _____ (estar) bien.", answer: "estés", explanation: "Subjuntivo después de expresiones de emoción.", type: "subjunctive" },
+            { id: 19, category: 'subjuntivo', sentence: "Es raro que no _____ (llamar) todavía.", answer: "haya llamado", explanation: "Subjuntivo perfecto para acciones pasadas.", type: "subjunctive" },
+            { id: 20, category: 'subjuntivo', sentence: "No pienso que _____ (ser) una buena idea.", answer: "sea", explanation: "Subjuntivo después de 'no pensar que'.", type: "subjunctive" },
+            { id: 21, category: 'subjuntivo', sentence: "Es posible que _____ (nevar) en diciembre.", answer: "nieve", explanation: "Subjuntivo para expresar probabilidad.", type: "subjunctive" },
+            { id: 22, category: 'subjuntivo', sentence: "No estoy seguro de que _____ (venir) mañana.", answer: "venga", explanation: "Subjuntivo para expresar incertidumbre.", type: "subjunctive" },
+            { id: 23, category: 'subjuntivo', sentence: "Hasta que no _____ (recibir) una respuesta, no estaré tranquilo.", answer: "reciba", explanation: "Subjuntivo después de 'hasta que' en contextos futuros.", type: "subjunctive" },
+            { id: 24, category: 'subjuntivo', sentence: "Siento que _____ (tener) que irme ya.", answer: "tenga", explanation: "Subjuntivo después de 'sentir que' cuando expresa necesidad.", type: "subjunctive" },
+            { id: 25, category: 'subjuntivo', sentence: "No es cierto que _____ (haber) un problema.", answer: "haya", explanation: "Subjuntivo después de expresiones negativas de certeza.", type: "subjunctive" },
+
+            // Por/Para (15) - CORRECTED VERSION
+            { id: 26, category: 'por-para', sentence: "Trabajo _____ una empresa internacional.", answer: "para", explanation: "'Para' indica empleador o destinatario.", type: "preposition" },
+            { id: 27, category: 'por-para', sentence: "Lo hice _____ ti.", answer: "por", explanation: "'Por' expresa motivo o razón (por tu bien).", type: "preposition" },
+            { id: 28, category: 'por-para', sentence: "Estudio _____ ser médico.", answer: "para", explanation: "'Para' indica finalidad u objetivo.", type: "preposition" },
+            { id: 29, category: 'por-para', sentence: "Pagué 50 euros _____ el libro.", answer: "por", explanation: "'Por' indica intercambio o precio.", type: "preposition" },
+            { id: 30, category: 'por-para', sentence: "El tren pasa _____ el túnel.", answer: "por", explanation: "'Por' indica movimiento a través de un lugar.", type: "preposition" },
+            { id: 31, category: 'por-para', sentence: "Este regalo es _____ mi madre.", answer: "para", explanation: "'Para' indica destinatario.", type: "preposition" },
+            { id: 32, category: 'por-para', sentence: "_____ mí, el español es fácil.", answer: "Para", explanation: "'Para' indica opinión o perspectiva.", type: "preposition" },
+            { id: 33, category: 'por-para', sentence: "_____ la mañana, tomo café.", answer: "Por", explanation: "'Por la mañana/tarde/noche' para partes del día.", type: "preposition" },
+            { id: 34, category: 'por-para', sentence: "Necesito el informe _____ el viernes.", answer: "para", explanation: "'Para' indica plazo límite.", type: "preposition" },
+            { id: 35, category: 'por-para', sentence: "_____ lo general, llego temprano.", answer: "Por", explanation: "'Por lo general' es una expresión fija.", type: "preposition" },
+            { id: 36, category: 'por-para', sentence: "_____ falta de tiempo, no pude terminar.", answer: "Por", explanation: "'Por' indica causa o razón.", type: "preposition" },
+            { id: 37, category: 'por-para', sentence: "_____ ser invierno, hace mucho calor.", answer: "Para", explanation: "'Para' expresa contraste o excepción.", type: "preposition" },
+            { id: 38, category: 'por-para', sentence: "Lo hago _____ amor al arte.", answer: "por", explanation: "'Por' en expresiones como 'por amor al arte'.", type: "preposition" },
+            { id: 39, category: 'por-para', sentence: "_____ ahora, esto es suficiente.", answer: "Por", explanation: "'Por ahora' es una expresión temporal.", type: "preposition" },
+            { id: 40, category: 'por-para', sentence: "Luchamos _____ nuestros derechos.", answer: "por", explanation: "'Por' indica causa o motivo de lucha.", type: "preposition" },
+
+            // Ser/Estar (15)
+            { id: 41, category: 'ser-estar', sentence: "Madrid _____ en el centro de España.", answer: "está", explanation: "'Estar' para ubicación geográfica.", type: "verb-choice" },
+            { id: 42, category: 'ser-estar', sentence: "Mi hermano _____ médico.", answer: "es", explanation: "'Ser' para profesiones.", type: "verb-choice" },
+            { id: 43, category: 'ser-estar', sentence: "Las flores _____ bonitas hoy.", answer: "están", explanation: "'Estar' para estados temporales.", type: "verb-choice" },
+            { id: 44, category: 'ser-estar', sentence: "Este libro _____ de mi abuelo.", answer: "es", explanation: "'Ser' para posesión (pertenencia).", type: "verb-choice" },
+            { id: 45, category: 'ser-estar', sentence: "_____ las tres de la tarde.", answer: "Son", explanation: "'Ser' para la hora.", type: "verb-choice" },
+            { id: 46, category: 'ser-estar', sentence: "Nosotros _____ cansados después del viaje.", answer: "estamos", explanation: "'Estar' para estados físicos.", type: "verb-choice" },
+            { id: 47, category: 'ser-estar', sentence: "La reunión _____ a las ocho.", answer: "es", explanation: "'Ser' para eventos programados.", type: "verb-choice" },
+            { id: 48, category: 'ser-estar', sentence: "¿De qué color _____ tu coche?", answer: "es", explanation: "'Ser' para características permanentes.", type: "verb-choice" },
+            { id: 49, category: 'ser-estar', sentence: "La puerta _____ abierta.", answer: "está", explanation: "'Estar' para estados resultantes de una acción.", type: "verb-choice" },
+            { id: 50, category: 'ser-estar', sentence: "Ellos _____ muy simpáticos.", answer: "son", explanation: "'Ser' para características de personalidad.", type: "verb-choice" },
+            { id: 51, category: 'ser-estar', sentence: "La sopa _____ fría.", answer: "está", explanation: "'Estar' para condiciones temporales.", type: "verb-choice" },
+            { id: 52, category: 'ser-estar', sentence: "Hoy _____ viernes.", answer: "es", explanation: "'Ser' para días de la semana.", type: "verb-choice" },
+            { id: 53, category: 'ser-estar', sentence: "¿Cómo _____ tu nuevo trabajo?", answer: "está", explanation: "'Estar' para opiniones sobre situaciones.", type: "verb-choice" },
+            { id: 54, category: 'ser-estar', sentence: "Esta película _____ interesante.", answer: "es", explanation: "'Ser' para características esenciales.", type: "verb-choice" },
+            { id: 55, category: 'ser-estar', sentence: "Los niños _____ dormidos.", answer: "están", explanation: "'Estar' para estados temporales.", type: "verb-choice" },
+
+            // Pretéritos (15)
+            { id: 56, category: 'preteritos', sentence: "Ayer _____ (ir) al cine.", answer: "fui", explanation: "Pretérito indefinido para acciones pasadas completadas.", type: "past-tense" },
+            { id: 57, category: 'preteritos', sentence: "Cuando era niño, _____ (jugar) al fútbol.", answer: "jugaba", explanation: "Pretérito imperfecto para acciones habituales en el pasado.", type: "past-tense" },
+            { id: 58, category: 'preteritos', sentence: "Mientras _____ (caminar), vi un accidente.", answer: "caminaba", explanation: "Imperfecto para acciones en progreso en el pasado.", type: "past-tense" },
+            { id: 59, category: 'preteritos', sentence: "_____ (llover) cuando salimos.", answer: "Llovía", explanation: "Imperfecto para describir condiciones meteorológicas.", type: "past-tense" },
+            { id: 60, category: 'preteritos', sentence: "El año pasado _____ (viajar) a Italia.", answer: "viajé", explanation: "Indefinido para acciones completadas con marco temporal.", type: "past-tense" },
+            { id: 61, category: 'preteritos', sentence: "Siempre _____ (comer) en ese restaurante.", answer: "comía", explanation: "Imperfecto para acciones repetidas en el pasado.", type: "past-tense" },
+            { id: 62, category: 'preteritos', sentence: "_____ (empezar) a nevar a las tres.", answer: "Empezó", explanation: "Indefinido para acciones puntuales en el pasado.", type: "past-tense" },
+            { id: 63, category: 'preteritos', sentence: "Cuando _____ (llegar), ya habían cenado.", answer: "llegué", explanation: "Indefinido para acción puntual que interrumpe otra.", type: "past-tense" },
+            { id: 64, category: 'preteritos', sentence: "Tenías 5 años cuando _____ (mudarse) a España.", answer: "te mudaste", explanation: "Indefinido para acción específica en el pasado.", type: "past-tense" },
+            { id: 65, category: 'preteritos', sentence: "_____ (ser) las ocho cuando llamaste.", answer: "Eran", explanation: "Imperfecto para la hora en el pasado.", type: "past-tense" },
+            { id: 66, category: 'preteritos', sentence: "_____ (hacer) frío esa noche.", answer: "Hacía", explanation: "Imperfecto para condiciones en el pasado.", type: "past-tense" },
+            { id: 67, category: 'preteritos', sentence: "_____ (conocer) a mi esposo en 2010.", answer: "Conocí", explanation: "Indefinido para acciones que marcan un punto en el tiempo.", type: "past-tense" },
+            { id: 68, category: 'preteritos', sentence: "De pequeño, _____ (querer) ser astronauta.", answer: "quería", explanation: "Imperfecto para deseos en el pasado.", type: "past-tense" },
+            { id: 69, category: 'preteritos', sentence: "_____ (estar) enfermo la semana pasada.", answer: "Estuve", explanation: "Indefinido para estados temporales con marco temporal.", type: "past-tense" },
+            { id: 70, category: 'preteritos', sentence: "Cuando _____ (vivir) en México, comía tacos todos los días.", answer: "vivía", explanation: "Imperfecto para contexto o marco temporal en el pasado.", type: "past-tense" },
+
+            // Pronombres (10)
+            { id: 71, category: 'pronombres', sentence: "_____ veo todos los días. (a mi hermana)", answer: "La", explanation: "Pronombre de objeto directo femenino singular.", type: "pronoun" },
+            { id: 72, category: 'pronombres', sentence: "_____ voy a dar un regalo. (a ti)", answer: "Te", explanation: "Pronombre de objeto indirecto para 'tú'.", type: "pronoun" },
+            { id: 73, category: 'pronombres', sentence: "¿_____ prestaste el libro? (a ellos)", answer: "Les", explanation: "Pronombre de objeto indirecto plural.", type: "pronoun" },
+            { id: 74, category: 'pronombres', sentence: "No _____ conozco. (a usted)", answer: "lo", explanation: "Pronombre de objeto directo masculino singular formal.", type: "pronoun" },
+            { id: 75, category: 'pronombres', sentence: "_____ escribí una carta. (a mis padres)", answer: "Les", explanation: "Objeto indirecto plural.", type: "pronoun" },
+            { id: 76, category: 'pronombres', sentence: "¿_____ has visto? (a mí)", answer: "me", explanation: "Pronombre reflexivo.", type: "pronoun" },
+            { id: 77, category: 'pronombres', sentence: "_____ quiero mucho. (a vosotros)", answer: "Os", explanation: "Pronombre de objeto directo para 'vosotros'.", type: "pronoun" },
+            { id: 78, category: 'pronombres', sentence: "No _____ digas nada. (a ella)", answer: "le", explanation: "Objeto indirecto femenino singular.", type: "pronoun" },
+            { id: 79, category: 'pronombres', sentence: "_____ voy a llamar más tarde. (a ustedes)", answer: "Les", explanation: "Objeto indirecto plural formal.", type: "pronoun" },
+            { id: 80, category: 'pronombres', sentence: "_____ he comprado flores. (a mi madre)", answer: "Le", explanation: "Objeto indirecto femenino singular.", type: "pronoun" },
+
+            // Gustar y verbos similares (5)
+            { id: 81, category: 'gustar', sentence: "A mí _____ la música clásica.", answer: "me gusta", explanation: "Verbo 'gustar' conjugado según el objeto (la música).", type: "gustar" },
+            { id: 82, category: 'gustar', sentence: "A nosotros _____ los deportes.", answer: "nos gustan", explanation: "Plural porque 'los deportes' es plural.", type: "gustar" },
+            { id: 83, category: 'gustar', sentence: "A ti _____ mucho viajar.", answer: "te gusta", explanation: "Infinitivo siempre usa forma singular.", type: "gustar" },
+            { id: 84, category: 'gustar', sentence: "A ellos no _____ las películas de terror.", answer: "les gustan", explanation: "Plural porque 'las películas' es plural.", type: "gustar" },
+            { id: 85, category: 'gustar', sentence: "A usted _____ el café por la mañana.", answer: "le gusta", explanation: "Formal singular.", type: "gustar" },
+
+            // Falsos amigos (5)
+            { id: 86, category: 'falsos-amigos', sentence: "No es una _____ (success), es un fracaso.", answer: "éxito", explanation: "'Exit' en inglés es 'salida' en español.", type: "false-friend" },
+            { id: 87, category: 'falsos-amigos', sentence: "Tengo una _____ (real) foto del evento.", answer: "actual", explanation: "'Actual' en español significa 'current', no 'real'.", type: "false-friend" },
+            { id: 88, category: 'falsos-amigos', sentence: "La _____ (library) está cerrada los domingos.", answer: "biblioteca", explanation: "'Library' es 'biblioteca', no 'librería'.", type: "false-friend" },
+            { id: 89, category: 'falsos-amigos', sentence: "Necesito _____ (attend) a la reunión.", answer: "asistir", explanation: "'Asistir' significa 'to attend', no 'to assist'.", type: "false-friend" },
+            { id: 90, category: 'falsos-amigos', sentence: "_____ (Eventually), lo entenderás.", answer: "Finalmente", explanation: "'Eventualmente' significa 'occasionally, possibly', not 'eventually'.", type: "false-friend" },
+
+            // Preposiciones (5)
+            { id: 91, category: 'preposiciones', sentence: "Sueño _____ viajar por el mundo.", answer: "con", explanation: "'Soñar con' es la construcción correcta.", type: "preposition" },
+            { id: 92, category: 'preposiciones', sentence: "Confío _____ ti.", answer: "en", explanation: "'Confiar en' alguien.", type: "preposition" },
+            { id: 93, category: 'preposiciones', sentence: "Depende _____ el clima.", answer: "del", explanation: "'Depender de' algo o alguien.", type: "preposition" },
+            { id: 94, category: 'preposiciones', sentence: "Me alegro _____ tu éxito.", answer: "de", explanation: "'Alegrarse de' algo.", type: "preposition" },
+            { id: 95, category: 'preposiciones', sentence: "Insistió _____ acompañarme.", answer: "en", explanation: "'Insistir en' hacer algo.", type: "preposition" },
+
+            // Voz pasiva (5)
+            { id: 96, category: 'voz-pasiva', sentence: "El libro _____ (escribir) por Cervantes.", 
+              answer: ["fue escrito", "se escribió"], 
+              explanation: "Pasiva con 'ser' + participio o pasiva refleja con 'se'. Ambas son correctas.", 
+              type: "passive" },
+              
+            { id: 97, category: 'voz-pasiva', sentence: "Las cartas _____ (enviar) ayer.", 
+              answer: ["fueron enviadas", "se enviaron"], 
+              explanation: "Pasiva tradicional o pasiva refleja. Ambas estructuras son válidas.", 
+              type: "passive" },
+              
+            { id: 98, category: 'voz-pasiva', sentence: "Este puente _____ (construir) en 1990.", 
+              answer: ["fue construido", "se construyó"], 
+              explanation: "Se puede usar la pasiva perifrástica o la pasiva con 'se'.", 
+              type: "passive" },
+              
+            { id: 99, category: 'voz-pasiva', sentence: "La decisión _____ (tomar) por el comité.", 
+              answer: ["fue tomada", "se tomó"], 
+              explanation: "Ambas formas pasivas son correctas en español.", 
+              type: "passive" },
+              
+            { id: 100, category: 'voz-pasiva', sentence: "Los premios _____ (entregar) el mes pasado.", 
+              answer: ["fueron entregados", "se entregaron"], 
+              explanation: "Pasiva con 'ser' o pasiva refleja con 'se'. Las dos son adecuadas.", 
+              type: "passive" }
+        ];
+        
+        // State management
+        let completedExercises = new Set();
+        let correctAnswers = 0;
+        let totalAttempts = 0;
+        let currentFilter = 'all';
+        let activeInputField = null;
+
+        // Accent keyboard functions
+        function toggleAccentKeyboard() {
+            const keyboard = document.getElementById('accentKeyboard');
+            keyboard.style.display = keyboard.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function hideAccentKeyboard() {
+            document.getElementById('accentKeyboard').style.display = 'none';
+        }
+
+        function insertAccent(accent) {
+            if (activeInputField) {
+                const startPos = activeInputField.selectionStart;
+                const endPos = activeInputField.selectionEnd;
+                const currentValue = activeInputField.value;
+                
+                activeInputField.value = currentValue.substring(0, startPos) + accent + currentValue.substring(endPos);
+                activeInputField.selectionStart = activeInputField.selectionEnd = startPos + 1;
+                activeInputField.focus();
+            }
+        }
+
+        // Track active input field for accent keyboard
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('input-field')) {
+                activeInputField = e.target;
+                // Show keyboard only for fields that might need accents
+                const exerciseId = e.target.id.replace('input-', '');
+                const exercise = exercises.find(ex => ex.id == exerciseId);
+                if (exercise && (exercise.category === 'subjuntivo' || exercise.category === 'preteritos' || exercise.category === 'por-para')) {
+                    document.getElementById('accentKeyboard').style.display = 'block';
+                } else {
+                    document.getElementById('accentKeyboard').style.display = 'none';
+                }
+            }
+        });
+
+        // Accent normalization function
+        function normalizeAccents(text) {
+            if (typeof text !== 'string') return '';
+            return text.normalize('NFD')
+                       .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+                       .toLowerCase()
+                       .trim();
+        }
+
+        // Answer checking function (handles single strings and arrays of strings)
+        function checkAnswer(userAnswer, correctAnswer) {
+            if (Array.isArray(correctAnswer)) {
+                // If correctAnswer is an array, check if userAnswer is in it
+                return correctAnswer.some(ans => {
+                    const normalizedUser = normalizeAccents(userAnswer);
+                    const normalizedAns = normalizeAccents(ans);
+                    return normalizedUser === normalizedAns;
+                });
+            } else {
+                // Otherwise, perform the original string comparison
+                const normalizedUser = normalizeAccents(userAnswer);
+                const normalizedCorrect = normalizeAccents(correctAnswer);
+                return normalizedUser === normalizedCorrect;
+            }
+        }
+
+        // Category color mapping
+        const categoryColors = {
+            'subjuntivo': 'bg-red-100 text-red-800',
+            'por-para': 'bg-blue-100 text-blue-800',
+            'ser-estar': 'bg-green-100 text-green-800',
+            'preteritos': 'bg-yellow-100 text-yellow-800',
+            'pronombres': 'bg-purple-100 text-purple-800',
+            'gustar': 'bg-pink-100 text-pink-800',
+            'falsos-amigos': 'bg-indigo-100 text-indigo-800',
+            'preposiciones': 'bg-gray-100 text-gray-800',
+            'expresiones': 'bg-orange-100 text-orange-800',
+            'voz-pasiva': 'bg-teal-100 text-teal-800'
+        };
+
+        // Initialize exercises when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            renderExercises();
+            updateProgress();
+            setupEventListeners();
+        });
+
+        // Setup event listeners
+        function setupEventListeners() {
+            document.getElementById('show-completed').addEventListener('change', function() {
+                renderExercises();
+            });
+        }
+
+        // Render exercises based on current filter
+        function renderExercises() {
+            const container = document.getElementById('exercises-container');
+            const showCompleted = document.getElementById('show-completed').checked;
+            
+            container.innerHTML = '';
+            
+            const filteredExercises = exercises.filter(ex => {
+                const categoryMatch = currentFilter === 'all' || ex.category === currentFilter;
+                const completedMatch = showCompleted || !completedExercises.has(ex.id);
+                return categoryMatch && completedMatch;
+            });
+
+            filteredExercises.forEach(exercise => {
+                const exerciseDiv = createExerciseElement(exercise);
+                container.appendChild(exerciseDiv);
+            });
+        }
+
+        // Create individual exercise element
+        function createExerciseElement(exercise) {
+            const div = document.createElement('div');
+            div.className = `exercise-item bg-white rounded-lg p-4 fade-in ${completedExercises.has(exercise.id) ? 'opacity-75' : ''}`;
+            div.dataset.category = exercise.category;
+            div.dataset.id = exercise.id;
+
+            const isCompleted = completedExercises.has(exercise.id);
+            const categoryClass = categoryColors[exercise.category] || 'bg-gray-100 text-gray-800';
+            
+            let sentenceHTML = '';
+            sentenceHTML = exercise.sentence.replace('_____', `<input type="text" class="input-field inline-block w-40 px-3 py-2 text-center rounded-lg border-2" id="input-${exercise.id}" placeholder="..." ${isCompleted ? 'disabled' : ''}>`);
+            
+            div.innerHTML = `
+                <div class="flex items-start justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm font-semibold text-gray-500">#${exercise.id}</span>
+                        <span class="category-badge ${categoryClass}">${getCategoryName(exercise.category)}</span>
+                        ${isCompleted ? '<span class="text-green-600 text-sm">✅</span>' : ''}
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <p class="text-lg text-gray-800 mb-2">${sentenceHTML}</p>
+                </div>
+                
+                <div class="feedback hidden" id="feedback-${exercise.id}">
+                    <div class="mt-2 p-3 rounded-lg text-sm">
+                        <div class="feedback-content"></div>
+                    </div>
+                </div>
+            `;
+
+            // Add event listeners
+            if (!isCompleted) {
+                const input = div.querySelector(`#input-${exercise.id}`);
+                if (input) {
+                    input.addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter') {
+                            handleAnswer(exercise.id, this.value.trim());
+                        }
+                    });
+                    
+                    input.addEventListener('blur', function() {
+                        if (this.value.trim() && !completedExercises.has(exercise.id)) {
+                            handleAnswer(exercise.id, this.value.trim());
+                        }
+                    });
+                }
+            }
+            return div;
+        }
+        
+        function handleAnswer(exerciseId, userAnswer) {
+            const exercise = exercises.find(ex => ex.id === exerciseId);
+            const input = document.getElementById(`input-${exerciseId}`);
+            const feedback = document.getElementById(`feedback-${exerciseId}`);
+            
+            if (!exercise || !input || !feedback || completedExercises.has(exerciseId)) {
+                return;
+            }
+
+            totalAttempts++;
+            const isCorrect = checkAnswer(userAnswer, exercise.answer);
+            
+            if (isCorrect) {
+                correctAnswers++;
+                completedExercises.add(exerciseId);
+                
+                input.className = input.className.replace(/\s*(correct|incorrect)\s*/, '') + ' correct';
+                input.disabled = true;
+                
+                feedback.className = feedback.className.replace('hidden', '');
+                feedback.querySelector('.feedback-content').innerHTML = `
+                    <div class="text-green-700">
+                        <strong>✅ ¡Correcto!</strong><br>
+                        <span class="text-sm">${exercise.explanation}</span>
+                    </div>
+                `;
+                feedback.querySelector('.mt-2').className = 'mt-2 p-3 rounded-lg text-sm bg-green-50 border border-green-200';
+                
+            } else {
+                input.className = input.className.replace(/\s*(correct|incorrect)\s*/, '') + ' incorrect';
+                
+                const correctAnswerText = Array.isArray(exercise.answer) ? exercise.answer.join(' / ') : exercise.answer;
+
+                feedback.className = feedback.className.replace('hidden', '');
+                feedback.querySelector('.feedback-content').innerHTML = `
+                    <div class="text-red-700">
+                        <strong>❌ Incorrecto</strong><br>
+                        <span class="text-sm">Respuesta(s) correcta(s): <strong>${correctAnswerText}</strong></span><br>
+                        <span class="text-xs text-gray-600">${exercise.explanation}</span>
+                    </div>
+                `;
+                feedback.querySelector('.mt-2').className = 'mt-2 p-3 rounded-lg text-sm bg-red-50 border border-red-200';
+                
+                setTimeout(() => {
+                    if (!completedExercises.has(exerciseId)) {
+                        input.className = input.className.replace(/\s*incorrect\s*/, '');
+                    }
+                }, 2000);
+            }
+            
+            updateProgress();
+            
+            if (completedExercises.size === exercises.length) {
+                setTimeout(showFinalResults, 1000);
+            }
+        }
+
+        // Update progress display
+        function updateProgress() {
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const accuracyDisplay = document.getElementById('accuracy-display');
+            const scoreDisplay = document.getElementById('score-display');
+            
+            const completedCount = completedExercises.size;
+            const progressPercentage = (completedCount / exercises.length) * 100;
+            const accuracy = totalAttempts > 0 ? Math.round((correctAnswers / totalAttempts) * 100) : 0;
+            
+            progressBar.style.width = `${progressPercentage}%`;
+            progressText.textContent = `${completedCount}/100 ejercicios completados`;
+            accuracyDisplay.textContent = `${accuracy}%`;
+            scoreDisplay.textContent = `${correctAnswers}/100`;
+        }
+
+        // Filter exercises by category
+        function filterByCategory(category, activeBtn) {
+            currentFilter = category;
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.className = btn.className.replace(/bg-gray-700 text-white|active/, 'bg-gray-200 text-gray-700');
+            });
+            
+            activeBtn.className = activeBtn.className.replace('bg-gray-200 text-gray-700', 'bg-gray-700 text-white active');
+            
+            renderExercises();
+        }
+
+        // Get category display name
+        function getCategoryName(category) {
+            const names = {
+                'subjuntivo': 'Subjuntivo',
+                'por-para': 'Por/Para',
+                'ser-estar': 'Ser/Estar',
+                'preteritos': 'Pretéritos',
+                'pronombres': 'Pronombres',
+                'gustar': 'Gustar',
+                'falsos-amigos': 'Falsos amigos',
+                'preposiciones': 'Preposiciones',
+                'expresiones': 'Expresiones',
+                'voz-pasiva': 'Voz pasiva'
+            };
+            return names[category] || category;
+        }
+
+        // Show final results
+        function showFinalResults() {
+            const finalResults = document.getElementById('final-results');
+            const finalScore = document.getElementById('final-score');
+            const categoryBreakdown = document.getElementById('category-breakdown');
+            
+            const accuracy = totalAttempts > 0 ? Math.round((correctAnswers / totalAttempts) * 100) : 0;
+            
+            finalScore.innerHTML = `
+                <div class="text-4xl font-bold text-green-800">${correctAnswers}/100</div>
+                <div class="text-xl text-green-700">Precisión: ${accuracy}%</div>
+            `;
+            
+            const categoryStats = {};
+            exercises.forEach(ex => {
+                if (!categoryStats[ex.category]) {
+                    categoryStats[ex.category] = { total: 0, completed: 0 };
+                }
+                categoryStats[ex.category].total++;
+                if (completedExercises.has(ex.id)) {
+                    categoryStats[ex.category].completed++;
+                }
+            });
+            
+            let breakdownHTML = '<div class="grid grid-cols-2 md:grid-cols-3 gap-2 mt-4">';
+            Object.entries(categoryStats).forEach(([category, stats]) => {
+                const percentage = stats.total > 0 ? Math.round((stats.completed / stats.total) * 100) : 0;
+                breakdownHTML += `
+                    <div class="text-center p-2 bg-white rounded">
+                        <div class="font-semibold text-sm">${getCategoryName(category)}</div>
+                        <div class="text-xs text-gray-600">${stats.completed}/${stats.total} (${percentage}%)</div>
+                    </div>
+                `;
+            });
+            breakdownHTML += '</div>';
+            
+            categoryBreakdown.innerHTML = breakdownHTML;
+            
+            let message = '';
+            if (accuracy >= 95) {
+                message = '🌟 ¡Excepcional! ¡Tu dominio del español B2 es notable!';
+            } else if (accuracy >= 85) {
+                message = '🎯 ¡Excelente trabajo! Dominas muy bien las reglas B2.';
+            } else if (accuracy >= 75) {
+                message = '👍 ¡Bien hecho! Con un poco más de práctica estarás al máximo.';
+            } else if (accuracy >= 60) {
+                message = '💪 ¡Buen esfuerzo! Sigue practicando estos puntos importantes.';
+            } else {
+                message = '📚 ¡Hay que seguir trabajando! Revisa y vuelve a intentarlo.';
+            }
+            
+            finalResults.querySelector('p').textContent = message;
+            finalResults.className = finalResults.className.replace('hidden', '');
+            
+            finalResults.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Reset all exercises
+        function resetAll() {
+            if (confirm('¿Estás seguro de que quieres reiniciar todos los ejercicios?')) {
+                completedExercises.clear();
+                correctAnswers = 0;
+                totalAttempts = 0;
+                currentFilter = 'all';
+                
+                document.getElementById('final-results').className = 'hidden mt-8 p-6 bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-lg text-center';
+                document.getElementById('show-completed').checked = false;
+                
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.className = btn.className.replace(/bg-gray-700 text-white|active/, 'bg-gray-200 text-gray-700');
+                });
+                document.querySelector('.filter-btn').className += ' bg-gray-700 text-white active';
+                
+                renderExercises();
+                updateProgress();
+            }
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 'r':
+                        e.preventDefault();
+                        resetAll();
+                        break;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

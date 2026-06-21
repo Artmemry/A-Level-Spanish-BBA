@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad A-Level: Inmigración y Política en España</title>
+    <style>
+        :root {
+            --primary: #c60b1e; /* Spanish Red */
+            --primary-dark: #8b0000;
+            --secondary: #ffc400; /* Gold */
+            --success: #28a745;
+            --error: #dc3545;
+            --bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --light-grey: #e9ecef;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: var(--bg);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        /* --- STICKY PROGRESS --- */
+        .sticky-progress {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            padding: 10px 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--light-grey);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: var(--light-grey);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 { font-size: 2.2rem; margin-bottom: 15px; font-weight: 700; }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid var(--secondary);
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--light-grey);
+            padding-bottom: 10px;
+        }
+        
+        .grammar-rule {
+            background: #e3f2fd;
+            border-left: 5px solid #2196f3;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 0 8px 8px 0;
+        }
+        .grammar-rule strong { color: #1565c0; }
+        .grammar-example { margin-left: 20px; font-style: italic; margin-bottom: 10px; }
+
+        /* --- UPDATED SUBJUNCTIVE SELECTION STYLES --- */
+        .subjunctive-selection {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .verb-select {
+            padding: 8px 12px;
+            border: 2px solid var(--light-grey);
+            border-radius: 6px;
+            background: white;
+            font-weight: 500;
+            min-width: 140px;
+        }
+        
+        .verb-select.correct { border-color: var(--success); background: #d4edda; }
+        .verb-select.incorrect { border-color: var(--error); background: #f8d7da; }
+
+        /* --- Text Content Styles --- */
+        .text-content {
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+        .data-box {
+            background: #e9f7ef;
+            border-left: 4px solid var(--success);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        /* --- MCQ & Cloze/Gap Styles --- */
+        .question-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-left: 4px solid var(--primary);
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        
+        .option {
+            padding: 10px 15px;
+            background: white;
+            border: 1px solid var(--light-grey);
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .option:hover { border-color: var(--primary); }
+        
+        .option.selected { border: 2px solid var(--primary); background: #fff8e1; font-weight: 600; }
+        .option.correct { 
+            background: #d4edda; 
+            border: 2px solid var(--success); 
+            color: #155724; 
+            font-weight: bold;
+        }
+        .option.incorrect { 
+            background: #f8d7da; 
+            border: 2px solid var(--error); 
+            color: #721c24; 
+            position: relative;
+        }
+        .option.incorrect::after { content: "❌"; position: absolute; right: 10px; }
+        .option.correct::after { content: "✅"; position: absolute; right: 10px; }
+        
+
+        /* --- Cloze Word Bank --- */
+        .word-bank { display: flex; flex-wrap: wrap; gap: 10px; padding: 15px; background: var(--light-grey); border-radius: 8px; margin-bottom: 20px; justify-content: center; }
+        .word-bank-item { padding: 8px 15px; background: white; border: 1px solid var(--primary); border-radius: 20px; cursor: pointer; font-weight: 500; transition: all 0.2s; }
+        .word-bank-item:hover { background: var(--primary); color: white; }
+        .word-bank-item.used { background: #ccc; color: #666; cursor: default; opacity: 0.7; text-decoration: line-through; }
+
+        .cloze-text { line-height: 2.2; font-size: 1.05rem; font-style: italic; }
+        
+        .cloze-input, .synonym-input, .verb-conjugation {
+            border: none;
+            border-bottom: 2px solid var(--primary);
+            background: #fff8e1;
+            padding: 5px 10px;
+            border-radius: 4px;
+            width: 150px;
+            font-size: 1rem;
+            color: var(--primary-dark);
+            text-align: center;
+            margin: 0 5px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .cloze-input:focus, .synonym-input:focus, .verb-conjugation:focus, textarea:focus { background: #ffe082; outline: none; }
+        .cloze-input.active-input, .synonym-input.active-input, .verb-conjugation.active-input {
+            border-color: var(--secondary);
+            box-shadow: 0 0 5px rgba(255, 196, 0, 0.5);
+        }
+
+        .cloze-input.correct, .synonym-input.correct, .verb-conjugation.correct { border-bottom-color: var(--success); background-color: #d4edda; color: #155724; font-weight: bold; }
+        .cloze-input.incorrect, .synonym-input.incorrect, .verb-conjugation.incorrect { 
+            border-bottom-color: var(--error); 
+            background-color: #f8d7da; 
+            color: #721c24; 
+            font-weight: bold;
+            position: relative;
+        }
+        .cloze-input.incorrect::after, .synonym-input.incorrect::after, .verb-conjugation.incorrect::after {
+            content: attr(data-answer);
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: var(--primary-dark);
+            background: var(--secondary);
+            padding: 2px 5px;
+            border-radius: 3px;
+            white-space: nowrap;
+        }
+        
+        .grammar-sentence {
+            padding: 10px 0;
+            border-bottom: 1px dashed #ddd;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            line-height: 2.2;
+        }
+        .infinitive-hint {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-left: 5px;
+        }
+        
+        /* --- Matching Game --- */
+        .matching-game { display: grid; grid-template-columns: 1fr 1fr; gap: 15px 30px; }
+        .matching-item { padding: 15px; background: #fff; border: 2px solid var(--light-grey); border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s; min-height: 60px; font-weight: 500; position: relative; }
+        .matching-item.selected { background: var(--primary); color: white; border-color: var(--primary); }
+        .matching-item.matched { background: var(--success); color: white; border-color: var(--success); cursor: default; font-weight: bold; }
+        .matching-item.incorrect { background: var(--error); color: white; border-color: var(--error); }
+
+
+        /* --- Modal for Results --- */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: none; justify-content: center; align-items: center; z-index: 3000; }
+        .modal-content { background: var(--card-bg); padding: 30px; border-radius: 15px; width: 90%; max-width: 500px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); animation: fadeIn 0.3s; }
+        .result-summary div { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed var(--light-grey); font-size: 1.1rem; }
+        .result-summary .total { font-weight: bold; font-size: 1.3rem; margin-top: 10px; border-top: 2px solid var(--primary); padding-top: 10px !important; }
+
+        /* --- Buttons & Utilities --- */
+        .controls { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin: 40px 0; }
+        button { padding: 12px 25px; background: var(--primary); color: white; border: none; border-radius: 50px; cursor: pointer; font-size: 1rem; font-weight: 600; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 0.2s, box-shadow 0.2s; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); }
+        button.secondary { background: #6c757d; }
+        button.download-btn { background: var(--success); display: none; }
+        button.reset-btn { background: var(--secondary); color: var(--primary-dark);}
+        
+        /* --- Reflection & Model Answer --- */
+        .model-answer { margin-top: 15px; padding: 15px; background-color: #fff8e1; border-left: 4px solid var(--secondary); border-radius: 4px; font-size: 0.95rem; display: none; animation: fadeIn 0.5s; }
+        .model-answer.visible { display: block; }
+
+
+        /* --- Floating Keyboard --- */
+        .keyboard {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+            z-index: 2000;
+            display: none;
+            border: 1px solid #eee;
+        }
+        
+        .keyboard-keys {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+        }
+        
+        .key {
+            padding: 10px 5px;
+            background: #f8f9fa;
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.1s;
+        }
+        
+        .key:hover { background: var(--primary); color: white; border-color: var(--primary); }
+    </style>
+</head>
+<body>
+    
+    <div class="sticky-progress">
+        <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-weight: bold; color: var(--primary-dark);">A-Level Español: Inmigración</span>
+            <div style="width: 70%;">
+                <div class="progress-bar"><div class="progress" id="progress"></div></div>
+                <div style="text-align: right; font-size: 0.9rem; margin-top: 5px; color: #666;">
+                    Puntuación: <span id="score" style="font-weight: bold; color: var(--primary);">0 / 36</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>El Debate Migratorio y su Impacto en la Política Española</h1>
+            <p style="opacity: 0.9; margin-top: 10px;">Actividad completa de comprensión, vocabulario, gramática y análisis para 90 minutos.</p>
+        </header>
+        
+        <div class="card text-content">
+            <h3>Contexto: El Debate Migratorio en España</h3>
+            <p>Los incidentes en <span class="highlight">Torre Pacheco (Murcia)</span>, donde grupos de extrema derecha atacaron a inmigrantes, han reactivado el choque entre los dos bloques de la política española ante el debate migratorio.</p>
+            
+            <p>El <span class="highlight">Partido Popular (PP)</span> ha endurecido su discurso, aunque criticando las agresiones, exigiendo a los inmigrantes "respeto e integración". Mientras tanto, <span class="highlight">Vox</span> afirma que está justificado que los ciudadanos "se tomen la justicia por su mano".</p>
+            
+            <p>El <span class="highlight">Gobierno y sus socios</span> insisten en la necesidad de inmigrantes en un país envejecido y en crecimiento económico, aportando datos sobre las bondades de la inmigración y tratando de desmontar los <span class="highlight">bulos</span> de la ultraderecha que vinculan inmigración y delincuencia.</p>
+            
+            <div class="data-box">
+                <p><strong>Datos oficiales:</strong> Mientras entre 2011 y 2025 el porcentaje de extranjeros ha crecido dos puntos (de 12,2% a 14,2%), la tasa de criminalidad convencional ha bajado siete puntos (de 47,6 a 40,6 infracciones por mil habitantes).</p>
+            </div>
+            
+            <h3>Posturas de los Partidos Políticos</h3>
+            <p>La consejera catalana del Interior, la socialista <span class="highlight">Núria Parlon</span>, ha reconocido que "una parte importante de los delitos los cometen personas sin DNI español". Sin embargo, advierte del peligro de fomentar el odio vinculando inmigración con seguridad.</p>
+            <p>Según Parlon, la inmigración está asociada al deseo de mejorar la vida y a construir sociedades más cohesionadas, que impulsan la economía y se integran perfectamente en segundas y terceras generaciones.</p>
+        </div>
+
+        <div class="card">
+            <h2>1. Vocabulario Esencial (5 puntos)</h2>
+            <p style="margin-bottom: 15px; color: #666;">Haga clic en el hueco para rellenarlo con una palabra del banco.</p>
+            
+            <div class="word-bank" id="word-bank"></div>
+            <div class="cloze-text" id="cloze-container"></div>
+        </div>
+        
+        <div class="card">
+            <h2>2. Comprensión Lectora (5 puntos)</h2>
+            <p style="margin-bottom: 20px; color: #666;">Seleccione la opción correcta (basado en el texto).</p>
+            
+            <div id="mcq-container"></div>
+        </div>
+        
+        <div class="card">
+            <h2>3. Sinónimos y Definiciones (5 puntos)</h2>
+            <p style="margin-bottom: 20px; color: #666;">Escriba la palabra del texto que mejor se corresponda con la definición.</p>
+            
+            <div id="synonym-container"></div>
+        </div>
+
+        <div class="card">
+            <h2>4. Asocia las Posturas Políticas (5 puntos)</h2>
+            <p style="margin-bottom: 20px; color: #666;">Haga clic en un elemento de la izquierda y luego en el que se corresponde a la derecha.</p>
+            
+            <div class="matching-game" id="matching-container"></div>
+        </div>
+        
+        <div class="card">
+            <h2>5. Gramática Avanzada: Subordinación (16 puntos)</h2>
+            <p style="margin-bottom: 20px; color: #666;">Seleccione la forma verbal correcta entre las opciones del menú desplegable.</p>
+            
+            <div class="grammar-rule">
+                <h4>Regla clave: Conjunciones de Indicativo vs. Subjuntivo</h4>
+                <p>El <strong>Subjuntivo</strong> se usa tras conjunciones que indican <strong>incertidumbre, condición, propósito o una acción que todavía no se ha realizado</strong> (p. ej., <em>para que, a menos que, antes de que</em>).</p>
+                <p>El <strong>Indicativo</strong> se usa para expresar <strong>certeza, realidad, o una acción habitual/realizada</strong> (p. ej., <em>puesto que, ya que, después de que</em> [si la acción es habitual o pasada]).</p>
+                <p style="margin-top: 10px;"><strong>Ejemplo 1 (Subjuntivo - Propósito):</strong> El Gobierno aprueba leyes <span class="highlight">para que</span> la gente <strong>viva</strong> (vivir) mejor.</p>
+                <p class="grammar-example"><strong>Ejemplo 2 (Indicativo - Causa/Realidad):</strong> <span class="highlight">Puesto que</span> la criminalidad <strong>ha bajado</strong> (bajar), los bulos son falsos.</p>
+            </div>
+
+            <h3>Parte A: Selección de Forma Verbal (8 puntos)</h3>
+            <p style="margin-bottom: 15px; font-style: italic;">Seleccione la forma verbal correcta entre las opciones.</p>
+            <div id="grammar-container-a"></div>
+            
+            <h3 style="margin-top: 30px;">Parte B: Práctica del Subjuntivo (8 puntos)</h3>
+            <p style="margin-bottom: 15px; font-style: italic;">Complete las frases con la forma correcta del subjuntivo.</p>
+            <div id="grammar-container-b"></div>
+        </div>
+
+
+        <div class="card">
+            <h2>6. Análisis y Debate (No puntuado)</h2>
+            <div class="question-reflection">
+                <p style="font-weight:bold; margin-bottom:10px;">a) ¿Qué contradicción existe en la postura del Partido Popular?</p>
+                <textarea id="reflection-text-a" rows="3" style="width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; resize: vertical;" placeholder="Su análisis..."></textarea>
+                
+                <p style="font-weight:bold; margin-bottom:10px; margin-top:20px;">b) ¿Cómo podría el Gobierno español "desmontar los bulos" de la ultraderecha de forma más efectiva, según la información dada?</p>
+                <textarea id="reflection-text-b" rows="3" style="width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; resize: vertical;" placeholder="Su análisis..."></textarea>
+
+                <button onclick="document.getElementById('model-1').classList.toggle('visible')" class="secondary" style="margin-top:15px;">Ver una respuesta modelo</button>
+                <div class="model-answer" id="model-1">
+                    <strong>Respuesta Modelo:</strong> <br>
+                    a) La contradicción del PP es que endurece su discurso crítico hacia la inmigración, acercándose a la retórica de Vox, pero al mismo tiempo critica las agresiones y pide "respeto e integración", tratando de mantener una posición intermedia entre la ultraderecha y el Gobierno.<br>
+                    b) El Gobierno podría ser más efectivo difundiendo los datos oficiales que muestran que la tasa de criminalidad convencional ha bajado mientras que el porcentaje de extranjeros ha crecido. Esto contrarresta directamente la narrativa de la ultraderecha que vincula inmigración y delincuencia.
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="check-answers">✅ Verificar mis respuestas</button>
+            <button id="download-report" class="download-btn">📥 Descargar Bilan</button>
+            <button id="toggle-keyboard" class="secondary">⌨️ Teclado Español</button>
+            <button id="reset" class="reset-btn">🔄 Recommencer</button>
+        </div>
+    </div>
+
+    <div id="results-modal" class="modal">
+        <div class="modal-content">
+            <button onclick="document.getElementById('results-modal').style.display='none'" style="float:right; background:none; color:#555; box-shadow:none;">✕</button>
+            <h3>Felicidades! Su Bilan</h3>
+            <div class="result-summary">
+                <div>Puntuación Global: <strong id="modal-total"></strong> / 36</div>
+                <div>Vocabulario (Cloze): <strong id="modal-cloze"></strong> / 5</div>
+                <div>Comprensión (MCQ): <strong id="modal-mcq"></strong> / 5</div>
+                <div>Sinónimos (Gap-fill): <strong id="modal-synonym"></strong> / 5</div>
+                <div>Asociación (Matching): <strong id="modal-matching"></strong> / 5</div>
+                <div>Gramática (Subordinación): <strong id="modal-grammar"></strong> / 16</div>
+                <div class="total">Nivel Estimado: <strong id="modal-level"></strong></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="keyboard" id="keyboard">
+        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+            <strong>Teclado Español</strong>
+            <span id="close-keyboard" style="cursor:pointer; font-weight:bold; color: var(--primary);">✕</span>
+        </div>
+        <div class="keyboard-keys">
+            <div class="key">á</div><div class="key">é</div><div class="key">í</div><div class="key">ó</div>
+            <div class="key">ú</div><div class="key">ñ</div><div class="key">ü</div>
+            <div class="key">¡</div><div class="key">¿</div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- 1. QUIZ DATA STRUCTURE (Centralized) ---
+        const quizData = {
+            cloze: {
+                words: ["integración", "envejecido", "bulos", "delitos", "impunidad", "multirreincidencia", "equidistante", "cotizar"],
+                sentences: [
+                    { id: "cloze1", text: "España es un país [HUECO] , lo que hace que la inmigración sea vital para la economía.", answer: "envejecido" },
+                    { id: "cloze2", text: "El Partido Popular intenta mantener una posición [HUECO] entre Vox y el Gobierno.", answer: "equidistante" },
+                    { id: "cloze3", text: "El Gobierno lucha por desmontar los [HUECO] que vinculan inmigración y criminalidad.", answer: "bulos" },
+                    { id: "cloze4", text: "La consejera Parlon admitió que una parte de los [HUECO] son cometidos por extranjeros sin DNI.", answer: "delitos" },
+                    { id: "cloze5", text: "Según el texto, la [HUECO] es una exigencia del PP para los nuevos inmigrantes.", answer: "integración" }
+                ]
+            },
+            
+            mcq: [
+                {
+                    question: "1. ¿Qué ocurrió en Torre Pacheco recientemente?",
+                    options: ["A) Una manifestación a favor de los inmigrantes", "B) Grupos de extrema derecha atacaron a inmigrantes", "C) El gobierno anunció nuevas políticas migratorias", "D) Una conferencia sobre integración"],
+                    correctIndex: 1, id: "mcq1"
+                },
+                {
+                    question: "2. ¿Qué diferencia hay entre la postura del PP y la de Vox ante los ataques?",
+                    options: ["A) Ambos apoyan completamente las políticas del gobierno", "B) El PP pide respeto y critica agresiones, Vox justifica que la gente actúe por su cuenta", "C) Ambos rechazan cualquier forma de control migratorio", "D) El PP apoya la violencia mientras Vox la condena"],
+                    correctIndex: 1,
+                    id: "mcq2"
+                },
+                {
+                    question: "3. ¿Qué datos oficiales contradicen los 'bulos' de la ultraderecha?",
+                    options: ["A) El porcentaje de extranjeros ha crecido, pero la tasa de criminalidad ha bajado", "B) La delincuencia ha aumentado con la inmigración", "C) Los inmigrantes no pagan impuestos", "D) España necesita menos inmigrantes"],
+                    correctIndex: 0,
+                    id: "mcq3"
+                },
+                {
+                    question: "4. ¿Qué concepto defiende el Gobierno y sus socios respecto a la inmigración?",
+                    options: ["A) Que es un fenómeno positivo para un país envejecido", "B) Que la inmigración es la causa del alto paro", "C) Que se debe limitar la entrada por razones de seguridad", "D) Que solo debe ser temporal y no permanente"],
+                    correctIndex: 0,
+                    id: "mcq4"
+                },
+                {
+                    question: "5. ¿Qué advierte Núria Parlon sobre la vinculación entre inmigración y seguridad?",
+                    options: ["A) Que es necesario vincularlos para controlarlos", "B) Que no hay peligro en vincularlos", "C) Que existe un peligro en fomentar el odio al vincularlos", "D) Que todos los delitos son cometidos por extranjeros"],
+                    correctIndex: 2,
+                    id: "mcq5"
+                }
+            ],
+            
+            synonyms: [
+                { id: "syn1", definition: "1. Concepto que se refiere a la falta de castigo para quienes cometen delitos.", answer: "impunidad" },
+                { id: "syn2", definition: "2. Noticias falsas o rumores malintencionados.", answer: "bulos" },
+                { id: "syn3", definition: "3. Tener que contribuir al sistema de seguridad social o de pensiones.", answer: "cotizar" },
+                { id: "syn4", definition: "4. Situación de cometer crímenes o faltas de forma repetida.", answer: "multirreincidencia" },
+                { id: "syn5", definition: "5. Que está a la misma distancia de dos posturas opuestas o extremas.", answer: "equidistante" }
+            ],
+
+            matching: {
+                left: [
+                    { id: 1, text: "Partido Popular (PP)" },
+                    { id: 2, text: "Vox" },
+                    { id: 3, text: "Gobierno y Socios Progresistas" },
+                    { id: 4, text: "Núria Parlon" },
+                    { id: 5, text: "Torre Pacheco (Murcia)" }
+                ],
+                right: [
+                    { id: 3, text: "Defiende la inmigración con datos económicos." },
+                    { id: 5, text: "Lugar del incidente de ataque de extrema derecha." },
+                    { id: 2, text: "Justifica que ciudadanos 'se tomen la justicia por su mano'." },
+                    { id: 1, text: "Pide 'respeto e integración' mientras endurece su discurso." },
+                    { id: 4, text: "Advierte del peligro de fomentar el odio al vincular delito e inmigración." }
+                ]
+            },
+
+            // UPDATED GRAMMAR DATA - Complete sentences with verb form dropdowns
+            grammar: {
+                partA: [ 
+                    { 
+                        id: "gA1", 
+                        sentence: "La ultraderecha miente a pesar de que la evidencia les ", 
+                        verb: "contradecir (3ª p. sing.)", 
+                        options: ["contradice", "contradiga"],
+                        answer: "contradice" 
+                    },
+                    { 
+                        id: "gA2", 
+                        sentence: "El Gobierno espera que los inmigrantes ", 
+                        verb: "encontrarse (3ª p. plu.)", 
+                        options: ["se encuentran", "se encuentren"],
+                        answer: "se encuentren" 
+                    },
+                    { 
+                        id: "gA3", 
+                        sentence: "Los políticos discutirán el tema migratorio tan pronto como el informe ", 
+                        verb: "llegar (3ª p. sing.)", 
+                        options: ["llega", "llegue"],
+                        answer: "llegue" 
+                    },
+                    { 
+                        id: "gA4", 
+                        sentence: "Ya que el país ", 
+                        verb: "ser (3ª p. sing.)", 
+                        options: ["es", "sea"],
+                        answer: "es" 
+                    },
+                    { 
+                        id: "gA5", 
+                        sentence: "No se puede avanzar a menos que la oposición ", 
+                        verb: "colaborar (3ª p. sing.)", 
+                        options: ["colabora", "colabore"],
+                        answer: "colabore" 
+                    },
+                    { 
+                        id: "gA6", 
+                        sentence: "La consejera afirma que la inmigración ", 
+                        verb: "impulsar (3ª p. sing.)", 
+                        options: ["impulsa", "impulse"],
+                        answer: "impulsa" 
+                    },
+                    { 
+                        id: "gA7", 
+                        sentence: "El PP endurecerá su discurso incluso si el electorado no lo ", 
+                        verb: "apoyar (3ª p. sing.)", 
+                        options: ["apoya", "apoye"],
+                        answer: "apoya" 
+                    },
+                    { 
+                        id: "gA8", 
+                        sentence: "Los ciudadanos reaccionaron con violencia porque no ", 
+                        verb: "tener (3ª p. plu.)", 
+                        options: ["tienen", "tengan"],
+                        answer: "tienen" 
+                    }
+                ],
+                partB: [ 
+                    { 
+                        id: "gB1", 
+                        sentence: "La policía actúa para que no se repitan los incidentes violentos en Torre Pacheco.", 
+                        verb: "repetir (3ª p. sing.)", 
+                        answer: "repita" 
+                    },
+                    { 
+                        id: "gB2", 
+                        sentence: "El debate no terminará hasta que alguien proponga una solución viable.", 
+                        verb: "proponer (3ª p. sing.)", 
+                        answer: "proponga" 
+                    },
+                    { 
+                        id: "gB3", 
+                        sentence: "Pedimos a Vox que no fomente el odio hacia los inmigrantes.", 
+                        verb: "fomentar (3ª p. sing.)", 
+                        answer: "fomente" 
+                    },
+                    { 
+                        id: "gB4", 
+                        sentence: "Es importante que la juventud participe activamente en el debate político.", 
+                        verb: "participar (3ª p. sing.)", 
+                        answer: "participe" 
+                    },
+                    { 
+                        id: "gB5", 
+                        sentence: "Saldremos adelante siempre y cuando la economía crezca de forma sostenible.", 
+                        verb: "crecer (3ª p. sing.)", 
+                        answer: "crezca" 
+                    },
+                    { 
+                        id: "gB6", 
+                        sentence: "No creo que la violencia sea la solución a los problemas sociales.", 
+                        verb: "ser (3ª p. sing.)", 
+                        answer: "sea" 
+                    },
+                    { 
+                        id: "gB7", 
+                        sentence: "Lucharemos aunque la tarea sea difícil y requiera mucho esfuerzo.", 
+                        verb: "ser (3ª p. sing.)", 
+                        answer: "sea" 
+                    },
+                    { 
+                        id: "gB8", 
+                        sentence: "Me molesta que los partidos no se pongan de acuerdo en temas fundamentales.", 
+                        verb: "ponerse (3ª p. plu.)", 
+                        answer: "se pongan" 
+                    }
+                ]
+            }
+        };
+
+        const totalScore = 36;
+        let activeInput = null;
+        let matchedPairs = [];
+        let currentResults = {};
+
+        // --- 2. RENDERING LOGIC ---
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function renderCloze() {
+            const clozeContainer = document.getElementById('cloze-container');
+            const bankContainer = document.getElementById('word-bank');
+
+            // 1. Render Word Bank (Shuffled)
+            const shuffledWords = shuffleArray([...quizData.cloze.words]);
+            bankContainer.innerHTML = shuffledWords.map(word => `<div class="word-bank-item" data-word="${word}">${word}</div>`).join('');
+            
+            // 2. Render Sentences
+            let clozeHTML = '';
+            quizData.cloze.sentences.forEach(item => {
+                const parts = item.text.split('[HUECO]');
+                clozeHTML += `
+                    <p style="margin-bottom: 10px;">
+                        ${parts[0]}
+                        <input type="text" class="cloze-input" data-answer="${item.answer}" placeholder="Haga clic aquí" readonly size="15">
+                        ${parts[1]}
+                    </p>
+                `;
+            });
+            clozeContainer.innerHTML = clozeHTML;
+
+            // 3. Add Event Listeners for Cloze Interaction - RESTORED FROM WORKING VERSION
+            document.querySelectorAll('.cloze-input').forEach(input => {
+                input.addEventListener('click', function() {
+                    // Remove readonly temporarily to allow selection
+                    this.removeAttribute('readonly');
+                    document.querySelectorAll('.cloze-input').forEach(i => i.classList.remove('active-input'));
+                    this.classList.add('active-input');
+                    activeInput = this;
+                    this.focus();
+                });
+            });
+
+            document.querySelectorAll('.word-bank-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    if (this.classList.contains('used')) return;
+                    
+                    const activeInput = document.querySelector('.cloze-input.active-input');
+                    if (activeInput) {
+                        // Return previously used word to bank if any
+                        const existingWord = activeInput.value.trim();
+                        if (existingWord) {
+                            const returnedItem = document.querySelector(`.word-bank-item[data-word="${existingWord}"]`);
+                            if (returnedItem) returnedItem.classList.remove('used');
+                        }
+                        
+                        // Set new word
+                        const selectedWord = this.getAttribute('data-word');
+                        activeInput.value = selectedWord;
+                        this.classList.add('used');
+                        activeInput.classList.remove('active-input');
+                        activeInput.setAttribute('readonly', 'true'); // Set back to readonly
+                        
+                        updateProgress();
+                    } else {
+                        alert("¡Haga clic primero en el hueco que desea rellenar!");
+                    }
+                });
+            });
+        }
+
+        function renderMCQ() {
+            const container = document.getElementById('mcq-container');
+            container.innerHTML = quizData.mcq.map(q => `
+                <div class="question-item" id="${q.id}">
+                    <p style="font-weight:bold; margin-bottom:10px;">${q.question}</p>
+                    <div class="options">
+                        ${q.options.map((opt, i) => `<div class="option" data-index="${i}">${opt}</div>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+
+            document.querySelectorAll('.question-item .option').forEach(opt => {
+                opt.addEventListener('click', function() {
+                    if (this.parentElement.parentElement.classList.contains('checked')) return;
+                    this.parentElement.querySelectorAll('.option').forEach(sib => sib.classList.remove('selected'));
+                    this.classList.add('selected');
+                    updateProgress();
+                });
+            });
+        }
+        
+        function renderSynonyms() {
+            const container = document.getElementById('synonym-container');
+            container.innerHTML = quizData.synonyms.map((item) => `
+                <div class="question-item" data-id="${item.id}">
+                    <p>
+                        ${item.definition} <br>
+                        <input type="text" class="synonym-input" data-answer="${item.answer.toLowerCase().trim()}" placeholder="Término del texto" size="20">
+                    </p>
+                </div>
+            `).join('');
+
+            document.querySelectorAll('.synonym-input').forEach(input => {
+                input.addEventListener('input', updateProgress);
+                input.addEventListener('focus', function() {
+                    document.querySelectorAll('.synonym-input').forEach(i => i.classList.remove('active-input'));
+                    this.classList.add('active-input');
+                    activeInput = this;
+                });
+            });
+        }
+
+        function renderMatching() {
+            const container = document.getElementById('matching-container');
+            const rightItems = shuffleArray([...quizData.matching.right]);
+
+            const leftHTML = quizData.matching.left.map(item => `<div class="matching-item left-col" data-id="${item.id}">${item.text}</div>`).join('');
+            const rightHTML = rightItems.map(item => `<div class="matching-item right-col" data-id="${item.id}">${item.text}</div>`).join('');
+            
+            container.innerHTML = `<div class="matching-column">${leftHTML}</div><div class="matching-column">${rightHTML}</div>`;
+            
+            let firstSelected = null;
+            document.querySelectorAll('.matching-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    if (this.classList.contains('matched')) return;
+
+                    if (!firstSelected) {
+                        firstSelected = this;
+                        this.classList.add('selected');
+                    } else {
+                        if (firstSelected.classList.contains('left-col') === this.classList.contains('left-col')) {
+                            firstSelected.classList.remove('selected');
+                            firstSelected = this;
+                            this.classList.add('selected');
+                            return;
+                        }
+                        
+                        const leftItem = firstSelected.classList.contains('left-col') ? firstSelected : this;
+                        const rightItem = firstSelected.classList.contains('right-col') ? firstSelected : this;
+                        
+                        const isCorrect = leftItem.getAttribute('data-id') === rightItem.getAttribute('data-id');
+                        
+                        if (isCorrect) {
+                            firstSelected.classList.remove('selected');
+                            firstSelected.classList.add('matched');
+                            this.classList.remove('selected');
+                            this.classList.add('matched');
+                            
+                            matchedPairs.push({ left: leftItem.getAttribute('data-id'), right: rightItem.getAttribute('data-id') });
+                        } else {
+                            firstSelected.classList.add('incorrect');
+                            this.classList.add('incorrect');
+                            setTimeout(() => {
+                                firstSelected.classList.remove('selected', 'incorrect');
+                                this.classList.remove('selected', 'incorrect');
+                                firstSelected = null;
+                            }, 800);
+                        }
+                        
+                        if (firstSelected) firstSelected.classList.remove('selected');
+                        firstSelected = null;
+                        updateProgress();
+                    }
+                });
+            });
+        }
+        
+        function renderGrammar() {
+            const containerA = document.getElementById('grammar-container-a');
+            const containerB = document.getElementById('grammar-container-b');
+
+            // Part A: Dropdown selection with actual verb forms
+            containerA.innerHTML = quizData.grammar.partA.map((item, index) => `
+                <div class="grammar-sentence" data-id="${item.id}">
+                    ${index + 1}. ${item.sentence} 
+                    <select class="verb-select" data-answer="${item.answer.toLowerCase().trim()}">
+                        <option value="">--Seleccione--</option>
+                        ${item.options.map(opt => `<option value="${opt.toLowerCase().trim()}">${opt}</option>`).join('')}
+                    </select>
+                    <span class="infinitive-hint">(${item.verb})</span>
+                </div>
+            `).join('');
+
+            // Part B: Direct conjugation (subjunctive practice)
+            containerB.innerHTML = quizData.grammar.partB.map((item, index) => `
+                <div class="grammar-sentence" data-id="${item.id}">
+                    ${index + 1}. ${item.sentence} 
+                    <input type="text" class="synonym-input" data-answer="${item.answer.toLowerCase().trim()}" placeholder="${item.verb.split('(')[0]}" size="20">
+                    <span class="infinitive-hint">(${item.verb})</span>
+                </div>
+            `).join('');
+
+            // Event listeners for verb selection
+            document.querySelectorAll('.verb-select').forEach(select => {
+                select.addEventListener('change', updateProgress);
+            });
+
+            // Event listeners for conjugation inputs
+            document.querySelectorAll('#grammar-container-b .synonym-input').forEach(input => {
+                input.addEventListener('input', updateProgress);
+                input.addEventListener('focus', function() {
+                    document.querySelectorAll('.synonym-input').forEach(i => i.classList.remove('active-input'));
+                    this.classList.add('active-input');
+                    activeInput = this;
+                });
+            });
+        }
+
+        // --- 3. CHECKING AND SCORING LOGIC ---
+
+        function checkAnswers() {
+            let scores = { cloze: 0, mcq: 0, synonym: 0, matching: 0, grammar: 0 };
+
+            // 1. Check Cloze (5 points)
+            document.querySelectorAll('.cloze-input').forEach(input => {
+                const correctAnswer = input.getAttribute('data-answer').toLowerCase().trim();
+                const userAnswer = input.value.toLowerCase().trim();
+                input.classList.remove('correct', 'incorrect', 'active-input');
+                if (userAnswer === correctAnswer) { scores.cloze++; input.classList.add('correct'); } 
+                else if (userAnswer !== "") { input.classList.add('incorrect'); input.setAttribute('data-answer', `(Correcto: ${correctAnswer})`); }
+                input.setAttribute('readonly', 'true');
+            });
+            document.getElementById('word-bank').querySelectorAll('.word-bank-item').forEach(item => item.classList.add('used'));
+
+            // 2. Check MCQ (5 points)
+            quizData.mcq.forEach((qData) => {
+                const qElement = document.getElementById(qData.id);
+                qElement.classList.add('checked');
+                const options = qElement.querySelectorAll('.option');
+                options.forEach(o => o.classList.remove('correct', 'incorrect'));
+                const selected = qElement.querySelector('.option.selected');
+                if (selected) {
+                    const selectedIndex = parseInt(selected.getAttribute('data-index'));
+                    if (selectedIndex === qData.correctIndex) { scores.mcq++; selected.classList.add('correct'); } 
+                    else { selected.classList.add('incorrect'); options[qData.correctIndex].classList.add('correct'); }
+                }
+            });
+
+            // 3. Check Synonyms (5 points)
+            document.querySelectorAll('.synonym-input').forEach(input => {
+                const correctAnswer = input.getAttribute('data-answer').toLowerCase().trim();
+                const userAnswer = input.value.toLowerCase().trim();
+                input.classList.remove('correct', 'incorrect');
+                if (userAnswer === correctAnswer) { scores.synonym++; input.classList.add('correct'); } 
+                else if (userAnswer !== "") { input.classList.add('incorrect'); input.setAttribute('data-answer', `(Correcto: ${correctAnswer})`); }
+                input.setAttribute('readonly', 'true');
+            });
+            
+            // 4. Check Matching (5 points)
+            scores.matching = matchedPairs.length;
+            document.querySelectorAll('.matching-item:not(.matched)').forEach(item => item.classList.add('incorrect'));
+            
+            // 5. Check Grammar (16 points)
+            // Part A: Verb form selection (8 points)
+            document.querySelectorAll('.verb-select').forEach(select => {
+                const correctAnswer = select.getAttribute('data-answer').toLowerCase().trim();
+                const userAnswer = select.value.toLowerCase().trim();
+                select.classList.remove('correct', 'incorrect');
+                if (userAnswer === correctAnswer) { 
+                    scores.grammar += 1;
+                    select.classList.add('correct'); 
+                } else if (userAnswer !== "") { 
+                    select.classList.add('incorrect'); 
+                }
+                select.disabled = true;
+            });
+
+            // Part B: Direct conjugation (8 points)
+            document.querySelectorAll('#grammar-container-b .synonym-input').forEach(input => {
+                const correctAnswer = input.getAttribute('data-answer').toLowerCase().trim();
+                const userAnswer = input.value.toLowerCase().trim();
+                input.classList.remove('correct', 'incorrect', 'active-input');
+                if (userAnswer === correctAnswer) { 
+                    scores.grammar += 1;
+                    input.classList.add('correct'); 
+                } else if (userAnswer !== "") { 
+                    input.classList.add('incorrect'); 
+                    input.setAttribute('data-answer', `(Correcto: ${correctAnswer})`); 
+                }
+                input.setAttribute('readonly', 'true');
+            });
+
+            const total = scores.cloze + scores.mcq + scores.synonym + scores.matching + scores.grammar;
+            
+            currentResults = { score: total, scores: scores };
+            document.getElementById('download-report').style.display = 'inline-block';
+            document.getElementById('check-answers').disabled = true;
+
+            document.getElementById('score').textContent = `${total} / ${totalScore}`;
+            showResultsModal(total, scores);
+            return currentResults;
+        }
+
+        // --- 4. UI/UTILITIES ---
+
+        function updateProgress() {
+            let completedTasks = 0;
+            
+            completedTasks += Array.from(document.querySelectorAll('.cloze-input')).filter(i => i.value.trim() !== "").length;
+            completedTasks += document.querySelectorAll('#mcq-container .option.selected').length;
+            completedTasks += Array.from(document.querySelectorAll('.synonym-input')).filter(i => i.value.trim() !== "").length;
+            completedTasks += matchedPairs.length;
+            completedTasks += Array.from(document.querySelectorAll('.verb-select')).filter(s => s.value !== "").length;
+            completedTasks += Array.from(document.querySelectorAll('#grammar-container-b .synonym-input')).filter(i => i.value.trim() !== "").length;
+            
+            const percentage = Math.min(100, (completedTasks / totalScore) * 100);
+            document.getElementById('progress').style.width = percentage + '%';
+        }
+        
+        function showResultsModal(total, scores) {
+            document.getElementById('modal-total').textContent = `${total} / ${totalScore}`;
+            document.getElementById('modal-cloze').textContent = `${scores.cloze} / 5`;
+            document.getElementById('modal-mcq').textContent = `${scores.mcq} / 5`;
+            document.getElementById('modal-synonym').textContent = `${scores.synonym} / 5`;
+            document.getElementById('modal-matching').textContent = `${scores.matching} / 5`;
+            document.getElementById('modal-grammar').textContent = `${scores.grammar} / 16`;
+
+            let level = "Refuerzo (C/D)";
+            if (total >= 32) level = "Excelente (A*)";
+            else if (total >= 27) level = "Muy Bien (A)";
+            else if (total >= 20) level = "Bien (B/C)";
+            
+            document.getElementById('modal-level').textContent = level;
+            document.getElementById('results-modal').style.display = 'flex';
+        }
+
+        // --- 5. REPORT DOWNLOAD LOGIC ---
+        function downloadReport(results) {
+            const { score, scores } = results;
+            let content = `BILAN: INMIGRACIÓN Y POLÍTICA ESPAÑOLA (A-LEVEL)\n`;
+            content += `Fecha: ${new Date().toLocaleDateString('es-ES')}\n`;
+            content += `Puntuación Global: ${score} / ${totalScore}\n`;
+            content += `Nivel Estimado: ${document.getElementById('modal-level').textContent}\n`;
+            content += `-------------------------------------------\n\n`;
+
+            content += `1. VOCABULARIO (CLOZE) - (${scores.cloze}/5):\n`;
+            document.querySelectorAll('.cloze-input').forEach((input, index) => {
+                const item = quizData.cloze.sentences[index];
+                const isCorrect = input.classList.contains('correct');
+                content += ` - Frase ${index + 1}: Su respuesta: "${input.value.trim() || 'Vacío'}". Correcta: ${item.answer} [${isCorrect ? 'CORRECTO' : 'INCORRECTO'}]\n`;
+            });
+
+            content += `\n2. COMPRENSIÓN (MCQ) - (${scores.mcq}/5):\n`;
+            quizData.mcq.forEach((qData, index) => {
+                const qElement = document.getElementById(qData.id);
+                const selectedOption = qElement.querySelector('.option.selected');
+                const isCorrect = selectedOption ? selectedOption.classList.contains('correct') : false;
+                const userAnswer = selectedOption ? selectedOption.textContent.trim() : 'Vacío';
+                content += ` - Pregunta ${index + 1}: Su respuesta: "${userAnswer}". Correcta: ${qData.options[qData.correctIndex].trim()} [${isCorrect ? 'CORRECTO' : 'INCORRECTO'}]\n`;
+            });
+            
+            content += `\n3. SINÓNIMOS Y DEFINICIONES - (${scores.synonym}/5):\n`;
+            document.querySelectorAll('.synonym-input').forEach((input, index) => {
+                const item = quizData.synonyms[index];
+                const isCorrect = input.classList.contains('correct');
+                content += ` - Definición ${index + 1}: Su respuesta: "${input.value.trim() || 'Vacío'}". Correcta: ${item.answer} [${isCorrect ? 'CORRECTO' : 'INCORRECTO'}]\n`;
+            });
+            
+            content += `\n4. ASOCIACIÓN (MATCHING) - (${scores.matching}/5):\n`;
+            content += ` - Pares correctos: ${matchedPairs.length} de 5.\n`;
+            
+            content += `\n5. GRAMÁTICA AVANZADA (SUBORDINACIÓN) - (${scores.grammar}/16):\n`;
+            content += `   --- Parte A: Selección de Forma Verbal (8 puntos) ---\n`;
+            document.querySelectorAll('.verb-select').forEach((select, index) => {
+                const item = quizData.grammar.partA[index];
+                const isCorrect = select.classList.contains('correct');
+                content += ` - Frase ${index + 1}: Su selección: "${select.value || 'Vacío'}". Correcta: ${item.answer} [${isCorrect ? 'CORRECTO' : 'INCORRECTO'}]\n`;
+            });
+            content += `\n   --- Parte B: Práctica del Subjuntivo (8 puntos) ---\n`;
+            document.querySelectorAll('#grammar-container-b .synonym-input').forEach((input, index) => {
+                const item = quizData.grammar.partB[index];
+                const isCorrect = input.classList.contains('correct');
+                content += ` - Frase ${index + 1}: Su respuesta: "${input.value.trim() || 'Vacío'}". Correcta: ${item.answer} [${isCorrect ? 'CORRECTO' : 'INCORRECTO'}]\n`;
+            });
+
+            content += `\n6. ANÁLISIS Y REFLEXIÓN (NO PUNTUADO):\n`;
+            content += ` - a) Contradicción PP: ${document.getElementById('reflection-text-a').value.trim() || "(Vacío)"}\n`;
+            content += ` - b) Desmontar bulos: ${document.getElementById('reflection-text-b').value.trim() || "(Vacío)"}\n`;
+
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'A_Level_Inmigracion_Bilan.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // --- 6. KEYBOARD LOGIC ---
+        function setupKeyboard() {
+            const kb = document.getElementById('keyboard');
+            
+            document.getElementById('toggle-keyboard').addEventListener('click', () => {
+                kb.style.display = (kb.style.display === 'grid' || kb.style.display === 'block') ? 'none' : 'block';
+            });
+            document.getElementById('close-keyboard').addEventListener('click', () => {
+                kb.style.display = 'none';
+            });
+            
+            document.addEventListener('focusin', function(e) {
+                if(e.target.tagName === 'INPUT' && (e.target.classList.contains('cloze-input') || e.target.classList.contains('synonym-input'))) {
+                    if (!e.target.hasAttribute('readonly')) {
+                         activeInput = e.target;
+                         e.target.classList.add('active-input');
+                    } else {
+                        activeInput = null;
+                        e.target.classList.remove('active-input');
+                    }
+                } else if (e.target.tagName === 'TEXTAREA') {
+                    activeInput = e.target;
+                } else {
+                    activeInput = null;
+                    document.querySelectorAll('.active-input').forEach(i => i.classList.remove('active-input'));
+                }
+            });
+
+            document.querySelectorAll('.key').forEach(key => {
+                key.addEventListener('click', function() {
+                    if(activeInput && !activeInput.hasAttribute('readonly')) {
+                        const start = activeInput.selectionStart;
+                        const end = activeInput.selectionEnd;
+                        const value = activeInput.value;
+                        
+                        activeInput.value = value.substring(0, start) + this.textContent + value.substring(end);
+                        activeInput.selectionStart = activeInput.selectionEnd = start + this.textContent.length;
+                        
+                        activeInput.focus();
+                        activeInput.dispatchEvent(new Event('input'));
+                    } else if (activeInput && activeInput.hasAttribute('readonly')) {
+                         alert("¡Esta casilla ya ha sido verificada y no se puede editar!");
+                    } else {
+                        alert("¡Haga clic primero en una caja de texto o hueco editable!");
+                    }
+                });
+            });
+        }
+
+        // --- 7. INITIALIZATION ---
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCloze();
+            renderMCQ();
+            renderSynonyms();
+            renderMatching();
+            renderGrammar();
+            
+            setupKeyboard();
+            updateProgress();
+
+            document.getElementById('check-answers').addEventListener('click', function() {
+                const results = checkAnswers();
+                document.getElementById('download-report').onclick = () => downloadReport(results);
+            });
+            
+            document.getElementById('reset').addEventListener('click', function() {
+                if(confirm("¿Seguro que quiere empezar de nuevo? Perderá todo el progreso.")) {
+                    location.reload();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

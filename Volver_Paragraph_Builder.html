@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volver – Essay Paragraph Builder</title>
+  <style>
+    :root {
+      --primary: #6c3483;
+      --accent: #9b59b6;
+      --secondary: #2e86c1;
+      --success: #1e8449;
+      --warning: #d35400;
+      --light: #f8f4ff;
+      --dark: #1c2833;
+      --border: #d7bde2;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background: linear-gradient(135deg, #f3e5ff 0%, #e8f4ff 100%); min-height: 100vh; padding: 20px; color: var(--dark); }
+    .container { max-width: 1050px; margin: 0 auto; background: white; border-radius: 16px; box-shadow: 0 10px 35px rgba(108,52,131,0.15); overflow: hidden; }
+    header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 28px 30px; text-align: center; }
+    header h1 { font-size: 1.9rem; margin-bottom: 8px; }
+    header p { font-size: 0.92rem; opacity: 0.88; max-width: 620px; margin: 0 auto; }
+
+    /* QUESTION SELECTOR */
+    .question-select-bar { background: #faf5ff; padding: 18px 25px; border-bottom: 2px solid var(--border); }
+    .question-select-bar label { font-weight: 700; color: var(--primary); font-size: 0.9rem; display: block; margin-bottom: 8px; }
+    .q-select {
+      width: 100%; padding: 10px 14px; border: 2px solid var(--border);
+      border-radius: 8px; font-size: 0.95rem; color: var(--dark);
+      background: white; cursor: pointer;
+    }
+    .q-select:focus { outline: none; border-color: var(--accent); }
+    .question-text {
+      margin-top: 10px; padding: 10px 15px;
+      background: #efe5ff; border-left: 4px solid var(--accent);
+      border-radius: 6px; font-size: 0.95rem; font-style: italic; color: var(--primary);
+      display: none;
+    }
+    .question-text.show { display: block; }
+
+    /* MAIN GRID */
+    .builder-grid { display: grid; grid-template-columns: 1fr 380px; min-height: 600px; }
+    @media (max-width: 850px) { .builder-grid { grid-template-columns: 1fr; } }
+
+    /* STEPS PANEL */
+    .steps-panel { padding: 22px 25px; border-right: 2px solid #eee; overflow-y: auto; }
+    .step {
+      border: 2px solid #e0d4f5; border-radius: 12px; margin-bottom: 16px;
+      overflow: hidden; transition: border-color 0.2s;
+    }
+    .step.active { border-color: var(--accent); box-shadow: 0 4px 12px rgba(108,52,131,0.12); }
+    .step.done { border-color: var(--success); }
+    .step-header {
+      display: flex; align-items: center; gap: 10px; padding: 12px 15px;
+      background: #faf5ff; cursor: pointer; user-select: none;
+    }
+    .step.active .step-header { background: #efe5ff; }
+    .step.done .step-header { background: #eafaf1; }
+    .step-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--accent); color: white;
+      font-weight: 700; font-size: 0.85rem;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .step.done .step-num { background: var(--success); }
+    .step-title { font-weight: 700; font-size: 0.9rem; color: var(--primary); flex: 1; }
+    .step.done .step-title { color: var(--success); }
+    .step-status { font-size: 0.75rem; color: #888; }
+    .step-body { padding: 14px 15px; display: none; }
+    .step.active .step-body { display: block; }
+    .step-desc { font-size: 0.82rem; color: #555; margin-bottom: 10px; line-height: 1.5; background: #f8f5ff; padding: 8px 10px; border-radius: 6px; }
+    .phrase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px; }
+    @media (max-width: 600px) { .phrase-grid { grid-template-columns: 1fr; } }
+    .phrase-btn {
+      padding: 8px 10px; border: 1px solid var(--border); border-radius: 7px;
+      cursor: pointer; font-size: 0.8rem; text-align: left; background: white;
+      transition: all 0.15s; color: var(--dark); line-height: 1.35;
+    }
+    .phrase-btn:hover { background: #efe5ff; border-color: var(--accent); }
+    .phrase-btn.selected { background: var(--accent); color: white; border-color: var(--accent); font-weight: 600; }
+    .custom-input {
+      width: 100%; padding: 9px 12px; border: 2px solid #ddd; border-radius: 8px;
+      font-size: 0.88rem; margin-top: 6px; color: var(--dark);
+    }
+    .custom-input:focus { outline: none; border-color: var(--accent); }
+    .step-btns { display: flex; gap: 8px; margin-top: 10px; }
+    .step-next-btn {
+      padding: 9px 20px; border: none; border-radius: 7px;
+      background: var(--accent); color: white; font-weight: 700; font-size: 0.85rem;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .step-next-btn:hover { background: var(--primary); }
+    .step-clear-btn {
+      padding: 9px 14px; border: 1px solid #ccc; border-radius: 7px;
+      background: white; color: #666; font-size: 0.85rem; cursor: pointer;
+    }
+    .step-clear-btn:hover { background: #f5f5f5; }
+    .char-count { font-size: 0.75rem; color: #888; margin-top: 4px; }
+
+    /* PREVIEW PANEL */
+    .preview-panel { padding: 22px 22px 22px; background: #fafbff; }
+    .preview-panel h2 { font-size: 1rem; color: var(--primary); margin-bottom: 14px; display: flex; align-items: center; gap: 7px; }
+    .para-preview {
+      background: white; border: 2px solid #e0d4f5; border-radius: 10px;
+      padding: 18px; min-height: 220px; font-size: 0.92rem; line-height: 1.9;
+      color: var(--dark); margin-bottom: 16px;
+    }
+    .para-segment { display: inline; }
+    .seg-topic { color: #1a5276; font-weight: 600; }
+    .seg-point { color: #145a32; font-weight: 600; }
+    .seg-evidence { color: #7d6608; font-weight: 600; }
+    .seg-analysis { color: #6c3483; font-weight: 600; }
+    .seg-connector { color: #922b21; font-weight: 600; }
+    .seg-conclusion { color: #1b4f72; font-weight: 600; }
+    .seg-placeholder { color: #ccc; font-style: italic; }
+    .legend {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; font-size: 0.72rem;
+    }
+    .legend span { padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+    .leg-topic { background: #d6eaf8; color: #1a5276; }
+    .leg-point { background: #d5f5e3; color: #145a32; }
+    .leg-evidence { background: #fef9e7; color: #7d6608; border: 1px solid #f0d060; }
+    .leg-analysis { background: #f5eeff; color: #6c3483; }
+    .leg-connector { background: #fde8e4; color: #922b21; }
+    .leg-conclusion { background: #d6ecf7; color: #1b4f72; }
+
+    .word-count-bar { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: #666; margin-bottom: 12px; }
+    .wc-num { font-weight: 700; color: var(--primary); font-size: 1rem; }
+
+    .action-btns { display: flex; flex-direction: column; gap: 8px; }
+    .copy-btn, .reset-btn-main, .print-btn2 {
+      padding: 11px 14px; border: none; border-radius: 8px;
+      cursor: pointer; font-weight: 700; font-size: 0.88rem; transition: all 0.2s;
+      text-align: center;
+    }
+    .copy-btn { background: var(--secondary); color: white; }
+    .copy-btn:hover { background: #2471a3; }
+    .print-btn2 { background: var(--primary); color: white; }
+    .print-btn2:hover { background: #5b2c6f; }
+    .reset-btn-main { background: #eee; color: #555; border: 1px solid #ccc; }
+    .reset-btn-main:hover { background: #ddd; }
+    .copy-feedback { font-size: 0.78rem; color: var(--success); text-align: center; height: 16px; margin-top: 2px; }
+
+    @media print {
+      header, .question-select-bar, .steps-panel, .legend, .action-btns, .word-count-bar { display: none !important; }
+      .builder-grid { grid-template-columns: 1fr; }
+      .preview-panel { padding: 0; }
+      .para-preview { border: none; font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Volver – Essay Paragraph Builder</h1>
+    <p>Select a question, then build a structured analytical paragraph step by step using the phrase bank. Colour-coded preview updates as you go.</p>
+  </header>
+
+  <div class="question-select-bar">
+    <label>📋 Choose an essay question:</label>
+    <select class="q-select" id="questionSelect" onchange="pickQuestion()">
+      <option value="">— Select a question —</option>
+      <option value="q1">1. ¿Hasta qué punto representa Volver la solidaridad femenina como fuerza positiva? (To what extent does Volver represent female solidarity as a positive force?)</option>
+      <option value="q2">2. «Los hombres en Volver son completamente irrelevantes.» ¿Estás de acuerdo? ("Men in Volver are completely irrelevant." Do you agree?)</option>
+      <option value="q3">3. ¿Cómo utiliza Almodóvar el pasado para moldear el presente en Volver? (How does Almodóvar use the past to shape the present in Volver?)</option>
+      <option value="q4">4. Analiza la importancia de La Mancha como telón de fondo en Volver. (Analyse the importance of La Mancha as a backdrop in Volver.)</option>
+      <option value="q5">5. ¿Cómo refleja Volver los efectos del abuso y el silencio en las mujeres? (How does Volver reflect the effects of abuse and silence on women?)</option>
+      <option value="q6">6. «Raimunda es el personaje más complejo de la película.» Discute. ("Raimunda is the most complex character in the film." Discuss.)</option>
+    </select>
+    <div class="question-text" id="questionText"></div>
+  </div>
+
+  <div class="builder-grid">
+    <!-- STEPS -->
+    <div class="steps-panel" id="stepsPanel">
+      <p style="color:#aaa;font-size:0.9rem;text-align:center;padding:20px 0;">← Select a question above to begin building your paragraph.</p>
+    </div>
+
+    <!-- PREVIEW -->
+    <div class="preview-panel">
+      <h2>📝 Paragraph preview</h2>
+      <div class="legend">
+        <span class="leg-topic">Topic sentence</span>
+        <span class="leg-point">Key point</span>
+        <span class="leg-evidence">Evidence</span>
+        <span class="leg-analysis">Analysis</span>
+        <span class="leg-connector">Connector</span>
+        <span class="leg-conclusion">Conclusion</span>
+      </div>
+      <div class="para-preview" id="paraPreview">
+        <span class="seg-placeholder">Your paragraph will appear here as you complete each step…</span>
+      </div>
+      <div class="word-count-bar">
+        <span>Words: <span class="wc-num" id="wordCountPrev">0</span></span>
+        <span id="qualityNote" style="color:#888"></span>
+      </div>
+      <div class="action-btns">
+        <button class="copy-btn" onclick="copyParagraph()">📋 Copy paragraph text</button>
+        <button class="print-btn2" onclick="window.print()">🖨️ Print / Save as PDF</button>
+        <button class="reset-btn-main" onclick="resetAll()">↺ Start over</button>
+      </div>
+      <div class="copy-feedback" id="copyFeedback"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = {
+  q1: { label: 'Solidaridad femenina', full: '¿Hasta qué punto representa Volver la solidaridad femenina como fuerza positiva?', keyword: 'solidaridad femenina' },
+  q2: { label: 'Los hombres en Volver', full: '«Los hombres en Volver son completamente irrelevantes.» ¿Estás de acuerdo?', keyword: 'papel masculino / la irrelevancia' },
+  q3: { label: 'El pasado y el presente', full: '¿Cómo utiliza Almodóvar el pasado para moldear el presente en Volver?', keyword: 'el pasado / la memoria' },
+  q4: { label: 'La Mancha como telón de fondo', full: 'Analiza la importancia de La Mancha como telón de fondo en Volver.', keyword: 'el marco geográfico / social' },
+  q5: { label: 'El abuso y el silencio', full: '¿Cómo refleja Volver los efectos del abuso y el silencio en las mujeres?', keyword: 'el abuso / el silencio femenino' },
+  q6: { label: 'Raimunda', full: '«Raimunda es el personaje más complejo de la película.» Discute.', keyword: 'la complejidad del personaje' },
+};
+
+const STEP_DATA = {
+  q1: [
+    { title: 'Topic Sentence', role: 'topic', desc: 'Introduce your main argument in response to the question. Use an essay-opening phrase.', phrases: [
+      'En Volver, la solidaridad femenina constituye el eje central de la trama…',
+      'Almodóvar pone de manifiesto que la unión entre mujeres es, en este largometraje, una auténtica fuerza de supervivencia…',
+      'Lo cierto es que la solidaridad femenina no solo existe en Volver, sino que representa el único mecanismo de protección ante la adversidad…',
+      'A medida que se avanza en la película, resulta evidente que los lazos femeninos son la verdadera columna vertebral del relato…',
+    ]},
+    { title: 'Key Point', role: 'point', desc: 'State your main analytical point about female solidarity in the film.', phrases: [
+      'Las mujeres de la película se ayudan mutuamente de forma instintiva, sin esperar nada a cambio…',
+      'El personaje de Raimunda actúa como pilar emocional para Paula y para Sole, asumiendo responsabilidades que ningún hombre acepta…',
+      'Cabe destacar igualmente que Almodóvar presenta la solidaridad femenina como una respuesta directa a la ausencia o la toxicidad masculina…',
+      'Destaca el hecho de que las mujeres se comuniquen con franqueza cuando los hombres se caracterizan por el silencio y el engaño…',
+    ]},
+    { title: 'Evidence from the film', role: 'evidence', desc: 'Cite a specific scene, moment or technique from Volver to support your point.', phrases: [
+      'Sirva de ejemplo la escena en la que Raimunda oculta el cadáver de Paco con la ayuda de sus vecinas del restaurante…',
+      'Un giro inesperado se produce cuando Irene, la madre «fallecida», reaparece para cuidar a Agustina en secreto, poniendo de manifiesto la solidaridad intergeneracional…',
+      'El plano general que muestra a las mujeres del barrio reunidas en torno a Raimunda mientras canta «Volver» subraya visualmente esta fuerza colectiva…',
+      'Pongamos por caso el momento en que Sole acepta a su madre sin cuestionarla, protegiéndola de la sociedad y la ley…',
+    ]},
+    { title: 'Analysis', role: 'analysis', desc: 'Interpret the significance of the evidence. Use analytical verbs and avoid retelling.', phrases: [
+      'Esto pone de manifiesto que Almodóvar presenta la complicidad femenina no como debilidad moral sino como acto de resistencia colectiva frente a estructuras patriarcales…',
+      'Este momento revela que la solidaridad en Volver trasciende las fronteras del parentesco: las mujeres se convierten en familia elegida…',
+      'No se puede negar que el director utiliza esta escena para denunciar el silencio que rodea al abuso doméstico, mostrando cómo son las mujeres quienes deben gestionarlo…',
+      'Se podría decir incluso que la película glorifica la lealtad femenina como una ética alternativa: pragmática, empática y eficaz allí donde las instituciones fallan…',
+    ]},
+    { title: 'Connector & Development', role: 'connector', desc: 'Add a sophisticated connective phrase to extend or qualify your argument.', phrases: [
+      'Sin embargo, hay que señalar que esta solidaridad no está exenta de tensión: los secretos que las mujeres guardan crean una carga emocional considerable…',
+      'Por otra parte, cabe preguntarse si Almodóvar idealiza en exceso la unión femenina, ocultando la complejidad real de las relaciones entre mujeres…',
+      'A pesar de todo, incluso cuando surgen conflictos entre ellas, la lealtad acaba imponiéndose: sea lo que sea, hay que decir que el perdón es siempre posible en este universo…',
+      'Incluso se puede decir que la solidaridad femenina funciona en Volver como una crítica implícita al Estado y a las instituciones religiosas, incapaces de proteger a las mujeres…',
+    ]},
+    { title: 'Conclusion', role: 'conclusion', desc: 'Draw a convincing conclusion that links back to the question.', phrases: [
+      'Al fin y al cabo, se puede concluir que Almodóvar presenta la solidaridad femenina no solo como positiva, sino como imprescindible: es la única fuerza capaz de sanar el pasado y garantizar la supervivencia en el presente…',
+      'En resumen, Volver demuestra que la unión entre mujeres trasciende la simple simpatía: representa una filosofía de vida alternativa en un mundo en el que el patriarcado ha fallado…',
+      'En definitiva, la solidaridad femenina en Volver no es meramente un tema; es la estructura sobre la que se sostiene toda la película, su motor narrativo y su propuesta ética…',
+      'Sea lo que sea, hay que decir que la imagen final de Raimunda e Irene reconciliadas es el símbolo perfecto de que el amor materno y la complicidad femenina pueden superar incluso los mayores secretos…',
+    ]},
+  ],
+  q2: [
+    { title: 'Topic Sentence', role: 'topic', desc: 'Introduce your argument about the role of men in the film.', phrases: [
+      'Aunque se puede afirmar que los hombres en Volver son secundarios, describir su papel como completamente irrelevante resulta simplista…',
+      'Lo cierto es que Almodóvar construye en Volver un universo narrativo esencialmente femenino en el que los hombres aparecen, en su mayoría, como obstáculos o ausencias…',
+      'Se suele afirmar que Volver es una película de mujeres, pero la función de los personajes masculinos merece un análisis más matizado…',
+      'Al ver la película, uno se da cuenta de que los hombres actúan como catalizadores del drama femenino más que como protagonistas en sí mismos…',
+    ]},
+    { title: 'Key Point', role: 'point', desc: 'State your main analytical point about male characters.', phrases: [
+      'Los hombres en Volver son o bien abusadores (el padre de Raimunda, Paco), o bien figuras ausentes que generan el sufrimiento que las mujeres deben reparar…',
+      'Destaca el hecho de que ningún personaje masculino tenga una trayectoria de redención: su función narrativa se agota en el daño que causan o en su propia muerte…',
+      'Cabe destacar igualmente que el único policía de la trama, Émilio, sirve más de amenaza potencial que de agente de justicia, reforzando la desconfianza de Almodóvar en las instituciones masculinas…',
+      'Resulta significativo que la evolución del personaje de Raimunda ocurra de espaldas a cualquier figura masculina: su fuerza surge a pesar de ellos, no gracias a ellos…',
+    ]},
+    { title: 'Evidence from the film', role: 'evidence', desc: 'Cite a specific scene or moment about male characters.', phrases: [
+      'Sirva de ejemplo la muerte de Paco en la primera secuencia: su eliminación resulta casi cómica en su rapidez, como si Almodóvar lo descartara narrativamente con deliberada frialdad…',
+      'El plano del padre de Raimunda, evocado solo a través de la memoria de sus víctimas, pone de manifiesto que su presencia nunca fue protectora sino amenazadora…',
+      'La escena en la que el joven vecinito curiosea el restaurante sugiere que la próxima generación masculina observa pero no actúa, perpetuando la pasividad…',
+      'La actuación de Paco en el papel de agresor se resume en dos o tres planos: su rostro apenas importa, solo el impacto que causa sobre Paula y Raimunda…',
+    ]},
+    { title: 'Analysis', role: 'analysis', desc: 'Interpret the significance of this evidence about male roles.', phrases: [
+      'Este tratamiento pone de manifiesto que Almodóvar no concede a sus personajes masculinos la dignidad de una psicología compleja: son símbolos del problema, no de su solución…',
+      'No se puede negar que la película denuncia el abuso patriarcal precisamente mediante este borrado narrativo: al no desarrollarlos, el director les niega la empatía que solemos conceder a los personajes…',
+      'Se trata, en definitiva, de una elección estética e ideológica: al mantener a los hombres en los márgenes del relato, Almodóvar desafía la lógica narrativa convencional en la que ellos ocupan el centro…',
+      'Resulta difícil creer que esta construcción sea accidental: el director moldea deliberadamente nuestra simpatía hacia las mujeres reduciéndola para los hombres…',
+    ]},
+    { title: 'Connector & Development', role: 'connector', desc: 'Qualify or extend your argument with a counterpoint or nuance.', phrases: [
+      'Sin embargo, se podría argumentar que llamar «irrelevantes» a los hombres infravalora su función como detonadores del drama: sin el abuso del padre o la agresión de Paco, la trama no existiría…',
+      'Por otro lado, la figura del vecino adolescente que apoya calladamente a Raimunda podría leerse como un atisbo de esperanza: no todos los hombres son presentados como dañinos…',
+      'A pesar de su escasa presencia en pantalla, los hombres generan el trauma que da forma a la vida interior de los personajes, por lo que «irrelevantes» no resulta del todo exacto…',
+      'Incluso se puede decir que la marginalidad de los hombres es en sí misma un comentario político: al excluirlos del centro narrativo, Almodóvar invierte la jerarquía de género tradicional del cine español…',
+    ]},
+    { title: 'Conclusion', role: 'conclusion', desc: 'Draw a conclusion about the overall role of men in Volver.', phrases: [
+      'Al fin y al cabo, se puede concluir que los hombres en Volver no son irrelevantes sino funcionalmente negativos: su presencia es la sombra que define por contraste la luz de los personajes femeninos…',
+      'En resumen, afirmar que los hombres son completamente irrelevantes es inexacto: son la causa silenciosa del drama, aunque el film les niegue la dignidad de un primer plano…',
+      'En definitiva, Almodóvar hace que la «irrelevancia» masculina sea en sí misma un argumento: los hombres importan no por lo que hacen en pantalla, sino por el daño que han causado fuera de ella…',
+    ]},
+  ],
+  q3: [
+    { title: 'Topic Sentence', role: 'topic', desc: 'Introduce your argument about the past shaping the present in the film.', phrases: [
+      'En Volver, el pasado no desaparece nunca: regresa en forma de fantasmas, secretos y heridas que las protagonistas se ven obligadas a confrontar…',
+      'Almodóvar pone de manifiesto que el presente de sus personajes es inseparable de los traumas no resueltos que arrastran desde la infancia…',
+      'Lo cierto es que la estructura misma de la película refleja esta idea: el relato oscila constantemente entre el pasado y el presente, negándose a tratar ambos como mundos separados…',
+      'Al ver la película, uno se da cuenta de que el pasado ejerce una influencia tan poderosa sobre el presente que su resolución resulta imprescindible para que los personajes puedan avanzar…',
+    ]},
+    { title: 'Key Point', role: 'point', desc: 'State your main point about how the past operates in the film.', phrases: [
+      'El regreso de Irene funciona como metáfora de los secretos familiares que, aunque enterrados, acaban inevitablemente a la superficie…',
+      'Cabe destacar que la historia de Raimunda está moldeada enteramente por el abuso que sufrió de niña: su fortaleza en el presente es una respuesta directa a ese pasado traumático…',
+      'La secuencia retrospectiva que explica la historia de Irene subraya que el desarrollo lineal del relato es engañoso: lo que parece nuevo no es más que una repetición de viejos patrones…',
+      'Destaca el uso de La Mancha como espacio donde el pasado y el presente coexisten: la tierra, el viento y las tradiciones funcionan como continuidades que resisten el paso del tiempo…',
+    ]},
+    { title: 'Evidence from the film', role: 'evidence', desc: 'Cite a specific scene or technique related to memory and the past.', phrases: [
+      'Sirva de ejemplo la escena en la que Raimunda, al limpiar la casa de su tía Paula difunta, descubre fotografías que desencadenan recuerdos de su infancia…',
+      'Un giro inesperado se produce cuando Irene revela a Raimunda toda la verdad sobre el abuso del padre: esta escena retrospectiva cambia radicalmente nuestra comprensión del presente…',
+      'El uso de la canción «Volver» — cuya letra habla explícitamente del regreso desde el pasado — funciona como un commentario musical sobre la estructura temática de la película…',
+      'La imagen de la tumba decorada en el cementerio del pueblo subraya visualmente que la muerte y el pasado son mantenidos vivos por las mujeres de la comunidad…',
+    ]},
+    { title: 'Analysis', role: 'analysis', desc: 'Interpret how this moment reveals the relationship between past and present.', phrases: [
+      'Este momento revela que Almodóvar concibe el pasado no como algo superado, sino como una presencia activa que co-habita con el presente y que solo puede resolverse mediante la confrontación directa…',
+      'No se puede negar que la estructura narrativa de la película — con sus revelaciones tardías y sus secretos estratificados — reproduce formalmente la naturaleza del trauma: fragmentado, no lineal, capaz de irrumpir en el presente sin previo aviso…',
+      'Se puede argumentar que el regreso de Irene simboliza la imposibilidad del duelo definitivo: aquello que creemos muerto — un secreto, una madre, una culpa — siempre «vuelve»…',
+      'Resulta difícil creer que la elección del título sea casual: «volver» implica el retorno desde el pasado hacia el presente, y esta acción define a todos los personajes de la película…',
+    ]},
+    { title: 'Connector & Development', role: 'connector', desc: 'Extend or qualify your argument with a sophisticated connecting phrase.', phrases: [
+      'Sin embargo, hay que señalar que Almodóvar no presenta el pasado como una condena irreversible: el film sugiere que el reconocimiento y el perdón permiten transformarlo…',
+      'Por otra parte, cabe preguntarse si el pasado en Volver actúa sobre todos los personajes por igual: mientras Raimunda debe enfrentarse a él, Sole parece capaz de aceptarlo más fácilmente…',
+      'Incluso se puede decir que la convivencia de la madre «fantasma» con sus hijas representa el deseo de Almodóvar de integrar el pasado en el presente, en lugar de borrarlo…',
+      'A medida que se avanza en la película, resulta cada vez más evidente que resolver el pasado es el verdadero arco narrativo de Raimunda, más que los obstáculos del presente…',
+    ]},
+    { title: 'Conclusion', role: 'conclusion', desc: 'Draw a conclusion about the role of the past in shaping the present.', phrases: [
+      'Al fin y al cabo, se puede concluir que Volver propone una visión del tiempo en la que el pasado nunca muere del todo: solo puede ser transformado mediante la verdad y el perdón…',
+      'En resumen, Almodóvar demuestra que comprender el presente de sus personajes exige necesariamente explorar su pasado: la película es, en este sentido, tanto una historia de fantasmas como un acto de terapia colectiva…',
+      'En definitiva, la fuerza de Volver reside en su negativa a tratar el pasado como algo resuelto: al hacer que regrese — en cuerpo, en memoria, en música — el director convierte la película misma en un acto de «volver»…',
+    ]},
+  ],
+};
+
+// For questions without detailed data, use generic steps
+const GENERIC_STEPS = (qKey) => {
+  const q = QUESTIONS[qKey];
+  return [
+    { title: 'Topic Sentence', role: 'topic', desc: 'Introduce your main argument in response to the question. Use an essay-opening phrase.', phrases: [
+      `Lo cierto es que ${q.keyword} es uno de los aspectos más destacables de Volver…`,
+      `A medida que se avanza en la película, resulta evidente que Almodóvar aborda ${q.keyword} de forma deliberada y matizada…`,
+      `Al ver la película, uno se da cuenta de que ${q.keyword} es fundamental para comprender el mensaje del director…`,
+      `Se suele afirmar que Volver es una obra maestra del cine contemporáneo, y el tratamiento de ${q.keyword} es una razón clave para ello…`,
+    ]},
+    { title: 'Key Point', role: 'point', desc: 'State your main analytical point.', phrases: [
+      `Cabe destacar igualmente que Almodóvar utiliza ${q.keyword} para subrayar la complejidad de sus personajes femeninos…`,
+      `Destaca el hecho de que ${q.keyword} no aparece de forma superficial, sino como parte esencial de la arquitectura temática del largometraje…`,
+      `Lo que más llama la atención es que ${q.keyword} se desarrolla de forma paralela al arco emocional de Raimunda…`,
+      `Resulta significativo que ${q.keyword} sea presentado con ambigüedad: Almodóvar evita los juicios fáciles y prefiere la complejidad moral…`,
+    ]},
+    { title: 'Evidence from the film', role: 'evidence', desc: 'Cite a specific scene, moment or technique.', phrases: [
+      'Sirva de ejemplo la escena en la que Raimunda canta «Volver» ante sus vecinas: un momento de una intensidad emocional extraordinaria…',
+      'Un plano significativo es aquel en el que Almodóvar utiliza el primer plano para capturar la expresión de Raimunda al descubrir la verdad…',
+      'Pongamos por caso el momento en que Irene reaparece: su regreso es a la vez fantástico y profundamente realista, reflejando la temática central de la película…',
+      'La secuencia final, en la que madre e hija se reconcilian, constituye un desenlace que sintetiza todos los temas de la obra…',
+    ]},
+    { title: 'Analysis', role: 'analysis', desc: 'Interpret the significance of your evidence. Use analytical verbs.', phrases: [
+      'Este momento revela que Almodóvar utiliza el cine como un espacio seguro para explorar verdades dolorosas que la sociedad prefiere silenciar…',
+      'No se puede negar que esta escena pone de manifiesto la destreza técnica del director: cada decisión cinematográfica refuerza el significado emocional…',
+      'Se podría decir incluso que esta elección estética es también una declaración ideológica: Almodóvar desafía las expectativas del espectador para provocar una reflexión más profunda…',
+      'Se trata, en definitiva, de un gesto cinematográfico lleno de significado: la imagen transmite lo que el diálogo no podría expresar con la misma eficacia…',
+    ]},
+    { title: 'Connector & Development', role: 'connector', desc: 'Extend or qualify your argument.', phrases: [
+      'Sin embargo, hay que señalar que esta lectura no agota el significado de la escena: otras interpretaciones son igualmente válidas…',
+      'Por otra parte, cabe preguntarse si la propuesta de Almodóvar tiene sus limitaciones: ¿hasta qué punto logra superar los estereotipos que pretende criticar?',
+      'Incluso se puede decir que la aparente sencillez de la escena esconde una complejidad que solo se revela en sucesivos visionados…',
+      'A pesar de todo, lo que queda claro es que Almodóvar domina el arte de la ambigüedad: sus películas invitan a la discusión precisamente porque no ofrecen respuestas definitivas…',
+    ]},
+    { title: 'Conclusion', role: 'conclusion', desc: 'Draw a convincing conclusion linked to the question.', phrases: [
+      `Al fin y al cabo, se puede concluir que ${q.keyword} es un elemento central en Volver, y que Almodóvar lo trata con una profundidad que justifica el análisis detenido…`,
+      `En resumen, Volver demuestra que ${q.keyword} no es un tema incidental, sino la clave interpretativa de toda la película…`,
+      `En definitiva, la capacidad de Almodóvar para convertir ${q.keyword} en materia cinematográfica de primera es uno de los motivos por los que Volver sigue siendo una obra de referencia del cine español contemporáneo…`,
+    ]},
+  ];
+};
+
+let currentQ = null;
+let steps = [];
+let selections = {};
+
+function pickQuestion() {
+  const val = document.getElementById('questionSelect').value;
+  if (!val) return;
+  currentQ = val;
+  const q = QUESTIONS[val];
+  document.getElementById('questionText').textContent = q.full;
+  document.getElementById('questionText').classList.add('show');
+  steps = STEP_DATA[val] || GENERIC_STEPS(val);
+  selections = {};
+  renderSteps();
+  updatePreview();
+}
+
+function renderSteps() {
+  const panel = document.getElementById('stepsPanel');
+  panel.innerHTML = '';
+  steps.forEach((step, i) => {
+    const div = document.createElement('div');
+    div.className = `step${i === 0 ? ' active' : ''}`;
+    div.id = `step${i}`;
+    const sel = selections[i];
+    div.innerHTML = `
+      <div class="step-header" onclick="toggleStep(${i})">
+        <div class="step-num">${i + 1}</div>
+        <div class="step-title">${step.title}</div>
+        <div class="step-status">${sel ? '✓ Done' : ''}</div>
+      </div>
+      <div class="step-body">
+        <div class="step-desc">${step.desc}</div>
+        <div class="phrase-grid" id="pg${i}">
+          ${step.phrases.map((p, j) => `
+            <button class="phrase-btn${sel && sel.text === p ? ' selected' : ''}" onclick="selectPhrase(${i}, ${j}, this)">${p}</button>
+          `).join('')}
+        </div>
+        <div style="font-size:0.8rem;color:#888;margin-bottom:4px;">Or write your own:</div>
+        <input class="custom-input" type="text" id="custom${i}" placeholder="Type your own phrase…"
+          value="${sel && sel.custom ? sel.text : ''}"
+          oninput="selectCustom(${i}, this.value)">
+        <div class="char-count" id="cc${i}">${sel ? sel.text.length : 0} characters</div>
+        <div class="step-btns">
+          <button class="step-next-btn" onclick="nextStep(${i})">Next step →</button>
+          <button class="step-clear-btn" onclick="clearStep(${i})">Clear</button>
+        </div>
+      </div>
+    `;
+    panel.appendChild(div);
+  });
+}
+
+function toggleStep(i) {
+  document.querySelectorAll('.step').forEach((s, idx) => {
+    s.classList.toggle('active', idx === i);
+  });
+}
+
+function selectPhrase(stepIdx, phraseIdx, btn) {
+  const phrase = steps[stepIdx].phrases[phraseIdx];
+  selections[stepIdx] = { text: phrase, custom: false };
+  document.querySelectorAll(`#pg${stepIdx} .phrase-btn`).forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById(`custom${stepIdx}`).value = '';
+  document.getElementById(`cc${stepIdx}`).textContent = phrase.length + ' characters';
+  document.getElementById(`step${stepIdx}`).querySelector('.step-status').textContent = '✓ Done';
+  document.getElementById(`step${stepIdx}`).classList.add('done');
+  updatePreview();
+}
+
+function selectCustom(stepIdx, val) {
+  if (!val.trim()) { delete selections[stepIdx]; document.getElementById(`step${stepIdx}`).querySelector('.step-status').textContent = ''; document.getElementById(`step${stepIdx}`).classList.remove('done'); }
+  else {
+    selections[stepIdx] = { text: val.trim(), custom: true };
+    document.querySelectorAll(`#pg${stepIdx} .phrase-btn`).forEach(b => b.classList.remove('selected'));
+    document.getElementById(`step${stepIdx}`).querySelector('.step-status').textContent = '✓ Done';
+    document.getElementById(`step${stepIdx}`).classList.add('done');
+  }
+  document.getElementById(`cc${stepIdx}`).textContent = val.length + ' characters';
+  updatePreview();
+}
+
+function nextStep(i) {
+  const next = i + 1;
+  if (next < steps.length) {
+    document.querySelectorAll('.step').forEach((s, idx) => s.classList.toggle('active', idx === next));
+    document.getElementById(`step${next}`).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}
+
+function clearStep(i) {
+  delete selections[i];
+  document.querySelectorAll(`#pg${i} .phrase-btn`).forEach(b => b.classList.remove('selected'));
+  document.getElementById(`custom${i}`).value = '';
+  document.getElementById(`cc${i}`).textContent = '0 characters';
+  document.getElementById(`step${i}`).querySelector('.step-status').textContent = '';
+  document.getElementById(`step${i}`).classList.remove('done');
+  updatePreview();
+}
+
+function updatePreview() {
+  const preview = document.getElementById('paraPreview');
+  const roleClasses = { topic: 'seg-topic', point: 'seg-point', evidence: 'seg-evidence', analysis: 'seg-analysis', connector: 'seg-connector', conclusion: 'seg-conclusion' };
+  const placeholders = {
+    topic: '[topic sentence]', point: '[key point]', evidence: '[evidence from film]',
+    analysis: '[analysis]', connector: '[connector / development]', conclusion: '[conclusion]'
+  };
+  let html = '';
+  let fullText = '';
+  steps.forEach((step, i) => {
+    const sel = selections[i];
+    const cls = roleClasses[step.role] || '';
+    if (sel) {
+      html += `<span class="para-segment ${cls}">${sel.text} </span>`;
+      fullText += sel.text + ' ';
+    } else {
+      html += `<span class="para-segment seg-placeholder">${placeholders[step.role]} </span>`;
+    }
+  });
+  preview.innerHTML = html || '<span class="seg-placeholder">Your paragraph will appear here…</span>';
+  const words = fullText.trim() ? fullText.trim().split(/\s+/).length : 0;
+  document.getElementById('wordCountPrev').textContent = words;
+  let quality = '';
+  if (words > 0 && words < 60) quality = '💡 Aim for 80–120 words per paragraph';
+  else if (words >= 60 && words < 100) quality = '✅ Good length — consider expanding analysis';
+  else if (words >= 100) quality = '🌟 Excellent paragraph length';
+  document.getElementById('qualityNote').textContent = quality;
+}
+
+function copyParagraph() {
+  const parts = steps.map((s, i) => selections[i] ? selections[i].text : '').filter(Boolean);
+  const text = parts.join(' ');
+  if (!text) { document.getElementById('copyFeedback').textContent = 'Nothing to copy yet!'; return; }
+  navigator.clipboard.writeText(text).then(() => {
+    document.getElementById('copyFeedback').textContent = '✓ Copied to clipboard!';
+    setTimeout(() => document.getElementById('copyFeedback').textContent = '', 2500);
+  });
+}
+
+function resetAll() {
+  currentQ = null;
+  steps = []; selections = {};
+  document.getElementById('questionSelect').value = '';
+  document.getElementById('questionText').classList.remove('show');
+  document.getElementById('stepsPanel').innerHTML = '<p style="color:#aaa;font-size:0.9rem;text-align:center;padding:20px 0;">← Select a question above to begin building your paragraph.</p>';
+  document.getElementById('paraPreview').innerHTML = '<span class="seg-placeholder">Your paragraph will appear here as you complete each step…</span>';
+  document.getElementById('wordCountPrev').textContent = '0';
+  document.getElementById('qualityNote').textContent = '';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volver – Essay Self-Assessment (Mark Scheme)</title>
+  <style>
+    :root {
+      --primary: #1a5276;
+      --accent: #2980b9;
+      --success: #1e8449;
+      --warning: #d68910;
+      --danger: #922b21;
+      --band1: #e74c3c;
+      --band2: #e67e22;
+      --band3: #f1c40f;
+      --band4: #2ecc71;
+      --band5: #27ae60;
+      --light: #eaf2ff;
+      --dark: #1c2833;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+    body { background: #eaf0fb; min-height: 100vh; padding: 20px; color: var(--dark); }
+    .container { max-width: 970px; margin: 0 auto; background: white; border-radius: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.1); overflow: hidden; }
+    header { background: linear-gradient(135deg, #1a5276, #2980b9); color: white; padding: 28px 30px; text-align: center; }
+    header h1 { font-size: 1.9rem; margin-bottom: 8px; }
+    header p { font-size: 0.95rem; opacity: 0.85; max-width: 600px; margin: 0 auto; }
+
+    .main-grid { display: grid; grid-template-columns: 1fr 340px; gap: 0; }
+    @media (max-width: 800px) { .main-grid { grid-template-columns: 1fr; } }
+
+    .left-panel { padding: 25px; border-right: 2px solid #eee; }
+    .right-panel { padding: 25px; background: #f8faff; }
+
+    h2 { font-size: 1.1rem; color: var(--primary); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    h2 .icon { font-size: 1.2rem; }
+
+    textarea {
+      width: 100%; min-height: 180px; padding: 14px;
+      border: 2px solid #cdd; border-radius: 10px; font-size: 0.95rem;
+      line-height: 1.7; resize: vertical; color: var(--dark);
+      transition: border-color 0.2s;
+    }
+    textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(41,128,185,0.15); }
+
+    .section { margin-bottom: 24px; }
+    .section-title {
+      font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;
+      color: white; padding: 6px 12px; border-radius: 6px; margin-bottom: 12px; display: inline-block;
+    }
+    .ao4-title { background: #1a5276; }
+    .ao3g-title { background: #6c3483; }
+    .ao3a-title { background: #0e6655; }
+
+    .checklist { list-style: none; }
+    .checklist li {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 9px 12px; border-radius: 8px; margin-bottom: 6px;
+      background: #f7f9fb; border: 1px solid #e0e8f0; cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      font-size: 0.88rem; line-height: 1.45;
+    }
+    .checklist li:hover { background: #eaf2ff; border-color: var(--accent); }
+    .checklist li.checked { background: #eafaf1; border-color: #27ae60; }
+    .checklist li input[type="checkbox"] { margin-top: 2px; accent-color: var(--accent); width: 16px; height: 16px; flex-shrink: 0; cursor: pointer; }
+    .check-label { flex: 1; }
+    .check-label strong { color: var(--primary); display: block; margin-bottom: 2px; font-size: 0.9rem; }
+    .check-label span { color: #555; font-size: 0.83rem; }
+    .points-badge {
+      background: #1a5276; color: white; font-size: 0.7rem; font-weight: 700;
+      padding: 2px 7px; border-radius: 10px; flex-shrink: 0; margin-top: 2px;
+    }
+    .points-badge.ao3g { background: #6c3483; }
+    .points-badge.ao3a { background: #0e6655; }
+
+    /* RIGHT PANEL */
+    .band-display {
+      border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px;
+      transition: background 0.5s, color 0.5s;
+      background: #eee; color: #888;
+    }
+    .band-display .band-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; margin-bottom: 6px; }
+    .band-display .band-number { font-size: 3rem; font-weight: 900; line-height: 1; }
+    .band-display .band-desc { font-size: 0.85rem; margin-top: 6px; }
+
+    .score-row {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px;
+    }
+    .score-box {
+      border-radius: 10px; padding: 12px 8px; text-align: center; border: 2px solid transparent;
+    }
+    .score-box .sc-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; color: #666; margin-bottom: 4px; font-weight: 700; }
+    .score-box .sc-val { font-size: 1.5rem; font-weight: 800; }
+    .score-box .sc-max { font-size: 0.75rem; color: #999; }
+    .sc-ao4 { background: #eaf0ff; border-color: #aac4f0; }
+    .sc-ao4 .sc-val { color: var(--primary); }
+    .sc-ao3g { background: #f5eeff; border-color: #c9a8f0; }
+    .sc-ao3g .sc-val { color: #6c3483; }
+    .sc-ao3a { background: #eafbf5; border-color: #a8e4c8; }
+    .sc-ao3a .sc-val { color: #0e6655; }
+
+    .total-score {
+      background: linear-gradient(135deg, #1a5276, #2980b9); color: white;
+      border-radius: 10px; padding: 14px; text-align: center; margin-bottom: 20px;
+    }
+    .total-score .ts-label { font-size: 0.8rem; opacity: 0.8; margin-bottom: 4px; }
+    .total-score .ts-val { font-size: 2.2rem; font-weight: 900; }
+    .total-score .ts-max { font-size: 0.85rem; opacity: 0.7; }
+
+    .band-bar-wrap { margin-bottom: 20px; }
+    .band-bar-wrap label { font-size: 0.8rem; font-weight: 700; color: #555; display: block; margin-bottom: 6px; }
+    .band-bar {
+      height: 22px; background: linear-gradient(to right, #e74c3c, #e67e22, #f1c40f, #2ecc71, #27ae60);
+      border-radius: 11px; position: relative; overflow: visible;
+    }
+    .band-marker {
+      position: absolute; top: -6px; width: 10px; height: 34px;
+      background: var(--dark); border-radius: 5px; transform: translateX(-50%);
+      transition: left 0.5s ease; box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    .band-labels { display: flex; justify-content: space-between; margin-top: 4px; font-size: 0.7rem; color: #777; }
+
+    .feedback-box {
+      background: #f8f9fa; border-radius: 10px; padding: 15px; margin-bottom: 15px;
+      border-left: 4px solid var(--accent); font-size: 0.85rem; line-height: 1.6;
+    }
+    .feedback-box h3 { font-size: 0.9rem; color: var(--primary); margin-bottom: 8px; }
+    .feedback-box ul { padding-left: 18px; }
+    .feedback-box li { margin-bottom: 5px; color: #444; }
+
+    .print-btn {
+      width: 100%; padding: 12px; border: none; border-radius: 8px;
+      background: var(--primary); color: white; font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .print-btn:hover { background: #154360; }
+    .reset-link { display: block; text-align: center; margin-top: 10px; font-size: 0.82rem; color: var(--accent); cursor: pointer; text-decoration: underline; }
+
+    @media print {
+      .right-panel { display: none; }
+      .main-grid { grid-template-columns: 1fr; }
+      textarea { border: 1px solid #ccc; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Volver – Essay Self-Assessment</h1>
+    <p>Type or paste your essay paragraph, then tick each criterion you've met. Your indicative mark band updates automatically.</p>
+  </header>
+
+  <div class="main-grid">
+    <!-- LEFT: checklist -->
+    <div class="left-panel">
+      <div class="section">
+        <h2><span class="icon">✍️</span> Your paragraph / essay</h2>
+        <textarea id="essayText" placeholder="Paste or type your essay paragraph here (optional — for word count and self-reflection)…" oninput="updateWordCount()"></textarea>
+        <p style="font-size:0.8rem;color:#888;margin-top:6px;" id="wordCount">0 words</p>
+      </div>
+
+      <!-- AO4 -->
+      <div class="section">
+        <div class="section-title ao4-title">AO4 – Critical &amp; Analytical Response (20 marks)</div>
+        <ul class="checklist" id="ao4list">
+          <li onclick="toggleCheck(this,'ao4',1)"><input type="checkbox"><div class="check-label"><strong>Evidence cited from Volver</strong><span>You refer to a specific scene, character action, line of dialogue, or cinematic technique to support your point.</span></div><span class="points-badge">+2</span></li>
+          <li onclick="toggleCheck(this,'ao4',2)"><input type="checkbox"><div class="check-label"><strong>Interpretations / points of view</strong><span>You offer a reading/interpretation of the evidence ("this suggests…", "this implies…") not just description.</span></div><span class="points-badge">+2</span></li>
+          <li onclick="toggleCheck(this,'ao4',2)"><input type="checkbox"><div class="check-label"><strong>Critical analysis of themes or social context</strong><span>You analyse a theme (solidarity, guilt, memory, gender) or social/cultural context of post-Franco Spain.</span></div><span class="points-badge">+2</span></li>
+          <li onclick="toggleCheck(this,'ao4',2)"><input type="checkbox"><div class="check-label"><strong>Logical argument developed</strong><span>Your points build on each other; you don't just list observations — there's a line of reasoning.</span></div><span class="points-badge">+2</span></li>
+          <li onclick="toggleCheck(this,'ao4',2)"><input type="checkbox"><div class="check-label"><strong>Convincing / persuasive conclusion drawn</strong><span>You reach a conclusion linked to your argument (e.g. "Al fin y al cabo, se puede concluir que…").</span></div><span class="points-badge">+2</span></li>
+          <li onclick="toggleCheck(this,'ao4',2)"><input type="checkbox"><div class="check-label"><strong>Sustained focus on the question</strong><span>Every sentence relates to the essay question; no irrelevant plot summary.</span></div><span class="points-badge">+2</span></li>
+          <li onclick="toggleCheck(this,'ao4',2)"><input type="checkbox"><div class="check-label"><strong>Avoids pure description / plot retelling</strong><span>You don't simply narrate what happens — you analyse why it matters and what it means.</span></div><span class="points-badge">+2</span></li>
+          <li onclick="toggleCheck(this,'ao4',1)"><input type="checkbox"><div class="check-label"><strong>Counter-argument / alternative perspective considered</strong><span>You acknowledge a different viewpoint or qualification ("Por otro lado…", "Sin embargo…").</span></div><span class="points-badge">+1</span></li>
+          <li onclick="toggleCheck(this,'ao4',1)"><input type="checkbox"><div class="check-label"><strong>Reference to director's craft / intentionality</strong><span>You consider Almodóvar's choices and purpose, not just plot events.</span></div><span class="points-badge">+1</span></li>
+        </ul>
+      </div>
+
+      <!-- AO3 Grammar -->
+      <div class="section">
+        <div class="section-title ao3g-title">AO3 – Grammar &amp; Vocabulary Range (20 marks)</div>
+        <ul class="checklist" id="ao3glist">
+          <li onclick="toggleCheck(this,'ao3g',2)"><input type="checkbox"><div class="check-label"><strong>Subjunctive mood used correctly</strong><span>Present or imperfect subjunctive (e.g. "Es posible que sea…", "Como si estuviera…").</span></div><span class="points-badge ao3g">+2</span></li>
+          <li onclick="toggleCheck(this,'ao3g',2)"><input type="checkbox"><div class="check-label"><strong>Relative pronouns used (que / quien / cuyo / lo que)</strong><span>Extended noun phrases linked with relative clauses.</span></div><span class="points-badge ao3g">+2</span></li>
+          <li onclick="toggleCheck(this,'ao3g',2)"><input type="checkbox"><div class="check-label"><strong>Complex tense used (pluperfect / future perfect / conditional perfect)</strong><span>e.g. "había vivido", "habrá sufrido", "habría podido".</span></div><span class="points-badge ao3g">+2</span></li>
+          <li onclick="toggleCheck(this,'ao3g',2)"><input type="checkbox"><div class="check-label"><strong>Passive voice or impersonal 'se' constructions</strong><span>e.g. "se puede ver", "es retratada como", "se trata de".</span></div><span class="points-badge ao3g">+2</span></li>
+          <li onclick="toggleCheck(this,'ao3g',2)"><input type="checkbox"><div class="check-label"><strong>Varied essay verbs (not just 'muestra' / 'es')</strong><span>Uses: destaca, subraya, pone de manifiesto, revela, transmite, evoca, refleja, denuncia…</span></div><span class="points-badge ao3g">+2</span></li>
+          <li onclick="toggleCheck(this,'ao3g',2)"><input type="checkbox"><div class="check-label"><strong>Sophisticated connectors / discourse markers</strong><span>e.g. "Lo cierto es que…", "Cabe destacar que…", "A medida que…", "Sea lo que sea…"</span></div><span class="points-badge ao3g">+2</span></li>
+          <li onclick="toggleCheck(this,'ao3g',2)"><input type="checkbox"><div class="check-label"><strong>Film/literary analysis terminology</strong><span>Uses: plano general, primer plano, escena retrospectiva, desenlace, trama, protagonista, largometraje, rodaje…</span></div><span class="points-badge ao3g">+2</span></li>
+          <li onclick="toggleCheck(this,'ao3g',1)"><input type="checkbox"><div class="check-label"><strong>Synonyms used to avoid repetition</strong><span>Varies "la película" (e.g. el largometraje, la obra, el filme, la cinta); avoids repeating the same noun/verb.</span></div><span class="points-badge ao3g">+1</span></li>
+          <li onclick="toggleCheck(this,'ao3g',1)"><input type="checkbox"><div class="check-label"><strong>Extended sentences expressing abstract ideas</strong><span>Long, well-structured sentences with conjunctions (aunque, sin embargo, a pesar de que, puesto que).</span></div><span class="points-badge ao3g">+1</span></li>
+        </ul>
+      </div>
+
+      <!-- AO3 Accuracy -->
+      <div class="section">
+        <div class="section-title ao3a-title">AO3 – Accuracy of Language (10 marks)</div>
+        <ul class="checklist" id="ao3alist">
+          <li onclick="toggleCheck(this,'ao3a',2)"><input type="checkbox"><div class="check-label"><strong>Subject–verb agreement correct throughout</strong><span>Verb forms match singular/plural subjects; no mother-tongue interference (e.g. not "she are").</span></div><span class="points-badge ao3a">+2</span></li>
+          <li onclick="toggleCheck(this,'ao3a',2)"><input type="checkbox"><div class="check-label"><strong>Tense formation accurate</strong><span>Preterite, imperfect, present, subjunctive endings are all correct.</span></div><span class="points-badge ao3a">+2</span></li>
+          <li onclick="toggleCheck(this,'ao3a',2)"><input type="checkbox"><div class="check-label"><strong>Gender &amp; adjective agreement correct</strong><span>Articles, adjectives, and past participles agree in gender and number (un retrato preciso / una escena precisa).</span></div><span class="points-badge ao3a">+2</span></li>
+          <li onclick="toggleCheck(this,'ao3a',2)"><input type="checkbox"><div class="check-label"><strong>Sentence meaning clear throughout</strong><span>Reader can understand every sentence without re-reading; no ambiguity about who is doing what.</span></div><span class="points-badge ao3a">+2</span></li>
+          <li onclick="toggleCheck(this,'ao3a',2)"><input type="checkbox"><div class="check-label"><strong>Minimal errors that do not impede meaning</strong><span>Only minor slips (occasional accent, minor agreement) — nothing that forces re-reading.</span></div><span class="points-badge ao3a">+2</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- RIGHT: live score panel -->
+    <div class="right-panel">
+      <h2><span class="icon">📊</span> Live Score</h2>
+
+      <div class="score-row">
+        <div class="score-box sc-ao4">
+          <div class="sc-label">AO4</div>
+          <div class="sc-val" id="sc4">0</div>
+          <div class="sc-max">/ 20</div>
+        </div>
+        <div class="score-box sc-ao3g">
+          <div class="sc-label">AO3 Range</div>
+          <div class="sc-val" id="sc3g">0</div>
+          <div class="sc-max">/ 20</div>
+        </div>
+        <div class="score-box sc-ao3a">
+          <div class="sc-label">AO3 Accuracy</div>
+          <div class="sc-val" id="sc3a">0</div>
+          <div class="sc-max">/ 10</div>
+        </div>
+      </div>
+
+      <div class="total-score">
+        <div class="ts-label">Total indicative score</div>
+        <div class="ts-val" id="scTotal">0</div>
+        <div class="ts-max">/ 50</div>
+      </div>
+
+      <div class="band-bar-wrap">
+        <label>AO4 band position</label>
+        <div class="band-bar"><div class="band-marker" id="bandMarker" style="left:0%"></div></div>
+        <div class="band-labels"><span>0</span><span>5</span><span>9</span><span>13</span><span>17</span><span>20</span></div>
+      </div>
+
+      <div class="band-display" id="bandDisplay">
+        <div class="band-label">Indicative AO4 band</div>
+        <div class="band-number" id="bandNum">—</div>
+        <div class="band-desc" id="bandDesc">Tick criteria to see your band</div>
+      </div>
+
+      <div class="feedback-box" id="feedbackBox">
+        <h3>💡 Suggestions to improve</h3>
+        <ul id="feedbackList">
+          <li>Start ticking criteria above to get personalised tips.</li>
+        </ul>
+      </div>
+
+      <button class="print-btn" onclick="window.print()">🖨️ Print / Save as PDF</button>
+      <span class="reset-link" onclick="resetAll()">↺ Reset all</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const scores = { ao4: 0, ao3g: 0, ao3a: 0 };
+const maxScores = { ao4: 20, ao3g: 20, ao3a: 10 };
+const ticked = { ao4: new Set(), ao3g: new Set(), ao3a: new Set() };
+
+const BAND_CONFIG = [
+  { min: 0, max: 4, label: 'Band 1', color: '#e74c3c', desc: 'Simplistic justification; limited argument; mainly descriptive.' },
+  { min: 5, max: 8, label: 'Band 2', color: '#e67e22', desc: 'Some interpretation attempted; arguments inconsistent; occasional loss of focus.' },
+  { min: 9, max: 12, label: 'Band 3', color: '#f39c12', desc: 'Critical analysis evident on some aspects; logical arguments on parts of question.' },
+  { min: 13, max: 16, label: 'Band 4', color: '#2980b9', desc: 'Frequently convincing analysis; generally detailed arguments; mostly relevant.' },
+  { min: 17, max: 20, label: 'Band 5', color: '#27ae60', desc: 'Consistently convincing analysis; detailed, logical arguments; fully relevant throughout.' },
+];
+
+const TIPS = {
+  ao4: [
+    { key: 'Evidence cited from Volver', tip: 'Add a specific scene reference or cinematic moment to support each point — avoid vague statements like "there are many examples".' },
+    { key: 'Interpretations / points of view', tip: 'After citing evidence, add an interpretive phrase: "esto sugiere que…", "pone de manifiesto que…", "esto refleja…".' },
+    { key: 'Critical analysis of themes or social context', tip: 'Connect a moment in the film to a broader theme (la solidaridad femenina, el silencio, la memoria) or post-Franco social context.' },
+    { key: 'Logical argument developed', tip: 'Use connectors to build an argument: "Esto se puede ver también cuando…", "Además, cabe destacar que…".' },
+    { key: 'Convincing / persuasive conclusion drawn', tip: 'End your paragraph/essay with a conclusion phrase: "Al fin y al cabo…", "En definitiva…", "Se puede concluir que…".' },
+    { key: 'Sustained focus on the question', tip: 'Check: does every sentence directly answer the question? Remove any plot summary that doesn\'t serve your argument.' },
+    { key: 'Avoids pure description / plot retelling', tip: 'Replace "In this scene, X happens and then Y happens" with "Almodóvar uses this scene to highlight / denounce / explore…".' },
+    { key: 'Counter-argument / alternative perspective considered', tip: 'Add "Sin embargo, se podría argumentar que…" or "Por otro lado, no se puede ignorar que…" for a more balanced essay.' },
+    { key: 'Reference to director\'s craft / intentionality', tip: 'Comment on Almodóvar\'s choices: "El director opta por…", "La cámara subraya…", "El uso del color rojo simboliza…".' },
+  ],
+  ao3g: [
+    { key: 'Subjunctive mood used correctly', tip: 'Try: "Es significativo que [subj]…", "aunque [subj]…", "para que [subj]…", "como si [imperf. subj]…".' },
+    { key: 'Relative pronouns used (que / quien / cuyo / lo que)', tip: 'Extend noun phrases: "un personaje que simboliza…", "la escena en la que…", "lo que más destaca es…".' },
+    { key: 'Complex tense used (pluperfect / future perfect / conditional perfect)', tip: 'Use "había + participio" for backstory, or "se habría podido decir que…" for sophisticated hedging.' },
+    { key: 'Passive voice or impersonal \'se\' constructions', tip: 'Use "se puede ver", "se trata de", or passive: "es retratada como una mujer fuerte".' },
+    { key: 'Varied essay verbs (not just \'muestra\' / \'es\')', tip: 'Replace repeated verbs: destaca / subraya / pone de manifiesto / revela / denuncia / transmite / evoca / simboliza.' },
+    { key: 'Sophisticated connectors / discourse markers', tip: 'Add: "Lo cierto es que…", "Cabe destacar igualmente que…", "A medida que avanza la película…".' },
+    { key: 'Film/literary analysis terminology', tip: 'Use: primer plano, plano general, escena retrospectiva, desenlace, trama, protagonista, largometraje, rodaje, la actuación.' },
+    { key: 'Synonyms used to avoid repetition', tip: 'Vary "la película" → el largometraje, la obra, el filme, la cinta, el largometraje de Almodóvar.' },
+    { key: 'Extended sentences expressing abstract ideas', tip: 'Combine ideas: "Aunque X, sin embargo Y, lo que demuestra que Z" — aim for sentences of 30+ words.' },
+  ],
+  ao3a: [
+    { key: 'Subject–verb agreement correct throughout', tip: 'Check every verb: "las mujeres se ayudan" not "las mujeres se ayuda". Watch for plural subjects.' },
+    { key: 'Tense formation accurate', tip: 'Check irregular preterites (hizo, fue, puso, tuvo) and subjunctive stems (tenga, sea, haya, vaya).' },
+    { key: 'Gender & adjective agreement correct', tip: 'All adjectives must agree: "una escena poderosa", "un marco histórico", "los personajes femeninos".' },
+    { key: 'Sentence meaning clear throughout', tip: 'Read aloud: if you stumble over a sentence, re-write it. Clarity is prioritised over complexity.' },
+    { key: 'Minimal errors that do not impede meaning', tip: 'Accent errors (critica vs. crítica) and minor agreements don\'t usually cost marks unless they change meaning.' },
+  ]
+};
+
+function toggleCheck(li, category, points) {
+  const cb = li.querySelector('input[type="checkbox"]');
+  const label = li.querySelector('strong').textContent;
+  if (cb.checked) {
+    cb.checked = false;
+    li.classList.remove('checked');
+    ticked[category].delete(label);
+    scores[category] = Math.max(0, scores[category] - points);
+  } else {
+    cb.checked = true;
+    li.classList.add('checked');
+    ticked[category].add(label);
+    scores[category] = Math.min(maxScores[category], scores[category] + points);
+  }
+  updateDisplay();
+}
+
+function updateDisplay() {
+  document.getElementById('sc4').textContent = scores.ao4;
+  document.getElementById('sc3g').textContent = scores.ao3g;
+  document.getElementById('sc3a').textContent = scores.ao3a;
+  const total = scores.ao4 + scores.ao3g + scores.ao3a;
+  document.getElementById('scTotal').textContent = total;
+
+  // Band display (based on AO4)
+  const ao4 = scores.ao4;
+  const band = BAND_CONFIG.find(b => ao4 >= b.min && ao4 <= b.max) || BAND_CONFIG[0];
+  const bandDisp = document.getElementById('bandDisplay');
+  bandDisp.style.background = band.color + '22';
+  bandDisp.style.border = `2px solid ${band.color}`;
+  document.getElementById('bandNum').textContent = band.label;
+  document.getElementById('bandNum').style.color = band.color;
+  document.getElementById('bandDesc').textContent = band.desc;
+
+  // Marker position
+  const pct = (ao4 / 20) * 100;
+  document.getElementById('bandMarker').style.left = `${Math.min(98, Math.max(2, pct))}%`;
+
+  // Feedback tips
+  const missing = [];
+  const allTips = [...TIPS.ao4, ...TIPS.ao3g, ...TIPS.ao3a];
+  const allChecked = new Set([...ticked.ao4, ...ticked.ao3g, ...ticked.ao3a]);
+  allTips.forEach(t => { if (!allChecked.has(t.key)) missing.push(t); });
+  const toShow = missing.slice(0, 4);
+  const fbList = document.getElementById('feedbackList');
+  if (toShow.length === 0) {
+    fbList.innerHTML = '<li style="color:#27ae60;font-weight:600;">🌟 Excellent — all criteria met! Review your essay and consider proofreading for accuracy.</li>';
+  } else {
+    fbList.innerHTML = toShow.map(t => `<li><strong>${t.key}:</strong> ${t.tip}</li>`).join('');
+  }
+}
+
+function updateWordCount() {
+  const text = document.getElementById('essayText').value.trim();
+  const words = text ? text.split(/\s+/).length : 0;
+  document.getElementById('wordCount').textContent = `${words} word${words !== 1 ? 's' : ''}`;
+}
+
+function resetAll() {
+  if (!confirm('Reset all ticked criteria?')) return;
+  Object.keys(scores).forEach(k => scores[k] = 0);
+  Object.keys(ticked).forEach(k => ticked[k].clear());
+  document.querySelectorAll('.checklist li').forEach(li => {
+    li.classList.remove('checked');
+    li.querySelector('input[type="checkbox"]').checked = false;
+  });
+  document.getElementById('essayText').value = '';
+  updateWordCount();
+  updateDisplay();
+}
+
+updateDisplay();
+</script>
+</body>
+</html>

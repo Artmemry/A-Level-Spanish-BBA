@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica: La Música Hispana</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .timer {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #ff6b6b;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .question p {
+            margin-bottom: 15px;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+        
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #ff6b6b;
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .clue {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.85em;
+            color: #6c757d;
+            border-left: 3px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .clue:hover {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+            color: #856404;
+        }
+        
+        .clue::before {
+            content: "💡 ";
+            opacity: 0.5;
+        }
+        
+        .clue.revealed {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+            color: #856404;
+        }
+        
+        .clue.revealed::before {
+            opacity: 1;
+        }
+        
+        .checkbox-group {
+            margin-top: 10px;
+        }
+        
+        .checkbox-item {
+            display: block;
+            padding: 10px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .checkbox-item:hover {
+            border-color: #ff6b6b;
+            background: #f8f9ff;
+        }
+        
+        .checkbox-item input {
+            margin-right: 10px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+        }
+        
+        .result {
+            display: none;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .result.show {
+            display: block;
+        }
+        
+        .result.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+        
+        .result.partial {
+            background: #fff3cd;
+            color: #856404;
+            border: 2px solid #ffc107;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b 0%, #ffa726 100%);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .vocab-highlight {
+            background: #e3f2fd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        #finalScore {
+            display: none;
+            margin-top: 20px;
+            padding: 30px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+            color: white;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        #finalScore h2 {
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        #scoreText {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .speaking-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 4px solid #ff6b6b;
+        }
+        
+        .speaking-card h3 {
+            color: #ff6b6b;
+            margin-bottom: 15px;
+        }
+        
+        .speaking-card ul {
+            padding-left: 20px;
+        }
+        
+        .speaking-card li {
+            margin-bottom: 8px;
+        }
+        
+        .grammar-tip {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .grammar-tip h4 {
+            color: #0d47a1;
+            margin-bottom: 8px;
+        }
+        
+        .complex-structure {
+            background: #f3e5f5;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-style: italic;
+        }
+        
+        .stat-box {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .stat-box h4 {
+            color: #495057;
+            margin-bottom: 10px;
+        }
+        
+        .artist-spotlight {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .artist-spotlight h4 {
+            color: #e65100;
+            margin-bottom: 10px;
+        }
+        
+        .genre-info {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .genre-info h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🇪🇸 La Música Hispana</h1>
+            <p>Práctica para A-Level Spanish Edexcel - Unit 4: Música</p>
+            <div class="timer" id="timer">⏱️ 45:00</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Speaking Card Simulation -->
+            <div class="speaking-card">
+                <h3>Tarjeta de Estudiante - Tema: La música hispana</h3>
+                <p><strong>A los jóvenes hispanos les interesan más las canciones extranjeras que las hispanas</strong></p>
+                <p>Debes considerar:</p>
+                <ul>
+                    <li>Por qué la música en lengua extranjera es tan popular en países hispanohablantes</li>
+                    <li>La importancia de la música hispana en la sociedad</li>
+                </ul>
+                
+                <div class="grammar-tip">
+                    <h4>Consejos para maximizar AO3 (Rango lingüístico):</h4>
+                    <p>Incluye en tu respuesta:</p>
+                    <ul>
+                        <li>Cláusulas con <em>si</em> (ej: Si los artistas hispanos no cantaran en inglés...)</li>
+                        <li>Uso de <em>se</em> + infinitivo (ej: Se observa que...)</li>
+                        <li>Subjuntivo presente y pasado (ej: Es importante que se preserve...)</li>
+                        <li>Pronombres relativos (ej: La música hispana, la cual...)</li>
+                        <li>Oraciones complejas con conjunciones</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Section 1: Verdadero o Falso -->
+            <div class="section">
+                <h2>Sección 1: Verdadero o Falso (5 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">1</span> El reggaetón se originó en Puerto Rico en los años 90 como fusión de dancehall y hip hop.</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="q1" value="verdadero"> Verdadero
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="q1" value="falso"> Falso
+                        </label>
+                    </div>
+                    <div class="result" id="result1"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">2</span> Shakira fundó la organización "Pies Descalzos" para promover la educación de niños desfavorecidos.</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="q2" value="verdadero"> Verdadero
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="q2" value="falso"> Falso
+                        </label>
+                    </div>
+                    <div class="result" id="result2"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">3</span> El flamenco fue declarado Patrimonio Cultural Inmaterial de la Humanidad por la UNESCO en 2005.</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="q3" value="verdadero"> Verdadero
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="q3" value="falso"> Falso
+                        </label>
+                    </div>
+                    <div class="result" id="result3"></div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Rellenar los espacios en blanco -->
+            <div class="section">
+                <h2>Sección 2: Completa las frases (10 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">4</span> El ___________ es un género musical español que combina cante, toque y baile, originario de Andalucía.</p>
+                    <input type="text" id="q4" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">Género musical gitano-andaluz</div>
+                    <div class="result" id="result4"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">5</span> El ___________ es un ritmo característico del reggaetón que proviene del dancehall jamaiquino.</p>
+                    <input type="text" id="q5" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">"dem bow"</div>
+                    <div class="result" id="result5"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">6</span> Carlos Gardel es considerado el máximo representante del ___________ argentino.</p>
+                    <input type="text" id="q6" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">Baile y género musical de Buenos Aires</div>
+                    <div class="result" id="result6"></div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Preguntas de opción múltiple -->
+            <div class="section">
+                <h2>Sección 3: Opción Múltiple (8 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">7</span> ¿Qué artistas hispanos han tenido éxito cantando principalmente en español? (Selecciona todas las respuestas correctas)</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="a"> Juanes
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="b"> Romeo Santos
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="c"> Enrique Iglesias
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="d"> Shakira
+                        </label>
+                    </div>
+                    <div class="result" id="result7"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">8</span> ¿Qué características definen el flamenco tradicional? (Selecciona todas las respuestas correctas)</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="a"> Cante (canto)
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="b"> Toque (guitarra)
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="c"> Baile (danza)
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="d"> Palmas (aplausos)
+                        </label>
+                    </div>
+                    <div class="result" id="result8"></div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Vocabulario -->
+            <div class="section">
+                <h2>Sección 4: Vocabulario Clave (7 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">9</span> Traduce al español: "crossover success"</p>
+                    <input type="text" id="q9" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">éxito ___________</div>
+                    <div class="result" id="result9"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">10</span> Traduce al español: "music streaming"</p>
+                    <input type="text" id="q10" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">___________ de música</div>
+                    <div class="result" id="result10"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">11</span> Traduce al español: "social activism"</p>
+                    <input type="text" id="q11" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">___________ social</div>
+                    <div class="result" id="result11"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">12</span> ¿Qué significa "cante jondo" en inglés?</p>
+                    <input type="text" id="q12" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">___________ song</div>
+                    <div class="result" id="result12"></div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Emparejar -->
+            <div class="section">
+                <h2>Sección 5: Empareja los Conceptos (5 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">13</span> Empareja los géneros musicales con sus características:</p>
+                    <p style="margin: 15px 0;"><strong>A.</strong> Flamenco</p>
+                    <input type="text" id="q13a" placeholder="Número...">
+                    
+                    <p style="margin: 15px 0;"><strong>B.</strong> Reggaetón</p>
+                    <input type="text" id="q13b" placeholder="Número...">
+                    
+                    <p style="margin: 15px 0;"><strong>C.</strong> Tango</p>
+                    <input type="text" id="q13c" placeholder="Número...">
+                    
+                    <p style="margin: 15px 0;"><strong>D.</strong> Salsa</p>
+                    <input type="text" id="q13d" placeholder="Número...">
+                    
+                    <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 8px;">
+                        <p><strong>Características:</strong></p>
+                        <p>1. Fusión de son cubano con jazz y otros ritmos caribeños</p>
+                        <p>2. Género gitano-andaluz con cante, toque y baile</p>
+                        <p>3. Baile de salón argentino de origen popular</p>
+                        <p>4. Fusión de dancehall jamaiquino y hip hop</p>
+                    </div>
+                    <div class="result" id="result13"></div>
+                </div>
+            </div>
+            
+            <!-- Section 6: Preguntas cortas -->
+            <div class="section">
+                <h2>Sección 6: Respuestas Cortas (15 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">14</span> <strong>¿Por qué crees que la música en lengua extranjera es tan popular en los países hispanohablantes? ¿Qué importancia tiene la música hispana en la sociedad?</strong></p>
+                    
+                    <div class="stat-box">
+                        <h4>Factores de popularidad de música extranjera:</h4>
+                        <ul>
+                            <li>Acceso global gracias a Internet y aplicaciones (Spotify, Apple Music)</li>
+                            <li>Evolución de tendencias musicales y cierto rechazo a la música tradicional</li>
+                            <li>Artistas hispanos que cantan en inglés para alcanzar audiencia global</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="stat-box">
+                        <h4>Importancia de la música hispana:</h4>
+                        <ul>
+                            <li>Parte integral de la identidad cultural (flamenco, salsa, tango, etc.)</li>
+                            <li>Presencia en festivales locales, regionales y nacionales</li>
+                            <li>Creciente popularidad de la música fusión</li>
+                        </ul>
+                    </div>
+                    
+                    <textarea id="q14" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content" style="display:none;">
+                        <ul>
+                            <li>Globalización y acceso a plataformas digitales</li>
+                            <li>Artistas como Ricky Martin y Shakira lograron éxito crossover</li>
+                            <li>Música tradicional como símbolo de identidad nacional</li>
+                            <li>Fusión de estilos tradicionales con música contemporánea</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result14"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">15</span> <strong>En tu opinión, ¿por qué cantan en inglés algunos artistas hispanos? Háblame del éxito de algún artista hispano y su elección de idioma.</strong></p>
+                    
+                    <div class="artist-spotlight">
+                        <h4>Ejemplos de Artistas:</h4>
+                        <ul>
+                            <li><strong>Juanes:</strong> Canta principalmente en español, ganó 3 Grammy Latinos</li>
+                            <li><strong>Daddy Yankee:</strong> Alterna entre inglés y español, pionero del reggaetón</li>
+                            <li><strong>Shakira/Enrique Iglesias:</strong> Éxito crossover con álbumes en inglés</li>
+                            <li><strong>Romeo Santos:</strong> Éxito en EE.UU. cantando solo en español</li>
+                        </ul>
+                    </div>
+                    
+                    <textarea id="q15" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content" style="display:none;">
+                        <ul>
+                            <li>Acceso al mercado estadounidense y global</li>
+                            <li>Expectativas de la industria musical</li>
+                            <li>Ejemplos de éxito: Ricky Martin, Shakira, Enrique Iglesias</li>
+                            <li>Contratendencia: Artistas que triunfan cantando en español</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result15"></div>
+                </div>
+            </div>
+            
+            <!-- Section 7: Análisis crítico -->
+            <div class="section">
+                <h2>Sección 7: Análisis Crítico (10 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">16</span> <strong>En tu opinión, ¿es polémica la letra de algunas canciones populares hispanas? ¿Por qué (no)? ¿Cuáles son las características de la música hispana más popular entre los jóvenes hispanos hoy en día?</strong></p>
+                    
+                    <div class="stat-box">
+                        <h4>Casos de letras polémicas:</h4>
+                        <ul>
+                            <li><strong>César Strawberry</strong> (Def Con Dos): Condenado por apología del terrorismo</li>
+                            <li><strong>Pablo Hasél</strong>: Condenado por insultos a la corona e instituciones</li>
+                            <li><strong>Grupo Insurgencia</strong>: Condenados por glorificación del terrorismo</li>
+                            <li>Debate sobre límites de la libertad de expresión</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="stat-box">
+                        <h4>Música popular entre jóvenes:</h4>
+                        <ul>
+                            <li><strong>Reggaetón:</strong> Combinación de rap, rock, ritmos pegadizos</li>
+                            <li><strong>Artistas:</strong> Wisin, Reik, Ozuna, Bad Bunny, Rosalía</li>
+                            <li><strong>Música dance:</strong> Malú, Melendi, Alejandro Sanz</li>
+                            <li>Ritmos bailables y letras contemporáneas</li>
+                        </ul>
+                    </div>
+                    
+                    <textarea id="q16" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content" style="display:none;">
+                        <ul>
+                            <li>Casos de censura y condenas judiciales por letras</li>
+                            <li>Debate sobre libertad de expresión vs. delitos de opinión</li>
+                            <li>Reggaetón como género dominante entre jóvenes</li>
+                            <li>Fusión de estilos y ritmos internacionales</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result16"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">17</span> <strong>¿Cuál es el origen de la música hispana que conoces? Explícame la popularidad de un estilo de música hispana que has estudiado.</strong></p>
+                    
+                    <div class="genre-info">
+                        <h4>Orígenes de géneros hispanos:</h4>
+                        <ul>
+                            <li><strong>Salsa:</strong> Fusión de son cubano con ritmos africanos de esclavos</li>
+                            <li><strong>Flamenco:</strong> Tradición gitano-andaluza, símbolo identidad española</li>
+                            <li><strong>Reggaetón:</strong> Orígenes en Panamá (años 70-80), desarrollo en Puerto Rico</li>
+                            <li><strong>Tango:</strong> Orígenes en comunidades pobres de Buenos Aires</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="artist-spotlight">
+                        <h4>Ejemplo: Rosalía</h4>
+                        <ul>
+                            <li>Formada en flamenco tradicional</li>
+                            <li>Fusión innovadora con reggaetón y pop</li>
+                            <li>Ejemplo de evolución y popularidad contemporánea</li>
+                            <li>Mantiene raíces mientras innova</li>
+                        </ul>
+                    </div>
+                    
+                    <textarea id="q17" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content" style="display:none;">
+                        <ul>
+                            <li>Influencias africanas en música caribeña (salsa, son)</li>
+                            <li>Tradición gitana en flamenco</li>
+                            <li>Fusión de estilos en reggaetón (dancehall + hip hop)</li>
+                            <li>Popularidad del flamenco como símbolo identitario</li>
+                            <li>Éxito global de artistas que fusionan tradición y modernidad</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result17"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">18</span> <strong>¿Cuál es el mensaje político o social del artista o grupo que has estudiado? Explícame el impacto de este artista o grupo y su música.</strong></p>
+                    
+                    <div class="artist-spotlight">
+                        <h4>Artistas con compromiso social:</h4>
+                        <ul>
+                            <li><strong>Shakira:</strong> Fundación Pies Descalzos (educación), Embajadora UNICEF</li>
+                            <li><strong>Juanes:</strong> Conciertos por la paz, campañas contra minas antipersona</li>
+                            <li><strong>Maná:</strong> Conciertos por la paz, medio ambiente</li>
+                            <li><strong>La Oreja de Van Gogh:</strong> Conciencia social, donaciones a víctimas</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="stat-box">
+                        <h4>Impacto social de la música hispana:</h4>
+                        <ul>
+                            <li>Reflejo de problemas sociales: identidad, raza, pobreza</li>
+                            <li>Ejemplos: "Latinoamérica" (Calle 13), "Etnia" (Grupo Niche)</li>
+                            <li>Temas de pobreza en merengue y bachata (Juan Luis Guerra)</li>
+                            <li>Letras políticas en España, tradiciones regionales</li>
+                        </ul>
+                    </div>
+                    
+                    <textarea id="q18" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content" style="display:none;">
+                        <ul>
+                            <li>Shakira: Educación como derecho humano, fundaciones</li>
+                            <li>Juanes: Paz y reconciliación en Colombia</li>
+                            <li>Calle 13: Orgullo latinoamericano, crítica social</li>
+                            <li>Artistas como vehículo de cambio social y concienciación</li>
+                            <li>Influencia en jóvenes y movilización de recursos</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result18"></div>
+                </div>
+            </div>
+            
+            <button class="submit-btn" onclick="checkAnswers()">Verificar mis respuestas ✓</button>
+            
+            <div id="finalScore">
+                <h2>📊 Resultado Final</h2>
+                <p id="scoreText"></p>
+                <div id="feedback"></div>
+                <button class="submit-btn" onclick="downloadResults()" style="background: white; color: #ff6b6b; margin-top: 20px;">📥 Descargar mis resultados</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Timer functionality
+        let timeLeft = 45 * 60;
+        const timerElement = document.getElementById('timer');
+        let timeTaken = 0;
+        
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `⏱️ ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            timeTaken++;
+            
+            if (timeLeft > 0) {
+                timeLeft--;
+                setTimeout(updateTimer, 1000);
+            } else {
+                timerElement.textContent = '⏱️ ¡Tiempo agotado!';
+                timerElement.style.background = 'rgba(255,0,0,0.3)';
+            }
+        }
+        
+        updateTimer();
+        
+        // Clue reveal function
+        function revealClue(element) {
+            const clueContent = element.nextElementSibling;
+            if (clueContent && clueContent.className === 'clue-content') {
+                clueContent.style.display = 'block';
+                element.classList.add('revealed');
+                element.onclick = null;
+            }
+        }
+        
+        // Progress tracking
+        function updateProgress() {
+            const totalQuestions = 18;
+            let answered = 0;
+            
+            // Check text inputs and textareas
+            document.querySelectorAll('input[type="text"], textarea').forEach(input => {
+                if (input.value.trim() !== '') answered++;
+            });
+            
+            // Check radio buttons (questions 1-3)
+            for (let i = 1; i <= 3; i++) {
+                if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
+            }
+            
+            // Check checkboxes (questions 7-8)
+            if (document.querySelector('input[name="q7"]:checked')) answered++;
+            if (document.querySelector('input[name="q8"]:checked')) answered++;
+            
+            const percentage = (answered / totalQuestions) * 100;
+            document.getElementById('progress').style.width = percentage + '%';
+        }
+        
+        document.querySelectorAll('input, textarea').forEach(element => {
+            element.addEventListener('input', updateProgress);
+            element.addEventListener('change', updateProgress);
+        });
+        
+        // Check for complex structures in responses
+        function checkComplexStructures(text) {
+            const structures = {
+                'siClause': /si\s+(?:[\w\s]+)\s+(?:fuera|estuviera|tuviera|hubiera|pudiera)/gi,
+                'seConstruction': /se\s+(?:puede|debe|debería|observa|nota)\s+/gi,
+                'subjunctive': /(?:es\s+importante|es\s+necesario|es\s+fundamental|es\s+probable|es\s+posible|ojalá|quizás|tal\s+vez)\s+que\s+[\w\s]+(?:e|a|)/gi,
+                'relativePronouns': /(?:que|quien|quienes|el\s+cual|la\s+cual|los\s+cuales|las\s+cuales|cuya|cuyo|cuyos|cuyas)/gi,
+                'complexConjunctions': /(?:aunque|mientras\s+que|sin\s+embargo|no\s+obstante|por\s+lo\s+tanto|además)/gi
+            };
+            
+            let foundStructures = [];
+            for (const [key, pattern] of Object.entries(structures)) {
+                if (text.match(pattern)) {
+                    foundStructures.push(key);
+                }
+            }
+            
+            return foundStructures;
+        }
+        
+        function checkAnswers() {
+            let score = 0;
+            const total = 18;
+            let detailedResults = [];
+            let feedback = [];
+            
+            // Q1
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const result1 = document.getElementById('result1');
+            if (q1 && q1.value === 'verdadero') {
+                result1.textContent = '✓ ¡Correcto! El reggaetón se desarrolló en Puerto Rico fusionando dancehall y hip hop';
+                result1.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 1, correct: true, answer: 'Verdadero'});
+            } else {
+                result1.textContent = '✗ Falso. La respuesta es Verdadero. El reggaetón se originó en Panamá pero se desarrolló en Puerto Rico en los 90.';
+                result1.className = 'result partial show';
+                detailedResults.push({q: 1, correct: false, answer: q1 ? q1.value : 'No respondido', correctAnswer: 'Verdadero'});
+            }
+            
+            // Q2
+            const q2 = document.querySelector('input[name="q2"]:checked');
+            const result2 = document.getElementById('result2');
+            if (q2 && q2.value === 'verdadero') {
+                result2.textContent = '✓ ¡Correcto! Shakira fundó Pies Descalzos en 1997 para educación infantil';
+                result2.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 2, correct: true, answer: 'Verdadero'});
+            } else {
+                result2.textContent = '✗ Falso. La respuesta es Verdadero. Shakira creó Pies Descalzos para apoyar educación de niños desfavorecidos.';
+                result2.className = 'result partial show';
+                detailedResults.push({q: 2, correct: false, answer: q2 ? q2.value : 'No respondido', correctAnswer: 'Verdadero'});
+            }
+            
+            // Q3
+            const q3 = document.querySelector('input[name="q3"]:checked');
+            const result3 = document.getElementById('result3');
+            if (q3 && q3.value === 'falso') {
+                result3.textContent = '✓ ¡Correcto! El flamenco fue declarado Patrimonio en 2010, no 2005';
+                result3.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 3, correct: true, answer: 'Falso'});
+            } else {
+                result3.textContent = '✗ Falso. La respuesta es Falso. La UNESCO declaró el flamenco Patrimonio en 2010.';
+                result3.className = 'result partial show';
+                detailedResults.push({q: 3, correct: false, answer: q3 ? q3.value : 'No respondido', correctAnswer: 'Falso'});
+            }
+            
+            // Q4
+            const q4 = document.getElementById('q4').value.trim().toLowerCase();
+            const result4 = document.getElementById('result4');
+            if (q4.includes('flamenco')) {
+                result4.textContent = '✓ ¡Correcto! Flamenco';
+                result4.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 4, correct: true, answer: q4});
+            } else {
+                result4.textContent = '✗ La respuesta correcta es: flamenco';
+                result4.className = 'result partial show';
+                detailedResults.push({q: 4, correct: false, answer: q4 || 'No respondido', correctAnswer: 'flamenco'});
+            }
+            
+            // Q5
+            const q5 = document.getElementById('q5').value.trim().toLowerCase();
+            const result5 = document.getElementById('result5');
+            if (q5.includes('dem bow') || q5.includes('dembow')) {
+                result5.textContent = '✓ ¡Correcto! Dem bow';
+                result5.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 5, correct: true, answer: q5});
+            } else {
+                result5.textContent = '✗ La respuesta correcta es: dem bow';
+                result5.className = 'result partial show';
+                detailedResults.push({q: 5, correct: false, answer: q5 || 'No respondido', correctAnswer: 'dem bow'});
+            }
+            
+            // Q6
+            const q6 = document.getElementById('q6').value.trim().toLowerCase();
+            const result6 = document.getElementById('result6');
+            if (q6.includes('tango')) {
+                result6.textContent = '✓ ¡Correcto! Tango';
+                result6.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 6, correct: true, answer: q6});
+            } else {
+                result6.textContent = '✗ La respuesta correcta es: tango';
+                result6.className = 'result partial show';
+                detailedResults.push({q: 6, correct: false, answer: q6 || 'No respondido', correctAnswer: 'tango'});
+            }
+            
+            // Q7
+            const q7Checked = document.querySelectorAll('input[name="q7"]:checked');
+            const result7 = document.getElementById('result7');
+            let q7Correct = true;
+            let q7CorrectAnswers = [];
+            
+            q7Checked.forEach(checkbox => {
+                if (checkbox.value === 'c' || checkbox.value === 'd') {
+                    q7Correct = false;
+                } else {
+                    q7CorrectAnswers.push(checkbox.value);
+                }
+            });
+            
+            if (q7Checked.length === 2 && q7Correct) {
+                result7.textContent = '✓ ¡Correcto! A y B son correctas (Juanes y Romeo Santos)';
+                result7.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 7, correct: true, answer: 'A, B'});
+            } else if (q7Checked.length > 0 && q7Correct) {
+                result7.textContent = `⚠ Parcialmente correcto (${q7Checked.length}/2). Las respuestas A y B son correctas.`;
+                result7.className = 'result partial show';
+                score += q7Checked.length * 0.5;
+                detailedResults.push({q: 7, correct: false, answer: `${q7Checked.length}/2`, correctAnswer: 'A, B'});
+            } else {
+                result7.textContent = '✗ Las respuestas A y B son correctas (Juanes y Romeo Santos cantan principalmente en español)';
+                result7.className = 'result partial show';
+                detailedResults.push({q: 7, correct: false, answer: 'No respondido o incorrecto', correctAnswer: 'A, B'});
+            }
+            
+            // Q8
+            const q8Checked = document.querySelectorAll('input[name="q8"]:checked');
+            const result8 = document.getElementById('result8');
+            if (q8Checked.length === 4) {
+                result8.textContent = '✓ ¡Correcto! Todas las características definen el flamenco';
+                result8.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 8, correct: true, answer: 'Todas las opciones'});
+            } else if (q8Checked.length > 0) {
+                result8.textContent = `⚠ Parcialmente correcto (${q8Checked.length}/4). Todas las opciones son correctas.`;
+                result8.className = 'result partial show';
+                score += q8Checked.length * 0.25;
+                detailedResults.push({q: 8, correct: false, answer: `${q8Checked.length}/4`, correctAnswer: 'Todas las opciones'});
+            } else {
+                result8.textContent = '✗ Todas las opciones son correctas (cante, toque, baile, palmas)';
+                result8.className = 'result partial show';
+                detailedResults.push({q: 8, correct: false, answer: 'No respondido', correctAnswer: 'Todas las opciones'});
+            }
+            
+            // Q9
+            const q9 = document.getElementById('q9').value.trim().toLowerCase();
+            const result9 = document.getElementById('result9');
+            if (q9.includes('crossover') || q9.includes('transversal')) {
+                result9.textContent = '✓ ¡Correcto! Éxito crossover o transversal';
+                result9.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 9, correct: true, answer: q9});
+            } else {
+                result9.textContent = '✗ La respuesta correcta es: éxito crossover o transversal';
+                result9.className = 'result partial show';
+                detailedResults.push({q: 9, correct: false, answer: q9 || 'No respondido', correctAnswer: 'éxito crossover/transversal'});
+            }
+            
+            // Q10
+            const q10 = document.getElementById('q10').value.trim().toLowerCase();
+            const result10 = document.getElementById('result10');
+            if (q10.includes('transmisión') || q10.includes('streaming')) {
+                result10.textContent = '✓ ¡Correcto! Transmisión o streaming de música';
+                result10.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 10, correct: true, answer: q10});
+            } else {
+                result10.textContent = '✗ La respuesta correcta es: transmisión o streaming de música';
+                result10.className = 'result partial show';
+                detailedResults.push({q: 10, correct: false, answer: q10 || 'No respondido', correctAnswer: 'transmisión/streaming'});
+            }
+            
+            // Q11
+            const q11 = document.getElementById('q11').value.trim().toLowerCase();
+            const result11 = document.getElementById('result11');
+            if (q11.includes('activismo')) {
+                result11.textContent = '✓ ¡Correcto! Activismo social';
+                result11.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 11, correct: true, answer: q11});
+            } else {
+                result11.textContent = '✗ La respuesta correcta es: activismo social';
+                result11.className = 'result partial show';
+                detailedResults.push({q: 11, correct: false, answer: q11 || 'No respondido', correctAnswer: 'activismo'});
+            }
+            
+            // Q12
+            const q12 = document.getElementById('q12').value.trim().toLowerCase();
+            const result12 = document.getElementById('result12');
+            if (q12.includes('deep') || q12.includes('profound')) {
+                result12.textContent = '✓ ¡Correcto! Deep song o profound song';
+                result12.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 12, correct: true, answer: q12});
+            } else {
+                result12.textContent = '✗ La respuesta correcta es: deep song o profound song';
+                result12.className = 'result partial show';
+                detailedResults.push({q: 12, correct: false, answer: q12 || 'No respondido', correctAnswer: 'deep/profound song'});
+            }
+            
+            // Q13 - Matching
+            const q13a = document.getElementById('q13a').value.trim();
+            const q13b = document.getElementById('q13b').value.trim();
+            const q13c = document.getElementById('q13c').value.trim();
+            const q13d = document.getElementById('q13d').value.trim();
+            const result13 = document.getElementById('result13');
+            
+            let matchScore = 0;
+            if (q13a === '2') matchScore++;
+            if (q13b === '4') matchScore++;
+            if (q13c === '3') matchScore++;
+            if (q13d === '1') matchScore++;
+            
+            if (matchScore === 4) {
+                result13.textContent = '✓ ¡Correcto! Todas las asociaciones son correctas';
+                result13.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 13, correct: true, answer: 'Todo correcto'});
+            } else {
+                result13.textContent = `⚠ ${matchScore}/4 correcto. Respuestas: A=2, B=4, C=3, D=1`;
+                result13.className = 'result partial show';
+                score += matchScore * 0.25;
+                detailedResults.push({q: 13, correct: false, answer: `${matchScore}/4`, correctAnswer: 'A=2, B=4, C=3, D=1'});
+            }
+            
+            // Q14-18 - Extended responses
+            for (let i = 14; i <= 18; i++) {
+                const answer = document.getElementById(`q${i}`).value.trim();
+                const resultElement = document.getElementById(`result${i}`);
+                
+                if (answer.length > 100) {
+                    // Check for complex structures
+                    const structures = checkComplexStructures(answer);
+                    
+                    if (structures.length >= 3) {
+                        resultElement.textContent = '✓ Respuesta bien desarrollada con estructuras complejas';
+                        resultElement.className = 'result correct show';
+                        score++;
+                        feedback.push(`Pregunta ${i}: Excelente uso de estructuras complejas (${structures.join(', ')})`);
+                    } else if (structures.length >= 1) {
+                        resultElement.textContent = '✓ Respuesta adecuada, pero podría incluir más estructuras complejas';
+                        resultElement.className = 'result partial show';
+                        score += 0.5;
+                        feedback.push(`Pregunta ${i}: Uso limitado de estructuras complejas (${structures.join(', ')})`);
+                    } else {
+                        resultElement.textContent = '⚠ Respuesta desarrollada, pero necesita más estructuras complejas para maximizar AO3';
+                        resultElement.className = 'result partial show';
+                        score += 0.25;
+                        feedback.push(`Pregunta ${i}: Falta uso de estructuras complejas`);
+                    }
+                    
+                    detailedResults.push({
+                        q: i,
+                        correct: structures.length >= 3,
+                        structures: structures,
+                        length: answer.length
+                    });
+                } else {
+                    resultElement.textContent = '✗ Respuesta demasiado breve. Desarrolla más tu respuesta.';
+                    resultElement.className = 'result partial show';
+                    detailedResults.push({
+                        q: i,
+                        correct: false,
+                        structures: [],
+                        length: answer.length
+                    });
+                    feedback.push(`Pregunta ${i}: Respuesta demasiado breve (${answer.length} caracteres)`);
+                }
+            }
+            
+            // Show final score
+            const percentage = ((score / total) * 100).toFixed(1);
+            const finalScore = document.getElementById('finalScore');
+            const scoreText = document.getElementById('scoreText');
+            const feedbackElement = document.getElementById('feedback');
+            
+            scoreText.textContent = `${score.toFixed(1)}/${total} (${percentage}%)`;
+            
+            // Generate feedback
+            let feedbackHTML = '<div style="text-align: left; margin-top: 20px;">';
+            feedbackHTML += '<h3>Retroalimentación Detallada:</h3><ul>';
+            feedback.forEach(item => {
+                feedbackHTML += `<li>${item}</li>`;
+            });
+            
+            // Add general recommendations
+            feedbackHTML += '</ul><h3>Recomendaciones Generales:</h3><ul>';
+            
+            if (percentage >= 80) {
+                feedbackHTML += '<li>¡Excelente trabajo! Dominas bien el contenido sobre la música hispana.</li>';
+            } else if (percentage >= 60) {
+                feedbackHTML += '<li>Buen trabajo. Enfócate en incluir más estructuras complejas y ejemplos específicos.</li>';
+            } else {
+                feedbackHTML += '<li>Necesitas practicar más el contenido sobre música hispana.</li>';
+            }
+            
+            feedbackHTML += `
+                <li>Profundiza en un género específico (flamenco, reggaetón, tango, salsa)</li>
+                <li>Incluye nombres de artistas específicos y sus contribuciones</li>
+                <li>Menciona ejemplos concretos de letras polémicas o mensajes sociales</li>
+                <li>Relaciona la música con contextos históricos y sociales</li>
+                <li>Practica el uso de terminología musical específica en español</li>
+            </ul></div>`;
+            
+            feedbackElement.innerHTML = feedbackHTML;
+            finalScore.style.display = 'block';
+            
+            // Store results for download
+            window.testResults = {
+                score: score.toFixed(1),
+                total: total,
+                percentage: percentage,
+                timeTaken: Math.floor(timeTaken / 60) + ':' + (timeTaken % 60).toString().padStart(2, '0'),
+                date: new Date().toLocaleDateString('es-ES'),
+                details: detailedResults,
+                feedback: feedback
+            };
+            
+            // Scroll to results
+            finalScore.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        function downloadResults() {
+            const results = window.testResults;
+            let content = `RESULTADOS - Práctica A-Level Spanish: La Música Hispana
+====================================================================
+
+Fecha: ${results.date}
+Tiempo empleado: ${results.timeTaken}
+Puntuación: ${results.score}/${results.total} (${results.percentage}%)
+
+RETROALIMENTACIÓN DETALLADA:
+--------------------------------------------------------------------
+
+`;
+
+            results.feedback.forEach((item) => {
+                content += `${item}\n`;
+            });
+
+            content += `
+====================================================================
+RECOMENDACIONES PARA MEJORAR AO3 Y AO4:
+
+`;
+
+            if (results.percentage >= 80) {
+                content += `¡Excelente trabajo! Dominas bien el contenido sobre la música hispana.\n`;
+            } else if (results.percentage >= 60) {
+                content += `Buen trabajo. Enfócate en incluir más estructuras complejas y ejemplos específicos.\n`;
+            } else {
+                content += `Necesitas practicar más el contenido sobre música hispana.\n`;
+            }
+
+            content += `
+DATOS CLAVE SOBRE MÚSICA HISPANA PARA INCLUIR EN TUS RESPUESTAS:
+
+GÉNEROS MUSICALES PRINCIPALES:
+- Flamenco: Género gitano-andaluz (cante, toque, baile)
+- Reggaetón: Fusión dancehall + hip hop (orígenes Panamá/Puerto Rico)
+- Tango: Baile argentino de origen popular
+- Salsa: Fusión son cubano + jazz + ritmos caribeños
+- Bachata: Género dominicano romántico
+- Vallenato: Música folclórica colombiana
+
+ARTISTAS DESTACADOS:
+- Shakira: Crossover éxito, activismo educativo (Pies Descalzos)
+- Juanes: Éxito cantando en español, activismo por la paz
+- Rosalía: Fusión flamenco + reggaetón + pop
+- Daddy Yankee: Pionero reggaetón, alterna inglés/español
+- Carlos Gardel: Ícono del tango argentino
+- Paco de Lucía: Guitarrista flamenco innovador
+
+TEMAS SOCIALES Y POLÉMICAS:
+- Letras polémicas: César Strawberry, Pablo Hasél (libertad expresión)
+- Reggaetón: Críticas por letras sexistas, mujeres como Ivy Queen
+- Música como herramienta de cambio social
+- Artistas comprometidos: Shakira, Juanes, Maná
+
+EVOLUCIÓN Y FUSIÓN:
+- Música tradicional vs. contemporánea
+- Influencias africanas en música caribeña
+- Globalización y acceso digital (Spotify, YouTube)
+- Artistas que cantan en inglés vs. español
+- Preservación de identidad cultural
+
+VOCABULARIO CLAVE:
+- Crossover
+- Fusión musical
+- Activismo social
+- Patrimonio cultural
+- Libertad de expresión
+- Identidad cultural
+- Globalización musical
+
+ESTRATEGIA PARA EL EXAMEN:
+- Conviértete en experto en al menos un género musical hispano
+- Prepara ejemplos específicos de artistas y sus canciones
+- Relaciona la música con contextos sociales e históricos
+- Practica el uso de terminología musical en español
+- Incluye análisis de letras y mensajes sociales
+
+`;
+
+            // Create download
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Resultados_Musica_Hispana_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

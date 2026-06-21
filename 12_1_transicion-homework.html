@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Transición española – Deberes</title>
+<style>
+  :root{--gold:#92400e;--lgold:#fffbeb;--amber:#d97706;--green:#16a34a;--red:#dc2626;--dark:#1e293b;--mid:#64748b}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',sans-serif;background:#fefce8;color:var(--dark);min-height:100vh}
+  header{background:linear-gradient(135deg,#78350f,#d97706);color:#fff;padding:2rem;text-align:center}
+  header h1{font-size:1.6rem;margin-bottom:.4rem}
+  header p{opacity:.85;font-size:.95rem}
+  .badge{display:inline-block;background:rgba(255,255,255,.2);border-radius:20px;padding:.2rem .8rem;font-size:.8rem;margin:.3rem .2rem}
+  #nameSection{background:#fff;max-width:500px;margin:2rem auto;border-radius:12px;padding:2rem;box-shadow:0 2px 12px rgba(0,0,0,.08);text-align:center}
+  #nameSection h2{margin-bottom:1rem;color:var(--gold)}
+  #nameInput{width:100%;padding:.7rem 1rem;border:2px solid #fde68a;border-radius:8px;font-size:1rem;margin-bottom:1rem}
+  #nameInput:focus{outline:none;border-color:var(--amber)}
+  .btn{background:var(--gold);color:#fff;border:none;padding:.7rem 1.6rem;border-radius:8px;font-size:1rem;cursor:pointer;transition:.2s}
+  .btn:hover{background:#78350f}
+  .btn-green{background:var(--green)}.btn-green:hover{background:#15803d}
+  .btn-outline{background:#fff;color:var(--gold);border:2px solid var(--gold)}.btn-outline:hover{background:var(--lgold)}
+  #main{display:none;max-width:880px;margin:0 auto;padding:1rem 1rem 5rem}
+  .section{background:#fff;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+  .section h2{color:var(--gold);font-size:1.15rem;margin-bottom:.3rem;display:flex;align-items:center;gap:.5rem}
+  .subtitle{color:var(--mid);font-size:.85rem;margin-bottom:1rem}
+  .sn{background:var(--gold);color:#fff;border-radius:50%;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+  .rbox{background:linear-gradient(135deg,#fffdf0,#fffbeb);border:1.5px solid #fde68a;border-radius:10px;padding:1.2rem 1.4rem;margin-bottom:1.2rem;line-height:1.8;font-size:.96rem}
+  .rbox h3{color:var(--gold);font-size:1rem;margin-bottom:.7rem;border-bottom:1.5px solid #fde68a;padding-bottom:.5rem}
+  .kw{color:#92400e;font-weight:700}
+  .src{font-size:.75rem;color:var(--mid);margin-top:.7rem;text-align:right;font-style:italic}
+  .q-block{margin-bottom:1.2rem}
+  .q-text{font-weight:600;margin-bottom:.5rem;line-height:1.4}
+  .options label{display:flex;align-items:flex-start;gap:.5rem;padding:.45rem .6rem;margin:.2rem 0;border-radius:6px;cursor:pointer;border:1.5px solid #e2e8f0;transition:.15s}
+  .options label:hover{background:var(--lgold);border-color:#fde68a}
+  .options input{margin-top:.15rem;flex-shrink:0}
+  .correct{background:#dcfce7!important;border-color:var(--green)!important}
+  .wrong{background:#fee2e2!important;border-color:var(--red)!important}
+  .feedback{font-size:.85rem;margin-top:.4rem;padding:.4rem .7rem;border-radius:6px}
+  .feedback.ok{background:#dcfce7;color:#166534}
+  .feedback.bad{background:#fee2e2;color:#991b1b}
+  /* Word bank */
+  .word-bank{background:var(--lgold);border:1.5px solid #fde68a;border-radius:8px;padding:.8rem 1rem;margin-bottom:1rem;font-size:.88rem;line-height:2}
+  .word-bank strong{display:block;margin-bottom:.3rem}
+  .wb-tag{display:inline-block;background:#fff;border:1.5px solid #fde68a;border-radius:6px;padding:.15rem .6rem;margin:.2rem;font-size:.87rem;color:var(--dark)}
+  /* Gap fill */
+  .gap-p{line-height:2.5;font-size:.97rem;margin-bottom:.6rem}
+  .gap{display:inline-block;min-width:100px;border:none;border-bottom:2px solid var(--amber);background:transparent;font-size:.97rem;font-family:inherit;padding:.1rem .3rem;color:var(--dark);outline:none;transition:.2s}
+  .gap:focus{border-bottom-color:#7c3aed;background:#f5f3ff}
+  .gap.ci{border-bottom-color:var(--green);background:#dcfce7}
+  .gap.wi{border-bottom-color:var(--red);background:#fee2e2}
+  .syn-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem;flex-wrap:wrap}
+  .syn-word{font-weight:700;width:220px;flex-shrink:0;color:var(--gold)}
+  .syn-sel{flex:1;padding:.4rem;border:1.5px solid #fde68a;border-radius:6px;font-size:.9rem}
+  .syn-sel:focus{outline:none;border-color:var(--amber)}
+  .pas-row{margin-bottom:.9rem;padding:.7rem;border:1.5px solid #e2e8f0;border-radius:8px}
+  .pas-label{font-size:.88rem;color:var(--mid);margin-bottom:.3rem}
+  .pas-input{width:100%;padding:.5rem .8rem;border:1.5px solid #fde68a;border-radius:6px;font-size:.93rem}
+  .pas-input:focus{outline:none;border-color:var(--amber)}
+  /* Bilingual hint */
+  .hint-box{font-size:.8rem;color:var(--mid);margin-bottom:.4rem;border-left:3px solid #fde68a;padding-left:.6rem}
+  .hint-es{color:#78350f;font-style:italic}
+  .hint-en{color:#475569;font-style:italic}
+  .ts{padding:.3rem .5rem;border:1.5px solid #fde68a;border-radius:6px;font-size:.88rem;font-family:inherit;background:var(--lgold);cursor:pointer}
+  .ts:focus{outline:none;border-color:var(--amber)}
+  .ts.ci{border-color:var(--green);background:#dcfce7}
+  .ts.wi{border-color:var(--red);background:#fee2e2}
+  .tr-row{margin-bottom:1rem}
+  .tr-en{font-style:italic;color:var(--mid);font-size:.9rem;margin-bottom:.3rem}
+  .tr-input{width:100%;padding:.5rem .8rem;border:1.5px solid #fde68a;border-radius:6px;font-size:.93rem}
+  .tr-input:focus{outline:none;border-color:var(--amber)}
+  #scoreBar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid #fde68a;padding:.7rem 1.2rem;display:none;align-items:center;justify-content:space-between;gap:.8rem;z-index:90;box-shadow:0 -4px 12px rgba(0,0,0,.08)}
+  #scoreText{font-weight:700;font-size:1rem;color:var(--gold)}
+  .btn-row{display:flex;gap:.5rem;flex-wrap:wrap}
+  #accentKb{position:fixed;bottom:66px;right:16px;background:#1e293b;border-radius:12px;padding:.6rem .7rem;display:none;flex-direction:column;align-items:center;gap:.4rem;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+  .kb-row{display:flex;gap:.4rem}
+  .kb-btn{background:#334155;color:#fff;border:none;border-radius:6px;width:40px;height:40px;font-size:1.15rem;cursor:pointer;transition:.15s}
+  .kb-btn:hover{background:#d97706}
+  #kbToggle{position:fixed;bottom:62px;right:16px;background:var(--gold);color:#fff;border:none;border-radius:50%;width:46px;height:46px;font-size:1.2rem;cursor:pointer;z-index:101;box-shadow:0 2px 10px rgba(0,0,0,.25);display:none}
+  .prog-wrap{background:#e2e8f0;border-radius:99px;height:8px;margin-bottom:1.2rem;overflow:hidden}
+  .prog-fill{height:100%;background:linear-gradient(90deg,#92400e,#f59e0b);border-radius:99px;transition:.5s}
+  @media(max-width:600px){.syn-word{min-width:140px}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🏛️ La Transición española – Se acerca la democracia</h1>
+  <p>Deberes interactivos – Unidad 12.1 &amp; 12.2</p>
+  <div>
+    <span class="badge">A-Level Spanish</span>
+    <span class="badge">Edexcel AS/A2</span>
+    <span class="badge">La democracia española</span>
+  </div>
+</header>
+
+<div id="nameSection">
+  <h2>👋 ¡Bienvenido/a!</h2>
+  <p style="margin-bottom:1rem;color:var(--mid)">Introduce tu nombre y apellido para empezar. Tus resultados se podrán descargar al final.</p>
+  <input type="text" id="nameInput" placeholder="Nombre y apellido…">
+  <br><button class="btn" onclick="start()">Empezar los deberes →</button>
+</div>
+
+<div id="main">
+  <div class="prog-wrap"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+
+  <div class="section">
+    <h2><span class="sn">📖</span> Texto de referencia – Lee con atención</h2>
+    <p class="subtitle">Usa los dos textos para contestar todas las actividades. Búscalos en detalle.</p>
+    <div class="rbox">
+      <h3>El Parlamento español</h3>
+      <p>Según algunos, lo que pasó en 1939 fue que el ejército, <span class="kw">vencedor</span> de la guerra 'incivil', <span class="kw">secuestró</span> la soberanía nacional y el país tuvo que <span class="kw">soportar</span> este peso hasta 1975, cuando murió Franco. <span class="kw">Se prolongó</span> bastante el efecto de aquellas tres décadas y media, pero <span class="kw">se confiaba</span> en la monarquía parlamentaria esperando que su papel consistiría en devolver al pueblo esta soberanía con la intuición de que el papel de Juan Carlos sería clave.</p>
+      <br>
+      <p>Mirando atrás, desde la perspectiva del siglo XXI, <span class="kw">se puede decir</span> que este fue el milagro de la democracia española. Franco había educado al príncipe Juan Carlos, formándolo para continuar su "reinado", <span class="kw">cosa que se temía bastante</span>, y cuando el nuevo rey demostró ser capaz de aprender rápidamente, el alivio del pueblo fue <span class="kw">tangible</span>. El cambio de rumbo <span class="kw">no fue aplaudido</span> por todos, pero empezaba una nueva época y ya no había marcha atrás. La necesidad de crear una nueva democracia no dependía solamente del rey; la decisión de ascender a Suárez <span class="kw">fue criticada</span> en su momento por algunos, pero posteriormente <span class="kw">se ha comprobado</span> el éxito que tuvo.</p>
+      <br>
+      <p>Al mismo tiempo, había que evitar una vuelta a los horrores de la Guerra Civil, y por lo tanto <span class="kw">no se podía excluir</span> al ejército. Las fuerzas de la izquierda iban a chocar de pleno contra los conservadores de la derecha, pero España tuvo suerte, porque <span class="kw">cuando se llegó al momento clave (23-F)</span>, el rey optó por la democracia en vez de la contrarrevolución y el país <span class="kw">fue catapultado</span> hacia la libertad.</p>
+    </div>
+    <div class="rbox" style="margin-top:1rem">
+      <h3>Las Cortes y la autodestrucción (Adolfo Suárez)</h3>
+      <p>Había que construir el camino de la democracia con urgencia y esto se demostró en un referéndum (diciembre de 1976) con el que se ratificó la Ley para la Reforma Política. Luego <span class="kw">se aprobó</span> en las Cortes, un año escaso después de la muerte de Franco, con casi todos los votos a favor y una participación <span class="kw">abrumadora</span> del 75%. Con este resultado sabía Suárez que se podía proceder a desmantelar las instituciones franquistas.</p>
+      <br>
+      <p>Hacía falta impulsar las primeras elecciones democráticas, pero para esto Suárez necesitaba que las Cortes <span class="kw">aprobaran</span> una ley que, en la práctica, significaba que se anulaba el régimen. Al mismo tiempo <span class="kw">se exigía</span> desde la oposición la legalización de todos los partidos políticos, incluido el Partido Comunista. Se consiguió después de una reunión <span class="kw">larguísima</span> con Santiago Carrillo, en febrero de 1977. Esta reunión secreta fue clave porque a Suárez ya no le quedaba ninguna duda de que la legitimidad de las elecciones dependería de la participación de todos los partidos.</p>
+      <br>
+      <p>En las primeras elecciones democráticas tras la dictadura (junio de 1977), el partido de Adolfo Suárez (UCD) ganaría el <span class="kw">34% de los votos</span> y los <span class="kw">165 escaños</span> le darían la razón al presidente del Gobierno.</p>
+      <div class="src">Textos adaptados: Manual Edexcel A-Level Spanish, Unidad 12 – La Transición española</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="sn">1</span> Comprensión – Opción múltiple (2b)</h2>
+    <p class="subtitle">Lee los textos con atención y elige la terminación correcta para cada frase.</p>
+    <div id="mcqBox"></div>
+    <button class="btn" onclick="checkMCQ()">Comprobar ✓</button>
+  </div>
+
+  <div class="section">
+    <h2><span class="sn">2</span> Sinónimos – Encuentra el equivalente</h2>
+    <p class="subtitle">Busca en los textos la palabra o frase que tiene el mismo significado que cada término dado. Elige de la lista.</p>
+    <div id="synBox"></div>
+    <button class="btn" style="margin-top:.8rem" onclick="checkSyns()">Comprobar ✓</button>
+  </div>
+
+  <div class="section">
+    <h2><span class="sn">3</span> Vocabulario clave – Inglés → Español</h2>
+    <p class="subtitle">Relaciona cada término inglés con su traducción española correcta.</p>
+    <div id="vocBox"></div>
+    <button class="btn" style="margin-top:.8rem" onclick="checkVoc()">Comprobar ✓</button>
+  </div>
+
+  <div class="section">
+    <h2><span class="sn">4</span> Rellena los espacios</h2>
+    <p class="subtitle">Completa las frases con la palabra correcta del recuadro. ¡Cuidado, sobran dos palabras!</p>
+    <div class="word-bank" id="wordBank"><strong>Banco de palabras:</strong></div>
+    <div id="gapBox"></div>
+    <button class="btn" style="margin-top:.8rem" onclick="checkGaps()">Comprobar ✓</button>
+  </div>
+
+  <div class="section">
+    <h2><span class="sn">5</span> Gramática – Voz activa → voz pasiva</h2>
+    <p class="subtitle">Convierte cada frase de la voz activa a la voz pasiva. Recuerda: <em>ser + participio pasado (concuerda con el sujeto) + por + agente</em>.</p>
+    <div id="pasBox"></div>
+    <button class="btn" style="margin-top:.8rem" onclick="checkPas()">Comprobar ✓</button>
+  </div>
+
+  <div class="section">
+    <h2><span class="sn">6</span> Gramática – ¿<em>Se</em> pasivo o voz pasiva?</h2>
+    <p class="subtitle">Elige si la frase usa el <em>se</em> pasivo (reflexivo impersonal) o la voz pasiva con <em>ser</em>. Luego tradúcela al inglés en la casilla.</p>
+    <div id="seBox"></div>
+    <button class="btn" style="margin-top:.8rem" onclick="checkSe()">Comprobar ✓</button>
+  </div>
+
+  <div class="section">
+    <h2><span class="sn">7</span> Comprensión escrita – Contesta en español</h2>
+    <p class="subtitle">Contesta las preguntas en español con tus propias palabras. No copies directamente del texto.</p>
+    <div id="compBox"></div>
+    <button class="btn" style="margin-top:.8rem" onclick="checkComp()">Ver respuestas sugeridas ✓</button>
+  </div>
+
+  <div class="section">
+    <h2><span class="sn">8</span> Traducción – Inglés → español</h2>
+    <p class="subtitle">Traduce las frases al español. Las pistas te indican la estructura gramatical — no las palabras exactas.</p>
+    <div id="transBox"></div>
+    <button class="btn" style="margin-top:.8rem" onclick="checkTrans()">Comprobar ✓</button>
+  </div>
+
+</div>
+
+<div id="scoreBar">
+  <span id="scoreText">Puntuación: 0/0</span>
+  <div class="btn-row">
+    <button class="btn btn-outline" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆ Revisar</button>
+    <button class="btn btn-green" onclick="dl()">📥 Descargar resultados</button>
+  </div>
+</div>
+
+<button id="kbToggle" onclick="toggleKb()" title="Acentos">á</button>
+<div id="accentKb">
+  <div style="color:#94a3b8;font-size:.7rem;margin-bottom:.2rem">ACENTOS</div>
+  <div class="kb-row">
+    <button class="kb-btn" onclick="ins('á')">á</button>
+    <button class="kb-btn" onclick="ins('é')">é</button>
+    <button class="kb-btn" onclick="ins('í')">í</button>
+    <button class="kb-btn" onclick="ins('ó')">ó</button>
+    <button class="kb-btn" onclick="ins('ú')">ú</button>
+  </div>
+  <div class="kb-row">
+    <button class="kb-btn" onclick="ins('ñ')">ñ</button>
+    <button class="kb-btn" onclick="ins('ü')">ü</button>
+    <button class="kb-btn" onclick="ins('¿')">¿</button>
+    <button class="kb-btn" onclick="ins('¡')">¡</button>
+  </div>
+  <div style="color:#475569;font-size:.68rem;margin-top:.2rem">haz clic en una casilla primero</div>
+</div>
+
+<script>
+let sName='', lastF=null, scores={};
+document.addEventListener('focusin',e=>{
+  const t=e.target;
+  if((t.tagName==='INPUT'&&t.type==='text')||t.tagName==='TEXTAREA') lastF=t;
+});
+function toggleKb(){
+  const k=document.getElementById('accentKb');
+  k.style.display=k.style.display!=='flex'?'flex':'none';
+}
+function ins(ch){
+  if(!lastF) return;
+  const el=lastF,s=el.selectionStart,e2=el.selectionEnd;
+  el.value=el.value.slice(0,s)+ch+el.value.slice(e2);
+  el.selectionStart=el.selectionEnd=s+1; el.focus();
+}
+function shuffle(arr){return [...arr].sort(()=>Math.random()-.5);}
+
+// ── DATA ─────────────────────────────────────────────────────────────────────
+
+const mcqData=[
+  {stem:"El ejército español ayudó a ganar la Guerra Civil y luego...",opts:["inmediatamente devolvió la soberanía al país.","mantuvo a Franco en el poder.","se opuso a la presión de los franquistas.","secuestró a muchos ciudadanos."],ans:1,expl:"El texto dice que el ejército 'secuestró la soberanía nacional' y el país tuvo que soportar ese peso hasta 1975."},
+  {stem:"El hombre clave de la Transición sería…",opts:["Franco.","un general del ejército.","el anterior rey de España.","Juan Carlos."],ans:3,expl:"El texto afirma que 'el papel de Juan Carlos sería clave'."},
+  {stem:"'El milagro de la democracia española' consistió en…",opts:["la acción de Juan Carlos.","la muerte de Franco.","los debates del Parlamento.","el papel del ejército."],ans:0,expl:"'Se puede decir que este fue el milagro de la democracia española' — referido a la actuación del rey."},
+  {stem:"El Rey Juan Carlos pronto dio indicios de…",opts:["volver atrás.","poder aplaudir.","optar por la democracia.","ignorar la situación."],ans:2,expl:"'Cuando el nuevo rey demostró ser capaz de aprender rápidamente' — se refiere a abrazar la democracia."},
+  {stem:"El papel de Suárez…",opts:["produjo resultados positivos.","gustó a todos.","fue de una importancia leve.","afectó sobre todo al ejército."],ans:0,expl:"'Posteriormente se ha comprobado el éxito que tuvo.'"},
+  {stem:"Nadie en España quería…",opts:["dar las gracias al general Franco.","olvidar al ejército.","ofrecer el trono a Juan Carlos.","regresar a la barbarie de la Guerra Civil."],ans:3,expl:"'Había que evitar una vuelta a los horrores de la Guerra Civil.'"},
+  {stem:"El momento clave del 23-F…",opts:["produjo una contrarrevolución.","reforzó la democracia.","terminó con la libertad.","prolongó la dictadura."],ans:1,expl:"El rey eligió la democracia y el país 'fue catapultado hacia la libertad'."},
+  {stem:"El rey se puso a favor de…",opts:["Tejero.","la dictadura.","la contrarrevolución.","la democracia."],ans:3,expl:"'El rey optó por la democracia en vez de la contrarrevolución.'"},
+];
+
+const synData=[
+  {word:"se apropió de / tomó por la fuerza",opts:["se prolongó","secuestró","se confiaba","se temía"],ans:"secuestró"},
+  {word:"aguantar / sufrir",opts:["devolver","soportar","excluir","proceder"],ans:"soportar"},
+  {word:"duró / continuó",opts:["se ratificó","se catapultó","se prolongó","se consiguió"],ans:"se prolongó"},
+  {word:"el presentimiento / la corazonada",opts:["el milagro","el alivio","la intuición","el rumbo"],ans:"la intuición"},
+  {word:"evidente / palpable",opts:["abrumador","tangible","larguísimo","clave"],ans:"tangible"},
+  {word:"la dirección / el camino",opts:["el peso","el rumbo","el escaño","el referéndum"],ans:"el rumbo"},
+  {word:"gobernar / dirigir",opts:["devolver","excluir","soportar","mandar — gobernar"],ans:"mandar — gobernar"},
+  {word:"enfrentarse con / chocar con",opts:["catapultar","prolongar","chocar contra","desmantelar"],ans:"chocar contra"},
+];
+
+const vocData=[
+  {en:"a military coup",opts:["el golpista","el golpe de estado","la rendición","el disparo"],ans:"el golpe de estado"},
+  {en:"to kidnap / hijack",opts:["enfrentarse","irrumpir","secuestrar","presagiar"],ans:"secuestrar"},
+  {en:"a conspirator / coup plotter",opts:["el sublevado","el dirigente","el golpista","el vencedor"],ans:"el golpista"},
+  {en:"national sovereignty",opts:["la soberanía nacional","la rendición","el reinado","el peso"],ans:"la soberanía nacional"},
+  {en:"to rush in",opts:["permanecer","enfrentarse","adelantar","irrumpir"],ans:"irrumpir"},
+  {en:"the die is cast",opts:["el milagro ocurrió","la suerte está echada","hay marcha atrás","el peso es tangible"],ans:"la suerte está echada"},
+  {en:"to surrender",opts:["retener","entregarse","chocar de pleno","desafiar"],ans:"entregarse"},
+  {en:"an inkling / foreboding",opts:["el alivio","el presentimiento","la rendición","el papel"],ans:"el presentimiento"},
+  {en:"relief",opts:["el peso","el milagro","el alivio","el rumbo"],ans:"el alivio"},
+  {en:"barracks",opts:["el cuartel","la sede","el asiento","el suelo"],ans:"el cuartel"},
+];
+
+// Word bank: answers + 2 distractors, will be shuffled on build
+const gapData=[
+  {before:"El ejército 'secuestró' la ",ans:"soberanía",after:" nacional del pueblo español en 1939."},
+  {before:"El efecto de la dictadura se ",ans:"prolongó",after:" durante más de tres décadas."},
+  {before:"El alivio del pueblo ante la actitud del nuevo rey fue ",ans:"tangible",after:", visible para todos."},
+  {before:"El cambio de rumbo no fue ",ans:"aplaudido",after:" por todos los sectores de la sociedad."},
+  {before:"No se podía ",ans:"excluir",after:" al ejército del proceso democrático."},
+  {before:"Cuando llegó el 23-F, el país fue ",ans:"catapultado",after:" hacia la libertad gracias al rey."},
+  {before:"La participación en el referéndum fue ",ans:"abrumadora",after:", con un 75% de ciudadanos votando."},
+  {before:"Suárez comprendió que la ",ans:"legitimidad",after:" de las elecciones dependía de todos los partidos."},
+  {before:"El objetivo de Suárez era ",ans:"desmantelar",after:" las instituciones franquistas paso a paso."},
+  {before:"Los 165 ",ans:"escaños",after:" obtenidos por la UCD en 1977 le dieron la razón a Suárez."},
+];
+const gapDistractors=["armada","democráticas"]; // the two extra words
+
+const pasData=[
+  {active:"Franco había educado al futuro rey Juan Carlos.",
+   ans:"El futuro rey Juan Carlos había sido educado por Franco.",
+   hintEs:"Pluscuamperfecto pasivo: <em>había sido + participio</em>",
+   hintEn:"Past perfect passive: <em>had been + past participle</em>"},
+  {active:"Los seguidores de Franco no aplaudieron el nuevo rumbo después de la muerte del Caudillo.",
+   ans:"El nuevo rumbo no fue aplaudido por los seguidores de Franco después de la muerte del Caudillo.",
+   hintEs:"Indefinido pasivo: <em>fue + participio</em> (concuerda con el sujeto)",
+   hintEn:"Preterite passive: <em>was/were + past participle</em> (agrees with subject)"},
+  {active:"Los sucesivos gobiernos españoles han evitado una vuelta a los horrores de la Guerra Civil.",
+   ans:"Una vuelta a los horrores de la Guerra Civil ha sido evitada por los sucesivos gobiernos españoles.",
+   hintEs:"Perfecto pasivo: <em>ha sido + participio</em>",
+   hintEn:"Perfect passive: <em>has/have been + past participle</em>"},
+  {active:"Las fuerzas de la derecha en España no destruirán nunca la democracia.",
+   ans:"La democracia nunca será destruida por las fuerzas de la derecha en España.",
+   hintEs:"Futuro pasivo: <em>será + participio</em>",
+   hintEn:"Future passive: <em>will be + past participle</em>"},
+  {active:"No excluyeron del poder a los políticos de la izquierda.",
+   ans:"Los políticos de la izquierda no fueron excluidos del poder.",
+   hintEs:"Indefinido pasivo sin agente explícito",
+   hintEn:"Preterite passive with no explicit agent"},
+  {active:"Construyeron la democracia después de tres décadas y media del régimen de Franco.",
+   ans:"La democracia fue construida después de tres décadas y media del régimen de Franco.",
+   hintEs:"Indefinido pasivo: <em>fue + participio</em>",
+   hintEn:"Preterite passive: <em>was + past participle</em>"},
+];
+
+const seData=[
+  {phrase:"Se prolongó bastante el efecto de aquellas tres décadas.",type:"se pasivo",trans:"The effect of those three decades was prolonged considerably."},
+  {phrase:"Se confiaba en la monarquía parlamentaria.",type:"se pasivo",trans:"Trust was placed in the parliamentary monarchy."},
+  {phrase:"Se puede decir que este fue el milagro de la democracia española.",type:"se pasivo",trans:"It can be said that this was the miracle of Spanish democracy."},
+  {phrase:"No se podía excluir al ejército.",type:"se pasivo",trans:"The army could not be excluded."},
+  {phrase:"El cambio de rumbo no fue aplaudido por todos.",type:"voz pasiva",trans:"The change of direction was not applauded by everyone."},
+  {phrase:"La decisión de ascender a Suárez fue criticada en su momento por algunos.",type:"voz pasiva",trans:"The decision to promote Suárez was criticised at the time by some."},
+  {phrase:"El país fue catapultado hacia la libertad.",type:"voz pasiva",trans:"The country was catapulted towards freedom."},
+  {phrase:"Se ratificó la Ley para la Reforma Política.",type:"se pasivo",trans:"The Political Reform Law was ratified."},
+];
+
+const compData=[
+  {q:"¿Cómo se sabe que España quería dejar atrás la época de Franco? (2)",ans:"Ratificó la Ley para la Reforma Política con una participación abrumadora del 75%."},
+  {q:"¿Por qué tenía Adolfo Suárez la autoridad para efectuar tantos cambios importantes?",ans:"Por el resultado abrumador del referéndum, que le dio el mandato claro del pueblo español."},
+  {q:"¿Cómo consiguió Suárez el apoyo del Parlamento español para efectuar los cambios políticos?",ans:"Se reunió durante horas con el secretario general del Partido Comunista, Santiago Carrillo, en una reunión secreta."},
+  {q:"¿Por qué se consideraba necesaria la participación de todos los partidos en esta época?",ans:"Para asegurar la legitimidad de las elecciones democráticas."},
+  {q:"¿Qué quería decir Suárez al utilizar la palabra 'pluralismo' en su discurso televisado?",ans:"Que aceptaba la legalización de todos los partidos políticos, incluida la oposición."},
+  {q:"¿Cuál fue el resultado de las primeras elecciones democráticas de junio de 1977 para Suárez?",ans:"Su partido (UCD) obtuvo el 34% de los votos y 165 escaños, lo que legitimó su posición como presidente del Gobierno."},
+];
+
+const transData=[
+  {en:"Looking back, it can be seen that the role of Juan Carlos was going to be key.",
+   partial:"Mirando atrás, ___ que el papel de Juan Carlos ___ clave.",
+   hintEs:"¿Cómo se traduce 'it can be seen'? Piensa en el <em>se</em> pasivo + verbo. El segundo verbo: ¿qué tiempo expresa una predicción en el pasado?",
+   hintEn:"How do you express 'it can be seen'? Think <em>se</em> passive + verb. Second verb: which tense expresses a past prediction?",
+   ans:"Mirando atrás, se puede ver que el papel de Juan Carlos iba a ser clave."},
+  {en:"Although Juan Carlos had been groomed to continue the dictatorship, he showed he could learn quickly.",
+   partial:"Aunque Juan Carlos ___ formado para continuar la dictadura, demostró que ___ aprender rápidamente.",
+   hintEs:"Primer verbo: pluscuamperfecto pasivo (<em>había sido + participio</em>). Segundo: ¿qué modal expresa capacidad en el pasado?",
+   hintEn:"First verb: past perfect passive (<em>había sido + participle</em>). Second: which modal expresses past ability?",
+   ans:"Aunque Juan Carlos había sido formado para continuar la dictadura, demostró que podía aprender rápidamente."},
+  {en:"The decision to promote Suárez was criticised at the time, but its success has since been proved.",
+   partial:"La decisión de ascender a Suárez ___ criticada en su momento, pero su éxito ___ comprobado.",
+   hintEs:"Ambos verbos en pasiva. El primero: ¿indefinido o perfecto? El segundo expresa relevancia presente — ¿qué tiempo usas?",
+   hintEn:"Both verbs are passive. First: preterite or perfect? The second expresses present relevance — which tense?",
+   ans:"La decisión de ascender a Suárez fue criticada en su momento, pero su éxito se ha comprobado."},
+  {en:"The army could not be excluded from the democratic process.",
+   partial:"No ___ excluir al ejército del proceso democrático.",
+   hintEs:"Usa el <em>se</em> pasivo con el modal de imposibilidad en el pasado. ¿Qué tiempo verbal llevaría <em>poder</em>?",
+   hintEn:"Use the <em>se</em> passive with the past modal of impossibility. Which tense does <em>poder</em> take here?",
+   ans:"No se podía excluir al ejército del proceso democrático."},
+  {en:"Democracy was saved thanks to the actions of the new king.",
+   partial:"___ la democracia gracias a las acciones del nuevo rey.",
+   hintEs:"¿<em>Se salvó</em> (se pasivo) o <em>fue salvada</em> (voz pasiva)? Ambas son posibles — ¿cuál usarías?",
+   hintEn:"<em>Se salvó</em> (se-passive) or <em>fue salvada</em> (ser-passive)? Both work — which would you choose?",
+   ans:"Se salvó la democracia gracias a las acciones del nuevo rey."},
+];
+
+// ── BUILD ────────────────────────────────────────────────────────────────────
+
+function start(){
+  sName=document.getElementById('nameInput').value.trim();
+  if(!sName){alert('¡Por favor, introduce tu nombre!');return;}
+  document.getElementById('nameSection').style.display='none';
+  document.getElementById('main').style.display='block';
+  document.getElementById('scoreBar').style.display='flex';
+  document.getElementById('kbToggle').style.display='block';
+  buildMCQ(); buildSyns(); buildVoc(); buildGaps(); buildPas(); buildSe(); buildComp(); buildTrans();
+}
+
+function buildMCQ(){
+  const c=document.getElementById('mcqBox');
+  mcqData.forEach((q,i)=>{
+    const d=document.createElement('div'); d.className='q-block';
+    d.innerHTML=`<div class="q-text">${i+1}. ${q.stem}</div><div class="options" id="opts${i}">`
+      +q.opts.map((o,j)=>`<label id="lbl${i}_${j}"><input type="radio" name="mcq${i}" value="${j}"> ${o}</label>`).join('')
+      +`</div><div class="feedback" id="fb${i}" style="display:none"></div>`;
+    c.appendChild(d);
+  });
+}
+
+function buildSyns(){
+  const c=document.getElementById('synBox');
+  synData.forEach((s,i)=>{
+    const d=document.createElement('div'); d.className='syn-row';
+    const sh=shuffle(s.opts);
+    d.innerHTML=`<span class="syn-word">${s.word}</span>
+      <select class="syn-sel" id="syn${i}"><option value="">– elegir –</option>
+      ${sh.map(o=>`<option value="${o}">${o}</option>`).join('')}</select>
+      <span id="synFb${i}" style="font-size:1.1rem"></span>`;
+    c.appendChild(d);
+  });
+}
+
+function buildVoc(){
+  const c=document.getElementById('vocBox');
+  vocData.forEach((v,i)=>{
+    const d=document.createElement('div'); d.className='syn-row';
+    const sh=shuffle(v.opts);
+    d.innerHTML=`<span class="syn-word" style="color:var(--dark);font-weight:normal">${v.en}</span>
+      <select class="syn-sel" id="voc${i}"><option value="">– elegir –</option>
+      ${sh.map(o=>`<option value="${o}">${o}</option>`).join('')}</select>
+      <span id="vocFb${i}" style="font-size:1.1rem"></span>`;
+    c.appendChild(d);
+  });
+}
+
+function buildGaps(){
+  // Build shuffled word bank
+  const allWords=shuffle([...gapData.map(g=>g.ans),...gapDistractors]);
+  const wb=document.getElementById('wordBank');
+  allWords.forEach(w=>{
+    const s=document.createElement('span'); s.className='wb-tag'; s.textContent=w;
+    wb.appendChild(s);
+  });
+  const c=document.getElementById('gapBox');
+  let html='<p class="gap-p">';
+  gapData.forEach((g,i)=>{
+    html+=`<strong>${i+1}.</strong> `+g.before
+      +`<input type="text" class="gap" id="gap${i}" placeholder="…" autocomplete="off">`
+      +g.after+'<br><br>';
+  });
+  c.innerHTML=html+'</p>';
+}
+
+function buildPas(){
+  const c=document.getElementById('pasBox');
+  pasData.forEach((p,i)=>{
+    const d=document.createElement('div'); d.className='pas-row';
+    d.innerHTML=`<div class="pas-label"><strong>${i+1}. Activa:</strong> ${p.active}</div>
+      <div class="hint-box">
+        🔑 <span class="hint-es">${p.hintEs}</span><br>
+        🔑 <span class="hint-en">${p.hintEn}</span>
+      </div>
+      <input type="text" class="pas-input" id="pas${i}" placeholder="Escribe la frase en voz pasiva…" autocomplete="off">
+      <div id="pasFb${i}" class="feedback" style="display:none;margin-top:.3rem"></div>`;
+    c.appendChild(d);
+  });
+}
+
+function buildSe(){
+  const c=document.getElementById('seBox');
+  seData.forEach((s,i)=>{
+    const d=document.createElement('div'); d.className='pas-row';
+    const sel=`<select class="ts" id="se${i}">
+      <option value="">– elegir –</option>
+      <option value="se pasivo">se pasivo</option>
+      <option value="voz pasiva">voz pasiva (ser + participio)</option>
+    </select>`;
+    d.innerHTML=`<div style="margin-bottom:.4rem"><strong>${i+1}.</strong> <em>${s.phrase}</em></div>
+      <div style="margin-bottom:.4rem">${sel}</div>
+      <input type="text" class="pas-input" id="seTr${i}" placeholder="Traducción al inglés…" autocomplete="off">
+      <div id="seFb${i}" class="feedback" style="display:none;margin-top:.3rem"></div>`;
+    c.appendChild(d);
+  });
+}
+
+function buildComp(){
+  const c=document.getElementById('compBox');
+  compData.forEach((q,i)=>{
+    const d=document.createElement('div'); d.className='pas-row';
+    d.innerHTML=`<div style="font-weight:600;margin-bottom:.4rem">${i+1}. ${q.q}</div>
+      <textarea class="pas-input" id="comp${i}" rows="2" placeholder="Escribe tu respuesta en español…" style="resize:vertical"></textarea>
+      <div id="compFb${i}" class="feedback" style="display:none;margin-top:.3rem"></div>`;
+    c.appendChild(d);
+  });
+}
+
+function buildTrans(){
+  const c=document.getElementById('transBox');
+  transData.forEach((t,i)=>{
+    const d=document.createElement('div'); d.className='tr-row';
+    d.innerHTML=`<div class="tr-en"><strong>${i+1}.</strong> 🇬🇧 ${t.en}</div>
+      <div class="hint-box" style="margin:.3rem 0">
+        🔑 <span class="hint-es">${t.hintEs}</span><br>
+        🔑 <span class="hint-en">${t.hintEn}</span>
+      </div>
+      <div style="font-size:.85rem;color:#64748b;margin-bottom:.3rem">${t.partial}</div>
+      <input type="text" class="tr-input" id="tr${i}" placeholder="Escribe la traducción completa…" autocomplete="off">
+      <div id="trFb${i}" class="feedback" style="display:none;margin-top:.3rem"></div>`;
+    c.appendChild(d);
+  });
+}
+
+// ── CHECK ────────────────────────────────────────────────────────────────────
+function norm(s){return s.toLowerCase().trim().replace(/\s+/g,' ');}
+
+function checkMCQ(){
+  let ok=0;
+  mcqData.forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="mcq${i}"]:checked`);
+    const fb=document.getElementById(`fb${i}`);
+    for(let j=0;j<q.opts.length;j++) document.getElementById(`lbl${i}_${j}`).classList.remove('correct','wrong');
+    if(!sel){fb.style.display='block';fb.className='feedback bad';fb.textContent='⚠️ Sin respuesta.';return;}
+    const v=parseInt(sel.value);
+    if(v===q.ans){document.getElementById(`lbl${i}_${v}`).classList.add('correct');fb.style.display='block';fb.className='feedback ok';fb.innerHTML=`✅ ¡Correcto! ${q.expl}`;ok++;}
+    else{document.getElementById(`lbl${i}_${v}`).classList.add('wrong');document.getElementById(`lbl${i}_${q.ans}`).classList.add('correct');fb.style.display='block';fb.className='feedback bad';fb.innerHTML=`❌ Respuesta correcta: <strong>${q.opts[q.ans]}</strong>. ${q.expl}`;}
+  });
+  scores.mcq={got:ok,total:mcqData.length}; upScore();
+}
+
+function checkSyns(){
+  let ok=0;
+  synData.forEach((s,i)=>{
+    const v=document.getElementById(`syn${i}`).value;
+    const fb=document.getElementById(`synFb${i}`);
+    if(v===s.ans){fb.textContent='✅';ok++;}
+    else{fb.innerHTML=`❌ <small style="color:var(--red)">${s.ans}</small>`;}
+  });
+  scores.syns={got:ok,total:synData.length}; upScore();
+}
+
+function checkVoc(){
+  let ok=0;
+  vocData.forEach((v,i)=>{
+    const val=document.getElementById(`voc${i}`).value;
+    const fb=document.getElementById(`vocFb${i}`);
+    if(val===v.ans){fb.textContent='✅';ok++;}
+    else{fb.innerHTML=`❌ <small style="color:var(--red)">${v.ans}</small>`;}
+  });
+  scores.voc={got:ok,total:vocData.length}; upScore();
+}
+
+function checkGaps(){
+  let ok=0;
+  gapData.forEach((g,i)=>{
+    const el=document.getElementById(`gap${i}`);
+    el.classList.remove('ci','wi');
+    if(norm(el.value)===norm(g.ans)){el.classList.add('ci');ok++;}
+    else{el.classList.add('wi');el.title=`Respuesta: ${g.ans}`;}
+  });
+  scores.gaps={got:ok,total:gapData.length}; upScore();
+  alert(`Espacios: ${ok}/${gapData.length} correcto(s). Pasa el ratón por las casillas rojas para ver la respuesta.`);
+}
+
+function checkPas(){
+  let ok=0;
+  pasData.forEach((p,i)=>{
+    const val=document.getElementById(`pas${i}`).value.trim();
+    const fb=document.getElementById(`pasFb${i}`);
+    fb.style.display='block';
+    const w=norm(val),wA=norm(p.ans);
+    const words=wA.split(' ');
+    const hits=words.filter(w2=>w.includes(w2)).length;
+    if(hits/words.length>=0.75){fb.className='feedback ok';fb.innerHTML=`✅ ¡Muy bien! Respuesta sugerida: <em>${p.ans}</em>`;ok++;}
+    else{fb.className='feedback bad';fb.innerHTML=`❌ Respuesta sugerida: <em>${p.ans}</em>`;}
+  });
+  scores.pas={got:ok,total:pasData.length}; upScore();
+}
+
+function checkSe(){
+  let ok=0;
+  seData.forEach((s,i)=>{
+    const type=document.getElementById(`se${i}`).value;
+    const tr=document.getElementById(`seTr${i}`).value.trim();
+    const fb=document.getElementById(`seFb${i}`);
+    fb.style.display='block';
+    const typeOk=type===s.type;
+    const trWords=norm(s.trans).split(' ');
+    const hits=norm(tr).split(' ').filter(w=>trWords.includes(w)).length;
+    const trOk=hits/trWords.length>=0.65;
+    if(typeOk&&trOk){fb.className='feedback ok';fb.innerHTML=`✅ ¡Correcto! Tipo: <strong>${s.type}</strong>. Traducción: <em>${s.trans}</em>`;ok++;}
+    else if(typeOk){fb.className='feedback ok';fb.innerHTML=`✅ Tipo correcto: <strong>${s.type}</strong>. Traducción sugerida: <em>${s.trans}</em>`;ok+=0.5;}
+    else{fb.className='feedback bad';fb.innerHTML=`❌ Tipo correcto: <strong>${s.type}</strong>. Traducción: <em>${s.trans}</em>`;}
+  });
+  scores.se={got:Math.round(ok),total:seData.length}; upScore();
+}
+
+function checkComp(){
+  compData.forEach((q,i)=>{
+    const fb=document.getElementById(`compFb${i}`);
+    fb.style.display='block';
+    fb.className='feedback ok';
+    fb.innerHTML=`📝 Respuesta sugerida: <em>${q.ans}</em>`;
+  });
+  scores.comp={got:compData.length,total:compData.length}; upScore();
+}
+
+function checkTrans(){
+  let ok=0;
+  transData.forEach((t,i)=>{
+    const val=document.getElementById(`tr${i}`).value.trim();
+    const fb=document.getElementById(`trFb${i}`);
+    fb.style.display='block';
+    const wA=norm(t.ans).split(' ');
+    const hits=norm(val).split(' ').filter(w=>wA.includes(w)).length;
+    if(hits/wA.length>=0.75){fb.className='feedback ok';fb.innerHTML=`✅ ¡Muy bien! Respuesta sugerida: <em>${t.ans}</em>`;ok++;}
+    else{fb.className='feedback bad';fb.innerHTML=`❌ Respuesta sugerida: <em>${t.ans}</em>`;}
+  });
+  scores.trans={got:ok,total:transData.length}; upScore();
+}
+
+function upScore(){
+  let g=0,t=0;
+  Object.values(scores).forEach(s=>{g+=s.got;t+=s.total;});
+  document.getElementById('scoreText').textContent=`${sName} – Puntuación: ${g}/${t}`;
+  document.getElementById('progFill').style.width=(t>0?Math.round(g/t*100):0)+'%';
+}
+
+function dl(){
+  const now=new Date().toLocaleString('es-ES');
+  const labels={mcq:'Comprensión MCQ',syns:'Sinónimos',voc:'Vocabulario',gaps:'Rellena espacios',pas:'Voz pasiva',se:'Se pasivo vs pasiva',comp:'Comprensión escrita',trans:'Traducción'};
+  let g=0,t=0;
+  let lines=[`DEBERES – La Transición española`,`Alumno/a: ${sName}`,`Fecha: ${now}`,``,`=== PUNTUACIÓN ===`];
+  Object.entries(scores).forEach(([k,v])=>{lines.push(`${labels[k]||k}: ${v.got}/${v.total}`);g+=v.got;t+=v.total;});
+  lines.push(``,`TOTAL: ${g}/${t} (${t>0?Math.round(g/t*100):0}%)`,``,`=== DETALLES ===`,``,`-- Comprensión MCQ --`);
+  mcqData.forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="mcq${i}"]:checked`);
+    lines.push(`${i+1}. ${q.stem}`);
+    lines.push(`   Tu respuesta: ${sel?q.opts[parseInt(sel.value)]:'(sin respuesta)'} | Correcta: ${q.opts[q.ans]}`);
+  });
+  lines.push(``,`-- Voz pasiva --`);
+  pasData.forEach((p,i)=>{
+    lines.push(`${i+1}. Activa: ${p.active}`);
+    lines.push(`   Tu respuesta: ${document.getElementById(`pas${i}`)?.value||''}`);
+    lines.push(`   Correcta: ${p.ans}`);
+  });
+  lines.push(``,`-- Traducción --`);
+  transData.forEach((t2,i)=>{
+    lines.push(`${i+1}. ${t2.en}`);
+    lines.push(`   Tu respuesta: ${document.getElementById(`tr${i}`)?.value||''}`);
+    lines.push(`   Correcta: ${t2.ans}`);
+  });
+  const blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`deberes_transicion_${sName.replace(/\s+/g,'_')}.txt`;
+  a.click();
+}
+</script>
+</body>
+</html>

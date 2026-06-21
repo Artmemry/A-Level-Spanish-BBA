@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Spanish Quiz: Reflexive Pronoun Placement</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 700px; margin: 2em auto; }
+        .prompt { background: #f8f9fa; padding: 1em; border-radius: 8px; margin-bottom: 1em; }
+        #feedback { margin-top: 1em; font-weight: bold; }
+        .correct { color: #388e3c; }
+        .incorrect { color: #c62828; }
+        .example { color: #1565c0; }
+    </style>
+</head>
+<body>
+    <h1>Practice: Where does the reflexive pronoun go?</h1>
+    <p>Type the <strong>full correct sentence</strong> using the right place for the reflexive pronoun.<br>
+    If there are two correct ways, either is accepted.</p>
+    <div class="prompt" id="prompt"></div>
+    <input type="text" id="answer" autocomplete="off" placeholder="Type the full sentence">
+    <button onclick="checkAnswer()">Check</button>
+    <div id="feedback"></div>
+    <div id="explanation"></div>
+<script>
+const questions = [
+    {
+        prompt: "I get up. (levantarse)",
+        correct: ["me levanto"],
+        explanation: 'With one verb, the reflexive goes before: <span class="example">Me levanto.</span>'
+    },
+    {
+        prompt: "We are going to get up. (levantarse)",
+        correct: ["nos vamos a levantar", "vamos a levantarnos"],
+        explanation: 'With two verbs (ir + infinitive), both are correct: <span class="example">Nos vamos a levantar.</span> or <span class="example">Vamos a levantarnos.</span>'
+    },
+    {
+        prompt: "Get up! (command, tú, levantarse)",
+        correct: ["levántate", "levantate"],
+        explanation: 'With an affirmative command, the reflexive goes after and together: <span class="example">¡Levántate!</span>'
+    },
+    {
+        prompt: "She showers. (ducharse)",
+        correct: ["se ducha"],
+        explanation: 'With one verb, the reflexive goes before: <span class="example">Se ducha.</span>'
+    },
+    {
+        prompt: "I want to shower. (ducharse)",
+        correct: ["me quiero duchar", "quiero ducharme"],
+        explanation: 'With two verbs, both are correct: <span class="example">Me quiero duchar.</span> or <span class="example">Quiero ducharme.</span>'
+    },
+    {
+        prompt: "Sit down! (command, vosotros, sentarse)",
+        correct: ["sentaos", "sentáos"],
+        explanation: 'With affirmative vosotros command, the reflexive goes after: <span class="example">¡Sentaos!</span>'
+    }
+];
+
+function normalize(str) {
+    return str
+        .toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/’/g, "'")
+        .replace(/[^a-záéíóúüñ0-9\s\-]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+}
+
+let current = {};
+
+function newQuestion() {
+    current = questions[Math.floor(Math.random() * questions.length)];
+    document.getElementById('prompt').innerText = current.prompt;
+    document.getElementById('answer').value = "";
+    document.getElementById('feedback').innerText = "";
+    document.getElementById('explanation').innerText = "";
+    document.getElementById('answer').focus();
+}
+
+function checkAnswer() {
+    const user = normalize(document.getElementById('answer').value);
+    const correct = current.correct.map(normalize);
+    const feedback = document.getElementById('feedback');
+    const explanation = document.getElementById('explanation');
+    if (correct.includes(user)) {
+        feedback.innerText = "✅ Correct!";
+        feedback.className = "correct";
+        explanation.innerHTML = current.explanation;
+    } else {
+        feedback.innerText = "❌ Try again.";
+        feedback.className = "incorrect";
+        explanation.innerHTML = "";
+    }
+}
+
+window.onload = function() {
+    newQuestion();
+    document.getElementById('answer').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') checkAnswer();
+    });
+};
+</script>
+<button onclick="newQuestion()">Next</button>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Sinónimos de "película" (Español A-Level)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            max-width: 750px;
+            margin: 2em auto;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #d32f2f; /* Deep red */
+            border-bottom: 2px solid #ffb300; /* Amber */
+            padding-bottom: 10px;
+            text-align: center;
+            font-size: 2em;
+        }
+        p {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        strong {
+            color: #c62828; /* Stronger red */
+        }
+        .hint-container {
+            background: #ffe0b2; /* Light orange */
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 5px solid #fb8c00; /* Darker orange */
+        }
+        .hint-section, .english-hint, .etymology {
+            margin-bottom: 8px;
+        }
+        .hint-section strong { color: #d32f2f; }
+        .english-hint strong { color: #5e35b1; } /* Dark purple */
+        .etymology strong { color: #2e7d32; } /* Dark green */
+
+        #answer {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1em;
+            border: 2px solid #ef9a9a; /* Light red */
+            border-radius: 5px;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+        button {
+            background: #d32f2f; /* Deep red */
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-right: 10px;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background: #e53935; /* Slightly lighter red */
+        }
+        button:active {
+            background: #c62828; /* Even deeper red */
+        }
+        #feedback {
+            font-weight: bold;
+            margin: 15px 0;
+            min-height: 25px;
+            font-size: 1.1em;
+        }
+        .correct {
+            color: #388e3c; /* Dark green */
+        }
+        .incorrect {
+            color: #d32f2f; /* Deep red */
+        }
+        #explanation {
+            background: #e8f5e9; /* Very light green */
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #66bb6a; /* Medium green */
+            font-style: italic;
+            color: #424242;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Entrenamiento de Sinónimos: "La Película"</h1>
+        <p><strong>Nivel A-Level Español:</strong> Mejora tu vocabulario para variar la expresión.</p>
+        <p>Lee las pistas y escribe un sinónimo para "película" en español.</p>
+        
+        <div class="hint-container">
+            <div class="hint-section">
+                <strong>Pista en español:</strong> <span id="hint_es"></span>
+            </div>
+            <div class="english-hint">
+                <strong>English Clue:</strong> <span id="hint_en"></span>
+            </div>
+            <div class="etymology">
+                <strong>Origen de la palabra:</strong> <span id="hint_etym"></span>
+            </div>
+        </div>
+        
+        <input type="text" id="answer" placeholder="Escribe el sinónimo en español..." autocomplete="off" autocapitalize="off">
+        
+        <div>
+            <button onclick="checkAnswer()">Comprobar</button>
+            <button onclick="showSolution()">Mostrar Solución</button>
+            <button onclick="newQuestion()">Nueva Palabra</button>
+        </div>
+        
+        <div id="feedback"></div>
+        <div id="explanation"></div>
+    </div>
+
+<script>
+const synonyms = [
+    {
+        answers: ["largometraje", "el largometraje"],
+        display: "largometraje",
+        hint_es: "Un tipo de película de larga duración, como las que ves en el cine.",
+        hint_en: "Feature film (a long-form movie, typically over an hour).",
+        hint_etym: "From 'largo' (long) + 'metraje' (footage, from French 'métrage').",
+        explanation: "Es el término técnico para una película con una duración estándar, generalmente más de 60 minutos. Es un sustantivo masculino: **el largometraje**."
+    },
+    {
+        answers: ["cortometraje", "el cortometraje"],
+        display: "cortometraje",
+        hint_es: "Una producción cinematográfica de corta duración, a menudo experimental.",
+        hint_en: "Short film (a brief movie, usually under 30 minutes).",
+        hint_etym: "From 'corto' (short) + 'metraje' (footage).",
+        explanation: "Un **cortometraje** (m.) es una película de duración reducida, comúnmente utilizada por directores emergentes o para explorar temas específicos en poco tiempo. Se usa con el artículo **el**."
+    },
+    {
+        answers: ["cinta", "la cinta"],
+        display: "cinta",
+        hint_es: "Puede referirse al rollo de material donde se grababa el film, o a la película en sí.",
+        hint_en: "Tape, ribbon, or sometimes colloquially 'film' (referring to the physical reel).",
+        hint_etym: "From Latin 'cincta' (girded, bound), referring to a band or strip.",
+        explanation: "Originalmente, **la cinta** (f.) era el soporte físico del celuloide. Hoy en día, se usa a menudo como sinónimo informal de película, especialmente en contextos más antiguos o nostálgicos. Siempre con el artículo **la**."
+    },
+    {
+        answers: ["obra cinematografica", "obra", "la obra cinematografica", "la obra"],
+        display: "obra cinematográfica",
+        hint_es: "Expresión más formal que subraya el valor artístico de una creación fílmica.",
+        hint_en: "Cinematographic work / work (emphasizes artistic value).",
+        hint_etym: "From Latin 'opera' (work, effort) and Greek 'kinema' (movement).",
+        explanation: "Una **obra cinematográfica** (f.) es un término más elevado y formal para referirse a una película, resaltando su calidad artística y su lugar como creación cultural. Usa el artículo **la**."
+    },
+    {
+        answers: ["produccion", "la produccion"],
+        display: "producción",
+        hint_es: "Se refiere tanto al proceso de crear una película como al resultado final.",
+        hint_en: "Production (the act of making a film, or the finished product).",
+        hint_etym: "From Latin 'productio' (a bringing forth).",
+        explanation: "Una **producción** (f.) es el resultado de un proyecto cinematográfico. También se usa para hablar de la industria o el proceso de hacer películas (e.g., 'una gran producción de Hollywood'). Requiere el artículo **la**."
+    },
+    {
+        answers: ["film", "filme", "el film", "el filme"],
+        display: "film / filme",
+        hint_es: "Un anglicismo muy común y aceptado para 'película'.",
+        hint_en: "Film (direct loanword from English).",
+        hint_etym: "Directly from English 'film', originally from Old English 'filmen' (membrane). 'Filme' is a Hispanicized spelling.",
+        explanation: "**Film** (m.) o **filme** (m.) son anglicismos muy extendidos y aceptados en español, aunque 'película' es la palabra nativa. Son masculinos, por lo que usan el artículo **el**."
+    },
+    {
+        answers: ["largometraje de animacion", "largometraje de animación", "el largometraje de animacion", "el largometraje de animación"],
+        display: "largometraje de animación",
+        hint_es: "Un tipo de largometraje hecho con dibujos o imágenes generadas por ordenador.",
+        hint_en: "Animated feature film.",
+        hint_etym: "Combines 'largo' (long), 'metraje' (footage), and 'animación' (animation).",
+        explanation: "Un **largometraje de animación** (m.) es una película de larga duración creada mediante técnicas de animación (dibujos, CGI, stop-motion, etc.), como las películas de Disney o Pixar. Se usa con el artículo **el**."
+    },
+    {
+        answers: ["documental", "el documental"],
+        display: "documental",
+        hint_es: "Una película que presenta hechos o información real, no ficción.",
+        hint_en: "Documentary (a non-fiction film).",
+        hint_etym: "From Latin 'documentum' (lesson, example).",
+        explanation: "Un **documental** (m.) es un género cinematográfico que explora la realidad, eventos históricos o temas sociales, sin elementos de ficción. Siempre usa el artículo **el**."
+    },
+    {
+        answers: ["exito", "el exito"],
+        display: "éxito",
+        hint_es: "Se usa para describir una película que ha sido muy popular o aclamada.",
+        hint_en: "Success (a hit film).",
+        hint_etym: "From Latin 'exitus' (a going out, outcome).",
+        explanation: "Cuando una película es muy popular o consigue buena recaudación y crítica, se dice que es un **éxito** (m.). 'Esta película fue un gran éxito de taquilla'. Se usa con el artículo **el**."
+    },
+    {
+        answers: ["fracaso", "el fracaso"],
+        display: "fracaso",
+        hint_es: "Lo opuesto a un 'éxito'; una película que no ha funcionado bien.",
+        hint_en: "Failure, flop (a film that did not do well).",
+        hint_etym: "From Italian 'fracassare' (to smash), meaning a breaking or collapse.",
+        explanation: "Un **fracaso** (m.) es una película que no ha sido bien recibida por el público o la crítica, o que no ha generado ganancias. Es el antónimo de 'éxito'. Se usa con el artículo **el**."
+    },
+    {
+        answers: ["taquillazo", "el taquillazo"],
+        display: "taquillazo",
+        hint_es: "Un film que ha recaudado mucho dinero en la venta de entradas.",
+        hint_en: "Blockbuster (a box-office hit).",
+        hint_etym: "From 'taquilla' (box office) + '-azo' (augmentative suffix).",
+        explanation: "Un **taquillazo** (m.) es un término muy coloquial para una película que ha sido un rotundo éxito comercial, con grandes ingresos en taquilla. También se puede decir 'éxito de taquilla'. Siempre con **el**."
+    },
+    {
+        answers: ["churro", "bodrio", "el churro", "el bodrio"],
+        display: "churro / bodrio",
+        hint_es: "Dos palabras muy coloquiales para referirse a una película de muy mala calidad.",
+        hint_en: "Two informal terms for a very bad film ('churro' is also a fried dough snack!).",
+        hint_etym: "'Churro' is from the food; 'bodrio' (slop) comes from Arabic 'butrí' (soup with leftover meat).",
+        explanation: "**Churro** (m.) y **bodrio** (m.) son términos muy informales y pejorativos para una película horrible. Úsalos solo en contextos muy coloquiales. Ambos son masculinos y usan **el**."
+    },
+    {
+        answers: ["metraje", "el metraje"],
+        display: "metraje",
+        hint_es: "Se refiere a la longitud total de una película o a las imágenes filmadas.",
+        hint_en: "Footage (the total length of film, or recorded material).",
+        hint_etym: "From French 'métrage' (measurement in meters).",
+        explanation: "**Metraje** (m.) se usa para hablar de la duración o las imágenes grabadas de una película. Por ejemplo, 'el metraje de este documental es de 90 minutos'. Siempre usa el artículo **el**."
+    },
+    {
+        answers: ["largometrajes", "los largometrajes"],
+        display: "largometrajes",
+        hint_es: "El plural de 'largometraje'.",
+        hint_en: "Feature films (plural).",
+        hint_etym: "Plural of 'largometraje'.",
+        explanation: "Es importante recordar el plural de 'largometraje' para hablar de varias películas de larga duración. Se usa con el artículo **los**."
+    },
+    {
+        answers: ["realizacion", "la realizacion"],
+        display: "realización",
+        hint_es: "El proceso de llevar a cabo una película, desde la idea hasta el producto final.",
+        hint_en: "Realization / filmmaking (the process of making a film).",
+        hint_etym: "From Latin 'realizare' (to make real).",
+        explanation: "La **realización** (f.) de una película se refiere a todo el trabajo creativo y técnico involucrado en su creación. También puede referirse a la obra de un director: 'la última realización de Almodóvar'. Se usa con el artículo **la**."
+    }
+];
+
+// Normalization function: remove accents, unify dashes, trim, lowercase
+function normalize(str) {
+    return str
+        .toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Remove accents
+        .replace(/ñ/g, "n") // Handle ñ by converting to 'n' for normalization
+        .replace(/[^a-z0-9\s]/g, "") // Remove most punctuation, keep spaces
+        .replace(/\s+/g, " ") // Collapse multiple spaces
+        .trim();
+}
+
+let current = {};
+
+function newQuestion() {
+    document.getElementById('answer').value = '';
+    document.getElementById('feedback').innerText = '';
+    document.getElementById('feedback').className = '';
+    document.getElementById('explanation').innerHTML = '';
+    
+    current = synonyms[Math.floor(Math.random() * synonyms.length)];
+    
+    document.getElementById('hint_es').innerText = current.hint_es;
+    document.getElementById('hint_en').innerText = current.hint_en;
+    document.getElementById('hint_etym').innerText = current.hint_etym;
+    
+    document.getElementById('answer').focus();
+}
+
+function checkAnswer() {
+    let user = normalize(document.getElementById('answer').value);
+    let correct = current.answers.map(normalize);
+    let feedbackEl = document.getElementById('feedback');
+    let explanationEl = document.getElementById('explanation');
+
+    if (correct.includes(user)) {
+        feedbackEl.innerHTML = "✅ <strong>¡Correcto!</strong> ¡Lo has conseguido!";
+        feedbackEl.className = 'correct';
+        explanationEl.innerHTML = `<strong>${current.display}</strong>: ${current.explanation}`;
+    } else {
+        feedbackEl.innerHTML = "❌ <strong>Inténtalo de nuevo</strong>. Usa las pistas.";
+        feedbackEl.className = 'incorrect';
+        explanationEl.innerHTML = '';
+    }
+}
+
+function showSolution() {
+    let feedbackEl = document.getElementById('feedback');
+    let explanationEl = document.getElementById('explanation');
+    
+    feedbackEl.innerHTML = `🔍 <strong>Solución</strong>: ${current.display}`;
+    feedbackEl.className = '';
+    explanationEl.innerHTML = `<strong>Uso</strong>: ${current.explanation}`;
+}
+
+// Initialisation
+window.onload = function() {
+    newQuestion();
+    document.getElementById('answer').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') checkAnswer();
+    });
+};
+</script>
+</body>
+</html>

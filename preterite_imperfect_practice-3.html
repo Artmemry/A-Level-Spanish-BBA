@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spanish Preterite vs Imperfect Practice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 30px;
+        }
+        
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        
+        .instructions {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .instructions h3 {
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background: #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .question-card {
+            background: #fafafa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .question-number {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .spanish-text {
+            font-style: italic;
+            color: #555;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 1em;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .option {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        .option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        
+        .option.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+            margin-top: 15px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .feedback {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+            font-weight: 500;
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            color: #721c24;
+        }
+        
+        .results {
+            display: none;
+            background: white;
+        }
+        
+        .results.show {
+            display: block;
+        }
+        
+        .score-display {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .score-display h2 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .score-percentage {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+        
+        .priority-issues {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .priority-issues h3 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+        
+        .issue-item {
+            background: white;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .review-section {
+            margin-top: 25px;
+        }
+        
+        .review-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .review-item.wrong {
+            border-left-color: #dc3545;
+        }
+        
+        .print-btn {
+            background: #28a745;
+            margin-top: 10px;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+            
+            .btn {
+                display: none;
+            }
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🇪🇸 Preterite vs Imperfect Practice</h1>
+        
+        <div id="quiz-section">
+            <div class="instructions">
+                <h3>Instructions:</h3>
+                <p>Complete 25 questions testing preterite and imperfect usage. This should take approximately 20 minutes.</p>
+                <p><strong>Remember:</strong></p>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li><strong>Preterite:</strong> Completed actions, specific times, definite beginning/end</li>
+                    <li><strong>Imperfect:</strong> Ongoing/habitual past, descriptions, time/age, no specific end</li>
+                </ul>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress">0/25</div>
+            </div>
+            
+            <div id="question-container"></div>
+            
+            <button class="btn" id="next-btn" onclick="checkAnswer()">Check Answer</button>
+        </div>
+        
+        <div id="results-section" class="results">
+            <div class="score-display">
+                <h2 id="final-score">0/25</h2>
+                <p class="score-percentage" id="percentage">0%</p>
+                <p style="margin-top: 10px;">Time taken: <span id="time-taken">0</span> minutes</p>
+            </div>
+            
+            <div class="priority-issues" id="priority-section">
+                <h3>🎯 Priority Areas for Practice</h3>
+                <div id="priority-list"></div>
+            </div>
+            
+            <div class="review-section">
+                <h3 style="color: #667eea; margin-bottom: 15px;">📝 Review Your Answers</h3>
+                <div id="review-list"></div>
+            </div>
+            
+            <button class="btn print-btn" onclick="window.print()">🖨️ Print Results</button>
+            <button class="btn" onclick="location.reload()">↻ Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                type: 'conjugate',
+                english: 'I used to go to the beach every summer',
+                spanish: 'Yo ___ (ir) a la playa cada verano',
+                answer: 'iba',
+                tense: 'imperfect',
+                verb: 'ir',
+                reason: 'Habitual action (cada verano) requires imperfect'
+            },
+            {
+                type: 'conjugate',
+                english: 'We went to Madrid last year',
+                spanish: 'Nosotros ___ (ir) a Madrid el año pasado',
+                answer: 'fuimos',
+                tense: 'preterite',
+                verb: 'ir',
+                reason: 'Completed action with specific time (el año pasado)'
+            },
+            {
+                type: 'conjugate',
+                english: 'She was 15 years old when she moved to Spain',
+                spanish: 'Ella ___ (tener) quince años cuando se mudó a España',
+                answer: 'tenía',
+                tense: 'imperfect',
+                verb: 'tener',
+                reason: 'Age in the past (background information) uses imperfect'
+            },
+            {
+                type: 'conjugate',
+                english: 'I ate the whole pizza in 10 minutes',
+                spanish: 'Yo ___ (comer) toda la pizza en diez minutos',
+                answer: 'comí',
+                tense: 'preterite',
+                verb: 'comer',
+                reason: 'Completed action with specific time duration'
+            },
+            {
+                type: 'conjugate',
+                english: 'They were studying all afternoon',
+                spanish: 'Ellos ___ (estudiar) toda la tarde',
+                answer: 'estudiaban',
+                tense: 'imperfect',
+                verb: 'estudiar',
+                reason: 'Ongoing action over extended time period uses imperfect'
+            },
+            {
+                type: 'choice',
+                question: 'It was raining when I left the house',
+                spanish: '___ cuando salí de casa',
+                options: ['Llovió', 'Llovía'],
+                answer: 'Llovía',
+                tense: 'imperfect',
+                reason: 'Ongoing weather condition (was raining) uses imperfect'
+            },
+            {
+                type: 'conjugate',
+                english: 'We lived in Spain for 10 years',
+                spanish: 'Nosotros ___ (vivir) en España durante diez años',
+                answer: 'vivimos',
+                tense: 'preterite',
+                verb: 'vivir',
+                reason: 'Completed period with definite end (durante)'
+            },
+            {
+                type: 'choice',
+                question: 'She always spoke Spanish at home',
+                spanish: 'Ella siempre ___ español en casa',
+                options: ['habló', 'hablaba'],
+                answer: 'hablaba',
+                tense: 'imperfect',
+                reason: 'Habitual action (siempre) requires imperfect'
+            },
+            {
+                type: 'conjugate',
+                english: 'I was finishing my homework when my dad arrived',
+                spanish: 'Yo ___ (terminar) mis deberes cuando llegó mi padre',
+                answer: 'terminaba',
+                tense: 'imperfect',
+                verb: 'terminar',
+                reason: 'Ongoing action (was finishing) uses imperfect'
+            },
+            {
+                type: 'conjugate',
+                english: 'He broke his leg playing football last Saturday',
+                spanish: 'Él ___ (romper) la pierna jugando al fútbol el sábado pasado',
+                answer: 'rompió',
+                tense: 'preterite',
+                verb: 'romper',
+                reason: 'Completed action at specific moment (el sábado pasado)'
+            },
+            {
+                type: 'choice',
+                question: 'We used to play football every Saturday',
+                spanish: 'Nosotros ___ al fútbol cada sábado',
+                options: ['jugamos', 'jugábamos'],
+                answer: 'jugábamos',
+                tense: 'imperfect',
+                reason: 'Habitual action (cada sábado)'
+            },
+            {
+                type: 'conjugate',
+                english: 'I wrote a letter yesterday',
+                spanish: 'Yo ___ (escribir) una carta ayer',
+                answer: 'escribí',
+                tense: 'preterite',
+                verb: 'escribir',
+                reason: 'Completed action with specific time marker'
+            },
+            {
+                type: 'conjugate',
+                english: 'It was sunny and warm that day',
+                spanish: '___ (ser) un día soleado y hacía calor',
+                answer: 'era',
+                tense: 'imperfect',
+                verb: 'ser',
+                reason: 'Description of weather conditions on a particular day uses imperfect'
+            },
+            {
+                type: 'choice',
+                question: 'They met in 2019',
+                spanish: 'Ellos se ___ en 2019',
+                options: ['conocieron', 'conocían'],
+                answer: 'conocieron',
+                tense: 'preterite',
+                reason: 'Meeting is a completed event at specific time'
+            },
+            {
+                type: 'conjugate',
+                english: 'We were watching TV when the lights went out',
+                spanish: 'Nosotros ___ (ver) la televisión cuando se apagaron las luces',
+                answer: 'veíamos',
+                tense: 'imperfect',
+                verb: 'ver',
+                reason: 'Ongoing action interrupted by completed event'
+            },
+            {
+                type: 'conjugate',
+                english: 'She died in 2020',
+                spanish: 'Ella ___ (morir) en 2020',
+                answer: 'murió',
+                tense: 'preterite',
+                verb: 'morir',
+                reason: 'Completed action at specific time'
+            },
+            {
+                type: 'choice',
+                question: 'I used to be very shy',
+                spanish: 'Yo ___ muy tímido',
+                options: ['fui', 'era'],
+                answer: 'era',
+                tense: 'imperfect',
+                reason: 'Description of past characteristic'
+            },
+            {
+                type: 'conjugate',
+                english: 'They arrived at 8pm',
+                spanish: 'Ellos ___ (llegar) a las ocho',
+                answer: 'llegaron',
+                tense: 'preterite',
+                verb: 'llegar',
+                reason: 'Arrival is a completed action at specific time'
+            },
+            {
+                type: 'conjugate',
+                english: 'We were always tired after training',
+                spanish: 'Nosotros siempre ___ (estar) cansados después del entrenamiento',
+                answer: 'estábamos',
+                tense: 'imperfect',
+                verb: 'estar',
+                reason: 'Habitual state (siempre) requires imperfect'
+            },
+            {
+                type: 'choice',
+                question: 'I started working at 9am',
+                spanish: 'Yo ___ a trabajar a las nueve',
+                options: ['empecé', 'empezaba'],
+                answer: 'empecé',
+                tense: 'preterite',
+                reason: 'Beginning of action at specific time'
+            },
+            {
+                type: 'conjugate',
+                english: 'There were always many people at the market',
+                spanish: 'Siempre ___ (haber) mucha gente en el mercado',
+                answer: 'había',
+                tense: 'imperfect',
+                verb: 'haber',
+                reason: 'Habitual situation (siempre) uses imperfect'
+            },
+            {
+                type: 'conjugate',
+                english: 'I bought a car last month',
+                spanish: 'Yo ___ (comprar) un coche el mes pasado',
+                answer: 'compré',
+                tense: 'preterite',
+                verb: 'comprar',
+                reason: 'Completed purchase at specific time'
+            },
+            {
+                type: 'choice',
+                question: 'They always wanted to leave early',
+                spanish: 'Ellos siempre ___ salir temprano',
+                options: ['quisieron', 'querían'],
+                answer: 'querían',
+                tense: 'imperfect',
+                reason: 'Habitual mental state (siempre) uses imperfect'
+            },
+            {
+                type: 'conjugate',
+                english: 'She said hello and left immediately',
+                spanish: 'Ella ___ (decir) hola y se fue inmediatamente',
+                answer: 'dijo',
+                tense: 'preterite',
+                verb: 'decir',
+                reason: 'Completed sequential actions (said and left)'
+            },
+            {
+                type: 'conjugate',
+                english: 'I used to know him well when we were children',
+                spanish: 'Yo lo ___ (conocer) bien cuando éramos niños',
+                answer: 'conocía',
+                tense: 'imperfect',
+                verb: 'conocer',
+                reason: 'Ongoing state in the past (used to know) with habitual context'
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = [];
+        let startTime = Date.now();
+        let answered = false;
+
+        function normalizeAnswer(answer) {
+            return answer.toLowerCase()
+                .trim()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/[áàäâã]/g, 'a')
+                .replace(/[éèëê]/g, 'e')
+                .replace(/[íìïî]/g, 'i')
+                .replace(/[óòöôõ]/g, 'o')
+                .replace(/[úùüû]/g, 'u')
+                .replace(/ñ/g, 'n');
+        }
+
+        function displayQuestion() {
+            const container = document.getElementById('question-container');
+            const q = questions[currentQuestion];
+            answered = false;
+            
+            let html = `
+                <div class="question-card">
+                    <div class="question-number">Question ${currentQuestion + 1} of ${questions.length}</div>
+                    <div class="question-text">
+                        <strong>English:</strong> ${q.english}<br>
+                        <span class="spanish-text">${q.spanish}</span>
+                    </div>
+            `;
+
+            if (q.type === 'conjugate') {
+                html += `<input type="text" id="user-answer" placeholder="Type the verb in Spanish..." autocomplete="off">`;
+            } else {
+                html += `<div class="options">`;
+                q.options.forEach((opt, i) => {
+                    html += `<div class="option" onclick="selectOption(${i})" id="opt-${i}">${opt}</div>`;
+                });
+                html += `</div>`;
+            }
+
+            html += `<div class="feedback" id="feedback"></div></div>`;
+            container.innerHTML = html;
+
+            if (q.type === 'conjugate') {
+                document.getElementById('user-answer').focus();
+                document.getElementById('user-answer').addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') checkAnswer();
+                });
+            }
+
+            updateProgress();
+        }
+
+        function selectOption(index) {
+            if (answered) return;
+            
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            document.getElementById(`opt-${index}`).classList.add('selected');
+        }
+
+        function updateProgress() {
+            const progress = document.getElementById('progress');
+            const percentage = (currentQuestion / questions.length) * 100;
+            progress.style.width = percentage + '%';
+            progress.textContent = `${currentQuestion}/${questions.length}`;
+        }
+
+        function checkAnswer() {
+            if (answered) {
+                nextQuestion();
+                return;
+            }
+
+            const q = questions[currentQuestion];
+            const feedback = document.getElementById('feedback');
+            let userAnswer;
+            let correct = false;
+
+            if (q.type === 'conjugate') {
+                userAnswer = document.getElementById('user-answer').value.trim();
+                const normalizedUser = normalizeAnswer(userAnswer);
+                const normalizedCorrect = normalizeAnswer(q.answer);
+                
+                correct = normalizedUser === normalizedCorrect;
+            } else {
+                const selected = document.querySelector('.option.selected');
+                if (!selected) {
+                    alert('Please select an answer');
+                    return;
+                }
+                userAnswer = selected.textContent;
+                correct = userAnswer === q.answer;
+            }
+
+            answered = true;
+
+            if (correct) {
+                score++;
+                feedback.className = 'feedback correct';
+                feedback.textContent = `✓ Correct! ${q.reason}`;
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = `✗ Incorrect. Correct answer: ${q.answer}. ${q.reason}`;
+            }
+
+            feedback.style.display = 'block';
+
+            userAnswers.push({
+                question: q,
+                userAnswer: userAnswer,
+                correct: correct
+            });
+
+            document.getElementById('next-btn').textContent = currentQuestion === questions.length - 1 ? 'See Results' : 'Next Question';
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion >= questions.length) {
+                showResults();
+            } else {
+                displayQuestion();
+                document.getElementById('next-btn').textContent = 'Check Answer';
+            }
+        }
+
+        function showResults() {
+            const timeTaken = Math.round((Date.now() - startTime) / 60000);
+            document.getElementById('quiz-section').style.display = 'none';
+            document.getElementById('results-section').classList.add('show');
+            
+            const percentage = Math.round((score / questions.length) * 100);
+            document.getElementById('final-score').textContent = `${score}/${questions.length}`;
+            document.getElementById('percentage').textContent = `${percentage}%`;
+            document.getElementById('time-taken').textContent = timeTaken;
+
+            analyzePriorities();
+            displayReview();
+        }
+
+        function analyzePriorities() {
+            const priorities = {
+                preteriteConjugation: { count: 0, examples: [] },
+                imperfectConjugation: { count: 0, examples: [] },
+                tenseSelection: { count: 0, examples: [] },
+                habitualActions: { count: 0, examples: [] },
+                specificTime: { count: 0, examples: [] },
+                descriptions: { count: 0, examples: [] }
+            };
+
+            userAnswers.forEach(ans => {
+                if (!ans.correct) {
+                    const q = ans.question;
+                    
+                    if (q.tense === 'preterite' && q.type === 'conjugate') {
+                        priorities.preteriteConjugation.count++;
+                        priorities.preteriteConjugation.examples.push(q.verb);
+                    }
+                    
+                    if (q.tense === 'imperfect' && q.type === 'conjugate') {
+                        priorities.imperfectConjugation.count++;
+                        priorities.imperfectConjugation.examples.push(q.verb);
+                    }
+                    
+                    if (q.type === 'choice') {
+                        priorities.tenseSelection.count++;
+                    }
+                    
+                    if (q.reason.includes('habitual') || q.reason.includes('Habitual')) {
+                        priorities.habitualActions.count++;
+                    }
+                    
+                    if (q.reason.includes('specific time') || q.reason.includes('Completed')) {
+                        priorities.specificTime.count++;
+                    }
+                    
+                    if (q.reason.includes('description') || q.reason.includes('Description')) {
+                        priorities.descriptions.count++;
+                    }
+                }
+            });
+
+            const priorityList = document.getElementById('priority-list');
+            let html = '';
+
+            const sortedPriorities = Object.entries(priorities)
+                .filter(([_, data]) => data.count > 0)
+                .sort((a, b) => b[1].count - a[1].count);
+
+            if (sortedPriorities.length === 0) {
+                html = '<div class="issue-item">🎉 Excellent! No priority issues identified.</div>';
+            } else {
+                sortedPriorities.forEach(([key, data]) => {
+                    const labels = {
+                        preteriteConjugation: 'Preterite Conjugation',
+                        imperfectConjugation: 'Imperfect Conjugation',
+                        tenseSelection: 'Choosing Between Preterite/Imperfect',
+                        habitualActions: 'Recognizing Habitual Actions (Imperfect)',
+                        specificTime: 'Specific Time Markers (Preterite)',
+                        descriptions: 'Descriptions and States (Imperfect)'
+                    };
+                    
+                    let practiceAdvice = '';
+                    switch(key) {
+                        case 'preteriteConjugation':
+                            practiceAdvice = 'Practice: conjuguemos.com → Preterite tense. Focus on verbs: ' + [...new Set(data.examples)].join(', ');
+                            break;
+                        case 'imperfectConjugation':
+                            practiceAdvice = 'Practice: conjuguemos.com → Imperfect tense. Focus on verbs: ' + [...new Set(data.examples)].join(', ');
+                            break;
+                        case 'tenseSelection':
+                            practiceAdvice = 'Review: When to use preterite vs imperfect. Study trigger words and context clues.';
+                            break;
+                        case 'habitualActions':
+                            practiceAdvice = 'Remember: "used to," "would," "always," "every day" → Imperfect';
+                            break;
+                        case 'specificTime':
+                            practiceAdvice = 'Remember: "ayer," "el año pasado," specific times/dates → Preterite';
+                            break;
+                        case 'descriptions':
+                            practiceAdvice = 'Remember: weather, age, time, physical/mental states → Imperfect';
+                            break;
+                    }
+                    
+                    html += `
+                        <div class="issue-item">
+                            <strong>${labels[key]}</strong> (${data.count} error${data.count > 1 ? 's' : ''})<br>
+                            <small style="color: #666;">${practiceAdvice}</small>
+                        </div>
+                    `;
+                });
+            }
+
+            priorityList.innerHTML = html;
+        }
+
+        function displayReview() {
+            const reviewList = document.getElementById('review-list');
+            let html = '';
+
+            userAnswers.forEach((ans, i) => {
+                const q = ans.question;
+                const className = ans.correct ? 'review-item' : 'review-item wrong';
+                const icon = ans.correct ? '✓' : '✗';
+                
+                html += `
+                    <div class="${className}">
+                        <strong>${icon} Question ${i + 1}:</strong> ${q.english}<br>
+                        <span class="spanish-text">${q.spanish}</span><br>
+                        <strong>Your answer:</strong> ${ans.userAnswer}<br>
+                        <strong>Correct answer:</strong> ${q.answer}<br>
+                        <small style="color: #666;">${q.reason}</small>
+                    </div>
+                `;
+            });
+
+            reviewList.innerHTML = html;
+        }
+
+        // Shuffle questions for variety
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        shuffleArray(questions);
+        displayQuestion();
+    </script>
+</body>
+</html>

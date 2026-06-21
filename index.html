@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pasaporte — A-Level Spanish · BBA</title>
+<style>
+  :root{
+    --green:#163d2c; --green-deep:#0e2a1e; --cream:#f3ecd8; --page:#fbf6e9;
+    --ink:#1f1a17; --oxblood:#8b1e1e; --gold:#c9a85c; --line:#d8cdac;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    background:var(--green-deep);color:var(--ink);line-height:1.5;
+    -webkit-font-smoothing:antialiased}
+  .serif{font-family:Georgia,"Times New Roman",serif}
+  a{color:inherit;text-decoration:none}
+
+  /* ---- Passport cover ---- */
+  .cover{background:
+      radial-gradient(120% 80% at 50% -10%, #1d4a36 0%, var(--green) 45%, var(--green-deep) 100%);
+    color:var(--cream);padding:56px 24px 40px;text-align:center;
+    border-bottom:3px solid var(--gold)}
+  .crest{width:60px;height:60px;margin:0 auto 18px;border:2px solid var(--gold);
+    border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-family:Georgia,serif;font-size:26px;color:var(--gold);letter-spacing:1px}
+  .cover .kicker{font-size:12px;letter-spacing:.42em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:14px}
+  .cover h1{font-family:Georgia,serif;font-size:clamp(30px,6vw,52px);font-weight:600;
+    letter-spacing:.02em;color:#fff}
+  .cover h1 em{font-style:italic;color:var(--gold)}
+  .cover .sub{margin-top:12px;font-size:13px;letter-spacing:.28em;text-transform:uppercase;
+    color:#cfe0d4}
+  .fork{display:inline-flex;gap:10px;margin-top:26px;flex-wrap:wrap;justify-content:center}
+  .fork a{border:1px solid rgba(201,168,92,.5);border-radius:999px;padding:8px 18px;
+    font-size:13px;letter-spacing:.04em;color:var(--cream);transition:.18s}
+  .fork a.here{background:var(--gold);color:var(--green-deep);border-color:var(--gold);font-weight:600}
+  .fork a:hover{border-color:var(--gold);color:#fff}
+  .fork a.here:hover{color:var(--green-deep)}
+
+  /* ---- sticky theme nav ---- */
+  nav.themes{position:sticky;top:0;z-index:5;background:rgba(14,42,30,.96);
+    border-bottom:1px solid rgba(201,168,92,.3);
+    display:flex;gap:4px;overflow-x:auto;padding:10px 16px;
+    backdrop-filter:saturate(140%) blur(4px)}
+  nav.themes a{white-space:nowrap;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    color:#bcd1c2;padding:6px 12px;border-radius:6px;transition:.15s}
+  nav.themes a:hover{color:#fff;background:rgba(201,168,92,.18)}
+
+  .doc{max-width:1020px;margin:0 auto;padding:8px 18px 64px;background:var(--green-deep)}
+
+  /* ---- a page of the passport ---- */
+  .page{background:var(--page);border-radius:10px;margin-top:22px;padding:26px 26px 30px;
+    box-shadow:0 14px 40px rgba(0,0,0,.32);scroll-margin-top:60px;
+    background-image:repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(180,150,90,.07) 28px)}
+  .page-head{display:flex;align-items:center;gap:20px;border-bottom:1.5px dashed var(--line);
+    padding-bottom:16px;margin-bottom:18px}
+  .page-titles{flex:1;min-width:0}
+  .page-titles h2{font-family:Georgia,serif;font-size:22px;color:var(--green-deep);font-weight:600}
+  .page-titles p{font-size:13.5px;color:#6b6253;margin-top:3px}
+  .page-count{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;color:var(--oxblood);
+    border:1px solid var(--line);border-radius:6px;padding:4px 9px;align-self:flex-start}
+
+  /* ---- the stamp (signature element) ---- */
+  .stamp{flex:none;width:96px;height:74px;border:2.5px solid var(--oxblood);border-radius:8px;
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    transform:rotate(-7deg);position:relative;color:var(--oxblood);
+    box-shadow:inset 0 0 0 3px rgba(139,30,30,.12)}
+  .stamp::before{content:"";position:absolute;inset:6px;border:1px solid rgba(139,30,30,.45);
+    border-radius:5px}
+  .stamp-code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10.5px;
+    letter-spacing:.06em;font-weight:700;line-height:1.25;padding:0 6px}
+
+  .entries{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+  .entry{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);
+    border-radius:8px;padding:12px 14px;transition:.15s;position:relative}
+  .entry:hover{transform:translateY(-2px);border-color:var(--gold);
+    box-shadow:0 6px 16px rgba(22,61,44,.14)}
+  .entry-no{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;color:var(--gold);
+    font-weight:700;flex:none}
+  .entry-title{flex:1;font-size:14px;color:var(--ink);min-width:0}
+  .entry-go{color:var(--green);opacity:.4;flex:none;transition:.15s}
+  .entry:hover .entry-go{opacity:1;color:var(--oxblood)}
+  .entry:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+  footer{text-align:center;color:#8fa897;font-size:12px;padding:30px 18px 8px;letter-spacing:.04em}
+  footer .seal{color:var(--gold);font-family:Georgia,serif;letter-spacing:.2em;font-size:13px}
+
+  @media (max-width:560px){
+    .stamp{width:78px;height:62px} .page{padding:20px 16px 24px}
+    .page-head{gap:14px} .cover{padding:44px 18px 32px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <div class="crest serif">E</div>
+  <div class="kicker">Edexcel · British Bilingual Academy</div>
+  <h1 class="serif">Pasaporte <em>—</em> A-Level Spanish</h1>
+  <div class="sub">89 actividades · sello por tema</div>
+  <nav class="fork">
+    <a class="here" href="index.html" aria-current="page">★ Español</a>
+    <a href="https://artmemry.github.io/A-Level-French-BBA/">→ A-Level French</a>
+  </nav>
+</header>
+
+<nav class="themes" aria-label="Temas">
+  <a href="#volver">CINE</a> <a href="#lcba">LIT</a> <a href="#grammar">GRAMÁTICA</a> <a href="#essay">REDACCIÓN</a> <a href="#society">TEMAS 1</a> <a href="#migration">TEMA 9</a> <a href="#music">TEMA 4</a> <a href="#media">TEMA 5</a> <a href="#tourism">TEMAS 3</a> <a href="#history">HISTORIA</a> <a href="#paper3">PAPER 3</a> <a href="#other">RECURSOS</a>
+</nav>
+
+<main class="doc">
+  <section class="page" id="volver">
+    <header class="page-head">
+      <div class="stamp"><span class="stamp-code">CINE · VOLVER</span></div>
+      <div class="page-titles">
+        <h2>Almodóvar — <em>Volver</em></h2>
+        <p>Análisis, citas, gramática y redacción sobre la película.</p>
+      </div>
+      <div class="page-count">14</div>
+    </header>
+    <div class="entries">
+        <a class="entry" href="Essay_Practice_Volver_based_on_film_review.html">
+          <span class="entry-no">01</span>
+          <span class="entry-title">Actividad B1/B2: Ensayo sobre &quot;Volver&quot; - Tango y Cine</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="EssayVerbsVolver.html">
+          <span class="entry-no">02</span>
+          <span class="entry-title">Práctica de redacción - Volver</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Avoid_using_la_peli_cula.html">
+          <span class="entry-no">03</span>
+          <span class="entry-title">Quiz: Sinónimos de &quot;película&quot; (Español A-Level)</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="AO3_Volver.html">
+          <span class="entry-no">04</span>
+          <span class="entry-title">Volver - Pedro Almodóvar: Ejercicios A-Level</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Ultimate_Volver_Grammar.html">
+          <span class="entry-no">05</span>
+          <span class="entry-title">Volver - Pedro Almodóvar: Ejercicios A-Level</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Volver_Subjunctives_Rel_Pron_adv_connectors.html">
+          <span class="entry-no">06</span>
+          <span class="entry-title">Volver - Pedro Almodóvar: Ejercicios A-Level</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="50_Volver_Essay_Sentences.html">
+          <span class="entry-no">07</span>
+          <span class="entry-title">Volver - Práctica de frases para ensayo</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Volver_Cuaderno_Redaccion.html">
+          <span class="entry-no">08</span>
+          <span class="entry-title">Volver · Cuaderno de redacción (gap-fill)</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Volver_Paragraph_Builder.html">
+          <span class="entry-no">09</span>
+          <span class="entry-title">Volver – Essay Paragraph Builder</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Volver_Essay_Phrases_Quiz.html">
+          <span class="entry-no">10</span>
+          <span class="entry-title">Volver – Essay Phrases Quiz</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Volver_Essay_Self-Assessment.html">
+          <span class="entry-no">11</span>
+          <span class="entry-title">Volver – Essay Self-Assessment (Mark Scheme)</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="The_essential_quote_practice_tool_Volver.html">
+          <span class="entry-no">12</span>
+          <span class="entry-title">Volver – Quote Trainer (Lenient Mode)</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Volver_gap_fill_verbs.html">
+          <span class="entry-no">13</span>
+          <span class="entry-title">Volver – Spanish Essay Practice</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="volver-practica-citas.html">
+          <span class="entry-no">14</span>
+          <span class="entry-title">Volver — Práctica de citas (A-Level Spanish)</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+    </div>
+  </section>
+  <section class="page" id="lcba">
+    <header class="page-head">
+      <div class="stamp"><span class="stamp-code">LIT · LCBA</span></div>
+      <div class="page-titles">
+        <h2>Lorca — <em>La casa de Bernarda Alba</em></h2>
+        <p>Actos, citas, temas, talleres de ensayo y gramática.</p>
+      </div>
+      <div class="page-count">14</div>
+    </header>
+    <div class="entries">
+        <a class="entry" href="LcdBA_Act_I_exercises.html">
+          <span class="entry-no">01</span>
+          <span class="entry-title">La Casa de Bernarda Alba - Acto I</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="La_casa_de_Bernarda_Alba_-_B2.html">
+          <span class="entry-no">02</span>
+          <span class="entry-title">La casa de Bernarda Alba - B2 Spanish</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Advanced_Bernarda.html">
+          <span class="entry-no">03</span>
+          <span class="entry-title">La casa de Bernarda Alba - Lorca: Ejercicios A-Level Spanish</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Bernarda_50_sentences.html">
+          <span class="entry-no">04</span>
+          <span class="entry-title">La casa de Bernarda Alba - Práctica de frases para ensayo</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="lcdba_quote_match.html">
+          <span class="entry-no">05</span>
+          <span class="entry-title">La Casa de Bernarda Alba — Quote &amp; Scene Matching</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="LCBA_Taller_Astar.html">
+          <span class="entry-no">06</span>
+          <span class="entry-title">La Casa de Bernarda Alba — Taller A*</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Lorca_LcdBA__Ejecicios_acto_tercero.html">
+          <span class="entry-no">07</span>
+          <span class="entry-title">LCBA Acto III - Ejercicios</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="lorca_revision_Phrase_bank.html">
+          <span class="entry-no">08</span>
+          <span class="entry-title">LcdBA – Banco de Frases para el Ensayo</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="lorca_revision_3_practice_writing.html">
+          <span class="entry-no">09</span>
+          <span class="entry-title">LcdBA – Práctica de Ensayo / Essay Practice</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="lorca_revision_2_citas_quotes.html">
+          <span class="entry-no">10</span>
+          <span class="entry-title">LcdBA – Tarjetas de Citas / Quote Flashcards</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Lorca_y_la_Espan_a_de_los_1930s.html">
+          <span class="entry-no">11</span>
+          <span class="entry-title">Lorca - Ejercicios</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Planificador_de_ensayo_-_Lorca_-_La_casa_de_Bernarda_Alba.html">
+          <span class="entry-no">12</span>
+          <span class="entry-title">Planificador de ensayo - Lorca - La casa de Bernarda Alba</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="LCBA_grammar_focus.html">
+          <span class="entry-no">13</span>
+          <span class="entry-title">Spanish Grammar Practice - La casa de Bernarda Alba</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Volver_LcdBA_subjunctives.html">
+          <span class="entry-no">14</span>
+          <span class="entry-title">Subjunctive Practice: Lorca &amp; Almodóvar</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+    </div>
+  </section>
+  <section class="page" id="grammar">
+    <header class="page-head">
+      <div class="stamp"><span class="stamp-code">GRAMÁTICA</span></div>
+      <div class="page-titles">
+        <h2>Gramática esencial</h2>
+        <p>Tiempos, pronombres, subjuntivo, por/para y más.</p>
+      </div>
+      <div class="page-count">17</div>
+    </header>
+    <div class="entries">
+        <a class="entry" href="spanish-grammar-exercises.html">
+          <span class="entry-no">01</span>
+          <span class="entry-title">A-Level Spanish Grammar Practice</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Spanish_iInfinitive_grammar_practice.html">
+          <span class="entry-no">02</span>
+          <span class="entry-title">Advanced Spanish: Infinitive Structures</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="pronouns_exercise_1.html">
+          <span class="entry-no">03</span>
+          <span class="entry-title">Ejercicio de Pronombres de Objeto</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Spanish_imperfect_exercise.html">
+          <span class="entry-no">04</span>
+          <span class="entry-title">Formas del Imperfecto - Spanish Imperfect Tense Practice</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="por_para_practice-3.html">
+          <span class="entry-no">05</span>
+          <span class="entry-title">Por vs. Para - Práctica Interactiva</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Practice_Spanish_Nouns_and_Gender.html">
+          <span class="entry-no">06</span>
+          <span class="entry-title">Practice 100 Most Common Spanish Nouns</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="spanish_adjective_practice.html">
+          <span class="entry-no">07</span>
+          <span class="entry-title">Práctica de Concordancia de Adjetivos</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="negation.html">
+          <span class="entry-no">08</span>
+          <span class="entry-title">Práctica de Negación - Español</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Preterite_practice_Spanish.html">
+          <span class="entry-no">09</span>
+          <span class="entry-title">Práctica del Pretérito</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="cuando_plus_future_tense.html">
+          <span class="entry-no">10</span>
+          <span class="entry-title">Práctica interactiva: &quot;cuando&quot; para hablar del futuro</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Preterite_and_Imperfect.html">
+          <span class="entry-no">11</span>
+          <span class="entry-title">Práctica Pretérito vs Imperfecto</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Spanish_grammar_and_comprehension_sites.html">
+          <span class="entry-no">12</span>
+          <span class="entry-title">Some excellent online Spanish Grammar and More Sites</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="spanish_cognate_practice.html">
+          <span class="entry-no">13</span>
+          <span class="entry-title">Spanish Cognate Pattern Practice</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Spanish_negation_exercise_with_instruction.html">
+          <span class="entry-no">14</span>
+          <span class="entry-title">Spanish Negation: Complete Exercise</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Spanish_Numbers_practice.html">
+          <span class="entry-no">15</span>
+          <span class="entry-title">Spanish Numbers Practice</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="preterite_imperfect_practice-3.html">
+          <span class="entry-no">16</span>
+          <span class="entry-title">Spanish Preterite vs Imperfect Practice</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="reflexive_pronoun_placement_Spanish.html">
+          <span class="entry-no">17</span>
+          <span class="entry-title">Spanish Quiz: Reflexive Pronoun Placement</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+    </div>
+  </section>
+  <section class="page" id="essay">
+    <header class="page-head">
+      <div class="stamp"><span class="stamp-code">REDACCIÓN</span></div>
+      <div class="page-titles">
+        <h2>Ensayo y verbos de análisis</h2>
+        <p>Verbos críticos, conectores y práctica de párrafos.</p>
+      </div>
+      <div class="page-count">5</div>
+    </header>
+    <div class="entries">
+        <a class="entry" href="Spanish_Verb_Tenses___Agreement_Practice.html">
+          <span class="entry-no">01</span>
+          <span class="entry-title">Spanish Verb &amp; Agreement Practice</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Spanish_Writing_Accuracy_Bootcamp.html">
+          <span class="entry-no">02</span>
+          <span class="entry-title">Spanish Writing Accuracy Bootcamp</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Essay_Verb_Practice.html">
+          <span class="entry-no">03</span>
+          <span class="entry-title">Spanish-English Verb Practice (100, Mainly Into Spanish)</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="SpanishEssayVerbsisimo.html">
+          <span class="entry-no">04</span>
+          <span class="entry-title">Spanish-English Verb Quiz (Full Pairs, Written Input)</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="stem_changing_verbs.html">
+          <span class="entry-no">05</span>
+          <span class="entry-title">Verbos con Cambios de Raíz - Presente</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+    </div>
+  </section>
+  <section class="page" id="society">
+    <header class="page-head">
+      <div class="stamp"><span class="stamp-code">TEMAS 1·2 · SOCIEDAD</span></div>
+      <div class="page-titles">
+        <h2>Trabajo, familia y sociedad</h2>
+        <p>Mundo laboral, familia, demografía, brecha generacional.</p>
+      </div>
+      <div class="page-count">7</div>
+    </header>
+    <div class="entries">
+        <a class="entry" href="unemployment_spain_activity.html">
+          <span class="entry-no">01</span>
+          <span class="entry-title">El Desempleo en España - Actividad</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="brecha_generacional_Espan_a.html">
+          <span class="entry-no">02</span>
+          <span class="entry-title">La brecha generacional – Actividad B2</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="brecha_generacional_Paper_3__U2_Edexcel_A-Level.html">
+          <span class="entry-no">03</span>
+          <span class="entry-title">La brecha generacional – Actividad B2</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="spanish_family_lesson.html">
+          <span class="entry-no">04</span>
+          <span class="entry-title">La Estructura Familiar Española - Práctica de 1 Hora</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Interactive_Practice_A-Level_Spanish_Paper_3__T1__U2_mundo_laboral.html">
+          <span class="entry-no">05</span>
+          <span class="entry-title">Práctica: El Mundo Laboral en España</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Ojala__me_renueven_el_contrato_practice_activities.html">
+          <span class="entry-no">06</span>
+          <span class="entry-title">Práctica: El Mundo Laboral Español</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="alevel_familia_improved.html">
+          <span class="entry-no">07</span>
+          <span class="entry-title">Práctica: Los Cambios en las Estructuras Familiares</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+    </div>
+  </section>
+  <section class="page" id="migration">
+    <header class="page-head">
+      <div class="stamp"><span class="stamp-code">TEMA 9 · MIGRACIÓN</span></div>
+      <div class="page-titles">
+        <h2>Inmigración y política</h2>
+        <p>Migración, demografía y debate político español.</p>
+      </div>
+      <div class="page-count">6</div>
+    </header>
+    <div class="entries">
+        <a class="entry" href="a_la_espanola_politica_migracion.html">
+          <span class="entry-no">01</span>
+          <span class="entry-title">A la española — comprensión y léxico (B2)</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="spanish-migration-exercise.html">
+          <span class="entry-no">02</span>
+          <span class="entry-title">A-Level Spanish: Inmigración y Economía</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Inmigracio_n_y_politica_y_subjuntivo.html">
+          <span class="entry-no">03</span>
+          <span class="entry-title">Actividad A-Level: Inmigración y Política en España</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="cayucos_-_menas_-_PP_VOX_PSOE_an_ugly_game.html">
+          <span class="entry-no">04</span>
+          <span class="entry-title">El Envenenado Debate sobre la Inmigración en España</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="spanish-immigration-activity.html">
+          <span class="entry-no">05</span>
+          <span class="entry-title">La inmigración en España</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Comprehension_and_vocab_-_migracio_n_y_demografi_a.html">
+          <span class="entry-no">06</span>
+          <span class="entry-title">Práctica Interactiva: Jóvenes de Origen Migratorio en España</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+    </div>
+  </section>
+  <section class="page" id="music">
+    <header class="page-head">
+      <div class="stamp"><span class="stamp-code">TEMA 4 · MÚSICA</span></div>
+      <div class="page-titles">
+        <h2>La música</h2>
+        <p>Cantantes, tango y traducción musical.</p>
+      </div>
+      <div class="page-count">6</div>
+    </header>
+    <div class="entries">
+        <a class="entry" href="spanish_music_speaking_pdf_download.html">
+          <span class="entry-no">01</span>
+          <span class="entry-title">A-Level Spanish Speaking - Music Task 1</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="U4_Music_spanish_translation_exercises.html">
+          <span class="entry-no">02</span>
+          <span class="entry-title">A-Level Spanish Translation Exercises - Unit 4: Music</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Tango_letras_analisis.html">
+          <span class="entry-no">03</span>
+          <span class="entry-title">Análisis de Letras de Tango - A2-B1.6</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Interactive_Practice_A-Level_Spanish_paper_3_Task_one_U4_music.html">
+          <span class="entry-no">04</span>
+          <span class="entry-title">Práctica: La Música Hispana</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="tango.html">
+          <span class="entry-no">05</span>
+          <span class="entry-title">Unit 4.3: El Tango - Extended Practice</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="U4_spanish_music_lesson1.html">
+          <span class="entry-no">06</span>
+          <span class="entry-title">Unit 4: La Música - El papel de los cantantes y músicos</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+    </div>
+  </section>
+  <section class="page" id="media">
+    <header class="page-head">
+      <div class="stamp"><span class="stamp-code">TEMA 5 · MEDIOS</span></div>
+      <div class="page-titles">
+        <h2>Los medios de comunicación</h2>
+        <p>Prensa, televisión y prime time.</p>
+      </div>
+      <div class="page-count">3</div>
+    </header>
+    <div class="entries">
+        <a class="entry" href="How_long_will_the_traditional_press_thrive_Spain.html">
+          <span class="entry-no">01</span>
+          <span class="entry-title">La prensa – Deberes interactivos</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Por_que__el_prime_time_espan_ol_termina_si_tarde.html">
+          <span class="entry-no">02</span>
+          <span class="entry-title">Prime time español - Actividades Interactivas (B1/B2)</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Interactive_Practice_A-Level_Spanish_-_U5_los_medios_de_comunicacion.html">
+          <span class="entry-no">03</span>
+          <span class="entry-title">Práctica: Los Medios de Comunicación Hispano</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+    </div>
+  </section>
+  <section class="page" id="tourism">
+    <header class="page-head">
+      <div class="stamp"><span class="stamp-code">TEMAS 3·6 · OCIO</span></div>
+      <div class="page-titles">
+        <h2>Turismo y festivales</h2>
+        <p>Turismo, ecoturismo y tradiciones.</p>
+      </div>
+      <div class="page-count">5</div>
+    </header>
+    <div class="entries">
+        <a class="entry" href="ecoturismo-comprehension_y_pronombres.html">
+          <span class="entry-no">01</span>
+          <span class="entry-title">Comprensión: El Ecoturismo</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Interactive_Practice_A_level_Spanish__Paper_3__Task_1__U3_tourism.html">
+          <span class="entry-no">02</span>
+          <span class="entry-title">Práctica: El Impacto Turístico en España</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Interactie_Practice_A-Level_Spanish_Paper_3__Task_1__U6_Festivales_y_tradiciones.html">
+          <span class="entry-no">03</span>
+          <span class="entry-title">Práctica: Festivales, Costumbres y Tradiciones Hispano</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="spanish_tourism_quiz_html-2.html">
+          <span class="entry-no">04</span>
+          <span class="entry-title">Spanish Tourism Technology Practice Quiz</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="advanced_toursim_speaking_.html">
+          <span class="entry-no">05</span>
+          <span class="entry-title">Turismo en España – Condicionales y Subjuntivo (Prep. Oral)</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+    </div>
+  </section>
+  <section class="page" id="history">
+    <header class="page-head">
+      <div class="stamp"><span class="stamp-code">HISTORIA</span></div>
+      <div class="page-titles">
+        <h2>Guerra Civil · República · Transición</h2>
+        <p>Cronologías, deberes y repaso histórico.</p>
+      </div>
+      <div class="page-count">6</div>
+    </header>
+    <div class="entries">
+        <a class="entry" href="spanish_50_years_practice.html">
+          <span class="entry-no">01</span>
+          <span class="entry-title">España: 50 años de cambios</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="10_2_-_Guerra_civil_-_Espan_a_dividida.html">
+          <span class="entry-no">02</span>
+          <span class="entry-title">Guerra Civil Española - Actividad Interactiva</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="spanish_civil_war_una_Espan_a_dividida.html">
+          <span class="entry-no">03</span>
+          <span class="entry-title">Guerra Civil Española - Actividades Interactivas</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Revise_factors_downfall_2nd_Republic.html">
+          <span class="entry-no">04</span>
+          <span class="entry-title">La Segunda República Española - Ejercicio Interactivo</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="transicion_timeline.html">
+          <span class="entry-no">05</span>
+          <span class="entry-title">La Transición Española 1975–1986</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="12_1_transicion-homework.html">
+          <span class="entry-no">06</span>
+          <span class="entry-title">La Transición española – Deberes</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+    </div>
+  </section>
+  <section class="page" id="paper3">
+    <header class="page-head">
+      <div class="stamp"><span class="stamp-code">PAPER 3 · ORAL</span></div>
+      <div class="page-titles">
+        <h2>Examen oral y Paper 3</h2>
+        <p>Práctica de preguntas y vocabulario para el oral.</p>
+      </div>
+      <div class="page-count">4</div>
+    </header>
+    <div class="entries">
+        <a class="entry" href="spanish-conditional-subjunctive_speaking_exercise_practice.html">
+          <span class="entry-no">01</span>
+          <span class="entry-title">Condicionales y Subjuntivo - Turismo Sostenible</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Interactive_practice_U9.html">
+          <span class="entry-no">02</span>
+          <span class="entry-title">Práctica: La Inmigración en España - Beneficios y Desafíos</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="spanish_Speaking_Exam_vocab_trainer.html">
+          <span class="entry-no">03</span>
+          <span class="entry-title">Spanish A-Level Vocabulary Trainer</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Paper_3_Questions_practice_Tool_Spanish_A-Level.html">
+          <span class="entry-no">04</span>
+          <span class="entry-title">Spanish A-Level · Speaking Exam Trainer</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+    </div>
+  </section>
+  <section class="page" id="other">
+    <header class="page-head">
+      <div class="stamp"><span class="stamp-code">RECURSOS</span></div>
+      <div class="page-titles">
+        <h2>Recursos y referencia</h2>
+        <p>Material de apoyo y enlaces útiles.</p>
+      </div>
+      <div class="page-count">2</div>
+    </header>
+    <div class="entries">
+        <a class="entry" href="Desafi_os_de_gramma_tica_B2.html">
+          <span class="entry-no">01</span>
+          <span class="entry-title">Desafíos Gramaticales B2 - 100 Ejercicios</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+        <a class="entry" href="Essential_Paper_2_prep_-_which_scene_what_type_of_genre.html">
+          <span class="entry-no">02</span>
+          <span class="entry-title">Volver (2006) - Análisis de género: tragedia, comedia, melodrama, tragicomedia</span>
+          <span class="entry-go" aria-hidden="true">↗</span>
+        </a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="seal">✦ BBA ✦</div>
+  Pasaporte de revisión · A-Level Spanish Edexcel · todas las actividades funcionan sin conexión
+</footer>
+
+</body>
+</html>

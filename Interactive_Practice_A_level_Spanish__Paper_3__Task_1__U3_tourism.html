@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica: El Impacto Turístico en España</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .timer {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #4facfe;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: #4facfe;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .question p {
+            margin-bottom: 15px;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+        
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #4facfe;
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .clue {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.85em;
+            color: #6c757d;
+            border-left: 3px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .clue:hover {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+            color: #856404;
+        }
+        
+        .clue::before {
+            content: "💡 ";
+            opacity: 0.5;
+        }
+        
+        .clue.revealed {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+            color: #856404;
+        }
+        
+        .clue.revealed::before {
+            opacity: 1;
+        }
+        
+        .checkbox-group {
+            margin-top: 10px;
+        }
+        
+        .checkbox-item {
+            display: block;
+            padding: 10px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .checkbox-item:hover {
+            border-color: #4facfe;
+            background: #f8f9ff;
+        }
+        
+        .checkbox-item input {
+            margin-right: 10px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 172, 254, 0.6);
+        }
+        
+        .result {
+            display: none;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .result.show {
+            display: block;
+        }
+        
+        .result.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+        
+        .result.partial {
+            background: #fff3cd;
+            color: #856404;
+            border: 2px solid #ffc107;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .vocab-highlight {
+            background: #e3f2fd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        #finalScore {
+            display: none;
+            margin-top: 20px;
+            padding: 30px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        #finalScore h2 {
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        #scoreText {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .speaking-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 4px solid #4facfe;
+        }
+        
+        .speaking-card h3 {
+            color: #4facfe;
+            margin-bottom: 15px;
+        }
+        
+        .speaking-card ul {
+            padding-left: 20px;
+        }
+        
+        .speaking-card li {
+            margin-bottom: 8px;
+        }
+        
+        .grammar-tip {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .grammar-tip h4 {
+            color: #0d47a1;
+            margin-bottom: 8px;
+        }
+        
+        .complex-structure {
+            background: #f3e5f5;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-style: italic;
+        }
+        
+        .stat-box {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .stat-box h4 {
+            color: #495057;
+            margin-bottom: 10px;
+        }
+        
+        .pro-con {
+            display: flex;
+            gap: 20px;
+            margin: 15px 0;
+        }
+        
+        .pro {
+            flex: 1;
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .con {
+            flex: 1;
+            background: #ffebee;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #f44336;
+        }
+        
+        .pro h4, .con h4 {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🇪🇸 El Impacto Turístico en España</h1>
+            <p>Práctica para A-Level Spanish Edexcel - Unit 3: Turismo</p>
+            <div class="timer" id="timer">⏱️ 45:00</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Speaking Card Simulation -->
+            <div class="speaking-card">
+                <h3>Tarjeta de Estudiante - Tema: El impacto turístico en España</h3>
+                <p><strong>El ecoturismo se ha establecido como modelo turístico muy importante para España</strong></p>
+                <p>Debes considerar:</p>
+                <ul>
+                    <li>La variedad en la oferta turística en España</li>
+                    <li>La importancia del ecoturismo para España</li>
+                </ul>
+            </div>
+            
+            <!-- Section 1: Verdadero o Falso -->
+            <div class="section">
+                <h2>Sección 1: Verdadero o Falso (5 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">1</span> España fue el destino turístico más competitivo del mundo en 2015 según rankings internacionales.</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="q1" value="verdadero"> Verdadero
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="q1" value="falso"> Falso
+                        </label>
+                    </div>
+                    <div class="result" id="result1"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">2</span> El término "turismofobia" se inventó para describir la actitud positiva de los españoles hacia el turismo.</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="q2" value="verdadero"> Verdadero
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="q2" value="falso"> Falso
+                        </label>
+                    </div>
+                    <div class="result" id="result2"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">3</span> El Camino de Santiago atrae principalmente a turistas interesados únicamente en el sol y playa.</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="q3" value="verdadero"> Verdadero
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="q3" value="falso"> Falso
+                        </label>
+                    </div>
+                    <div class="result" id="result3"></div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Rellenar los espacios en blanco -->
+            <div class="section">
+                <h2>Sección 2: Completa las frases (10 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">4</span> El ___________ es un fenómeno que describe la oposición local al turismo masivo en ciudades como Barcelona.</p>
+                    <input type="text" id="q4" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">Término que combina "turismo" y "fobia"</div>
+                    <div class="result" id="result4"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">5</span> Los complejos turísticos ___________ han afectado negativamente a los pequeños negocios locales.</p>
+                    <input type="text" id="q5" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">Tipo de hotel donde todo está incluido en el precio</div>
+                    <div class="result" id="result5"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">6</span> El ___________ de Santiago atrae a turistas interesados en el turismo cultural y religioso.</p>
+                    <input type="text" id="q6" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">Ruta de peregrinación famosa en el norte de España</div>
+                    <div class="result" id="result6"></div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Preguntas de opción múltiple -->
+            <div class="section">
+                <h2>Sección 3: Opción Múltiple (8 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">7</span> ¿Cuáles son los impactos negativos del turismo de sol y playa en España? (Selecciona todas las respuestas correctas)</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="a"> Aumento del crimen en resorts turísticos
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="b"> Beneficio económico para pequeños negocios locales
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="c"> Agotamiento de recursos naturales como el agua
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="d"> Sobreconstrucción y edificios abandonados
+                        </label>
+                    </div>
+                    <div class="result" id="result7"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">8</span> ¿Qué medidas ha tomado el gobierno español para diversificar el turismo? (Selecciona todas las respuestas correctas)</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="a"> Promover el turismo rural y cultural
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="b"> Limitar el alquiler de propiedades a turistas
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="c"> Reducir los impuestos turísticos
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="d"> Crear el Plan de Turismo Español Horizonte 2020
+                        </label>
+                    </div>
+                    <div class="result" id="result8"></div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Vocabulario -->
+            <div class="section">
+                <h2>Sección 4: Vocabulario Clave (7 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">9</span> Traduce al español: "overtourism"</p>
+                    <input type="text" id="q9" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">___________ turístico</div>
+                    <div class="result" id="result9"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">10</span> Traduce al español: "sustainable tourism"</p>
+                    <input type="text" id="q10" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">turismo ___________</div>
+                    <div class="result" id="result10"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">11</span> Traduce al español: "seasonal tourism"</p>
+                    <input type="text" id="q11" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">turismo ___________</div>
+                    <div class="result" id="result11"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">12</span> ¿Qué significa "ecoturismo" en inglés?</p>
+                    <input type="text" id="q12" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">___________ tourism</div>
+                    <div class="result" id="result12"></div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Emparejar -->
+            <div class="section">
+                <h2>Sección 5: Empareja los Conceptos (5 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">13</span> Empareja los tipos de turismo con sus características:</p>
+                    <p style="margin: 15px 0;"><strong>A.</strong> Turismo de sol y playa</p>
+                    <input type="text" id="q13a" placeholder="Número...">
+                    
+                    <p style="margin: 15px 0;"><strong>B.</strong> Ecoturismo</p>
+                    <input type="text" id="q13b" placeholder="Número...">
+                    
+                    <p style="margin: 15px 0;"><strong>C.</strong> Turismo cultural</p>
+                    <input type="text" id="q13c" placeholder="Número...">
+                    
+                    <p style="margin: 15px 0;"><strong>D.</strong> Turismo rural</p>
+                    <input type="text" id="q13d" placeholder="Número...">
+                    
+                    <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 8px;">
+                        <p><strong>Características:</strong></p>
+                        <p>1. Enfocado en la naturaleza y conservación ambiental</p>
+                        <p>2. Tradicional modelo masivo en zonas costeras</p>
+                        <p>3. Interés en historia, arte y tradiciones locales</p>
+                        <p>4. Desarrollo en áreas del interior y menos pobladas</p>
+                    </div>
+                    <div class="result" id="result13"></div>
+                </div>
+            </div>
+            
+            <!-- Section 6: Preguntas cortas -->
+            <div class="section">
+                <h2>Sección 6: Respuestas Cortas (15 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">14</span> <strong>¿Crees que la oferta turística en España es suficientemente variada? ¿Por qué? ¿Qué importancia tiene el ecoturismo para España?</strong></p>
+                    
+                    <div class="grammar-tip">
+                        <h4>Consejos para maximizar AO3 (Rango lingüístico):</h4>
+                        <p>Incluye en tu respuesta:</p>
+                        <ul>
+                            <li>Cláusulas con <em>si</em> (ej: Si España no hubiera diversificado su oferta turística...)</li>
+                            <li>Uso de <em>se</em> + infinitivo (ej: Se observa que...)</li>
+                            <li>Subjuntivo presente y pasado (ej: Es fundamental que se promueva...)</li>
+                            <li>Pronombres relativos (ej: El ecoturismo, el cual...)</li>
+                            <li>Oraciones complejas con conjunciones</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="stat-box">
+                        <h4>Datos clave sobre diversificación turística:</h4>
+                        <ul>
+                            <li>España fue el destino más competitivo del mundo en 2015</li>
+                            <li>Aumento significativo de visitantes a Parques Nacionales y Geoparques</li>
+                            <li>Proyectos gubernamentales: ICAIRN (mapas digitales) y TRINO (observación de aves)</li>
+                            <li>Transición de destino de sol y playa a destino cultural, rural e histórico</li>
+                        </ul>
+                    </div>
+                    
+                    <textarea id="q14" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content" style="display:none;">
+                        <ul>
+                            <li>Industria turística comenzó en los años 60 con vacaciones de sol</li>
+                            <li>Recesión en los 90 y competencia mediterránea</li>
+                            <li>Inversión gubernamental masiva en el sector</li>
+                            <li>Riqueza de recursos culturales como ventaja competitiva</li>
+                            <li>Creciente interés en turismo rural y ecoturismo</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result14"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">15</span> <strong>Las playas españolas son el principal atractivo para los turistas. ¿Qué opinas? ¿Cuáles han sido los peores efectos del turismo de sol y playa en España?</strong></p>
+                    
+                    <div class="grammar-tip">
+                        <h4>Estructuras complejas sugeridas:</h4>
+                        <div class="complex-structure">
+                            Aunque las playas sean un atractivo importante, es evidente que...
+                        </div>
+                        <div class="complex-structure">
+                            Se ha demostrado que el modelo de "todo incluido" ha tenido consecuencias negativas como...
+                        </div>
+                    </div>
+                    
+                    <div class="pro-con">
+                        <div class="pro">
+                            <h4>Impactos Positivos:</h4>
+                            <ul>
+                                <li>11% de la economía española depende del turismo</li>
+                                <li>Crecimiento del empleo del 19.3% en sector turístico</li>
+                                <li>En Baleares y Canarias, el turismo representa más de un tercio de la economía</li>
+                            </ul>
+                        </div>
+                        <div class="con">
+                            <h4>Impactos Negativos:</h4>
+                            <ul>
+                                <li>"Todo incluido" afecta negativamente a pequeños negocios</li>
+                                <li>Aumento de la criminalidad en resorts</li>
+                                <li>Sobreconstrucción y edificios abandonados</li>
+                                <li>Agotamiento de recursos naturales (agua)</li>
+                                <li>Reacción anti-turista en algunos lugares</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <textarea id="q15" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content" style="display:none;">
+                        <ul>
+                            <li>Modelo "todo incluido" perjudica economía local</li>
+                            <li>Aumento de crimen en zonas turísticas</li>
+                            <li>Sobreconstrucción y complejos abandonados</li>
+                            <li>Protestas anti-turistas (ej: Almería)</li>
+                            <li>Agotamiento de recursos naturales</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result15"></div>
+                </div>
+            </div>
+            
+            <!-- Section 7: Análisis crítico -->
+            <div class="section">
+                <h2>Sección 7: Análisis Crítico (10 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">16</span> <strong>En tu opinión, ¿es un gran problema para España la concentración de turismo? ¿Qué está haciendo el Gobierno español para promover la diversificación del turismo en el país?</strong></p>
+                    
+                    <div class="grammar-tip">
+                        <h4>Estructuras complejas sugeridas:</h4>
+                        <div class="complex-structure">
+                            Mientras que la concentración turística genera problemas evidentes, también es cierto que...
+                        </div>
+                        <div class="complex-structure">
+                            El gobierno, el cual ha implementado diversas medidas...
+                        </div>
+                    </div>
+                    
+                    <textarea id="q16" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content" style="display:none;">
+                        <ul>
+                            <li>Saturación en Costa del Sol, Ibiza, Barcelona</li>
+                            <li>Protestas locales y "turismofobia"</li>
+                            <li>Infraestructuras al límite en Barcelona</li>
+                            <li>Plan de Turismo Español Horizonte 2020</li>
+                            <li>Promoción de turismo rural, cultural y de ciclismo</li>
+                            <li>Redirección hacia norte de España y Picos de Europa</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result16"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">17</span> <strong>En tu opinión, ¿se hace lo suficiente en España para proteger la naturaleza del impacto del desarrollo turístico? ¿Puedes dar algunos ejemplos del impacto medioambiental del turismo en España?</strong></p>
+                    
+                    <div class="grammar-tip">
+                        <h4>Estructuras complejas sugeridas:</h4>
+                        <div class="complex-structure">
+                            A pesar de los esfuerzos realizados, es cuestionable si...
+                        </div>
+                        <div class="complex-structure">
+                            Ejemplos como el caso de Ibiza demuestran que...
+                        </div>
+                    </div>
+                    
+                    <div class="pro-con">
+                        <div class="pro">
+                            <h4>Medidas de Protección:</h4>
+                            <ul>
+                                <li>Plan de Desarrollo Turístico con enfoque sostenible</li>
+                                <li>Impuesto turístico de hasta 4€ en temporada alta</li>
+                                <li>Redirección del turismo a otras zonas</li>
+                            </ul>
+                        </div>
+                        <div class="con">
+                            <h4>Problemas Ambientales:</h4>
+                            <ul>
+                                <li>Ecosistema de Ibiza (patrimonio UNESCO) amenazado</li>
+                                <li>Vertido de aguas residuales mal tratadas</li>
+                                <li>Destrucción de flora marina</li>
+                                <li>Incendio en Parque Nacional Garajonay (2012)</li>
+                                <li>Puertos para cruceros en Barcelona</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <textarea id="q17" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content" style="display:none;">
+                        <ul>
+                            <li>Ibiza: ecosistema amenazado por turismo no controlado</li>
+                            <li>Vertido de aguas residuales mal tratadas</li>
+                            <li>Destrucción de flora submarina</li>
+                            <li>Incendio en Parque Nacional Garajonay (2012)</li>
+                            <li>Impacto de puertos de cruceros en Barcelona</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result17"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">18</span> <strong>¿Crees que el turismo de sol y playa en España puede causar más daños que beneficios? Justifica tu respuesta.</strong></p>
+                    
+                    <div class="grammar-tip">
+                        <h4>Estructuras complejas sugeridas:</h4>
+                        <div class="complex-structure">
+                            Si bien es innegable que el turismo de sol y playa aporta beneficios económicos...
+                        </div>
+                        <div class="complex-structure">
+                            Los daños ambientales y sociales, los cuales son cada vez más evidentes...
+                        </div>
+                    </div>
+                    
+                    <div class="pro-con">
+                        <div class="pro">
+                            <h4>Beneficios:</h4>
+                            <ul>
+                                <li>Gran número de turistas beneficia la economía</li>
+                                <li>Promoción del patrimonio y cultura</li>
+                                <li>Crecimiento del empleo del 19.3% vs 3.4% en otros sectores</li>
+                                <li>En Baleares y Canarias, más de un tercio de la economía</li>
+                            </ul>
+                        </div>
+                        <div class="con">
+                            <h4>Daños:</h4>
+                            <ul>
+                                <li>Escasez de agua en verano</li>
+                                <li>Viviendas demasiado caras para locales en zonas costeras</li>
+                                <li>9% de emisiones totales en España (38 millones de toneladas CO₂)</li>
+                                <li>Alta estacionalidad (45% de viajes entre junio-septiembre)</li>
+                                <li>Impacto en sequía en Cataluña</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <textarea id="q18" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content" style="display:none;">
+                        <ul>
+                            <li>Escasez de agua y presión sobre recursos naturales</li>
+                            <li>Gentrificación y precios de vivienda inaccesibles</li>
+                            <li>Emisiones de CO₂ y impacto ambiental</li>
+                            <li>Alta estacionalidad y dependencia económica</li>
+                            <li>Impacto positivo en empleo y economía regional</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result18"></div>
+                </div>
+            </div>
+            
+            <button class="submit-btn" onclick="checkAnswers()">Verificar mis respuestas ✓</button>
+            
+            <div id="finalScore">
+                <h2>📊 Resultado Final</h2>
+                <p id="scoreText"></p>
+                <div id="feedback"></div>
+                <button class="submit-btn" onclick="downloadResults()" style="background: white; color: #4facfe; margin-top: 20px;">📥 Descargar mis resultados</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Timer functionality
+        let timeLeft = 45 * 60;
+        const timerElement = document.getElementById('timer');
+        let timeTaken = 0;
+        
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `⏱️ ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            timeTaken++;
+            
+            if (timeLeft > 0) {
+                timeLeft--;
+                setTimeout(updateTimer, 1000);
+            } else {
+                timerElement.textContent = '⏱️ ¡Tiempo agotado!';
+                timerElement.style.background = 'rgba(255,0,0,0.3)';
+            }
+        }
+        
+        updateTimer();
+        
+        // Clue reveal function
+        function revealClue(element) {
+            const clueContent = element.nextElementSibling;
+            if (clueContent && clueContent.className === 'clue-content') {
+                clueContent.style.display = 'block';
+                element.classList.add('revealed');
+                element.onclick = null;
+            }
+        }
+        
+        // Progress tracking
+        function updateProgress() {
+            const totalQuestions = 18;
+            let answered = 0;
+            
+            // Check text inputs and textareas
+            document.querySelectorAll('input[type="text"], textarea').forEach(input => {
+                if (input.value.trim() !== '') answered++;
+            });
+            
+            // Check radio buttons (questions 1-3)
+            for (let i = 1; i <= 3; i++) {
+                if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
+            }
+            
+            // Check checkboxes (questions 7-8)
+            if (document.querySelector('input[name="q7"]:checked')) answered++;
+            if (document.querySelector('input[name="q8"]:checked')) answered++;
+            
+            const percentage = (answered / totalQuestions) * 100;
+            document.getElementById('progress').style.width = percentage + '%';
+        }
+        
+        document.querySelectorAll('input, textarea').forEach(element => {
+            element.addEventListener('input', updateProgress);
+            element.addEventListener('change', updateProgress);
+        });
+        
+        // Check for complex structures in responses
+        function checkComplexStructures(text) {
+            const structures = {
+                'siClause': /si\s+(?:[\w\s]+)\s+(?:fuera|estuviera|tuviera|hubiera|pudiera)/gi,
+                'seConstruction': /se\s+(?:puede|debe|debería|observa|nota)\s+/gi,
+                'subjunctive': /(?:es\s+importante|es\s+necesario|es\s+fundamental|es\s+probable|es\s+posible|ojalá|quizás|tal\s+vez)\s+que\s+[\w\s]+(?:e|a|)/gi,
+                'relativePronouns': /(?:que|quien|quienes|el\s+cual|la\s+cual|los\s+cuales|las\s+cuales|cuya|cuyo|cuyos|cuyas)/gi,
+                'complexConjunctions': /(?:aunque|mientras\s+que|sin\s+embargo|no\s+obstante|por\s+lo\s+tanto|además)/gi
+            };
+            
+            let foundStructures = [];
+            for (const [key, pattern] of Object.entries(structures)) {
+                if (text.match(pattern)) {
+                    foundStructures.push(key);
+                }
+            }
+            
+            return foundStructures;
+        }
+        
+        function checkAnswers() {
+            let score = 0;
+            const total = 18;
+            let detailedResults = [];
+            let feedback = [];
+            
+            // Q1
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const result1 = document.getElementById('result1');
+            if (q1 && q1.value === 'verdadero') {
+                result1.textContent = '✓ ¡Correcto! España fue el destino más competitivo en 2015';
+                result1.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 1, correct: true, answer: 'Verdadero'});
+            } else {
+                result1.textContent = '✗ Falso. La respuesta es Verdadero. España superó a Francia, Alemania y EE.UU. en competitividad turística en 2015.';
+                result1.className = 'result partial show';
+                detailedResults.push({q: 1, correct: false, answer: q1 ? q1.value : 'No respondido', correctAnswer: 'Verdadero'});
+            }
+            
+            // Q2
+            const q2 = document.querySelector('input[name="q2"]:checked');
+            const result2 = document.getElementById('result2');
+            if (q2 && q2.value === 'falso') {
+                result2.textContent = '✓ ¡Correcto! "Turismofobia" describe actitud negativa hacia el turismo masivo';
+                result2.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 2, correct: true, answer: 'Falso'});
+            } else {
+                result2.textContent = '✗ Falso. La respuesta es Falso. "Turismofobia" describe rechazo al turismo masivo, especialmente en Barcelona.';
+                result2.className = 'result partial show';
+                detailedResults.push({q: 2, correct: false, answer: q2 ? q2.value : 'No respondido', correctAnswer: 'Falso'});
+            }
+            
+            // Q3
+            const q3 = document.querySelector('input[name="q3"]:checked');
+            const result3 = document.getElementById('result3');
+            if (q3 && q3.value === 'falso') {
+                result3.textContent = '✓ ¡Correcto! El Camino atrae a turistas culturales y religiosos';
+                result3.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 3, correct: true, answer: 'Falso'});
+            } else {
+                result3.textContent = '✗ Falso. La respuesta es Falso. El Camino de Santiago atrae principalmente turistas culturales y religiosos.';
+                result3.className = 'result partial show';
+                detailedResults.push({q: 3, correct: false, answer: q3 ? q3.value : 'No respondido', correctAnswer: 'Falso'});
+            }
+            
+            // Q4
+            const q4 = document.getElementById('q4').value.trim().toLowerCase();
+            const result4 = document.getElementById('result4');
+            if (q4.includes('turismofobia')) {
+                result4.textContent = '✓ ¡Correcto! Turismofobia';
+                result4.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 4, correct: true, answer: q4});
+            } else {
+                result4.textContent = '✗ La respuesta correcta es: turismofobia';
+                result4.className = 'result partial show';
+                detailedResults.push({q: 4, correct: false, answer: q4 || 'No respondido', correctAnswer: 'turismofobia'});
+            }
+            
+            // Q5
+            const q5 = document.getElementById('q5').value.trim().toLowerCase();
+            const result5 = document.getElementById('result5');
+            if (q5.includes('todo incluido')) {
+                result5.textContent = '✓ ¡Correcto! Todo incluido';
+                result5.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 5, correct: true, answer: q5});
+            } else {
+                result5.textContent = '✗ La respuesta correcta es: todo incluido';
+                result5.className = 'result partial show';
+                detailedResults.push({q: 5, correct: false, answer: q5 || 'No respondido', correctAnswer: 'todo incluido'});
+            }
+            
+            // Q6
+            const q6 = document.getElementById('q6').value.trim().toLowerCase();
+            const result6 = document.getElementById('result6');
+            if (q6.includes('camino')) {
+                result6.textContent = '✓ ¡Correcto! Camino de Santiago';
+                result6.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 6, correct: true, answer: q6});
+            } else {
+                result6.textContent = '✗ La respuesta correcta es: Camino de Santiago';
+                result6.className = 'result partial show';
+                detailedResults.push({q: 6, correct: false, answer: q6 || 'No respondido', correctAnswer: 'Camino de Santiago'});
+            }
+            
+            // Q7
+            const q7Checked = document.querySelectorAll('input[name="q7"]:checked');
+            const result7 = document.getElementById('result7');
+            let q7Correct = true;
+            let q7CorrectAnswers = [];
+            
+            q7Checked.forEach(checkbox => {
+                if (checkbox.value === 'b') {
+                    q7Correct = false;
+                } else {
+                    q7CorrectAnswers.push(checkbox.value);
+                }
+            });
+            
+            if (q7Checked.length === 3 && q7Correct) {
+                result7.textContent = '✓ ¡Correcto! A, C y D son correctas';
+                result7.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 7, correct: true, answer: 'A, C, D'});
+            } else if (q7Checked.length > 0 && q7Correct) {
+                result7.textContent = `⚠ Parcialmente correcto (${q7Checked.length}/3). Las respuestas A, C y D son correctas.`;
+                result7.className = 'result partial show';
+                score += q7Checked.length * 0.33;
+                detailedResults.push({q: 7, correct: false, answer: `${q7Checked.length}/3`, correctAnswer: 'A, C, D'});
+            } else {
+                result7.textContent = '✗ Las respuestas A, C y D son correctas (Crimen, Recursos naturales, Sobreconstrucción)';
+                result7.className = 'result partial show';
+                detailedResults.push({q: 7, correct: false, answer: 'No respondido o incorrecto', correctAnswer: 'A, C, D'});
+            }
+            
+            // Q8
+            const q8Checked = document.querySelectorAll('input[name="q8"]:checked');
+            const result8 = document.getElementById('result8');
+            let q8Correct = true;
+            let q8CorrectAnswers = [];
+            
+            q8Checked.forEach(checkbox => {
+                if (checkbox.value === 'c') {
+                    q8Correct = false;
+                } else {
+                    q8CorrectAnswers.push(checkbox.value);
+                }
+            });
+            
+            if (q8Checked.length === 3 && q8Correct) {
+                result8.textContent = '✓ ¡Correcto! A, B y D son correctas';
+                result8.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 8, correct: true, answer: 'A, B, D'});
+            } else if (q8Checked.length > 0 && q8Correct) {
+                result8.textContent = `⚠ Parcialmente correcto (${q8Checked.length}/3). Las respuestas A, B y D son correctas.`;
+                result8.className = 'result partial show';
+                score += q8Checked.length * 0.33;
+                detailedResults.push({q: 8, correct: false, answer: `${q8Checked.length}/3`, correctAnswer: 'A, B, D'});
+            } else {
+                result8.textContent = '✗ Las respuestas A, B y D son correctas (Turismo rural, Limitación alquiler, Plan Horizonte 2020)';
+                result8.className = 'result partial show';
+                detailedResults.push({q: 8, correct: false, answer: 'No respondido o incorrecto', correctAnswer: 'A, B, D'});
+            }
+            
+            // Q9
+            const q9 = document.getElementById('q9').value.trim().toLowerCase();
+            const result9 = document.getElementById('result9');
+            if (q9.includes('sobreturismo') || q9.includes('turismo masivo')) {
+                result9.textContent = '✓ ¡Correcto! Sobreturismo o turismo masivo';
+                result9.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 9, correct: true, answer: q9});
+            } else {
+                result9.textContent = '✗ La respuesta correcta es: sobreturismo o turismo masivo';
+                result9.className = 'result partial show';
+                detailedResults.push({q: 9, correct: false, answer: q9 || 'No respondido', correctAnswer: 'sobreturismo/turismo masivo'});
+            }
+            
+            // Q10
+            const q10 = document.getElementById('q10').value.trim().toLowerCase();
+            const result10 = document.getElementById('result10');
+            if (q10.includes('sostenible')) {
+                result10.textContent = '✓ ¡Correcto! Turismo sostenible';
+                result10.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 10, correct: true, answer: q10});
+            } else {
+                result10.textContent = '✗ La respuesta correcta es: turismo sostenible';
+                result10.className = 'result partial show';
+                detailedResults.push({q: 10, correct: false, answer: q10 || 'No respondido', correctAnswer: 'sostenible'});
+            }
+            
+            // Q11
+            const q11 = document.getElementById('q11').value.trim().toLowerCase();
+            const result11 = document.getElementById('result11');
+            if (q11.includes('estacional')) {
+                result11.textContent = '✓ ¡Correcto! Turismo estacional';
+                result11.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 11, correct: true, answer: q11});
+            } else {
+                result11.textContent = '✗ La respuesta correcta es: turismo estacional';
+                result11.className = 'result partial show';
+                detailedResults.push({q: 11, correct: false, answer: q11 || 'No respondido', correctAnswer: 'estacional'});
+            }
+            
+            // Q12
+            const q12 = document.getElementById('q12').value.trim().toLowerCase();
+            const result12 = document.getElementById('result12');
+            if (q12.includes('eco')) {
+                result12.textContent = '✓ ¡Correcto! Ecotourism';
+                result12.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 12, correct: true, answer: q12});
+            } else {
+                result12.textContent = '✗ La respuesta correcta es: ecotourism';
+                result12.className = 'result partial show';
+                detailedResults.push({q: 12, correct: false, answer: q12 || 'No respondido', correctAnswer: 'ecotourism'});
+            }
+            
+            // Q13 - Matching
+            const q13a = document.getElementById('q13a').value.trim();
+            const q13b = document.getElementById('q13b').value.trim();
+            const q13c = document.getElementById('q13c').value.trim();
+            const q13d = document.getElementById('q13d').value.trim();
+            const result13 = document.getElementById('result13');
+            
+            let matchScore = 0;
+            if (q13a === '2') matchScore++;
+            if (q13b === '1') matchScore++;
+            if (q13c === '3') matchScore++;
+            if (q13d === '4') matchScore++;
+            
+            if (matchScore === 4) {
+                result13.textContent = '✓ ¡Correcto! Todas las asociaciones son correctas';
+                result13.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 13, correct: true, answer: 'Todo correcto'});
+            } else {
+                result13.textContent = `⚠ ${matchScore}/4 correcto. Respuestas: A=2, B=1, C=3, D=4`;
+                result13.className = 'result partial show';
+                score += matchScore * 0.25;
+                detailedResults.push({q: 13, correct: false, answer: `${matchScore}/4`, correctAnswer: 'A=2, B=1, C=3, D=4'});
+            }
+            
+            // Q14-18 - Extended responses
+            for (let i = 14; i <= 18; i++) {
+                const answer = document.getElementById(`q${i}`).value.trim();
+                const resultElement = document.getElementById(`result${i}`);
+                
+                if (answer.length > 100) {
+                    // Check for complex structures
+                    const structures = checkComplexStructures(answer);
+                    
+                    if (structures.length >= 3) {
+                        resultElement.textContent = '✓ Respuesta bien desarrollada con estructuras complejas';
+                        resultElement.className = 'result correct show';
+                        score++;
+                        feedback.push(`Pregunta ${i}: Excelente uso de estructuras complejas (${structures.join(', ')})`);
+                    } else if (structures.length >= 1) {
+                        resultElement.textContent = '✓ Respuesta adecuada, pero podría incluir más estructuras complejas';
+                        resultElement.className = 'result partial show';
+                        score += 0.5;
+                        feedback.push(`Pregunta ${i}: Uso limitado de estructuras complejas (${structures.join(', ')})`);
+                    } else {
+                        resultElement.textContent = '⚠ Respuesta desarrollada, pero necesita más estructuras complejas para maximizar AO3';
+                        resultElement.className = 'result partial show';
+                        score += 0.25;
+                        feedback.push(`Pregunta ${i}: Falta uso de estructuras complejas`);
+                    }
+                    
+                    detailedResults.push({
+                        q: i,
+                        correct: structures.length >= 3,
+                        structures: structures,
+                        length: answer.length
+                    });
+                } else {
+                    resultElement.textContent = '✗ Respuesta demasiado breve. Desarrolla más tu respuesta.';
+                    resultElement.className = 'result partial show';
+                    detailedResults.push({
+                        q: i,
+                        correct: false,
+                        structures: [],
+                        length: answer.length
+                    });
+                    feedback.push(`Pregunta ${i}: Respuesta demasiado breve (${answer.length} caracteres)`);
+                }
+            }
+            
+            // Show final score
+            const percentage = ((score / total) * 100).toFixed(1);
+            const finalScore = document.getElementById('finalScore');
+            const scoreText = document.getElementById('scoreText');
+            const feedbackElement = document.getElementById('feedback');
+            
+            scoreText.textContent = `${score.toFixed(1)}/${total} (${percentage}%)`;
+            
+            // Generate feedback
+            let feedbackHTML = '<div style="text-align: left; margin-top: 20px;">';
+            feedbackHTML += '<h3>Retroalimentación Detallada:</h3><ul>';
+            feedback.forEach(item => {
+                feedbackHTML += `<li>${item}</li>`;
+            });
+            
+            // Add general recommendations
+            feedbackHTML += '</ul><h3>Recomendaciones Generales:</h3><ul>';
+            
+            if (percentage >= 80) {
+                feedbackHTML += '<li>¡Excelente trabajo! Dominas bien el contenido sobre el impacto turístico en España.</li>';
+            } else if (percentage >= 60) {
+                feedbackHTML += '<li>Buen trabajo. Enfócate en incluir más estructuras complejas y datos específicos.</li>';
+            } else {
+                feedbackHTML += '<li>Necesitas practicar más el contenido sobre el turismo en España.</li>';
+            }
+            
+            feedbackHTML += `
+                <li>Practica el uso de datos estadísticos actualizados sobre turismo</li>
+                <li>Incorpora información sobre medidas gubernamentales (Plan Horizonte 2020)</li>
+                <li>Utiliza términos específicos como "turismofobia", "sobreturismo", "todo incluido"</li>
+                <li>Menciona ejemplos concretos de impactos ambientales (Ibiza, Garajonay)</li>
+                <li>Incluye análisis de pros y contras en preguntas de opinión</li>
+            </ul></div>`;
+            
+            feedbackElement.innerHTML = feedbackHTML;
+            finalScore.style.display = 'block';
+            
+            // Store results for download
+            window.testResults = {
+                score: score.toFixed(1),
+                total: total,
+                percentage: percentage,
+                timeTaken: Math.floor(timeTaken / 60) + ':' + (timeTaken % 60).toString().padStart(2, '0'),
+                date: new Date().toLocaleDateString('es-ES'),
+                details: detailedResults,
+                feedback: feedback
+            };
+            
+            // Scroll to results
+            finalScore.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        function downloadResults() {
+            const results = window.testResults;
+            let content = `RESULTADOS - Práctica A-Level Spanish: El Impacto Turístico en España
+====================================================================
+
+Fecha: ${results.date}
+Tiempo empleado: ${results.timeTaken}
+Puntuación: ${results.score}/${results.total} (${results.percentage}%)
+
+RETROALIMENTACIÓN DETALLADA:
+--------------------------------------------------------------------
+
+`;
+
+            results.feedback.forEach((item) => {
+                content += `${item}\n`;
+            });
+
+            content += `
+====================================================================
+RECOMENDACIONES PARA MEJORAR AO3 Y AO4:
+
+`;
+
+            if (results.percentage >= 80) {
+                content += `¡Excelente trabajo! Dominas bien el contenido sobre el impacto turístico en España.\n`;
+            } else if (results.percentage >= 60) {
+                content += `Buen trabajo. Enfócate en incluir más estructuras complejas y datos específicos.\n`;
+            } else {
+                content += `Necesitas practicar más el contenido sobre el turismo en España.\n`;
+            }
+
+            content += `
+DATOS CLAVE SOBRE TURISMO EN ESPAÑA PARA INCLUIR EN TUS RESPUESTAS:
+
+EVOLUCIÓN DEL TURISMO:
+- Años 60: inicio con turismo de sol y playa
+- Años 90: recesión y competencia mediterránea
+- 2015: España destino más competitivo del mundo
+- Transición hacia turismo cultural, rural e histórico
+
+IMPACTOS NEGATIVOS DEL TURISMO DE SOL Y PLAYA:
+- Modelo "todo incluido" perjudica pequeños negocios
+- Aumento de criminalidad en resorts
+- Sobreconstrucción y edificios abandonados
+- Agotamiento de recursos naturales (agua)
+- Reacciones anti-turistas ("turismofobia")
+
+MEDIDAS GUBERNAMENTALES:
+- Plan de Turismo Español Horizonte 2020
+- Promoción de turismo rural y cultural
+- Limitación de alquileres turísticos
+- Impuesto turístico de hasta 4€ en temporada alta
+- Redirección hacia norte de España y zonas menos saturadas
+
+PROBLEMAS AMBIENTALES:
+- Ibiza (UNESCO): ecosistema amenazado
+- Vertido de aguas residuales mal tratadas
+- Destrucción de flora submarina
+- Incendio en Parque Nacional Garajonay (2012)
+- Impacto de puertos de cruceros en Barcelona
+
+TURISMO CULTURAL:
+- Camino de Santiago
+- Rutas literarias (Cervantes, Lorca)
+- Influencias moras en Andalucía
+- Monasterios medievales y castillos
+- Menor impacto ambiental que turismo masivo
+
+VOCABULARIO CLAVE:
+- Turismofobia
+- Sobreturismo
+- Turismo sostenible
+- Turismo estacional
+- Ecoturismo
+- Todo incluido
+- Gentrificación
+
+`;
+
+            // Create download
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Resultados_Turismo_España_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

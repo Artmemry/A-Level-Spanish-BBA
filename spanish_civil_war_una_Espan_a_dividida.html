@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guerra Civil Española - Actividades Interactivas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #c41e3a 0%, #aa151b 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+            overflow-x: auto;
+        }
+        
+        .nav-tab {
+            flex: 1;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            color: #495057;
+            transition: all 0.3s;
+            min-width: 150px;
+        }
+        
+        .nav-tab:hover {
+            background: #e9ecef;
+        }
+        
+        .nav-tab.active {
+            background: white;
+            color: #c41e3a;
+            border-bottom: 3px solid #c41e3a;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .activity {
+            display: none;
+        }
+        
+        .activity.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .vocab-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            margin: 15px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .vocab-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.2);
+        }
+        
+        .vocab-card .spanish {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .vocab-card .english {
+            font-size: 1.1em;
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .vocab-card.revealed .english {
+            opacity: 1;
+            height: auto;
+            margin-top: 10px;
+        }
+        
+        /* Drag and Drop Vocabulary Styles */
+        .draggable-term {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: move;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .draggable-term:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .draggable-term.dragging {
+            opacity: 0.5;
+            transform: rotate(5deg);
+        }
+        
+        .drag-icon {
+            font-size: 1.2em;
+            opacity: 0.7;
+        }
+        
+        .drop-zone {
+            background: #f8f9fa;
+            border: 3px dashed #dee2e6;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            min-height: 60px;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .drop-zone .drop-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+        
+        .drop-zone .drop-placeholder {
+            color: #adb5bd;
+            font-style: italic;
+            font-size: 0.9em;
+        }
+        
+        .drop-zone.drag-over {
+            background: #e7f3ff;
+            border-color: #667eea;
+            transform: scale(1.02);
+        }
+        
+        .drop-zone.filled {
+            background: white;
+            border-color: #667eea;
+            border-style: solid;
+        }
+        
+        .drop-zone.filled .drop-placeholder {
+            display: none;
+        }
+        
+        .drop-zone.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            border-style: solid;
+        }
+        
+        .drop-zone.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            border-style: solid;
+        }
+        
+        .dropped-term {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 5px;
+        }
+        
+        .question-box {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 5px solid #c41e3a;
+        }
+        
+        .question-box h3 {
+            color: #c41e3a;
+            margin-bottom: 15px;
+        }
+        
+        .option {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid #dee2e6;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            border-color: #c41e3a;
+            transform: translateX(5px);
+        }
+        
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+        
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #c41e3a;
+        }
+        
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #c41e3a 0%, #aa151b 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        
+        button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .score {
+            text-align: center;
+            font-size: 1.5em;
+            color: #c41e3a;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 15px;
+            background: #fff3cd;
+            border-radius: 8px;
+        }
+        
+        .grammar-exercise {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border: 2px solid #dee2e6;
+        }
+        
+        .feedback {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        
+        .feedback.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .feedback.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .reading-passage {
+            background: #f8f9fa;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 10px;
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+        
+        .hint {
+            background: #d1ecf1;
+            border-left: 4px solid #0c5460;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            color: #0c5460;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #c41e3a 0%, #aa151b 100%);
+            transition: width 0.5s;
+        }
+        
+        /* Floating Spanish Keyboard */
+        .accent-keyboard {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+        
+        .accent-keyboard.minimized {
+            width: 60px;
+            height: 60px;
+            padding: 0;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        
+        .keyboard-toggle {
+            background: linear-gradient(135deg, #c41e3a 0%, #aa151b 100%);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        
+        .minimized .keyboard-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0;
+            font-size: 1.5em;
+            padding: 0;
+        }
+        
+        .keyboard-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        
+        .minimized .keyboard-content {
+            display: none;
+        }
+        
+        .accent-btn {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        
+        .accent-btn:hover {
+            background: #c41e3a;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .accent-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* Download Button */
+        .download-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #28a745 0%, #20893a 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 999;
+            transition: all 0.3s;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+        }
+        
+        .download-btn::before {
+            content: "📥 ";
+        }
+    </style>
+</head>
+<body>
+    <!-- Download Scores Button -->
+    <button class="download-btn" onclick="downloadScores()">Descargar Resultados</button>
+    
+    <!-- Floating Spanish Accent Keyboard -->
+    <div class="accent-keyboard" id="accentKeyboard">
+        <button class="keyboard-toggle" onclick="toggleKeyboard()">Ñ</button>
+        <div class="keyboard-content">
+            <button class="accent-btn" onclick="insertChar('á')">á</button>
+            <button class="accent-btn" onclick="insertChar('é')">é</button>
+            <button class="accent-btn" onclick="insertChar('í')">í</button>
+            <button class="accent-btn" onclick="insertChar('ó')">ó</button>
+            <button class="accent-btn" onclick="insertChar('ú')">ú</button>
+            <button class="accent-btn" onclick="insertChar('ñ')">ñ</button>
+            <button class="accent-btn" onclick="insertChar('ü')">ü</button>
+            <button class="accent-btn" onclick="insertChar('¿')">¿</button>
+            <button class="accent-btn" onclick="insertChar('¡')">¡</button>
+        </div>
+    </div>
+    
+    <div class="container">
+        <header>
+            <h1>🇪🇸 Guerra Civil Española</h1>
+            <p>Actividades Interactivas - España Dividida</p>
+        </header>
+        
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showActivity('vocab')">Vocabulario</button>
+            <button class="nav-tab" onclick="showActivity('comprehension')">Comprensión</button>
+            <button class="nav-tab" onclick="showActivity('grammar')">Gramática</button>
+            <button class="nav-tab" onclick="showActivity('writing')">Escritura</button>
+        </div>
+        
+        <div class="content">
+            <!-- Vocabulary Activity -->
+            <div id="vocab" class="activity active">
+                <h2>Práctica de Vocabulario - Emparejamiento</h2>
+                <p style="margin: 20px 0; color: #666;">Arrastra los términos en español a sus traducciones correctas en inglés.</p>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="vocab-progress" style="width: 0%"></div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px;">
+                    <!-- Spanish Terms Column -->
+                    <div>
+                        <h3 style="color: #c41e3a; margin-bottom: 20px;">Español</h3>
+                        <div id="spanish-terms">
+                            <div class="draggable-term" draggable="true" data-id="1">
+                                <span class="drag-icon">⋮⋮</span>
+                                la sublevación
+                            </div>
+                            <div class="draggable-term" draggable="true" data-id="2">
+                                <span class="drag-icon">⋮⋮</span>
+                                derrocar
+                            </div>
+                            <div class="draggable-term" draggable="true" data-id="3">
+                                <span class="drag-icon">⋮⋮</span>
+                                hacerse con el poder
+                            </div>
+                            <div class="draggable-term" draggable="true" data-id="4">
+                                <span class="drag-icon">⋮⋮</span>
+                                el golpista
+                            </div>
+                            <div class="draggable-term" draggable="true" data-id="5">
+                                <span class="drag-icon">⋮⋮</span>
+                                quedar partida
+                            </div>
+                            <div class="draggable-term" draggable="true" data-id="6">
+                                <span class="drag-icon">⋮⋮</span>
+                                ponerse de acuerdo
+                            </div>
+                            <div class="draggable-term" draggable="true" data-id="7">
+                                <span class="drag-icon">⋮⋮</span>
+                                desempeñar un papel
+                            </div>
+                            <div class="draggable-term" draggable="true" data-id="8">
+                                <span class="drag-icon">⋮⋮</span>
+                                el bombardeo
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- English Translations Column -->
+                    <div>
+                        <h3 style="color: #c41e3a; margin-bottom: 20px;">English</h3>
+                        <div id="english-terms">
+                            <div class="drop-zone" data-id="7">
+                                <div class="drop-label">to play a role</div>
+                                <div class="drop-placeholder">Arrastra aquí</div>
+                            </div>
+                            <div class="drop-zone" data-id="3">
+                                <div class="drop-label">to seize power</div>
+                                <div class="drop-placeholder">Arrastra aquí</div>
+                            </div>
+                            <div class="drop-zone" data-id="5">
+                                <div class="drop-label">to be split / divided</div>
+                                <div class="drop-placeholder">Arrastra aquí</div>
+                            </div>
+                            <div class="drop-zone" data-id="1">
+                                <div class="drop-label">the uprising / revolt</div>
+                                <div class="drop-placeholder">Arrastra aquí</div>
+                            </div>
+                            <div class="drop-zone" data-id="8">
+                                <div class="drop-label">the bombing</div>
+                                <div class="drop-placeholder">Arrastra aquí</div>
+                            </div>
+                            <div class="drop-zone" data-id="4">
+                                <div class="drop-label">the coup plotter</div>
+                                <div class="drop-placeholder">Arrastra aquí</div>
+                            </div>
+                            <div class="drop-zone" data-id="6">
+                                <div class="drop-label">to reach an agreement</div>
+                                <div class="drop-placeholder">Arrastra aquí</div>
+                            </div>
+                            <div class="drop-zone" data-id="2">
+                                <div class="drop-label">to overthrow</div>
+                                <div class="drop-placeholder">Arrastra aquí</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button onclick="checkVocabMatches()" id="check-vocab-btn" style="font-size: 1.1em; padding: 15px 40px;">
+                        Verificar Respuestas
+                    </button>
+                    <button onclick="resetVocab()" style="font-size: 1.1em; padding: 15px 40px; margin-left: 10px; background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);">
+                        Reiniciar
+                    </button>
+                </div>
+                
+                <div id="vocab-score" class="score" style="display: none;">
+                    Puntuación: <span id="vocab-score-value">0</span>/8
+                </div>
+            </div>
+            
+            <!-- Comprehension Activity -->
+            <div id="comprehension" class="activity">
+                <h2>Comprensión de Lectura</h2>
+                
+                <div class="reading-passage">
+                    <strong>Párrafo A:</strong><br>
+                    La Guerra civil estalló cuando los partidos y simpatizantes de la derecha creyeron que era imprescindible acabar con la República: los hechos de 1936, cuando grupos de jornaleros ocuparon ilegalmente varios latifundios, encendieron las alarmas de los terratenientes y la radicalización de la izquierda terminó por despertar los temores de la Iglesia y la derecha en general.
+                </div>
+                
+                <div class="question-box">
+                    <h3>Pregunta 1: ¿Qué evento desencadenó las alarmas de los terratenientes?</h3>
+                    <div class="option" onclick="checkAnswer(this, false)">
+                        A) La victoria electoral de la izquierda
+                    </div>
+                    <div class="option" onclick="checkAnswer(this, true)">
+                        B) La ocupación ilegal de latifundios por jornaleros
+                    </div>
+                    <div class="option" onclick="checkAnswer(this, false)">
+                        C) El bombardeo de Gernika
+                    </div>
+                    <div class="option" onclick="checkAnswer(this, false)">
+                        D) La llegada de Franco desde Canarias
+                    </div>
+                </div>
+                
+                <div class="reading-passage">
+                    <strong>Párrafo B:</strong><br>
+                    Sin embargo, los sublevados fracasaron en su empeño de hacerse con el poder inmediatamente, porque solo se sublevó una parte del ejército, con otros elementos manteniéndose fieles a la República. El fracaso de los golpistas en Madrid y Barcelona hizo que la República mantuviera el control de estas ciudades y otras zonas.
+                </div>
+                
+                <div class="question-box">
+                    <h3>Pregunta 2: ¿Por qué fracasaron los sublevados inicialmente?</h3>
+                    <div class="option" onclick="checkAnswer(this, false)">
+                        A) No tenían suficiente ayuda extranjera
+                    </div>
+                    <div class="option" onclick="checkAnswer(this, true)">
+                        B) Solo una parte del ejército se sublevó
+                    </div>
+                    <div class="option" onclick="checkAnswer(this, false)">
+                        C) Franco llegó demasiado tarde
+                    </div>
+                    <div class="option" onclick="checkAnswer(this, false)">
+                        D) Las Brigadas Internacionales los detuvieron
+                    </div>
+                </div>
+                
+                <div class="reading-passage">
+                    <strong>Párrafo C:</strong><br>
+                    No se puede subvalorar lo que Franco consiguió en octubre de 1936, a declararse Jefe de Estado, tomando el mando militar y creando incluso su propio partido político para respaldar sus pretensiones. Si la República hubiera podido hacer algo parecido para unificar su "bando", quizás se podría haber cambiado el curso de la guerra, pero era casi imposible que las diferentes facciones anarquistas, comunistas, socialistas y marxistas se pusieran de acuerdo.
+                </div>
+                
+                <div class="question-box">
+                    <h3>Pregunta 3: Según el párrafo C, ¿qué logró Franco en octubre de 1936?</h3>
+                    <div class="option" onclick="checkAnswer(this, false)">
+                        A) Ganó la guerra civil
+                    </div>
+                    <div class="option" onclick="checkAnswer(this, false)">
+                        B) Unificó todas las facciones republicanas
+                    </div>
+                    <div class="option" onclick="checkAnswer(this, true)">
+                        C) Se declaró Jefe de Estado y tomó el mando militar
+                    </div>
+                    <div class="option" onclick="checkAnswer(this, false)">
+                        D) Recibió ayuda de la Unión Soviética
+                    </div>
+                </div>
+                
+                <div id="comprehension-score" class="score" style="display: none;">
+                    Puntuación: <span id="score-value">0</span>/3
+                </div>
+            </div>
+            
+            <!-- Grammar Activity -->
+            <div id="grammar" class="activity">
+                <h2>Práctica Gramatical: Imperfecto del Subjuntivo</h2>
+                
+                <div class="hint">
+                    <strong>Recordatorio:</strong> Para formar el imperfecto del subjuntivo:<br>
+                    1. Toma la forma de ellos/ellas del pretérito (ejemplo: comieron)<br>
+                    2. Quita -ron<br>
+                    3. Añade: -ra, -ras, -ra, -ramos, -rais, -ran
+                </div>
+                
+                <div class="grammar-exercise">
+                    <h3>Completa las frases con el imperfecto del subjuntivo:</h3>
+                    
+                    <p><strong>1.</strong> Si la República <input type="text" id="g1" style="width: 150px; display: inline-block;"> (poder) unificar su bando, quizás habría ganado la guerra.</p>
+                    <button onclick="checkGrammar('g1', 'pudiera', 1)">Verificar</button>
+                    <div id="feedback1"></div>
+                    
+                    <p><strong>2.</strong> Franco esperó hasta el último momento para actuar como si no <input type="text" id="g2" style="width: 150px; display: inline-block;"> (estar) seguro de la decisión.</p>
+                    <button onclick="checkGrammar('g2', 'estuviera', 2)">Verificar</button>
+                    <div id="feedback2"></div>
+                    
+                    <p><strong>3.</strong> Era imprescindible que el ejército <input type="text" id="g3" style="width: 150px; display: inline-block;"> (derrocar) a la República, según la derecha.</p>
+                    <button onclick="checkGrammar('g3', 'derrocara', 3)">Verificar</button>
+                    <div id="feedback3"></div>
+                    
+                    <p><strong>4.</strong> Los anarquistas querían que la clase trabajadora <input type="text" id="g4" style="width: 150px; display: inline-block;"> (llevar) las riendas.</p>
+                    <button onclick="checkGrammar('g4', 'llevara', 4)">Verificar</button>
+                    <div id="feedback4"></div>
+                </div>
+                
+                <div class="grammar-exercise">
+                    <h3>Oraciones Condicionales (Contrary-to-Fact):</h3>
+                    
+                    <p><strong>5.</strong> Si los golpistas <input type="text" id="g5" style="width: 180px; display: inline-block;"> (tener éxito) en Madrid, la guerra habría terminado rápidamente.</p>
+                    <button onclick="checkGrammar('g5', 'hubieran tenido éxito', 5)">Verificar</button>
+                    <div id="feedback5"></div>
+                    
+                    <p><strong>6.</strong> Si Franco no <input type="text" id="g6" style="width: 180px; display: inline-block;"> (crear) su propio partido político, su control habría sido menos efectivo.</p>
+                    <button onclick="checkGrammar('g6', 'hubiera creado', 6)">Verificar</button>
+                    <div id="feedback6"></div>
+                </div>
+                
+                <div id="grammar-score" class="score" style="display: none;">
+                    Respuestas correctas: <span id="grammar-score-value">0</span>/6
+                </div>
+            </div>
+            
+            <!-- Writing Activity -->
+            <div id="writing" class="activity">
+                <h2>Actividades de Escritura</h2>
+                
+                <div class="question-box">
+                    <h3>Ejercicio 1: Traducción del Inglés al Español</h3>
+                    <p style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                        <em>"but when one came straight from England the aspect of Barcelona was something startling and overwhelming. It was the first time that I had ever been in a town where the working class was in the saddle."</em><br>
+                        - George Orwell, Homage to Catalonia
+                    </p>
+                    <textarea id="translation" placeholder="Escribe tu traducción aquí..."></textarea>
+                    <button onclick="saveTranslation()">Guardar Traducción</button>
+                    <div class="hint">
+                        <strong>Vocabulario útil:</strong><br>
+                        • in the saddle = llevar las riendas<br>
+                        • startling = sorprendente<br>
+                        • overwhelming = irresistible / abrumador
+                    </div>
+                </div>
+                
+                <div class="question-box">
+                    <h3>Ejercicio 2: TICKET DE SALIDA</h3>
+                    <p><strong>Opción A:</strong> Basándote en lo que estudiaste, ¿cuál fue el momento clave que más te impactó y por qué?</p>
+                    <p><strong>Opción B:</strong> Menciona dos consecuencias principales de la victoria de Franco y explica brevemente cómo una de ellas afectó a España a largo plazo.</p>
+                    <textarea id="ticket" placeholder="Escribe 2-3 frases completas en español..."></textarea>
+                    <button onclick="saveTicket()">Guardar Respuesta</button>
+                </div>
+                
+                <div class="question-box">
+                    <h3>Ejercicio 3: Composición con el Imperfecto del Subjuntivo</h3>
+                    <p>Escribe un párrafo (80-100 palabras) usando al menos 3 verbos en el imperfecto del subjuntivo. Describe cómo habría sido diferente la Guerra Civil si las circunstancias hubieran cambiado.</p>
+                    <div class="hint">
+                        <strong>Frases útiles para empezar:</strong><br>
+                        • Si la República hubiera...<br>
+                        • Era necesario que...<br>
+                        • Si las facciones se pusieran de acuerdo...<br>
+                        • Habría sido diferente si...
+                    </div>
+                    <textarea id="composition" placeholder="Escribe tu composición aquí..."></textarea>
+                    <div style="margin-top: 10px; color: #666;">
+                        Palabras: <span id="word-count">0</span>
+                    </div>
+                    <button onclick="saveComposition()">Guardar Composición</button>
+                </div>
+                
+                <div id="writing-feedback" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let comprehensionScore = 0;
+        let comprehensionAnswered = 0;
+        let grammarScore = 0;
+        let lastFocusedInput = null;
+        let vocabMatches = {};
+        
+        // Initialize drag and drop for vocabulary
+        function initVocabDragDrop() {
+            const draggables = document.querySelectorAll('.draggable-term');
+            const dropZones = document.querySelectorAll('.drop-zone');
+            
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', handleDragStart);
+                draggable.addEventListener('dragend', handleDragEnd);
+            });
+            
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', handleDragOver);
+                zone.addEventListener('dragleave', handleDragLeave);
+                zone.addEventListener('drop', handleDrop);
+            });
+        }
+        
+        function handleDragStart(e) {
+            e.target.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', e.target.outerHTML);
+            e.dataTransfer.setData('data-id', e.target.getAttribute('data-id'));
+        }
+        
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+        }
+        
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            e.target.closest('.drop-zone').classList.add('drag-over');
+            return false;
+        }
+        
+        function handleDragLeave(e) {
+            e.target.closest('.drop-zone').classList.remove('drag-over');
+        }
+        
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            e.preventDefault();
+            
+            const dropZone = e.target.closest('.drop-zone');
+            dropZone.classList.remove('drag-over');
+            
+            const termId = e.dataTransfer.getData('data-id');
+            const zoneId = dropZone.getAttribute('data-id');
+            
+            // Remove any existing term in this zone
+            const existingTerm = dropZone.querySelector('.dropped-term');
+            if (existingTerm) {
+                const oldId = existingTerm.getAttribute('data-id');
+                delete vocabMatches[zoneId];
+                returnTermToList(oldId, existingTerm.textContent.trim());
+            }
+            
+            // Find and remove the dragged term from the Spanish column
+            const draggedTerm = document.querySelector(`.draggable-term[data-id="${termId}"]`);
+            if (draggedTerm) {
+                const termText = draggedTerm.textContent.replace('⋮⋮', '').trim();
+                draggedTerm.remove();
+                
+                // Add term to drop zone
+                const droppedTerm = document.createElement('div');
+                droppedTerm.className = 'dropped-term';
+                droppedTerm.textContent = termText;
+                droppedTerm.setAttribute('data-id', termId);
+                droppedTerm.setAttribute('draggable', 'true');
+                droppedTerm.addEventListener('dragstart', handleDragStart);
+                droppedTerm.addEventListener('dragend', handleDragEnd);
+                
+                dropZone.appendChild(droppedTerm);
+                dropZone.classList.add('filled');
+                
+                // Store the match
+                vocabMatches[zoneId] = termId;
+                
+                // Update progress
+                updateVocabProgress();
+            }
+            
+            return false;
+        }
+        
+        function returnTermToList(termId, termText) {
+            const spanishColumn = document.getElementById('spanish-terms');
+            const newTerm = document.createElement('div');
+            newTerm.className = 'draggable-term';
+            newTerm.setAttribute('data-id', termId);
+            newTerm.setAttribute('draggable', 'true');
+            newTerm.innerHTML = `<span class="drag-icon">⋮⋮</span>${termText}`;
+            newTerm.addEventListener('dragstart', handleDragStart);
+            newTerm.addEventListener('dragend', handleDragEnd);
+            spanishColumn.appendChild(newTerm);
+        }
+        
+        function updateVocabProgress() {
+            const total = 8;
+            const filled = Object.keys(vocabMatches).length;
+            const percentage = (filled / total) * 100;
+            document.getElementById('vocab-progress').style.width = percentage + '%';
+        }
+        
+        function checkVocabMatches() {
+            let correct = 0;
+            const dropZones = document.querySelectorAll('.drop-zone');
+            
+            dropZones.forEach(zone => {
+                const zoneId = zone.getAttribute('data-id');
+                const matchedId = vocabMatches[zoneId];
+                
+                if (matchedId === zoneId) {
+                    zone.classList.add('correct');
+                    zone.classList.remove('incorrect');
+                    correct++;
+                } else if (matchedId) {
+                    zone.classList.add('incorrect');
+                    zone.classList.remove('correct');
+                }
+            });
+            
+            document.getElementById('vocab-score').style.display = 'block';
+            document.getElementById('vocab-score-value').textContent = correct;
+            
+            if (correct === 8) {
+                setTimeout(() => {
+                    alert('¡Excelente! 🎉 Has emparejado todos los términos correctamente.');
+                }, 300);
+            }
+        }
+        
+        function resetVocab() {
+            // Clear all matches
+            vocabMatches = {};
+            
+            // Remove all dropped terms and return to Spanish column
+            const dropZones = document.querySelectorAll('.drop-zone');
+            dropZones.forEach(zone => {
+                const droppedTerm = zone.querySelector('.dropped-term');
+                if (droppedTerm) {
+                    const termId = droppedTerm.getAttribute('data-id');
+                    const termText = droppedTerm.textContent.trim();
+                    returnTermToList(termId, termText);
+                    droppedTerm.remove();
+                }
+                zone.classList.remove('filled', 'correct', 'incorrect');
+            });
+            
+            // Reset progress and score
+            updateVocabProgress();
+            document.getElementById('vocab-score').style.display = 'none';
+        }
+        
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', initVocabDragDrop);
+        
+        // Track last focused input for accent keyboard
+        document.addEventListener('focusin', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                lastFocusedInput = e.target;
+            }
+        });
+        
+        function toggleKeyboard() {
+            const keyboard = document.getElementById('accentKeyboard');
+            keyboard.classList.toggle('minimized');
+        }
+        
+        function insertChar(char) {
+            if (lastFocusedInput) {
+                const start = lastFocusedInput.selectionStart;
+                const end = lastFocusedInput.selectionEnd;
+                const text = lastFocusedInput.value;
+                
+                lastFocusedInput.value = text.substring(0, start) + char + text.substring(end);
+                lastFocusedInput.selectionStart = lastFocusedInput.selectionEnd = start + 1;
+                lastFocusedInput.focus();
+                
+                // Trigger word count update if it's the composition textarea
+                if (lastFocusedInput.id === 'composition') {
+                    const words = lastFocusedInput.value.trim().split(/\s+/).filter(w => w.length > 0);
+                    document.getElementById('word-count').textContent = words.length;
+                }
+            }
+        }
+        
+        function downloadScores() {
+            // Gather all data
+            const data = {
+                fecha: new Date().toLocaleString('es-ES'),
+                puntuaciones: {
+                    comprension: `${comprehensionScore}/3`,
+                    gramatica: `${grammarScore}/6`
+                },
+                respuestas_escritura: {
+                    traduccion: document.getElementById('translation').value,
+                    ticket_salida: document.getElementById('ticket').value,
+                    composicion: document.getElementById('composition').value
+                },
+                respuestas_gramatica: {
+                    pregunta1: document.getElementById('g1').value,
+                    pregunta2: document.getElementById('g2').value,
+                    pregunta3: document.getElementById('g3').value,
+                    pregunta4: document.getElementById('g4').value,
+                    pregunta5: document.getElementById('g5').value,
+                    pregunta6: document.getElementById('g6').value
+                }
+            };
+            
+            // Create formatted text content
+            let content = '═══════════════════════════════════════════════════\n';
+            content += '  GUERRA CIVIL ESPAÑOLA - RESULTADOS DEL ESTUDIANTE\n';
+            content += '═══════════════════════════════════════════════════\n\n';
+            content += `Fecha: ${data.fecha}\n\n`;
+            
+            content += '─────────────────────────────────────────────────\n';
+            content += 'PUNTUACIONES\n';
+            content += '─────────────────────────────────────────────────\n';
+            content += `Comprensión de Lectura: ${data.puntuaciones.comprension}\n`;
+            content += `Gramática (Imperfecto del Subjuntivo): ${data.puntuaciones.gramatica}\n\n`;
+            
+            content += '─────────────────────────────────────────────────\n';
+            content += 'RESPUESTAS DE GRAMÁTICA\n';
+            content += '─────────────────────────────────────────────────\n';
+            content += `1. ${data.respuestas_gramatica.pregunta1 || '(sin respuesta)'}\n`;
+            content += `2. ${data.respuestas_gramatica.pregunta2 || '(sin respuesta)'}\n`;
+            content += `3. ${data.respuestas_gramatica.pregunta3 || '(sin respuesta)'}\n`;
+            content += `4. ${data.respuestas_gramatica.pregunta4 || '(sin respuesta)'}\n`;
+            content += `5. ${data.respuestas_gramatica.pregunta5 || '(sin respuesta)'}\n`;
+            content += `6. ${data.respuestas_gramatica.pregunta6 || '(sin respuesta)'}\n\n`;
+            
+            content += '─────────────────────────────────────────────────\n';
+            content += 'EJERCICIO DE TRADUCCIÓN\n';
+            content += '─────────────────────────────────────────────────\n';
+            content += (data.respuestas_escritura.traduccion || '(sin respuesta)') + '\n\n';
+            
+            content += '─────────────────────────────────────────────────\n';
+            content += 'TICKET DE SALIDA\n';
+            content += '─────────────────────────────────────────────────\n';
+            content += (data.respuestas_escritura.ticket_salida || '(sin respuesta)') + '\n\n';
+            
+            content += '─────────────────────────────────────────────────\n';
+            content += 'COMPOSICIÓN CON IMPERFECTO DEL SUBJUNTIVO\n';
+            content += '─────────────────────────────────────────────────\n';
+            const compositionWords = data.respuestas_escritura.composicion.trim().split(/\s+/).filter(w => w.length > 0).length;
+            content += `(${compositionWords} palabras)\n\n`;
+            content += (data.respuestas_escritura.composicion || '(sin respuesta)') + '\n\n';
+            
+            content += '═══════════════════════════════════════════════════\n';
+            content += '  FIN DEL REPORTE\n';
+            content += '═══════════════════════════════════════════════════\n';
+            
+            // Create blob and download
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `guerra_civil_resultados_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            alert('✓ Resultados descargados exitosamente!');
+        }
+        
+        function showActivity(activityId) {
+            // Hide all activities
+            document.querySelectorAll('.activity').forEach(a => a.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            
+            // Show selected activity
+            document.getElementById(activityId).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        function checkAnswer(element, isCorrect) {
+            // Prevent re-clicking
+            if (element.classList.contains('correct') || element.classList.contains('incorrect')) {
+                return;
+            }
+            
+            // Mark all options in this question as disabled
+            const siblings = element.parentElement.querySelectorAll('.option');
+            siblings.forEach(opt => {
+                if (opt === element) {
+                    opt.classList.add(isCorrect ? 'correct' : 'incorrect');
+                } else {
+                    opt.style.opacity = '0.5';
+                    opt.style.cursor = 'not-allowed';
+                }
+            });
+            
+            comprehensionAnswered++;
+            if (isCorrect) {
+                comprehensionScore++;
+            }
+            
+            // Show score after all questions answered
+            if (comprehensionAnswered === 3) {
+                document.getElementById('comprehension-score').style.display = 'block';
+                document.getElementById('score-value').textContent = comprehensionScore;
+            }
+        }
+        
+        function checkGrammar(inputId, correctAnswer, questionNum) {
+            const input = document.getElementById(inputId);
+            const userAnswer = input.value.trim().toLowerCase();
+            const feedbackDiv = document.getElementById('feedback' + questionNum);
+            
+            // Normalize answers (remove accents for comparison flexibility)
+            const normalizedUser = userAnswer.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            const normalizedCorrect = correctAnswer.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            
+            if (normalizedUser === normalizedCorrect || userAnswer === correctAnswer) {
+                feedbackDiv.innerHTML = '<div class="feedback success">✓ ¡Correcto! La respuesta es: ' + correctAnswer + '</div>';
+                input.style.borderColor = '#28a745';
+                grammarScore++;
+            } else {
+                feedbackDiv.innerHTML = '<div class="feedback error">✗ Incorrecto. La respuesta correcta es: ' + correctAnswer + '</div>';
+                input.style.borderColor = '#dc3545';
+            }
+            
+            // Show total score
+            document.getElementById('grammar-score').style.display = 'block';
+            document.getElementById('grammar-score-value').textContent = grammarScore;
+        }
+        
+        function saveTranslation() {
+            const translation = document.getElementById('translation').value;
+            if (translation.trim()) {
+                alert('✓ Traducción guardada. Excelente trabajo!');
+            } else {
+                alert('Por favor, escribe tu traducción antes de guardar.');
+            }
+        }
+        
+        function saveTicket() {
+            const ticket = document.getElementById('ticket').value;
+            if (ticket.trim()) {
+                alert('✓ Respuesta guardada. ¡Bien hecho!');
+            } else {
+                alert('Por favor, escribe tu respuesta antes de guardar.');
+            }
+        }
+        
+        function saveComposition() {
+            const composition = document.getElementById('composition').value;
+            const wordCount = composition.trim().split(/\s+/).filter(w => w.length > 0).length;
+            
+            if (wordCount < 80) {
+                alert('Tu composición tiene ' + wordCount + ' palabras. Necesitas al menos 80 palabras.');
+            } else if (wordCount > 100) {
+                alert('Tu composición tiene ' + wordCount + ' palabras. Intenta reducirla a un máximo de 100 palabras.');
+            } else {
+                alert('✓ Composición guardada. ¡Excelente trabajo! (' + wordCount + ' palabras)');
+            }
+        }
+        
+        // Word counter for composition
+        document.getElementById('composition').addEventListener('input', function() {
+            const words = this.value.trim().split(/\s+/).filter(w => w.length > 0);
+            document.getElementById('word-count').textContent = words.length;
+        });
+    </script>
+</body>
+</html>

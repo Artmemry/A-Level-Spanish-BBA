@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Por vs. Para - Práctica Interactiva</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .rules {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 3px solid #667eea;
+        }
+        .rules h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .rule-section {
+            margin-bottom: 20px;
+        }
+        .rule-title {
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        .rule-item {
+            margin: 8px 0;
+            padding-left: 20px;
+            line-height: 1.6;
+        }
+        .idioms {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+        }
+        .idiom-item {
+            padding: 8px;
+            background: #f0f0f0;
+            border-radius: 5px;
+        }
+        .idiom-item strong {
+            color: #667eea;
+        }
+        .exercise-area {
+            padding: 30px;
+        }
+        .instructions {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            border-left: 4px solid #2196f3;
+        }
+        .score-display {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 10px;
+        }
+        .score-display span {
+            color: #667eea;
+            font-weight: bold;
+        }
+        .question {
+            margin: 20px 0;
+            padding: 20px;
+            background: #fafafa;
+            border-radius: 10px;
+            border-left: 4px solid #764ba2;
+        }
+        .question-number {
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 10px;
+        }
+        .sentence {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin: 10px 0;
+        }
+        select {
+            padding: 8px 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            background: white;
+            transition: all 0.3s;
+            margin: 0 5px;
+            min-width: 80px;
+        }
+        select:hover {
+            border-color: #667eea;
+        }
+        select.correct {
+            border-color: #4caf50;
+            background: #e8f5e9;
+        }
+        select.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+        .translation {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #ddd;
+        }
+        .buttons {
+            text-align: center;
+            margin: 30px 0;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 12px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        .btn-check {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-check:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .btn-download {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(17, 153, 142, 0.4);
+        }
+        .btn-reset {
+            background: #f44336;
+            color: white;
+        }
+        .btn-reset:hover {
+            background: #d32f2f;
+            transform: translateY(-2px);
+        }
+        .feedback {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+        }
+        .feedback h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .feedback-item {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .feedback-correct {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+        }
+        .feedback-incorrect {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+        }
+        .name-input {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .name-input input {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            width: 300px;
+        }
+        @media (max-width: 768px) {
+            .idioms {
+                grid-template-columns: 1fr;
+            }
+            .buttons {
+                flex-direction: column;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>POR vs. PARA</h1>
+            <p>Práctica Interactiva con Retroalimentación</p>
+        </div>
+
+        <div class="rules">
+            <h2>Usos Comunes de POR y PARA</h2>
+            
+            <div class="rule-section">
+                <div class="rule-title">A. PARA (destino o propósito):</div>
+                <div class="rule-item"><strong>1.</strong> Destino u objetivo: <em>Salgo mañana para Madrid.</em></div>
+                <div class="rule-item"><strong>2.</strong> Propósito, uso, objetivo: <em>Practican para mejorar.</em></div>
+                <div class="rule-item"><strong>3.</strong> Fecha límite: <em>Hay que hacerlo para el lunes.</em></div>
+                <div class="rule-item"><strong>4.</strong> Comparación contra la expectativa normal: <em>Es alto para su edad.</em></div>
+                <div class="rule-item"><strong>5.</strong> Opinión ("Para mí..."): <em>Para mí, el tema es interesante.</em></div>
+            </div>
+
+            <div class="rule-section">
+                <div class="rule-title">B. POR (motivación o sustitución):</div>
+                <div class="rule-item"><strong>1.</strong> Intercambio, sustitución, tasa: <em>$5 por galón</em></div>
+                <div class="rule-item"><strong>2A.</strong> Motivo, causa: <em>No jugaron por la lluvia.</em></div>
+                <div class="rule-item"><strong>2B.</strong> Motivo, en favor de: <em>Lucharon por la libertad.</em></div>
+                <div class="rule-item"><strong>3.</strong> A través de: <em>Pasamos por el túnel.</em></div>
+                <div class="rule-item"><strong>4.</strong> Agente: <em>Fue escrito por ella.</em></div>
+                <div class="rule-item"><strong>5.</strong> Medio de transporte o comunicación: <em>Llegó por avión.</em></div>
+                <div class="rule-item"><strong>6.</strong> Duración en el tiempo (opcional): <em>Vivió aquí (por) un año.</em></div>
+                <div class="rule-item"><strong>7.</strong> Expresiones idiomáticas:</div>
+                
+                <div class="idioms">
+                    <div class="idiom-item"><strong>por fin</strong> - finally</div>
+                    <div class="idiom-item"><strong>por ejemplo</strong> - for example</div>
+                    <div class="idiom-item"><strong>por supuesto</strong> - of course</div>
+                    <div class="idiom-item"><strong>por eso</strong> - that's why</div>
+                    <div class="idiom-item"><strong>por lo menos</strong> - at least</div>
+                    <div class="idiom-item"><strong>por favor</strong> - please</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="exercise-area">
+            <div class="instructions">
+                <strong>Instrucciones:</strong> Selecciona <em>por</em> o <em>para</em> en cada espacio en blanco.
+            </div>
+
+            <div class="score-display">
+                Puntuación: <span id="score">0</span>%
+            </div>
+
+            <div id="questions"></div>
+
+            <div class="name-input">
+                <label for="studentName"><strong>Tu nombre:</strong></label><br>
+                <input type="text" id="studentName" placeholder="Escribe tu nombre aquí">
+            </div>
+
+            <div class="buttons">
+                <button class="btn-check" onclick="checkAnswers()">Verificar Respuestas</button>
+                <button class="btn-download" onclick="downloadResults()">Descargar Resultados</button>
+                <button class="btn-reset" onclick="resetExercise()">Reiniciar</button>
+            </div>
+
+            <div class="feedback" id="feedback">
+                <h3>Resultados Detallados</h3>
+                <div id="feedbackContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const exercises = [
+            {
+                spanish: "Voy a comunicarme ___ fax ___ informarles rápidamente.",
+                answers: ["por", "para"],
+                english: "I'm getting in touch via fax to inform them quickly."
+            },
+            {
+                spanish: "No tuve problemas ___ entrar porque me tomaron ___ periodista.",
+                answers: ["para", "por"],
+                english: "I had no problems to get in because they took me for a journalist."
+            },
+            {
+                spanish: "Asistir a la conferencia fue útil ___ mis estudios. Gracias ___ la información.",
+                answers: ["para", "por"],
+                english: "Attending the lecture was useful for my studies. Thanks for the information."
+            },
+            {
+                spanish: "Se propuso un plan ___ controlar la inflación. ___ supuesto, el senado lo rechazó.",
+                answers: ["para", "Por"],
+                english: "A plan to control inflation was proposed. Of course, the Senate rejected it."
+            },
+            {
+                spanish: "Gloria no come postres ___ no engordar. Se preocupa ___ su salud.",
+                answers: ["para", "por"],
+                english: "Gloria doesn't eat dessert in order not to get fat. She worries about her health."
+            },
+            {
+                spanish: "___ fin hicieron una fiesta ___ celebrar el cumpleaños de su abuela.",
+                answers: ["Por", "para"],
+                english: "At last they threw a party to celebrate their grandmother's birthday."
+            },
+            {
+                spanish: "Muchos animales mueren ___ la contaminación. ___ eso hay especies en peligro.",
+                answers: ["por", "Por"],
+                english: "Many animals are dying because of pollution. That's why some species are in danger."
+            },
+            {
+                spanish: "___ varios años trabajó ___ una corporación multinacional.",
+                answers: ["Por", "para"],
+                english: "For years, s/he worked for a multinational company."
+            },
+            {
+                spanish: "___ mí, lo mejor son las vacaciones. Hay oportunidades ___ todo.",
+                answers: ["Para", "para"],
+                english: "To me, the best part is the vacation. There are opportunities for everything."
+            },
+            {
+                spanish: "Muchas zonas del Caribe han sufrido desastres ___ los huracanes.",
+                answers: ["por"],
+                english: "Many areas in the Caribbean have suffered disasters because of hurricanes."
+            },
+            {
+                spanish: "No me interesan esos juegos ___ niños. Pero estoy loco ___ los videojuegos.",
+                answers: ["para", "por"],
+                english: "I'm no longer interested in those games that are for children, but I'm crazy about videogames."
+            },
+            {
+                spanish: "¿___ cuándo es la presentación? Es ___ el martes.",
+                answers: ["Para", "para"],
+                english: "When is the presentation for? It's for Tuesday."
+            },
+            {
+                spanish: "Necesitamos prepararnos ___ esa presentación ___ lo menos desde el lunes.",
+                answers: ["para", "por"],
+                english: "We need to get prepared for that presentation at least on (since) Monday."
+            },
+            {
+                spanish: "___ ir a Lima desde Bogotá ___ tierra, hay que pasar ___ Quito.",
+                answers: ["Para", "por", "por"],
+                english: "To go to Lima from Bogota by land, one has to go through Quito."
+            },
+            {
+                spanish: "Se preparan ___ el futuro y no van a desanimarse ___ ningún motivo.",
+                answers: ["para", "por"],
+                english: "They are getting prepared for the future and they're not giving up for any reason."
+            },
+            {
+                spanish: "Tiene muchas clases ___ ser una universidad pequeña. ___ eso me gusta.",
+                answers: ["para", "Por"],
+                english: "For a small college it has a lot of classes. That's why I like it."
+            },
+            {
+                spanish: "Muchas mujeres tienen que luchar ___ sus derechos ___ obtener la igualdad.",
+                answers: ["por", "para"],
+                english: "Many women have to fight for their rights in order to obtain equality."
+            }
+        ];
+
+        function createExercises() {
+            const container = document.getElementById('questions');
+            exercises.forEach((ex, idx) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                
+                let sentence = ex.spanish;
+                let selectIndex = 0;
+                
+                sentence = sentence.replace(/___(___)?/g, () => {
+                    const id = `q${idx}_${selectIndex}`;
+                    selectIndex++;
+                    return `<select id="${id}" onchange="updateScore()">
+                        <option value="">---</option>
+                        <option value="por">por</option>
+                        <option value="para">para</option>
+                        <option value="Por">Por</option>
+                        <option value="Para">Para</option>
+                    </select>`;
+                });
+                
+                questionDiv.innerHTML = `
+                    <div class="question-number">Pregunta ${idx + 1}</div>
+                    <div class="sentence">${sentence}</div>
+                    <div class="translation">${ex.english}</div>
+                `;
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function normalizeAnswer(str) {
+            return str.toLowerCase().trim();
+        }
+
+        function updateScore() {
+            let correct = 0;
+            let total = 0;
+            
+            exercises.forEach((ex, idx) => {
+                ex.answers.forEach((ans, subIdx) => {
+                    const select = document.getElementById(`q${idx}_${subIdx}`);
+                    if (select && select.value) {
+                        total++;
+                        if (normalizeAnswer(select.value) === normalizeAnswer(ans)) {
+                            correct++;
+                        }
+                    }
+                });
+            });
+            
+            const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+            document.getElementById('score').textContent = percentage;
+        }
+
+        function checkAnswers() {
+            let correct = 0;
+            let total = 0;
+            let feedbackHTML = '';
+            
+            exercises.forEach((ex, idx) => {
+                let questionCorrect = true;
+                let userAnswers = [];
+                let correctAnswers = [...ex.answers]; // Create a copy
+                
+                correctAnswers.forEach((ans, subIdx) => {
+                    const select = document.getElementById(`q${idx}_${subIdx}`);
+                    total++;
+                    
+                    if (select) {
+                        const userValue = select.value || '';
+                        const isCorrect = normalizeAnswer(userValue) === normalizeAnswer(ans);
+                        if (isCorrect) {
+                            correct++;
+                            select.className = 'correct';
+                        } else {
+                            select.className = 'incorrect';
+                            questionCorrect = false;
+                        }
+                        userAnswers.push(userValue || '(vacío)');
+                    }
+                });
+                
+                const feedbackClass = questionCorrect ? 'feedback-correct' : 'feedback-incorrect';
+                const icon = questionCorrect ? '✓' : '✗';
+                
+                // Build the completed sentence
+                let completedSentence = ex.spanish;
+                let answersCopy = [...ex.answers];
+                completedSentence = completedSentence.replace(/___(___)?/g, () => {
+                    return `<strong>${answersCopy.shift() || ''}</strong>`;
+                });
+                
+                feedbackHTML += `
+                    <div class="feedback-item ${feedbackClass}">
+                        <strong>${icon} Pregunta ${idx + 1}</strong><br>
+                        Tus respuestas: <strong>${userAnswers.join(', ')}</strong><br>
+                        Respuestas correctas: <strong>${ex.answers.join(', ')}</strong><br>
+                        <div style="margin-top: 10px;">${completedSentence}</div>
+                        <div style="font-size: 0.9em; color: #666; margin-top: 5px;"><em>${ex.english}</em></div>
+                    </div>
+                `;
+            });
+            
+            const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+            document.getElementById('score').textContent = percentage;
+            document.getElementById('feedbackContent').innerHTML = `
+                <div style="text-align: center; font-size: 1.3em; margin-bottom: 20px; padding: 15px; background: white; border-radius: 10px;">
+                    <strong>Puntuación Final: ${correct}/${total} (${percentage}%)</strong>
+                </div>
+                ${feedbackHTML}
+            `;
+            
+            document.getElementById('feedback').style.display = 'block';
+            document.getElementById('feedback').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function downloadResults() {
+            const studentName = document.getElementById('studentName').value.trim() || 'Estudiante';
+            let text = `POR VS. PARA - RESULTADOS\n`;
+            text += `========================================\n\n`;
+            text += `Estudiante: ${studentName}\n`;
+            text += `Fecha: ${new Date().toLocaleString('es-ES')}\n\n`;
+            
+            let correct = 0;
+            let total = 0;
+            
+            exercises.forEach((ex, idx) => {
+                text += `\nPregunta ${idx + 1}:\n`;
+                text += `Frase: ${ex.spanish}\n`;
+                text += `Traducción: ${ex.english}\n\n`;
+                
+                let userAnswers = [];
+                let correctAnswers = [...ex.answers]; // Create a copy
+                
+                correctAnswers.forEach((ans, subIdx) => {
+                    const select = document.getElementById(`q${idx}_${subIdx}`);
+                    total++;
+                    if (select) {
+                        const userAns = select.value || '(vacío)';
+                        const isCorrect = normalizeAnswer(userAns) === normalizeAnswer(ans);
+                        if (isCorrect) correct++;
+                        userAnswers.push(userAns);
+                        
+                        text += `  Espacio ${subIdx + 1}:\n`;
+                        text += `    Tu respuesta: ${userAns}\n`;
+                        text += `    Respuesta correcta: ${ans}\n`;
+                        text += `    ${isCorrect ? '✓ CORRECTO' : '✗ INCORRECTO'}\n`;
+                    }
+                });
+                
+                text += `\n`;
+            });
+            
+            const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+            text += `\n========================================\n`;
+            text += `PUNTUACIÓN FINAL: ${correct}/${total} (${percentage}%)\n`;
+            text += `========================================\n`;
+            
+            // Create and download the file
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            const safeName = studentName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            const timestamp = new Date().getTime();
+            link.download = `por_para_${safeName}_${timestamp}.txt`;
+            
+            document.body.appendChild(link);
+            link.click();
+            
+            setTimeout(() => {
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }, 100);
+            
+            alert(`¡Resultados descargados para ${studentName}!\nRespuestas correctas: ${correct}/${total} (${percentage}%)`);
+        }
+
+        function resetExercise() {
+            exercises.forEach((ex, idx) => {
+                ex.answers.forEach((ans, subIdx) => {
+                    const select = document.getElementById(`q${idx}_${subIdx}`);
+                    if (select) {
+                        select.value = '';
+                        select.className = '';
+                    }
+                });
+            });
+            
+            document.getElementById('score').textContent = '0';
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('studentName').value = '';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize
+        createExercises();
+    </script>
+</body>
+</html>

@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spanish Tourism Technology Practice Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #FDB813 0%, #C60B1E 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .tab-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+        
+        .tab:hover {
+            background: #e0e0e0;
+        }
+        
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .question {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .question-number {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .option {
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+        
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+        
+        .answer {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            border-radius: 5px;
+            color: #155724;
+        }
+        
+        .answer.show {
+            display: block;
+        }
+        
+        .show-answer-btn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .show-answer-btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        .sample-answer {
+            display: none;
+            background: #e7f3ff;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid #0066cc;
+            border-radius: 5px;
+        }
+        
+        .sample-answer.show {
+            display: block;
+        }
+        
+        .sample-answer h4 {
+            color: #0066cc;
+            margin-bottom: 10px;
+        }
+        
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .vocab-card {
+            background: white;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .vocab-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .vocab-spanish {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .vocab-english {
+            color: #666;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .phrases-list {
+            list-style: none;
+        }
+        
+        .phrases-list li {
+            padding: 10px;
+            margin: 8px 0;
+            background: #f8f9fa;
+            border-left: 3px solid #FDB813;
+            border-radius: 5px;
+        }
+        
+        .error-card {
+            background: #fff3cd;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #ffc107;
+            border-radius: 5px;
+        }
+        
+        .incorrect {
+            color: #dc3545;
+            text-decoration: line-through;
+        }
+        
+        .correct {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+        
+        .submit-btn {
+            margin-top: 15px;
+            padding: 12px 30px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .score-display {
+            display: none;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.5em;
+        }
+        
+        .score-display.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🇪🇸 Spanish Tourism Technology Practice Quiz</h1>
+            <p>Tema: El impacto turístico en España</p>
+        </div>
+        
+        <div class="content">
+            <div class="tab-container">
+                <button class="tab active" onclick="showSection('quiz')">Multiple Choice Quiz</button>
+                <button class="tab" onclick="showSection('short')">Short Answer</button>
+                <button class="tab" onclick="showSection('essay')">Extended Response</button>
+                <button class="tab" onclick="showSection('vocab')">Vocabulary</button>
+                <button class="tab" onclick="showSection('stats')">Key Statistics</button>
+                <button class="tab" onclick="showSection('phrases')">Useful Phrases</button>
+                <button class="tab" onclick="showSection('errors')">Common Errors</button>
+            </div>
+            
+            <!-- MULTIPLE CHOICE QUIZ SECTION -->
+            <div id="quiz" class="section active">
+                <h2 style="margin-bottom: 20px;">Multiple Choice Questions</h2>
+                
+                <div class="question" data-answer="b">
+                    <div class="question-number">Question 1</div>
+                    <div class="question-text">¿Cuál de las siguientes plataformas ha contribuido más a la crisis de vivienda en ciudades españolas?</div>
+                    <label class="option"><input type="radio" name="q1" value="a"> TripAdvisor</label>
+                    <label class="option"><input type="radio" name="q1" value="b"> Airbnb y Booking.com</label>
+                    <label class="option"><input type="radio" name="q1" value="c"> Google Maps</label>
+                    <label class="option"><input type="radio" name="q1" value="d"> Instagram</label>
+                    <button class="show-answer-btn" onclick="showAnswer(this, 'b')">Show Answer</button>
+                    <div class="answer"><strong>Correct Answer:</strong> Airbnb y Booking.com</div>
+                </div>
+                
+                <div class="question" data-answer="c">
+                    <div class="question-number">Question 2</div>
+                    <div class="question-text">¿Qué porcentaje aproximado de turismo perdió España durante el COVID-19?</div>
+                    <label class="option"><input type="radio" name="q2" value="a"> 50%</label>
+                    <label class="option"><input type="radio" name="q2" value="b"> 60%</label>
+                    <label class="option"><input type="radio" name="q2" value="c"> 75%</label>
+                    <label class="option"><input type="radio" name="q2" value="d"> 90%</label>
+                    <button class="show-answer-btn" onclick="showAnswer(this, 'c')">Show Answer</button>
+                    <div class="answer"><strong>Correct Answer:</strong> 75%</div>
+                </div>
+                
+                <div class="question" data-answer="c">
+                    <div class="question-number">Question 3</div>
+                    <div class="question-text">¿Qué tecnología permite a los turistas explorar virtualmente un hotel antes de reservar?</div>
+                    <label class="option"><input type="radio" name="q3" value="a"> Inteligencia artificial</label>
+                    <label class="option"><input type="radio" name="q3" value="b"> Blockchain</label>
+                    <label class="option"><input type="radio" name="q3" value="c"> Realidad virtual (VR)</label>
+                    <label class="option"><input type="radio" name="q3" value="d"> 5G</label>
+                    <button class="show-answer-btn" onclick="showAnswer(this, 'c')">Show Answer</button>
+                    <div class="answer"><strong>Correct Answer:</strong> Realidad virtual (VR)</div>
+                </div>
+                
+                <div class="question" data-answer="c">
+                    <div class="question-number">Question 4</div>
+                    <div class="question-text">¿Qué región española registró casi 5 millones de pernoctaciones en turismo rural en 2022?</div>
+                    <label class="option"><input type="radio" name="q4" value="a"> Andalucía</label>
+                    <label class="option"><input type="radio" name="q4" value="b"> Cataluña</label>
+                    <label class="option"><input type="radio" name="q4" value="c"> Asturias</label>
+                    <label class="option"><input type="radio" name="q4" value="d"> Valencia</label>
+                    <button class="show-answer-btn" onclick="showAnswer(this, 'c')">Show Answer</button>
+                    <div class="answer"><strong>Correct Answer:</strong> Asturias</div>
+                </div>
+                
+                <div class="question" data-answer="b">
+                    <div class="question-number">Question 5</div>
+                    <div class="question-text">¿Qué hotel en las Islas Canarias utiliza energía geotérmica?</div>
+                    <label class="option"><input type="radio" name="q5" value="a"> Hotel Barceló</label>
+                    <label class="option"><input type="radio" name="q5" value="b"> Arrecife Gran Hotel</label>
+                    <label class="option"><input type="radio" name="q5" value="c"> Hotel Meliá</label>
+                    <label class="option"><input type="radio" name="q5" value="d"> Parque Central</label>
+                    <button class="show-answer-btn" onclick="showAnswer(this, 'b')">Show Answer</button>
+                    <div class="answer"><strong>Correct Answer:</strong> Arrecife Gran Hotel</div>
+                </div>
+                
+                <div class="question" data-answer="c">
+                    <div class="question-number">Question 6</div>
+                    <div class="question-text">¿Cuántas empresas turísticas están conectadas a la Red de Destinos Inteligentes?</div>
+                    <label class="option"><input type="radio" name="q6" value="a"> Más de 100</label>
+                    <label class="option"><input type="radio" name="q6" value="b"> Más de 250</label>
+                    <label class="option"><input type="radio" name="q6" value="c"> Más de 500</label>
+                    <label class="option"><input type="radio" name="q6" value="d"> Más de 1000</label>
+                    <button class="show-answer-btn" onclick="showAnswer(this, 'c')">Show Answer</button>
+                    <div class="answer"><strong>Correct Answer:</strong> Más de 500</div>
+                </div>
+                
+                <div class="question" data-answer="c">
+                    <div class="question-number">Question 7</div>
+                    <div class="question-text">¿Cuál es una ventaja principal de la tecnología para el turismo español?</div>
+                    <label class="option"><input type="radio" name="q7" value="a"> Reduce el número de turistas</label>
+                    <label class="option"><input type="radio" name="q7" value="b"> Elimina la necesidad de hoteles</label>
+                    <label class="option"><input type="radio" name="q7" value="c"> Permite a las empresas recopilar información sobre preferencias de clientes</label>
+                    <label class="option"><input type="radio" name="q7" value="d"> Hace el turismo más caro</label>
+                    <button class="show-answer-btn" onclick="showAnswer(this, 'c')">Show Answer</button>
+                    <div class="answer"><strong>Correct Answer:</strong> Permite a las empresas recopilar información sobre preferencias de clientes</div>
+                </div>
+                
+                <div class="question" data-answer="b">
+                    <div class="question-number">Question 8</div>
+                    <div class="question-text">¿Qué problema social ha causado Airbnb en ciudades españolas?</div>
+                    <label class="option"><input type="radio" name="q8" value="a"> Demasiados restaurantes</label>
+                    <label class="option"><input type="radio" name="q8" value="b"> Crisis de vivienda y alquileres altos</label>
+                    <label class="option"><input type="radio" name="q8" value="c"> Menos turistas</label>
+                    <label class="option"><input type="radio" name="q8" value="d"> Problemas de transporte</label>
+                    <button class="show-answer-btn" onclick="showAnswer(this, 'b')">Show Answer</button>
+                    <div class="answer"><strong>Correct Answer:</strong> Crisis de vivienda y alquileres altos</div>
+                </div>
+                
+                <div class="question" data-answer="c">
+                    <div class="question-number">Question 9</div>
+                    <div class="question-text">¿Qué tipo de turismo ha crecido como alternativa a sol y playa?</div>
+                    <label class="option"><input type="radio" name="q9" value="a"> Turismo espacial</label>
+                    <label class="option"><input type="radio" name="q9" value="b"> Turismo industrial únicamente</label>
+                    <label class="option"><input type="radio" name="q9" value="c"> Ecoturismo y turismo rural</label>
+                    <label class="option"><input type="radio" name="q9" value="d"> Turismo de compras únicamente</label>
+                    <button class="show-answer-btn" onclick="showAnswer(this, 'c')">Show Answer</button>
+                    <div class="answer"><strong>Correct Answer:</strong> Ecoturismo y turismo rural</div>
+                </div>
+                
+                <div class="question" data-answer="b">
+                    <div class="question-number">Question 10</div>
+                    <div class="question-text">¿Cuál es un riesgo de privacidad relacionado con la tecnología turística?</div>
+                    <label class="option"><input type="radio" name="q10" value="a"> Los hoteles son demasiado grandes</label>
+                    <label class="option"><input type="radio" name="q10" value="b"> Las empresas recopilan y almacenan datos personales</label>
+                    <label class="option"><input type="radio" name="q10" value="c"> Los vuelos son más baratos</label>
+                    <label class="option"><input type="radio" name="q10" value="d"> Hay demasiados turistas</label>
+                    <button class="show-answer-btn" onclick="showAnswer(this, 'b')">Show Answer</button>
+                    <div class="answer"><strong>Correct Answer:</strong> Las empresas recopilan y almacenan datos personales</div>
+                </div>
+                
+                <div class="score-display" id="scoreDisplay"></div>
+                <button class="submit-btn" onclick="calculateScore()">Check My Answers</button>
+            </div>
+            
+            <!-- SHORT ANSWER SECTION -->
+            <div id="short" class="section">
+                <h2 style="margin-bottom: 20px;">Short Answer Questions</h2>
+                
+                <div class="question">
+                    <div class="question-number">Question 1</div>
+                    <div class="question-text">Explica DOS ventajas de la tecnología para el turismo español.</div>
+                    <textarea placeholder="Write your answer here..."></textarea>
+                    <button class="show-answer-btn" onclick="toggleSampleAnswer(this)">Show Sample Answer</button>
+                    <div class="sample-answer">
+                        <h4>Sample Answer:</h4>
+                        <p>La tecnología permite a las empresas turísticas recopilar información sobre los gustos y preferencias de los clientes, lo que mejora los servicios ofrecidos. Además, aplicaciones y redes sociales ayudan a promocionar destinos diversos, atrayendo más turistas a diferentes tipos de alojamiento, incluyendo turismo rural y ecológico.</p>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Question 2</div>
+                    <div class="question-text">Menciona DOS desventajas de las nuevas tecnologías para el turismo español.</div>
+                    <textarea placeholder="Write your answer here..."></textarea>
+                    <button class="show-answer-btn" onclick="toggleSampleAnswer(this)">Show Sample Answer</button>
+                    <div class="sample-answer">
+                        <h4>Sample Answer:</h4>
+                        <p>Plataformas como Airbnb han causado una crisis de vivienda en ciudades como Madrid, Barcelona y Valencia, desplazando a los residentes locales debido al aumento de alquileres. También existe el riesgo de ciberdelincuencia, con estafas frecuentes en sitios web que ofrecen vuelos y hoteles fraudulentos.</p>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Question 3</div>
+                    <div class="question-text">¿Cómo ha cambiado la manera en que los españoles reservan sus vacaciones?</div>
+                    <textarea placeholder="Write your answer here..."></textarea>
+                    <button class="show-answer-btn" onclick="toggleSampleAnswer(this)">Show Sample Answer</button>
+                    <div class="sample-answer">
+                        <h4>Sample Answer:</h4>
+                        <p>Muchos españoles ahora reservan sus vacaciones en línea a través de sus teléfonos móviles en lugar de ir a una agencia de viajes tradicional. Esto ha tenido un impacto negativo en las empresas turísticas tradicionales, aunque permite a los turistas encontrar viajes de bajo coste más fácilmente.</p>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Question 4</div>
+                    <div class="question-text">Describe DOS tipos de turismo alternativos que han crecido en España recientemente.</div>
+                    <textarea placeholder="Write your answer here..."></textarea>
+                    <button class="show-answer-btn" onclick="toggleSampleAnswer(this)">Show Sample Answer</button>
+                    <div class="sample-answer">
+                        <h4>Sample Answer:</h4>
+                        <p>El ecoturismo y el turismo rural han crecido significativamente, con los turistas buscando experiencias más auténticas en el campo español. También ha aumentado el turismo gastronómico y de cata de vinos, así como el turismo cultural y ciclista, ofreciendo alternativas al tradicional modelo de sol y playa.</p>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Question 5</div>
+                    <div class="question-text">¿Qué es la Red de Destinos Inteligentes?</div>
+                    <textarea placeholder="Write your answer here..."></textarea>
+                    <button class="show-answer-btn" onclick="toggleSampleAnswer(this)">Show Sample Answer</button>
+                    <div class="sample-answer">
+                        <h4>Sample Answer:</h4>
+                        <p>La Red de Destinos Inteligentes es un proyecto gubernamental español que utiliza nuevas tecnologías para mejorar la experiencia turística. Más de 500 empresas turísticas ya están conectadas a esta red, que incluye aplicaciones con mapas e información para turistas.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- EXTENDED RESPONSE SECTION -->
+            <div id="essay" class="section">
+                <h2 style="margin-bottom: 20px;">Extended Response Questions (150-200 words)</h2>
+                
+                <div class="question">
+                    <div class="question-number">Essay Question 1</div>
+                    <div class="question-text">La tecnología está revolucionando el turismo español. ¿Hasta qué punto estás de acuerdo con esta afirmación? Menciona ventajas Y desventajas.</div>
+                    <textarea placeholder="Write your answer here..."></textarea>
+                    <div class="sample-answer">
+                        <h4>Sample Answer:</h4>
+                        <p>Estoy bastante de acuerdo con esta afirmación, aunque la revolución tiene aspectos positivos y negativos. Por un lado, la tecnología ha transformado cómo los turistas planifican y reservan vacaciones. Aplicaciones, redes sociales y sitios web promocionan destinos diversos, atrayendo más visitantes. La realidad virtual permite explorar hoteles antes de reservar, y proyectos como la Red de Destinos Inteligentes mejoran la experiencia turística. España utiliza tecnología avanzada para proteger el patrimonio ecológico.</p>
+                        <p>Sin embargo, plataformas como Airbnb han creado una crisis de vivienda grave en ciudades principales, desplazando residentes locales. Los alquileres han subido dramáticamente en Madrid, Barcelona y Valencia. También existen riesgos de privacidad con la recopilación de datos personales, y la ciberdelincuencia ha aumentado con estafas frecuentes en reservas turísticas. En conclusión, aunque la tecnología ha revolucionado positivamente muchos aspectos del turismo español, también ha creado problemas sociales significativos que requieren regulación gubernamental.</p>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Essay Question 2</div>
+                    <div class="question-text">Además de sol y playa, ¿qué otras formas de turismo se han desarrollado en España? ¿Por qué crees que han crecido?</div>
+                    <textarea placeholder="Write your answer here..."></textarea>
+                    <div class="sample-answer">
+                        <h4>Sample Answer:</h4>
+                        <p>España ha diversificado enormemente su oferta turística en las últimas décadas. El ecoturismo y turismo rural han crecido, especialmente en regiones como Asturias, que registró casi 5 millones de pernoctaciones en 2022. El turismo gastronómico y de cata de vinos atrae a turistas interesados en la cultura culinaria española. El turismo cultural, lingüístico y ciclista también han aumentado en popularidad. Incluso el turismo religioso, como el Camino de Santiago, sigue siendo importante.</p>
+                        <p>Estas formas han crecido porque los turistas modernos buscan experiencias más auténticas y variadas más allá de las playas tradicionales. La tecnología ha facilitado este crecimiento mediante aplicaciones especializadas que proporcionan información sobre rutas, mapas y experiencias locales. Proyectos como TRINO en Castilla y León utilizan tecnología para promover el turismo ornitológico. Además, hay mayor conciencia ambiental, con la industria turística invirtiendo en energías renovables, como el Arrecife Gran Hotel que funciona con energía geotérmica.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- VOCABULARY SECTION -->
+            <div id="vocab" class="section">
+                <h2 style="margin-bottom: 20px;">Vocabulary - Key Terms</h2>
+                <div class="vocab-grid">
+                    <div class="vocab-card">
+                        <div class="vocab-spanish">Masificación turística</div>
+                        <div class="vocab-english">Overtourism / Mass tourism</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="vocab-spanish">Turismo borrachero</div>
+                        <div class="vocab-english">Binge-drinking tourism</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="vocab-spanish">Destinos inteligentes</div>
+                        <div class="vocab-english">Smart destinations</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="vocab-spanish">Energías renovables</div>
+                        <div class="vocab-english">Renewable energy</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="vocab-spanish">Ciberdelincuencia</div>
+                        <div class="vocab-english">Cybercrime</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="vocab-spanish">Pernoctaciones</div>
+                        <div class="vocab-english">Overnight stays</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="vocab-spanish">Ecoturismo</div>
+                        <div class="vocab-english">Ecotourism</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="vocab-spanish">Patrimonio</div>
+                        <div class="vocab-english">Heritage</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="vocab-spanish">Realidad virtual</div>
+                        <div class="vocab-english">Virtual reality</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="vocab-spanish">Crisis de vivienda</div>
+                        <div class="vocab-english">Housing crisis</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="vocab-spanish">Turismo gastronómico</div>
+                        <div class="vocab-english">Gastronomic tourism</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="vocab-spanish">Alquiler turístico</div>
+                        <div class="vocab-english">Tourist rental</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- KEY STATISTICS SECTION -->
+            <div id="stats" class="section">
+                <h2 style="margin-bottom: 20px;">Key Statistics to Memorize</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">75%</div>
+                        <div class="stat-label">Drop in tourism during COVID-19</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">5M</div>
+                        <div class="stat-label">Overnight stays in Asturias rural tourism (2022)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Tourism businesses in Smart Destinations Network</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">8M</div>
+                        <div class="stat-label">Tourists in Barcelona/Madrid (vs 1.5M residents)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">40%</div>
+                        <div class="stat-label">Immigrants arriving in Spain who are poor</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">1,000</div>
+                        <div class="stat-label">Immigrants arriving monthly to Canary Islands</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- USEFUL PHRASES SECTION -->
+            <div id="phrases" class="section">
+                <h2 style="margin-bottom: 20px;">Useful Phrases for Speaking</h2>
+                
+                <h3 style="margin-top: 20px; color: #667eea;">Expressing Balanced Opinions</h3>
+                <ul class="phrases-list">
+                    <li><strong>Tiene aspectos positivos y negativos...</strong> - It has positive and negative aspects...</li>
+                    <li><strong>Por un lado... por otro lado...</strong> - On one hand... on the other hand...</li>
+                    <li><strong>Aunque reconozco que... también hay que considerar...</strong> - Although I recognize that... we also must consider...</li>
+                </ul>
+                
+                <h3 style="margin-top: 20px; color: #667eea;">Giving Examples</h3>
+                <ul class="phrases-list">
+                    <li><strong>Un ejemplo claro es...</strong> - A clear example is...</li>
+                    <li><strong>Se puede ver en el caso de...</strong> - You can see in the case of...</li>
+                    <li><strong>Proyectos como... demuestran que...</strong> - Projects like... demonstrate that...</li>
+                </ul>
+                
+                <h3 style="margin-top: 20px; color: #667eea;">Showing Analysis</h3>
+                <ul class="phrases-list">
+                    <li><strong>Esto ha provocado/causado...</strong> - This has provoked/caused...</li>
+                    <li><strong>Como consecuencia...</strong> - As a consequence...</li>
+                    <li><strong>Esto se debe a que...</strong> - This is due to the fact that...</li>
+                    <li><strong>Lo cual ha resultado en...</strong> - Which has resulted in...</li>
+                </ul>
+                
+                <h3 style="margin-top: 20px; color: #667eea;">Engaging the Examiner</h3>
+                <ul class="phrases-list">
+                    <li><strong>¿No te parece?</strong> - Don't you think?</li>
+                    <li><strong>¿Estás de acuerdo?</strong> - Do you agree?</li>
+                    <li><strong>¿Tú qué opinas sobre esto?</strong> - What do you think about this?</li>
+                    <li><strong>¿Comprendes mi punto de vista?</strong> - Do you understand my point of view?</li>
+                    <li><strong>¿Sabes a qué me refiero?</strong> - Do you know what I mean?</li>
+                </ul>
+            </div>
+            
+            <!-- COMMON ERRORS SECTION -->
+            <div id="errors" class="section">
+                <h2 style="margin-bottom: 20px;">Common Errors to Avoid</h2>
+                
+                <div class="error-card">
+                    <h3 style="margin-bottom: 10px;">Grammar: Using "haber"</h3>
+                    <p><span class="incorrect">✗ Han habido cambios</span></p>
+                    <p><span class="correct">✓ Ha habido cambios</span></p>
+                    <p style="margin-top: 10px; color: #666;"><em>Remember: "haber" is always singular in impersonal expressions</em></p>
+                </div>
+                
+                <div class="error-card">
+                    <h3 style="margin-bottom: 10px;">Avoiding Anglicisms</h3>
+                    <p><span class="incorrect">✗ Para chequear los destinos</span></p>
+                    <p><span class="correct">✓ Para visitar/explorar/conocer los destinos</span></p>
+                    <p style="margin-top: 10px; color: #666;"><em>Use Spanish verbs instead of English borrowings</em></p>
+                </div>
+                
+                <div class="error-card">
+                    <h3 style="margin-bottom: 10px;">Comparative of "grande"</h3>
+                    <p><span class="incorrect">✗ Una más grande parte</span></p>
+                    <p><span class="correct">✓ Una mayor parte / Una gran parte</span></p>
+                    <p style="margin-top: 10px; color: #666;"><em>Use "mayor" for comparative, "gran" before singular nouns</em></p>
+                </div>
+                
+                <div class="error-card">
+                    <h3 style="margin-bottom: 10px;">Verb Agreement</h3>
+                    <p><span class="incorrect">✗ La mayoría tienden de Rumanía</span></p>
+                    <p><span class="correct">✓ La mayoría viene/procede de Rumanía</span></p>
+                    <p style="margin-top: 10px; color: #666;"><em>Use appropriate verbs for origin/source</em></p>
+                </div>
+                
+                <div class="error-card">
+                    <h3 style="margin-bottom: 10px;">Numbers and Quantities</h3>
+                    <p><span class="incorrect">✗ 600 miles de habitantes</span></p>
+                    <p><span class="correct">✓ 600.000 habitantes / 600 mil habitantes</span></p>
+                    <p style="margin-top: 10px; color: #666;"><em>Avoid English "miles/thousands" - use Spanish number system</em></p>
+                </div>
+                
+                <h3 style="margin-top: 30px; color: #667eea;">Vocabulary Precision Tips</h3>
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-top: 15px;">
+                    <p><strong>✓ DO USE:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>Turismo borrachero</strong> - legitimate term used by Spanish authorities</li>
+                        <li><strong>Masificación turística</strong> - specific term for overtourism</li>
+                        <li><strong>Pernoctaciones</strong> - overnight stays (technical term)</li>
+                        <li><strong>Patrimonio</strong> - heritage (not "herencia")</li>
+                    </ul>
+                    
+                    <p style="margin-top: 20px;"><strong>✗ AVOID:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Over-reliance on "yo creo que" - vary your expressions</li>
+                        <li>Repetitive "se puede ver" - use alternatives like "se observa," "es evidente que"</li>
+                        <li>Too many fillers: "pues," "eh," "em" - practice smoother transitions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+        
+        function showAnswer(button, correctAnswer) {
+            const answerDiv = button.nextElementSibling;
+            if (answerDiv.classList.contains('show')) {
+                answerDiv.classList.remove('show');
+                button.textContent = 'Show Answer';
+            } else {
+                answerDiv.classList.add('show');
+                button.textContent = 'Hide Answer';
+            }
+        }
+        
+        function toggleSampleAnswer(button) {
+            const sampleAnswer = button.nextElementSibling;
+            if (sampleAnswer.classList.contains('show')) {
+                sampleAnswer.classList.remove('show');
+                button.textContent = 'Show Sample Answer';
+            } else {
+                sampleAnswer.classList.add('show');
+                button.textContent = 'Hide Sample Answer';
+            }
+        }
+        
+        function calculateScore() {
+            let correct = 0;
+            let total = 10;
+            
+            const answers = {
+                'q1': 'b',
+                'q2': 'c',
+                'q3': 'c',
+                'q4': 'c',
+                'q5': 'b',
+                'q6': 'c',
+                'q7': 'c',
+                'q8': 'b',
+                'q9': 'c',
+                'q10': 'b'
+            };
+            
+            for (let q in answers) {
+                const selected = document.querySelector(`input[name="${q}"]:checked`);
+                if (selected && selected.value === answers[q]) {
+                    correct++;
+                }
+            }
+            
+            const percentage = Math.round((correct / total) * 100);
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            scoreDisplay.innerHTML = `
+                <div>Your Score: ${correct} / ${total}</div>
+                <div style="font-size: 0.8em; margin-top: 10px;">${percentage}%</div>
+            `;
+            scoreDisplay.classList.add('show');
+            
+            // Scroll to score
+            scoreDisplay.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        // Add hover effects to options
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove previous selection styling in this question
+                const questionDiv = this.closest('.question');
+                questionDiv.querySelectorAll('.option').forEach(opt => {
+                    opt.style.background = 'white';
+                    opt.style.borderColor = '#e0e0e0';
+                });
+                
+                // Style selected option
+                this.style.background = '#f0f4ff';
+                this.style.borderColor = '#667eea';
+            });
+        });
+    </script>
+</body>
+</html>

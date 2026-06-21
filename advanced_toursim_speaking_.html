@@ -1,0 +1,795 @@
+Here is your corrected and fully wired HTML (with the floating priority accent keyboard working and some small structural fixes like a missing closing `</div>` and extended download list for Q10–Q14).
+
+Save as e.g. `turismo-espanol-oral.html` and open in a browser.
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Turismo en España – Condicionales y Subjuntivo (Prep. Oral)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background: radial-gradient(circle at top, #1d2554 0, #0b1020 50%, #020617 100%);
+      min-height:100vh;
+      padding:20px;
+      color:#0f172a;
+    }
+    .container {
+      max-width:1120px;
+      margin:0 auto;
+      background:#f9fafb;
+      border-radius:16px;
+      padding:28px 24px 32px;
+      box-shadow:0 20px 55px rgba(15,23,42,0.6);
+      border:1px solid rgba(148,163,184,0.7);
+    }
+    h1 {
+      text-align:center;
+      font-size:1.6rem;
+      margin-bottom:0.25rem;
+      color:#0f172a;
+    }
+    .subtitle {
+      text-align:center;
+      font-size:0.9rem;
+      color:#6b7280;
+      margin-bottom:1.1rem;
+    }
+    .top-row {
+      display:flex;
+      flex-wrap:wrap;
+      gap:0.6rem;
+      justify-content:space-between;
+      align-items:flex-start;
+      margin-bottom:0.8rem;
+    }
+    .chips {
+      display:flex;
+      flex-wrap:wrap;
+      gap:0.35rem;
+    }
+    .chip {
+      font-size:0.72rem;
+      padding:0.15rem 0.55rem;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,0.7);
+      color:#4b5563;
+      background:#e5e7eb;
+    }
+    .mode-toggle {
+      font-size:0.8rem;
+      color:#374151;
+    }
+    .mode-toggle input { margin-right:0.25rem; }
+
+    label {
+      display:block;
+      font-size:0.8rem;
+      color:#4b5563;
+      margin-bottom:0.2rem;
+    }
+    #studentName {
+      width:100%;
+      max-width:260px;
+      padding:0.4rem 0.55rem;
+      border-radius:0.4rem;
+      border:1px solid #cbd5e1;
+      font-size:0.9rem;
+      margin-bottom:0.5rem;
+    }
+
+    .grammar-box {
+      background:#eef2ff;
+      border-radius:10px;
+      padding:14px 16px;
+      margin-bottom:0.9rem;
+      border-left:4px solid #4f46e5;
+      font-size:0.85rem;
+    }
+    .grammar-box strong { color:#4f46e5; }
+    .grammar-box .ind { color:#2563eb; font-weight:600; }
+    .grammar-box .subj { color:#b91c1c; font-weight:600; }
+
+    .section-title {
+      margin-top:0.4rem;
+      margin-bottom:0.3rem;
+      font-size:0.95rem;
+      font-weight:600;
+      color:#111827;
+    }
+
+    .question {
+      margin:14px 0;
+      padding:12px 14px;
+      background:#ffffff;
+      border-radius:9px;
+      border-left:4px solid #4f46e5;
+      box-shadow:0 4px 10px rgba(15,23,42,0.05);
+    }
+    .question-number {
+      font-weight:700;
+      font-size:0.9rem;
+      color:#4f46e5;
+      margin-bottom:0.15rem;
+    }
+    .instruction {
+      font-size:0.83rem;
+      color:#4b5563;
+      margin-bottom:0.3rem;
+    }
+    .example {
+      background:#fffbeb;
+      border-left:3px solid #f59e0b;
+      border-radius:4px;
+      padding:7px 8px;
+      font-size:0.8rem;
+      color:#6b7280;
+      margin-bottom:0.35rem;
+    }
+    textarea {
+      width:100%;
+      min-height:70px;
+      padding:9px 10px;
+      border-radius:0.5rem;
+      border:1px solid #d1d5db;
+      font-size:0.9rem;
+      font-family:inherit;
+      resize:vertical;
+      transition:all 0.25s;
+    }
+    textarea:focus {
+      outline:none;
+      border-color:#4f46e5;
+      background:#eef2ff;
+    }
+
+    .hint-row {
+      margin-top:0.25rem;
+      display:flex;
+      flex-wrap:wrap;
+      gap:0.3rem;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .hint-button {
+      border:none;
+      background:none;
+      color:#4b5563;
+      font-size:0.75rem;
+      cursor:pointer;
+      text-decoration:underline;
+      padding:0;
+    }
+    .hint-button:hover { color:#111827; }
+
+    .answer-key {
+      display:none;
+      margin-top:0.25rem;
+      font-size:0.8rem;
+      padding:0.4rem 0.5rem;
+      border-radius:0.4rem;
+      background:#ecfdf5;
+      border:1px solid #22c55e;
+      color:#166534;
+    }
+    .answer-key.show { display:block; }
+
+    .connectors {
+      font-size:0.75rem;
+      color:#6b7280;
+      margin-top:0.1rem;
+    }
+    .connectors span {
+      background:#e5e7eb;
+      border-radius:999px;
+      padding:0.05rem 0.4rem;
+      margin-right:0.2rem;
+    }
+
+    .buttons {
+      margin-top:1rem;
+      display:flex;
+      flex-wrap:wrap;
+      gap:0.5rem;
+      justify-content:flex-start;
+    }
+    button {
+      border-radius:999px;
+      border:1px solid #4f46e5;
+      background:linear-gradient(to right,#4f46e5,#6366f1);
+      color:#f9fafb;
+      font-size:0.86rem;
+      padding:0.4rem 0.9rem;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:0.3rem;
+    }
+    button.secondary {
+      background:#e5e7eb;
+      border-color:#cbd5e1;
+      color:#111827;
+    }
+    button:hover {
+      filter:brightness(1.05);
+    }
+
+    #results {
+      margin-top:0.75rem;
+      padding:0.65rem 0.75rem;
+      border-radius:0.55rem;
+      background:#ecfdf5;
+      border:1px solid #22c55e;
+      font-size:0.86rem;
+      display:none;
+    }
+    #teacherComment {
+      margin-top:0.3rem;
+      font-size:0.8rem;
+      color:#4b5563;
+    }
+    .mono {
+      font-family:ui-monospace,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    }
+
+    /* Floating accent keyboard (high-priority accents only) */
+    .accent-keyboard {
+      position:fixed;
+      right:0.8rem;
+      bottom:0.8rem;
+      background:rgba(15,23,42,0.97);
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,0.85);
+      padding:0.2rem 0.45rem;
+      display:flex;
+      align-items:center;
+      gap:0.25rem;
+      box-shadow:0 18px 40px rgba(0,0,0,0.7);
+      z-index:20;
+      backdrop-filter:blur(10px);
+    }
+    .accent-toggle {
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,0.8);
+      padding:0.18rem 0.45rem;
+      font-size:0.75rem;
+      background:radial-gradient(circle at top,#020617,#020617);
+      color:#e5e7eb;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:0.25rem;
+    }
+    .accent-label {
+      font-size:0.68rem;
+      color:#9ca3af;
+      white-space:nowrap;
+    }
+    .accent-keys {
+      display:none;
+      gap:0.15rem;
+      margin-left:0.25rem;
+    }
+    .accent-keyboard.open .accent-keys { display:inline-flex; }
+    .accent-key {
+      min-width:1.25rem;
+      text-align:center;
+      font-size:0.8rem;
+      padding:0.15rem 0.25rem;
+      border-radius:0.45rem;
+      border:1px solid rgba(148,163,184,0.7);
+      background:rgba(15,23,42,0.95);
+      color:#e5e7eb;
+      cursor:pointer;
+    }
+    .accent-key:hover { background:rgba(31,41,55,0.95); }
+
+    @media (max-width:768px) {
+      .container { padding:20px 16px 26px; }
+      h1 { font-size:1.35rem; }
+      .accent-keyboard {
+        left:0.7rem;
+        right:0.7rem;
+        justify-content:center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Turismo en España – Condicionales y Subjuntivo</h1>
+    <p class="subtitle">Construye frases avanzadas que puedas reutilizar en tu examen oral sobre turismo sostenible en España. [file:4]</p>
+
+    <div class="top-row">
+      <div>
+        <label for="studentName">Nombre y grupo</label>
+        <input type="text" id="studentName" placeholder="Ej. Marta L., 2º Bach">
+      </div>
+      <div class="mode-toggle">
+        <label>
+          <input type="checkbox" id="speakingMode" onchange="toggleSpeakingMode()">
+          Modo oral: ocultar ejemplos y obligarme a crear mis frases
+        </label>
+      </div>
+    </div>
+
+    <div class="chips">
+      <span class="chip">Si + condicional / subjuntivo</span>
+      <span class="chip">turismo sostenible</span>
+      <span class="chip">sequía y agua</span>
+      <span class="chip">cambio climático</span>
+      <span class="chip">modelos turísticos</span>
+    </div>
+
+    <div class="grammar-box">
+      <p><strong>Guía rápida:</strong> en tus respuestas orales vas a necesitar mezclar <span class="ind">indicativo</span> y <span class="subj">subjuntivo</span> al hablar de turismo en España. [file:4]</p>
+      <p><span class="ind">Indicativo</span> – hechos, causas, consecuencias reales: <em>“Debido al cambio climático, España está adaptando su modelo turístico…”</em> [file:4]</p>
+      <p><span class="subj">Subjuntivo</span> – hipótesis, condición, finalidad: <em>“Si fuera posible desarrollar más destinos alternativos, habría menos presión sobre la costa catalana y las islas.”</em> [file:4]</p>
+    </div>
+
+    <div class="section-title">Bloque A – Condicionales útiles para el oral</div>
+
+    <!-- Q1 -->
+    <div class="question">
+      <div class="question-number">1. Si ... (condición real, indicativo)</div>
+      <p class="instruction">
+        Escribe una frase sobre la necesidad de reducir el consumo de energía y agua en el turismo masivo en España. Usa <span class="ind">si + presente de indicativo</span> + consecuencia real. [file:4]
+      </p>
+      <div class="example">
+        Idea: relaciona consumo de energía y agua con el impacto ambiental del turismo de sol y playa. [file:4]
+      </div>
+      <textarea id="q1" placeholder="Ej.: Si no reducimos..., el impacto ambiental..."></textarea>
+      <div class="hint-row">
+        <button type="button" class="hint-button" onclick="toggleHint('answer-q1')">💡 Necesito una pista</button>
+        <div class="connectors"><span>si</span><span>el turismo masivo</span><span>impacto ambiental</span></div>
+      </div>
+      <div class="answer-key" id="answer-q1">
+        Plantilla posible:<br>
+        Si <u>no reducimos</u> el consumo de energía y agua, <u>________</u> el impacto ambiental del turismo masivo en España.
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question">
+      <div class="question-number">2. Si ... (hipótesis, subjuntivo imperfecto + condicional)</div>
+      <p class="instruction">
+        Escribe una frase hipotética sobre desarrollar destinos alternativos para aliviar la presión en la costa y las islas. Usa <span class="subj">si + subjuntivo imperfecto</span> + <span class="ind">condicional</span>. [file:4]
+      </p>
+      <div class="example">
+        Idea: conecta destinos alternativos (interior, norte) con menos presión turística en la costa catalana y las islas. [file:4]
+      </div>
+      <textarea id="q2" placeholder="Ej.: Si fuera posible desarrollar más destinos..., habría menos presión..."></textarea>
+      <div class="hint-row">
+        <button type="button" class="hint-button" onclick="toggleHint('answer-q2')">💡 Necesito una pista</button>
+        <div class="connectors"><span>si fuera posible</span><span>habría menos</span><span>presión turística</span></div>
+      </div>
+      <div class="answer-key" id="answer-q2">
+        Plantilla posible:<br>
+        Si <u>fuera posible desarrollar</u> más destinos alternativos en el interior, <u>habría menos presión</u> sobre los destinos de la costa y las islas.
+      </div>
+    </div>
+
+    <div class="section-title">Bloque B – Conectores con subjuntivo</div>
+
+    <!-- Q3 -->
+    <div class="question">
+      <div class="question-number">3. A menos que + subjuntivo</div>
+      <p class="instruction">
+        Escribe una frase sobre diversificar los modelos turísticos para garantizar la sostenibilidad. Usa <span class="subj">a menos que + subjuntivo</span>. [file:4]
+      </p>
+      <div class="example">
+        Idea: sin diversificación, la sostenibilidad turística será imposible. [file:4]
+      </div>
+      <textarea id="q3" placeholder="Ej.: No podremos garantizar..., a menos que..."></textarea>
+      <div class="hint-row">
+        <button type="button" class="hint-button" onclick="toggleHint('answer-q3')">💡 Necesito una pista</button>
+        <div class="connectors"><span>a menos que</span><span>diversifiquemos</span><span>modelos turísticos</span></div>
+      </div>
+      <div class="answer-key" id="answer-q3">
+        Plantilla posible:<br>
+        No podremos garantizar la sostenibilidad turística en España a menos que <u>diversifiquemos/cambiemos</u> los modelos turísticos actuales.
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="question">
+      <div class="question-number">4. Cuando + subjuntivo</div>
+      <p class="instruction">
+        Escribe una frase sobre respetar las reglas cuando visites destinos ecológicos en España. Usa <span class="subj">cuando + subjuntivo</span>. [file:4]
+      </p>
+      <div class="example">
+        Idea: visita a destinos verdes → obligación de respetar regulaciones urbanísticas / medioambientales. [file:4]
+      </div>
+      <textarea id="q4" placeholder="Ej.: Cuando visitemos destinos verdes..."></textarea>
+      <div class="hint-row">
+        <button type="button" class="hint-button" onclick="toggleHint('answer-q4')">💡 Necesito una pista</button>
+        <div class="connectors"><span>cuando</span><span>visitemos</span><span>debemos</span></div>
+      </div>
+      <div class="answer-key" id="answer-q4">
+        Plantilla posible:<br>
+        Cuando <u>visitemos</u> destinos verdes, <u>debemos</u> respetar las regulaciones para minimizar el impacto ambiental.
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="question">
+      <div class="question-number">5. En caso de que + subjuntivo</div>
+      <p class="instruction">
+        Escribe una frase sobre la sequía y las restricciones de agua para turistas y residentes. Usa <span class="subj">en caso de que + subjuntivo</span>. [file:4]
+      </p>
+      <div class="example">
+        Idea: si continúa la sequía, las autoridades imponen restricciones más estrictas. [file:4]
+      </div>
+      <textarea id="q5" placeholder="Ej.: En caso de que continúe la sequía..."></textarea>
+      <div class="hint-row">
+        <button type="button" class="hint-button" onclick="toggleHint('answer-q5')">💡 Necesito una pista</button>
+        <div class="connectors"><span>en caso de que</span><span>continúe</span><span>restricciones</span></div>
+      </div>
+      <div class="answer-key" id="answer-q5">
+        Plantilla posible:<br>
+        En caso de que <u>continúe</u> la sequía, será necesario <u>implementar restricciones más estrictas</u> sobre el uso del agua.
+      </div>
+    </div>
+
+    <div class="section-title">Bloque C – Conectores para argumentar</div>
+
+    <!-- Q6 -->
+    <div class="question">
+      <div class="question-number">6. Debido a / puesto que + indicativo</div>
+      <p class="instruction">
+        Escribe una frase sobre cómo el cambio climático obliga a España a adaptar su modelo turístico. Usa <span class="ind">debido a / puesto que</span>. [file:4]
+      </p>
+      <div class="example">
+        Idea: causa (cambio climático) ➝ consecuencia (adaptar el modelo, promover destinos sostenibles). [file:4]
+      </div>
+      <textarea id="q6" placeholder="Ej.: Debido al cambio climático, España está adaptando..."></textarea>
+      <div class="hint-row">
+        <button type="button" class="hint-button" onclick="toggleHint('answer-q6')">💡 Necesito una pista</button>
+        <div class="connectors"><span>debido a</span><span>puesto que</span><span>está adaptando</span></div>
+      </div>
+      <div class="answer-key" id="answer-q6">
+        Plantilla posible:<br>
+        Debido al <u>cambio climático</u>, España <u>está adaptando su modelo turístico</u> para fomentar destinos más sostenibles.
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="question">
+      <div class="question-number">7. Por lo tanto / así que + indicativo</div>
+      <p class="instruction">
+        Escribe una frase sobre la estacionalidad y la necesidad de diversificar el turismo. Usa <span class="ind">por lo tanto / así que</span>. [file:4]
+      </p>
+      <div class="example">
+        Idea: problema (estacionalidad) ➝ consecuencia (diversificar, equilibrar la demanda). [file:4]
+      </div>
+      <textarea id="q7" placeholder="Ej.: La estacionalidad sigue siendo un problema; por lo tanto..."></textarea>
+      <div class="hint-row">
+        <button type="button" class="hint-button" onclick="toggleHint('answer-q7')">💡 Necesito una pista</button>
+        <div class="connectors"><span>por lo tanto</span><span>así que</span><span>es necesario</span></div>
+      </div>
+      <div class="answer-key" id="answer-q7">
+        Plantilla posible:<br>
+        La estacionalidad sigue siendo un problema en el turismo español; por lo tanto, <u>es necesario fomentar la diversificación turística</u>.
+      </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="question">
+      <div class="question-number">8. Antes de que / siempre que + subjuntivo</div>
+      <p class="instruction">
+        Escribe <strong>dos mini-frases</strong> que puedas usar en tu oral:
+        una con <span class="subj">antes de que</span> y otra con <span class="subj">siempre que</span> sobre licencias de alojamiento y prácticas sostenibles. [file:4]
+      </p>
+      <div class="example">
+        Ideas: <em>Antes de que se permitan nuevos alojamientos... / La sostenibilidad es posible siempre que los destinos adopten prácticas innovadoras.</em> [file:4]
+      </div>
+      <textarea id="q8" placeholder="Ej.: Antes de que..., siempre que..."></textarea>
+      <div class="hint-row">
+        <button type="button" class="hint-button" onclick="toggleHint('answer-q8')">💡 Necesito una pista</button>
+        <div class="connectors"><span>antes de que</span><span>siempre que</span><span>se permita / adopten</span></div>
+      </div>
+      <div class="answer-key" id="answer-q8">
+        Plantillas posibles:<br>
+        • Antes de que <u>se permitan nuevos alojamientos turísticos</u>, las autoridades deben evaluar su impacto.<br>
+        • La sostenibilidad se puede lograr siempre que <u>los destinos adopten prácticas innovadoras</u>.
+      </div>
+    </div>
+
+    <div class="section-title">Bloque D – Tu banco personal para el oral</div>
+
+    <!-- Q9 -->
+    <div class="question">
+      <div class="question-number">9. Aunque / sin embargo / por eso</div>
+      <p class="instruction">
+        Escribe un mini-parrafito (3–4 líneas) que podrías usar casi tal cual en tu examen oral. Debe incluir al menos:
+        <strong>aunque</strong>, <strong>sin embargo</strong> y <strong>por eso/por consiguiente</strong>. [file:4]
+      </p>
+      <div class="example">
+        Idea: contrasta beneficios económicos del turismo con su impacto ambiental y explica por eso la necesidad de modelos más sostenibles. [file:4]
+      </div>
+      <textarea id="q9" placeholder="Ej.: Aunque..., sin embargo..., por eso..."></textarea>
+      <div class="hint-row">
+        <button type="button" class="hint-button" onclick="toggleHint('answer-q9')">💡 Necesito una pista</button>
+        <div class="connectors"><span>aunque</span><span>sin embargo</span><span>por eso</span></div>
+      </div>
+      <div class="answer-key" id="answer-q9">
+        Sugerencia de estructura:<br>
+        Aunque el turismo masivo genera ingresos importantes, <u>sin embargo</u> su impacto ambiental es preocupante; <u>por eso</u> España intenta fomentar modelos más sostenibles.
+      </div>
+    </div>
+
+    <div class="section-title">Bloque E – Conectores de alto nivel</div>
+
+    <!-- Q10 -->
+    <div class="question">
+      <div class="question-number">10. Siempre que + subjuntivo</div>
+      <p class="instruction">
+        Escribe una frase sobre lograr la sostenibilidad turística en España adoptando prácticas innovadoras. Usa <strong>siempre que + subjuntivo</strong>. [file:4]
+      </p>
+      <div class="example">
+        Idea: la sostenibilidad solo es posible si los destinos cambian su forma de gestionar el turismo. [file:4]
+      </div>
+      <textarea id="q10" placeholder="Ej.: La sostenibilidad turística se puede lograr siempre que..."></textarea>
+      <div class="hint-row">
+        <button type="button" class="hint-button" onclick="toggleHint('answer-q10')">💡 Necesito una pista</button>
+        <div class="connectors"><span>siempre que</span><span>adopten</span><span>prácticas innovadoras</span></div>
+      </div>
+      <div class="answer-key" id="answer-q10">
+        Plantilla posible:<br>
+        La sostenibilidad turística se puede lograr siempre que <u>los destinos adopten prácticas innovadoras y respetuosas con el medio ambiente</u>. [file:4]
+      </div>
+    </div>
+
+    <!-- Q11 -->
+    <div class="question">
+      <div class="question-number">11. Por consiguiente + indicativo (perfecto)</div>
+      <p class="instruction">
+        Escribe una frase sobre cómo la diversificación turística ha aumentado la competitividad y las inversiones en el norte de España. Usa <strong>por consiguiente</strong> y el <strong>pretérito perfecto</strong>. [file:4]
+      </p>
+      <div class="example">
+        Idea: diversificación ➝ competitividad ➝ nuevas inversiones hoteleras en el norte. [file:4]
+      </div>
+      <textarea id="q11" placeholder="Ej.: La diversificación turística ha incrementado..., por consiguiente..."></textarea>
+      <div class="hint-row">
+        <button type="button" class="hint-button" onclick="toggleHint('answer-q11')">💡 Necesito una pista</button>
+        <div class="connectors"><span>ha incrementado</span><span>por consiguiente</span><span>ha crecido</span></div>
+      </div>
+      <div class="answer-key" id="answer-q11">
+        Plantilla posible:<br>
+        La diversificación turística <u>ha incrementado</u> la competitividad de los destinos; por consiguiente, <u>ha crecido</u> la inversión hotelera en el norte de España. [file:4]
+      </div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="question">
+      <div class="question-number">12. En tanto que + subjuntivo</div>
+      <p class="instruction">
+        Escribe una frase sobre el éxito del turismo sostenible dependiendo de la participación de las comunidades locales. Usa <strong>en tanto que + subjuntivo</strong>. [file:4]
+      </p>
+      <div class="example">
+        Idea: el turismo sostenible solo funciona si la población local participa activamente. [file:4]
+      </div>
+      <textarea id="q12" placeholder="Ej.: El turismo sostenible será exitoso en tanto que..."></textarea>
+      <div class="hint-row">
+        <button type="button" class="hint-button" onclick="toggleHint('answer-q12')">💡 Necesito una pista</button>
+        <div class="connectors"><span>en tanto que</span><span>participen</span><span>activamente</span></div>
+      </div>
+      <div class="answer-key" id="answer-q12">
+        Plantilla posible:<br>
+        El turismo sostenible será exitoso en tanto que <u>las comunidades locales participen activamente en su planificación</u>. [file:4]
+      </div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="question">
+      <div class="question-number">13. A fin de que + subjuntivo</div>
+      <p class="instruction">
+        Escribe una frase sobre innovaciones turísticas que se están implementando para que los destinos sean más sostenibles y resilientes. Usa <strong>a fin de que + subjuntivo</strong>. [file:4]
+      </p>
+      <div class="example">
+        Idea: reformas o innovaciones + finalidad clara relacionada con el cambio climático. [file:4]
+      </div>
+      <textarea id="q13" placeholder="Ej.: Se están implementando innovaciones turísticas a fin de que..."></textarea>
+      <div class="hint-row">
+        <button type="button" class="hint-button" onclick="toggleHint('answer-q13')">💡 Necesito una pista</button>
+        <div class="connectors"><span>a fin de que</span><span>sean más sostenibles</span><span>resilientes</span></div>
+      </div>
+      <div class="answer-key" id="answer-q13">
+        Plantilla posible:<br>
+        Se están implementando innovaciones turísticas a fin de que <u>los destinos sean más sostenibles y resilientes frente al cambio climático</u>. [file:4]
+      </div>
+    </div>
+
+    <!-- Q14 -->
+    <div class="question">
+      <div class="question-number">14. Mini‑discurso final (2–3 conectores avanzados)</div>
+      <p class="instruction">
+        Escribe un mini‑discurso (4–5 líneas) que podrías usar como conclusión en tu oral sobre turismo en España.
+        Debe incluir al menos <strong>dos</strong> de estos conectores: <em>siempre que, por consiguiente, en tanto que, a fin de que</em>. [file:4]
+      </p>
+      <div class="example">
+        Idea: resume tu opinión sobre el turismo español, la necesidad de cambiar el modelo y el papel de las autoridades y la población local. [file:4]
+      </div>
+      <textarea id="q14" placeholder="Ej.: En España, el turismo seguirá siendo clave..., siempre que..., por consiguiente..., a fin de que..."></textarea>
+      <div class="hint-row">
+        <button type="button" class="hint-button" onclick="toggleHint('answer-q14')">💡 Necesito una pista</button>
+        <div class="connectors"><span>siempre que</span><span>por consiguiente</span><span>en tanto que</span><span>a fin de que</span></div>
+      </div>
+      <div class="answer-key" id="answer-q14">
+        Sugerencia de estructura:<br>
+        En España, el turismo seguirá siendo un pilar económico <u>siempre que</u> se gestione de forma sostenible; <u>en tanto que</u> las comunidades locales participen y se adapten los modelos turísticos, el país podrá seguir atrayendo visitantes <u>a fin de que</u> el desarrollo sea compatible con la protección del medio ambiente.
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button type="button" onclick="analyseForSpeaking()">🗣️ Ver mis frases útiles para el oral</button>
+      <button type="button" class="secondary" onclick="downloadResponses()">📥 Descargar mis frases (.txt)</button>
+      <button type="button" class="secondary" onclick="resetExercise()">🔄 Reiniciar</button>
+    </div>
+
+    <div id="results" class="mono"></div>
+    <div id="teacherComment"></div>
+  </div>
+
+  <!-- Floating accent keyboard -->
+  <div class="accent-keyboard" id="accentKeyboard">
+    <button type="button" class="accent-toggle" onclick="toggleKeyboard()">
+      á / ñ
+    </button>
+    <span class="accent-label">Acentos:</span>
+    <div class="accent-keys">
+      <button class="accent-key" type="button" onclick="insertAccent('á')">á</button>
+      <button class="accent-key" type="button" onclick="insertAccent('é')">é</button>
+      <button class="accent-key" type="button" onclick="insertAccent('í')">í</button>
+      <button class="accent-key" type="button" onclick="insertAccent('ó')">ó</button>
+      <button class="accent-key" type="button" onclick="insertAccent('ú')">ú</button>
+      <button class="accent-key" type="button" onclick="insertAccent('ñ')">ñ</button>
+      <button class="accent-key" type="button" onclick="insertAccent('¡')">¡</button>
+      <button class="accent-key" type="button" onclick="insertAccent('¿')">¿</button>
+    </div>
+  </div>
+
+  <script>
+    let currentTarget = null;
+
+    function wireFocusTracking() {
+      document.querySelectorAll("textarea, input[type='text']").forEach(el => {
+        el.addEventListener("focus", () => currentTarget = el);
+        el.addEventListener("click", () => currentTarget = el);
+        el.addEventListener("keyup", () => currentTarget = el);
+      });
+    }
+
+    function toggleKeyboard() {
+      document.getElementById("accentKeyboard").classList.toggle("open");
+    }
+
+    function insertAccent(char) {
+      const el = currentTarget || document.getElementById("q9");
+      if (!el) return;
+      const start = el.selectionStart || 0;
+      const end = el.selectionEnd || 0;
+      const value = el.value || "";
+      el.value = value.slice(0, start) + char + value.slice(end);
+      const caret = start + char.length;
+      el.focus();
+      el.setSelectionRange(caret, caret);
+    }
+
+    function toggleHint(id) {
+      const box = document.getElementById(id);
+      if (!box) return;
+      box.classList.toggle("show");
+    }
+
+    function toggleSpeakingMode() {
+      const on = document.getElementById("speakingMode").checked;
+      const examples = document.querySelectorAll(".example");
+      const hints = document.querySelectorAll(".answer-key");
+      if (on) {
+        examples.forEach(e => e.style.display = "none");
+        hints.forEach(h => h.classList.remove("show"));
+      } else {
+        examples.forEach(e => e.style.display = "");
+      }
+    }
+
+    function analyseForSpeaking() {
+      const subjIds = ["q2","q3","q4","q5","q8","q9","q10","q12","q13","q14"];
+      const condIds = ["q1","q2","q7","q9","q11","q14"];
+      let subjCount = 0;
+      let condCount = 0;
+      let filled = 0;
+
+      subjIds.forEach(id => {
+        const txt = (document.getElementById(id).value || "").toLowerCase();
+        if (!txt.trim()) return;
+        if (txt.match(/\b(fuera|fueran|sea|sean|visitemos|contin[úu]e|diversifiquemos|adopten|se permitan|participen|sean)\b/)) subjCount++;
+        filled++;
+      });
+
+      condIds.forEach(id => {
+        const txt = (document.getElementById(id).value || "").toLowerCase();
+        if (!txt.trim()) return;
+        if (txt.match(/\b(habr[íi]a|ser[íi]a|podr[íi]a|seguir[áa]|aumentar[áa]|ha\s+crecido|ha\s+incrementado)\b/)) condCount++;
+      });
+
+      const res = document.getElementById("results");
+      if (filled === 0) {
+        res.style.display = "block";
+        res.textContent = "Escribe algunas frases antes de analizar tu banco de estructuras.";
+        document.getElementById("teacherComment").textContent = "";
+        return;
+      }
+
+      res.style.display = "block";
+      res.innerHTML =
+        "Para tu examen oral, ahora mismo tienes aproximadamente <strong>" + subjCount +
+        "</strong> frases con subjuntivo y <strong>" + condCount +
+        "</strong> con condicional / perfecto / futuro que podrías reutilizar.";
+
+      const tc = document.getElementById("teacherComment");
+      if (subjCount >= 3 && condCount >= 2) {
+        tc.textContent = "Comentario: muy buen banco de estructuras. Ahora practica decirlas en voz alta y enlazarlas con ejemplos concretos (costa, interior, islas).";
+      } else {
+        tc.textContent = "Comentario: añade alguna frase más con subjuntivo y condicional para que tu discurso sobre turismo en España suene más avanzado.";
+      }
+    }
+
+    function downloadResponses() {
+      const name = document.getElementById("studentName").value.trim() || "[sin nombre]";
+      const fields = ["q1","q2","q3","q4","q5","q6","q7","q8","q9","q10","q11","q12","q13","q14"];
+      const titles = {
+        q1: "1. Si (condición real)",
+        q2: "2. Si (hipótesis)",
+        q3: "3. A menos que",
+        q4: "4. Cuando",
+        q5: "5. En caso de que",
+        q6: "6. Debido a / Puesto que",
+        q7: "7. Por lo tanto / Así que",
+        q8: "8. Antes de que / Siempre que",
+        q9: "9. Aunque / sin embargo / por eso",
+        q10:"10. Siempre que (sostenibilidad)",
+        q11:"11. Por consiguiente (perfecto)",
+        q12:"12. En tanto que (participación local)",
+        q13:"13. A fin de que (innovaciones)",
+        q14:"14. Mini-discurso final"
+      };
+      let content = "TURISMO EN ESPAÑA – BANCO DE FRASES PARA EL ORAL\n";
+      content += "================================================\n\n";
+      content += "Nombre: " + name + "\n\n";
+
+      fields.forEach(id => {
+        const text = (document.getElementById(id).value || "").trim();
+        content += titles[id] + ":\n";
+        content += (text ? text : "[vacío]") + "\n\n";
+      });
+
+      const blob = new Blob([content], {type:"text/plain;charset=utf-8"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const safeName = name.replace(/[^a-z0-9\-]+/gi,"_");
+      a.href = url;
+      a.download = "turismo-espanol-oral-" + safeName + ".txt";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function resetExercise() {
+      document.querySelectorAll("textarea").forEach(t => t.value = "");
+      document.querySelectorAll(".answer-key").forEach(h => h.classList.remove("show"));
+      document.getElementById("results").style.display = "none";
+      document.getElementById("teacherComment").textContent = "";
+    }
+
+    wireFocusTracking();
+  </script>
+</body>
+</html>
+```

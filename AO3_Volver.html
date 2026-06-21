@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volver - Pedro Almodóvar: Ejercicios A-Level</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #2c1810 0%, #8b4513 100%);
+            color: #fff;
+            line-height: 1.6;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(139, 69, 19, 0.3);
+            border-radius: 15px;
+            border: 2px solid #d2691e;
+        }
+        
+        .header h1 {
+            color: #ffd700;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            color: #f0e68c;
+            font-style: italic;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            border-left: 5px solid #ff6b35;
+        }
+        
+        .section h2 {
+            color: #ff6b35;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ff6b35;
+            padding-bottom: 10px;
+        }
+        
+        .sentence {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .sentence:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        
+        .original {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            line-height: 1.7;
+            color: #f5f5f5;
+        }
+        
+        .english {
+            font-style: italic;
+            color: #f0e68c;
+            margin-bottom: 10px;
+            padding: 8px;
+            background: rgba(0,0,0,0.2);
+            border-left: 3px solid #ffd700;
+        }
+        
+        .original strong {
+            background: #ff6b35;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        input[type="text"] {
+            width: 200px;
+            padding: 10px;
+            border: 2px solid #ff6b35;
+            border-radius: 5px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            margin-right: 10px;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+        
+        .check-btn {
+            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .check-btn:hover {
+            background: linear-gradient(45deg, #ff8c42, #ffa500);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            min-height: 20px;
+        }
+        
+        .feedback.correct {
+            background: #2d5a27;
+            color: #90ee90;
+            border: 1px solid #90ee90;
+        }
+        
+        .feedback.incorrect {
+            background: #5a2727;
+            color: #ff6b6b;
+            border: 1px solid #ff6b6b;
+        }
+        
+        .instructions {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: #ffd700;
+        }
+        
+        .counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #ff6b35;
+            color: #fff;
+            font-weight: bold;
+            z-index: 1000; /* Ensure it's on top */
+        }
+
+        /* Accent Keyboard Styling */
+        .accent-keyboard {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 30px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px; /* Space from first section */
+        }
+        .accent-keyboard button {
+            background-color: #d2691e; /* Earthy tone */
+            color: white;
+            padding: 10px 15px;
+            font-size: 1.1em;
+            min-width: 45px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 0; /* Override default button margin */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .accent-keyboard button:hover {
+            background-color: #ff8c42; /* Lighter on hover */
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Custom Alert/Message Box */
+        .custom-message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            border: 3px solid #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            text-align: center;
+            font-size: 1.5em;
+            z-index: 2000;
+            display: none; /* Hidden by default */
+            animation: fadeInScale 0.3s ease-out;
+            max-width: 80%;
+        }
+
+        .custom-message-box p {
+            margin-bottom: 20px;
+        }
+
+        .custom-message-box button {
+            background: linear-gradient(45deg, #ffd700, #ffec8b);
+            color: #333;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .custom-message-box button:hover {
+            background: linear-gradient(45deg, #ffec8b, #ffd700);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Volver - Pedro Almodóvar</h1>
+        <p>Ejercicios de A-Level Spanish - Edexcel AO3: Range and Accuracy of Language</p>
+    </div>
+    
+    <div class="counter">
+        <div>Correctas: <span id="correct-count">0</span>/<span id="total-questions-display">43</span></div>
+        <div>Progreso: <span id="progress">0%</span></div>
+    </div>
+    
+    <div class="instructions">
+        <h3>📚 Instrucciones:</h3>
+        <p>Completa las frases sobre "Volver" con la forma correcta del verbo, pronombre relativo o conector avanzado. Estas frases están diseñadas para demostrar un rango avanzado de lenguaje apropiado para A-Level Spanish. Usa el teclado de acentos si lo necesitas y pulsa 'Enter' para comprobar cada respuesta.</p>
+    </div>
+
+    <!-- Accent Keyboard -->
+    <div class="accent-keyboard">
+        <button data-accent="á">á</button>
+        <button data-accent="é">é</button>
+        <button data-accent="í">í</button>
+        <button data-accent="ó">ó</button>
+        <button data-accent="ú">ú</button>
+        <button data-accent="ñ">ñ</button>
+        <button data-accent="ü">ü</button>
+        <button data-accent="¿">¿</button>
+        <button data-accent="¡">¡</button>
+    </div>
+
+    <!-- SUBJUNCTIVES SECTION (14 sentences) -->
+    <div class="section">
+        <h2>🎭 Subjuntivos - Advanced Subjunctive Constructions</h2>
+        
+        <div class="sentence" data-answer="revele">
+            <div class="english">It's crucial that the strong wind reveals the hidden secrets of the past.</div>
+            <div class="original">Es crucial que el fuerte viento <strong>___</strong> (revelar) los secretos ocultos del pasado.</div>
+            <input type="text" name="q1" placeholder="Escribe el verbo..." data-inf="revelar" />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="establezca">
+            <div class="english">Almodóvar makes sure that each flashback establishes a deep emotional connection with the viewer.</div>
+            <div class="original">Almodóvar logra que cada flashback <strong>___</strong> (establecer) una conexión emocional profunda con el espectador.</div>
+            <input type="text" name="q2" placeholder="Escribe el verbo..." data-inf="establecer" />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="hubiera">
+            <div class="english">Raimunda acts as if she had never experienced the trauma of sexual abuse in her youth.</div>
+            <div class="original">Raimunda actúa como si nunca <strong>___</strong> (haber) experimentado el trauma del abuso sexual en su juventud.</div>
+            <input type="text" name="q3" placeholder="Escribe el verbo..." data-inf="haber" />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="mantenga">
+            <div class="english">In Volver it's fundamental that the narrative maintains a balance between unrealistic situations and dramatic credibility.</div>
+            <div class="original">En Volver es fundamental que la narrativa <strong>___</strong> (mantener) un equilibrio entre situaciones irrealismo y la credibilidad dramática.</div>
+            <input type="text" name="q4" placeholder="Escribe el verbo..." data-inf="mantener" />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="experimenten">
+            <div class="english">The director intends for the viewers to experience an emotional catharsis through maternal forgiveness.</div>
+            <div class="original">El director pretende que los espectadores <strong>___</strong> (experimentar) una catarsis emocional a través del perdón maternal.</div>
+            <input type="text" name="q5" placeholder="Escribe el verbo..." data-inf="experimentar" />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="rompa">
+            <div class="english">It's remarkable that the theme of patricide breaks the conventions of traditional Spanish melodrama.</div>
+            <div class="original">Es notable que la temática del patricidio <strong>___</strong> (romper) las convenciones del melodrama tradicional español.</div>
+            <input type="text" name="q6" placeholder="Escribe el verbo..." data-inf="romper" />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="sean">
+            <div class="english">I doubt that the cinematographic techniques are enough to convey the intensity of female grief.</div>
+            <div class="original">Dudo que las técnicas cinematográficas <strong>___</strong> (ser) suficientes para transmitir la intensidad del duelo femenino.</div>
+            <input type="text" name="q7" placeholder="Escribe el verbo..." data-inf="ser" />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="muestre">
+            <div class="english">Almodóvar uses the color red to show symbolically the latent passion and violence.</div>
+            <div class="original">Almodóvar emplea el color rojo para que <strong>___</strong> (mostrar) simbólicamente la pasión y violencia latente.</div>
+            <input type="text" name="q8" placeholder="Escribe el verbo..." data-inf="mostrar" />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="sea">
+            <div class="english">It's not likely that a genuine reconciliation is possible without explicit recognition of the traumatic past.</div>
+            <div class="original">No es probable que una reconciliación auténtica <strong>___</strong> (ser) posible sin un reconocimiento explícito del pasado traumático.</div>
+            <input type="text" name="q9" placeholder="Escribe el verbo..." data-inf="ser" />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="comprendan">
+            <div class="english">It's crucial that the critics understand the deconstruction of femininity stereotypes that the film performs.</div>
+            <div class="original">Es crucial que los críticos <strong>___</strong> (comprender) la deconstrucción de estereotipos de feminidad que realiza el filme.</div>
+            <input type="text" name="q10" placeholder="Escribe el verbo..." data-inf="comprender" />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="permita">
+            <div class="english">The narrative structure is designed to allow multiple interpretations of the ending.</div>
+            <div class="original">La estructura narrativa es diseñada para que <strong>___</strong> (permitir) múltiples interpretaciones del final.</div>
+            <input type="text" name="q11" placeholder="Escribe el verbo..." data-inf="permitir" />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="constituya">
+            <div class="english">It's indisputable that the cemetery constitutes a liminal space between life and death in Almodóvar's worldview.</div>
+            <div class="original">Es indiscutible que el cementerio <strong>___</strong> (constituir) un espacio liminal entre vida y muerte en la cosmovisión almodovariana.</div>
+            <input type="text" name="q12" placeholder="Escribe el verbo..." data-inf="constituir" />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="hubiera">
+            <div class="english">Paula reacts as if her grandmother had never died, showing the normalization of the supernatural.</div>
+            <div class="original">Paula reacciona como si su abuela nunca <strong>___</strong> (haber) muerto, evidenciando la normalización de lo sobrenatural.</div>
+            <input type="text" name="q13" placeholder="Escribe el verbo..." data-inf="haber" />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="articulen">
+            <div class="english">Almodóvar aims for the performances to articulate a subtle critique of contemporary Spanish patriarchy.</div>
+            <div class="original">Almodóvar busca que las actuaciones <strong>___</strong> (articular) una crítica sutil al patriarcado español contemporáneo.</div>
+            <input type="text" name="q14" placeholder="Escribe el verbo..." data-inf="articular" />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- RELATIVE PRONOUNS SECTION (15 sentences) -->
+    <div class="section">
+        <h2>🔗 Pronombres Relativos - Advanced Relative Constructions</h2>
+        
+        <div class="sentence" data-answer="cuyo">
+            <div class="english">Irene represents the maternal archetype whose return transcends the barriers of mortality.</div>
+            <div class="original">Irene representa el arquetipo materno <strong>___</strong> regreso trasciende las barreras de la mortalidad. (whose) </div>
+            <input type="text" name="q15" placeholder="Escribe el pronombre..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="cuyas">
+            <div class="english">The women of La Mancha, whose ancestral traditions remain alive, embody the resistance of regional culture.</div>
+            <div class="original">Las mujeres de La Mancha, <strong>___</strong> tradiciones ancestrales siguen vivas, encarnan la resistencia de la cultura regional.</div>
+            <input type="text" name="q16" placeholder="Escribe el pronombre..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="quienes">
+            <div class="english">The male characters, against whom the feminist criticism is directed, remain narratively marginalized.</div>
+            <div class="original">Los personajes masculinos, contra <strong>___</strong> se dirige la crítica feminista, permanecen marginalizados narrativamente.</div>
+            <input type="text" name="q17" placeholder="Escribe el pronombre..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="lo cual">
+            <div class="english">The restaurant functions as a social microcosm, which facilitates the development of multiple subplots.</div>
+            <div class="original">El restaurante funciona como microcosmos social, <strong>___</strong> facilita el desarrollo de múltiples subtramas.</div>
+            <input type="text" name="q18" placeholder="Escribe el pronombre..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="cuanto">
+            <div class="english">Raimunda preserves what her mother taught her about female survival and dignity.</div>
+            <div class="original">Raimunda preserva <strong>___</strong> le enseñó su madre sobre supervivencia y dignidad femenina.</div>
+            <input type="text" name="q19" placeholder="Escribe el pronombre..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="cuyo">
+            <div class="english">The wind, whose symbolism permeates the entire narrative, represents the transformative force of destiny.</div>
+            <div class="original">El viento, <strong>___</strong> simbolismo permea toda la narrativa, representa la fuerza transformadora del destino.</div>
+            <input type="text" name="q20" placeholder="Escribe el pronombre..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="las cuales">
+            <div class="english">The folk songs, without which cultural identity would fade, structure the sound universe.</div>
+            <div class="original">Las canciones populares, sin <strong>___</strong> la identidad cultural se desvanecería, estructuran el universo sonoro.</div>
+            <input type="text" name="q21" placeholder="Escribe el pronombre..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="quien">
+            <div class="english">Agustina, who suffers from cancer, symbolizes human vulnerability before inexorable forces.</div>
+            <div class="original">Agustina, <strong>___</strong> padece cáncer, simboliza la vulnerabilidad humana ante fuerzas inexorables.</div>
+            <input type="text" name="q22" placeholder="Escribe el pronombre..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="cuya">
+            <div class="english">The cinematography, whose color palette evokes specific emotions, builds complex psychological atmospheres.</div>
+            <div class="original">La cinematografía, <strong>___</strong> paleta cromática evoca emociones específicas, construye atmósferas psicológicas complejas.</div>
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="cuanto">
+            <div class="english">Maternal forgiveness encompasses what seemed unforgivable in the context of traditional morality.</div>
+            <div class="original">El perdón maternal abarca <strong>___</strong> parecía imperdonable en el contexto de la moralidad tradicional.</div>
+            <input type="text" name="q24" placeholder="Escribe el pronombre..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="lo cual">
+            <div class="english">Death is presented as a transition, which challenges Western conceptions about finitude.</div>
+            <div class="original">La muerte se presenta como transición, <strong>___</strong> desafía concepciones occidentales sobre la finitud.</div>
+            <input type="text" name="q25" placeholder="Escribe el pronombre..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="cuyas">
+            <div class="english">The lead actresses, whose performances transcend naturalism, create universal archetypes.</div>
+            <div class="original">Las actrices principales, <strong>___</strong> interpretaciones trascienden el naturalismo, crean arquetipos universales.</div>
+            <input type="text" name="q26" placeholder="Escribe el pronombre..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="quienes">
+            <div class="english">The viewers, for whom magical realism is familiar, intuitively understand the narrative logic.</div>
+            <div class="original">Los espectadores, para <strong>___</strong> el realismo mágico resulta familiar, comprenden intuitivamente la lógica narrativa.</div>
+            <input type="text" name="q27" placeholder="Escribe el pronombre..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="cuyo">
+            <div class="english">The town of La Mancha, whose geographical isolation preserves traditions, functions as a collective character.</div>
+            <div class="original">El pueblo manchego, <strong>___</strong> aislamiento geográfico preserva tradiciones, funciona como personaje colectivo.</div>
+            <input type="text" name="q28" placeholder="Escribe el pronombre..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="cuantas">
+            <div class="english">Almodóvar incorporates as many intertextual references as he considers necessary to enrich the film discourse.</div>
+            <div class="original">Almodóvar incorpora <strong>___</strong> referencias intertextuales considera necesarias para enriquecer el discurso fílmico.</div>
+            <input type="text" name="q29" placeholder="Escribe el pronombre..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- ADVANCED CONNECTORS SECTION (14 sentences) -->
+    <div class="section">
+        <h2>🌉 Conectores Avanzados - Sophisticated Discourse Markers</h2>
+        
+        <div class="sentence" data-answer="No obstante">
+            <div class="english">Despite the apparent simplicity of the plot, the film articulates a complex reflection on gender and memory.</div>
+            <div class="original"><strong>___</strong> la aparente simplicidad argumental, la película articula una compleja reflexión sobre género y memoria.</div>
+            <input type="text" name="q30" placeholder="Escribe el conector..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="En consecuencia">
+            <div class="english">Female solidarity constitutes the central thematic core; consequently, all secondary relationships revolve around it.</div>
+            <div class="original">La sororidad femenina constituye el núcleo temático central; <strong>___</strong>, todas las relaciones secundarias orbitan en torno a ella.</div>
+            <input type="text" name="q31" placeholder="Escribe el conector..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="Por el contrario">
+            <div class="english">Men don't dominate the narrative as in previous films; on the contrary, their presence is almost testimonial.</div>
+            <div class="original">Los personajes masculinos, contra <strong>___</strong> se dirige la crítica feminista, permanecen marginalizados narrativamente.</div>
+            <input type="text" name="q32" placeholder="Escribe el conector..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="Asimismo">
+            <div class="english">Mourning is ritualized through community ceremonies; likewise, death is socialized and loses individual drama.</div>
+            <div class="original">El luto se ritualiza mediante ceremonias comunitarias; <strong>___</strong>, la muerte se socializa y pierde dramatismo individual.</div>
+            <input type="text" name="q33" placeholder="Escribe el conector..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="Ahora bien">
+            <div class="english">Magical realism permeates the film atmosphere; however, it never compromises psychological verisimilitude.</div>
+            <div class="original">El realismo mágico permea la atmósfera fílmica; <strong>___</strong>, nunca compromete la verosimilitud psicológica.</div>
+            <input type="text" name="q34" placeholder="Escribe el conector..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="En efecto">
+            <div class="english">Motherhood transcends biological limits; indeed, it becomes a social and spiritual institution.</div>
+            <div class="original">La maternidad trasciende los límites biológicos; <strong>___</strong>, se convierte en institución social y espiritual.</div>
+            <input type="text" name="q35" placeholder="Escribe el conector..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="Sin embargo">
+            <div class="english">Revenge could justify the violence; however, Almodóvar privileges compassion over retribution.</div>
+            <div class="original">La venganza podría justificar la violencia; <strong>___</strong>, Almodóvar privilegia la compasión sobre la retribución.</div>
+            <input type="text" name="q36" placeholder="Escribe el conector..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="Por tanto">
+            <div class="english">The visual aesthetics reinforces underlying meanings; therefore, each chromatic element has narrative intentionality.</div>
+            <div class="original">La estética visual refuerza significados subyacentes; <strong>___</strong>, cada elemento cromático posee intencionalidad narrativa.</div>
+            <input type="text" name="q37" placeholder="Escribe el conector..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="Mientras que">
+            <div class="english">While tradition imposes silence about family traumas, the new generations seek emotional transparency.</div>
+            <div class="original"><strong>___</strong> la tradición impone silencio sobre traumas familiares, las nuevas generaciones buscan transparencia emocional.</div>
+            <input type="text" name="q38" placeholder="Escribe el conector..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="En cambio">
+            <div class="english">Conventional melodramas punish moral transgression; in contrast, Volver celebrates female autonomy.</div>
+            <div class="original">Los melodramas convencionales castigan la transgresión moral; <strong>___</strong>, Volver celebra la autonomía femenina.</div>
+            <input type="text" name="q39" placeholder="Escribe el conector..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="De hecho">
+            <div class="english">The film transcends commercial entertainment; in fact, it constitutes an artistic statement about Spanish identity.</div>
+            <div class="original">La película trasciende el entretenimiento comercial; <strong>___</strong>, constituye una declaración artística sobre identidad española.</div>
+            <input type="text" name="q40" placeholder="Escribe el conector..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="Así pues">
+            <div class="english">Each female character represents different archetypes; thus, a complete mosaic of femininities is constructed.</div>
+            <div class="original">Cada personaje femenino representa arquetipos distintos; <strong>___</strong>, se construye un mosaico completo de feminidades.</div>
+            <input type="text" name="q41" placeholder="Escribe el conector..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="No obstante">
+            <div class="english">The social criticism remains implicit; nevertheless, its impact is more lasting than explicit denunciations.</div>
+            <div class="original">La crítica social permanece implícita; <strong>___</strong>, su impacto resulta más duradero que las denuncias explícitas.</div>
+            <input type="text" name="q42" placeholder="Escribe el conector..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sentence" data-answer="En definitiva">
+            <div class="english">Ultimately, Volver represents the artistic culmination of contemporary Almodovarian cinematic feminism.</div>
+            <div class="original"><strong>___</strong>, Volver representa la culminación artística del feminismo cinematográfico almodovariano contemporáneo.</div>
+            <input type="text" name="q43" placeholder="Escribe el conector..." />
+            <button type="button" class="check-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Custom Message Box for completion -->
+    <div id="completion-message-box" class="custom-message-box">
+        <p>¡Enhorabuena! Has completado todos los ejercicios con éxito. Tu dominio del español avanzado es excelente para A-Level. ¡Perfecto para conseguir 20 puntos en AO3!</p>
+        <button onclick="hideCompletionMessage()">Cerrar</button>
+    </div>
+
+    <script>
+        let correctCount = 0;
+        const totalQuestions = 43; // Confirmed 43 sentences
+        let activeInput = null; // To keep track of the currently focused input
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('total-questions-display').textContent = totalQuestions;
+            updateProgress();
+
+            // Setup accent keyboard
+            document.querySelectorAll('.accent-keyboard button').forEach(button => {
+                button.addEventListener('click', handleAccentClick);
+            });
+
+            // Setup input focus/blur and keypress
+            document.querySelectorAll('input[type="text"]').forEach(input => {
+                input.addEventListener('focus', (e) => {
+                    activeInput = e.target;
+                });
+                input.addEventListener('blur', () => {
+                    activeInput = null;
+                });
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault(); // Prevent form submission
+                        const button = this.parentElement.querySelector('.check-btn');
+                        if (button && !button.disabled) {
+                            button.click();
+                        }
+                    }
+                });
+                
+                // Reset styling when user starts typing again
+                input.addEventListener('input', function() {
+                    this.style.borderColor = '#ff6b35';
+                    const sentence = this.closest('.sentence');
+                    const feedback = sentence.querySelector('.feedback');
+                    if (feedback.classList.contains('incorrect')) {
+                        feedback.textContent = '';
+                        feedback.className = 'feedback';
+                    }
+                });
+            });
+
+            // Add event listeners to all check buttons
+            document.querySelectorAll('.check-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const sentence = this.closest('.sentence');
+                    const input = sentence.querySelector('input[type="text"]');
+                    const feedback = sentence.querySelector('.feedback');
+                    const correctAnswers = sentence.getAttribute('data-answer').split(','); // Get all possible correct answers
+                    const userAnswer = input.value.trim();
+                    
+                    if (userAnswer === '') {
+                        feedback.textContent = 'Por favor, escribe una respuesta.';
+                        feedback.className = 'feedback incorrect';
+                        return;
+                    }
+                    
+                    let isAnswerCorrect = false;
+                    const normalizedUser = normalizeText(userAnswer);
+
+                    // Check if user answer matches any of the correct answers
+                    for (let i = 0; i < correctAnswers.length; i++) {
+                        if (normalizeText(correctAnswers[i]) === normalizedUser) {
+                            isAnswerCorrect = true;
+                            break;
+                        }
+                    }
+
+                    if (isAnswerCorrect) {
+                        feedback.textContent = '¡Correcto! Excelente dominio del español avanzado.';
+                        feedback.className = 'feedback correct';
+                        input.style.borderColor = '#90ee90';
+                        this.disabled = true;
+                        this.textContent = '✓ Correcto';
+                        this.style.background = '#2d5a27';
+                        
+                        // Only increment if not already counted
+                        if (!sentence.classList.contains('completed')) {
+                            correctCount++;
+                            sentence.classList.add('completed');
+                            updateProgress();
+                        }
+                    } else {
+                        // Display all correct answers if there are multiple
+                        const displayCorrectAnswer = correctAnswers.length > 1 
+                            ? `"${correctAnswers.join('", "')}"` 
+                            : `"${correctAnswers[0]}"`;
+
+                        feedback.innerHTML = `Incorrecto. La respuesta correcta es: <strong>${displayCorrectAnswer}</strong>. Revisa las reglas gramaticales correspondientes.`;
+                        feedback.className = 'feedback incorrect';
+                        input.style.borderColor = '#ff6b6b';
+                    }
+
+                    // Check for overall completion after each answer
+                    checkCompletion();
+                });
+            });
+        });
+        
+        // Normalize text for comparison (removes accents and converts to lowercase)
+        function normalizeText(text) {
+            return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+        }
+        
+        // Update progress counter
+        function updateProgress() {
+            document.getElementById('correct-count').textContent = correctCount;
+            document.getElementById('progress').textContent = Math.round((correctCount / totalQuestions) * 100) + '%';
+        }
+        
+        // Custom message box functions
+        function showCompletionMessage() {
+            document.getElementById('completion-message-box').style.display = 'block';
+        }
+
+        function hideCompletionMessage() {
+            document.getElementById('completion-message-box').style.display = 'none';
+        }
+
+        // Check for overall completion
+        function checkCompletion() {
+            if (correctCount === totalQuestions) {
+                showCompletionMessage();
+            }
+        }
+
+        // Function to insert accent at cursor position
+        function insertAtCursor(input, textToInsert) {
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            const value = input.value;
+
+            input.value = value.substring(0, start) + textToInsert + value.substring(end);
+
+            // Move cursor to the end of the inserted text
+            input.selectionStart = input.selectionEnd = start + textToInsert.length;
+            input.focus(); // Keep focus on the input
+        }
+
+        // Handle accent button clicks
+        function handleAccentClick(event) {
+            if (activeInput) {
+                const accentChar = event.target.dataset.accent;
+                insertAtCursor(activeInput, accentChar);
+            } else {
+                // Optionally, give feedback to the user that they need to select an input
+                console.log('No input field is focused for accent insertion.');
+            }
+        }
+    </script>
+</body>
+</html>

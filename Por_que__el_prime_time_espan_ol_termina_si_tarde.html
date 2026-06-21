@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Prime time español - Actividades Interactivas (B1/B2)</title>
+  <style>
+    :root {
+      --primary-color: #3498db;
+      --secondary-color: #2c3e50;
+      --accent-color: #e74c3c;
+      --light-color: #ecf0f1;
+      --success-color: #2ecc71;
+      --warning-color: #f39c12;
+      --dark-color: #34495e;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f9f9f9;
+      padding: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding-bottom: 80px; /* Space for accent keyboard */
+    }
+    
+    header {
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+    }
+    
+    h1 {
+      font-size: 1.8rem;
+      color: var(--secondary-color);
+      margin-bottom: 10px;
+    }
+    
+    h2 {
+      color: var(--secondary-color);
+      margin: 25px 0 15px;
+      border-left: 4px solid var(--primary-color);
+      padding-left: 10px;
+    }
+    
+    h3 {
+      color: var(--primary-color);
+      margin: 20px 0 10px;
+    }
+    
+    .card {
+      background: white;
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 15px 0;
+    }
+    
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+    
+    th {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    
+    .soluciones {
+      background: #f8f9fa;
+      border-left: 4px solid var(--success-color);
+      padding: 15px;
+      margin-top: 15px;
+    }
+    
+    button {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+    }
+    
+    button:hover {
+      background: var(--secondary-color);
+    }
+    
+    .small {
+      font-size: 0.95rem;
+      color: #666;
+    }
+    
+    a.filelink {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+    
+    a.filelink:hover {
+      text-decoration: underline;
+    }
+    
+    .question {
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .options {
+      margin: 10px 0;
+    }
+    
+    .option {
+      margin: 8px 0;
+    }
+    
+    input[type="radio"], input[type="checkbox"] {
+      margin-right: 8px;
+    }
+    
+    input[type="text"] {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 100%;
+      max-width: 400px;
+      margin: 5px 0;
+    }
+    
+    .correct {
+      color: var(--success-color);
+      font-weight: bold;
+    }
+    
+    .incorrect {
+      color: var(--accent-color);
+    }
+    
+    .score-display {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 100;
+    }
+    
+    .progress-bar {
+      height: 10px;
+      background-color: #e0e0e0;
+      border-radius: 5px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background-color: var(--success-color);
+      width: 0%;
+      transition: width 0.3s;
+    }
+    
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .nav button {
+      background-color: var(--secondary-color);
+      flex: 1;
+      margin: 5px;
+      min-width: 120px;
+    }
+    
+    .section {
+      display: none;
+    }
+    
+    .active {
+      display: block;
+    }
+    
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin: 10px 0;
+      min-height: 120px;
+      font-family: inherit;
+    }
+    
+    .writing-feedback {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      display: none;
+    }
+    
+    .text-window {
+      background-color: #f0f8ff;
+      border: 1px solid var(--primary-color);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+      max-height: 200px;
+      overflow-y: auto;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .text-window h3 {
+      margin-top: 0;
+      color: var(--secondary-color);
+    }
+    
+    .accent-keyboard {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: var(--dark-color);
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      z-index: 1000;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+    }
+    
+    .accent-keyboard button {
+      background-color: var(--light-color);
+      color: var(--dark-color);
+      margin: 0 5px;
+      font-size: 18px;
+      width: 40px;
+      height: 40px;
+    }
+    
+    @media (max-width: 768px) {
+      .nav {
+        flex-direction: column;
+      }
+      
+      .nav button {
+        width: 100%;
+      }
+      
+      .score-display {
+        position: static;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+      
+      .accent-keyboard {
+        flex-wrap: wrap;
+      }
+      
+      .accent-keyboard button {
+        margin: 2px;
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="score-display">
+    Puntuación: <span id="score">0</span>/<span id="total">0</span>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+
+  <header>
+    <h1>Por qué el 'prime time' español termina tan tarde — Actividades B1/B2</h1>
+    <p class="small">Actividades interactivas de comprensión, tablas y soluciones.</p>
+  </header>
+
+  <div class="nav">
+    <button onclick="showSection('intro')">Introducción</button>
+    <button onclick="showSection('comprension')">Comprensión</button>
+    <button onclick="showSection('tablas')">Análisis de Tablas</button>
+    <button onclick="showSection('escritura')">Escritura</button>
+    <button onclick="showSection('resultados')">Resultados</button>
+  </div>
+
+  <!-- INTRODUCCIÓN SECTION -->
+  <section id="intro" class="section active">
+    <div class="card">
+      <h2>Versión simplificada</h2>
+      <p>En España muchos programas de televisión terminan muy tarde, a veces después de la una o incluso de las dos de la madrugada. Esto pasa con programas muy populares como <em>Hasta el fin del mundo</em>, <em>MasterChef</em> o <em>El hormiguero</em>.</p>
+      <p>La razón principal es la <strong>cuota de pantalla</strong> (o <strong>share</strong>). El share es el porcentaje de personas que están viendo un programa entre todos los televisores que están encendidos en ese momento. Las cadenas quieren un share alto porque así pueden atraer más publicidad y demostrar que su programa es competitivo.</p>
+      <p>Por este motivo, muchas cadenas <strong>alargan sus programas</strong>. Cuando es muy tarde hay menos espectadores, pero los que siguen viendo la tele normalmente continúan con el mismo programa. Esto hace que la cuota suba, aunque haya menos personas viendo la televisión.</p>
+      <p>El problema es que mucha gente que trabaja o estudia no puede quedarse hasta tantas horas. Algunas cadenas dicen que los espectadores siempre pueden ver los programas después en plataformas bajo demanda, pero eso también muestra que la televisión tradicional está perdiendo público.</p>
+      <p>Algunas expertas critican esta "guerra por el share" porque creen que las cadenas se fijan demasiado en competir y no en ofrecer horarios razonables. Según ellas, se habla de televisión como si fuera solo un concurso de números.</p>
+    </div>
+  </section>
+
+  <!-- COMPRENSIÓN SECTION -->
+  <section id="comprension" class="section">
+    <div class="text-window">
+      <h3>Texto de referencia</h3>
+      <p>En España, los programas de televisión terminan muy tarde porque las cadenas quieren mejorar su <strong>cuota de pantalla (share)</strong>. El share es el porcentaje de personas que ven un programa entre todos los televisores encendidos. Cuando es tarde, hay menos espectadores, pero los que siguen viendo normalmente continúan con el mismo programa, lo que hace que el share suba.</p>
+    </div>
+    
+    <div class="card">
+      <h2>Actividades de comprensión</h2>
+      
+      <h3>1. Verdadero / Falso</h3>
+      <div class="question">
+        <p>1. Muchos programas españoles terminan antes de medianoche.</p>
+        <div class="options">
+          <div class="option">
+            <input type="radio" id="vf1-true" name="vf1" value="true">
+            <label for="vf1-true">Verdadero</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="vf1-false" name="vf1" value="false">
+            <label for="vf1-false">Falso</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="question">
+        <p>2. El share indica cuántos televisores totales hay en un país.</p>
+        <div class="options">
+          <div class="option">
+            <input type="radio" id="vf2-true" name="vf2" value="true">
+            <label for="vf2-true">Verdadero</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="vf2-false" name="vf2" value="false">
+            <label for="vf2-false">Falso</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="question">
+        <p>3. Las cadenas alargan los programas para mejorar la cuota de pantalla.</p>
+        <div class="options">
+          <div class="option">
+            <input type="radio" id="vf3-true" name="vf3" value="true">
+            <label for="vf3-true">Verdadero</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="vf3-false" name="vf3" value="false">
+            <label for="vf3-false">Falso</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="question">
+        <p>4. Mucha gente no puede ver programas tan tarde.</p>
+        <div class="options">
+          <div class="option">
+            <input type="radio" id="vf4-true" name="vf4" value="true">
+            <label for="vf4-true">Verdadero</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="vf4-false" name="vf4" value="false">
+            <label for="vf4-false">Falso</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="question">
+        <p>5. Algunos expertos creen que la televisión se centra demasiado en competir.</p>
+        <div class="options">
+          <div class="option">
+            <input type="radio" id="vf5-true" name="vf5" value="true">
+            <label for="vf5-true">Verdadero</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="vf5-false" name="vf5" value="false">
+            <label for="vf5-false">Falso</label>
+          </div>
+        </div>
+      </div>
+
+      <h3>2. Elige la opción correcta</h3>
+      <div class="question">
+        <p>1. El share mide…</p>
+        <div class="options">
+          <div class="option">
+            <input type="radio" id="mc1-a" name="mc1" value="a">
+            <label for="mc1-a">a) número total de televisores</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="mc1-b" name="mc1" value="b">
+            <label for="mc1-b">b) porcentaje de personas que ven un programa cuando la TV está encendida</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="mc1-c" name="mc1" value="c">
+            <label for="mc1-c">c) opinión del público</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="question">
+        <p>2. Las cadenas alargan los programas porque…</p>
+        <div class="options">
+          <div class="option">
+            <input type="radio" id="mc2-a" name="mc2" value="a">
+            <label for="mc2-a">a) más gente a las 2am</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="mc2-b" name="mc2" value="b">
+            <label for="mc2-b">b) subir el share</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="mc2-c" name="mc2" value="c">
+            <label for="mc2-c">c) los espectadores lo prefieren</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="question">
+        <p>3. Un problema de estos horarios es que…</p>
+        <div class="options">
+          <div class="option">
+            <input type="radio" id="mc3-a" name="mc3" value="a">
+            <label for="mc3-a">a) gente no ve programas enteros</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="mc3-b" name="mc3" value="b">
+            <label for="mc3-b">b) no existen plataformas bajo demanda</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="mc3-c" name="mc3" value="c">
+            <label for="mc3-c">c) nadie se queja</label>
+          </div>
+        </div>
+      </div>
+
+      <h3>3. Vocabulario</h3>
+      <p>Relaciona cada término con su definición:</p>
+      
+      <div class="question">
+        <p>1. madrugada</p>
+        <input type="text" id="vocab1" placeholder="Escribe a, b, c o d">
+      </div>
+      
+      <div class="question">
+        <p>2. audiencia</p>
+        <input type="text" id="vocab2" placeholder="Escribe a, b, c o d">
+      </div>
+      
+      <div class="question">
+        <p>3. competitividad</p>
+        <input type="text" id="vocab3" placeholder="Escribe a, b, c o d">
+      </div>
+      
+      <div class="question">
+        <p>4. cuota de pantalla</p>
+        <input type="text" id="vocab4" placeholder="Escribe a, b, c o d">
+      </div>
+      
+      <p><strong>Definiciones:</strong></p>
+      <p>a) porcentaje de espectadores</p>
+      <p>b) capacidad de competir</p>
+      <p>c) personas que ven la tele</p>
+      <p>d) horas entre 00:00 y la mañana</p>
+      
+      <button onclick="checkComprension()">Comprobar respuestas</button>
+    </div>
+  </section>
+
+  <!-- TABLAS SECTION -->
+  <section id="tablas" class="section">
+    <div class="text-window">
+      <h3>Texto de referencia</h3>
+      <p>Las cadenas de televisión compiten por el <strong>share</strong> (cuota de pantalla), que es el porcentaje de personas que ven un programa entre todos los televisores encendidos. Aunque hay menos espectadores por la noche, el share puede subir porque los que siguen viendo la tele normalmente continúan con el mismo programa.</p>
+    </div>
+    
+    <div class="card">
+      <h2>Análisis de Tablas</h2>
+
+      <h3>Tabla 1: Horarios</h3>
+      <table>
+        <thead><tr><th>Programa</th><th>Cadena</th><th>Hora inicio</th><th>Hora fin</th></tr></thead>
+        <tbody>
+          <tr><td>Hasta el fin del mundo</td><td>La 1</td><td>22:45</td><td>02:15</td></tr>
+          <tr><td>MasterChef Celebrity (final)</td><td>La 1</td><td>22:15</td><td>02:30</td></tr>
+          <tr><td>El 1%</td><td>Antena 3</td><td>23:30</td><td>01:05 aprox.</td></tr>
+          <tr><td>El hormiguero</td><td>Antena 3</td><td>21:50–23:30</td><td>22:50–23:30</td></tr>
+        </tbody>
+      </table>
+
+      <p><strong>Preguntas (respuestas cortas en español):</strong></p>
+      
+      <div class="question">
+        <p>1. ¿Qué programa termina más tarde?</p>
+        <input type="text" id="tabla1-1">
+      </div>
+      
+      <div class="question">
+        <p>2. ¿Cuál empieza más tarde?</p>
+        <input type="text" id="tabla1-2">
+      </div>
+      
+      <div class="question">
+        <p>3. ¿Qué dos programas superan las 2 de la madrugada?</p>
+        <input type="text" id="tabla1-3">
+      </div>
+      
+      <div class="question">
+        <p>4. ¿Por qué estos horarios son problema para el público?</p>
+        <input type="text" id="tabla1-4">
+      </div>
+
+      <h3>Tabla 2: Espectadores y cuota</h3>
+      <table>
+        <thead><tr><th>Año</th><th>Programa / tramo</th><th>Espectadores</th><th>Cuota (%)</th></tr></thead>
+        <tbody>
+          <tr><td>2015</td><td>El hormiguero</td><td>3.000.000</td><td>15,3</td></tr>
+          <tr><td>2025</td><td>El hormiguero (media)</td><td>2.000.000</td><td>16–18</td></tr>
+          <tr><td>2024 (prom.)</td><td>Horario 22:15–22:30</td><td>12.400.000</td><td>—</td></tr>
+          <tr><td>2013–2014</td><td>Horario 22:15–22:30</td><td>18.200.000</td><td>—</td></tr>
+        </tbody>
+      </table>
+
+      <p><strong>Preguntas (respuestas cortas en español):</strong></p>
+      
+      <div class="question">
+        <p>1. ¿Ha aumentado o disminuido el número de espectadores de <em>El hormiguero</em> desde 2015?</p>
+        <input type="text" id="tabla2-1">
+      </div>
+      
+      <div class="question">
+        <p>2. ¿La cuota de pantalla ha subido o bajado?</p>
+        <input type="text" id="tabla2-2">
+      </div>
+      
+      <div class="question">
+        <p>3. ¿Cuántos espectadores ha perdido la tele tradicional en la década en ese tramo?</p>
+        <input type="text" id="tabla2-3">
+      </div>
+      
+      <div class="question">
+        <p>4. ¿Por qué la cuota puede subir aunque haya menos espectadores?</p>
+        <input type="text" id="tabla2-4">
+      </div>
+
+      <h3>Tabla 3: Rating vs Share</h3>
+      <table>
+        <thead><tr><th>Concepto</th><th>¿Qué mide?</th><th>Incluye TVs apagados?</th><th>Para qué sirve?</th></tr></thead>
+        <tbody>
+          <tr><td>Rating</td><td>Número total potencial</td><td>Sí</td><td>Mide audiencia general</td></tr>
+          <tr><td>Share (cuota)</td><td>Porcentaje entre TVs encendidos</td><td>No</td><td>Compara programas en la franja</td></tr>
+        </tbody>
+      </table>
+
+      <p><strong>Preguntas (respuestas cortas):</strong></p>
+      
+      <div class="question">
+        <p>1. ¿Qué dato incluye televisores apagados?</p>
+        <input type="text" id="tabla3-1">
+      </div>
+      
+      <div class="question">
+        <p>2. ¿Qué dato usan más las cadenas para competir?</p>
+        <input type="text" id="tabla3-2">
+      </div>
+      
+      <div class="question">
+        <p>3. ¿Cuál explica mejor quién está viendo la tele en ese momento?</p>
+        <input type="text" id="tabla3-3">
+      </div>
+      
+      <div class="question">
+        <p>4. ¿Por qué el share es importante para las privadas?</p>
+        <input type="text" id="tabla3-4">
+      </div>
+      
+      <button onclick="checkTablas()">Comprobar respuestas</button>
+    </div>
+  </section>
+
+  <!-- ESCRITURA SECTION -->
+  <section id="escritura" class="section">
+    <div class="text-window">
+      <h3>Texto de referencia</h3>
+      <p>Los horarios tardíos de la televisión española son un problema para muchas personas que trabajan o estudian. Algunos expertos critican la "guerra por el share" porque las cadenas se centran demasiado en competir y no en ofrecer horarios razonables. Los espectadores pueden ver los programas después en plataformas bajo demanda, pero esto muestra que la televisión tradicional está perdiendo público.</p>
+    </div>
+    
+    <div class="card">
+      <h2>Actividades de escritura</h2>
+      
+      <div class="question">
+        <p><strong>1. Opinión breve (80–100 palabras):</strong> ¿Deben terminar más temprano los programas? Usa expresiones: <em>en mi opinión</em>, <em>creo que</em>.</p>
+        <textarea id="writing1"></textarea>
+        <button onclick="checkWriting(1)">Obtener feedback</button>
+        <div id="writing1-feedback" class="writing-feedback"></div>
+      </div>
+      
+      <div class="question">
+        <p><strong>2. Correo al director (80–120 palabras):</strong> Queja + ejemplo personal + propuesta.</p>
+        <textarea id="writing2"></textarea>
+        <button onclick="checkWriting(2)">Obtener feedback</button>
+        <div id="writing2-feedback" class="writing-feedback"></div>
+      </div>
+      
+      <div class="question">
+        <p><strong>3. Mini redacción (100–140 palabras):</strong> Futuro de la televisión tradicional.</p>
+        <textarea id="writing3"></textarea>
+        <button onclick="checkWriting(3)">Obtener feedback</button>
+        <div id="writing3-feedback" class="writing-feedback"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTADOS SECTION -->
+  <section id="resultados" class="section">
+    <div class="card">
+      <h2>Resultados</h2>
+      <p>Tu puntuación total: <span id="final-score">0</span>/<span id="final-total">0</span></p>
+      <p>Porcentaje: <span id="percentage">0</span>%</p>
+      
+      <div class="progress-bar">
+        <div class="progress-fill" id="final-progress"></div>
+      </div>
+      
+      <h3>Resumen de respuestas</h3>
+      <div id="results-summary"></div>
+      
+      <button onclick="downloadResults()">Descargar resultados</button>
+    </div>
+  </section>
+
+  <!-- ACCENT KEYBOARD -->
+  <div class="accent-keyboard">
+    <button onclick="insertAccent('á')">á</button>
+    <button onclick="insertAccent('é')">é</button>
+    <button onclick="insertAccent('í')">í</button>
+    <button onclick="insertAccent('ó')">ó</button>
+    <button onclick="insertAccent('ú')">ú</button>
+    <button onclick="insertAccent('ü')">ü</button>
+    <button onclick="insertAccent('ñ')">ñ</button>
+    <button onclick="insertAccent('¿')">¿</button>
+    <button onclick="insertAccent('¡')">¡</button>
+  </div>
+
+  <script>
+    // Store user progress
+    const userProgress = {
+      score: 0,
+      total: 0,
+      sections: {
+        'comprension': { completed: false, score: 0, total: 12 },
+        'tablas': { completed: false, score: 0, total: 12 },
+        'escritura': { completed: false, score: 0, total: 3 }
+      }
+    };
+    
+    // Track the currently focused input
+    let currentInput = null;
+    
+    // Set up event listeners for input focus
+    document.addEventListener('DOMContentLoaded', function() {
+      const inputs = document.querySelectorAll('input[type="text"], textarea');
+      inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+          currentInput = this;
+        });
+        
+        input.addEventListener('blur', function() {
+          // Don't clear currentInput immediately to allow keyboard clicks
+          setTimeout(() => {
+            if (document.activeElement && document.activeElement.tagName !== 'BUTTON') {
+              currentInput = null;
+            }
+          }, 100);
+        });
+      });
+      
+      // Also track button clicks to prevent losing focus
+      const buttons = document.querySelectorAll('.accent-keyboard button, .nav button, button');
+      buttons.forEach(button => {
+        button.addEventListener('mousedown', function(e) {
+          e.preventDefault();
+        });
+      });
+    });
+    
+    // Correct answers
+    const correctAnswers = {
+      // Verdadero/Falso
+      'vf1': 'false',
+      'vf2': 'false',
+      'vf3': 'true',
+      'vf4': 'true',
+      'vf5': 'true',
+      
+      // Multiple choice
+      'mc1': 'b',
+      'mc2': 'b',
+      'mc3': 'a',
+      
+      // Vocabulario
+      'vocab1': 'd',
+      'vocab2': 'c',
+      'vocab3': 'b',
+      'vocab4': 'a',
+      
+      // Tabla 1
+      'tabla1-1': 'MasterChef Celebrity',
+      'tabla1-2': 'El 1%',
+      'tabla1-3': 'Hasta el fin del mundo y MasterChef Celebrity',
+      'tabla1-4': 'Porque mucha gente trabaja o estudia y no puede quedarse hasta la madrugada',
+      
+      // Tabla 2
+      'tabla2-1': 'Ha disminuido',
+      'tabla2-2': 'Ha subido',
+      'tabla2-3': 'Unos 6 millones',
+      'tabla2-4': 'Porque hay menos gente viendo la tele y los que quedan están en los mismos programas',
+      
+      // Tabla 3
+      'tabla3-1': 'El rating',
+      'tabla3-2': 'El share',
+      'tabla3-3': 'El share',
+      'tabla3-4': 'Porque el share ayuda a atraer anunciantes'
+    };
+    
+    // Navigation functions
+    function showSection(section) {
+      // Hide all sections
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(sec => {
+        sec.classList.remove('active');
+      });
+      
+      // Show selected section
+      document.getElementById(section).classList.add('active');
+    }
+    
+    // Insert accent characters
+    function insertAccent(char) {
+      // Use the tracked current input or try to find the active element
+      const targetInput = currentInput || document.activeElement;
+      
+      if (targetInput && (targetInput.tagName === 'INPUT' || targetInput.tagName === 'TEXTAREA')) {
+        const start = targetInput.selectionStart;
+        const end = targetInput.selectionEnd;
+        const value = targetInput.value;
+        
+        targetInput.value = value.substring(0, start) + char + value.substring(end);
+        targetInput.selectionStart = targetInput.selectionEnd = start + char.length;
+        targetInput.focus();
+        
+        // Trigger input event to ensure any listeners are notified
+        const event = new Event('input', { bubbles: true });
+        targetInput.dispatchEvent(event);
+      } else {
+        // Fallback: find the first input in the current section
+        const currentSection = document.querySelector('.section.active');
+        if (currentSection) {
+          const firstInput = currentSection.querySelector('input[type="text"], textarea');
+          if (firstInput) {
+            firstInput.focus();
+            const start = firstInput.selectionStart;
+            const end = firstInput.selectionEnd;
+            const value = firstInput.value;
+            firstInput.value = value.substring(0, start) + char + value.substring(end);
+            firstInput.selectionStart = firstInput.selectionEnd = start + char.length;
+          }
+        }
+      }
+    }
+    
+    // Check comprension section
+    function checkComprension() {
+      let score = 0;
+      const total = 12;
+      
+      // Check verdadero/falso
+      for (let i = 1; i <= 5; i++) {
+        const selected = document.querySelector(`input[name="vf${i}"]:checked`);
+        if (selected && selected.value === correctAnswers[`vf${i}`]) {
+          score++;
+          selected.parentElement.classList.add('correct');
+        } else if (selected) {
+          selected.parentElement.classList.add('incorrect');
+        }
+      }
+      
+      // Check multiple choice
+      for (let i = 1; i <= 3; i++) {
+        const selected = document.querySelector(`input[name="mc${i}"]:checked`);
+        if (selected && selected.value === correctAnswers[`mc${i}`]) {
+          score++;
+          selected.parentElement.classList.add('correct');
+        } else if (selected) {
+          selected.parentElement.classList.add('incorrect');
+        }
+      }
+      
+      // Check vocabulary
+      for (let i = 1; i <= 4; i++) {
+        const input = document.getElementById(`vocab${i}`);
+        const userAnswer = input.value.trim().toLowerCase();
+        if (userAnswer === correctAnswers[`vocab${i}`]) {
+          score++;
+          input.classList.add('correct');
+        } else if (userAnswer) {
+          input.classList.add('incorrect');
+        }
+      }
+      
+      // Update progress
+      userProgress.sections.comprension.score = score;
+      userProgress.sections.comprension.completed = true;
+      updateScoreDisplay();
+      
+      alert(`Has obtenido ${score} de ${total} puntos en la sección de comprensión.`);
+    }
+    
+    // Check tablas section
+    function checkTablas() {
+      let score = 0;
+      const total = 12;
+      
+      // Check tabla 1
+      for (let i = 1; i <= 4; i++) {
+        const input = document.getElementById(`tabla1-${i}`);
+        const userAnswer = input.value.trim().toLowerCase();
+        const correctAnswer = correctAnswers[`tabla1-${i}`].toLowerCase();
+        
+        // For these questions, we'll accept partial matches
+        if (userAnswer && userAnswer.includes(correctAnswer) || 
+            correctAnswer.includes(userAnswer)) {
+          score++;
+          input.classList.add('correct');
+        } else if (userAnswer) {
+          input.classList.add('incorrect');
+        }
+      }
+      
+      // Check tabla 2
+      for (let i = 1; i <= 4; i++) {
+        const input = document.getElementById(`tabla2-${i}`);
+        const userAnswer = input.value.trim().toLowerCase();
+        const correctAnswer = correctAnswers[`tabla2-${i}`].toLowerCase();
+        
+        if (userAnswer && userAnswer.includes(correctAnswer) || 
+            correctAnswer.includes(userAnswer)) {
+          score++;
+          input.classList.add('correct');
+        } else if (userAnswer) {
+          input.classList.add('incorrect');
+        }
+      }
+      
+      // Check tabla 3
+      for (let i = 1; i <= 4; i++) {
+        const input = document.getElementById(`tabla3-${i}`);
+        const userAnswer = input.value.trim().toLowerCase();
+        const correctAnswer = correctAnswers[`tabla3-${i}`].toLowerCase();
+        
+        if (userAnswer && userAnswer.includes(correctAnswer) || 
+            correctAnswer.includes(userAnswer)) {
+          score++;
+          input.classList.add('correct');
+        } else if (userAnswer) {
+          input.classList.add('incorrect');
+        }
+      }
+      
+      // Update progress
+      userProgress.sections.tablas.score = score;
+      userProgress.sections.tablas.completed = true;
+      updateScoreDisplay();
+      
+      alert(`Has obtenido ${score} de ${total} puntos en la sección de análisis de tablas.`);
+    }
+    
+    // Check writing section
+    function checkWriting(num) {
+      const textarea = document.getElementById(`writing${num}`);
+      const feedback = document.getElementById(`writing${num}-feedback`);
+      const text = textarea.value.trim();
+      
+      if (text.length === 0) {
+        feedback.textContent = "Por favor, escribe tu respuesta antes de solicitar feedback.";
+        feedback.style.display = 'block';
+        feedback.style.backgroundColor = '#fff3cd';
+        feedback.style.border = '1px solid #ffeaa7';
+        return;
+      }
+      
+      // Simple word count
+      const wordCount = text.split(/\s+/).filter(word => word.length > 0).length;
+      
+      // Check for required expressions (for question 1)
+      let expressionCheck = '';
+      if (num === 1) {
+        if (text.includes('en mi opinión') || text.includes('creo que')) {
+          expressionCheck = '✓ Has utilizado las expresiones requeridas.';
+        } else {
+          expressionCheck = '✗ Recuerda usar expresiones como "en mi opinión" o "creo que".';
+        }
+      }
+      
+      // Word count feedback
+      let wordCountFeedback = '';
+      const minWords = num === 1 ? 80 : (num === 2 ? 80 : 100);
+      const maxWords = num === 1 ? 100 : (num === 2 ? 120 : 140);
+      
+      if (wordCount < minWords) {
+        wordCountFeedback = `Tu texto tiene ${wordCount} palabras. Intenta llegar al menos a ${minWords} palabras.`;
+      } else if (wordCount > maxWords) {
+        wordCountFeedback = `Tu texto tiene ${wordCount} palabras. Intenta no superar las ${maxWords} palabras.`;
+      } else {
+        wordCountFeedback = `✓ Tu texto tiene ${wordCount} palabras, dentro del rango recomendado.`;
+      }
+      
+      // Content feedback based on question
+      let contentFeedback = '';
+      switch(num) {
+        case 1:
+          contentFeedback = 'Asegúrate de expresar claramente tu opinión sobre si los programas deberían terminar más temprano.';
+          break;
+        case 2:
+          contentFeedback = 'Recuerda incluir una queja, un ejemplo personal y una propuesta concreta.';
+          break;
+        case 3:
+          contentFeedback = 'Reflexiona sobre el futuro de la televisión tradicional considerando los cambios en los hábitos de consumo.';
+          break;
+      }
+      
+      // Combine feedback
+      feedback.innerHTML = `
+        <p><strong>Feedback:</strong></p>
+        <p>${wordCountFeedback}</p>
+        <p>${expressionCheck}</p>
+        <p>${contentFeedback}</p>
+      `;
+      feedback.style.display = 'block';
+      feedback.style.backgroundColor = '#d1ecf1';
+      feedback.style.border = '1px solid #bee5eb';
+      
+      // Update progress
+      if (wordCount >= minWords) {
+        userProgress.sections.escritura.score++;
+      }
+      userProgress.sections.escritura.completed = true;
+      updateScoreDisplay();
+    }
+    
+    // Update score display
+    function updateScoreDisplay() {
+      // Calculate total score
+      let totalScore = 0;
+      let totalPossible = 0;
+      
+      for (let section in userProgress.sections) {
+        totalScore += userProgress.sections[section].score;
+        totalPossible += userProgress.sections[section].total;
+      }
+      
+      userProgress.score = totalScore;
+      userProgress.total = totalPossible;
+      
+      // Update display
+      document.getElementById('score').textContent = totalScore;
+      document.getElementById('total').textContent = totalPossible;
+      
+      // Update progress bar
+      const progressFill = document.getElementById('progress-fill');
+      const percentage = totalPossible > 0 ? (totalScore / totalPossible) * 100 : 0;
+      progressFill.style.width = `${percentage}%`;
+      
+      // Update results section
+      document.getElementById('final-score').textContent = totalScore;
+      document.getElementById('final-total').textContent = totalPossible;
+      document.getElementById('percentage').textContent = Math.round(percentage);
+      
+      const finalProgress = document.getElementById('final-progress');
+      finalProgress.style.width = `${percentage}%`;
+      
+      // Update results summary
+      const summary = document.getElementById('results-summary');
+      let summaryHTML = '';
+      
+      for (let section in userProgress.sections) {
+        const sectionData = userProgress.sections[section];
+        const sectionPercentage = sectionData.total > 0 ? 
+          Math.round((sectionData.score / sectionData.total) * 100) : 0;
+        
+        summaryHTML += `
+          <div class="question">
+            <p><strong>${getSectionName(section)}:</strong> ${sectionData.score}/${sectionData.total} (${sectionPercentage}%)</p>
+          </div>
+        `;
+      }
+      
+      summary.innerHTML = summaryHTML;
+    }
+    
+    // Get section name for display
+    function getSectionName(section) {
+      const names = {
+        'comprension': 'Comprensión',
+        'tablas': 'Análisis de Tablas',
+        'escritura': 'Escritura'
+      };
+      
+      return names[section] || section;
+    }
+    
+    // Download results
+    function downloadResults() {
+      let content = "RESULTADOS - ACTIVIDAD PRIME TIME ESPAÑOL\n";
+      content += "============================================\n\n";
+      content += `Puntuación total: ${userProgress.score}/${userProgress.total}\n`;
+      content += `Porcentaje: ${userProgress.total > 0 ? Math.round((userProgress.score / userProgress.total) * 100) : 0}%\n\n`;
+      
+      content += "Desglose por secciones:\n";
+      for (let section in userProgress.sections) {
+        const sectionData = userProgress.sections[section];
+        const sectionPercentage = sectionData.total > 0 ? 
+          Math.round((sectionData.score / sectionData.total) * 100) : 0;
+        
+        content += `- ${getSectionName(section)}: ${sectionData.score}/${sectionData.total} (${sectionPercentage}%)\n`;
+      }
+      
+      content += "\n¡Sigue practicando!\n";
+      
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'resultados_prime_time.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+    
+    // Initialize
+    updateScoreDisplay();
+  </script>
+</body>
+</html>

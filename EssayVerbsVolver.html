@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Práctica de redacción - Volver</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      padding: 20px;
+      background-color: #f4f7f6;
+      color: #333;
+      line-height: 1.6;
+      max-width: 900px;
+      margin: 20px auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      background: linear-gradient(to bottom right, #ffffff, #f0f4f7);
+    }
+    h2 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 1.8em;
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 10px;
+    }
+    .category {
+      color: #1a5276;
+      margin-top: 35px;
+      margin-bottom: 15px;
+      font-size: 1.3em;
+      padding-left: 10px;
+      border-left: 4px solid #3498db;
+    }
+    p {
+      margin-bottom: 10px;
+      font-size: 1.1em;
+      display: flex; /* Use flexbox for inline alignment */
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .gap {
+      width: 150px; /* Slightly wider for longer words */
+      padding: 8px 12px;
+      margin: 0 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1em;
+      transition: all 0.2s ease-in-out;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+    .gap:focus {
+      border-color: #3498db;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+      outline: none;
+    }
+    .correct {
+      background-color: #e6ffe6 !important;
+      border-color: #4CAF50 !important;
+      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3) !important;
+    }
+    .incorrect {
+      background-color: #ffe6e6 !important;
+      border-color: #F44336 !important;
+      box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.3) !important;
+    }
+    .button-container {
+      text-align: center;
+      margin-top: 40px;
+    }
+    button {
+      padding: 12px 25px;
+      margin: 10px 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      font-weight: bold;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    }
+    #show-score-btn {
+      background-color: #28a745;
+      color: white;
+    }
+    #show-score-btn:hover {
+      background-color: #218838;
+    }
+    #reset-btn {
+      background-color: #dc3545;
+      color: white;
+    }
+    #reset-btn:hover {
+      background-color: #c82333;
+    }
+    #score-display {
+      font-weight: bold;
+      margin-top: 25px;
+      text-align: center;
+      font-size: 1.5em;
+      color: #2c3e50;
+      padding: 10px 20px;
+      background-color: #eaf2f8;
+      border-radius: 8px;
+      border: 1px solid #d4e6f1;
+      display: inline-block;
+      min-width: 150px;
+      box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.05);
+    }
+    .instructions {
+      background-color: #e0f7fa;
+      border-left: 5px solid #00bcd4;
+      padding: 15px 20px;
+      margin-bottom: 30px;
+      border-radius: 8px;
+      font-size: 0.95em;
+      color: #006064;
+    }
+    .instructions strong {
+      color: #004d40;
+    }
+
+    /* Accent Keyboard Styling */
+    .accent-keyboard {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 30px;
+      padding: 15px;
+      background-color: #f0f8ff;
+      border-radius: 10px;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e0eaf5;
+    }
+    .accent-keyboard button {
+      background-color: #5bc0de;
+      color: white;
+      padding: 10px 15px;
+      font-size: 1.1em;
+      min-width: 45px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin: 0; /* Override default button margin */
+    }
+    .accent-keyboard button:hover {
+      background-color: #31b0d5;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Hint Display Styling */
+    .hint-inline {
+      display: inline-block; /* Make it flow with text */
+      margin-left: 10px; /* Space from the input */
+      padding: 5px 10px;
+      background-color: #fffde7;
+      border: 1px solid #ffecb3;
+      border-radius: 5px;
+      color: #e65100;
+      font-size: 0.85em;
+      white-space: nowrap; /* Prevent hint from wrapping */
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out, border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+    .hint-inline.visible {
+      opacity: 1;
+      border-color: #ffb300;
+      box-shadow: 0 2px 5px rgba(255, 179, 0, 0.2);
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 15px;
+      }
+      .gap {
+        width: 100%;
+        margin: 5px 0;
+      }
+      p {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .accent-keyboard {
+        gap: 5px;
+      }
+      .accent-keyboard button {
+        padding: 8px 12px;
+        font-size: 1em;
+        min-width: 40px;
+      }
+      .hint-inline {
+        margin-left: 0; /* No margin on small screens */
+        margin-top: 5px; /* Add some top margin if stacked */
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>Completa los huecos y pulsa Enter para corregir cada uno</h2>
+
+  <div class="instructions">
+    <p><strong>Instrucciones:</strong> Escribe la palabra que falta en cada hueco. Pulsa <strong>Enter</strong> en cada campo para verificar tu respuesta y ver si es correcta. Un pequeño <strong>hint (pista)</strong> aparecerá cuando hagas clic en un hueco. Utiliza el teclado de acentos si lo necesitas. Al final, puedes ver tu puntuación total o reiniciar la actividad.</p>
+  </div>
+
+  <div style="text-align: center; margin-bottom: 20px;">
+    <span id="score-display">Puntuación: 0/35</span>
+  </div>
+
+  <!-- Removed the global #hint-display div -->
+
+  <div class="accent-keyboard">
+    <button data-accent="á">á</button>
+    <button data-accent="é">é</button>
+    <button data-accent="í">í</button>
+    <button data-accent="ó">ó</button>
+    <button data-accent="ú">ú</button>
+    <button data-accent="ñ">ñ</button>
+    <button data-accent="ü">ü</button>
+    <button data-accent="¿">¿</button>
+    <button data-accent="¡">¡</button>
+  </div>
+
+  <!-- 1. Subjuntivo y estructuras complejas -->
+  <div class="category"><b>1. Subjuntivo y estructuras complejas</b></div>
+  <p>Es posible que Raimunda no <input class="gap" data-answer="haya perdonado,comprenda,acepte" data-hint="Verb: to have forgiven / to understand / to accept (subjunctive)"></p> a su madre completamente.</p>
+  <p>Almodóvar quiere que los espectadores <input class="gap" data-answer="entiendan,comprendan" data-hint="Verb: to understand (subjunctive)"></p> la importancia de la familia.</p>
+  <p>Aunque Irene <input class="gap" data-answer="haya vuelto" data-hint="Verb: to have returned (subjunctive)"></p>, el pasado sigue presente.</p>
+  <p>No creo que la muerte <input class="gap" data-answer="sea" data-hint="Verb: to be (subjunctive)"></p> el final en la película.</p>
+  <p>Es necesario que las mujeres <input class="gap" data-answer="superen,confronten" data-hint="Verb: to overcome / to confront (subjunctive)"></p> sus traumas.</p>
+
+  <!-- 2. Vocabulario de análisis fílmico -->
+  <div class="category"><b>2. Vocabulario de análisis fílmico</b></div>
+  <p>La <input class="gap" data-answer="narrativa,historia,trama" data-hint="Noun: narrative / story / plot"></p> de la película es circular.</p>
+  <p>El <input class="gap" data-answer="simbolismo,tema" data-hint="Noun: symbolism / theme"></p> de la muerte es fundamental.</p>
+  <p>La <input class="gap" data-answer="banda sonora" data-hint="Noun: soundtrack"></p> refuerza el ambiente emocional.</p>
+  <p>Almodóvar utiliza el <input class="gap" data-answer="primer plano" data-hint="Noun: close-up"></p> para mostrar emociones.</p>
+  <p>El <input class="gap" data-answer="desarrollo del personaje" data-hint="Noun: character development"></p> es notable en Raimunda y Paula.</p>
+
+  <!-- 3. Concordancia y género -->
+  <div class="category"><b>3. Concordancia y género</b></div>
+  <p>Las protagonistas <input class="gap" data-answer="son" data-hint="Verb: to be (present tense)"></p> mujeres fuertes.</p>
+  <p>La relación entre madre e hija es <input class="gap" data-answer="compleja,difícil,un desafío" data-hint="Adjective/Noun: complex / difficult / a challenge"></p>.</p>
+  <p>Raimunda tiene una <input class="gap" data-answer="personalidad" data-hint="Noun: personality"></p> muy marcada.</p>
+  <p>El reencuentro familiar es <input class="gap" data-answer="emocionante" data-hint="Adjective: emotional / moving"></p>.</p>
+  <p>La película muestra la <input class="gap" data-answer="solidaridad" data-hint="Noun: solidarity"></p> femenina.</p>
+
+  <!-- 4. Verbos y tiempos -->
+  <div class="category"><b>4. Verbos y tiempos</b></div>
+  <p>Raimunda <input class="gap" data-answer="ha sufrido" data-hint="Verb: to have suffered (present perfect)"></p> mucho en su vida.</p>
+  <p>Cuando Irene <input class="gap" data-answer="regresa" data-hint="Verb: to return (present tense)"></p>, todo cambia.</p>
+  <p>Paula <input class="gap" data-answer="mata" data-hint="Verb: to kill (present tense)"></p> a Paco en defensa propia.</p>
+  <p>Las mujeres <input class="gap" data-answer="buscan" data-hint="Verb: to look for / to seek (present tense)"></p> nuevas oportunidades.</p>
+  <p>La madre <input class="gap" data-answer="aparece" data-hint="Verb: to appear (present tense)"></p> como un fantasma.</p>
+
+  <!-- 5. Conectores y frases complejas -->
+  <div class="category"><b>5. Conectores y frases complejas</b></div>
+  <p><input class="gap" data-answer="Sin embargo" data-hint="Connector: however"></p>, la reconciliación no es fácil.</p>
+  <p><input class="gap" data-answer="A pesar de que" data-hint="Connector: despite the fact that"></p> sufren, siguen adelante.</p>
+  <p>Por <input class="gap" data-answer="lo tanto" data-hint="Connector: therefore"></p>, la familia es esencial.</p>
+  <p>Además, la película <input class="gap" data-answer="demuestra" data-hint="Verb: to demonstrate / to show (present tense)"></p> la importancia del perdón.</p>
+  <p>En <input class="gap" data-answer="conclusión" data-hint="Connector: in conclusion"></p>, todos pueden empezar de nuevo.</p>
+
+  <!-- 6. Preposiciones y pronombres -->
+  <div class="category"><b>6. Preposiciones y pronombres</b></div>
+  <p>La historia <input class="gap" data-answer="de" data-hint="Preposition: of / about"></p> Raimunda es conmovedora.</p>
+  <p>El regreso <input class="gap" data-answer="de" data-hint="Preposition: of / from"></p> Irene cambia todo.</p>
+  <p>Paula, <input class="gap" data-answer="quien" data-hint="Pronoun: who / whom"></p> es la hija de Raimunda, es valiente.</p>
+  <p>El pueblo <input class="gap" data-answer="donde" data-hint="Adverb/Pronoun: where"></p> viven es tradicional.</p>
+  <p>La razón por <input class="gap" data-answer="la que" data-hint="Phrase: the reason why"></p> Irene vuelve es el amor.</p>
+
+  <!-- 7. Léxico avanzado y sinónimos -->
+  <div class="category"><b>7. Léxico avanzado y sinónimos</b></div>
+  <p>La película trata el <input class="gap" data-answer="empoderamiento" data-hint="Noun: empowerment"></p> femenino.</p>
+  <p>El <input class="gap" data-answer="pasado" data-hint="Noun: past"></p> de las protagonistas influye en su presente.</p>
+  <p>El <input class="gap" data-answer="perdón" data-hint="Noun: forgiveness"></p> es un tema central.</p>
+  <p>La <input class="gap" data-answer="resiliencia" data-hint="Noun: resilience"></p> de las mujeres es admirable.</p>
+  <p>El <input class="gap" data-answer="conflicto" data-hint="Noun: conflict"></p> familiar se resuelve al final.</p>
+
+  <div class="button-container">
+    <button id="show-score-btn" onclick="showTotalScore()">Ver mi puntuación final</button>
+    <button id="reset-btn" onclick="resetActivity()">Reiniciar Actividad</button>
+  </div>
+
+  <script>
+    let activeInput = null; // To keep track of the currently focused input
+    let totalGaps = 0;
+    let correctAnswersCount = 0;
+    let gapInputs = []; // To store all gap input elements
+    let currentHintElement = null; // Reference to the currently displayed hint element
+
+    document.addEventListener('DOMContentLoaded', () => {
+      gapInputs = Array.from(document.querySelectorAll('.gap'));
+      totalGaps = gapInputs.length;
+
+      // Store initial values for reset
+      gapInputs.forEach(input => {
+        input.setAttribute('data-original-value', input.value);
+      });
+
+      // Attach event listeners to each gap input
+      gapInputs.forEach(input => {
+        input.addEventListener('focus', (e) => {
+          activeInput = e.target;
+          showHint(activeInput, activeInput.dataset.hint);
+        });
+        input.addEventListener('blur', () => {
+          activeInput = null; // Set to null on blur
+          hideHint();
+        });
+        input.addEventListener('keydown', handleEnterKey);
+      });
+
+      // Attach event listeners to accent keyboard buttons
+      document.querySelectorAll('.accent-keyboard button').forEach(button => {
+        button.addEventListener('click', handleAccentClick);
+      });
+
+      updateScoreDisplay(); // Initial score display
+    });
+
+    /**
+     * Normalizes a string by converting to lowercase, removing diacritics, and trimming whitespace.
+     * @param {string} str The string to normalize.
+     * @returns {string} The normalized string.
+     */
+    function normalize(str) {
+      if (typeof str !== 'string') return ''; // Handle non-string inputs
+      return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+    }
+
+    /**
+     * Inserts text at the current cursor position in an input field.
+     * @param {HTMLInputElement} input The input element.
+     * @param {string} textToInsert The text to insert.
+     */
+    function insertAtCursor(input, textToInsert) {
+      const start = input.selectionStart;
+      const end = input.selectionEnd;
+      const value = input.value;
+
+      input.value = value.substring(0, start) + textToInsert + value.substring(end);
+
+      // Move cursor to the end of the inserted text
+      input.selectionStart = input.selectionEnd = start + textToInsert.length;
+      input.focus(); // Keep focus on the input
+    }
+
+    /**
+     * Handles click events on accent keyboard buttons.
+     * @param {Event} event The click event.
+     */
+    function handleAccentClick(event) {
+      if (activeInput) {
+        const accentChar = event.target.dataset.accent;
+        insertAtCursor(activeInput, accentChar);
+      } else {
+        console.log('No input field is focused.');
+        // Optionally, show a visual cue to the user that they need to select an input
+      }
+    }
+
+    /**
+     * Displays a hint message next to the given input element.
+     * @param {HTMLInputElement} inputElement The input element to attach the hint to.
+     * @param {string} hintText The text of the hint to display.
+     */
+    function showHint(inputElement, hintText) {
+      // First, hide any existing hint
+      hideHint();
+
+      if (!hintText) {
+        return; // No hint to show
+      }
+
+      // Create a new hint element if it doesn't exist
+      if (!currentHintElement) {
+        currentHintElement = document.createElement('span');
+        currentHintElement.classList.add('hint-inline');
+      }
+
+      currentHintElement.textContent = `Hint: ${hintText}`;
+      // Insert the hint element right after the input field's parent paragraph
+      // This ensures it stays within the flow of the text
+      inputElement.parentNode.insertBefore(currentHintElement, inputElement.nextSibling);
+      
+      // Make it visible
+      setTimeout(() => { // Small timeout to ensure reflow before transition
+        currentHintElement.classList.add('visible');
+      }, 50);
+    }
+
+    /**
+     * Hides the currently displayed hint message.
+     */
+    function hideHint() {
+      if (currentHintElement && currentHintElement.parentNode) {
+        currentHintElement.classList.remove('visible');
+        // Remove from DOM after transition
+        currentHintElement.addEventListener('transitionend', function handler() {
+          if (currentHintElement && currentHintElement.parentNode) {
+            currentHintElement.parentNode.removeChild(currentHintElement);
+          }
+          currentHintElement.removeEventListener('transitionend', handler);
+        });
+      }
+      currentHintElement = null; // Clear reference
+    }
+
+    /**
+     * Checks a single gap input for correctness.
+     * @param {HTMLInputElement} inputElement The input element to check.
+     * @returns {boolean} True if the answer is correct, false otherwise.
+     */
+    function checkGap(inputElement) {
+      const studentAnswer = normalize(inputElement.value);
+      const correctAnswers = inputElement.dataset.answer.split(',').map(ans => normalize(ans));
+
+      // Check if the student's answer matches any of the possible correct answers
+      const isCorrect = correctAnswers.includes(studentAnswer);
+
+      if (isCorrect) {
+        inputElement.classList.remove('incorrect');
+        inputElement.classList.add('correct');
+      } else {
+        inputElement.classList.remove('correct');
+        inputElement.classList.add('incorrect');
+      }
+      return isCorrect;
+    }
+
+    /**
+     * Handles the Enter key press on an input field.
+     * @param {Event} e The keyboard event.
+     */
+    function handleEnterKey(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault(); // Prevent form submission or newline
+        checkGap(this); // 'this' refers to the input element
+        updateScoreDisplay();
+        hideHint(); // Hide hint after checking
+      }
+    }
+
+    /**
+     * Updates the displayed score based on the current state of all gaps.
+     */
+    function updateScoreDisplay() {
+      let currentCorrect = 0;
+      gapInputs.forEach(input => {
+        // Only count if the input has been "checked" (has a correct/incorrect class)
+        // or if it's already marked as correct from a previous check
+        if (input.classList.contains('correct')) {
+          currentCorrect++;
+        }
+      });
+      correctAnswersCount = currentCorrect;
+      document.getElementById('score-display').textContent = `Puntuación: ${correctAnswersCount}/${totalGaps}`;
+    }
+
+    /**
+     * Shows the total score for all gaps, checking any unchecked ones.
+     */
+    function showTotalScore() {
+      let finalCorrect = 0;
+      gapInputs.forEach(input => {
+        if (checkGap(input)) { // Check each gap and apply classes
+          finalCorrect++;
+        }
+      });
+      correctAnswersCount = finalCorrect;
+      document.getElementById('score-display').textContent = `Puntuación: ${correctAnswersCount}/${totalGaps}`;
+      // Optionally, scroll to the score display
+      document.getElementById('score-display').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      hideHint(); // Hide hint when showing total score
+    }
+
+    /**
+     * Resets the entire activity: clears inputs, removes classes, and resets score.
+     */
+    function resetActivity() {
+      gapInputs.forEach(input => {
+        input.value = input.getAttribute('data-original-value'); // Reset to original empty value
+        input.classList.remove('correct', 'incorrect');
+      });
+      correctAnswersCount = 0;
+      updateScoreDisplay();
+      activeInput = null; // Clear active input
+      hideHint(); // Hide hint on reset
+      // Optionally, focus on the first input
+      if (gapInputs.length > 0) {
+        gapInputs[0].focus();
+      }
+    }
+  </script>
+</body>
+</html>

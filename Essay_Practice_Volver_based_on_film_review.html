@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad B1/B2: Ensayo sobre "Volver" - Tango y Cine</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+        
+        body {
+            background-color: #f9f5f0;
+            color: #2c1810;
+            line-height: 1.7;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 3px solid #8B0000;
+        }
+        
+        h1 {
+            color: #8B0000;
+            margin-bottom: 15px;
+            font-size: 2.5rem;
+        }
+        
+        .subtitle {
+            color: #5d4037;
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        
+        .level-indicator {
+            background-color: #4a6fa5;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .attribution {
+            background-color: #fff8f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #4a6fa5;
+            font-size: 0.9rem;
+        }
+        
+        .activity-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .resources-section {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .essay-section {
+            flex: 2;
+            min-width: 400px;
+        }
+        
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #8B0000;
+        }
+        
+        .card.blue {
+            border-left: 5px solid #4a6fa5;
+        }
+        
+        .card.green {
+            border-left: 5px solid #006400;
+        }
+        
+        .card.purple {
+            border-left: 5px solid #4B0082;
+        }
+        
+        h2 {
+            color: #8B0000;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        h3 {
+            color: #5d4037;
+            margin: 20px 0 15px 0;
+            font-size: 1.4rem;
+        }
+        
+        .quote-pair {
+            margin: 25px 0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .quote-en {
+            background-color: #f0f7ff;
+            padding: 20px;
+            font-style: italic;
+            font-size: 1.05rem;
+            border-left: 4px solid #4a6fa5;
+        }
+        
+        .quote-es {
+            background-color: #f0fff0;
+            padding: 20px;
+            font-size: 1.05rem;
+            border-left: 4px solid #006400;
+        }
+        
+        .quote-source {
+            display: block;
+            text-align: right;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #5d4037;
+            font-size: 0.9rem;
+        }
+        
+        .tango-section {
+            background-color: #faf6f2;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 2px solid #8B0000;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .stanza {
+            margin-bottom: 2em;
+        }
+        
+        .stanza-title {
+            color: #8B0000;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .verse {
+            display: block;
+            margin-bottom: 0.8em;
+            padding: 8px 12px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            border-radius: 4px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .verse:hover {
+            background-color: rgba(139, 0, 0, 0.08);
+        }
+        
+        .verse.selected {
+            background-color: rgba(139, 0, 0, 0.15);
+            font-weight: bold;
+            border-left: 3px solid #8B0000;
+        }
+        
+        .verse-number {
+            display: inline-block;
+            width: 30px;
+            color: #8B0000;
+            font-weight: bold;
+            font-size: 0.9rem;
+            vertical-align: top;
+        }
+        
+        .verse-text {
+            display: inline-block;
+            width: calc(100% - 35px);
+        }
+        
+        .film-themes {
+            margin: 25px 0;
+        }
+        
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .theme-card {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #8B0000;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .theme-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .theme-card.selected {
+            background-color: #e6e6fa;
+            border-left: 4px solid #4B0082;
+        }
+        
+        .theme-card h4 {
+            color: #8B0000;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .selected-verses {
+            background-color: #fff0f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #8B4513;
+            min-height: 120px;
+        }
+        
+        .selected-item {
+            background-color: white;
+            padding: 10px 15px;
+            margin: 8px 0;
+            border-radius: 4px;
+            border-left: 3px solid #8B0000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .remove-btn {
+            background-color: #8B0000;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            line-height: 1;
+        }
+        
+        .essay-instructions {
+            background-color: #f0f7ff;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+        
+        .essay-requirements {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        
+        .essay-requirements li {
+            margin-bottom: 10px;
+            padding-left: 5px;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 350px;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            margin-top: 10px;
+            resize: vertical;
+            line-height: 1.6;
+            font-family: inherit;
+        }
+        
+        .writing-tools {
+            background-color: #f9f5f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px dashed #8B0000;
+        }
+        
+        .tool-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .word-counter {
+            text-align: right;
+            margin-top: 5px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background-color: #8B0000;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #a00000;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: #5d4037;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #795548;
+            transform: translateY(-2px);
+        }
+        
+        .btn-blue {
+            background-color: #4a6fa5;
+            color: white;
+        }
+        
+        .btn-blue:hover {
+            background-color: #5a7fb5;
+            transform: translateY(-2px);
+        }
+        
+        .btn-green {
+            background-color: #006400;
+            color: white;
+        }
+        
+        .btn-green:hover {
+            background-color: #008000;
+            transform: translateY(-2px);
+        }
+        
+        .keyboard-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+        
+        .keyboard {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            display: none;
+            width: 320px;
+            border: 1px solid #ddd;
+        }
+        
+        .keyboard.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .keyboard-btn {
+            background-color: #8B0000;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .keyboard-btn:hover {
+            background-color: #a00000;
+            transform: scale(1.05);
+        }
+        
+        .keyboard-keys {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .key {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 12px 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1.1rem;
+        }
+        
+        .key:hover {
+            background-color: #e8e8e8;
+            transform: translateY(-2px);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #666;
+            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .vocabulary-help {
+            background-color: #fff0f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+        
+        .vocabulary-help ul {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .activity-container {
+                flex-direction: column;
+            }
+            
+            .keyboard-container {
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .keyboard {
+                width: 300px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+            
+            .theme-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Ensayo Analítico: "Volver" - Tango y Cine</h1>
+        <div class="level-indicator">Nivel B1/B2 - Español Avanzado</div>
+        <p class="subtitle">Análisis intertextual entre la letra de Carlos Gardel y la película de Pedro Almodóvar</p>
+        
+        <div class="attribution">
+            <p><strong>Fuente académica:</strong> Fragmentos de la reseña "Volver" por <strong>Carla Marcantonio</strong>, publicada en <strong>Cinéaste, Vol. 31, No. 4 (Fall 2006), pp. 77-79</strong>.</p>
+            <p>Traducciones adaptadas para nivel B1/B2 de español.</p>
+        </div>
+    </header>
+    
+    <div class="activity-container">
+        <div class="resources-section">
+            <div class="card blue">
+                <h2>Fragmentos de la Reseña</h2>
+                
+                <div class="quote-pair">
+                    <div class="quote-en">
+                        "The lyrics of Volver's title song—'to return, with withered brow, the snows of time, have whitened my temples'—not only announce the film's richly textured preoccupation but also stand-in, perhaps, for director Pedro Almodóvar's own sentiments."
+                        <span class="quote-source">- Carla Marcantonio</span>
+                    </div>
+                    <div class="quote-es">
+                        "La letra de la canción que da título a la película—'volver, con la frente marchita, las nieves del tiempo platearon mi sien'—no solo anuncia la compleja preocupación temática del filme, sino que también representa los propios sentimientos del director Pedro Almodóvar."
+                        <span class="quote-source">Traducción B1/B2</span>
+                    </div>
+                </div>
+                
+                <div class="quote-pair">
+                    <div class="quote-en">
+                        "The song, originally a tango by Carlos Gardel, has been transformed into flamenco, sung by the incantatory voice of cantor Estrella Morente... With this musical transformation, Almodóvar also proclaims his mastery at appropriation and pastiche."
+                        <span class="quote-source">- Carla Marcantonio</span>
+                    </div>
+                    <div class="quote-es">
+                        "La canción, originalmente un tango de Carlos Gardel, se ha transformado en flamenco, interpretado por la voz cautivadora de Estrella Morente... Con esta transformación musical, Almodóvar demuestra su dominio de la apropiación cultural y el pastiche artístico."
+                        <span class="quote-source">Traducción B1/B2</span>
+                    </div>
+                </div>
+                
+                <div class="quote-pair">
+                    <div class="quote-en">
+                        "Volver is a film inhabited by myriad 'returns,' textual and extraterritorial, which answer both to the demands of the fictional narrative and to Almodóvar's return to his own native and artistic roots."
+                        <span class="quote-source">- Carla Marcantonio</span>
+                    </div>
+                    <div class="quote-es">
+                        "'Volver' es una película llena de múltiples 'retornos'—textuales y extratextuales—que responden tanto a las exigencias de la narrativa como al regreso de Almodóvar a sus raíces nativas y artísticas."
+                        <span class="quote-source">Traducción B1/B2</span>
+                    </div>
+                </div>
+                
+                <div class="quote-pair">
+                    <div class="quote-en">
+                        "For a melodrama that announces 'Return' in its title, the question of lineage is immediately relevant. The dead mother of Raimunda and Sole, Maura—or her ghost—is rumored to have returned in order to care for their senile, dying aunt."
+                        <span class="quote-source">- Carla Marcantonio</span>
+                    </div>
+                    <div class="quote-es">
+                        "En un melodrama titulado 'Volver', la cuestión del linaje es inmediatamente relevante. La madre fallecida de Raimunda y Sole, interpretada por Carmen Maura—o su fantasma—supuestamente ha regresado para cuidar de su tía enferma y senil."
+                        <span class="quote-source">Traducción B1/B2</span>
+                    </div>
+                </div>
+                
+                <div class="quote-pair">
+                    <div class="quote-en">
+                        "The inconsequence of Paco's absence also expresses Almodóvar's greater interest in pursuing the phenomenon of female community than in lingering on the psychological aftermath of the attempted incest."
+                        <span class="quote-source">- Carla Marcantonio</span>
+                    </div>
+                    <div class="quote-es">
+                        "La poca importancia de la ausencia de Paco muestra el mayor interés de Almodóvar por explorar la comunidad femenina, en lugar de detenerse en las consecuencias psicológicas del intento de incesto."
+                        <span class="quote-source">Traducción B1/B2</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="vocabulary-help">
+                <h4>Vocabulario clave para el análisis:</h4>
+                <ul>
+                    <li><strong>apropiación cultural</strong>: tomar elementos de otra cultura</li>
+                    <li><strong>pastiche</strong>: mezcla de estilos artísticos diferentes</li>
+                    <li><strong>linaje / herencia</strong>: conexión familiar o tradición</li>
+                    <li><strong>melodrama</strong>: género dramático con emociones exageradas</li>
+                    <li><strong>intertextualidad</strong>: relación entre diferentes textos</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="essay-section">
+            <div class="card purple">
+                <h2>Letra completa: Tango "Volver" (Carlos Gardel, 1934)</h2>
+                
+                <div class="tango-section" id="tangoLyrics">
+                    <!-- Tango lyrics will be inserted by JavaScript -->
+                </div>
+                
+                <div class="selected-verses" id="selectedVersesContainer">
+                    <p><em>Selecciona versos del tango para usar como evidencia en tu ensayo. Haz clic en los versos arriba.</em></p>
+                </div>
+                
+                <div class="controls">
+                    <button id="clearSelectedBtn" class="btn-secondary">Limpiar selección</button>
+                    <button id="insertQuotesBtn" class="btn-green">Insertar citas en ensayo</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Temas de la película para analizar</h2>
+                
+                <div class="film-themes">
+                    <p>Selecciona los temas que quieres explorar en tu ensayo:</p>
+                    
+                    <div class="theme-grid" id="themeGrid">
+                        <!-- Theme cards will be inserted by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="writing-tools">
+                    <h3>Herramientas para tu ensayo</h3>
+                    <p>Expresiones útiles para análisis intertextual:</p>
+                    <div class="tool-buttons">
+                        <button class="tool-btn" data-text="Al igual que en el tango, en la película...">"Al igual que en el tango..."</button>
+                        <button class="tool-btn" data-text="Esta conexión entre texto y cine se evidencia cuando...">"Esta conexión se evidencia..."</button>
+                        <button class="tool-btn" data-text="La transformación del tango en flamenco simboliza...">"La transformación simboliza..."</button>
+                        <button class="tool-btn" data-text="El tema del retorno opera tanto a nivel lírico como cinematográfico...">"El tema del retorno opera..."</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card green">
+                <h2>Escribe tu ensayo analítico</h2>
+                
+                <div class="essay-instructions">
+                    <h3>Consigna:</h3>
+                    <p>Escribe un ensayo analítico de <strong>250-350 palabras</strong> en español que explore las conexiones intertextuales entre el tango "Volver" de Carlos Gardel y la película "Volver" de Pedro Almodóvar.</p>
+                    
+                    <h4>Requisitos del ensayo:</h4>
+                    <ul class="essay-requirements">
+                        <li>Analiza al menos <strong>3 temas principales</strong> presentes en ambos textos</li>
+                        <li>Incluye <strong>citas directas</strong> de la letra del tango como evidencia</li>
+                        <li>Menciona la <strong>transformación del tango en flamenco</strong> y su significado</li>
+                        <li>Explora el concepto de <strong>"retorno"</strong> en múltiples niveles</li>
+                        <li>Usa vocabulario académico apropiado para nivel B1/B2</li>
+                    </ul>
+                    
+                    <p><strong>Estructura sugerida:</strong> Introducción → Desarrollo (2-3 párrafos) → Conclusión</p>
+                </div>
+                
+                <textarea id="essayText" placeholder="Comienza tu ensayo aquí..."></textarea>
+                <div class="word-counter">Palabras: <span id="wordCount">0</span> (Objetivo: 250-350 palabras)</div>
+                
+                <div class="controls">
+                    <button id="saveEssayBtn" class="btn-primary">Guardar ensayo</button>
+                    <button id="analyzeEssayBtn" class="btn-blue">Analizar mi ensayo</button>
+                    <button id="clearEssayBtn" class="btn-secondary">Limpiar todo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="keyboard-container">
+        <button class="keyboard-btn" id="toggleKeyboard">á</button>
+        <div class="keyboard" id="keyboard">
+            <p><strong>Teclado de caracteres especiales</strong></p>
+            <p>Haz clic para insertar caracteres en tu ensayo.</p>
+            <div class="keyboard-keys">
+                <div class="key" data-char="á">á</div>
+                <div class="key" data-char="é">é</div>
+                <div class="key" data-char="í">í</div>
+                <div class="key" data-char="ó">ó</div>
+                <div class="key" data-char="ú">ú</div>
+                <div class="key" data-char="ñ">ñ</div>
+                <div class="key" data-char="¿">¿</div>
+                <div class="key" data-char="¡">¡</div>
+                <div class="key" data-char="ü">ü</div>
+                <div class="key" data-char="«">«</div>
+                <div class="key" data-char="»">»</div>
+                <div class="key" data-char="Á">Á</div>
+                <div class="key" data-char="É">É</div>
+                <div class="key" data-char="Í">Í</div>
+            </div>
+            <p style="margin-top: 10px; font-size: 0.9rem;">Haz clic en "á" para mostrar/ocultar este teclado.</p>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Actividad diseñada para estudiantes de español nivel B1/B2 - Análisis intertextual avanzado</p>
+        <p>© 2023 Actividad Educativa - Basada en la reseña de Carla Marcantonio (Cinéaste, 2006)</p>
+    </div>
+
+    <script>
+        // Tango "Volver" lyrics with thematic grouping
+        const tangoStanzas = [
+            {
+                title: "El retorno físico y temporal",
+                verses: [
+                    {id: 1, text: "Volver... con la frente marchita,"},
+                    {id: 2, text: "las nieves del tiempo platearon mi sien."}
+                ]
+            },
+            {
+                title: "La fugacidad de la vida",
+                verses: [
+                    {id: 3, text: "Sentir... que es un soplo la vida,"},
+                    {id: 4, text: "que veinte años no es nada,"},
+                    {id: 5, text: "que febril la mirada, errante en las sombras,"},
+                    {id: 6, text: "te busca y te nombra."}
+                ]
+            },
+            {
+                title: "Memoria y nostalgia",
+                verses: [
+                    {id: 7, text: "Vivir... con el alma aferrada"},
+                    {id: 8, text: "a un dulce recuerdo"},
+                    {id: 9, text: "que lloro otra vez."}
+                ]
+            },
+            {
+                title: "Miedo al pasado",
+                verses: [
+                    {id: 10, text: "Tengo miedo del encuentro"},
+                    {id: 11, text: "con el pasado que vuelve"},
+                    {id: 12, text: "a enfrentarse con mi vida."},
+                    {id: 13, text: "Tengo miedo de las noches"},
+                    {id: 14, text: "que pobladas de recuerdos"},
+                    {id: 15, text: "encadenan mi soñar..."}
+                ]
+            },
+            {
+                title: "Esperanza y resignación",
+                verses: [
+                    {id: 16, text: "Pero el viajero que huye"},
+                    {id: 17, text: "tarde o temprano detiene su andar."},
+                    {id: 18, text: "Y aunque el olvido, que todo destruye,"},
+                    {id: 19, text: "haya matado mi vieja ilusión,"},
+                    {id: 20, text: "guardo escondida una esperanza humilde"},
+                    {id: 21, text: "que es toda la fortuna de mi corazón."}
+                ]
+            }
+        ];
+
+        // Film themes with connections to tango
+        const filmThemes = [
+            {
+                id: 'return',
+                title: 'El retorno múltiple',
+                description: 'Regreso al pueblo natal, de fantasmas, de actores (Carmen Maura), a raíces artísticas',
+                connection: 'Conecta con: "Volver... con la frente marchita"',
+                color: '#FFE4E1'
+            },
+            {
+                id: 'time',
+                title: 'El paso del tiempo',
+                description: 'Envejecimiento, muerte, tradiciones que desaparecen, transformación de Madrid',
+                connection: 'Conecta con: "las nieves del tiempo platearon mi sien"',
+                color: '#E6E6FA'
+            },
+            {
+                id: 'memory',
+                title: 'Memoria y trauma',
+                description: 'Secretos familiares, incesto, pérdida, fantasmas del pasado',
+                connection: 'Conecta con: "Tengo miedo del encuentro con el pasado que vuelve"',
+                color: '#F0FFF0'
+            },
+            {
+                id: 'women',
+                title: 'Comunidad femenina',
+                description: 'Solidaridad entre mujeres, ausencia masculina, matriarcado',
+                connection: 'Contrapunto al narrador masculino del tango',
+                color: '#FFF0F5'
+            },
+            {
+                id: 'transformation',
+                title: 'Transformación cultural',
+                description: 'Tango → Flamenco, apropiación, pastiche, mestizaje cultural',
+                connection: 'Refleja la transformación de la España post-franquista',
+                color: '#F0F8FF'
+            },
+            {
+                id: 'death',
+                title: 'Muerte y fantasmas',
+                description: 'Cementerios, cadáveres, fantasmas literales, luto',
+                connection: 'Conecta con: "el viajero que huye tarde o temprano detiene su andar"',
+                color: '#FFFACD'
+            },
+            {
+                id: 'hope',
+                title: 'Esperanza y redención',
+                description: 'Reconciliación, perdón, construcción de nuevas familias',
+                connection: 'Conecta con: "guardo escondida una esperanza humilde"',
+                color: '#E6F7FF'
+            },
+            {
+                id: 'music',
+                title: 'Música como metáfora',
+                description: 'Transformación musical, identidad cultural, expresión emocional',
+                connection: 'Tango (nostalgia porteña) → Flamenco (identidad española)',
+                color: '#F5F0FF'
+            }
+        ];
+
+        // DOM Elements
+        const tangoLyricsElement = document.getElementById('tangoLyrics');
+        const themeGridElement = document.getElementById('themeGrid');
+        const selectedVersesContainer = document.getElementById('selectedVersesContainer');
+        const essayTextElement = document.getElementById('essayText');
+        const wordCountElement = document.getElementById('wordCount');
+        const toggleKeyboard = document.getElementById('toggleKeyboard');
+        const keyboard = document.getElementById('keyboard');
+        const clearSelectedBtn = document.getElementById('clearSelectedBtn');
+        const insertQuotesBtn = document.getElementById('insertQuotesBtn');
+        const saveEssayBtn = document.getElementById('saveEssayBtn');
+        const analyzeEssayBtn = document.getElementById('analyzeEssayBtn');
+        const clearEssayBtn = document.getElementById('clearEssayBtn');
+
+        // State
+        let selectedVerses = [];
+        let selectedThemes = [];
+
+        // Initialize page
+        function initPage() {
+            renderTangoLyrics();
+            renderThemeGrid();
+            setupEventListeners();
+            updateWordCount();
+            
+            // Sample essay structure for B1/B2 level
+            const sampleIntro = `El tango "Volver" de Carlos Gardel y la película homónima de Pedro Almodóvar establecen un diálogo intertextual profundo donde la nostalgia, la memoria y el retorno operan como ejes temáticos centrales. Este ensayo explorará las conexiones entre ambos textos, analizando cómo Almodóvar reinterpreta y transforma los temas del tango en su narrativa cinematográfica.\n\n`;
+            
+            // Insert sample introduction
+            // essayTextElement.value = sampleIntro;
+            // updateWordCount();
+        }
+
+        // Render tango lyrics with stanzas
+        function renderTangoLyrics() {
+            let html = '';
+            
+            tangoStanzas.forEach(stanza => {
+                html += `<div class="stanza">`;
+                html += `<div class="stanza-title">${stanza.title}</div>`;
+                
+                stanza.verses.forEach(verse => {
+                    html += `
+                        <div class="verse" data-id="${verse.id}">
+                            <span class="verse-number">${verse.id}</span>
+                            <span class="verse-text">${verse.text}</span>
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`;
+            });
+            
+            tangoLyricsElement.innerHTML = html;
+            
+            // Add click events to verses
+            document.querySelectorAll('.verse').forEach(verse => {
+                verse.addEventListener('click', () => {
+                    const verseId = parseInt(verse.getAttribute('data-id'));
+                    
+                    // Find verse text
+                    let verseText = '';
+                    for (const stanza of tangoStanzas) {
+                        const found = stanza.verses.find(v => v.id === verseId);
+                        if (found) {
+                            verseText = found.text;
+                            break;
+                        }
+                    }
+                    
+                    // Toggle selection
+                    if (verse.classList.contains('selected')) {
+                        verse.classList.remove('selected');
+                        selectedVerses = selectedVerses.filter(v => v.id !== verseId);
+                    } else {
+                        verse.classList.add('selected');
+                        selectedVerses.push({id: verseId, text: verseText});
+                    }
+                    
+                    renderSelectedVerses();
+                });
+            });
+        }
+
+        // Render theme grid
+        function renderThemeGrid() {
+            filmThemes.forEach(theme => {
+                const card = document.createElement('div');
+                card.className = 'theme-card';
+                card.setAttribute('data-id', theme.id);
+                card.style.backgroundColor = theme.color;
+                
+                card.innerHTML = `
+                    <h4>${theme.title}</h4>
+                    <p style="font-size: 0.9rem; margin-bottom: 8px;">${theme.description}</p>
+                    <p style="font-size: 0.85rem; font-style: italic; color: #666;">${theme.connection}</p>
+                `;
+                
+                card.addEventListener('click', () => {
+                    // Toggle theme selection
+                    if (card.classList.contains('selected')) {
+                        card.classList.remove('selected');
+                        selectedThemes = selectedThemes.filter(t => t !== theme.id);
+                    } else {
+                        card.classList.add('selected');
+                        selectedThemes.push(theme.id);
+                    }
+                });
+                
+                themeGridElement.appendChild(card);
+            });
+        }
+
+        // Render selected verses
+        function renderSelectedVerses() {
+            if (selectedVerses.length === 0) {
+                selectedVersesContainer.innerHTML = '<p><em>Selecciona versos del tango para usar como evidencia en tu ensayo. Haz clic en los versos arriba.</em></p>';
+                return;
+            }
+            
+            // Sort by verse id
+            selectedVerses.sort((a, b) => a.id - b.id);
+            
+            let html = '<h4 style="margin-top: 0; color: #8B0000;">Versos seleccionados para citar:</h4>';
+            
+            selectedVerses.forEach(verse => {
+                html += `
+                    <div class="selected-item">
+                        <span><strong>${verse.id}.</strong> ${verse.text}</span>
+                        <button class="remove-btn" data-id="${verse.id}">×</button>
+                    </div>
+                `;
+            });
+            
+            selectedVersesContainer.innerHTML = html;
+            
+            // Add remove events
+            document.querySelectorAll('.remove-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const verseId = parseInt(button.getAttribute('data-id'));
+                    
+                    // Remove from selected
+                    selectedVerses = selectedVerses.filter(v => v.id !== verseId);
+                    
+                    // Remove highlight from verse
+                    const verseElement = document.querySelector(`.verse[data-id="${verseId}"]`);
+                    if (verseElement) {
+                        verseElement.classList.remove('selected');
+                    }
+                    
+                    renderSelectedVerses();
+                });
+            });
+        }
+
+        // Insert selected quotes into essay
+        function insertSelectedQuotes() {
+            if (selectedVerses.length === 0) {
+                alert('Primero selecciona versos del tango para citar.');
+                return;
+            }
+            
+            let quotesText = '\n\n[CITAS DEL TANGO PARA ANALIZAR]\n';
+            
+            // Group by thematic connection
+            selectedVerses.forEach(verse => {
+                // Find which theme this verse might connect to
+                let themeConnection = '';
+                for (const theme of filmThemes) {
+                    if (theme.connection.includes(`"${verse.text.substring(0, 20)}`)) {
+                        themeConnection = ` → Relacionado con: ${theme.title}`;
+                        break;
+                    }
+                }
+                
+                quotesText += `"${verse.text}"${themeConnection}\n`;
+            });
+            
+            quotesText += '\n';
+            
+            // Insert at cursor position
+            const startPos = essayTextElement.selectionStart;
+            const endPos = essayTextElement.selectionEnd;
+            const text = essayTextElement.value;
+            
+            essayTextElement.value = text.substring(0, startPos) + quotesText + text.substring(endPos);
+            
+            // Move cursor to end of inserted text
+            const newCursorPos = startPos + quotesText.length;
+            essayTextElement.selectionStart = newCursorPos;
+            essayTextElement.selectionEnd = newCursorPos;
+            essayTextElement.focus();
+            
+            updateWordCount();
+        }
+
+        // Update word count
+        function updateWordCount() {
+            const text = essayTextElement.value.trim();
+            const words = text === '' ? 0 : text.split(/\s+/).length;
+            wordCountElement.textContent = words;
+            
+            // Color code based on word count
+            if (words < 200) {
+                wordCountElement.style.color = '#8B0000';
+                wordCountElement.innerHTML = `${words} <span style="font-size: 0.8em;">(Necesitas al menos 250 palabras)</span>`;
+            } else if (words >= 250 && words <= 350) {
+                wordCountElement.style.color = '#006400';
+                wordCountElement.innerHTML = `${words} <span style="font-size: 0.8em;">(¡Excelente longitud!)</span>`;
+            } else if (words > 350) {
+                wordCountElement.style.color = '#4B0082';
+                wordCountElement.innerHTML = `${words} <span style="font-size: 0.8em;">(Considera acortar a 350 palabras máximo)</span>`;
+            } else {
+                wordCountElement.style.color = '#666';
+                wordCountElement.innerHTML = `${words} <span style="font-size: 0.8em;">(Bien, sigue escribiendo)</span>`;
+            }
+        }
+
+        // Analyze essay
+        function analyzeEssay() {
+            const text = essayTextElement.value.trim();
+            const words = text === '' ? 0 : text.split(/\s+/).length;
+            
+            if (text.length === 0) {
+                alert('Tu ensayo está vacío. Por favor, comienza a escribir.');
+                return;
+            }
+            
+            // Check for key elements
+            const hasTangoQuotes = /["«].*["»]/.test(text);
+            const hasThemes = selectedThemes.length >= 3;
+            const hasAcademicVocabulary = /\b(intertextualidad|apropiación|pastiche|metáfora|símbolo|análisis)\b/i.test(text);
+            const hasStructure = (text.match(/\n\n/g) || []).length >= 2; // At least 2 paragraph breaks
+            
+            let feedback = `ANÁLISIS DE TU ENSAYO (${words} palabras)\n\n`;
+            
+            if (words < 250) {
+                feedback += `❌ LONGITUD: Tu ensayo tiene ${words} palabras. El mínimo requerido es 250.\n`;
+            } else if (words > 350) {
+                feedback += `⚠️ LONGITUD: Tu ensayo tiene ${words} palabras. Considera acortarlo a 350 palabras máximo.\n`;
+            } else {
+                feedback += `✅ LONGITUD: Excelente! Tu ensayo tiene ${words} palabras, dentro del rango objetivo.\n`;
+            }
+            
+            feedback += hasTangoQuotes ? `✅ CITAS: Has incluido citas del tango (excelente).\n` : `❌ CITAS: No has incluido citas directas del tango. Usa los versos seleccionados.\n`;
+            feedback += hasThemes ? `✅ TEMAS: Has seleccionado ${selectedThemes.length} temas para analizar.\n` : `⚠️ TEMAS: Selecciona al menos 3 temas de la película para analizar.\n`;
+            feedback += hasAcademicVocabulary ? `✅ VOCABULARIO: Usas vocabulario académico apropiado.\n` : `⚠️ VOCABULARIO: Intenta incluir más términos de análisis literario/cinematográfico.\n`;
+            feedback += hasStructure ? `✅ ESTRUCTURA: Tu ensayo tiene buena estructura párrafo.\n` : `⚠️ ESTRUCTURA: Asegúrate de tener introducción, desarrollo y conclusión.\n`;
+            
+            feedback += `\nSUGERENCIAS:\n`;
+            
+            if (!hasTangoQuotes && selectedVerses.length > 0) {
+                feedback += `- Incluye las citas del tango que seleccionaste. Por ejemplo: "Como dice Gardel: '${selectedVerses[0].text}'"\n`;
+            }
+            
+            if (selectedThemes.length < 3) {
+                const remaining = 3 - selectedThemes.length;
+                feedback += `- Selecciona ${remaining} tema(s) más de la película para enriquecer tu análisis.\n`;
+            }
+            
+            if (words < 250) {
+                feedback += `- Desarrolla más tus ideas. Explica cómo cada tema conecta tango y cine con ejemplos específicos.\n`;
+            }
+            
+            alert(feedback);
+        }
+
+        // Save essay
+        function saveEssay() {
+            const text = essayTextElement.value.trim();
+            
+            if (text.length === 0) {
+                alert('Tu ensayo está vacío. Por favor, escribe algo antes de guardar.');
+                return;
+            }
+            
+            if (text.split(/\s+/).length < 200) {
+                if (!confirm(`Tu ensayo tiene solo ${text.split(/\s+/).length} palabras. ¿Estás seguro de que quieres guardarlo? El mínimo recomendado es 250 palabras.`)) {
+                    return;
+                }
+            }
+            
+            const essayData = {
+                title: "Ensayo analítico: Tango 'Volver' y cine de Almodóvar",
+                essay: text,
+                selectedVerses: selectedVerses,
+                selectedThemes: selectedThemes.map(id => filmThemes.find(t => t.id === id).title),
+                wordCount: text.split(/\s+/).length,
+                analysisDate: new Date().toLocaleString('es-ES'),
+                studentLevel: "B1/B2"
+            };
+            
+            // Create formatted text version
+            const formattedText = `ENSAYO ANALÍTICO: "VOLVER" - TANGO Y CINE
+Fecha: ${essayData.analysisDate}
+Nivel: ${essayData.studentLevel}
+Palabras: ${essayData.wordCount}
+
+TEMAS ANALIZADOS:
+${essayData.selectedThemes.map(t => `• ${t}`).join('\n')}
+
+VERSOS CITADOS DEL TANGO:
+${essayData.selectedVerses.map(v => `"${v.text}"`).join('\n')}
+
+ENSAYO:
+${text}
+
+---
+Actividad basada en la reseña de Carla Marcantonio (Cinéaste, 2006)`;
+            
+            const blob = new Blob([formattedText], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ensayo-tango-volver.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('Ensayo guardado como "ensayo-tango-volver.txt".');
+        }
+
+        // Clear essay
+        function clearEssay() {
+            if (confirm('¿Estás seguro de que quieres borrar todo tu ensayo y empezar de nuevo?')) {
+                essayTextElement.value = '';
+                selectedVerses = [];
+                selectedThemes = [];
+                
+                // Clear selections in UI
+                document.querySelectorAll('.verse.selected').forEach(v => v.classList.remove('selected'));
+                document.querySelectorAll('.theme-card.selected').forEach(c => c.classList.remove('selected'));
+                
+                renderSelectedVerses();
+                updateWordCount();
+            }
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Keyboard
+            toggleKeyboard.addEventListener('click', () => {
+                keyboard.classList.toggle('active');
+            });
+            
+            // Keyboard keys
+            document.querySelectorAll('.key').forEach(key => {
+                key.addEventListener('click', () => {
+                    const char = key.getAttribute('data-char');
+                    essayTextElement.focus();
+                    
+                    // Insert character at cursor position
+                    essayTextElement.setRangeText(char, essayTextElement.selectionStart, essayTextElement.selectionEnd, 'end');
+                    essayTextElement.dispatchEvent(new Event('input', { bubbles: true }));
+                });
+            });
+            
+            // Essay text events
+            essayTextElement.addEventListener('input', updateWordCount);
+            
+            // Tool buttons
+            document.querySelectorAll('.tool-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const text = button.getAttribute('data-text');
+                    essayTextElement.focus();
+                    
+                    // Insert at cursor position
+                    const startPos = essayTextElement.selectionStart;
+                    const endPos = essayTextElement.selectionEnd;
+                    const currentText = essayTextElement.value;
+                    
+                    essayTextElement.value = currentText.substring(0, startPos) + text + currentText.substring(endPos);
+                    
+                    // Move cursor to end of inserted text
+                    const newCursorPos = startPos + text.length;
+                    essayTextElement.selectionStart = newCursorPos;
+                    essayTextElement.selectionEnd = newCursorPos;
+                    essayTextElement.focus();
+                    
+                    updateWordCount();
+                });
+            });
+            
+            // Main buttons
+            clearSelectedBtn.addEventListener('click', () => {
+                selectedVerses = [];
+                document.querySelectorAll('.verse.selected').forEach(v => v.classList.remove('selected'));
+                renderSelectedVerses();
+            });
+            
+            insertQuotesBtn.addEventListener('click', insertSelectedQuotes);
+            saveEssayBtn.addEventListener('click', saveEssay);
+            analyzeEssayBtn.addEventListener('click', analyzeEssay);
+            clearEssayBtn.addEventListener('click', clearEssay);
+        }
+
+        // Initialize when page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initPage);
+        } else {
+            initPage();
+        }
+    </script>
+</body>
+</html>

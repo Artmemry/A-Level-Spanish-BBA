@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volver (2006) - Análisis de género: tragedia, comedia, melodrama, tragicomedia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+        body {
+            background: linear-gradient(145deg, #1e1a17 0%, #352b24 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+        .container {
+            max-width: 1500px;
+            margin: 0 auto;
+            background: #fcf3e8;
+            border-radius: 60px 60px 40px 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.7), 0 0 0 2px #c37e5c inset;
+            padding: 30px;
+            border: 1px solid #fadbc5;
+        }
+        h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            color: #7d3c1f;
+            text-shadow: 4px 4px 0 #f0b18b, 7px 7px 0 rgba(0,0,0,0.1);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 0px;
+        }
+        .subhed {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #dab29c;
+            padding: 15px 30px;
+            border-radius: 120px;
+            margin: 20px 0 30px;
+            color: #2f160c;
+            font-weight: 600;
+            font-size: 1.4rem;
+            border: 3px solid #b45328;
+            flex-wrap: wrap;
+        }
+        .genre-tag {
+            background: #622e18;
+            color: #fedfcb;
+            padding: 8px 30px;
+            border-radius: 60px;
+            font-size: 1.4rem;
+            box-shadow: inset 0 -2px 0 #3f1b0c;
+        }
+        .student-row {
+            background: #ffe8da;
+            border-radius: 80px;
+            padding: 20px 35px;
+            margin-bottom: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            align-items: center;
+            border: 3px solid #bc653f;
+            box-shadow: 0 8px 0 #6f3822;
+        }
+        .student-label {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #542b16;
+        }
+        .student-input {
+            flex: 3;
+            min-width: 280px;
+        }
+        .student-input input {
+            width: 100%;
+            padding: 18px 30px;
+            font-size: 1.4rem;
+            border-radius: 70px;
+            border: 3px solid #a44825;
+            background: #fffbf5;
+            font-weight: 500;
+        }
+        .student-input input:focus {
+            outline: none;
+            border-color: #632d12;
+            box-shadow: 0 0 0 5px #eaa37e;
+        }
+        .download-btn {
+            background: #9e4d2c;
+            border: none;
+            color: white;
+            font-weight: 800;
+            font-size: 1.6rem;
+            padding: 18px 45px;
+            border-radius: 80px;
+            cursor: pointer;
+            transition: 0.15s;
+            box-shadow: 0 8px 0 #542811, 0 10px 20px black;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 2px solid #f3b491;
+            letter-spacing: 1px;
+            flex: 1;
+            justify-content: center;
+        }
+        .download-btn:hover {
+            background: #c45e32;
+            transform: translateY(-3px);
+            box-shadow: 0 11px 0 #542811, 0 15px 25px black;
+        }
+        .download-btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 4px 0 #542811;
+        }
+        .genre-def {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+        .def-card {
+            background: #edd7c7;
+            border-radius: 40px;
+            padding: 20px 15px;
+            text-align: center;
+            border: 3px solid #b45832;
+            box-shadow: 0 7px 0 #753e25;
+        }
+        .def-card h3 {
+            font-size: 2rem;
+            background: #ab5f40;
+            color: white;
+            padding: 8px 0;
+            border-radius: 60px;
+            margin-bottom: 12px;
+            border: 2px solid #ffdabe;
+        }
+        .def-card p {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #2b160b;
+        }
+
+        /* LAYOUT: ESCENAS + PARRILLA DE GÉNERO */
+        .main-panel {
+            display: grid;
+            grid-template-columns: 1.1fr 1.5fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .scene-list {
+            background: #3b2a1d;
+            border-radius: 50px;
+            padding: 30px 20px;
+            border: 4px solid #cf8d6a;
+            max-height: 900px;
+            overflow-y: auto;
+        }
+        .scene-list h2 {
+            color: #ffdcc2;
+            font-size: 2.2rem;
+            border-bottom: 5px solid #cb7e58;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .scene-card {
+            background: #5e3e2d;
+            border-radius: 40px;
+            padding: 20px 20px 20px 30px;
+            margin-bottom: 25px;
+            border-left: 20px solid #d68456;
+            box-shadow: 0 7px 0 #2e1b11;
+            transition: 0.1s;
+            cursor: pointer;
+            border-right: 3px solid #ab623f;
+        }
+        .scene-card:hover {
+            background: #7a513b;
+            border-left-color: #f5b186;
+        }
+        .scene-time {
+            background: #c4825e;
+            display: inline-block;
+            padding: 8px 30px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            color: #1e0f08;
+            border: 2px solid #f7c09d;
+        }
+        .scene-desc {
+            color: #fce6d4;
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+        .scene-quote {
+            font-style: italic;
+            color: #ffcba6;
+            font-size: 1.2rem;
+            border-left: 5px solid #d49c79;
+            padding-left: 20px;
+            margin-top: 12px;
+        }
+
+        .genre-grid {
+            background: #f0dbcd;
+            border-radius: 60px;
+            padding: 30px;
+            border: 4px solid #bf613b;
+        }
+        .genre-grid h2 {
+            font-size: 2.2rem;
+            color: #4d2919;
+            margin-bottom: 25px;
+            background: #f7bf9c;
+            padding: 12px 25px;
+            border-radius: 70px;
+            display: inline-block;
+            border: 3px solid #9f4727;
+        }
+        .genre-table {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .genre-row {
+            display: grid;
+            grid-template-columns: 1fr 3fr 2fr 1.2fr;
+            gap: 8px;
+            align-items: center;
+            background: #feeee2;
+            border-radius: 80px;
+            padding: 10px 15px 10px 30px;
+            border: 2px solid #b25934;
+        }
+        .genre-label {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: #1e0b04;
+        }
+        .genre-select {
+            background: #a86f56;
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 14px 18px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: 2px solid #efc09f;
+        }
+        .genre-select option {
+            background: #f3e2d3;
+            color: black;
+        }
+        .scene-ref {
+            font-weight: 600;
+            color: #572f1b;
+            font-size: 1.1rem;
+        }
+        .justify-input {
+            background: #fffcf5;
+            border: 3px solid #b1552f;
+            border-radius: 60px;
+            padding: 12px 20px;
+            font-size: 1.05rem;
+            width: 100%;
+        }
+        .justify-input:focus {
+            outline: none;
+            border-color: #712f12;
+            box-shadow: 0 0 0 4px #d28a64;
+        }
+
+        .extra-questions {
+            background: #ffeadb;
+            border-radius: 50px;
+            padding: 30px;
+            border: 4px solid #be653f;
+            margin-top: 20px;
+        }
+        .extra-questions h3 {
+            font-size: 2rem;
+            color: #5f2f19;
+        }
+        .q-block {
+            background: white;
+            border-radius: 30px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 20px solid #c96f41;
+        }
+        .q-block textarea {
+            width: 100%;
+            padding: 20px;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            border: 3px solid #b15832;
+            background: #fef9f2;
+            margin-top: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #bc7b5a;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🎭 VOLVER · GÉNERO</h1>
+    <div class="subhed">
+        <span>Pedro Almodóvar · 2006 · 121'</span>
+        <span class="genre-tag">tragedia · comedia · melodrama · tragicomedia</span>
+    </div>
+
+    <!-- NOMBRE + DESCARGA -->
+    <div class="student-row">
+        <span class="student-label">🧑‍🎓</span>
+        <div class="student-input">
+            <input type="text" id="studentName" placeholder="Nombre del estudiante" value="Estudiante">
+        </div>
+        <button class="download-btn" id="downloadResults">⬇️ DESCARGAR ANÁLISIS</button>
+    </div>
+
+    <!-- TARJETAS DE DEFINICIÓN -->
+    <div class="genre-def">
+        <div class="def-card"><h3>🍂 TRAGEDIA</h3><p>muerte, abuso, incesto, destino fatal, dolor profundo</p></div>
+        <div class="def-card"><h3>😂 COMEDIA</h3><p>situaciones cómicas, diálogos ocurrentes, alivio, risa</p></div>
+        <div class="def-card"><h3>💔 MELODRAMA</h3><p>exageración sentimental, emociones intensas, música, lágrimas</p></div>
+        <div class="def-card"><h3>🌀 TRAGICOMEDIA</h3><p>mezcla de tragedia y comedia, ambigüedad, tono agridulce</p></div>
+    </div>
+
+    <!-- PANEL PRINCIPAL: ESCENAS vs PARRILLA DE GÉNERO -->
+    <div class="main-panel">
+        <!-- COLUMNA IZQUIERDA: ESCENAS DETALLADAS -->
+        <div class="scene-list">
+            <h2>🎬 ESCENAS CLAVE</h2>
+            <div class="scene-card" data-scene="1">
+                <div class="scene-time">⏱️ 0:01 Cementerio</div>
+                <div class="scene-desc">Raimunda, Sole y Paula limpian lápidas. Hablan de la muerte de sus padres.</div>
+                <div class="scene-quote">"Mira qué abandonao está to, Sole."</div>
+            </div>
+            <div class="scene-card" data-scene="2">
+                <div class="scene-time">⏱️ 0:03 Tía Paula</div>
+                <div class="scene-desc">La tía confunde a Raimunda con su madre muerta. Ambiente de confusión y misterio.</div>
+                <div class="scene-quote">"Ayer la vi sentá aquí, tan campante."</div>
+            </div>
+            <div class="scene-card" data-scene="3">
+                <div class="scene-time">⏱️ 0:12 Intento de violación</div>
+                <div class="scene-desc">Paco intenta forzar a Raimunda, ella lo rechaza. Tensión sexual y dominación.</div>
+                <div class="scene-quote">"Estoy rendía, Paco. No tengo ganas de na."</div>
+            </div>
+            <div class="scene-card" data-scene="4">
+                <div class="scene-time">⏱️ 0:16 Muerte de Paco</div>
+                <div class="scene-desc">Paula apuñala a Paco cuando intenta violarla. Escena cruda, violenta, trágica.</div>
+                <div class="scene-quote">"Quería abusar de mí. Le clavé un cuchillo."</div>
+            </div>
+            <div class="scene-card" data-scene="5">
+                <div class="scene-time">⏱️ 00:21 Limpiando la sangre</div>
+                <div class="scene-desc">Raimunda, con frialdad, friega la sangre. Llega Emilio con las llaves del restaurante.</div>
+                <div class="scene-quote">"Toma las llaves del restaurante."</div>
+            </div>
+            <div class="scene-card" data-scene="6">
+                <div class="scene-time">⏱️ 00:25 El congelador</div>
+                <div class="scene-desc">Raimunda y Paula meten el cuerpo de Paco en el congelador del restaurante.</div>
+                <div class="scene-quote">"Ayúdame a meterlo."</div>
+            </div>
+            <div class="scene-card" data-scene="7">
+                <div class="scene-time">⏱️ 00:28 Productor de cine</div>
+                <div class="scene-desc">Un productor llega y Raimunda acepta cocinar para el equipo. Comedia / oportunidad.</div>
+                <div class="scene-quote">"¿Tú cocinas? – Sí, me encanta."</div>
+            </div>
+            <div class="scene-card" data-scene="8">
+                <div class="scene-time">⏱️ 00:32 Funeral / Aparición</div>
+                <div class="scene-desc">Sole cree ver a su madre muerta en el funeral. Misterio, realismo mágico.</div>
+                <div class="scene-quote">"¡Mamá! pero si está muerta..."</div>
+            </div>
+            <div class="scene-card" data-scene="9">
+                <div class="scene-time">⏱️ 00:39 Madre en el maletero</div>
+                <div class="scene-desc">Sole encuentra a su madre escondida. Diálogo absurdo y conmovedor.</div>
+                <div class="scene-quote">"No grites, hija, que soy yo."</div>
+            </div>
+            <div class="scene-card" data-scene="10">
+                <div class="scene-time">⏱️ 0:59 Raimunda canta 'Volver'</div>
+                <div class="scene-desc">Actuación pública, la madre la observa escondida. Momento catártico, nostálgico.</div>
+                <div class="scene-quote">"Volver... con la frente marchita..."</div>
+            </div>
+            <div class="scene-card" data-scene="11">
+                <div class="scene-time">⏱️ 01:22 Confesión de Agustina</div>
+                <div class="scene-desc">Agustina revela la relación entre su madre y el padre de Raimunda.</div>
+                <div class="scene-quote">"Tu padre y mi madre se querían."</div>
+            </div>
+            <div class="scene-card" data-scene="12">
+                <div class="scene-time">⏱️ 01:35 La verdad final</div>
+                <div class="scene-desc">La madre confiesa: el padre abusó de Raimunda, Paula es hija de ambos, y ella los quemó.</div>
+                <div class="scene-quote">"Tu padre abusó de ti... Paula es hija tuya y hermana."</div>
+            </div>
+            <div class="scene-card" data-scene="13">
+                <div class="scene-time">⏱️ 01:40 Irene cuida a Agustina</div>
+                <div class="scene-desc">La madre se queda a cuidar a Agustina moribunda. Redención, perdón, cierre.</div>
+                <div class="scene-quote">"Ahora la cuido yo. Es mi turno."</div>
+            </div>
+        </div>
+
+        <!-- COLUMNA DERECHA: PARRILLA INTERACTIVA DE GÉNERO POR ESCENA -->
+        <div class="genre-grid">
+            <h2>🎭 CLASIFICA CADA ESCENA</h2>
+            <div class="genre-table" id="genreTable">
+                <!-- Escena 1 -->
+                <div class="genre-row">
+                    <span class="genre-label">0:01</span>
+                    <select class="genre-select" id="genre1">
+                        <option value="tragedia">TRAGEDIA</option>
+                        <option value="comedia">COMEDIA</option>
+                        <option value="melodrama">MELODRAMA</option>
+                        <option value="tragicomedia" selected>TRAGICOMEDIA</option>
+                    </select>
+                    <input type="text" class="justify-input" id="just1" placeholder="¿Por qué?" value="mezcla luto cotidiano + humor negro">
+                    <span class="scene-ref">cementerio</span>
+                </div>
+                <!-- Escena 2 -->
+                <div class="genre-row">
+                    <span class="genre-label">0:03</span>
+                    <select class="genre-select" id="genre2">
+                        <option value="tragedia">TRAGEDIA</option>
+                        <option value="comedia">COMEDIA</option>
+                        <option value="melodrama">MELODRAMA</option>
+                        <option value="tragicomedia" selected>TRAGICOMEDIA</option>
+                    </select>
+                    <input type="text" class="justify-input" id="just2" placeholder="¿Por qué?" value="confusión tierna + ve a muerta">
+                    <span class="scene-ref">tía Paula</span>
+                </div>
+                <!-- Escena 3 -->
+                <div class="genre-row">
+                    <span class="genre-label">0:12</span>
+                    <select class="genre-select" id="genre3">
+                        <option value="tragedia" selected>TRAGEDIA</option>
+                        <option value="comedia">COMEDIA</option>
+                        <option value="melodrama">MELODRAMA</option>
+                        <option value="tragicomedia">TRAGICOMEDIA</option>
+                    </select>
+                    <input type="text" class="justify-input" id="just3" placeholder="¿Por qué?" value="tensión sexual, violencia psicológica">
+                    <span class="scene-ref">Paco / Raimunda</span>
+                </div>
+                <!-- Escena 4 -->
+                <div class="genre-row">
+                    <span class="genre-label">0:16</span>
+                    <select class="genre-select" id="genre4">
+                        <option value="tragedia" selected>TRAGEDIA</option>
+                        <option value="comedia">COMEDIA</option>
+                        <option value="melodrama">MELODRAMA</option>
+                        <option value="tragicomedia">TRAGICOMEDIA</option>
+                    </select>
+                    <input type="text" class="justify-input" id="just4" placeholder="¿Por qué?" value="violación, asesinato, sangre">
+                    <span class="scene-ref">muerte Paco</span>
+                </div>
+                <!-- Escena 5 -->
+                <div class="genre-row">
+                    <span class="genre-label">00:21</span>
+                    <select class="genre-select" id="genre5">
+                        <option value="tragedia">TRAGEDIA</option>
+                        <option value="comedia">COMEDIA</option>
+                        <option value="melodrama">MELODRAMA</option>
+                        <option value="tragicomedia" selected>TRAGICOMEDIA</option>
+                    </select>
+                    <input type="text" class="justify-input" id="just5" placeholder="¿Por qué?" value="fregar sangre + oferta restaurante">
+                    <span class="scene-ref">llaves</span>
+                </div>
+                <!-- Escena 6 -->
+                <div class="genre-row">
+                    <span class="genre-label">00:25</span>
+                    <select class="genre-select" id="genre6">
+                        <option value="tragedia">TRAGEDIA</option>
+                        <option value="comedia" selected>COMEDIA</option>
+                        <option value="melodrama">MELODRAMA</option>
+                        <option value="tragicomedia">TRAGICOMEDIA</option>
+                    </select>
+                    <input type="text" class="justify-input" id="just6" placeholder="¿Por qué?" value="meter cadáver en congelador es grotesco">
+                    <span class="scene-ref">congelador</span>
+                </div>
+                <!-- Escena 7 -->
+                <div class="genre-row">
+                    <span class="genre-label">00:28</span>
+                    <select class="genre-select" id="genre7">
+                        <option value="tragedia">TRAGEDIA</option>
+                        <option value="comedia" selected>COMEDIA</option>
+                        <option value="melodrama">MELODRAMA</option>
+                        <option value="tragicomedia">TRAGICOMEDIA</option>
+                    </select>
+                    <input type="text" class="justify-input" id="just7" placeholder="¿Por qué?" value="oportunidad inesperada, ligereza">
+                    <span class="scene-ref">catering</span>
+                </div>
+                <!-- Escena 8 -->
+                <div class="genre-row">
+                    <span class="genre-label">00:32</span>
+                    <select class="genre-select" id="genre8">
+                        <option value="tragedia">TRAGEDIA</option>
+                        <option value="comedia">COMEDIA</option>
+                        <option value="melodrama">MELODRAMA</option>
+                        <option value="tragicomedia" selected>TRAGICOMEDIA</option>
+                    </select>
+                    <input type="text" class="justify-input" id="just8" placeholder="¿Por qué?" value="aparición fantasmal, tono misterioso">
+                    <span class="scene-ref">funeral</span>
+                </div>
+                <!-- Escena 9 -->
+                <div class="genre-row">
+                    <span class="genre-label">00:39</span>
+                    <select class="genre-select" id="genre9">
+                        <option value="tragedia">TRAGEDIA</option>
+                        <option value="comedia">COMEDIA</option>
+                        <option value="melodrama">MELODRAMA</option>
+                        <option value="tragicomedia" selected>TRAGICOMEDIA</option>
+                    </select>
+                    <input type="text" class="justify-input" id="just9" placeholder="¿Por qué?" value="situación absurda pero reencuentro emocionante">
+                    <span class="scene-ref">maletero</span>
+                </div>
+                <!-- Escena 10 -->
+                <div class="genre-row">
+                    <span class="genre-label">0:59</span>
+                    <select class="genre-select" id="genre10">
+                        <option value="tragedia">TRAGEDIA</option>
+                        <option value="comedia">COMEDIA</option>
+                        <option value="melodrama" selected>MELODRAMA</option>
+                        <option value="tragicomedia">TRAGICOMEDIA</option>
+                    </select>
+                    <input type="text" class="justify-input" id="just10" placeholder="¿Por qué?" value="canción nostálgica, lágrimas, emoción pura">
+                    <span class="scene-ref">Volver canción</span>
+                </div>
+                <!-- Escena 11 -->
+                <div class="genre-row">
+                    <span class="genre-label">01:22</span>
+                    <select class="genre-select" id="genre11">
+                        <option value="tragedia" selected>TRAGEDIA</option>
+                        <option value="comedia">COMEDIA</option>
+                        <option value="melodrama">MELODRAMA</option>
+                        <option value="tragicomedia">TRAGICOMEDIA</option>
+                    </select>
+                    <input type="text" class="justify-input" id="just11" placeholder="¿Por qué?" value="revelación dolorosa, adulterio, silencio">
+                    <span class="scene-ref">Agustina</span>
+                </div>
+                <!-- Escena 12 -->
+                <div class="genre-row">
+                    <span class="genre-label">01:35</span>
+                    <select class="genre-select" id="genre12">
+                        <option value="tragedia" selected>TRAGEDIA</option>
+                        <option value="comedia">COMEDIA</option>
+                        <option value="melodrama">MELODRAMA</option>
+                        <option value="tragicomedia">TRAGICOMEDIA</option>
+                    </select>
+                    <input type="text" class="justify-input" id="just12" placeholder="¿Por qué?" value="incesto, abuso, muerte, incendiario">
+                    <span class="scene-ref">verdad final</span>
+                </div>
+                <!-- Escena 13 -->
+                <div class="genre-row">
+                    <span class="genre-label">01:40</span>
+                    <select class="genre-select" id="genre13">
+                        <option value="tragedia">TRAGEDIA</option>
+                        <option value="comedia">COMEDIA</option>
+                        <option value="melodrama" selected>MELODRAMA</option>
+                        <option value="tragicomedia">TRAGICOMEDIA</option>
+                    </select>
+                    <input type="text" class="justify-input" id="just13" placeholder="¿Por qué?" value="cuidado, redención, perdón, lágrima final">
+                    <span class="scene-ref">Irene cuida</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PREGUNTAS DE REFLEXIÓN ADICIONALES -->
+    <div class="extra-questions">
+        <h3>📝 PREGUNTAS DE SÍNTESIS (GÉNERO GLOBAL)</h3>
+        <div class="q-block">
+            <label>🎭 1. ¿Consideras que Volver es principalmente una tragedia, una comedia, un melodrama o una tragicomedia? Justifica con varias escenas.</label>
+            <textarea id="globalGenre" rows="4">Volver es una tragicomedia con elementos fuertes de melodrama. Mezcla el horror (abuso, asesinato) con situaciones absurdas (madre 'resucitada', congelador) y mucha emoción.</textarea>
+        </div>
+        <div class="q-block">
+            <label>🔄 2. Elige una escena que mezcle claramente tragedia y comedia. ¿Cómo consigue Almodóvar ese tono agridulce?</label>
+            <textarea id="mixScene" rows="3">Escena 00:21 – Raimunda friega la sangre de un asesinato mientras recibe las llaves de un restaurante. Lo trágico (muerte) se mezcla con lo práctico/cotidiano, casi cómico.</textarea>
+        </div>
+        <div class="q-block">
+            <label>💧 3. ¿Qué papel juega el melodrama (exageración sentimental) en la película? ¿Hay algún exceso de emociones?</label>
+            <textarea id="melodramaRole" rows="3">Sí, sobre todo en la confesión final (1:35) y la canción Volver (0:59). La música, los llantos y los secretos familiares son puro melodrama.</textarea>
+        </div>
+    </div>
+
+    <div class="footer">
+        🎬 Dir. Pedro Almodóvar · actividad análisis de género · haz clic en escenas para inspirarte
+    </div>
+</div>
+
+<script>
+    (function() {
+        // DESCARGAR RESULTADOS
+        document.getElementById('downloadResults').addEventListener('click', function() {
+            const name = document.getElementById('studentName').value.trim() || 'Anónimo';
+            const fecha = new Date().toLocaleString('es-ES');
+
+            // Recoger selects y justificaciones
+            let genreDetails = '';
+            for (let i = 1; i <= 13; i++) {
+                const select = document.getElementById(`genre${i}`);
+                const just = document.getElementById(`just${i}`).value;
+                const sceneRef = document.querySelector(`.genre-row:nth-child(${i}) .scene-ref`).innerText;
+                genreDetails += `Escena ${i} (${sceneRef}): ${select.value.toUpperCase()} – ${just}\n`;
+            }
+
+            const global = document.getElementById('globalGenre').value;
+            const mix = document.getElementById('mixScene').value;
+            const melod = document.getElementById('melodramaRole').value;
+
+            const contenido = `VOLVER (2006) – ANÁLISIS DE GÉNERO
+Estudiante: ${name}
+Fecha: ${fecha}
+═══════════════════════════════════════════════
+
+CLASIFICACIÓN POR ESCENA:
+${genreDetails}
+═══════════════════════════════════════════════
+1. GÉNERO GLOBAL:
+${global}
+
+2. MEZCLA TRAGEDIA/COMEDIA:
+${mix}
+
+3. PAPEL DEL MELODRAMA:
+${melod}
+═══════════════════════════════════════════════
+Análisis generado desde actividad interactiva.
+`;
+
+            const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `volver_genero_${name.replace(/\s+/g, '_')}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        });
+
+        // Hacer click en tarjeta de escena: resalta la fila correspondiente (opcional)
+        const sceneCards = document.querySelectorAll('.scene-card');
+        sceneCards.forEach((card, index) => {
+            card.addEventListener('click', function() {
+                // Resaltar la fila i+1 en genre-table
+                const rows = document.querySelectorAll('.genre-row');
+                if (rows[index]) {
+                    rows[index].style.backgroundColor = '#fbc19c';
+                    rows[index].style.transition = '0.3s';
+                    setTimeout(() => rows[index].style.backgroundColor = '', 800);
+                    // opcional: hacer scroll a la fila
+                    rows[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+        });
+    })();
+</script>
+</body>
+</html>

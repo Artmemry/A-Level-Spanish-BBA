@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica: Los Medios de Comunicación Hispano</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .timer {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #4facfe;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: #4facfe;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .question p {
+            margin-bottom: 15px;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+        
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #4facfe;
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .clue {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.85em;
+            color: #6c757d;
+            border-left: 3px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .clue:hover {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+            color: #856404;
+        }
+        
+        .clue::before {
+            content: "💡 ";
+            opacity: 0.5;
+        }
+        
+        .clue.revealed {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+            color: #856404;
+        }
+        
+        .clue.revealed::before {
+            opacity: 1;
+        }
+        
+        .checkbox-group {
+            margin-top: 10px;
+        }
+        
+        .checkbox-item {
+            display: block;
+            padding: 10px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .checkbox-item:hover {
+            border-color: #4facfe;
+            background: #f8f9ff;
+        }
+        
+        .checkbox-item input {
+            margin-right: 10px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 172, 254, 0.6);
+        }
+        
+        .result {
+            display: none;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .result.show {
+            display: block;
+        }
+        
+        .result.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+        
+        .result.partial {
+            background: #fff3cd;
+            color: #856404;
+            border: 2px solid #ffc107;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .vocab-highlight {
+            background: #e3f2fd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        #finalScore {
+            display: none;
+            margin-top: 20px;
+            padding: 30px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        #finalScore h2 {
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        #scoreText {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .speaking-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 4px solid #4facfe;
+        }
+        
+        .speaking-card h3 {
+            color: #4facfe;
+            margin-bottom: 15px;
+        }
+        
+        .speaking-card ul {
+            padding-left: 20px;
+        }
+        
+        .speaking-card li {
+            margin-bottom: 8px;
+        }
+        
+        .grammar-tip {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .grammar-tip h4 {
+            color: #0d47a1;
+            margin-bottom: 8px;
+        }
+        
+        .complex-structure {
+            background: #f3e5f5;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-style: italic;
+        }
+        
+        .stat-box {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .stat-box h4 {
+            color: #495057;
+            margin-bottom: 10px;
+        }
+        
+        .media-spotlight {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .media-spotlight h4 {
+            color: #e65100;
+            margin-bottom: 10px;
+        }
+        
+        .internet-info {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .internet-info h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+        
+        .tv-info {
+            background: #f3e5f5;
+            border: 2px solid #9c27b0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .tv-info h4 {
+            color: #6a1b9a;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📰 Los Medios de Comunicación</h1>
+            <p>Práctica para A-Level Spanish Edexcel - Unit 5: Medios de Comunicación</p>
+            <div class="timer" id="timer">⏱️ 45:00</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Speaking Card Simulation -->
+            <div class="speaking-card">
+                <h3>Tarjeta de Estudiante - Tema: Los medios de comunicación hispano</h3>
+                <p><strong>Las telenovelas hispanas son muy melodramáticas, pero poco duraderas</strong></p>
+                <p>Debes considerar:</p>
+                <ul>
+                    <li>Tu opinión sobre si las telenovelas hispanas son exageradas</li>
+                    <li>Las características de una telenovela que has estudiado</li>
+                </ul>
+                
+                <div class="grammar-tip">
+                    <h4>Consejos para maximizar AO3 (Rango lingüístico):</h4>
+                    <p>Incluye en tu respuesta:</p>
+                    <ul>
+                        <li>Cláusulas con <em>si</em> (ej: Si las telenovelas no fueran tan exageradas...)</li>
+                        <li>Uso de <em>se</em> + infinitivo (ej: Se observa que...)</li>
+                        <li>Subjuntivo presente y pasado (ej: Es importante que se preserve...)</li>
+                        <li>Pronombres relativos (ej: Las telenovelas, las cuales...)</li>
+                        <li>Oraciones complejas con conjunciones</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Section 1: Verdadero o Falso -->
+            <div class="section">
+                <h2>Sección 1: Verdadero o Falso (5 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">1</span> El 96.4% de los hogares españoles tienen acceso a internet, colocando a España entre los países más conectados de Europa.</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="q1" value="verdadero"> Verdadero
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="q1" value="falso"> Falso
+                        </label>
+                    </div>
+                    <div class="result" id="result1"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">2</span> La serie española "Cuéntame cómo pasó" es la más longeva en horario estelar de la historia de la televisión en España.</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="q2" value="verdadero"> Verdadero
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="q2" value="falso"> Falso
+                        </label>
+                    </div>
+                    <div class="result" id="result2"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">3</span> La circulación de periódicos impresos en España ha aumentado significativamente desde 2010.</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="q3" value="verdadero"> Verdadero
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="q3" value="falso"> Falso
+                        </label>
+                    </div>
+                    <div class="result" id="result3"></div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Rellenar los espacios en blanco -->
+            <div class="section">
+                <h2>Sección 2: Completa las frases (10 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">4</span> El ___________ es la aplicación de mensajería más utilizada en España, instalada en casi todos los teléfonos inteligentes.</p>
+                    <input type="text" id="q4" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">Aplicación de mensajería propiedad de Meta</div>
+                    <div class="result" id="result4"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">5</span> El movimiento ___________ en 2011 utilizó las redes sociales para organizar protestas en España.</p>
+                    <input type="text" id="q5" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">Movimiento de los indignados</div>
+                    <div class="result" id="result5"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">6</span> La serie ___________ es un prequel de La Casa de Papel que se convirtió en la serie española más vista globalmente en 2024.</p>
+                    <input type="text" id="q6" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">Nombre de una ciudad europea</div>
+                    <div class="result" id="result6"></div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Preguntas de opción múltiple -->
+            <div class="section">
+                <h2>Sección 3: Opción Múltiple (8 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">7</span> ¿Qué plataformas de streaming son populares en el mundo hispanohablante? (Selecciona todas las respuestas correctas)</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="a"> Netflix
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="b"> HBO Max
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="c"> Amazon Prime Video
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="d"> Disney+
+                        </label>
+                    </div>
+                    <div class="result" id="result7"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">8</span> ¿Qué características definen las telenovelas hispanas tradicionales? (Selecciona todas las respuestas correctas)</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="a"> Final feliz con boda
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="b"> Personajes estereotipados
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="c"> Trama con inicio y fin definidos
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="d"> Visionado familiar
+                        </label>
+                    </div>
+                    <div class="result" id="result8"></div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Vocabulario -->
+            <div class="section">
+                <h2>Sección 4: Vocabulario Clave (7 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">9</span> Traduce al español: "fake news"</p>
+                    <input type="text" id="q9" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">noticias ___________</div>
+                    <div class="result" id="result9"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">10</span> Traduce al español: "streaming services"</p>
+                    <input type="text" id="q10" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">servicios de ___________</div>
+                    <div class="result" id="result10"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">11</span> Traduce al español: "social media"</p>
+                    <input type="text" id="q11" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">___________ sociales</div>
+                    <div class="result" id="result11"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">12</span> ¿Qué significa "telenovela" en inglés?</p>
+                    <input type="text" id="q12" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">___________ opera</div>
+                    <div class="result" id="result12"></div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Emparejar -->
+            <div class="section">
+                <h2>Sección 5: Empareja los Conceptos (5 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">13</span> Empareja los medios de comunicación con sus características:</p>
+                    <p style="margin: 15px 0;"><strong>A.</strong> Prensa escrita</p>
+                    <input type="text" id="q13a" placeholder="Número...">
+                    
+                    <p style="margin: 15px 0;"><strong>B.</strong> Televisión</p>
+                    <input type="text" id="q13b" placeholder="Número...">
+                    
+                    <p style="margin: 15px 0;"><strong>C.</strong> Internet</p>
+                    <input type="text" id="q13c" placeholder="Número...">
+                    
+                    <p style="margin: 15px 0;"><strong>D.</strong> Redes sociales</p>
+                    <input type="text" id="q13d" placeholder="Número...">
+                    
+                    <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 8px;">
+                        <p><strong>Características:</strong></p>
+                        <p>1. Medio más popular entre jóvenes para información y entretenimiento</p>
+                        <p>2. Ha experimentado una dramática disminución en circulación desde 2010</p>
+                        <p>3. Permite comunicación horizontal y organización de movimientos sociales</p>
+                        <p>4. Sigue siendo importante para eventos deportivos y visionado familiar</p>
+                    </div>
+                    <div class="result" id="result13"></div>
+                </div>
+            </div>
+            
+            <!-- Section 6: Preguntas cortas -->
+            <div class="section">
+                <h2>Sección 6: Respuestas Cortas (15 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">14</span> <strong>¿Por qué crees que las telenovelas hispanas son tan melodramáticas? ¿Qué características tiene alguna telenovela que conozcas?</strong></p>
+                    
+                    <div class="stat-box">
+                        <h4>Características de telenovelas hispanas:</h4>
+                        <ul>
+                            <li>Audiencia objetivo prefiere el drama exagerado</li>
+                            <li>Tramas comunes: lucha de parejas jóvenes, ricos que se enamoran de pobres</li>
+                            <li>Final feliz con boda común</li>
+                            <li>Ejemplos: "El Rey del Ganado", "Café, con aroma de mujer"</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="stat-box">
+                        <h4>Ejemplo: Betty La Fea</h4>
+                        <ul>
+                            <li>Comedia exagerada tipo Cenicienta</li>
+                            <li>Enfoque en estereotipos y falta de credibilidad</li>
+                            <li>Personajes: Betty Pinzón (pobre y "fea") vs Armando Mendoza (rico y guapo)</li>
+                        </ul>
+                    </div>
+                    
+                    <textarea id="q14" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content" style="display:none;">
+                        <ul>
+                            <li>Preferencias del público objetivo por el drama</li>
+                            <li>Estructura narrativa con inicio y fin definidos</li>
+                            <li>Personajes estereotipados para mayor identificación</li>
+                            <li>Finales felices que satisfacen expectativas del público</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result14"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">15</span> <strong>En tu opinión, ¿Internet ha tenido un impacto enorme en la vida política del mundo hispanohablante? Proporciona ejemplos de su influencia política.</strong></p>
+                    
+                    <div class="media-spotlight">
+                        <h4>Ejemplos de influencia política de Internet:</h4>
+                        <ul>
+                            <li><strong>Movimiento 15-M (2011):</strong> Twitter, Facebook y YouTube para organizar protestas</li>
+                            <li><strong>Desinformación en España:</strong> Bulos sobre COVID-19 y apagón de 2025</li>
+                            <li><strong>Referéndum catalán (2017):</strong> Uso de redes sociales por ambos bandos</li>
+                            <li><strong>Venezuela (2019):</strong> Internet para organizar protestas contra Maduro</li>
+                        </ul>
+                    </div>
+                    
+                    <textarea id="q15" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content" style="display:none;">
+                        <ul>
+                            <li>Movilización de movimientos sociales como 15-M</li>
+                            <li>Propagación de bulos y desinformación</li>
+                            <li>Uso por partidos políticos para llegar a jóvenes</li>
+                            <li>División generacional en consumo de información política</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result15"></div>
+                </div>
+            </div>
+            
+            <!-- Section 7: Análisis crítico -->
+            <div class="section">
+                <h2>Sección 7: Análisis Crítico (10 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">16</span> <strong>¿Crees que Internet es el medio de comunicación más popular en los países hispanohablantes? ¿Qué otros medios son importantes y para qué se usan?</strong></p>
+                    
+                    <div class="stat-box">
+                        <h4>Penetración de Internet por país:</h4>
+                        <ul>
+                            <li><strong>España:</strong> 96.4% de hogares con acceso</li>
+                            <li><strong>Argentina:</strong> ~92% (de los más altos en Latinoamérica)</li>
+                            <li><strong>México:</strong> 83.3% (brecha urbano-rural)</li>
+                            <li><strong>Bolivia/Paraguay:</strong> 55-65% (más bajos de la región)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="stat-box">
+                        <h4>Otros medios importantes:</h4>
+                        <ul>
+                            <li><strong>Televisión:</strong> Latinoamérica ve 4 veces más TV que promedio global</li>
+                            <li><strong>Radio:</strong> Sigue siendo influyente, especialmente en audiencias mayores</li>
+                            <li><strong>Prensa escrita:</strong> Declive dramático pero versiones digitales populares</li>
+                        </ul>
+                    </div>
+                    
+                    <textarea id="q16" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content" style="display:none;">
+                        <ul>
+                            <li>Alta penetración de internet en España y algunos países latinoamericanos</li>
+                            <li>TV sigue siendo importante para eventos deportivos y familiares</li>
+                            <li>Radio mantiene influencia en audiencias mayores</li>
+                            <li>Prensa escrita en declive pero versiones digitales crecientes</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result16"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">17</span> <strong>En tu opinión, ¿la televisión en los países hispanohablantes está demasiado influenciada por programas extranjeros? ¿Por qué es popular algún programa hispano que conozcas?</strong></p>
+                    
+                    <div class="tv-info">
+                        <h4>Programas hispanos de éxito internacional:</h4>
+                        <ul>
+                            <li><strong>La Casa de Papel:</strong> Fenómeno mundial, spin-off "Berlín"</li>
+                            <li><strong>Élite:</strong> Drama estudiantil con éxito global</li>
+                            <li><strong>Cuéntame cómo pasó:</strong> Más longeva en prime time español</li>
+                            <li><strong>Money Heist/Berlin:</strong> 33 millones de vistas en primeras semanas</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="media-spotlight">
+                        <h4>Influencia extranjera:</h4>
+                        <ul>
+                            <li>Formatos internacionales adaptados: La Voz, Got Talent</li>
+                            <li>Series internacionales populares: Black Mirror, Stranger Things</li>
+                            <li>Streaming acerca contenido global a audiencias hispanas</li>
+                        </ul>
+                    </div>
+                    
+                    <textarea id="q17" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content" style="display:none;">
+                        <ul>
+                            <li>Adaptaciones de formatos internacionales exitosas</li>
+                            <li>Producciones hispanas con éxito global (La Casa de Papel)</li>
+                            <li>Streaming acerca contenido internacional pero también exporta producción hispana</li>
+                            <li>España reconocida como productor de contenido internacional exitoso</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result17"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">18</span> <strong>¿Crees que los hispanos mantienen los mismos hábitos televisivos de siempre? ¿Cómo suelen ver sus programas favoritos actualmente?</strong></p>
+                    
+                    <div class="stat-box">
+                        <h4>Hábitos televisivos en España:</h4>
+                        <ul>
+                            <li><strong>2003:</strong> 245 minutos diarios promedio</li>
+                            <li><strong>2018:</strong> 217 minutos diarios promedio</li>
+                            <li><strong>2023/24:</strong> 179 minutos diarios promedio</li>
+                            <li><strong>Verano 2024:</strong> 145 minutos diarios promedio</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="internet-info">
+                        <h4>Nuevos hábitos de consumo:</h4>
+                        <ul>
+                            <li>Jóvenes prefieren streaming y plataformas digitales</li>
+                            <li>TV tradicional popular entre mayores de 65 años</li>
+                            <li>Visionado en dispositivos móviles y laptops</li>
+                            <li>Canales web digitales de TVE y otros populares</li>
+                        </ul>
+                    </div>
+                    
+                    <textarea id="q18" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content" style="display:none;">
+                        <ul>
+                            <li>Declive en visionado de TV tradicional, especialmente entre jóvenes</li>
+                            <li>Aumento de streaming y consumo bajo demanda</li>
+                            <li>Costumbre de visionado familiar persiste para eventos especiales</li>
+                            <li>Personalización del consumo mediante plataformas digitales</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result18"></div>
+                </div>
+            </div>
+            
+            <button class="submit-btn" onclick="checkAnswers()">Verificar mis respuestas ✓</button>
+            
+            <div id="finalScore">
+                <h2>📊 Resultado Final</h2>
+                <p id="scoreText"></p>
+                <div id="feedback"></div>
+                <button class="submit-btn" onclick="downloadResults()" style="background: white; color: #4facfe; margin-top: 20px;">📥 Descargar mis resultados</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Timer functionality
+        let timeLeft = 45 * 60;
+        const timerElement = document.getElementById('timer');
+        let timeTaken = 0;
+        
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `⏱️ ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            timeTaken++;
+            
+            if (timeLeft > 0) {
+                timeLeft--;
+                setTimeout(updateTimer, 1000);
+            } else {
+                timerElement.textContent = '⏱️ ¡Tiempo agotado!';
+                timerElement.style.background = 'rgba(255,0,0,0.3)';
+            }
+        }
+        
+        updateTimer();
+        
+        // Clue reveal function
+        function revealClue(element) {
+            const clueContent = element.nextElementSibling;
+            if (clueContent && clueContent.className === 'clue-content') {
+                clueContent.style.display = 'block';
+                element.classList.add('revealed');
+                element.onclick = null;
+            }
+        }
+        
+        // Progress tracking
+        function updateProgress() {
+            const totalQuestions = 18;
+            let answered = 0;
+            
+            // Check text inputs and textareas
+            document.querySelectorAll('input[type="text"], textarea').forEach(input => {
+                if (input.value.trim() !== '') answered++;
+            });
+            
+            // Check radio buttons (questions 1-3)
+            for (let i = 1; i <= 3; i++) {
+                if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
+            }
+            
+            // Check checkboxes (questions 7-8)
+            if (document.querySelector('input[name="q7"]:checked')) answered++;
+            if (document.querySelector('input[name="q8"]:checked')) answered++;
+            
+            const percentage = (answered / totalQuestions) * 100;
+            document.getElementById('progress').style.width = percentage + '%';
+        }
+        
+        document.querySelectorAll('input, textarea').forEach(element => {
+            element.addEventListener('input', updateProgress);
+            element.addEventListener('change', updateProgress);
+        });
+        
+        // Check for complex structures in responses
+        function checkComplexStructures(text) {
+            const structures = {
+                'siClause': /si\s+(?:[\w\s]+)\s+(?:fuera|estuviera|tuviera|hubiera|pudiera)/gi,
+                'seConstruction': /se\s+(?:puede|debe|debería|observa|nota)\s+/gi,
+                'subjunctive': /(?:es\s+importante|es\s+necesario|es\s+fundamental|es\s+probable|es\s+posible|ojalá|quizás|tal\s+vez)\s+que\s+[\w\s]+(?:e|a|)/gi,
+                'relativePronouns': /(?:que|quien|quienes|el\s+cual|la\s+cual|los\s+cuales|las\s+cuales|cuya|cuyo|cuyos|cuyas)/gi,
+                'complexConjunctions': /(?:aunque|mientras\s+que|sin\s+embargo|no\s+obstante|por\s+lo\s+tanto|además)/gi
+            };
+            
+            let foundStructures = [];
+            for (const [key, pattern] of Object.entries(structures)) {
+                if (text.match(pattern)) {
+                    foundStructures.push(key);
+                }
+            }
+            
+            return foundStructures;
+        }
+        
+        function checkAnswers() {
+            let score = 0;
+            const total = 18;
+            let detailedResults = [];
+            let feedback = [];
+            
+            // Q1
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const result1 = document.getElementById('result1');
+            if (q1 && q1.value === 'verdadero') {
+                result1.textContent = '✓ ¡Correcto! España tiene una de las tasas de penetración de internet más altas de Europa';
+                result1.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 1, correct: true, answer: 'Verdadero'});
+            } else {
+                result1.textContent = '✗ Falso. La respuesta es Verdadero. El 96.4% de hogares españoles tienen acceso a internet.';
+                result1.className = 'result partial show';
+                detailedResults.push({q: 1, correct: false, answer: q1 ? q1.value : 'No respondido', correctAnswer: 'Verdadero'});
+            }
+            
+            // Q2
+            const q2 = document.querySelector('input[name="q2"]:checked');
+            const result2 = document.getElementById('result2');
+            if (q2 && q2.value === 'verdadero') {
+                result2.textContent = '✓ ¡Correcto! Cuéntame cómo pasó se emite desde 2001';
+                result2.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 2, correct: true, answer: 'Verdadero'});
+            } else {
+                result2.textContent = '✗ Falso. La respuesta es Verdadero. Cuéntame cómo pasó es la serie más longeva en prime time de España.';
+                result2.className = 'result partial show';
+                detailedResults.push({q: 2, correct: false, answer: q2 ? q2.value : 'No respondido', correctAnswer: 'Verdadero'});
+            }
+            
+            // Q3
+            const q3 = document.querySelector('input[name="q3"]:checked');
+            const result3 = document.getElementById('result3');
+            if (q3 && q3.value === 'falso') {
+                result3.textContent = '✓ ¡Correcto! La circulación de periódicos ha disminuido dramáticamente desde 2010';
+                result3.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 3, correct: true, answer: 'Falso'});
+            } else {
+                result3.textContent = '✗ Falso. La respuesta es Falso. La circulación de periódicos ha caído significativamente desde 2010.';
+                result3.className = 'result partial show';
+                detailedResults.push({q: 3, correct: false, answer: q3 ? q3.value : 'No respondido', correctAnswer: 'Falso'});
+            }
+            
+            // Q4
+            const q4 = document.getElementById('q4').value.trim().toLowerCase();
+            const result4 = document.getElementById('result4');
+            if (q4.includes('whatsapp')) {
+                result4.textContent = '✓ ¡Correcto! WhatsApp';
+                result4.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 4, correct: true, answer: q4});
+            } else {
+                result4.textContent = '✗ La respuesta correcta es: WhatsApp';
+                result4.className = 'result partial show';
+                detailedResults.push({q: 4, correct: false, answer: q4 || 'No respondido', correctAnswer: 'WhatsApp'});
+            }
+            
+            // Q5
+            const q5 = document.getElementById('q5').value.trim().toLowerCase();
+            const result5 = document.getElementById('result5');
+            if (q5.includes('15-m') || q5.includes('indignados')) {
+                result5.textContent = '✓ ¡Correcto! 15-M o movimiento de los indignados';
+                result5.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 5, correct: true, answer: q5});
+            } else {
+                result5.textContent = '✗ La respuesta correcta es: 15-M o movimiento de los indignados';
+                result5.className = 'result partial show';
+                detailedResults.push({q: 5, correct: false, answer: q5 || 'No respondido', correctAnswer: '15-M/indignados'});
+            }
+            
+            // Q6
+            const q6 = document.getElementById('q6').value.trim().toLowerCase();
+            const result6 = document.getElementById('result6');
+            if (q6.includes('berlín')) {
+                result6.textContent = '✓ ¡Correcto! Berlín';
+                result6.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 6, correct: true, answer: q6});
+            } else {
+                result6.textContent = '✗ La respuesta correcta es: Berlín';
+                result6.className = 'result partial show';
+                detailedResults.push({q: 6, correct: false, answer: q6 || 'No respondido', correctAnswer: 'Berlín'});
+            }
+            
+            // Q7
+            const q7Checked = document.querySelectorAll('input[name="q7"]:checked');
+            const result7 = document.getElementById('result7');
+            let q7Correct = true;
+            let q7CorrectAnswers = [];
+            
+            q7Checked.forEach(checkbox => {
+                q7CorrectAnswers.push(checkbox.value);
+            });
+            
+            if (q7Checked.length === 4) {
+                result7.textContent = '✓ ¡Correcto! Todas las plataformas son populares en el mundo hispanohablante';
+                result7.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 7, correct: true, answer: 'Todas las opciones'});
+            } else if (q7Checked.length > 0) {
+                result7.textContent = `⚠ Parcialmente correcto (${q7Checked.length}/4). Todas las plataformas son populares.`;
+                result7.className = 'result partial show';
+                score += q7Checked.length * 0.25;
+                detailedResults.push({q: 7, correct: false, answer: `${q7Checked.length}/4`, correctAnswer: 'Todas las opciones'});
+            } else {
+                result7.textContent = '✗ Todas las plataformas son populares (Netflix, HBO Max, Amazon Prime Video, Disney+)';
+                result7.className = 'result partial show';
+                detailedResults.push({q: 7, correct: false, answer: 'No respondido o incorrecto', correctAnswer: 'Todas las opciones'});
+            }
+            
+            // Q8
+            const q8Checked = document.querySelectorAll('input[name="q8"]:checked');
+            const result8 = document.getElementById('result8');
+            if (q8Checked.length === 4) {
+                result8.textContent = '✓ ¡Correcto! Todas las características definen las telenovelas tradicionales';
+                result8.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 8, correct: true, answer: 'Todas las opciones'});
+            } else if (q8Checked.length > 0) {
+                result8.textContent = `⚠ Parcialmente correcto (${q8Checked.length}/4). Todas las opciones son correctas.`;
+                result8.className = 'result partial show';
+                score += q8Checked.length * 0.25;
+                detailedResults.push({q: 8, correct: false, answer: `${q8Checked.length}/4`, correctAnswer: 'Todas las opciones'});
+            } else {
+                result8.textContent = '✗ Todas las opciones son correctas (final feliz, personajes estereotipados, trama definida, visionado familiar)';
+                result8.className = 'result partial show';
+                detailedResults.push({q: 8, correct: false, answer: 'No respondido', correctAnswer: 'Todas las opciones'});
+            }
+            
+            // Q9
+            const q9 = document.getElementById('q9').value.trim().toLowerCase();
+            const result9 = document.getElementById('result9');
+            if (q9.includes('falsas') || q9.includes('fake')) {
+                result9.textContent = '✓ ¡Correcto! Noticias falsas o fake news';
+                result9.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 9, correct: true, answer: q9});
+            } else {
+                result9.textContent = '✗ La respuesta correcta es: noticias falsas o fake news';
+                result9.className = 'result partial show';
+                detailedResults.push({q: 9, correct: false, answer: q9 || 'No respondido', correctAnswer: 'noticias falsas/fake news'});
+            }
+            
+            // Q10
+            const q10 = document.getElementById('q10').value.trim().toLowerCase();
+            const result10 = document.getElementById('result10');
+            if (q10.includes('streaming')) {
+                result10.textContent = '✓ ¡Correcto! Servicios de streaming';
+                result10.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 10, correct: true, answer: q10});
+            } else {
+                result10.textContent = '✗ La respuesta correcta es: servicios de streaming';
+                result10.className = 'result partial show';
+                detailedResults.push({q: 10, correct: false, answer: q10 || 'No respondido', correctAnswer: 'streaming'});
+            }
+            
+            // Q11
+            const q11 = document.getElementById('q11').value.trim().toLowerCase();
+            const result11 = document.getElementById('result11');
+            if (q11.includes('redes')) {
+                result11.textContent = '✓ ¡Correcto! Redes sociales';
+                result11.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 11, correct: true, answer: q11});
+            } else {
+                result11.textContent = '✗ La respuesta correcta es: redes sociales';
+                result11.className = 'result partial show';
+                detailedResults.push({q: 11, correct: false, answer: q11 || 'No respondido', correctAnswer: 'redes'});
+            }
+            
+            // Q12
+            const q12 = document.getElementById('q12').value.trim().toLowerCase();
+            const result12 = document.getElementById('result12');
+            if (q12.includes('soap')) {
+                result12.textContent = '✓ ¡Correcto! Soap opera';
+                result12.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 12, correct: true, answer: q12});
+            } else {
+                result12.textContent = '✗ La respuesta correcta es: soap opera';
+                result12.className = 'result partial show';
+                detailedResults.push({q: 12, correct: false, answer: q12 || 'No respondido', correctAnswer: 'soap opera'});
+            }
+            
+            // Q13 - Matching
+            const q13a = document.getElementById('q13a').value.trim();
+            const q13b = document.getElementById('q13b').value.trim();
+            const q13c = document.getElementById('q13c').value.trim();
+            const q13d = document.getElementById('q13d').value.trim();
+            const result13 = document.getElementById('result13');
+            
+            let matchScore = 0;
+            if (q13a === '2') matchScore++;
+            if (q13b === '4') matchScore++;
+            if (q13c === '1') matchScore++;
+            if (q13d === '3') matchScore++;
+            
+            if (matchScore === 4) {
+                result13.textContent = '✓ ¡Correcto! Todas las asociaciones son correctas';
+                result13.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 13, correct: true, answer: 'Todo correcto'});
+            } else {
+                result13.textContent = `⚠ ${matchScore}/4 correcto. Respuestas: A=2, B=4, C=1, D=3`;
+                result13.className = 'result partial show';
+                score += matchScore * 0.25;
+                detailedResults.push({q: 13, correct: false, answer: `${matchScore}/4`, correctAnswer: 'A=2, B=4, C=1, D=3'});
+            }
+            
+            // Q14-18 - Extended responses
+            for (let i = 14; i <= 18; i++) {
+                const answer = document.getElementById(`q${i}`).value.trim();
+                const resultElement = document.getElementById(`result${i}`);
+                
+                if (answer.length > 100) {
+                    // Check for complex structures
+                    const structures = checkComplexStructures(answer);
+                    
+                    if (structures.length >= 3) {
+                        resultElement.textContent = '✓ Respuesta bien desarrollada con estructuras complejas';
+                        resultElement.className = 'result correct show';
+                        score++;
+                        feedback.push(`Pregunta ${i}: Excelente uso de estructuras complejas (${structures.join(', ')})`);
+                    } else if (structures.length >= 1) {
+                        resultElement.textContent = '✓ Respuesta adecuada, pero podría incluir más estructuras complejas';
+                        resultElement.className = 'result partial show';
+                        score += 0.5;
+                        feedback.push(`Pregunta ${i}: Uso limitado de estructuras complejas (${structures.join(', ')})`);
+                    } else {
+                        resultElement.textContent = '⚠ Respuesta desarrollada, pero necesita más estructuras complejas para maximizar AO3';
+                        resultElement.className = 'result partial show';
+                        score += 0.25;
+                        feedback.push(`Pregunta ${i}: Falta uso de estructuras complejas`);
+                    }
+                    
+                    detailedResults.push({
+                        q: i,
+                        correct: structures.length >= 3,
+                        structures: structures,
+                        length: answer.length
+                    });
+                } else {
+                    resultElement.textContent = '✗ Respuesta demasiado breve. Desarrolla más tu respuesta.';
+                    resultElement.className = 'result partial show';
+                    detailedResults.push({
+                        q: i,
+                        correct: false,
+                        structures: [],
+                        length: answer.length
+                    });
+                    feedback.push(`Pregunta ${i}: Respuesta demasiado breve (${answer.length} caracteres)`);
+                }
+            }
+            
+            // Show final score
+            const percentage = ((score / total) * 100).toFixed(1);
+            const finalScore = document.getElementById('finalScore');
+            const scoreText = document.getElementById('scoreText');
+            const feedbackElement = document.getElementById('feedback');
+            
+            scoreText.textContent = `${score.toFixed(1)}/${total} (${percentage}%)`;
+            
+            // Generate feedback
+            let feedbackHTML = '<div style="text-align: left; margin-top: 20px;">';
+            feedbackHTML += '<h3>Retroalimentación Detallada:</h3><ul>';
+            feedback.forEach(item => {
+                feedbackHTML += `<li>${item}</li>`;
+            });
+            
+            // Add general recommendations
+            feedbackHTML += '</ul><h3>Recomendaciones Generales:</h3><ul>';
+            
+            if (percentage >= 80) {
+                feedbackHTML += '<li>¡Excelente trabajo! Dominas bien el contenido sobre los medios de comunicación hispano.</li>';
+            } else if (percentage >= 60) {
+                feedbackHTML += '<li>Buen trabajo. Enfócate en incluir más estructuras complejas y ejemplos específicos.</li>';
+            } else {
+                feedbackHTML += '<li>Necesitas practicar más el contenido sobre medios de comunicación hispano.</li>';
+            }
+            
+            feedbackHTML += `
+                <li>Profundiza en un medio específico (televisión, internet, prensa)</li>
+                <li>Incluye nombres de programas, plataformas y ejemplos concretos</li>
+                <li>Menciona datos específicos sobre penetración y hábitos de consumo</li>
+                <li>Relaciona los medios de comunicación con contextos políticos y sociales</li>
+                <li>Practica el uso de terminología mediática específica en español</li>
+            </ul></div>`;
+            
+            feedbackElement.innerHTML = feedbackHTML;
+            finalScore.style.display = 'block';
+            
+            // Store results for download
+            window.testResults = {
+                score: score.toFixed(1),
+                total: total,
+                percentage: percentage,
+                timeTaken: Math.floor(timeTaken / 60) + ':' + (timeTaken % 60).toString().padStart(2, '0'),
+                date: new Date().toLocaleDateString('es-ES'),
+                details: detailedResults,
+                feedback: feedback
+            };
+            
+            // Scroll to results
+            finalScore.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        function downloadResults() {
+            const results = window.testResults;
+            let content = `RESULTADOS - Práctica A-Level Spanish: Los Medios de Comunicación Hispano
+====================================================================
+
+Fecha: ${results.date}
+Tiempo empleado: ${results.timeTaken}
+Puntuación: ${results.score}/${results.total} (${results.percentage}%)
+
+RETROALIMENTACIÓN DETALLADA:
+--------------------------------------------------------------------
+
+`;
+
+            results.feedback.forEach((item) => {
+                content += `${item}\n`;
+            });
+
+            content += `
+====================================================================
+RECOMENDACIONES PARA MEJORAR AO3 Y AO4:
+
+`;
+
+            if (results.percentage >= 80) {
+                content += `¡Excelente trabajo! Dominas bien el contenido sobre los medios de comunicación hispano.\n`;
+            } else if (results.percentage >= 60) {
+                content += `Buen trabajo. Enfócate en incluir más estructuras complejas y ejemplos específicos.\n`;
+            } else {
+                content += `Necesitas practicar más el contenido sobre medios de comunicación hispano.\n`;
+            }
+
+            content += `
+DATOS CLAVE SOBRE MEDIOS DE COMUNICACIÓN HISPANO PARA INCLUIR EN TUS RESPUESTAS:
+
+INTERNET Y DIGITAL:
+- España: 96.4% de hogares con acceso a internet
+- WhatsApp: App de mensajería más usada en España
+- Redes sociales: 82% de población activa en plataformas
+- Movimiento 15-M: Uso de redes sociales para movilización política
+- Desinformación: Bulos sobre COVID-19 y apagón de 2025
+
+TELEVISIÓN Y TELENOVELAS:
+- Cuéntame cómo pasó: Serie más longeva en prime time español
+- La Casa de Papel/Berlín: Series españolas de éxito global
+- Telenovelas tradicionales: Final feliz, personajes estereotipados, drama exagerado
+- Betty La Fea: Comedia tipo Cenicienta sobre transformación personal
+- Formatos adaptados: La Voz, Got Talent, Bailando por un sueño
+
+PRENSA ESCRITA:
+- Declive dramático en circulación desde 2010
+- El País: De 430,000 a menos de 100,000 copias
+- Migración a plataformas digitales
+- El País digital: Más de 2 millones de usuarios
+- Publicidad migrada a Google y redes sociales
+
+HÁBITOS DE CONSUMO:
+- España: 179 minutos diarios de TV (2023/24)
+- Jóvenes: Prefieren streaming y plataformas digitales
+- Mayores: Siguen fieles a TV tradicional
+- Latinoamérica: 4 veces más TV que promedio global
+- Eventos deportivos: Mantienen visionado familiar
+
+IMPACTO SOCIAL Y POLÍTICO:
+- Redes sociales: Comunicación horizontal y movilización
+- Desinformación: Preocupación del 70% de ciudadanos
+- Partidos políticos: Uso de redes para llegar a jóvenes
+- División generacional en consumo de información
+- Transformación de debate público
+
+VOCABULARIO CLAVE:
+- Fake news/noticias falsas
+- Streaming
+- Redes sociales
+- Telenovela
+- Desinformación
+- Audiencia
+- Penetración digital
+
+ESTRATEGIA PARA EL EXAMEN:
+- Conviértete en experto en al menos un medio de comunicación hispano
+- Prepara ejemplos específicos de programas, plataformas y casos de estudio
+- Relaciona los medios con contextos políticos y sociales
+- Practica el uso de terminología mediática en español
+- Incluye datos actualizados sobre penetración y hábitos de consumo
+
+`;
+
+            // Create download
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Resultados_Medios_Comunicacion_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

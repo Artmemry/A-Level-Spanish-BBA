@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spanish A-Level Vocabulary Trainer</title>
+<style>
+  :root {
+    --red:    #C60B1E;
+    --yellow: #F1BF00;
+    --dark:   #1a1a1a;
+    --mid:    #444;
+    --light:  #f5f5f5;
+    --green:  #1B5E20;
+    --green-l:#E8F5E9;
+    --amber:  #E65100;
+    --amber-l:#FFF3E0;
+    --wrong-l:#FFEBEE;
+    --blue:   #0D47A1;
+    --shadow: 0 2px 12px rgba(0,0,0,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f0f0f0;
+    color: var(--dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ── FLAG HEADER ── */
+  .flag-bar {
+    width: 100%;
+    display: flex;
+    height: 10px;
+  }
+  .flag-bar .r { background: var(--red);    flex: 1; }
+  .flag-bar .y { background: var(--yellow); flex: 2; }
+
+  header {
+    background: var(--red);
+    color: #fff;
+    width: 100%;
+    text-align: center;
+    padding: 18px 20px 14px;
+    position: relative;
+  }
+  header h1 { font-size: 1.55rem; font-weight: 700; letter-spacing: 0.5px; }
+  header p  { font-size: 0.9rem; opacity: 0.88; margin-top: 3px; }
+  .flag-strip {
+    height: 6px;
+    background: linear-gradient(to right, var(--red) 25%, var(--yellow) 25%, var(--yellow) 75%, var(--red) 75%);
+  }
+
+  /* ── SCREENS ── */
+  .screen {
+    display: none;
+    width: 100%;
+    max-width: 720px;
+    padding: 28px 20px 60px;
+    animation: fadeIn 0.3s ease;
+  }
+  .screen.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+
+  /* ── CARDS ── */
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 28px 30px;
+    margin-bottom: 20px;
+  }
+
+  /* ── NAME SCREEN ── */
+  .name-logo {
+    font-size: 4rem;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .name-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-align: center;
+    color: var(--red);
+    margin-bottom: 6px;
+  }
+  .name-sub {
+    text-align: center;
+    color: var(--mid);
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+  }
+  label.field-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+  }
+  input[type="text"] {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  input[type="text"]:focus { border-color: var(--red); }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s, background 0.15s;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+  .btn:active { transform: translateY(1px); box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+  .btn-primary { background: var(--red); color: #fff; }
+  .btn-primary:hover { background: #a00918; }
+  .btn-secondary { background: var(--yellow); color: var(--dark); }
+  .btn-secondary:hover { background: #d9aa00; }
+  .btn-outline {
+    background: transparent;
+    color: var(--red);
+    border: 2px solid var(--red);
+  }
+  .btn-outline:hover { background: var(--red); color: #fff; }
+  .btn-sm { padding: 7px 16px; font-size: 0.88rem; }
+  .btn-block { display: block; width: 100%; text-align: center; }
+
+  /* ── UNIT SELECTION ── */
+  .unit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .unit-card {
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    user-select: none;
+  }
+  .unit-card:hover { border-color: var(--red); }
+  .unit-card.selected {
+    border-color: var(--red);
+    background: #fff5f5;
+  }
+  .unit-card input[type="checkbox"] { display: none; }
+  .unit-code {
+    font-weight: 700;
+    color: var(--red);
+    font-size: 0.9rem;
+  }
+  .unit-name {
+    font-size: 0.82rem;
+    color: var(--mid);
+    margin-top: 2px;
+    line-height: 1.3;
+  }
+  .sel-actions { display: flex; gap: 10px; margin-bottom: 16px; }
+  .count-badge {
+    display: inline-block;
+    background: var(--yellow);
+    color: var(--dark);
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-left: 8px;
+  }
+
+  /* ── QUIZ SCREEN ── */
+  .progress-wrap {
+    background: #e0e0e0;
+    border-radius: 99px;
+    height: 8px;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--red), var(--yellow));
+    border-radius: 99px;
+    transition: width 0.4s ease;
+  }
+  .progress-label {
+    font-size: 0.82rem;
+    color: var(--mid);
+    text-align: right;
+    margin-bottom: 16px;
+  }
+
+  .unit-badge {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    padding: 3px 12px;
+    border-radius: 99px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .theme-label {
+    font-size: 0.78rem;
+    color: var(--mid);
+    margin-bottom: 14px;
+    font-style: italic;
+  }
+  .prompt-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--mid);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .prompt-word {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+
+  /* ── ACCENT KEYBOARD ── */
+  .accent-label {
+    font-size: 0.78rem;
+    color: var(--mid);
+    margin-bottom: 6px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .accent-keyboard {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .acc-key {
+    padding: 7px 13px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    background: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    transition: background 0.15s, border-color 0.15s, transform 0.08s;
+    line-height: 1;
+  }
+  .acc-key:active { transform: scale(0.92); }
+  .acc-key.priority {
+    background: var(--yellow);
+    border-color: var(--red);
+    color: var(--dark);
+  }
+  .acc-key.priority:hover { background: #f0b000; border-color: #8a0014; }
+  .acc-key.secondary { background: #f9f9f9; border-color: #bbb; color: #555; }
+  .acc-key.secondary:hover { background: #f0f0f0; border-color: #888; }
+  .acc-divider {
+    width: 1px;
+    background: #ccc;
+    margin: 0 2px;
+    align-self: stretch;
+  }
+
+  /* ── ANSWER INPUT ── */
+  .answer-wrap { position: relative; margin-bottom: 14px; }
+  #answerInput {
+    width: 100%;
+    padding: 13px 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  #answerInput:focus { border-color: var(--red); }
+  #answerInput.correct  { border-color: var(--green);  background: var(--green-l); }
+  #answerInput.partial  { border-color: var(--amber);  background: var(--amber-l); }
+  #answerInput.wrong    { border-color: #C62828;        background: var(--wrong-l); }
+
+  .feedback-box {
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.93rem;
+    margin-bottom: 14px;
+    display: none;
+    line-height: 1.5;
+  }
+  .feedback-box.correct { background: var(--green-l); color: var(--green); border-left: 4px solid var(--green); }
+  .feedback-box.partial { background: var(--amber-l); color: var(--amber); border-left: 4px solid var(--amber); }
+  .feedback-box.wrong   { background: var(--wrong-l); color: #C62828;      border-left: 4px solid #C62828; }
+  .feedback-box .correct-answer { font-weight: 700; }
+
+  .quiz-actions { display: flex; gap: 10px; align-items: center; }
+  .skip-link {
+    font-size: 0.82rem;
+    color: var(--mid);
+    cursor: pointer;
+    text-decoration: underline;
+    margin-left: auto;
+  }
+  .skip-link:hover { color: var(--red); }
+
+  /* ── SCORE MINI ── */
+  .score-mini {
+    display: flex;
+    gap: 18px;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid #eee;
+    font-size: 0.88rem;
+    color: var(--mid);
+  }
+  .score-mini span strong { color: var(--dark); }
+  .dot-correct { color: var(--green); font-weight: 700; }
+  .dot-partial  { color: var(--amber);  font-weight: 700; }
+  .dot-wrong    { color: #C62828;        font-weight: 700; }
+
+  /* ── RESULTS SCREEN ── */
+  .results-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--red);
+    margin-bottom: 4px;
+  }
+  .results-meta { font-size: 0.88rem; color: var(--mid); margin-bottom: 20px; }
+
+  .score-ring-wrap { text-align: center; margin-bottom: 24px; }
+  .score-ring {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 130px; height: 130px;
+    border-radius: 50%;
+    border: 8px solid var(--yellow);
+    background: #fff;
+    box-shadow: var(--shadow);
+  }
+  .score-ring .pct { font-size: 2.2rem; font-weight: 800; color: var(--red); line-height: 1; }
+  .score-ring .lbl { font-size: 0.75rem; color: var(--mid); }
+
+  .unit-result {
+    border-left: 4px solid var(--red);
+    padding: 10px 14px;
+    background: #fff;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  }
+  .unit-result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+  }
+  .unit-result-title { font-weight: 700; font-size: 0.92rem; }
+  .unit-score-pill {
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 99px;
+    background: var(--yellow);
+    color: var(--dark);
+  }
+  .bar-track {
+    background: #e0e0e0;
+    border-radius: 99px;
+    height: 10px;
+    overflow: hidden;
+    margin-bottom: 6px;
+  }
+  .bar-fill-correct { float: left; height: 100%; background: var(--green); }
+  .bar-fill-partial  { float: left; height: 100%; background: var(--yellow); }
+  .bar-fill-wrong    { float: left; height: 100%; background: #EF9A9A; }
+  .bar-legend { font-size: 0.74rem; color: var(--mid); }
+
+  /* item list */
+  .item-list { margin-top: 10px; }
+  .item-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 5px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.85rem;
+  }
+  .item-icon { font-size: 0.9rem; flex-shrink: 0; }
+  .item-es { font-weight: 600; min-width: 160px; }
+  .item-en { color: var(--mid); flex: 1; }
+  .item-given { color: var(--amber); font-style: italic; font-size: 0.8rem; }
+
+  .results-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+
+  /* ── UTILS ── */
+  .mt-16 { margin-top: 16px; }
+  .mt-24 { margin-top: 24px; }
+  .text-center { text-align: center; }
+  .section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--red);
+    margin-bottom: 14px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--yellow);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 480px) {
+    .card { padding: 20px 16px; }
+    .prompt-word { font-size: 1.3rem; }
+    .acc-key { padding: 6px 10px; font-size: 0.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- FLAG HEADER -->
+<header>
+  <h1>🇪🇸 Spanish A-Level Vocabulary Trainer</h1>
+  <p>Edexcel Paper 3 — SP1 to SP12</p>
+</header>
+<div class="flag-strip"></div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 1: NAME
+════════════════════════════════════════════ -->
+<div class="screen active" id="screen-name">
+  <div class="card mt-24">
+    <div class="name-logo">📖</div>
+    <div class="name-title">¡Bienvenido/a!</div>
+    <div class="name-sub">Enter your name to begin. Your results will be saved at the end.</div>
+    <label class="field-label" for="nameInput">Your name</label>
+    <input type="text" id="nameInput" placeholder="e.g. Ana García" autocomplete="name" maxlength="60">
+    <div class="mt-16">
+      <button class="btn btn-primary btn-block" onclick="goToUnits()">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 2: UNIT SELECTION
+════════════════════════════════════════════ -->
+<div class="screen" id="screen-units">
+  <div class="card">
+    <div class="section-title">Select Units to Practise</div>
+    <div class="sel-actions">
+      <button class="btn btn-sm btn-secondary" onclick="selectAll()">Select All</button>
+      <button class="btn btn-sm btn-outline" onclick="selectNone()">Clear</button>
+      <span id="sel-count" class="count-badge">0 selected</span>
+    </div>
+    <div class="unit-grid" id="unit-grid"></div>
+    <button class="btn btn-primary btn-block" onclick="startQuiz()">Start Quiz →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 3: QUIZ
+════════════════════════════════════════════ -->
+<div class="screen" id="screen-quiz">
+  <div class="card">
+    <div class="progress-wrap">
+      <div class="progress-bar" id="progressBar" style="width:0%"></div>
+    </div>
+    <div class="progress-label" id="progressLabel">0 / 0</div>
+
+    <div class="unit-badge" id="qUnitBadge">SP1</div>
+    <div class="theme-label" id="qThemeLabel"></div>
+    <div class="prompt-label">Translate into Spanish:</div>
+    <div class="prompt-word" id="promptWord"></div>
+
+    <div class="accent-label">Accent keyboard — priority keys highlighted</div>
+    <div class="accent-keyboard" id="accentKeyboard"></div>
+
+    <div class="answer-wrap">
+      <input type="text" id="answerInput" placeholder="Escribe la respuesta en español…"
+             autocomplete="off" autocorrect="off" spellcheck="false">
+    </div>
+
+    <div class="feedback-box" id="feedbackBox"></div>
+
+    <div class="quiz-actions">
+      <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()">Comprobar ✓</button>
+      <button class="btn btn-secondary" id="nextBtn" onclick="nextQuestion()" style="display:none">Siguiente →</button>
+      <span class="skip-link" id="skipLink" onclick="skipQuestion()">Skip</span>
+    </div>
+
+    <div class="score-mini">
+      <span><span class="dot-correct">✓</span> <strong id="sCorrect">0</strong> correct</span>
+      <span><span class="dot-partial">~</span> <strong id="sPartial">0</strong> close</span>
+      <span><span class="dot-wrong">✗</span>  <strong id="sWrong">0</strong> wrong</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 4: RESULTS
+════════════════════════════════════════════ -->
+<div class="screen" id="screen-results">
+  <div class="card">
+    <div class="results-name" id="resName"></div>
+    <div class="results-meta" id="resMeta"></div>
+
+    <div class="score-ring-wrap">
+      <div class="score-ring">
+        <span class="pct" id="resPct">0%</span>
+        <span class="lbl">overall</span>
+      </div>
+    </div>
+
+    <div id="unitResults"></div>
+
+    <div class="results-actions">
+      <button class="btn btn-primary" onclick="downloadResults()">⬇ Download Report (.txt)</button>
+      <button class="btn btn-secondary" onclick="retryWrong()">Retry Wrong/Close</button>
+      <button class="btn btn-outline" onclick="goToUnits()">New Session</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════
+// VOCAB DATA  –  12 units × 15 words each
+// ══════════════════════════════════════════════════════════════════
+const UNITS = [
+  {
+    code: "SP1", theme: "Tema I: La evolución de la sociedad española",
+    title: "La estructura familiar española",
+    vocab: [
+      ["el papel tradicional","traditional role"],
+      ["el pilar fundamental","fundamental pillar"],
+      ["la guardería","nursery / crèche"],
+      ["la dispersión geográfica","geographical dispersion"],
+      ["la revuelta de abuelos","grandparents' revolt"],
+      ["la baja natalidad","low birth rate"],
+      ["la emancipación","leaving home / emancipation"],
+      ["la pareja de hecho","registered / common-law partnership"],
+      ["el paro juvenil","youth unemployment"],
+      ["los ninis","NEETs (ni estudian ni trabajan)"],
+      ["el abandono escolar","school dropout"],
+      ["la sobrecualificación","overqualification"],
+      ["la convivencia sin matrimonio","cohabitation without marriage"],
+      ["la relación intergeneracional","intergenerational relationship"],
+      ["la conciliación laboral","work-life balance"],
+    ]
+  },
+  {
+    code: "SP2", theme: "Tema I: La evolución de la sociedad española",
+    title: "El mundo laboral español",
+    vocab: [
+      ["el techo de cristal","glass ceiling"],
+      ["la brecha salarial","pay gap"],
+      ["la igualdad de oportunidades","equal opportunities"],
+      ["la segregación laboral","job / occupational segregation"],
+      ["los altos cargos","senior management positions"],
+      ["la baja de maternidad","maternity leave"],
+      ["la baja de paternidad","paternity leave"],
+      ["la corresponsabilidad","shared responsibility"],
+      ["la jornada intensiva","continuous working day (no long lunch break)"],
+      ["la productividad","productivity"],
+      ["el funcionario","civil servant"],
+      ["la fuga de cerebros","brain drain"],
+      ["el mileurista","worker earning around €1,000/month"],
+      ["el mercado laboral","labour market"],
+      ["la reforma laboral","labour reform"],
+    ]
+  },
+  {
+    code: "SP3", theme: "Tema I: La evolución de la sociedad española",
+    title: "El impacto turístico en España",
+    vocab: [
+      ["el ecoturismo","ecotourism / sustainable tourism"],
+      ["el turismo de masas","mass tourism"],
+      ["el turismo de sol y playa","sun and beach tourism"],
+      ["el turismo rural","rural tourism"],
+      ["el turismo cultural","cultural tourism"],
+      ["la turismofobia","anti-tourist backlash / tourism-phobia"],
+      ["el todo incluido","all-inclusive"],
+      ["el pequeño comercio","small local business"],
+      ["el sobredesarrollo","overdevelopment"],
+      ["la huella ecológica","ecological footprint"],
+      ["el agotamiento de recursos","resource depletion"],
+      ["la oferta turística","tourism offer / range of options"],
+      ["la concentración de turistas","tourist overcrowding"],
+      ["la diversificación turística","tourist diversification"],
+      ["la inversión gubernamental","government investment"],
+    ]
+  },
+  {
+    code: "SP4", theme: "Tema I: La evolución de la sociedad española",
+    title: "La música en el mundo hispanohablante",
+    vocab: [
+      ["el patrimonio musical","musical heritage"],
+      ["la identidad cultural","cultural identity"],
+      ["la globalización","globalisation"],
+      ["el imperialismo cultural","cultural imperialism"],
+      ["la fusión musical","musical fusion"],
+      ["el reguetón","reggaeton"],
+      ["el flamenco","flamenco"],
+      ["el tango","tango"],
+      ["la letra","lyrics"],
+      ["el streaming","streaming"],
+      ["la homogeneización cultural","cultural homogenisation"],
+      ["la resistencia cultural","cultural resistance"],
+      ["el crossover","crossover (crossing between markets)"],
+      ["la libertad de expresión","freedom of expression"],
+      ["el spanglish","Spanglish (mix of Spanish and English)"],
+    ]
+  },
+  {
+    code: "SP5", theme: "Tema I: La evolución de la sociedad española",
+    title: "Los medios de comunicación",
+    vocab: [
+      ["la telenovela","soap opera / TV serial drama"],
+      ["el culebrón","soap opera (colloquial)"],
+      ["la desinformación","disinformation"],
+      ["el bulo","hoax / fake rumour"],
+      ["la red social","social media / social network"],
+      ["la posverdad","post-truth"],
+      ["el movimiento 15-M","15-M movement / Los Indignados"],
+      ["la libertad de prensa","freedom of the press"],
+      ["la trama","plot (of a story)"],
+      ["la serie de larga duración","long-running series"],
+      ["el impacto político","political impact"],
+      ["la presión digital","digital pressure"],
+      ["el canal nacional","national channel"],
+      ["la circulación de periódicos","newspaper circulation"],
+      ["la plataforma digital","digital platform / streaming service"],
+    ]
+  },
+  {
+    code: "SP6", theme: "Tema I: La evolución de la sociedad española",
+    title: "Los festivales y las tradiciones hispanas",
+    vocab: [
+      ["la fiesta religiosa","religious festival"],
+      ["la procesión","procession"],
+      ["el santo patrón","patron saint"],
+      ["la Semana Santa","Holy Week / Easter Week"],
+      ["el Día de los Muertos","Day of the Dead"],
+      ["los Reyes Magos","Three Kings / Epiphany"],
+      ["la Tomatina","La Tomatina (tomato festival in Buñol)"],
+      ["las Fallas de Valencia","Las Fallas (Valencia fire festival)"],
+      ["San Fermín / el encierro","San Fermín / Running of the Bulls"],
+      ["el sincretismo","syncretism (cultural / religious blending)"],
+      ["el Patrimonio Cultural Inmaterial","Intangible Cultural Heritage (UNESCO)"],
+      ["la cohesión social","social cohesion"],
+      ["la turismofobia","anti-tourist feeling"],
+      ["la época precolombina","pre-Columbian era"],
+      ["el bienestar animal","animal welfare"],
+    ]
+  },
+  {
+    code: "SP7", theme: "Tema II: La inmigración en España",
+    title: "El impacto económico de la inmigración",
+    vocab: [
+      ["el PIB","GDP (Producto Interior Bruto)"],
+      ["la Seguridad Social","Social Security"],
+      ["el trabajador extranjero","foreign worker"],
+      ["la mano de obra","labour force / workforce"],
+      ["el sector agrícola","agricultural sector"],
+      ["el empleado doméstico","domestic worker"],
+      ["la contribución fiscal","tax contribution"],
+      ["el puesto cualificado","skilled position"],
+      ["el crecimiento económico","economic growth"],
+      ["la tasa de empleo","employment rate"],
+      ["la aportación neta","net contribution"],
+      ["el nuevo empleo","new job"],
+      ["la brecha salarial","wage gap"],
+      ["el mercado laboral","labour market"],
+      ["el déficit demográfico","demographic deficit"],
+    ]
+  },
+  {
+    code: "SP8", theme: "Tema II: La inmigración en España",
+    title: "La España multicultural",
+    vocab: [
+      ["la mezcla de culturas","cultural mix / blending of cultures"],
+      ["el mestizaje","cultural / racial mixing"],
+      ["el enriquecimiento cultural","cultural enrichment"],
+      ["el vendedor ambulante","street vendor / hawker"],
+      ["la gastronomía","gastronomy / cuisine"],
+      ["la música afrobeat","Afrobeat music"],
+      ["la danza latina","Latin dance"],
+      ["el barrio multicultural","multicultural neighbourhood"],
+      ["la herencia morisca","Moorish heritage"],
+      ["la convivencia","coexistence / living together"],
+      ["la integración cultural","cultural integration"],
+      ["la diversidad","diversity"],
+      ["la identidad nacional","national identity"],
+      ["la asimilación","assimilation"],
+      ["el intercambio cultural","cultural exchange"],
+    ]
+  },
+  {
+    code: "SP9", theme: "Tema II: La inmigración en España",
+    title: "Reacciones sociales y políticas a la inmigración",
+    vocab: [
+      ["la política de integración","integration policy"],
+      ["la extrema derecha","far right"],
+      ["el partido político","political party"],
+      ["el escaño","parliamentary seat"],
+      ["la amnistía","amnesty"],
+      ["la regularización","regularisation (of status)"],
+      ["la actitud tolerante","tolerant attitude"],
+      ["el sentimiento antiinmigrante","anti-immigrant sentiment"],
+      ["la crisis de vivienda","housing crisis"],
+      ["el nacionalismo","nationalism"],
+      ["el discurso de odio","hate speech"],
+      ["la inclusión social","social inclusion"],
+      ["el estudio sociológico","sociological study"],
+      ["la polarización política","political polarisation"],
+      ["el voto de protesta","protest vote"],
+    ]
+  },
+  {
+    code: "SP10", theme: "Tema IV: La dictadura franquista y la transición a la democracia",
+    title: "La Guerra Civil y el ascenso de Franco (1936–1939)",
+    vocab: [
+      ["el bando nacional","Nationalist side"],
+      ["el bando republicano","Republican side"],
+      ["la Iglesia católica","Catholic Church"],
+      ["el golpe de Estado","coup d'état"],
+      ["la Falange Española","Spanish Falange"],
+      ["las Brigadas Internacionales","International Brigades"],
+      ["el bombardeo aéreo","aerial bombing"],
+      ["la Legión Cóndor","Condor Legion"],
+      ["la no intervención","non-intervention"],
+      ["el terrateniente","landowner"],
+      ["la polarización","polarisation"],
+      ["la cruzada","crusade"],
+      ["el estado laico","secular state"],
+      ["la persecución","persecution"],
+      ["el asesinato político","political assassination"],
+    ]
+  },
+  {
+    code: "SP11", theme: "Tema IV: La dictadura franquista y la transición a la democracia",
+    title: "La dictadura franquista: represión y vida cotidiana",
+    vocab: [
+      ["el terror blanco","White Terror (Francoist repression)"],
+      ["la censura","censorship"],
+      ["la Sección Femenina","Women's Section (of the Falange)"],
+      ["el partido único","single party"],
+      ["la propaganda","propaganda"],
+      ["el robo de bebés","stolen babies"],
+      ["la Guardia Civil","Civil Guard"],
+      ["la lengua regional","regional language"],
+      ["la fosa común","mass grave"],
+      ["la memoria histórica","historical memory"],
+      ["el exilio","exile"],
+      ["la delación","denunciation / informing"],
+      ["la depuración","purge (of officials)"],
+      ["la domesticidad","domesticity"],
+      ["el adoctrinamiento","indoctrination"],
+    ]
+  },
+  {
+    code: "SP12", theme: "Tema IV: La dictadura franquista y la transición a la democracia",
+    title: "La transición a la democracia (1975–1982)",
+    vocab: [
+      ["la transición","transition (to democracy)"],
+      ["la monarquía parlamentaria","parliamentary monarchy"],
+      ["el referéndum","referendum"],
+      ["la Constitución","Constitution"],
+      ["el sufragio universal","universal suffrage"],
+      ["la amnistía","amnesty"],
+      ["los Pactos de la Moncloa","Moncloa Pacts"],
+      ["la comunidad autónoma","autonomous community"],
+      ["el intento de golpe de Estado","coup attempt"],
+      ["la descentralización","decentralisation"],
+      ["el Movimiento Nacional","National Movement (Franco's single party)"],
+      ["la reforma política","political reform"],
+      ["el exiliado","exile (person)"],
+      ["la libertad de prensa","freedom of the press"],
+      ["la incertidumbre","uncertainty"],
+    ]
+  },
+];
+
+// Accent keyboard config
+const PRIORITY_KEYS = ['á','é','í','ó','ú','ñ'];
+const SECONDARY_KEYS = ['ü','Á','É','Í','Ó','Ú','Ñ','¿','¡'];
+
+// ══════════════════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════════════════
+let studentName = '';
+let selectedUnits = [];
+let queue = [];          // [{unitIdx, wordIdx, es, en}]
+let queuePos = 0;
+let results = [];        // [{unitCode, unitTitle, es, en, given, status}]
+let retryMode = false;
+let sessionStart = null;
+
+// ══════════════════════════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════════════════════════
+function stripAccents(s) {
+  return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+}
+function normalise(s) {
+  s = s.trim().toLowerCase();
+  // strip common leading articles
+  s = s.replace(/^(el|la|los|las|un|una|unos|unas)\s+/,'');
+  return s;
+}
+function normaliseStrip(s) {
+  return stripAccents(normalise(s));
+}
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// SCREEN 1 → 2
+// ══════════════════════════════════════════════════════════════════
+function goToUnits() {
+  const n = document.getElementById('nameInput').value.trim();
+  if (!n) { document.getElementById('nameInput').focus(); return; }
+  studentName = n;
+  buildUnitGrid();
+  showScreen('units');
+}
+document.getElementById('nameInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') goToUnits();
+});
+
+function buildUnitGrid() {
+  const grid = document.getElementById('unit-grid');
+  grid.innerHTML = '';
+  UNITS.forEach((u, i) => {
+    const card = document.createElement('label');
+    card.className = 'unit-card';
+    card.innerHTML = `<input type="checkbox" value="${i}">
+      <div class="unit-code">${u.code}</div>
+      <div class="unit-name">${u.title}</div>`;
+    card.querySelector('input').addEventListener('change', updateSelCount);
+    grid.appendChild(card);
+  });
+  updateSelCount();
+}
+function updateSelCount() {
+  const checked = document.querySelectorAll('#unit-grid input:checked').length;
+  document.getElementById('sel-count').textContent = checked + ' selected';
+  document.querySelectorAll('.unit-card').forEach(c => {
+    c.classList.toggle('selected', c.querySelector('input').checked);
+  });
+}
+function selectAll()  { document.querySelectorAll('#unit-grid input').forEach(i=>i.checked=true);  updateSelCount(); }
+function selectNone() { document.querySelectorAll('#unit-grid input').forEach(i=>i.checked=false); updateSelCount(); }
+
+// ══════════════════════════════════════════════════════════════════
+// START QUIZ
+// ══════════════════════════════════════════════════════════════════
+function startQuiz() {
+  selectedUnits = [];
+  document.querySelectorAll('#unit-grid input:checked').forEach(i => {
+    selectedUnits.push(parseInt(i.value));
+  });
+  if (selectedUnits.length === 0) { alert('Please select at least one unit.'); return; }
+
+  queue = [];
+  selectedUnits.forEach(ui => {
+    UNITS[ui].vocab.forEach((pair, wi) => {
+      queue.push({ unitIdx: ui, wordIdx: wi, es: pair[0], en: pair[1] });
+    });
+  });
+  // Shuffle
+  for (let i = queue.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [queue[i], queue[j]] = [queue[j], queue[i]];
+  }
+
+  queuePos = 0;
+  results = [];
+  retryMode = false;
+  sessionStart = new Date();
+  buildAccentKeyboard();
+  updateScoreMini();
+  showScreen('quiz');
+  loadQuestion();
+}
+
+// ══════════════════════════════════════════════════════════════════
+// ACCENT KEYBOARD
+// ══════════════════════════════════════════════════════════════════
+function buildAccentKeyboard() {
+  const kb = document.getElementById('accentKeyboard');
+  kb.innerHTML = '';
+  PRIORITY_KEYS.forEach(ch => {
+    const btn = document.createElement('button');
+    btn.className = 'acc-key priority';
+    btn.textContent = ch;
+    btn.type = 'button';
+    btn.title = 'Priority accent key';
+    btn.addEventListener('mousedown', e => { e.preventDefault(); insertAtCursor(ch); });
+    kb.appendChild(btn);
+  });
+  const div = document.createElement('div');
+  div.className = 'acc-divider';
+  kb.appendChild(div);
+  SECONDARY_KEYS.forEach(ch => {
+    const btn = document.createElement('button');
+    btn.className = 'acc-key secondary';
+    btn.textContent = ch;
+    btn.type = 'button';
+    btn.addEventListener('mousedown', e => { e.preventDefault(); insertAtCursor(ch); });
+    kb.appendChild(btn);
+  });
+}
+
+function insertAtCursor(char) {
+  const inp = document.getElementById('answerInput');
+  if (inp.disabled) return;
+  const start = inp.selectionStart;
+  const end   = inp.selectionEnd;
+  inp.value = inp.value.slice(0, start) + char + inp.value.slice(end);
+  inp.selectionStart = inp.selectionEnd = start + char.length;
+  inp.focus();
+}
+
+// ══════════════════════════════════════════════════════════════════
+// LOAD QUESTION
+// ══════════════════════════════════════════════════════════════════
+function loadQuestion() {
+  if (queuePos >= queue.length) { showResults(); return; }
+
+  const q = queue[queuePos];
+  const u = UNITS[q.unitIdx];
+
+  // Progress
+  const pct = Math.round((queuePos / queue.length) * 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = `${queuePos} / ${queue.length}`;
+
+  document.getElementById('qUnitBadge').textContent = u.code;
+  document.getElementById('qThemeLabel').textContent = u.title;
+  document.getElementById('promptWord').textContent = q.en;
+
+  const inp = document.getElementById('answerInput');
+  inp.value = '';
+  inp.className = '';
+  inp.disabled = false;
+  inp.focus();
+
+  const fb = document.getElementById('feedbackBox');
+  fb.style.display = 'none';
+  fb.className = 'feedback-box';
+
+  document.getElementById('checkBtn').style.display = 'inline-block';
+  document.getElementById('nextBtn').style.display = 'none';
+  document.getElementById('skipLink').style.display = 'inline';
+}
+
+// ══════════════════════════════════════════════════════════════════
+// CHECK ANSWER
+// ══════════════════════════════════════════════════════════════════
+function checkAnswer() {
+  const q = queue[queuePos];
+  const given = document.getElementById('answerInput').value.trim();
+  if (!given) return;
+
+  const correct = q.es;
+
+  // Comparison tiers
+  const normGiven   = normalise(given);
+  const normCorrect = normalise(correct);
+  const stripGiven   = normaliseStrip(given);
+  const stripCorrect = normaliseStrip(correct);
+
+  let status;
+  if (normGiven === normCorrect) {
+    status = 'correct';
+  } else if (stripGiven === stripCorrect) {
+    status = 'partial';  // right meaning, wrong/missing accent
+  } else {
+    // Try without article on both sides
+    const noArtGiven   = stripGiven.replace(/^(el|la|los|las|un|una)\s+/,'');
+    const noArtCorrect = stripCorrect.replace(/^(el|la|los|las|un|una)\s+/,'');
+    if (noArtGiven === noArtCorrect) {
+      status = 'partial';
+    } else {
+      status = 'wrong';
+    }
+  }
+
+  results.push({ unitIdx: q.unitIdx, es: correct, en: q.en, given, status });
+
+  // UI feedback
+  const inp = document.getElementById('answerInput');
+  inp.className = status;
+  inp.disabled = true;
+
+  const fb = document.getElementById('feedbackBox');
+  fb.style.display = 'block';
+  if (status === 'correct') {
+    fb.className = 'feedback-box correct';
+    fb.innerHTML = `✅ <strong>¡Correcto!</strong> <span class="correct-answer">${correct}</span>`;
+  } else if (status === 'partial') {
+    fb.className = 'feedback-box partial';
+    fb.innerHTML = `⚠️ <strong>Almost!</strong> Check accents/articles — correct answer: <span class="correct-answer">${correct}</span>`;
+  } else {
+    fb.className = 'feedback-box wrong';
+    fb.innerHTML = `✗ <strong>Incorrect.</strong> The answer was: <span class="correct-answer">${correct}</span>`;
+  }
+
+  document.getElementById('checkBtn').style.display = 'none';
+  document.getElementById('nextBtn').style.display = 'inline-block';
+  document.getElementById('skipLink').style.display = 'none';
+
+  updateScoreMini();
+}
+
+document.getElementById('answerInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    if (document.getElementById('nextBtn').style.display !== 'none') {
+      nextQuestion();
+    } else {
+      checkAnswer();
+    }
+  }
+});
+
+function nextQuestion() {
+  queuePos++;
+  loadQuestion();
+}
+
+function skipQuestion() {
+  const q = queue[queuePos];
+  results.push({ unitIdx: q.unitIdx, es: q.es, en: q.en, given: '(skipped)', status: 'wrong' });
+  updateScoreMini();
+  queuePos++;
+  loadQuestion();
+}
+
+function updateScoreMini() {
+  const c = results.filter(r=>r.status==='correct').length;
+  const p = results.filter(r=>r.status==='partial').length;
+  const w = results.filter(r=>r.status==='wrong').length;
+  document.getElementById('sCorrect').textContent = c;
+  document.getElementById('sPartial').textContent  = p;
+  document.getElementById('sWrong').textContent   = w;
+}
+
+// ══════════════════════════════════════════════════════════════════
+// RESULTS
+// ══════════════════════════════════════════════════════════════════
+function showResults() {
+  const total   = results.length;
+  const correct = results.filter(r=>r.status==='correct').length;
+  const partial = results.filter(r=>r.status==='partial').length;
+  const wrong   = results.filter(r=>r.status==='wrong').length;
+  const score   = Math.round(((correct + partial*0.5) / total) * 100);
+
+  document.getElementById('resName').textContent = studentName + "'s Results";
+  const dur = sessionStart ? Math.round((new Date()-sessionStart)/60000) : 0;
+  document.getElementById('resMeta').textContent =
+    `${new Date().toLocaleDateString('en-GB', {day:'numeric',month:'long',year:'numeric'})}  ·  ${total} words  ·  ~${dur} min`;
+  document.getElementById('resPct').textContent = score + '%';
+
+  // Per-unit breakdown
+  const unitDiv = document.getElementById('unitResults');
+  unitDiv.innerHTML = '';
+  selectedUnits.forEach(ui => {
+    const u = UNITS[ui];
+    const uRes = results.filter(r => r.unitIdx === ui);
+    if (!uRes.length) return;
+    const uc = uRes.filter(r=>r.status==='correct').length;
+    const up = uRes.filter(r=>r.status==='partial').length;
+    const uw = uRes.filter(r=>r.status==='wrong').length;
+    const ut = uRes.length;
+    const pctC = Math.round(uc/ut*100);
+    const pctP = Math.round(up/ut*100);
+    const pctW = Math.round(uw/ut*100);
+    const uScore = Math.round(((uc+up*0.5)/ut)*100);
+
+    const div = document.createElement('div');
+    div.className = 'unit-result';
+    div.innerHTML = `
+      <div class="unit-result-header">
+        <div class="unit-result-title">${u.code} — ${u.title}</div>
+        <div class="unit-score-pill">${uScore}%</div>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill-correct" style="width:${pctC}%"></div>
+        <div class="bar-fill-partial"  style="width:${pctP}%"></div>
+        <div class="bar-fill-wrong"    style="width:${pctW}%"></div>
+      </div>
+      <div class="bar-legend">✓ ${uc} correct &nbsp;⚠ ${up} close &nbsp;✗ ${uw} wrong</div>
+      <div class="item-list">${uRes.map(r => `
+        <div class="item-row">
+          <span class="item-icon">${r.status==='correct'?'✅':r.status==='partial'?'⚠️':'✗'}</span>
+          <span class="item-es">${r.es}</span>
+          <span class="item-en">${r.en}</span>
+          ${r.status!=='correct'?`<span class="item-given">${r.given}</span>`:''}
+        </div>`).join('')}
+      </div>`;
+    unitDiv.appendChild(div);
+  });
+
+  showScreen('results');
+}
+
+// ══════════════════════════════════════════════════════════════════
+// RETRY WRONG / CLOSE
+// ══════════════════════════════════════════════════════════════════
+function retryWrong() {
+  const toRetry = results.filter(r => r.status !== 'correct');
+  if (!toRetry.length) { alert('No words to retry — everything was correct!'); return; }
+
+  queue = toRetry.map(r => ({
+    unitIdx: r.unitIdx,
+    es: r.es,
+    en: r.en
+  }));
+  // Shuffle
+  for (let i = queue.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [queue[i], queue[j]] = [queue[j], queue[i]];
+  }
+  queuePos = 0;
+  results = [];
+  retryMode = true;
+  sessionStart = new Date();
+  updateScoreMini();
+  showScreen('quiz');
+  loadQuestion();
+}
+
+// ══════════════════════════════════════════════════════════════════
+// BLOB DOWNLOAD
+// ══════════════════════════════════════════════════════════════════
+function downloadResults() {
+  const total   = results.length;
+  const correct = results.filter(r=>r.status==='correct').length;
+  const partial = results.filter(r=>r.status==='partial').length;
+  const wrong   = results.filter(r=>r.status==='wrong').length;
+  const score   = Math.round(((correct + partial*0.5) / total) * 100);
+  const date    = new Date().toLocaleDateString('en-GB', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+  let lines = [];
+  lines.push('═══════════════════════════════════════════════════════');
+  lines.push('  SPANISH A-LEVEL VOCABULARY TRAINER — SESSION REPORT');
+  lines.push('═══════════════════════════════════════════════════════');
+  lines.push('');
+  lines.push(`  Student : ${studentName}`);
+  lines.push(`  Date    : ${date}`);
+  lines.push(`  Units   : ${selectedUnits.map(i=>UNITS[i].code).join(', ')}`);
+  lines.push(`  Total   : ${total} words`);
+  lines.push('');
+  lines.push('───────────────────────────────────────────────────────');
+  lines.push(`  OVERALL SCORE: ${score}%`);
+  lines.push(`  ✓ Correct : ${correct}   ⚠ Close (accent) : ${partial}   ✗ Wrong : ${wrong}`);
+  lines.push('───────────────────────────────────────────────────────');
+  lines.push('');
+
+  selectedUnits.forEach(ui => {
+    const u = UNITS[ui];
+    const uRes = results.filter(r => r.unitIdx === ui);
+    if (!uRes.length) return;
+    const uc = uRes.filter(r=>r.status==='correct').length;
+    const up = uRes.filter(r=>r.status==='partial').length;
+    const uw = uRes.filter(r=>r.status==='wrong').length;
+    const ut = uRes.length;
+    const uScore = Math.round(((uc+up*0.5)/ut)*100);
+
+    lines.push(`┌─ ${u.code}: ${u.title}`);
+    lines.push(`│  Theme: ${u.theme}`);
+    lines.push(`│  Score: ${uScore}%  (${uc} correct, ${up} close, ${uw} wrong)`);
+
+    // Bar chart
+    const barLen = 30;
+    const cBars = Math.round(uc/ut*barLen);
+    const pBars = Math.round(up/ut*barLen);
+    const wBars = barLen - cBars - pBars;
+    lines.push('│  [' + '█'.repeat(cBars) + '░'.repeat(pBars) + '·'.repeat(Math.max(0,wBars)) + ']');
+    lines.push('│');
+
+    uRes.forEach(r => {
+      const icon = r.status==='correct' ? '✓' : r.status==='partial' ? '~' : '✗';
+      lines.push(`│  ${icon}  ${r.es.padEnd(30)} ← ${r.en}`);
+      if (r.status !== 'correct') {
+        lines.push(`│     You wrote: "${r.given}"`);
+      }
+    });
+    lines.push('└' + '─'.repeat(55));
+    lines.push('');
+  });
+
+  lines.push('═══════════════════════════════════════════════════════');
+  lines.push('  Generated by Spanish A-Level Vocabulary Trainer');
+  lines.push('  Edexcel Paper 3 — SP1–SP12');
+  lines.push('═══════════════════════════════════════════════════════');
+
+  const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  const safe = studentName.replace(/[^a-zA-Z0-9]/g,'_');
+  a.href     = url;
+  a.download = `spanish_vocab_${safe}_${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// NAME SCREEN ENTER KEY
+// ══════════════════════════════════════════════════════════════════
+window.addEventListener('load', () => {
+  document.getElementById('nameInput').focus();
+});
+</script>
+</body>
+</html>

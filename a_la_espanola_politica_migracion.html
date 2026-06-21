@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>A la española — comprensión y léxico (B2)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --cream:    #FAF7EE;
+    --paper:    #FFFFFF;
+    --navy:     #1A3E72;
+    --red:      #B02222;
+    --gold:     #C89B3C;
+    --grey:     #5A5A5A;
+    --border:   #E2DCCB;
+    --green:    #2D8A4E;
+    --soft-red: #FBE8E6;
+    --soft-grn: #E6F3EA;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--cream);
+    color: #2C2C2C;
+    font-family: -apple-system, "Segoe UI", Roboto, Calibri, sans-serif;
+    line-height: 1.55;
+    font-size: 16px;
+  }
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 24px 20px 80px;
+  }
+  header.main {
+    border-bottom: 3px solid var(--red);
+    padding-bottom: 14px;
+    margin-bottom: 24px;
+  }
+  header.main h1 {
+    margin: 0;
+    font-family: Georgia, serif;
+    font-size: 30px;
+    color: var(--navy);
+  }
+  header.main .subtitle {
+    margin: 4px 0 0;
+    font-style: italic;
+    color: var(--grey);
+    font-size: 14px;
+  }
+  h2 {
+    font-family: Georgia, serif;
+    color: var(--navy);
+    border-left: 4px solid var(--red);
+    padding-left: 10px;
+    margin-top: 32px;
+    font-size: 20px;
+  }
+  h3 {
+    color: var(--navy);
+    margin-top: 18px;
+    margin-bottom: 6px;
+    font-size: 16px;
+  }
+  .article {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    padding: 20px 24px;
+    border-radius: 6px;
+  }
+  .article p { margin: 0 0 10px; }
+  .article p.lead { font-weight: 600; color: var(--navy); }
+  .article ul { margin: 4px 0 10px 18px; padding: 0; }
+  .article ul li { margin-bottom: 3px; }
+  .article .heading {
+    font-family: Georgia, serif;
+    font-weight: 700;
+    color: var(--red);
+    margin-right: 6px;
+  }
+
+  .name-bar {
+    margin: 22px 0 0;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  .name-bar input {
+    border: 1px solid var(--border);
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 240px;
+    font-family: inherit;
+  }
+
+  .exercise {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-top: 18px;
+  }
+  .instructions {
+    color: var(--grey);
+    font-style: italic;
+    font-size: 14px;
+    margin: 4px 0 14px;
+  }
+  .question {
+    margin-bottom: 12px;
+    padding: 8px 10px;
+    border-left: 3px solid var(--border);
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .question.correct {
+    background: var(--soft-grn);
+    border-left-color: var(--green);
+  }
+  .question.incorrect {
+    background: var(--soft-red);
+    border-left-color: var(--red);
+  }
+  .question .q-text {
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .question label {
+    display: block;
+    margin: 3px 0;
+    cursor: pointer;
+    padding: 2px 4px;
+  }
+  .question input[type="text"] {
+    border: 1px solid var(--border);
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 220px;
+    font-family: inherit;
+  }
+  .question select {
+    border: 1px solid var(--border);
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+    margin-left: 8px;
+  }
+  .feedback {
+    display: none;
+    margin-top: 6px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 13.5px;
+    background: #FFF8E1;
+    border: 1px solid var(--gold);
+  }
+  .question.checked .feedback { display: block; }
+  .feedback strong { color: var(--navy); }
+
+  .word-bank {
+    background: #FFF8E1;
+    border: 1px dashed var(--gold);
+    padding: 10px 14px;
+    border-radius: 4px;
+    margin: 8px 0 14px;
+    font-size: 14px;
+  }
+  .word-bank strong { color: var(--navy); }
+
+  .definitions {
+    background: #F4F0E2;
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    border-radius: 4px;
+    margin-bottom: 14px;
+    font-size: 14px;
+  }
+  .definitions ol { margin: 4px 0 0 22px; padding: 0; }
+
+  .cloze-passage { line-height: 2; font-size: 15px; }
+  .cloze-passage input {
+    width: 130px;
+    border: 1px solid var(--border);
+    border-bottom: 2px solid var(--navy);
+    border-radius: 3px 3px 0 0;
+    padding: 3px 6px;
+    font-family: inherit;
+    font-size: 14px;
+    background: #FFFCF1;
+  }
+  .gap-num {
+    color: var(--red);
+    font-weight: 700;
+    font-size: 12px;
+    vertical-align: super;
+    margin: 0 2px;
+  }
+
+  .actions {
+    margin-top: 24px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  button.action {
+    background: var(--navy);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s;
+  }
+  button.action:hover { background: #122B52; }
+  button.action.alt { background: var(--red); }
+  button.action.alt:hover { background: #8C1A1A; }
+  button.action.ghost {
+    background: transparent;
+    color: var(--navy);
+    border: 1px solid var(--navy);
+  }
+  button.action.ghost:hover { background: var(--navy); color: white; }
+
+  .score-box {
+    margin-top: 18px;
+    padding: 14px 18px;
+    background: var(--paper);
+    border: 2px solid var(--navy);
+    border-radius: 6px;
+    font-size: 16px;
+  }
+  .score-box.hidden { display: none; }
+  .score-box .score-num {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--navy);
+    font-family: Georgia, serif;
+  }
+
+  /* ---- minimalist accent keyboard at eye level ---- */
+  .accent-kb {
+    position: fixed;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(4px);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    z-index: 100;
+  }
+  .accent-kb .kb-label {
+    font-size: 9px;
+    text-align: center;
+    color: var(--grey);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+  .accent-kb button {
+    width: 30px;
+    height: 30px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: Georgia, serif;
+    font-size: 15px;
+    color: var(--navy);
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.12s, transform 0.08s;
+  }
+  .accent-kb button:hover {
+    background: var(--navy);
+    color: white;
+    border-color: var(--navy);
+  }
+  .accent-kb button:active { transform: scale(0.92); }
+
+  @media (max-width: 720px) {
+    .accent-kb {
+      top: auto;
+      bottom: 8px;
+      right: 50%;
+      transform: translateX(50%);
+      flex-direction: row;
+      flex-wrap: wrap;
+      max-width: 95vw;
+    }
+    .accent-kb .kb-label { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header class="main">
+    <h1>A la española</h1>
+    <p class="subtitle">Adaptado de Fred Harter — comprensión y léxico, nivel B2</p>
+  </header>
+
+  <section>
+    <h2>1. Lee el texto</h2>
+    <div class="article">
+      <p class="lead">Largas colas se han formado a las puertas de las oficinas de inmigración en España, donde se está llevando a cabo un programa nacional para regularizar a medio millón de migrantes en situación irregular.</p>
+
+      <p><span class="heading">¿Y qué?</span> España está acogiendo la inmigración mientras el resto de Europa la rechaza. La campaña, que comenzó en abril y dura hasta junio, otorgará permisos de residencia renovables de un año a los migrantes que estén en el país desde el 31 de diciembre y no tengan antecedentes penales. La medida:</p>
+      <ul>
+        <li>debería hacer crecer la economía;</li>
+        <li>no está exenta de polémica; pero</li>
+        <li>refleja un enfoque más pragmático ante la migración.</li>
+      </ul>
+
+      <p><span class="heading">Sin doblegarse.</span> España es una excepción en varios aspectos. Su presidente del Gobierno, Pedro Sánchez, ha sido constante en sus críticas a las políticas de Donald Trump sobre aranceles, migración e Irán, y se ha negado a aumentar el gasto en defensa mientras el resto de Europa se rearma de forma notable.</p>
+
+      <p><span class="heading">A todo gas.</span> En un momento en que gran parte de la zona euro está sumida en el estancamiento, la economía española goza de muy buena salud. Creció casi un 3 % en 2025, el doble de la media de la UE (1,5 %). En cambio, Alemania e Italia crecieron solo un 0,2 % y un 0,5 %, respectivamente. Es un giro espectacular para un país que hace quince años se consideraba un rezagado económico.</p>
+
+      <p><span class="heading">Pasen ustedes.</span> Hay varias razones de este cambio de suerte, entre ellas el enfoque en los servicios y las energías renovables. Otra es la apertura. Los migrantes representan alrededor del 20 % de la población española, uno de los porcentajes más altos de Europa, y fueron responsables del 20 % del crecimiento económico del país en 2024.</p>
+
+      <p><span class="heading">La lógica.</span> La campaña de regularización española se ha presentado con un discurso de derechos humanos, ya que permitirá a los migrantes sin papeles acceder a la sanidad y a la seguridad social. Pero la motivación principal es económica. Trasladar a cientos de miles de trabajadores de la economía sumergida a empleos regulares debería aumentar sus contribuciones públicas y paliar la escasez de mano de obra.</p>
+
+      <p><span class="heading">Sin rodeos.</span> Sánchez no oculta este pragmatismo. En febrero escribió que, ante el envejecimiento de la población, «Occidente necesita gente» para sostener las economías y los servicios públicos. Es un problema que comparten todos los países ricos, pero que pocos reconocen en público.</p>
+
+      <p><span class="heading">Afinidades.</span> Ayuda que la mayoría de los inmigrantes en España comparten lazos culturales y lingüísticos con los ciudadanos del país. Se calcula que hay 840 000 migrantes sin papeles, una cifra que se ha multiplicado por cinco desde 2017. Más de 750 000 proceden de América Latina, con los mayores contingentes procedentes de Colombia, Perú y Honduras.</p>
+
+      <p>Dicho esto, España no es inmune al populismo de extrema derecha. El partido antiinmigración Vox, que quiere deportar a los migrantes irregulares, es el tercer grupo del Parlamento. El conservador Partido Popular ha endurecido su postura sobre la inmigración y se opone al plan de regularización.</p>
+
+      <p><span class="heading">La otra cara.</span> Ambos partidos han renovado su pacto regional de cara a las elecciones generales del año que viene. El PP sostiene que el plan atraerá a más migrantes y aumentará la competencia por el empleo en un país que ya tiene una tasa de paro del 10,5 %, la segunda más alta del mundo desarrollado.</p>
+
+      <p><span class="heading">No es nada nuevo.</span> España ha regularizado a migrantes en situación irregular al menos seis veces desde los años ochenta. El mayor plan tuvo lugar en 2005, cuando 557 000 personas obtuvieron papeles.</p>
+
+      <p><span class="heading">Esta vez es distinto.</span> Las actitudes han cambiado desde 2005. Alemania y Francia han endurecido el acceso a la nacionalidad, EE. UU. está deteniendo a migrantes en plena calle, e Italia procesa a los rescatados en el mar en centros de internamiento en el extranjero. El Reino Unido ha endurecido las normas de visados de trabajo y ha duplicado el tiempo necesario para obtener la residencia permanente.</p>
+
+      <p><span class="heading">Y además…</span> La UE ha expresado su preocupación, ya que los migrantes regularizados en España podrán moverse libremente por el bloque. Su comisión de inmigración ha afirmado que «todo Estado debe evitar decisiones que tengan efectos negativos sobre otros miembros».</p>
+    </div>
+  </section>
+
+  <div class="name-bar">
+    <label>Nombre: <input id="studentName" type="text" placeholder="Escribe tu nombre"></label>
+  </div>
+
+  <!-- =============================================================
+       EJERCICIO 1 — COMPRENSIÓN GLOBAL
+  ============================================================== -->
+  <section class="exercise" id="ex1">
+    <h2>2. Comprensión global</h2>
+    <p class="instructions">Elige la opción correcta según el texto.</p>
+    <div id="ex1-questions"></div>
+  </section>
+
+  <!-- =============================================================
+       EJERCICIO 2 — VOCABULARIO (EMPAREJAR)
+  ============================================================== -->
+  <section class="exercise" id="ex2">
+    <h2>3. Vocabulario — empareja término y definición</h2>
+    <p class="instructions">Elige la letra de la definición que corresponde a cada término.</p>
+    <div class="definitions">
+      <strong>Definiciones:</strong>
+      <ol type="a">
+        <li>actividad económica que no se declara y escapa al control fiscal</li>
+        <li>proceso de dar papeles legales a personas sin documentos</li>
+        <li>proceso por el cual aumenta la edad media de los habitantes</li>
+        <li>porcentaje de personas sin empleo que buscan trabajo</li>
+        <li>historial de condenas o delitos</li>
+        <li>situación en la que no hay crecimiento ni movimiento</li>
+        <li>impuesto que se cobra a las mercancías importadas</li>
+        <li>movimiento político que apela a las emociones del pueblo</li>
+      </ol>
+    </div>
+    <div id="ex2-questions"></div>
+  </section>
+
+  <!-- =============================================================
+       EJERCICIO 3 — SINÓNIMOS
+  ============================================================== -->
+  <section class="exercise" id="ex3">
+    <h2>4. Sinónimos — sustituye la palabra en negrita</h2>
+    <p class="instructions">Sustituye la palabra <strong>en negrita</strong> por un sinónimo del banco de palabras. Cuidado con los acentos.</p>
+    <div class="word-bank">
+      <strong>Banco de palabras:</strong> paliar · sumida · enfoque · postura · bloque · rezagado · acoger · pragmático
+    </div>
+    <div id="ex3-questions"></div>
+  </section>
+
+  <!-- =============================================================
+       EJERCICIO 4 — CLOZE / TEXTO A TROUS
+  ============================================================== -->
+  <section class="exercise" id="ex4">
+    <h2>5. Texto a trous — completa con las palabras del banco</h2>
+    <p class="instructions">Completa el resumen con las palabras adecuadas. Cada palabra se usa una sola vez.</p>
+    <div class="word-bank">
+      <strong>Banco de palabras:</strong> salud · sumida · población · doble · suerte · apertura · crecimiento · renovables
+    </div>
+    <p class="cloze-passage" id="cloze-passage">
+      En un momento en que gran parte de la zona euro está
+      <input type="text" data-gap="1" autocomplete="off"><span class="gap-num">1</span>
+      en el estancamiento, la economía española goza de muy buena
+      <input type="text" data-gap="2" autocomplete="off"><span class="gap-num">2</span>.
+      Creció casi un 3 % en 2025, el
+      <input type="text" data-gap="3" autocomplete="off"><span class="gap-num">3</span>
+      de la media de la UE. Hay varias razones de este cambio de
+      <input type="text" data-gap="4" autocomplete="off"><span class="gap-num">4</span>:
+      el enfoque en los servicios y las energías
+      <input type="text" data-gap="5" autocomplete="off"><span class="gap-num">5</span>,
+      y la
+      <input type="text" data-gap="6" autocomplete="off"><span class="gap-num">6</span>.
+      Los migrantes representan alrededor del 20 % de la
+      <input type="text" data-gap="7" autocomplete="off"><span class="gap-num">7</span>
+      española y fueron responsables del 20 % del
+      <input type="text" data-gap="8" autocomplete="off"><span class="gap-num">8</span>
+      económico del país en 2024.
+    </p>
+    <div id="ex4-feedback"></div>
+  </section>
+
+  <!-- =============================================================
+       EJERCICIO 5 — VERDADERO / FALSO / NO SE DICE
+  ============================================================== -->
+  <section class="exercise" id="ex5">
+    <h2>6. Verdadero, Falso o No se dice</h2>
+    <p class="instructions">Marca cada afirmación como Verdadera (V), Falsa (F) o No se dice (?).</p>
+    <div id="ex5-questions"></div>
+  </section>
+
+  <div class="actions">
+    <button class="action" id="checkBtn">Comprobar respuestas</button>
+    <button class="action ghost" id="resetBtn">Reiniciar</button>
+    <button class="action alt" id="downloadBtn">Descargar resultados (.txt)</button>
+  </div>
+
+  <div id="scoreBox" class="score-box hidden">
+    <div>Puntuación total: <span class="score-num" id="scoreNum">0 / 0</span></div>
+    <div id="scoreMsg" style="margin-top:6px; color: var(--grey); font-style: italic;"></div>
+  </div>
+</div>
+
+<aside class="accent-kb" aria-label="Teclado de acentos">
+  <div class="kb-label">Acentos</div>
+  <button type="button" data-char="á">á</button>
+  <button type="button" data-char="é">é</button>
+  <button type="button" data-char="í">í</button>
+  <button type="button" data-char="ó">ó</button>
+  <button type="button" data-char="ú">ú</button>
+  <button type="button" data-char="ñ">ñ</button>
+  <button type="button" data-char="ü">ü</button>
+  <button type="button" data-char="¿">¿</button>
+  <button type="button" data-char="¡">¡</button>
+</aside>
+
+<script>
+'use strict';
+
+/* =====================================================================
+   DATOS — preguntas, respuestas correctas, retroalimentación
+===================================================================== */
+
+const ex1 = [
+  {
+    q: "¿Cuál es la motivación principal del programa de regularización español?",
+    options: {
+      a: "Cumplir con las exigencias de la UE",
+      b: "Reforzar la economía y resolver la falta de mano de obra",
+      c: "Atraer a más turistas latinoamericanos"
+    },
+    correct: "b",
+    fb: "El texto lo dice expresamente: « la motivación principal es económica … aumentar sus contribuciones públicas y paliar la escasez de mano de obra »."
+  },
+  {
+    q: "¿Qué postura ha adoptado España sobre el gasto en defensa?",
+    options: {
+      a: "Lo ha aumentado al nivel europeo",
+      b: "Lo ha reducido drásticamente",
+      c: "Se ha negado a aumentarlo mientras Europa se rearma"
+    },
+    correct: "c",
+    fb: "« se ha negado a aumentar el gasto en defensa mientras el resto de Europa se rearma »."
+  },
+  {
+    q: "¿Qué porcentaje de la población española son migrantes, según el texto?",
+    options: {
+      a: "Aproximadamente el 5 %",
+      b: "Aproximadamente el 20 %",
+      c: "Aproximadamente el 50 %"
+    },
+    correct: "b",
+    fb: "« Los migrantes representan alrededor del 20 % de la población española »."
+  },
+  {
+    q: "¿De qué región procede la mayor parte de los migrantes irregulares?",
+    options: {
+      a: "Norte de África",
+      b: "Europa del Este",
+      c: "América Latina"
+    },
+    correct: "c",
+    fb: "« Más de 750 000 proceden de América Latina », sobre todo de Colombia, Perú y Honduras."
+  },
+  {
+    q: "¿Por qué la UE está preocupada por el plan español?",
+    options: {
+      a: "Porque España va a salir del bloque",
+      b: "Porque los migrantes regularizados podrán moverse libremente por la UE",
+      c: "Porque España tendrá que pagar una multa"
+    },
+    correct: "b",
+    fb: "« los migrantes regularizados en España podrán moverse libremente por el bloque »."
+  }
+];
+
+const ex2 = [
+  { term: "1. economía sumergida",            correct: "a", fb: "Es la actividad económica no declarada — el texto la opone a los « empleos regulares »." },
+  { term: "2. regularización",                correct: "b", fb: "Es justamente el proceso del que habla el artículo: dar papeles legales." },
+  { term: "3. envejecimiento de la población", correct: "c", fb: "Sánchez lo cita como motivo: « ante el envejecimiento de la población, Occidente necesita gente »." },
+  { term: "4. tasa de paro",                  correct: "d", fb: "El texto menciona una tasa de paro del 10,5 % en España." },
+  { term: "5. antecedentes penales",          correct: "e", fb: "Para regularizarse, los migrantes « no deben tener antecedentes penales »." },
+  { term: "6. estancamiento",                 correct: "f", fb: "« la zona euro está sumida en el estancamiento » — sin crecimiento." },
+  { term: "7. arancel",                       correct: "g", fb: "Sánchez critica las políticas de Trump « sobre aranceles » — impuestos a las importaciones." },
+  { term: "8. populismo",                     correct: "h", fb: "« España no es inmune al populismo de extrema derecha »." }
+];
+
+const ex3 = [
+  { sentence: "España está <b>acogiendo</b> la inmigración.", correct: "acogiendo", alt: ["acoger"], fb: "« acoger » = recibir bien, dar la bienvenida." },
+  { sentence: "La zona euro está <b>sumida</b> en el estancamiento.", correct: "sumida", alt: ["sumido"], fb: "« sumir/sumida » = hundir/hundida en una situación." },
+  { sentence: "Era un país considerado <b>atrasado</b> hace quince años.", correct: "rezagado", alt: ["rezagada"], fb: "Un « rezagado » es alguien que se ha quedado atrás." },
+  { sentence: "Trasladar trabajadores debería <b>resolver</b> la escasez.", correct: "paliar", alt: [], fb: "« paliar » = aliviar, mitigar un problema." },
+  { sentence: "El plan refleja un <b>enfoque</b> más realista.", correct: "enfoque", alt: ["postura"], fb: "« enfoque » o « postura » sirven para hablar de una manera de afrontar algo." },
+  { sentence: "Los migrantes podrán moverse libremente por el <b>bloque</b>.", correct: "bloque", alt: [], fb: "« el bloque » = la UE en este contexto." },
+  { sentence: "Sánchez es un político <b>realista</b>.", correct: "pragmático", alt: ["pragmática"], fb: "« pragmático » = que actúa según lo práctico, no según ideales abstractos." },
+  { sentence: "El PP ha endurecido su <b>posición</b> sobre la inmigración.", correct: "postura", alt: [], fb: "« postura » = posición política, opinión adoptada." }
+];
+
+const ex4answers = {
+  1: "sumida",
+  2: "salud",
+  3: "doble",
+  4: "suerte",
+  5: "renovables",
+  6: "apertura",
+  7: "población",
+  8: "crecimiento"
+};
+
+const ex4feedback = "Recuerda: « buena salud » (estado), « el doble » (cantidad), « cambio de suerte » (giro), « energías renovables », « apertura » (de un país a la inmigración), « la población » española.";
+
+const ex5 = [
+  {
+    s: "España está acogiendo migrantes mientras gran parte de Europa los rechaza.",
+    correct: "V",
+    fb: "« España está acogiendo la inmigración mientras el resto de Europa la rechaza »."
+  },
+  {
+    s: "La economía española creció el doble que la media de la UE en 2025.",
+    correct: "V",
+    fb: "« Creció casi un 3 % en 2025, el doble de la media de la UE (1,5 %) »."
+  },
+  {
+    s: "Los migrantes con antecedentes penales también podrán obtener los papeles.",
+    correct: "F",
+    fb: "El texto exige que los migrantes « no tengan antecedentes penales »."
+  },
+  {
+    s: "Vox es el partido más votado del Parlamento español.",
+    correct: "F",
+    fb: "Vox es el « tercer grupo del Parlamento », no el primero."
+  },
+  {
+    s: "España ha regularizado migrantes al menos seis veces desde los años ochenta.",
+    correct: "V",
+    fb: "« España ha regularizado a migrantes en situación irregular al menos seis veces desde los años ochenta »."
+  },
+  {
+    s: "Pedro Sánchez está a favor de aumentar el gasto en defensa.",
+    correct: "F",
+    fb: "Al contrario: « se ha negado a aumentar el gasto en defensa »."
+  },
+  {
+    s: "Italia tramita a los migrantes rescatados en el mar en centros fuera de su territorio.",
+    correct: "V",
+    fb: "« Italia procesa a los rescatados en el mar en centros de internamiento en el extranjero »."
+  },
+  {
+    s: "El plan de regularización ha sido criticado por el Papa.",
+    correct: "?",
+    fb: "El texto no menciona al Papa en ningún momento."
+  }
+];
+
+/* =====================================================================
+   CONSTRUIR EL DOM
+===================================================================== */
+
+function buildEx1() {
+  const c = document.getElementById('ex1-questions');
+  ex1.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'question';
+    div.dataset.ex = '1';
+    div.dataset.idx = i;
+    let html = `<div class="q-text">${i + 1}. ${q.q}</div>`;
+    Object.keys(q.options).forEach(letter => {
+      html += `<label><input type="radio" name="ex1q${i}" value="${letter}"> <strong>${letter})</strong> ${q.options[letter]}</label>`;
+    });
+    html += `<div class="feedback"></div>`;
+    div.innerHTML = html;
+    c.appendChild(div);
+  });
+}
+
+function buildEx2() {
+  const c = document.getElementById('ex2-questions');
+  ex2.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'question';
+    div.dataset.ex = '2';
+    div.dataset.idx = i;
+    div.innerHTML =
+      `<div class="q-text">${q.term}
+        <select name="ex2q${i}">
+          <option value="">--</option>
+          <option value="a">a</option>
+          <option value="b">b</option>
+          <option value="c">c</option>
+          <option value="d">d</option>
+          <option value="e">e</option>
+          <option value="f">f</option>
+          <option value="g">g</option>
+          <option value="h">h</option>
+        </select>
+       </div>
+       <div class="feedback"></div>`;
+    c.appendChild(div);
+  });
+}
+
+function buildEx3() {
+  const c = document.getElementById('ex3-questions');
+  ex3.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'question';
+    div.dataset.ex = '3';
+    div.dataset.idx = i;
+    div.innerHTML =
+      `<div class="q-text">${i + 1}. ${q.sentence}</div>
+       <div>Sinónimo: <input type="text" name="ex3q${i}" autocomplete="off" spellcheck="false"></div>
+       <div class="feedback"></div>`;
+    c.appendChild(div);
+  });
+}
+
+function buildEx5() {
+  const c = document.getElementById('ex5-questions');
+  ex5.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'question';
+    div.dataset.ex = '5';
+    div.dataset.idx = i;
+    let html = `<div class="q-text">${i + 1}. ${q.s}</div>`;
+    ['V', 'F', '?'].forEach(v => {
+      const lbl = v === 'V' ? 'Verdadero' : v === 'F' ? 'Falso' : 'No se dice';
+      html += `<label style="display:inline-block; margin-right:14px;"><input type="radio" name="ex5q${i}" value="${v}"> ${v} — ${lbl}</label>`;
+    });
+    html += `<div class="feedback"></div>`;
+    div.innerHTML = html;
+    c.appendChild(div);
+  });
+}
+
+buildEx1();
+buildEx2();
+buildEx3();
+buildEx5();
+
+/* =====================================================================
+   TECLADO DE ACENTOS
+===================================================================== */
+
+let lastFocused = null;
+document.addEventListener('focusin', e => {
+  if (e.target.matches('input[type="text"]')) {
+    lastFocused = e.target;
+  }
+});
+
+document.querySelectorAll('.accent-kb button').forEach(btn => {
+  btn.addEventListener('mousedown', e => e.preventDefault()); // no perder foco
+  btn.addEventListener('click', () => {
+    const ch = btn.dataset.char;
+    if (!lastFocused) return;
+    const start = lastFocused.selectionStart || 0;
+    const end   = lastFocused.selectionEnd   || 0;
+    const v     = lastFocused.value;
+    lastFocused.value = v.slice(0, start) + ch + v.slice(end);
+    lastFocused.selectionStart = lastFocused.selectionEnd = start + ch.length;
+    lastFocused.focus();
+  });
+});
+
+/* =====================================================================
+   COMPROBAR / RETROALIMENTACIÓN
+===================================================================== */
+
+function normalise(s) {
+  return (s || '').trim().toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '');
+}
+
+const results = {
+  ex1: [], ex2: [], ex3: [], ex4: [], ex5: [],
+  totals: { right: 0, total: 0 }
+};
+
+function check() {
+  results.ex1 = []; results.ex2 = []; results.ex3 = []; results.ex4 = []; results.ex5 = [];
+  let right = 0, total = 0;
+
+  // Ex1
+  ex1.forEach((q, i) => {
+    const div = document.querySelector(`.question[data-ex="1"][data-idx="${i}"]`);
+    const sel = div.querySelector('input[type="radio"]:checked');
+    const given = sel ? sel.value : '';
+    const ok = given === q.correct;
+    div.classList.remove('correct', 'incorrect');
+    div.classList.add('checked', ok ? 'correct' : 'incorrect');
+    div.querySelector('.feedback').innerHTML =
+      ok
+        ? `<strong>Correcto.</strong> ${q.fb}`
+        : `<strong>Respuesta correcta: ${q.correct})</strong> — ${q.fb}`;
+    results.ex1.push({ q: q.q, given, correct: q.correct, ok });
+    total++; if (ok) right++;
+  });
+
+  // Ex2
+  ex2.forEach((q, i) => {
+    const div = document.querySelector(`.question[data-ex="2"][data-idx="${i}"]`);
+    const given = div.querySelector('select').value;
+    const ok = given === q.correct;
+    div.classList.remove('correct', 'incorrect');
+    div.classList.add('checked', ok ? 'correct' : 'incorrect');
+    div.querySelector('.feedback').innerHTML =
+      ok
+        ? `<strong>Correcto (${q.correct}).</strong> ${q.fb}`
+        : `<strong>Correcto: ${q.correct}.</strong> ${q.fb}`;
+    results.ex2.push({ q: q.term, given, correct: q.correct, ok });
+    total++; if (ok) right++;
+  });
+
+  // Ex3
+  ex3.forEach((q, i) => {
+    const div = document.querySelector(`.question[data-ex="3"][data-idx="${i}"]`);
+    const given = div.querySelector('input[type="text"]').value;
+    const givenN = normalise(given);
+    const correctN = normalise(q.correct);
+    const altN = (q.alt || []).map(normalise);
+    // Strict accent check: also require accent match for full credit — but be lenient with gender
+    const accentOk = given.trim().toLowerCase() === q.correct.toLowerCase()
+                  || (q.alt || []).some(a => a.toLowerCase() === given.trim().toLowerCase());
+    const baseOk = givenN === correctN || altN.includes(givenN);
+    const ok = accentOk;
+    div.classList.remove('correct', 'incorrect');
+    div.classList.add('checked', ok ? 'correct' : 'incorrect');
+    let msg;
+    if (ok) {
+      msg = `<strong>¡Correcto!</strong> ${q.fb}`;
+    } else if (baseOk && !accentOk) {
+      msg = `<strong>Casi: revisa la tilde.</strong> Forma correcta: <em>${q.correct}</em>. ${q.fb}`;
+    } else {
+      msg = `<strong>Respuesta correcta: <em>${q.correct}</em>.</strong> ${q.fb}`;
+    }
+    div.querySelector('.feedback').innerHTML = msg;
+    results.ex3.push({ q: q.sentence.replace(/<\/?b>/g,'**'), given, correct: q.correct, ok });
+    total++; if (ok) right++;
+  });
+
+  // Ex4
+  const passage = document.getElementById('cloze-passage');
+  let ex4right = 0, ex4total = 0;
+  passage.querySelectorAll('input').forEach(inp => {
+    const num = inp.dataset.gap;
+    const given = inp.value;
+    const correct = ex4answers[num];
+    const ok = normalise(given) === normalise(correct);
+    inp.style.background = ok ? 'var(--soft-grn)' : 'var(--soft-red)';
+    inp.style.borderColor = ok ? 'var(--green)' : 'var(--red)';
+    inp.title = ok ? '' : `Correcto: ${correct}`;
+    results.ex4.push({ gap: num, given, correct, ok });
+    ex4total++; total++; if (ok) { ex4right++; right++; }
+  });
+  document.getElementById('ex4-feedback').innerHTML =
+    `<div class="feedback" style="display:block; margin-top:12px;">
+       <strong>${ex4right} / ${ex4total} correctas.</strong> ${ex4feedback}
+     </div>`;
+
+  // Ex5
+  ex5.forEach((q, i) => {
+    const div = document.querySelector(`.question[data-ex="5"][data-idx="${i}"]`);
+    const sel = div.querySelector('input[type="radio"]:checked');
+    const given = sel ? sel.value : '';
+    const ok = given === q.correct;
+    div.classList.remove('correct', 'incorrect');
+    div.classList.add('checked', ok ? 'correct' : 'incorrect');
+    const lblFor = v => v === 'V' ? 'Verdadero' : v === 'F' ? 'Falso' : 'No se dice';
+    div.querySelector('.feedback').innerHTML =
+      ok
+        ? `<strong>Correcto (${lblFor(q.correct)}).</strong> ${q.fb}`
+        : `<strong>Respuesta correcta: ${q.correct} — ${lblFor(q.correct)}.</strong> ${q.fb}`;
+    results.ex5.push({ q: q.s, given, correct: q.correct, ok });
+    total++; if (ok) right++;
+  });
+
+  results.totals = { right, total };
+  showScore(right, total);
+}
+
+function showScore(right, total) {
+  const box = document.getElementById('scoreBox');
+  box.classList.remove('hidden');
+  document.getElementById('scoreNum').textContent = `${right} / ${total}`;
+  const pct = right / total;
+  let msg = '';
+  if (pct >= 0.9)      msg = '¡Excelente! Dominio sólido del texto y del léxico.';
+  else if (pct >= 0.7) msg = 'Muy bien. Repasa los puntos en rojo.';
+  else if (pct >= 0.5) msg = 'Aprobado. Vuelve a leer el texto y revisa las correcciones.';
+  else                 msg = 'Necesitas otra lectura del texto. Repasa especialmente el vocabulario.';
+  document.getElementById('scoreMsg').textContent = msg;
+  box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+document.getElementById('checkBtn').addEventListener('click', check);
+
+/* =====================================================================
+   REINICIAR
+===================================================================== */
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (!confirm('¿Reiniciar todas las respuestas?')) return;
+  document.querySelectorAll('input[type="text"]').forEach(i => {
+    i.value = '';
+    i.style.background = '';
+    i.style.borderColor = '';
+    i.title = '';
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(i => i.checked = false);
+  document.querySelectorAll('select').forEach(s => s.value = '');
+  document.querySelectorAll('.question').forEach(q => {
+    q.classList.remove('correct', 'incorrect', 'checked');
+    const fb = q.querySelector('.feedback');
+    if (fb) fb.innerHTML = '';
+  });
+  document.getElementById('ex4-feedback').innerHTML = '';
+  document.getElementById('scoreBox').classList.add('hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+/* =====================================================================
+   DESCARGAR (Blob .txt)
+===================================================================== */
+document.getElementById('downloadBtn').addEventListener('click', () => {
+  if (results.totals.total === 0) {
+    alert('Pulsa primero "Comprobar respuestas".');
+    return;
+  }
+  const name = (document.getElementById('studentName').value || 'sin_nombre').trim();
+  const date = new Date().toLocaleString('es-ES');
+  const lines = [];
+  const sep = '═'.repeat(60);
+
+  lines.push(sep);
+  lines.push('  A LA ESPAÑOLA — Resultados del ejercicio (B2)');
+  lines.push(sep);
+  lines.push(`Alumno/a:   ${name}`);
+  lines.push(`Fecha:      ${date}`);
+  lines.push(`Puntuación: ${results.totals.right} / ${results.totals.total}`);
+  lines.push('');
+
+  // Ex1
+  lines.push('--- EJERCICIO 2 · COMPRENSIÓN GLOBAL ---');
+  results.ex1.forEach((r, i) => {
+    lines.push(`${i+1}. ${r.q}`);
+    lines.push(`   Tu respuesta:    ${r.given || '(vacío)'}`);
+    lines.push(`   Correcta:        ${r.correct}`);
+    lines.push(`   Resultado:       ${r.ok ? '✔ correcto' : '✘ incorrecto'}`);
+    lines.push(`   Comentario:      ${ex1[i].fb}`);
+    lines.push('');
+  });
+
+  lines.push('--- EJERCICIO 3 · VOCABULARIO ---');
+  results.ex2.forEach((r, i) => {
+    lines.push(`${r.q}`);
+    lines.push(`   Tu respuesta:    ${r.given || '(vacío)'}`);
+    lines.push(`   Correcta:        ${r.correct}`);
+    lines.push(`   Resultado:       ${r.ok ? '✔ correcto' : '✘ incorrecto'}`);
+    lines.push(`   Comentario:      ${ex2[i].fb}`);
+    lines.push('');
+  });
+
+  lines.push('--- EJERCICIO 4 · SINÓNIMOS ---');
+  results.ex3.forEach((r, i) => {
+    lines.push(`${i+1}. ${r.q.replace(/\*\*/g, '"')}`);
+    lines.push(`   Tu respuesta:    ${r.given || '(vacío)'}`);
+    lines.push(`   Correcta:        ${r.correct}`);
+    lines.push(`   Resultado:       ${r.ok ? '✔ correcto' : '✘ incorrecto'}`);
+    lines.push(`   Comentario:      ${ex3[i].fb}`);
+    lines.push('');
+  });
+
+  lines.push('--- EJERCICIO 5 · TEXTO A TROUS ---');
+  results.ex4.forEach(r => {
+    lines.push(`Hueco ${r.gap}:`);
+    lines.push(`   Tu respuesta:    ${r.given || '(vacío)'}`);
+    lines.push(`   Correcta:        ${r.correct}`);
+    lines.push(`   Resultado:       ${r.ok ? '✔ correcto' : '✘ incorrecto'}`);
+  });
+  lines.push(`Comentario general: ${ex4feedback}`);
+  lines.push('');
+
+  lines.push('--- EJERCICIO 6 · VERDADERO / FALSO / NO SE DICE ---');
+  results.ex5.forEach((r, i) => {
+    lines.push(`${i+1}. ${r.q}`);
+    lines.push(`   Tu respuesta:    ${r.given || '(vacío)'}`);
+    lines.push(`   Correcta:        ${r.correct}`);
+    lines.push(`   Resultado:       ${r.ok ? '✔ correcto' : '✘ incorrecto'}`);
+    lines.push(`   Comentario:      ${ex5[i].fb}`);
+    lines.push('');
+  });
+
+  lines.push(sep);
+  lines.push('  Fin del informe');
+  lines.push(sep);
+
+  const text = lines.join('\n');
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const safeName = name.replace(/[^a-zA-Z0-9]+/g, '_').toLowerCase() || 'sin_nombre';
+  a.href = url;
+  a.download = `a_la_espanola_${safeName}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+});
+</script>
+</body>
+</html>

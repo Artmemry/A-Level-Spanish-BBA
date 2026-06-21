@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Advanced Spanish: Infinitive Structures</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 2rem; max-width: 900px; }
+  h2 { margin-bottom: 0.5rem; }
+  .grammar-box { background:#eef; padding:1em; border-radius:8px; margin-bottom:1.5em; }
+  .question { margin-bottom: 1.5rem; }
+  label { display: block; margin-bottom: 0.3rem; font-weight: bold; }
+  input[type=text], select { width: 100%; max-width: 600px; padding: 0.4rem; font-size: 1rem; }
+  button { margin-top: 0.5rem; }
+  .feedback { margin-top: 0.3rem; font-weight: bold; }
+  .correct { color: green; }
+  .incorrect { color: red; }
+  #score, #summary, #printout { font-size: 1.2em; margin-top: 2rem; }
+  #printout { display: none; border: 1px solid #888; padding: 1em; background: #f8f8f8;}
+  .hint { color: #0053a6; font-style: italic; margin-top: 0.2rem; }
+  .model { color: #a00; font-style: italic; margin-top: 0.2rem; }
+</style>
+</head>
+<body>
+
+<h2>Advanced Spanish: Infinitive Structures</h2>
+
+<div class="grammar-box">
+  <p><strong>Instructions:</strong></p>
+  <ul>
+    <li>Translate, complete, transform, or correct the sentences as instructed. Use infinitive structures wherever appropriate.</li>
+    <li>Negative subjunctive/imperative forms (e.g., <b>No olvides...</b>) are included. For commands, use the correct negative imperative.</li>
+    <li>For translation, multiple correct answers are possible (especially for verbs like <b>to try</b>: <i>intentar, tratar de, procurar, esforzarse por</i>).</li>
+    <li>Full stops at the end are ignored.</li>
+    <li>Use hints if you get stuck. If your answer is not accepted, check with your teacher or a native speaker-it may still be correct!</li>
+    <li>Press Enter to check your answer. Model answers will appear after several attempts.</li>
+  </ul>
+  <p><strong>Grammar:</strong> Many verbs are followed directly by an infinitive (e.g., <i>deber, tener que, hay que, poder, querer, soler, necesitar, saber, intentar, decidir, esperar, conseguir, mandar, olvidar, parecer</i>). Some, like <i>tratar de</i> or <i>esforzarse por</i>, use a preposition before the infinitive. For negative commands (imperatives), use the present subjunctive. Pronouns can often go before the conjugated verb or attached to the infinitive (e.g., <i>Quiero verla / La quiero ver</i>).</p>
+</div>
+
+<form id="exerciseForm" autocomplete="off"></form>
+
+<div id="score"></div>
+<div id="summary"></div>
+<button id="printBtn" style="display:none;" onclick="printResults()">Print Results</button>
+<div id="printout"></div>
+
+<script>
+  // 18 varied, advanced questions
+  const questions = [
+    // 1
+    {
+      type: "translate",
+      prompt: "Don't forget your passport. (to a friend)",
+      answers: [
+        "no olvides tu pasaporte",
+        "no te olvides de tu pasaporte"
+      ],
+      hint: "Use the negative tú imperative (subjunctive)."
+    },
+    // 2
+    {
+      type: "translate",
+      prompt: "I try to learn Spanish.",
+      answers: [
+        "intento aprender español",
+        "trato de aprender español",
+        "procuro aprender español",
+        "me esfuerzo por aprender español",
+        "estoy intentando aprender español",
+        "estoy tratando de aprender español"
+      ],
+      hint: "Use 'intentar', 'tratar de', 'procurar', or 'esforzarse por' + infinitive."
+    },
+    // 3
+    {
+      type: "translate",
+      prompt: "We managed to finish on time.",
+      answers: [
+        "conseguimos terminar a tiempo",
+        "logramos terminar a tiempo",
+        "pudimos terminar a tiempo",
+        "alcanzamos terminar a tiempo"
+      ],
+      hint: "Use 'conseguir', 'lograr', 'poder', or 'alcanzar' + infinitive."
+    },
+    // 4
+    {
+      type: "gap",
+      prompt: "¿Puedes _______ (to help) a tu hermano?",
+      answers: ["ayudar"],
+      hint: "Use the infinitive after 'poder'."
+    },
+    // 5
+    {
+      type: "gap",
+      prompt: "Solemos _______ (to dine) tarde en verano.",
+      answers: ["cenar"],
+      hint: "Use the infinitive after 'soler'."
+    },
+    // 6
+    {
+      type: "translate",
+      prompt: "She forgot to call her mother.",
+      answers: [
+        "olvidó llamar a su madre",
+        "se olvidó de llamar a su madre"
+      ],
+      hint: "Use 'olvidar + infinitive' or 'olvidarse de + infinitive'."
+    },
+    // 7
+    {
+      type: "translate",
+      prompt: "They want to travel to Spain.",
+      answers: [
+        "quieren viajar a españa"
+      ],
+      hint: "Use 'querer + infinitive'."
+    },
+    // 8
+    {
+      type: "translate",
+      prompt: "I hope to finish the project.",
+      answers: [
+        "espero terminar el proyecto"
+      ],
+      hint: "Use 'esperar + infinitive'."
+    },
+    // 9
+    {
+      type: "gap",
+      prompt: "Nosotros _______ (to have to) estudiar mucho.",
+      answers: ["tenemos que"],
+      hint: "Use 'tener que' + infinitive."
+    },
+    // 10
+    {
+      type: "gap",
+      prompt: "Tú _______ (to decide) viajar a México.",
+      answers: ["decides"],
+      hint: "Conjugate 'decidir' in present for tú."
+    },
+    // 11
+    {
+      type: "translate",
+      prompt: "He hopes to see you soon.",
+      answers: [
+        "espera verte pronto",
+        "te espera ver pronto"
+      ],
+      hint: "Use 'esperar + infinitive'."
+    },
+    // 12
+    {
+      type: "translate",
+      prompt: "She ordered us not to speak.",
+      answers: [
+        "nos mandó no hablar",
+        "mandó que no habláramos",
+        "mandó que no hablemos"
+      ],
+      hint: "Use 'mandar + no + infinitive' or 'mandar que + subjunctive'."
+    },
+    // 13
+    {
+      type: "transform",
+      prompt: "Transform to a negative command (tú): <br> <i>Come tu comida.</i>",
+      answers: [
+        "no comas tu comida"
+      ],
+      hint: "Use negative imperative (subjunctive) for tú."
+    },
+    // 14
+    {
+      type: "transform",
+      prompt: "Transform to a negative command (vosotros): <br> <i>Hablad más despacio.</i>",
+      answers: [
+        "no habléis más despacio",
+        "no hablen más despacio"
+      ],
+      hint: "Use negative imperative (subjunctive) for vosotros or ustedes."
+    },
+    // 15
+    {
+      type: "transform",
+      prompt: "Transform to a negative command (usted): <br> <i>Escriba la carta.</i>",
+      answers: [
+        "no escriba la carta"
+      ],
+      hint: "Use negative imperative (subjunctive) for usted."
+    },
+    // 16
+    {
+      type: "correct",
+      prompt: "Correct the error: <i>No debes de olvidar tu pasaporte.</i>",
+      answers: [
+        "no debes olvidar tu pasaporte",
+        "no olvides tu pasaporte",
+        "no te olvides de tu pasaporte"
+      ],
+      hint: "Remove 'de' after 'deber' (unless expressing supposition)."
+    },
+    // 17
+    {
+      type: "translate",
+      prompt: "Don't try to open the window. (to a friend)",
+      answers: [
+        "no intentes abrir la ventana",
+        "no trates de abrir la ventana",
+        "no procures abrir la ventana",
+        "no te esfuerces por abrir la ventana"
+      ],
+      hint: "Use negative imperative (subjunctive) for tú and any verb meaning 'to try'."
+    },
+    // 18
+    {
+      type: "translate",
+      prompt: "Don't forget to call me. (to a friend)",
+      answers: [
+        "no olvides llamarme",
+        "no te olvides de llamarme"
+      ],
+      hint: "Use negative imperative (subjunctive) for tú, with pronoun attached or before the verb."
+    }
+  ];
+
+  const attempts = Array(questions.length).fill(0);
+  const completed = Array(questions.length).fill(false);
+  const userAnswers = Array(questions.length).fill("");
+  let totalAnswered = 0;
+
+  const form = document.getElementById("exerciseForm");
+
+  questions.forEach((q, i) => {
+    const div = document.createElement("div");
+    div.className = "question";
+    let inputHtml = `<input type="text" id="q${i+1}" data-index="${i}" placeholder="Type your answer here">`;
+    div.innerHTML = `
+      <label for="q${i+1}">${i+1}. ${q.prompt}</label>
+      ${inputHtml}
+      <button type="button" onclick="showHint(${i})" id="hintBtn${i}">Hint</button>
+      <div class="hint" id="hint${i}" style="display:none;"></div>
+      <div class="model" id="model${i}" style="display:none;"></div>
+      <div class="feedback" id="f${i+1}"></div>
+    `;
+    form.appendChild(div);
+  });
+
+  function normalize(str) {
+    return str.trim().toLowerCase()
+      .replace(/[.!?]$/, '') // remove trailing punctuation
+      .replace(/\s+/g, " ")
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/[ñ]/g, "n");
+  }
+
+  function checkAnswer(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      const input = event.target;
+      const idx = parseInt(input.dataset.index);
+      if (completed[idx]) return;
+
+      attempts[idx]++;
+      const user = normalize(input.value);
+      const corrects = questions[idx].answers.map(ans => normalize(ans));
+      const feedback = document.getElementById("f" + (idx + 1));
+      userAnswers[idx] = input.value;
+
+      if (corrects.includes(user)) {
+        feedback.textContent = "Correct! / ¡Correcto!";
+        feedback.className = "feedback correct";
+        completed[idx] = true;
+        input.disabled = true;
+        document.getElementById("hintBtn" + idx).disabled = true;
+        document.getElementById("model" + idx).style.display = "none";
+        totalAnswered++;
+      } else {
+        if (attempts[idx] < 3) {
+          feedback.textContent = "Try again. / Inténtalo de nuevo.";
+          feedback.className = "feedback incorrect";
+        } else if (attempts[idx] < 5) {
+          feedback.textContent = "Not a model answer, but it may be correct. Please check with your teacher or a native speaker.";
+          feedback.className = "feedback incorrect";
+          document.getElementById("model" + idx).innerHTML = "<b>Model answers:</b> " + questions[idx].answers.join(" / ");
+          document.getElementById("model" + idx).style.display = "block";
+        } else {
+          feedback.textContent = "Incorrect. Model answers: " + questions[idx].answers.join(" / ");
+          feedback.className = "feedback incorrect";
+          completed[idx] = true;
+          input.disabled = true;
+          document.getElementById("hintBtn" + idx).disabled = true;
+          totalAnswered++;
+        }
+      }
+      updateScore();
+      if (totalAnswered === questions.length) {
+        showSummary();
+      }
+    }
+  }
+
+  for(let i=1; i<=questions.length; i++) {
+    document.getElementById("q"+i).addEventListener("keydown", checkAnswer);
+  }
+
+  function pointsForAttempts(n) {
+    if (n <= 2) return 1;
+    if (n === 3) return 0.5;
+    if (n === 4) return 0.25;
+    return 0.1;
+  }
+
+  function updateScore() {
+    let total = 0;
+    for(let i=0; i<questions.length; i++) {
+      if (completed[i]) total += pointsForAttempts(attempts[i]);
+    }
+    const percent = Math.round((total / questions.length) * 100);
+    document.getElementById("score").textContent = `Current Score: ${percent}%`;
+  }
+
+  function showSummary() {
+    let total = 0, full=0, half=0, quarter=0, tenth=0;
+    let summary = "<h3>Exercise Complete!</h3><ul>";
+    for(let i=0; i<questions.length; i++) {
+      let pts = pointsForAttempts(attempts[i]);
+      total += pts;
+      if (pts === 1) full++;
+      else if (pts === 0.5) half++;
+      else if (pts === 0.25) quarter++;
+      else tenth++;
+      summary += `<li>Q${i+1}: ${userAnswers[i] ? userAnswers[i] : "(no answer)"}<br>
+      <span style="color:${pts === 1 ? 'green' : pts === 0.5 ? 'blue' : pts === 0.25 ? 'orange' : 'red'}">
+      Score: ${Math.round(pts*100)}%</span><br>
+      <em>Model answers:</em> ${questions[i].answers.join(" / ")}</li>`;
+    }
+    summary += "</ul>";
+    const percent = Math.round((total / questions.length) * 100);
+    summary += `<strong>Total Score: ${percent}%</strong><br>
+      <strong>Full points:</strong> ${full}, <strong>Half:</strong> ${half}, <strong>Quarter:</strong> ${quarter}, <strong>10%:</strong> ${tenth}`;
+    document.getElementById("summary").innerHTML = summary;
+    document.getElementById("printBtn").style.display = "inline-block";
+  }
+
+  function printResults() {
+    let printHTML = `<h2>Spanish Infinitive Structures: Results</h2>
+    <p><strong>Name:</strong> ______________________</p>
+    <p><strong>Date:</strong> ______________________</p>
+    <ol>`;
+    let total = 0;
+    for(let i=0; i<questions.length; i++) {
+      let pts = pointsForAttempts(attempts[i]);
+      total += pts;
+      printHTML += `<li>
+        <strong>Prompt:</strong> ${questions[i].prompt}<br>
+        <strong>Your answer:</strong> ${userAnswers[i] ? userAnswers[i] : "(no answer)"}<br>
+        <strong>Model answers:</strong> ${questions[i].answers.join(" / ")}<br>
+        <strong>Score for this question:</strong> ${Math.round(pts*100)}%
+      </li>`;
+    }
+    const percent = Math.round((total / questions.length) * 100);
+    printHTML += `</ol><h3>Total Score: ${percent}%</h3>
+    <p><strong>Signature:</strong> ______________________</p>`;
+    const printoutDiv = document.getElementById("printout");
+    printoutDiv.innerHTML = printHTML;
+    printoutDiv.style.display = "block";
+    window.print();
+  }
+
+  function showHint(idx) {
+    const hint = document.getElementById("hint" + idx);
+    hint.innerHTML = questions[idx].hint;
+    hint.style.display = "block";
+    document.getElementById("hintBtn" + idx).disabled = true;
+  }
+</script>
+
+</body>
+</html>

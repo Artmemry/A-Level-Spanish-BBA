@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Estructura Familiar Española - Práctica de 1 Hora</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .difficulty-badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin: 10px 5px;
+        }
+        .basic { background: #4caf50; color: white; }
+        .intermediate { background: #ff9800; color: white; }
+        .advanced { background: #f44336; color: white; }
+        .section {
+            padding: 30px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        .section-title {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .instructions {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #2196f3;
+        }
+        .question {
+            margin: 20px 0;
+            padding: 15px;
+            background: #fafafa;
+            border-radius: 8px;
+            border-left: 4px solid #f5576c;
+        }
+        .question-text {
+            font-size: 1.05em;
+            line-height: 1.8;
+            margin: 10px 0;
+        }
+        input[type="text"] {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            min-width: 150px;
+            transition: all 0.3s;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #f093fb;
+            background: #fff5f7;
+        }
+        input.correct {
+            border-color: #4caf50;
+            background: #e8f5e9;
+        }
+        input.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 100px;
+        }
+        .word-bank {
+            background: #fff9e6;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 2px solid #ffc107;
+        }
+        .word-bank strong {
+            color: #f5576c;
+        }
+        .buttons {
+            text-align: center;
+            margin: 30px 0;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 12px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        .btn-check {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        .btn-check:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(240, 147, 251, 0.4);
+        }
+        .btn-download {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(17, 153, 142, 0.4);
+        }
+        .btn-reset {
+            background: #666;
+            color: white;
+        }
+        .btn-reset:hover {
+            background: #444;
+            transform: translateY(-2px);
+        }
+        .score-display {
+            text-align: center;
+            font-size: 1.5em;
+            margin: 20px 0;
+            padding: 15px;
+            background: #fff5f7;
+            border-radius: 10px;
+            border: 2px solid #f093fb;
+        }
+        .score-display span {
+            color: #f5576c;
+            font-weight: bold;
+        }
+        .translation-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        .translation-pair > div {
+            padding: 10px;
+        }
+        .english-text {
+            background: #e3f2fd;
+            border-radius: 5px;
+            padding: 10px;
+            font-style: italic;
+        }
+        @media (max-width: 768px) {
+            .translation-pair {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>La Estructura Familiar Española</h1>
+            <p>Práctica Mixta - 60 minutos</p>
+            <div>
+                <span class="difficulty-badge basic">BÁSICO</span>
+                <span class="difficulty-badge intermediate">INTERMEDIO</span>
+                <span class="difficulty-badge advanced">AVANZADO</span>
+            </div>
+        </div>
+
+        <div class="score-display">
+            Puntuación Total: <span id="totalScore">0</span>%
+        </div>
+
+        <!-- Activity 1: Basic Vocabulary Gap Fill -->
+        <div class="section">
+            <div class="section-title">
+                <span>Actividad 1: Vocabulario Básico</span>
+                <span class="difficulty-badge basic">BÁSICO</span>
+            </div>
+            <div class="instructions">
+                <strong>Instrucciones:</strong> Completa las frases con las palabras del banco de palabras.
+            </div>
+            <div class="word-bank">
+                <strong>Banco de palabras:</strong> abuelos, guardería, nietos, hogar, familias, pareja, divorcio, matrimonio, hijos, jubilación
+            </div>
+            <div id="activity1"></div>
+        </div>
+
+        <!-- Activity 2: Intermediate - Role of Grandparents -->
+        <div class="section">
+            <div class="section-title">
+                <span>Actividad 2: El Papel de los Abuelos</span>
+                <span class="difficulty-badge intermediate">INTERMEDIO</span>
+            </div>
+            <div class="instructions">
+                <strong>Instrucciones:</strong> Lee el texto y completa los espacios en blanco.
+            </div>
+            <div id="activity2"></div>
+        </div>
+
+        <!-- Activity 3: Translation Practice -->
+        <div class="section">
+            <div class="section-title">
+                <span>Actividad 3: Traducción (Español → Inglés)</span>
+                <span class="difficulty-badge intermediate">INTERMEDIO</span>
+            </div>
+            <div class="instructions">
+                <strong>Instrucciones:</strong> Traduce las siguientes frases al inglés.
+            </div>
+            <div id="activity3"></div>
+        </div>
+
+        <!-- Activity 4: Advanced Translation -->
+        <div class="section">
+            <div class="section-title">
+                <span>Actividad 4: Traducción Avanzada (Inglés → Español)</span>
+                <span class="difficulty-badge advanced">AVANZADO</span>
+            </div>
+            <div class="instructions">
+                <strong>Instrucciones:</strong> Traduce las frases del inglés al español usando estructuras complejas.
+            </div>
+            <div id="activity4"></div>
+        </div>
+
+        <!-- Activity 5: Extended Writing -->
+        <div class="section">
+            <div class="section-title">
+                <span>Actividad 5: Escritura Extendida</span>
+                <span class="difficulty-badge advanced">AVANZADO</span>
+            </div>
+            <div class="instructions">
+                <strong>Instrucciones:</strong> Responde a UNA de las siguientes preguntas en 150-200 palabras.
+            </div>
+            <div id="activity5"></div>
+        </div>
+
+        <div style="text-align: center; padding: 20px;">
+            <label for="studentName"><strong>Nombre del estudiante:</strong></label><br>
+            <input type="text" id="studentName" placeholder="Tu nombre" style="width: 300px; margin: 10px 0;">
+        </div>
+
+        <div class="buttons">
+            <button class="btn-check" onclick="checkAnswers()">Verificar Respuestas</button>
+            <button class="btn-download" onclick="downloadResults()">Descargar Resultados</button>
+            <button class="btn-reset" onclick="resetAll()">Reiniciar Todo</button>
+        </div>
+    </div>
+
+    <script>
+        const activities = {
+            activity1: [
+                { text: "Los ___ españoles a menudo vivían en el ___ familiar.", answers: ["abuelos", "hogar"] },
+                { text: "Ellos cuidaban a sus ___ durante las vacaciones.", answers: ["nietos"] },
+                { text: "Ahora hay más instalaciones de ___ disponibles.", answers: ["guardería"] },
+                { text: "Las ___ modernas están más dispersas geográficamente.", answers: ["familias"] },
+                { text: "Los abuelos disfrutan de su ___ y trabajan más tiempo.", answers: ["jubilación"] },
+                { text: "El número de ___ ha aumentado en España.", answers: ["divorcio"] },
+                { text: "Una ___ puede elegir vivir juntos sin casarse.", answers: ["pareja"] },
+                { text: "Muchas parejas esperan hasta los 40 para el ___.", answers: ["matrimonio"] }
+            ],
+            activity2: {
+                text: "Los abuelos españoles tradicionalmente ___(vivir) en el hogar familiar o cerca, siendo ___(atender) por sus hijos y capaces de ___(cuidar) a sus nietos. Las instalaciones de guardería se ___(extender - pret. perf.) recientemente, pero anteriormente no ___(haber) plazas libres. Las familias están más ___(disperso) porque es probable que las familias se ___(mudar) por su trabajo, mientras que los abuelos ___(tender) a trabajar más tiempo o ___(disfrutar) de su jubilación.",
+                answers: ["vivían", "atendidos", "cuidar", "han extendido", "había", "dispersas", "muden", "tienden", "disfrutan"]
+            },
+            activity3: [
+                { spanish: "Las familias están más dispersas porque es probable que se muden por su trabajo.", answer: "Families are more dispersed because they are likely to move for their jobs." },
+                { spanish: "Los abuelos tienden a trabajar más tiempo o disfrutan de su jubilación.", answer: "Grandparents tend to work longer or enjoy their retirement." },
+                { spanish: "Muchas familias se ven obligadas a usar niñeras caras.", answer: "Many families are forced to use expensive nannies." },
+                { spanish: "Solo un tercio de las parejas en sus 30 años están casadas.", answer: "Only one third of couples in their 30s are married." },
+                { spanish: "El 61% de todos los matrimonios en España terminan en divorcio.", answer: "61% of all marriages in Spain end in divorce." }
+            ],
+            activity4: [
+                { english: "Many Spanish people accept that couples cannot afford to get married until they are in their forties.", answer: "Muchos españoles aceptan que las parejas no pueden permitirse casarse hasta que tengan cuarenta años." },
+                { english: "The different Spanish regions needed a way to register couples living together.", answer: "Las diferentes regiones españolas necesitaban una forma de registrar a las parejas que vivían juntas." },
+                { english: "These civil partnerships remain controversial as they do not afford individuals the same rights.", answer: "Estas uniones civiles siguen siendo controvertidas ya que no otorgan a las personas los mismos derechos." },
+                { english: "The influence of the Catholic Church in Spain has decreased and therefore divorce is no longer frowned upon.", answer: "La influencia de la Iglesia Católica en España ha disminuido y por lo tanto el divorcio ya no está mal visto." }
+            ],
+            activity5: [
+                "¿Cómo han cambiado los roles tradicionales de los abuelos en la familia española moderna? Explica las causas y consecuencias.",
+                "¿Estás de acuerdo con que vivir juntos sin casarse se acepta totalmente en la España moderna? Justifica tu opinión.",
+                "Analiza el impacto del aumento del divorcio en la sociedad española. ¿Es positivo o negativo?"
+            ]
+        };
+
+        function createActivity1() {
+            const container = document.getElementById('activity1');
+            activities.activity1.forEach((item, idx) => {
+                const div = document.createElement('div');
+                div.className = 'question';
+                let text = item.text;
+                let inputIndex = 0;
+                text = text.replace(/___/g, () => {
+                    const answer = item.answers[inputIndex];
+                    const id = `a1_${idx}_${inputIndex}`;
+                    inputIndex++;
+                    return `<input type="text" id="${id}" data-answer="${answer}" style="width: 150px;">`;
+                });
+                div.innerHTML = `<div class="question-text">${idx + 1}. ${text}</div>`;
+                container.appendChild(div);
+            });
+        }
+
+        function createActivity2() {
+            const container = document.getElementById('activity2');
+            const div = document.createElement('div');
+            div.className = 'question';
+            let text = activities.activity2.text;
+            let inputIndex = 0;
+            text = text.replace(/___\([^)]+\)/g, (match) => {
+                const answer = activities.activity2.answers[inputIndex];
+                const id = `a2_${inputIndex}`;
+                const hint = match.slice(4, -1);
+                inputIndex++;
+                return `<input type="text" id="${id}" data-answer="${answer}" placeholder="${hint}" style="width: 120px;">`;
+            });
+            div.innerHTML = `<div class="question-text">${text}</div>`;
+            container.appendChild(div);
+        }
+
+        function createActivity3() {
+            const container = document.getElementById('activity3');
+            activities.activity3.forEach((item, idx) => {
+                const div = document.createElement('div');
+                div.className = 'question';
+                div.innerHTML = `
+                    <div class="question-text"><strong>${idx + 1}.</strong> ${item.spanish}</div>
+                    <input type="text" id="a3_${idx}" data-answer="${item.answer}" style="width: 100%; margin-top: 10px;">
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function createActivity4() {
+            const container = document.getElementById('activity4');
+            activities.activity4.forEach((item, idx) => {
+                const div = document.createElement('div');
+                div.className = 'question';
+                div.innerHTML = `
+                    <div class="english-text">${idx + 1}. ${item.english}</div>
+                    <textarea id="a4_${idx}" data-answer="${item.answer}" style="margin-top: 10px;"></textarea>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function createActivity5() {
+            const container = document.getElementById('activity5');
+            activities.activity5.forEach((question, idx) => {
+                const div = document.createElement('div');
+                div.className = 'question';
+                div.innerHTML = `
+                    <div class="question-text"><strong>Opción ${idx + 1}:</strong> ${question}</div>
+                `;
+                container.appendChild(div);
+            });
+            const textareaDiv = document.createElement('div');
+            textareaDiv.className = 'question';
+            textareaDiv.innerHTML = `
+                <strong>Tu respuesta:</strong>
+                <textarea id="a5_response" rows="10" placeholder="Escribe aquí tu respuesta (150-200 palabras)..."></textarea>
+                <p style="margin-top: 5px; color: #666;">Palabras: <span id="wordCount">0</span></p>
+            `;
+            container.appendChild(textareaDiv);
+            
+            document.getElementById('a5_response').addEventListener('input', function() {
+                const words = this.value.trim().split(/\s+/).filter(w => w.length > 0).length;
+                document.getElementById('wordCount').textContent = words;
+            });
+        }
+
+        function normalizeAnswer(str) {
+            return str.toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .trim()
+                .replace(/\s+/g, ' ');
+        }
+
+        function checkAnswers() {
+            let correct = 0;
+            let total = 0;
+
+            // Check all inputs with data-answer
+            document.querySelectorAll('input[data-answer], textarea[data-answer]').forEach(input => {
+                if (input.dataset.answer) {
+                    total++;
+                    const userAnswer = input.value.trim();
+                    const correctAnswer = input.dataset.answer;
+                    const isCorrect = normalizeAnswer(userAnswer) === normalizeAnswer(correctAnswer);
+                    
+                    if (isCorrect) {
+                        correct++;
+                        input.className = 'correct';
+                    } else {
+                        input.className = 'incorrect';
+                    }
+                }
+            });
+
+            const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+            document.getElementById('totalScore').textContent = percentage;
+            
+            alert(`Has completado la verificación!\n\nRespuestas correctas: ${correct}/${total} (${percentage}%)\n\nLa Actividad 5 (escritura extendida) debe ser revisada por el profesor.`);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function downloadResults() {
+            const studentName = document.getElementById('studentName').value.trim() || 'Estudiante';
+            let text = `LA ESTRUCTURA FAMILIAR ESPAÑOLA - RESULTADOS\n`;
+            text += `========================================\n\n`;
+            text += `Estudiante: ${studentName}\n`;
+            text += `Fecha: ${new Date().toLocaleString('es-ES')}\n\n`;
+
+            let correct = 0;
+            let total = 0;
+
+            // Activity 1
+            text += `\nACTIVIDAD 1: VOCABULARIO BÁSICO\n${'='.repeat(40)}\n`;
+            activities.activity1.forEach((item, idx) => {
+                text += `\n${idx + 1}. ${item.text}\n`;
+                item.answers.forEach((ans, subIdx) => {
+                    const input = document.getElementById(`a1_${idx}_${subIdx}`);
+                    if (input) {
+                        total++;
+                        const userAns = input.value || '(vacío)';
+                        const isCorrect = normalizeAnswer(userAns) === normalizeAnswer(ans);
+                        if (isCorrect) correct++;
+                        text += `   Respuesta: ${userAns} ${isCorrect ? '✓' : '✗ (' + ans + ')'}\n`;
+                    }
+                });
+            });
+
+            // Activity 2
+            text += `\nACTIVIDAD 2: EL PAPEL DE LOS ABUELOS\n${'='.repeat(40)}\n`;
+            activities.activity2.answers.forEach((ans, idx) => {
+                const input = document.getElementById(`a2_${idx}`);
+                if (input) {
+                    total++;
+                    const userAns = input.value || '(vacío)';
+                    const isCorrect = normalizeAnswer(userAns) === normalizeAnswer(ans);
+                    if (isCorrect) correct++;
+                    text += `${idx + 1}. Tu respuesta: ${userAns} | Correcto: ${ans} ${isCorrect ? '✓' : '✗'}\n`;
+                }
+            });
+
+            // Activity 3
+            text += `\nACTIVIDAD 3: TRADUCCIÓN (ES → EN)\n${'='.repeat(40)}\n`;
+            activities.activity3.forEach((item, idx) => {
+                const input = document.getElementById(`a3_${idx}`);
+                if (input) {
+                    total++;
+                    const userAns = input.value || '(vacío)';
+                    const isCorrect = normalizeAnswer(userAns) === normalizeAnswer(item.answer);
+                    if (isCorrect) correct++;
+                    text += `\n${idx + 1}. Español: ${item.spanish}\n`;
+                    text += `   Tu traducción: ${userAns}\n`;
+                    text += `   Traducción modelo: ${item.answer}\n`;
+                    text += `   ${isCorrect ? '✓ Correcto' : '✗ Revisar'}\n`;
+                }
+            });
+
+            // Activity 4
+            text += `\nACTIVIDAD 4: TRADUCCIÓN AVANZADA (EN → ES)\n${'='.repeat(40)}\n`;
+            activities.activity4.forEach((item, idx) => {
+                const textarea = document.getElementById(`a4_${idx}`);
+                if (textarea) {
+                    total++;
+                    const userAns = textarea.value || '(vacío)';
+                    const isCorrect = normalizeAnswer(userAns) === normalizeAnswer(item.answer);
+                    if (isCorrect) correct++;
+                    text += `\n${idx + 1}. Inglés: ${item.english}\n`;
+                    text += `   Tu traducción: ${userAns}\n`;
+                    text += `   Traducción modelo: ${item.answer}\n`;
+                    text += `   ${isCorrect ? '✓ Correcto' : '✗ Revisar'}\n`;
+                }
+            });
+
+            // Activity 5
+            text += `\nACTIVIDAD 5: ESCRITURA EXTENDIDA\n${'='.repeat(40)}\n`;
+            const essay = document.getElementById('a5_response').value || '(no completado)';
+            const wordCount = essay.trim().split(/\s+/).filter(w => w.length > 0).length;
+            text += `Palabras: ${wordCount}\n\n`;
+            text += `${essay}\n\n`;
+            text += `[Esta respuesta debe ser evaluada por el profesor]\n`;
+
+            const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+            text += `\n\n========================================\n`;
+            text += `PUNTUACIÓN OBJETIVA: ${correct}/${total} (${percentage}%)\n`;
+            text += `Nota: La Actividad 5 requiere evaluación del profesor\n`;
+            text += `========================================\n`;
+
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            const safeName = studentName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            const timestamp = new Date().getTime();
+            link.download = `familia_española_${safeName}_${timestamp}.txt`;
+            
+            document.body.appendChild(link);
+            link.click();
+            
+            setTimeout(() => {
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }, 100);
+            
+            alert(`¡Resultados descargados para ${studentName}!`);
+        }
+
+        function resetAll() {
+            if (confirm('¿Estás seguro de que quieres reiniciar todas las actividades?')) {
+                document.querySelectorAll('input[type="text"], textarea').forEach(input => {
+                    input.value = '';
+                    input.className = '';
+                });
+                document.getElementById('totalScore').textContent = '0';
+                document.getElementById('wordCount').textContent = '0';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Initialize all activities
+        createActivity1();
+        createActivity2();
+        createActivity3();
+        createActivity4();
+        createActivity5();
+    </script>
+</body>
+</html>

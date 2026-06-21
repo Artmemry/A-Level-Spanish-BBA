@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica de Concordancia de Adjetivos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .rules {
+            padding: 25px;
+            background: #fff5f7;
+            border-bottom: 3px solid #f093fb;
+        }
+        .rules h3 {
+            color: #f5576c;
+            margin-bottom: 15px;
+        }
+        .rule-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .rule-item {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid #f093fb;
+            font-size: 0.95em;
+        }
+        .rule-item strong {
+            color: #f5576c;
+        }
+        .explanation {
+            background: #fff9e6;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #ffc107;
+        }
+        .explanation h4 {
+            color: #f5576c;
+            margin-bottom: 10px;
+        }
+        .example {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 8px 0;
+            font-style: italic;
+        }
+        .exercise-section {
+            padding: 30px;
+        }
+        .exercise-title {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 25px 0 15px 0;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .score-display {
+            text-align: center;
+            font-size: 1.5em;
+            margin: 20px 0;
+            padding: 15px;
+            background: #fff5f7;
+            border-radius: 10px;
+            border: 2px solid #f093fb;
+        }
+        .score-display span {
+            color: #f5576c;
+            font-weight: bold;
+        }
+        .question {
+            margin: 15px 0;
+            padding: 18px;
+            background: #fafafa;
+            border-radius: 8px;
+            border-left: 4px solid #f5576c;
+        }
+        .question-text {
+            font-size: 1.05em;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        input[type="text"] {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            min-width: 150px;
+            transition: all 0.3s;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #f093fb;
+        }
+        input.correct {
+            border-color: #4caf50;
+            background: #e8f5e9;
+        }
+        input.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+        .hint {
+            font-size: 0.85em;
+            color: #666;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        .buttons {
+            text-align: center;
+            margin: 30px 0;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 12px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        .btn-check {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        .btn-check:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(240, 147, 251, 0.4);
+        }
+        .btn-download {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(17, 153, 142, 0.4);
+        }
+        .btn-reset {
+            background: #f44336;
+            color: white;
+        }
+        .btn-reset:hover {
+            background: #d32f2f;
+            transform: translateY(-2px);
+        }
+        .name-input {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .name-input input {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            width: 300px;
+        }
+        .feedback {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: #fff5f7;
+            border-radius: 10px;
+        }
+        .feedback h3 {
+            color: #f5576c;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .feedback-item {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .feedback-correct {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+        }
+        .feedback-incorrect {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+        }
+        @media (max-width: 768px) {
+            .rule-grid {
+                grid-template-columns: 1fr;
+            }
+            .buttons {
+                flex-direction: column;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Concordancia de Adjetivos</h1>
+            <p>Práctica Interactiva con Retroalimentación</p>
+        </div>
+
+        <div class="rules">
+            <h3>Reglas Esenciales</h3>
+            <div class="rule-grid">
+                <div class="rule-item">
+                    <strong>-o/-a/-os/-as:</strong> blanco, blanca, blancos, blancas
+                </div>
+                <div class="rule-item">
+                    <strong>-e (invariable):</strong> inteligente, inteligentes
+                </div>
+                <div class="rule-item">
+                    <strong>Consonante (mayoría):</strong> fácil, fáciles
+                </div>
+                <div class="rule-item">
+                    <strong>Nacionalidades en consonante:</strong> español, española, españoles, españolas
+                </div>
+                <div class="rule-item">
+                    <strong>-or/-ora:</strong> trabajador, trabajadora, trabajadores, trabajadoras
+                </div>
+                <div class="rule-item">
+                    <strong>-sta/-ta (invariable):</strong> idealista, idealistas
+                </div>
+            </div>
+        </div>
+
+        <div class="exercise-section">
+            <div class="score-display">
+                Puntuación: <span id="score">0</span>%
+            </div>
+
+            <!-- Exercise 1 -->
+            <div class="exercise-title">Ejercicio 1: Formas Femeninas</div>
+            <div class="explanation">
+                <h4>📚 Explicación:</h4>
+                <p>La mayoría de los adjetivos que terminan en <strong>-o</strong> cambian a <strong>-a</strong> en femenino. 
+                Los adjetivos que terminan en <strong>-or</strong> añaden <strong>-a</strong> en femenino. 
+                Los adjetivos de nacionalidad que terminan en consonante también añaden <strong>-a</strong>.</p>
+                <div class="example">✓ hermoso → hermosa | trabajador → trabajadora | alemán → alemana</div>
+                <p style="margin-top: 10px;">Pero los adjetivos que terminan en <strong>-e</strong>, <strong>-ista</strong>, o la mayoría de consonantes son invariables en género.</p>
+                <div class="example">✓ amable → amable | idealista → idealista | pobre → pobre</div>
+            </div>
+            <div id="ex1"></div>
+
+            <!-- Exercise 2 -->
+            <div class="exercise-title">Ejercicio 2: Concordancia con Sustantivos</div>
+            <div class="explanation">
+                <h4>📚 Explicación:</h4>
+                <p>Los adjetivos deben concordar en <strong>género</strong> (masculino/femenino) y <strong>número</strong> (singular/plural) con el sustantivo.</p>
+                <div class="example">
+                    ✓ un tema diferente (m. sing.) → unas ideas diferentes (f. pl.)<br>
+                    ✓ el estudiante inglés (m. sing.) → las estudiantes inglesas (f. pl.)
+                </div>
+                <p style="margin-top: 10px;"><strong>¡Atención!</strong> Algunos sustantivos femeninos usan "el" en singular: el agua sucia, el alma honesta.</p>
+            </div>
+            <div id="ex2"></div>
+
+            <!-- Exercise 3 -->
+            <div class="exercise-title">Ejercicio 3: Posición y Forma Especial</div>
+            <div class="explanation">
+                <h4>📚 Explicación:</h4>
+                <p>Los adjetivos <strong>bueno</strong>, <strong>malo</strong>, y <strong>grande</strong> tienen formas especiales:</p>
+                <div class="example">
+                    ✓ bueno → buen (antes de sustantivo m. sing.): un <strong>buen</strong> libro<br>
+                    ✓ malo → mal (antes de sustantivo m. sing.): un <strong>mal</strong> día<br>
+                    ✓ grande → gran (antes de cualquier sustantivo sing.): un <strong>gran</strong> hombre, una <strong>gran</strong> mujer
+                </div>
+                <p style="margin-top: 10px;"><strong>Importante:</strong> "Grande" antes del sustantivo = "great". Después del sustantivo = "large/big".</p>
+            </div>
+            <div id="ex3"></div>
+
+            <!-- Exercise 4 -->
+            <div class="exercise-title">Ejercicio 4: Nominalización ("el verde", "la grande")</div>
+            <div class="explanation">
+                <h4>📚 Explicación:</h4>
+                <p>En español, podemos omitir el sustantivo cuando está claro por el contexto. El artículo (el, la, los, las) permanece y actúa como pronombre.</p>
+                <div class="example">
+                    ✓ la camisa amarilla y <strong>la roja</strong> (= la camisa roja)<br>
+                    ✓ el auto viejo y <strong>el nuevo</strong> (= el auto nuevo)<br>
+                    ✓ la clase de biología y <strong>la de economía</strong> (= la clase de economía)
+                </div>
+                <p style="margin-top: 10px;">El adjetivo debe concordar con el sustantivo omitido.</p>
+            </div>
+            <div id="ex4"></div>
+
+            <!-- Exercise 5 -->
+            <div class="exercise-title">Ejercicio 5: Traducción Completa</div>
+            <div class="explanation">
+                <h4>📚 Explicación:</h4>
+                <p>Este ejercicio combina todas las reglas anteriores. Recuerda:</p>
+                <div class="example">
+                    1. Concordancia de género y número<br>
+                    2. Formas especiales (buen, mal, gran)<br>
+                    3. Nacionalidades en consonante añaden -a en femenino<br>
+                    4. Adjetivos en -e, -ista son invariables en género
+                </div>
+            </div>
+            <div id="ex5"></div>
+
+            <div class="name-input">
+                <label for="studentName"><strong>Tu nombre:</strong></label><br>
+                <input type="text" id="studentName" placeholder="Escribe tu nombre aquí">
+            </div>
+
+            <div class="buttons">
+                <button class="btn-check" onclick="checkAnswers()">Verificar Respuestas</button>
+                <button class="btn-download" onclick="downloadResults()">Descargar Resultados</button>
+                <button class="btn-reset" onclick="resetExercise()">Reiniciar</button>
+            </div>
+
+            <div class="feedback" id="feedback">
+                <h3>Resultados Detallados</h3>
+                <div id="feedbackContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const exercises = {
+            ex1: [
+                { q: "Es un país <strong>hermoso</strong>. Tiene regiones", a: "hermosas" },
+                { q: "Mi vecino es muy <strong>amable</strong>. Toda su familia es", a: "amable" },
+                { q: "Es un texto bastante <strong>pobre</strong>. Las ideas son muy", a: "pobres" },
+                { q: "Es muy <strong>trabajador</strong> y su esposa también es", a: "trabajadora" },
+                { q: "Los perros son <strong>idealistas</strong>. Las jirafas no son", a: "idealistas" },
+                { q: "Busco un libro <strong>alemán</strong>. Es una novela", a: "alemana" },
+                { q: "Es un problema <strong>serio</strong>. Tiene consecuencias", a: "serias" },
+                { q: "Es un <strong>buen</strong> amigo. También hace", a: "buenas", hint: "fiestas" }
+            ],
+            ex2: [
+                { q: "un tema ___ (different)", a: "diferente" },
+                { q: "la capital ___ (English)", a: "inglesa" },
+                { q: "los programas ___ (illegal)", a: "ilegales" },
+                { q: "una cuenta ___ (excessive)", a: "excesiva" },
+                { q: "un individuo ___ (peculiar)", a: "peculiar" },
+                { q: "las venezolanas ___ (brilliant)", a: "brillantes" },
+                { q: "la gente ___ (fair)", a: "justa" },
+                { q: "los indígenas ___ (honest)", a: "honestos" },
+                { q: "el agua ___ (dirty)", a: "sucia" },
+                { q: "los problemas ___ (individual)", a: "individuales" }
+            ],
+            ex3: [
+                { q: "En realidad es un gran ___ (poema), aunque no muy extenso.", a: ["poema"] },
+                { q: "Todos los ___ mexicanos deben estar bien informados. (niños)", a: ["niños"] },
+                { q: "Tiene muchas ___ interesantes. (ideas)", a: ["ideas"] },
+                { q: "Prefiero una ___ cara pero eficiente. (casa)", a: ["casa"] },
+                { q: "La ___ uruguaya es rica. (comida)", a: ["comida"] },
+                { q: "Es un ___ amigo. Hace ___ fiestas. (buen/buenas)", a: ["buen", "buenas"] },
+                { q: "Tiene un ___ día hoy. Es un ___ momento. (mal/mal)", a: ["mal", "mal"] },
+                { q: "Conocí a una ___ mujer. Fue una ___ experiencia. (gran/gran)", a: ["gran", "gran"] }
+            ],
+            ex4: [
+                { q: "Necesito la camisa amarill___, no ___ roj___.", a: ["a", "la", "a"] },
+                { q: "Prefiero ___ clase de biología porque es interesant___, no ___ de economía.", a: ["la", "e", "la"] },
+                { q: "___ mano de Pedro es suav___, pero ___ de María es más aristocrátic___.", a: ["La", "e", "la", "a"] },
+                { q: "Uso ___ auto viej___ para trabajar y ___ nuev___ para viajes.", a: ["el", "o", "el", "o"] },
+                { q: "___ policía de Nueva York es estric___, pero ___ de Boston no lo es.", a: ["La", "ta", "la"] }
+            ],
+            ex5: [
+                { q: "The Spanish students and the German ones", a: "Los estudiantes españoles y los alemanes" },
+                { q: "An honest woman and some honest men", a: "Una mujer honesta y unos hombres honestos", alt: "Una mujer honrada y unos hombres honrados" },
+                { q: "The great cities and the small ones", a: "Las grandes ciudades y las pequeñas" },
+                { q: "A difficult problem and an easy one", a: "Un problema difícil y uno fácil" },
+                { q: "The English girls are intelligent", a: "Las chicas inglesas son inteligentes", alt: "Las niñas inglesas son inteligentes" }
+            ]
+        };
+
+        function createExercises() {
+            // Exercise 1
+            let html1 = '';
+            exercises.ex1.forEach((item, idx) => {
+                html1 += `
+                    <div class="question">
+                        <div class="question-text">${idx + 1}. ${item.q} <input type="text" id="ex1_${idx}" data-answer="${item.a}"></div>
+                        ${item.hint ? `<div class="hint">(${item.hint})</div>` : ''}
+                    </div>
+                `;
+            });
+            document.getElementById('ex1').innerHTML = html1;
+
+            // Exercise 2
+            let html2 = '';
+            exercises.ex2.forEach((item, idx) => {
+                html2 += `
+                    <div class="question">
+                        <div class="question-text">${idx + 1}. ${item.q} <input type="text" id="ex2_${idx}" data-answer="${item.a}"></div>
+                    </div>
+                `;
+            });
+            document.getElementById('ex2').innerHTML = html2;
+
+            // Exercise 3
+            let html3 = '';
+            exercises.ex3.forEach((item, idx) => {
+                let sentence = item.q;
+                let answerIndex = 0;
+                sentence = sentence.replace(/___/g, () => {
+                    const inputId = `ex3_${idx}_${answerIndex}`;
+                    const answer = item.a[answerIndex];
+                    answerIndex++;
+                    return `<input type="text" id="${inputId}" data-answer="${answer}" style="width: 120px;">`;
+                });
+                html3 += `
+                    <div class="question">
+                        <div class="question-text">${idx + 1}. ${sentence}</div>
+                    </div>
+                `;
+            });
+            document.getElementById('ex3').innerHTML = html3;
+
+            // Exercise 4
+            let html4 = '';
+            exercises.ex4.forEach((item, idx) => {
+                let sentence = item.q;
+                let answerIndex = 0;
+                sentence = sentence.replace(/___/g, () => {
+                    const inputId = `ex4_${idx}_${answerIndex}`;
+                    const answer = item.a[answerIndex];
+                    answerIndex++;
+                    return `<input type="text" id="${inputId}" data-answer="${answer}" style="width: 60px;">`;
+                });
+                html4 += `
+                    <div class="question">
+                        <div class="question-text">${idx + 1}. ${sentence}</div>
+                    </div>
+                `;
+            });
+            document.getElementById('ex4').innerHTML = html4;
+
+            // Exercise 5
+            let html5 = '';
+            exercises.ex5.forEach((item, idx) => {
+                html5 += `
+                    <div class="question">
+                        <div class="question-text">${idx + 1}. ${item.q}</div>
+                        <input type="text" id="ex5_${idx}" data-answer="${item.a}" ${item.alt ? `data-alt="${item.alt}"` : ''} style="width: 100%; margin-top: 5px;">
+                    </div>
+                `;
+            });
+            document.getElementById('ex5').innerHTML = html5;
+        }
+
+        function normalizeAnswer(str) {
+            return str.toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .trim()
+                .replace(/\s+/g, ' ');
+        }
+
+        function checkAnswers() {
+            let correct = 0;
+            let total = 0;
+            let feedbackHTML = '';
+
+            const allInputs = document.querySelectorAll('input[type="text"]:not(#studentName)');
+            
+            allInputs.forEach(input => {
+                if (input.dataset.answer) {
+                    total++;
+                    const userAnswer = input.value.trim();
+                    const correctAnswer = input.dataset.answer;
+                    const altAnswer = input.dataset.alt;
+                    
+                    const isCorrect = normalizeAnswer(userAnswer) === normalizeAnswer(correctAnswer) ||
+                                    (altAnswer && normalizeAnswer(userAnswer) === normalizeAnswer(altAnswer));
+                    
+                    if (isCorrect) {
+                        correct++;
+                        input.className = 'correct';
+                    } else {
+                        input.className = 'incorrect';
+                    }
+                }
+            });
+
+            // Generate detailed feedback
+            ['ex1', 'ex2', 'ex3', 'ex4', 'ex5'].forEach((exId, exNum) => {
+                feedbackHTML += `<h4 style="margin-top: 20px; color: #f5576c;">Ejercicio ${exNum + 1}</h4>`;
+                
+                if (exId === 'ex3' || exId === 'ex4') {
+                    // Handle multi-blank exercises
+                    exercises[exId].forEach((item, idx) => {
+                        let allCorrect = true;
+                        let userAnswers = [];
+                        let correctAnswers = [];
+                        
+                        item.a.forEach((ans, subIdx) => {
+                            const input = document.getElementById(`${exId}_${idx}_${subIdx}`);
+                            if (input) {
+                                const userAns = input.value || '(vacío)';
+                                userAnswers.push(userAns);
+                                correctAnswers.push(ans);
+                                if (normalizeAnswer(userAns) !== normalizeAnswer(ans)) {
+                                    allCorrect = false;
+                                }
+                            }
+                        });
+                        
+                        const feedbackClass = allCorrect ? 'feedback-correct' : 'feedback-incorrect';
+                        const icon = allCorrect ? '✓' : '✗';
+                        
+                        feedbackHTML += `
+                            <div class="feedback-item ${feedbackClass}">
+                                <strong>${icon} ${idx + 1}.</strong> ${item.q}<br>
+                                Tus respuestas: ${userAnswers.join(', ')}<br>
+                                Respuestas correctas: ${correctAnswers.join(', ')}
+                            </div>
+                        `;
+                    });
+                } else {
+                    exercises[exId].forEach((item, idx) => {
+                        const input = document.getElementById(`${exId}_${idx}`);
+                        if (input) {
+                            const userAnswer = input.value || '(vacío)';
+                            const correctAnswer = input.dataset.answer;
+                            const altAnswer = input.dataset.alt;
+                            const isCorrect = normalizeAnswer(userAnswer) === normalizeAnswer(correctAnswer) ||
+                                            (altAnswer && normalizeAnswer(userAnswer) === normalizeAnswer(altAnswer));
+                            
+                            const feedbackClass = isCorrect ? 'feedback-correct' : 'feedback-incorrect';
+                            const icon = isCorrect ? '✓' : '✗';
+                            
+                            feedbackHTML += `
+                                <div class="feedback-item ${feedbackClass}">
+                                    <strong>${icon} ${idx + 1}.</strong> ${item.q}<br>
+                                    Tu respuesta: <strong>${userAnswer}</strong><br>
+                                    Respuesta correcta: <strong>${correctAnswer}</strong>
+                                    ${altAnswer ? ` <em>(también: ${altAnswer})</em>` : ''}
+                                </div>
+                            `;
+                        }
+                    });
+                }
+            });
+
+            const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+            document.getElementById('score').textContent = percentage;
+            document.getElementById('feedbackContent').innerHTML = `
+                <div style="text-align: center; font-size: 1.3em; margin-bottom: 20px; padding: 15px; background: white; border-radius: 10px; border: 2px solid #f093fb;">
+                    <strong>Puntuación Final: ${correct}/${total} (${percentage}%)</strong>
+                </div>
+                ${feedbackHTML}
+            `;
+            
+            document.getElementById('feedback').style.display = 'block';
+            document.getElementById('feedback').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function downloadResults() {
+            const studentName = document.getElementById('studentName').value.trim() || 'Estudiante';
+            let text = `CONCORDANCIA DE ADJETIVOS - RESULTADOS\n`;
+            text += `========================================\n\n`;
+            text += `Estudiante: ${studentName}\n`;
+            text += `Fecha: ${new Date().toLocaleString('es-ES')}\n\n`;
+            
+            let correct = 0;
+            let total = 0;
+
+            ['ex1', 'ex2', 'ex3', 'ex4', 'ex5'].forEach((exId, exNum) => {
+                text += `\nEJERCICIO ${exNum + 1}:\n${'='.repeat(40)}\n`;
+                
+                if (exId === 'ex3' || exId === 'ex4') {
+                    // Handle multi-blank exercises
+                    exercises[exId].forEach((item, idx) => {
+                        text += `\n${idx + 1}. ${item.q}\n`;
+                        item.a.forEach((ans, subIdx) => {
+                            const input = document.getElementById(`${exId}_${idx}_${subIdx}`);
+                            total++;
+                            if (input) {
+                                const userAns = input.value || '(vacío)';
+                                const isCorrect = normalizeAnswer(userAns) === normalizeAnswer(ans);
+                                if (isCorrect) correct++;
+                                text += `  Espacio ${subIdx + 1}: ${userAns} ${isCorrect ? '✓' : '✗ (correcto: ' + ans + ')'}\n`;
+                            }
+                        });
+                    });
+                } else {
+                    exercises[exId].forEach((item, idx) => {
+                        const input = document.getElementById(`${exId}_${idx}`);
+                        total++;
+                        if (input) {
+                            const userAnswer = input.value || '(vacío)';
+                            const correctAnswer = input.dataset.answer;
+                            const altAnswer = input.dataset.alt;
+                            const isCorrect = normalizeAnswer(userAnswer) === normalizeAnswer(correctAnswer) ||
+                                            (altAnswer && normalizeAnswer(userAnswer) === normalizeAnswer(altAnswer));
+                            if (isCorrect) correct++;
+                            
+                            text += `\n${idx + 1}. ${item.q}\n`;
+                            text += `   Tu respuesta: ${userAnswer}\n`;
+                            text += `   Respuesta correcta: ${correctAnswer}`;
+                            if (altAnswer) text += ` (también: ${altAnswer})`;
+                            text += `\n   ${isCorrect ? '✓ CORRECTO' : '✗ INCORRECTO'}\n`;
+                        }
+                    });
+                }
+            });
+            
+            const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+            text += `\n\n========================================\n`;
+            text += `PUNTUACIÓN FINAL: ${correct}/${total} (${percentage}%)\n`;
+            text += `========================================\n`;
+            
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            const safeName = studentName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            const timestamp = new Date().getTime();
+            link.download = `adjetivos_${safeName}_${timestamp}.txt`;
+            
+            document.body.appendChild(link);
+            link.click();
+            
+            setTimeout(() => {
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }, 100);
+            
+            alert(`¡Resultados descargados para ${studentName}!\nRespuestas correctas: ${correct}/${total} (${percentage}%)`);
+        }
+
+        function resetExercise() {
+            const allInputs = document.querySelectorAll('input[type="text"]');
+            allInputs.forEach(input => {
+                input.value = '';
+                input.className = '';
+            });
+            document.getElementById('score').textContent = '0';
+            document.getElementById('feedback').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        createExercises();
+    </script>
+</body>
+</html>

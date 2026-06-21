@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Volver – Quote Trainer (Lenient Mode)</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #111827;
+      color: #e5e7eb;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 3rem;
+    }
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 0.25rem;
+    }
+    h2 {
+      font-size: 1.2rem;
+      margin: 0.5rem 0;
+    }
+    .subtitle {
+      font-size: 0.9rem;
+      color: #9ca3af;
+      margin-bottom: 1rem;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+      gap: 1rem;
+    }
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+    .card {
+      background: #020617;
+      border-radius: 0.75rem;
+      border: 1px solid #1f2937;
+      padding: 1rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.75rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      background: rgba(59,130,246,0.1);
+      color: #93c5fd;
+      border: 1px solid rgba(59,130,246,0.4);
+    }
+    .small-muted {
+      font-size: 0.75rem;
+      color: #9ca3af;
+    }
+    .controls-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    select, input, textarea, button {
+      font-family: inherit;
+    }
+    select, input {
+      background: #020617;
+      color: #e5e7eb;
+      border-radius: 0.5rem;
+      border: 1px solid #374151;
+      padding: 0.3rem 0.5rem;
+      font-size: 0.85rem;
+    }
+    input::placeholder {
+      color: #6b7280;
+    }
+    textarea {
+      width: 100%;
+      min-height: 130px;
+      background: #020617;
+      color: #e5e7eb;
+      border-radius: 0.5rem;
+      border: 1px solid #374151;
+      padding: 0.5rem;
+      font-size: 0.9rem;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+    button {
+      border-radius: 999px;
+      border: 1px solid #374151;
+      background: #111827;
+      color: #e5e7eb;
+      font-size: 0.8rem;
+      padding: 0.3rem 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    button.primary {
+      background: linear-gradient(to right, #dc2626, #b91c1c);
+      border-color: #991b1b;
+      font-weight: 600;
+    }
+    button.green {
+      background: linear-gradient(to right, #16a34a, #15803d);
+      border-color: #15803d;
+    }
+    button.yellow {
+      background: linear-gradient(to right, #eab308, #ca8a04);
+      border-color: #ca8a04;
+      color: #111827;
+    }
+    button.gray-soft {
+      background: #020617;
+    }
+    button.outline {
+      background: transparent;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+    .pill-toggle {
+      display: inline-flex;
+      border-radius: 999px;
+      border: 1px solid #374151;
+      overflow: hidden;
+      font-size: 0.75rem;
+    }
+    .pill-toggle button {
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      padding: 0.25rem 0.75rem;
+    }
+    .pill-toggle button.active {
+      background: #111827;
+      font-weight: 600;
+    }
+    .stats-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      color: #9ca3af;
+      margin-top: 0.25rem;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      background: #020617;
+      border: 1px solid #374151;
+    }
+    .pill.green {
+      border-color: #16a34a;
+      color: #bbf7d0;
+    }
+    .pill.red {
+      border-color: #dc2626;
+      color: #fecaca;
+    }
+    .pill.blue {
+      border-color: #3b82f6;
+      color: #bfdbfe;
+    }
+    .pill.yellow {
+      border-color: #facc15;
+      color: #fef9c3;
+    }
+    .quote-list {
+      max-height: 320px;
+      overflow-y: auto;
+      border-radius: 0.5rem;
+      border: 1px solid #111827;
+      background: radial-gradient(circle at top left, rgba(59,130,246,0.1), #020617 45%);
+      padding: 0.35rem;
+    }
+    .quote-item {
+      padding: 0.4rem 0.45rem;
+      border-radius: 0.4rem;
+      cursor: pointer;
+      margin-bottom: 0.2rem;
+      border: 1px solid transparent;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .quote-item:hover {
+      background: #030712;
+      border-color: #1f2937;
+    }
+    .quote-item.active {
+      border-color: #f97316;
+      background: radial-gradient(circle at top left, rgba(249,115,22,0.25), #030712 60%);
+    }
+    .quote-main-line {
+      font-size: 0.82rem;
+      color: #e5e7eb;
+    }
+    .quote-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.7rem;
+      color: #9ca3af;
+    }
+    .theme-tag {
+      padding: 0.1rem 0.4rem;
+      border-radius: 999px;
+      background: rgba(107,114,128,0.2);
+    }
+    .status-dots {
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.15rem;
+    }
+    .status-dots span {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 999px;
+      display: inline-block;
+    }
+    .dot-mastered {
+      background: #16a34a;
+    }
+    .dot-practiced {
+      background: #f59e0b;
+    }
+    .accent-keyboard {
+      position: sticky;
+      bottom: 0.35rem;
+      margin-top: 0.4rem;
+      background: #020617;
+      border-radius: 999px;
+      border: 1px solid #374151;
+      padding: 0.15rem 0.4rem;
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 0.15rem;
+      align-items: center;
+    }
+    .accent-keyboard span {
+      font-size: 0.7rem;
+      color: #9ca3af;
+      margin-right: 0.35rem;
+      white-space: nowrap;
+    }
+    .accent-btn {
+      border-radius: 999px;
+      border: 1px solid #374151;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 0.8rem;
+      padding: 0.15rem 0.45rem;
+      cursor: pointer;
+    }
+    .accent-btn:hover {
+      background: #111827;
+    }
+    .essay-box {
+      margin-top: 0.6rem;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      background: rgba(56,189,248,0.08);
+      border: 1px dashed rgba(56,189,248,0.5);
+      font-size: 0.78rem;
+      color: #e0f2fe;
+    }
+    .essay-box h3 {
+      font-size: 0.8rem;
+      margin: 0 0 0.3rem 0;
+    }
+    .essay-box p {
+      margin: 0;
+    }
+    .tab-note {
+      font-size: 0.75rem;
+      color: #9ca3af;
+      margin-bottom: 0.5rem;
+    }
+    .context-text {
+      font-size: 0.8rem;
+      color: #e5e7eb;
+      margin-bottom: 0.3rem;
+    }
+    .context-text span {
+      color: #9ca3af;
+    }
+    .download-block {
+      margin-top: 0.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .danger {
+      color: #fca5a5;
+    }
+    .feedback-box {
+      margin-top: 0.75rem;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.85rem;
+      display: none;
+    }
+    .feedback-box.correct {
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      color: #86efac;
+    }
+    .feedback-box.incorrect {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+    }
+    .feedback-box.partial {
+      background: rgba(234, 179, 8, 0.15);
+      border: 1px solid rgba(234, 179, 8, 0.4);
+      color: #fde047;
+    }
+    .feedback-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .match-details {
+      font-size: 0.8rem;
+      color: #cbd5e1;
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Volver – Citas clave (Modo Flexible)</h1>
+  <p class="subtitle">
+    Memorise key quotes for A‑Level essays / Memoriza citas clave para ensayos. <strong>✓ Acepta versiones parciales y aproximadas</strong>
+  </p>
+
+  <div class="layout">
+    <!-- LEFT: Practice -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h2>Práctica de citas (Modo Flexible)</h2>
+          <div class="small-muted">
+            Acepta versiones aproximadas y fragmentarias. Lo importante es captar la idea clave.
+          </div>
+        </div>
+        <div class="badge">
+          ✍️ Practice mode
+        </div>
+      </div>
+
+      <div class="controls-row">
+        <label style="font-size:0.8rem;display:flex;align-items:center;gap:0.35rem;">
+          Tema:
+          <select id="themeSelect">
+            <option value="all">Todos los temas</option>
+          </select>
+        </label>
+
+        <div style="flex:1;min-width:160px;display:flex;align-items:center;gap:0.3rem;">
+          <input id="searchPractice" type="text" placeholder="Filtrar por palabra clave / tema..." style="flex:1;" />
+        </div>
+
+        <button id="randomBtn" class="gray-soft" type="button" title="Cita aleatoria">
+          🔀 Aleatoria
+        </button>
+      </div>
+
+      <div class="stats-row">
+        <span class="pill blue">Intentos: <span id="statsAttempts">0</span></span>
+        <span class="pill green">Aciertos: <span id="statsCorrect">0</span></span>
+        <span class="pill yellow">Precisión: <span id="statsAccuracy">0</span>%</span>
+        <span class="pill">Practicadas: <span id="statsPracticed">0</span></span>
+        <span class="pill">Dominadas: <span id="statsMastered">0</span></span>
+      </div>
+
+      <div style="margin-top:0.75rem;">
+        <div style="font-size:0.8rem;color:#9ca3af;margin-bottom:0.25rem;">
+          1. Selecciona una cita de la lista o pulsa «Aleatoria».
+        </div>
+        <div id="practiceInfo" style="font-size:0.8rem;color:#e5e7eb;margin-bottom:0.35rem;">
+          Ninguna cita seleccionada. Escoge una para empezar.
+        </div>
+
+        <textarea id="answerBox" placeholder="Escribe aquí la cita (versión exacta o aproximada)..."></textarea>
+
+        <div class="accent-keyboard">
+          <span>Teclado de acentos:</span>
+          <button type="button" class="accent-btn" data-char="á">á</button>
+          <button type="button" class="accent-btn" data-char="é">é</button>
+          <button type="button" class="accent-btn" data-char="í">í</button>
+          <button type="button" class="accent-btn" data-char="ó">ó</button>
+          <button type="button" class="accent-btn" data-char="ú">ú</button>
+          <button type="button" class="accent-btn" data-char="ñ">ñ</button>
+          <button type="button" class="accent-btn" data-char="ü">ü</button>
+          <button type="button" class="accent-btn" data-char="¿">¿</button>
+          <button type="button" class="accent-btn" data-char="¡">¡</button>
+          <button type="button" class="accent-btn" data-char="«">«</button>
+          <button type="button" class="accent-btn" data-char="»">»</button>
+          <button type="button" class="accent-btn" data-char="—">—</button>
+        </div>
+
+        <div class="controls-row" style="margin-top:0.6rem;">
+          <button id="checkBtn" class="primary" type="button">✅ Comprobar / Check</button>
+          <button id="hintBtn" class="yellow" type="button">💡 Pista</button>
+          <button id="revealBtn" class="green" type="button">👁️ Revelar</button>
+          <button id="masteredBtn" class="gray-soft" type="button">⭐ Marcar dominada</button>
+          <button id="resetBtn" class="outline danger" type="button">♻️ Reiniciar progreso</button>
+        </div>
+      </div>
+
+      <div id="feedbackBox" class="feedback-box"></div>
+
+      <div id="essayBox" class="essay-box" style="display:none;">
+        <h3>Uso en ensayo / Essay use</h3>
+        <p id="essayText"></p>
+      </div>
+    </div>
+
+    <!-- RIGHT: Quote browser + downloads -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h2>Citas y contexto</h2>
+          <div class="small-muted">
+            Explora todas las citas, por tema, con contexto y sugerencias para ensayos.
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-note">
+        Vista filtrada por tema / búsqueda. Use el buscador para todas las citas.
+      </div>
+
+      <div style="display:flex;gap:0.4rem;margin-bottom:0.4rem;">
+        <input id="searchAll" type="text" placeholder="Buscar en todas las citas (concepto, contexto, tema)..." style="flex:1;" />
+      </div>
+
+      <div id="quoteList" class="quote-list"></div>
+
+      <div id="contextBox" style="margin-top:0.6rem;display:none;">
+        <div class="context-text" id="contextSpanish"></div>
+        <div class="context-text" id="contextDetails"></div>
+      </div>
+
+      <div class="download-block">
+        <button id="downloadMastered" type="button" class="gray-soft">
+          📥 Descargar citas dominadas (.txt)
+        </button>
+        <button id="downloadAll" type="button" class="gray-soft">
+          📥 Descargar todas las citas (.txt)
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // THEMES: cover all theme keys used in your QUOTES
+  const THEMES = [
+    { key: "secreto_familia", label: "Secretos / familia", labelEn: "Secrets / family", icon: "🔒" },
+    { key: "secreto-familia-volver", label: "Secretos / Volver", labelEn: "Secrets / Volver", icon: "🗝️" },
+    { key: "secretos_familia_trauma", label: "Secretos / trauma", labelEn: "Family secrets / trauma", icon: "💔" },
+    { key: "secretos_familia_humour", label: "Secretos / humor", labelEn: "Family secrets / humour", icon: "😂" },
+    { key: "secreto_familia_La Mancha", label: "Secretos / La Mancha", labelEn: "Secrets / La Mancha", icon: "🌾" },
+    { key: "secreto_familia_males", label: "Secretos / figuras masculinas", labelEn: "Secrets / male figures", icon: "🚫" },
+    { key: "secreto_familia_técnica narrativa_presagio", label: "Secretos / presagio", labelEn: "Secrets / foreshadowing", icon: "🔮" },
+
+    { key: "pueblo_supersticion", label: "Pueblo / superstición", labelEn: "Village / superstition", icon: "🏘️" },
+    { key: "pueblo_supersticion_humor", label: "Pueblo / superstición / humor", labelEn: "Village / superstition / humour", icon: "😄" },
+    { key: "pueblo_humor", label: "Pueblo / humor", labelEn: "Village / humour", icon: "🤣" },
+
+    { key: "maternidad_fantasma", label: "Madre / fantasma", labelEn: "Mother / ghost", icon: "👻" },
+    { key: "maternidad_fantasma_superstición", label: "Madre / fantasma / superstición", labelEn: "Mother / ghost / superstition", icon: "👻" },
+    { key: "maternidad_fantasma_La Mancha", label: "Madre / La Mancha", labelEn: "Mother / La Mancha", icon: "🌾" },
+    { key: "maternidad_fantasma_reconciliación", label: "Madre / reconciliación", labelEn: "Mother / reconciliation", icon: "🤝" },
+    { key: "maternidad_fantasma_melodrama/tragicomedia", label: "Madre / melodrama", labelEn: "Mother / tragicomedy", icon: "🎭" },
+
+    { key: "tele_agustina", label: "Telebasura / Agustina", labelEn: "Trash TV / Agustina", icon: "📺" },
+
+    { key: "comunidad_mujeres", label: "Comunidad de mujeres", labelEn: "Women's community", icon: "👭" },
+    { key: "Comunidad de mujeres_muerte", label: "Comunidad / muerte", labelEn: "Community / death", icon: "💀" },
+    { key: "comunidad_mujeres_humor", label: "Comunidad / humor", labelEn: "Community / humour", icon: "😄" },
+    { key: "humor_cotidiano", label: "Humor / cotidiano", labelEn: "Everyday humour", icon: "😄" },
+    { key: "humor_cotidiano_mujeres fuertes", label: "Humor / mujeres fuertes", labelEn: "Humour / strong women", icon: "💪" },
+    { key: "humor_cotidiano_comunidad mujeres", label: "Humor / comunidad de mujeres", labelEn: "Humour / women's community", icon: "👭" },
+
+    { key: "mentiras_humor_mujeres fuertes", label: "Mentiras / humor / mujeres fuertes", labelEn: "Lies / humour / strong women", icon: "🎭" },
+
+    { key: "creencias_La Mancha", label: "Creencias / La Mancha", labelEn: "Beliefs / La Mancha", icon: "🌬️" },
+
+    { key: "cancion_volver", label: "Canción «Volver»", labelEn: "Song 'Volver'", icon: "🎵" }
+  ];
+
+  // QUOTES: your original quotes - UNCHANGED
+  const QUOTES = [
+    { id:"Q1", theme:"secreto_familia", spanish:"Recuerda que fui yo quien lo mató, y que tú no lo viste porque estabas en la calle. Es muy importante que recuerdes eso", context:"Raimunda tells Paula to repeat this version: she (Raimunda) killed Paco and Paula did not see anything.", essayUse:"Use when discussing family secrets, protection, and how characters construct alternative narratives." },
+    { id:"Q2", theme:"secreto_familia", spanish:"La policía pregunta mucho y los trapos sucios debemos lavarlos entre nosotras", context:"Agustina insists family problems must be solved 'between us', not with the police.", essayUse:"Key quote for female solidarity and keeping problems within the family unit." },
+    { id:"Q3", theme:"secreto-familia-volver", spanish:"¿Hay una cosa que yo debería saber y que no sé? ¡Mogollón!", context:"Raimundo asks Sole about whether she missed some of the things which have been going on.", essayUse:"Mogollón means \"a lot\"/loads/a great deal. Raimunda and Sole are starting to talk." },
+    { id:"Q4", theme:"pueblo_supersticion", spanish:"¿Mamá, es verdad que Agustina viene a arreglar su propia tumba? Raimunda: Sí aquí es costumbre.", context:"Conversation about village customs: people look after their own graves in advance.", essayUse:"Illustrates rural traditions and attitudes toward death in Spanish villages." },
+    { id:"Q5", theme:"secretos_familia_trauma", spanish:"Estaba ciega con tu padre. Y se aprovechó y me puso los cuernos hasta el último día de su vida.", context:"Irene admits she was 'blind' about her husband and he cheated on her until he died.", essayUse:"Reveals betrayal and the Irene's regret blindness regarding male infidelity." },
+    { id:"Q6", theme:"maternidad_fantasma", spanish:"Esta casa sigue oliéndome a mamá", context:"The house still 'smells of mum'; memory is linked to physical sensations.", essayUse:"Demonstrates how memory and maternal presence are evoked through sensory details." },
+    { id:"Q7", theme:"maternidad_fantasma", spanish:"Mi madre ha muerto. De ser, serás su fantasma o su espíritu", context:"Sole tells her mother she can only be a ghost or spirit, because the real mother is dead.", essayUse:"Key moment of confrontation between reality and supernatural elements." },
+    { id:"Q8", theme:"maternidad_fantasma", spanish:"Mamá, en el pueblo creen que eres un fantasma.", context:"Raimunda explains that in the village everybody thinks Irene is literally a ghost.", essayUse:"Shows how superstition shapes village perception and gossip." },
+    { id:"Q9", theme:"maternidad_fantasma_superstición", spanish:"Dicen que ha vuelto para cuidar de tu tía Paula.", context:"Rumour in the village: Irene has returned from the dead to look after Aunt Paula.", essayUse:"Family duties beyond the grave, topic of rural superstition" },
+    { id:"Q10", theme:"secreto_familia_La Mancha", spanish:"¿Quién crees que hacía los barquillos y los ponía en un tupperware, uno para ti y otro para mi? ¿Quién crees que se trajo las muñecas y las cosas de valor de la tía?", context:"Sole tells Raimunda that Irene secretly prepared food and rescued valuable objects while hiding.", essayUse:"Women's community, superstition, secrets are being revealed." },
+    { id:"Q11", theme:"secreto_familia", spanish:"Tengo miedo del encuentro con el pasado que vuelve a enfrentarse con mi vida", context:"Raimunda and her traumatic past.", essayUse:"Central theme of 'Volver' - the return of the past and facing trauma." },
+    { id:"Q12", theme:"secretos_familia_humour", spanish:"Cada vez que me fumo un porro me acuerdo de ella.", context:"Every time Agustina smokes a joint she remembers her missing mother.", essayUse:"Links memory with daily rituals; Joke about the hippie mother." },
+    { id:"Q13", theme:"secreto_familia_males", spanish:"Tu padre había nacido para hacer sufrir a las mujeres que le querían", context:"Irene describes the father as someone 'born to make women suffer'.", essayUse:"Direct condemnation of toxic masculinity and machismo in Spanish society." },
+    { id:"Q14", theme:"pueblo_supersticion_humor", spanish:"Eso es lo bueno de estos pueblos tan supersticiosos. Para mí ha sido más fácil...", context:"Irene says superstition helped her hide — people accept strange things more easily.", essayUse:"Superstition as as protection; village mentality enables Irene's secret." },
+    { id:"Q15", theme:"tele_agustina", spanish:"Es que la telebasura tiene algo, ¿eh? Yo, cuando me siento delante del televisor, no puedo dejarlo. Me voy sintiendo cada vez peor, pero no me puedo levantar.", context:"Self-critical comment on 'trash TV': addictive but makes you feel worse and worse.", essayUse:"Almodovar's commentary on reality TV's addictive nature despite its negative emotional impact." },
+    { id:"Q16", theme:"secreto_familia_males", spanish:"Mamá, tú no sabes lo que es haber matado a tu padre. — Paco no era tu padre.", context:"Dialogue where Raimunda reveals to Paula that Paco was not her real father.", essayUse:"Revelation of incest and family trauma. Key moment for discussing abuse." },
+    { id:"Q17", theme:"maternidad_fantasma", spanish:"¡Habla de nuestra madre como si siguiera viva!", context:"Someone complains that Irene is spoken about as if she were still alive.", essayUse:"Blurred boundaries between life and death; mother's presence transcends mortality. Tía Paula makes sense while not making sense." },
+    { id:"Q18", theme:"maternidad_fantasma", spanish:"Es que para ella no ha muerto y no se hace a la idea", context:"Comment explaining that for Paula, her sister has not really 'died' yet.", essayUse:"Sole and Raimunda, as well as the spectator not aware of Irene's whereabouts." },
+    { id:"Q19", theme:"maternidad_fantasma_reconciliación", spanish:"¿Pero no estabas muerta? — He vuelto para pedirte perdón. Yo no sabía nada, hija mía. Ni me lo podía imaginar", context:"Raimunda and Irene meet; Irene returns 'to ask for forgiveness'.", essayUse:"Key reconciliation scene. Mother returns to heal trauma and seek forgiveness." },
+    { id:"Q20", theme:"tele_agustina", spanish:"Agustina tiene cáncer, tienes cáncer Agustina, ¡venga un fuerte aplauso para Agustina!", context:"Cruel moment on the TV show where the presenter announces Agustina's cancer to get applause.", essayUse:"Exploitation of human suffering for entertainment. Contrast with genuine community." },
+    { id:"Q21", theme:"tele_agustina", spanish:"pero no debes estar nerviosa que estás entre amigos", context:"Fake reassurance from the TV presenter — she is clearly not among real friends.", essayUse:"False community of TV versus genuine female solidarity shown elsewhere in film. Almodóvar se burla o crítica de la telerealidad" },
+    { id:"Q22", theme:"secreto_familia_técnica narrativa_presagio", spanish:"No lo puede ocultar tiene los ojos de tu padre.", context:"Someone comments that a character cannot hide who her father is, because of her eyes.", essayUse:"Agustina is talking about Paco and does not realise that she is talking about physical traces of trauma and abuse that cannot be hidden. Spectators at this point not aware of the trauma either. " },
+    { id:"Q23", theme:"maternidad_fantasma_La Mancha", spanish:"Mira los barquillos. Igualicos que los de mamá, coged.", context:"Food (barquillos) is used to evoke the memory of the mother.", essayUse:"Food as vehicle for memory and maternal love; domestic details carry emotional weight, local language, La Mancha food" },
+    { id:"Q24", theme:"pueblo_humor", spanish:"¿Ves qué moderna era? La única hippie del pueblo. Mira las joyas de plástico.", context:"Comment about Agustina's mother being 'modern' and different from the rest of the village.", essayUse:"Contrast between traditional village values and individual modernity." },
+    { id:"Q25", theme:"humor_cotidiano_mujeres fuertes", spanish:"Mañana os voy a poner de comida que os vais a caer de culo.", context:"Humorous promise about serving such good food that guests will 'fall on their arse'.", essayUse:"Almodóvar's signature crude humor. Working-class speech patterns." },
+    { id:"Q26", theme:"humor_cotidiano_mujeres fuertes", spanish:"¿Sigues teniendo la peluquería ilegal? — Claro, de eso vivo.", context:"Joke about earning a living with an illegal hairdressing business.", essayUse:"Surviving in the informal economy in Madrid, female entrepreneurship." },
+    { id:"Q27", theme:"humor_cotidiano", spanish:"¡Huy, qué olor a pedo! ¡Si es como si acabara de estar mamá peyéndose a culo lleno!", context:"Crude but affectionate memory of the mother — typical Almodóvar humour.", essayUse:"Scatological humor as sign of intimacy. Memory through maternal smells." },
+    { id:"Q28", theme:"humor_cotidiano_comunidad mujeres", spanish:"Oye, con tu escote y mis mojitos podemos hacernos de oro, Mundita.", context:"Plan to make money with sex appeal and cocktails; shows entrepreneurial humour.", essayUse:"Female sexual agency used for economic gain. Humor in commodifying appearance." },
+    { id:"Q29", theme:"maternidad_fantasma_melodrama/tragicomedia", spanish:"— No sé cómo he podido vivir todos estos años sin ti. — No me digas eso, Raimunda, que me pongo a llorar. Y los fantasmas no lloran.", context:"Final reconciliation between mother and daughter; Irene mixes emotion and humour.", essayUse:"Resolution of mother-daughter trauma. Humour tempers pathos. Melodrama/tragicomedia" },
+    { id:"Q30", theme:"comunidad_mujeres", spanish:"Los trapos sucios debemos lavarlos entre nosotras", context:"Women must handle their own problems without involving authorities.", essayUse:"Female solidarity excludes patriarchal institutions. Women protect each other." },
+    { id:"Q31", theme:"mentiras_humor_mujeres fuertes", spanish:"Cosa de mujeres", context:"Raimunda explains the blood on her neck to her neighbour as Women's Troubles/TOM, at the same time she alludes to one of the key themes of the film: '.", essayUse:"Women create exclusive space; men are literally locked out after their bad blood is removed with a mop and kitchen paper" },
+    { id:"Q32", theme:"creencias_La Mancha", spanish:"Es el viento. El maldito viento solano que saca a la gente de quicio.", context:"Description of how the wind drives village women mad - shared experience.", essayUse:"Shared environmental hardship creates bonds between women. La Mancha and the wind." },
+    { id:"Q33", theme:"Comunidad de mujeres_muerte", spanish:"Todas las mujeres del pueblo cuidan sus tumbas", context:"Cemetery opening scene - women collectively tend graves.", essayUse:"Rural customs and beliefs, superstition, natural relationship with death." },
+    { id:"Q34", theme:"comunidad_mujeres_humor", spanish:"Con tu escote y mis mojitos podemos hacernos de oro, Mundita", context:"Plan to make money with sex appeal and cocktails; shows entrepreneurial cooperation.", essayUse:"Female economic cooperation and mutual support." },
+    { id:"Q35", theme:"comunidad_mujeres", spanish:"Regina me ha ayudado con el restaurante", context:"The Dominican prostitute Regina helps Raimunda run the restaurant.", essayUse:"Cross-cultural female solidarity. Immigrant women included in community bonds." },
+    { id:"Q36", theme:"comunidad_mujeres", spanish:"Las vecinas me ayudaron a subir el congelador", context:"Neighbours help Raimunda move the heavy freezer (containing Paco's body).", essayUse:"Literal representation of shared burdens. Women help without questions. Women get rid of Paco's body who even as a corpse represents a threat" },
+    { id:"Q40", theme:"canción_volver", spanish:"Volver, con la frente marchita, las nieves del tiempo platearon mi sien", context:"Opening lyrics: 'To return, with withered brow, the snows of time have whitened my temples'.", essayUse:"Announces film's preoccupation with aging, return, and the passage of time." },
+    { id:"Q41", theme:"cancion_volver", spanish:"Sentir que es un soplo la vida, que veinte años no es nada", context:"'To feel that life is a puff of wind, that twenty years is nothing...'", essayUse:"Time collapses; wounds remain fresh despite years passing." },
+    { id:"Q42", theme:"cancion_volver", spanish:"Que febril la mirada, errante en las sombras, te busca y te nombra", context:"'That the feverish look, wandering in the shadow, looks for you and names you'.", essayUse:"Yearning and loss. Raimunda's search for maternal connection." },
+    { id:"Q43", theme:"cancion_volver", spanish:"Tengo miedo del encuentro con el pasado que vuelve a enfrentarse con mi vida", context:"'I am afraid of the encounter, of the past that returns, to confront my life'.", essayUse:"Fear of reckoning with trauma. Central to Raimunda's arc." },
+    { id:"Q44", theme:"cancion_volver", spanish:"Vivir, con el alma aferrada a un dulce recuerdo", context:"'To live, with the soul clutched to a sweet memory'.", essayUse:"Melancholic attachment to past. Memory as both comfort and prison." },
+    { id:"Q45", theme:"cancion_volver", spanish:"El viajero que huye tarde o temprano detiene su andar", context:"'The traveler that flees sooner or later stops his walking'.", essayUse:"Inevitability of confronting one's origins. Migration and return." }
+  ];
+
+  const state = {
+    theme: "all",
+    currentId: null,
+    mastered: new Set(),
+    practiced: new Set(),
+    attempts: 0,
+    correct: 0
+  };
+  const STORAGE_KEY = "volver_quotes_state_v3_flexible";
+
+  function themeLabel(key) {
+    const t = THEMES.find(x => x.key === key);
+    return t ? (t.icon + " " + t.label) : key;
+  }
+
+  function saveState() {
+    const obj = {
+      theme: state.theme,
+      currentId: state.currentId,
+      mastered: Array.from(state.mastered),
+      practiced: Array.from(state.practiced),
+      attempts: state.attempts,
+      correct: state.correct
+    };
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
+    } catch (e) {}
+  }
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const obj = JSON.parse(raw);
+      state.theme = obj.theme || "all";
+      state.currentId = obj.currentId || null;
+      state.mastered = new Set(obj.mastered || []);
+      state.practiced = new Set(obj.practiced || []);
+      state.attempts = obj.attempts || 0;
+      state.correct = obj.correct || 0;
+    } catch (e) {}
+  }
+
+  // ==================== ENHANCED LENIENT NORMALIZATION ====================
+  function superNormalize(str) {
+    if (!str) return '';
+    
+    // Step 1: Convert to lowercase
+    let normalized = str.toLowerCase().trim();
+    
+    // Step 2: Remove ALL punctuation and special characters (very permissive)
+    normalized = normalized.replace(/[.,;:!?¿¡«»"'"´—\-–()]/g, " ");
+    
+    // Step 3: Replace multiple spaces with single space
+    normalized = normalized.replace(/\s+/g, " ");
+    
+    // Step 4: Remove accents for comparison (but keep original for display)
+    const withoutAccents = normalized
+      .replace(/[áàäâ]/g, "a")
+      .replace(/[éèëê]/g, "e")
+      .replace(/[íìïî]/g, "i")
+      .replace(/[óòöô]/g, "o")
+      .replace(/[úùüû]/g, "u")
+      .replace(/ñ/g, "n")
+      .replace(/ç/g, "c");
+    
+    // Step 5: Remove common filler words that don't affect meaning
+    const fillerWords = ["que", "y", "de", "la", "el", "los", "las", "un", "una", "unos", "unas", "con", "por", "para", "en", "a", "es", "son", "era", "fue", "soy", "eres", "se", "me", "te", "lo", "le", "nos", "os", "les"];
+    const words = withoutAccents.split(" ");
+    const meaningfulWords = words.filter(word => 
+      word.length > 0 && !fillerWords.includes(word)
+    );
+    
+    return meaningfulWords.join(" ");
+  }
+
+  // ==================== LENIENT MATCHING FUNCTION ====================
+  function isLenientMatch(targetRaw, userRaw) {
+    const target = superNormalize(targetRaw);
+    const user = superNormalize(userRaw);
+    
+    if (!user) return false;
+    
+    // Perfect match after normalization
+    if (user === target) return { match: "perfect", score: 100 };
+    
+    // Count overlapping meaningful words
+    const targetWords = target.split(" ");
+    const userWords = user.split(" ");
+    
+    // Find how many target words appear in user's answer (in any order)
+    let matchedWords = 0;
+    userWords.forEach(userWord => {
+      if (userWord && targetWords.some(targetWord => 
+        targetWord.includes(userWord) || userWord.includes(targetWord)
+      )) {
+        matchedWords++;
+      }
+    });
+    
+    // Calculate match percentage
+    const matchPercentage = (matchedWords / targetWords.length) * 100;
+    
+    // Very lenient thresholds for A-Level
+    if (matchPercentage >= 60) {
+      return { match: "excellent", score: matchPercentage };
+    } else if (matchPercentage >= 40) {
+      return { match: "good", score: matchPercentage };
+    } else if (matchPercentage >= 25) {
+      return { match: "partial", score: matchPercentage };
+    }
+    
+    // Check for key phrase inclusion (even if word order is wrong)
+    const keyPhrases = extractKeyPhrases(targetRaw);
+    const userText = user.toLowerCase();
+    let keyPhraseMatches = 0;
+    
+    keyPhrases.forEach(phrase => {
+      if (userText.includes(phrase.toLowerCase())) {
+        keyPhraseMatches++;
+      }
+    });
+    
+    if (keyPhraseMatches >= 2 || (keyPhraseMatches === 1 && userWords.length >= 3)) {
+      return { match: "key_phrases", score: 50 };
+    }
+    
+    return { match: "low", score: matchPercentage };
+  }
+
+  // Extract key phrases from quotes
+  function extractKeyPhrases(text) {
+    const words = text.toLowerCase().split(" ");
+    const phrases = [];
+    
+    // Take 3-5 word chunks that are likely important
+    for (let i = 0; i < words.length - 2; i++) {
+      const phrase = words.slice(i, i + 3).join(" ");
+      if (phrase.length > 10) { // Only meaningful phrases
+        phrases.push(phrase);
+      }
+    }
+    
+    return phrases.slice(0, 5); // Return top 5 phrases
+  }
+
+  // ==================== FEEDBACK FUNCTION ====================
+  function showFeedback(matchResult, target, user) {
+    const feedbackBox = document.getElementById("feedbackBox");
+    feedbackBox.style.display = "block";
+    feedbackBox.innerHTML = "";
+    
+    const targetWords = superNormalize(target).split(" ").length;
+    const userWords = superNormalize(user).split(" ").length;
+    
+    let header = "";
+    let message = "";
+    let className = "";
+    let details = "";
+    
+    switch (matchResult.match) {
+      case "perfect":
+        header = "✅ ¡Perfecto!";
+        message = "Cita completamente correcta. Excelente memorización.";
+        className = "correct";
+        break;
+        
+      case "excellent":
+        header = "✅ ¡Muy bien!";
+        message = `Captaste ${Math.round(matchResult.score)}% de las palabras clave. Esto es más que suficiente para el examen.`;
+        className = "correct";
+        details = `Has captado ${userWords} de aproximadamente ${targetWords} palabras importantes.`;
+        break;
+        
+      case "good":
+        header = "👍 Bien hecho";
+        message = `Captaste ${Math.round(matchResult.score)}% de las palabras clave. Es una versión válida para citar en ensayos.`;
+        className = "partial";
+        details = `Recuerda: en el examen puedes usar fragmentos de citas. Has captado ${userWords} palabras clave.`;
+        break;
+        
+      case "partial":
+        header = "⚠️ Aceptable (pero practica más)";
+        message = `Captaste ${Math.round(matchResult.score)}% de las palabras clave. Es un buen comienzo, pero intenta recordar más detalles.`;
+        className = "partial";
+        details = `Para el examen: necesitas al menos las frases clave. Has recordado ${userWords} palabras.`;
+        break;
+        
+      case "key_phrases":
+        header = "🔑 Tienes las frases clave";
+        message = "Has captado algunas frases importantes. Eso puede ser suficiente para referenciar la cita en un ensayo.";
+        className = "partial";
+        details = "En ensayos de A-Level, mencionar fragmentos de citas con análisis es perfectamente aceptable.";
+        break;
+        
+      default:
+        header = "❌ Necesitas más práctica";
+        message = "Intenta recordar al menos 3-4 palabras clave de esta cita.";
+        className = "incorrect";
+        details = `Consejo: concéntrate en memorizar las frases más importantes. La cita original tiene ${targetWords} palabras clave.`;
+    }
+    
+    const headerDiv = document.createElement("div");
+    headerDiv.className = "feedback-header";
+    headerDiv.innerHTML = header;
+    
+    const messageDiv = document.createElement("div");
+    messageDiv.textContent = message;
+    
+    feedbackBox.appendChild(headerDiv);
+    feedbackBox.appendChild(messageDiv);
+    
+    if (details) {
+      const detailsDiv = document.createElement("div");
+      detailsDiv.className = "match-details";
+      detailsDiv.textContent = details;
+      feedbackBox.appendChild(detailsDiv);
+    }
+    
+    feedbackBox.className = `feedback-box ${className}`;
+    
+    // Auto-hide feedback after 8 seconds
+    setTimeout(() => {
+      if (feedbackBox.innerHTML.includes(header)) {
+        feedbackBox.style.display = "none";
+      }
+    }, 8000);
+  }
+
+  // ==================== CHECK ANSWER FUNCTION ====================
+  function checkAnswer() {
+    const q = currentQuote();
+    if (!q) {
+      alert("Selecciona una cita primero / Select a quote first");
+      return;
+    }
+    const text = answerBox.value || "";
+    if (!text.trim()) {
+      alert("Escribe algo primero / Type something first");
+      return;
+    }
+
+    const matchResult = isLenientMatch(q.spanish, text);
+    
+    // VERY LENIENT: Accept anything that's not "low" match
+    const isAccepted = matchResult.match !== "low";
+    
+    state.attempts += 1;
+    if (isAccepted) state.correct += 1;
+    state.practiced.add(q.id);
+    
+    // Show detailed feedback
+    showFeedback(matchResult, q.spanish, text);
+    
+    updateStats();
+    renderQuoteList();
+    saveState();
+  }
+
+  // ==================== REMAINING FUNCTIONS (unchanged except for feedback) ====================
+  function filteredQuotes(forAll) {
+    const searchPractice = document.getElementById("searchPractice").value.toLowerCase();
+    const searchAll = document.getElementById("searchAll").value.toLowerCase();
+    const term = forAll ? searchAll : searchPractice;
+    let list = QUOTES.slice();
+    if (!forAll && state.theme !== "all") {
+      list = list.filter(q => q.theme === state.theme);
+    }
+    if (term) {
+      list = list.filter(q =>
+        q.spanish.toLowerCase().includes(term) ||
+        q.context.toLowerCase().includes(term) ||
+        q.essayUse.toLowerCase().includes(term) ||
+        themeLabel(q.theme).toLowerCase().includes(term)
+      );
+    }
+    return list;
+  }
+
+  function currentQuote() {
+    return QUOTES.find(q => q.id === state.currentId) || null;
+  }
+
+  // DOM elements
+  const themeSelect = document.getElementById("themeSelect");
+  const searchPracticeInput = document.getElementById("searchPractice");
+  const searchAllInput = document.getElementById("searchAll");
+  const quoteListDiv = document.getElementById("quoteList");
+  const answerBox = document.getElementById("answerBox");
+  const practiceInfo = document.getElementById("practiceInfo");
+  const essayBox = document.getElementById("essayBox");
+  const essayText = document.getElementById("essayText");
+  const statsAttempts = document.getElementById("statsAttempts");
+  const statsCorrect = document.getElementById("statsCorrect");
+  const statsAccuracy = document.getElementById("statsAccuracy");
+  const statsPracticed = document.getElementById("statsPracticed");
+  const statsMastered = document.getElementById("statsMastered");
+  const contextBox = document.getElementById("contextBox");
+  const contextSpanish = document.getElementById("contextSpanish");
+  const contextDetails = document.getElementById("contextDetails");
+  const randomBtn = document.getElementById("randomBtn");
+  const checkBtn = document.getElementById("checkBtn");
+  const hintBtn = document.getElementById("hintBtn");
+  const revealBtn = document.getElementById("revealBtn");
+  const masteredBtn = document.getElementById("masteredBtn");
+  const resetBtn = document.getElementById("resetBtn");
+  const downloadMasteredBtn = document.getElementById("downloadMastered");
+  const downloadAllBtn = document.getElementById("downloadAll");
+  const feedbackBox = document.getElementById("feedbackBox");
+
+  function initThemeSelect() {
+    THEMES.forEach(t => {
+      const opt = document.createElement("option");
+      opt.value = t.key;
+      opt.textContent = t.icon + " " + t.label;
+      themeSelect.appendChild(opt);
+    });
+  }
+
+  function setThemeFromState() {
+    themeSelect.value = state.theme || "all";
+  }
+
+  function updateStats() {
+    statsAttempts.textContent = state.attempts;
+    statsCorrect.textContent = state.correct;
+    statsPracticed.textContent = state.practiced.size;
+    statsMastered.textContent = state.mastered.size;
+    const acc = state.attempts ? Math.round((state.correct / state.attempts) * 100) : 0;
+    statsAccuracy.textContent = acc;
+  }
+
+  function renderQuoteList() {
+    quoteListDiv.innerHTML = "";
+    const list = filteredQuotes(true);
+    if (!list.length) {
+      const p = document.createElement("p");
+      p.style.fontSize = "0.8rem";
+      p.style.color = "#9ca3af";
+      p.textContent = "No hay citas que coincidan con la búsqueda / tema.";
+      quoteListDiv.appendChild(p);
+      return;
+    }
+    list.forEach(q => {
+      const div = document.createElement("div");
+      div.className = "quote-item" + (q.id === state.currentId ? " active" : "");
+      div.dataset.id = q.id;
+
+      const line = document.createElement("div");
+      line.className = "quote-main-line";
+      line.textContent = q.id + " — " + q.spanish;
+      div.appendChild(line);
+
+      const meta = document.createElement("div");
+      meta.className = "quote-meta";
+
+      const themeSpan = document.createElement("span");
+      themeSpan.className = "theme-tag";
+      themeSpan.textContent = themeLabel(q.theme);
+      meta.appendChild(themeSpan);
+
+      const dots = document.createElement("div");
+      dots.className = "status-dots";
+      if (state.mastered.has(q.id)) {
+        const s = document.createElement("span");
+        s.className = "dot-mastered";
+        dots.appendChild(s);
+      }
+      if (state.practiced.has(q.id)) {
+        const s2 = document.createElement("span");
+        s2.className = "dot-practiced";
+        dots.appendChild(s2);
+      }
+      meta.appendChild(dots);
+
+      div.appendChild(meta);
+
+      div.addEventListener("click", () => {
+        selectQuote(q.id);
+      });
+
+      quoteListDiv.appendChild(div);
+    });
+  }
+
+  function updatePracticeInfo() {
+    const q = currentQuote();
+    if (!q) {
+      practiceInfo.textContent = "Ninguna cita seleccionada. Escoge una para empezar.";
+      essayBox.style.display = "none";
+      contextBox.style.display = "none";
+      masteredBtn.textContent = "⭐ Marcar dominada";
+      return;
+    }
+    practiceInfo.textContent =
+      q.id + " — " + themeLabel(q.theme) + " | Contexto breve: " + q.context;
+    essayBox.style.display = "block";
+    essayText.textContent = q.essayUse;
+
+    contextBox.style.display = "block";
+    contextSpanish.innerHTML = "<span>Cita completa:</span> " + q.spanish;
+    contextDetails.innerHTML = "<span>Contexto / Essay use:</span> " + q.context + " — " + q.essayUse;
+
+    masteredBtn.textContent = state.mastered.has(q.id)
+      ? "⭐ Quitar de dominadas"
+      : "⭐ Marcar dominada";
+  }
+
+  function selectQuote(id) {
+    state.currentId = id;
+    state.practiced.add(id);
+    answerBox.value = "";
+    feedbackBox.style.display = "none";
+    updateStats();
+    updatePracticeInfo();
+    renderQuoteList();
+    saveState();
+  }
+
+  function randomQuote() {
+    let list = QUOTES.slice();
+    if (state.theme !== "all") {
+      list = list.filter(q => q.theme === state.theme);
+    }
+    if (!list.length) return;
+    const q = list[Math.floor(Math.random() * list.length)];
+    selectQuote(q.id);
+  }
+
+  function showHint() {
+    const q = currentQuote();
+    if (!q) {
+      alert("Selecciona una cita primero / Select a quote first");
+      return;
+    }
+    // Show first 5-7 words for longer quotes
+    const words = q.spanish.split(" ");
+    const hintLength = Math.min(7, Math.max(3, Math.floor(words.length * 0.3)));
+    const hintWords = words.slice(0, hintLength).join(" ");
+    alert("💡 Pista / Hint: \"" + hintWords + "...\"\n\nRecuerda: para el examen solo necesitas recordar las palabras clave.");
+  }
+
+  function revealQuote() {
+    const q = currentQuote();
+    if (!q) return;
+    answerBox.value = q.spanish;
+  }
+
+  function toggleMastered() {
+    const q = currentQuote();
+    if (!q) return;
+    if (state.mastered.has(q.id)) {
+      state.mastered.delete(q.id);
+    } else {
+      state.mastered.add(q.id);
+    }
+    updateStats();
+    updatePracticeInfo();
+    renderQuoteList();
+    saveState();
+  }
+
+  function resetProgress() {
+    if (!confirm("¿Reiniciar todo el progreso? / Reset all progress?")) return;
+    state.mastered = new Set();
+    state.practiced = new Set();
+    state.attempts = 0;
+    state.correct = 0;
+    updateStats();
+    renderQuoteList();
+    saveState();
+  }
+
+  function insertCharAtCursor(char) {
+    const el = answerBox;
+    const start = el.selectionStart;
+    const end = el.selectionEnd;
+    const text = el.value;
+    el.value = text.slice(0, start) + char + text.slice(end);
+    const newPos = start + char.length;
+    el.selectionStart = el.selectionEnd = newPos;
+    el.focus();
+  }
+
+  function downloadFile(filename, content) {
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  function downloadMastered() {
+    if (!state.mastered.size) {
+      alert("No hay citas dominadas todavía / No mastered quotes yet");
+      return;
+    }
+    const lines = [
+      "VOLVER — CITAS DOMINADAS / MASTERED QUOTES",
+      "(Spanish + English context + Essay use)",
+      ""
+    ];
+    QUOTES.filter(q => state.mastered.has(q.id)).forEach(q => {
+      lines.push(q.id + " — " + q.spanish);
+      lines.push("Tema / Theme: " + themeLabel(q.theme));
+      lines.push("Contexto / Context: " + q.context);
+      lines.push("Uso en ensayo / Essay use: " + q.essayUse);
+      lines.push("");
+    });
+    downloadFile("volver_mastered_quotes.txt", lines.join("\n"));
+  }
+
+  function downloadAll() {
+    const lines = [
+      "VOLVER — TODAS LAS CITAS / ALL QUOTES",
+      "(Organized by theme for A-Level revision)",
+      ""
+    ];
+    THEMES.forEach(theme => {
+      const themeQuotes = QUOTES.filter(q => q.theme === theme.key);
+      if (themeQuotes.length) {
+        lines.push("═══ " + theme.icon + " " + theme.label + " / " + theme.labelEn + " ═══");
+        lines.push("");
+        themeQuotes.forEach(q => {
+          lines.push(q.id + " — " + q.spanish);
+          lines.push("Context: " + q.context);
+          lines.push("Essay use: " + q.essayUse);
+          lines.push("");
+        });
+      }
+    });
+    downloadFile("volver_all_quotes_by_theme.txt", lines.join("\n"));
+  }
+
+  // Event listeners
+  themeSelect.addEventListener("change", () => {
+    state.theme = themeSelect.value;
+    renderQuoteList();
+    saveState();
+  });
+
+  searchPracticeInput.addEventListener("input", () => {
+    renderQuoteList();
+  });
+
+  searchAllInput.addEventListener("input", () => {
+    renderQuoteList();
+  });
+
+  randomBtn.addEventListener("click", randomQuote);
+  checkBtn.addEventListener("click", checkAnswer);
+  hintBtn.addEventListener("click", showHint);
+  revealBtn.addEventListener("click", revealQuote);
+  masteredBtn.addEventListener("click", toggleMastered);
+  resetBtn.addEventListener("click", resetProgress);
+  downloadMasteredBtn.addEventListener("click", downloadMastered);
+  downloadAllBtn.addEventListener("click", downloadAll);
+
+  document.querySelectorAll(".accent-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      insertCharAtCursor(btn.dataset.char);
+    });
+  });
+
+  // Initialize
+  loadState();
+  initThemeSelect();
+  setThemeFromState();
+  updateStats();
+  renderQuoteList();
+  updatePracticeInfo();
+</script>
+</body>
+</html>

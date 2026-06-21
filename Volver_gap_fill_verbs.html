@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Volver – Spanish Essay Practice</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2em; max-width: 800px; margin: auto; }
+    input { width: 150px; margin: 0.2em; }
+    .correct { background-color: #c8e6c9; }
+    .incorrect { background-color: #ffcdd2; }
+  </style>
+</head>
+<body>
+  <h1>Práctica de redacción: <em>Volver</em> (35 frases)</h1>
+  <p>Escribe la palabra correcta en cada hueco. Recibirás retroalimentación inmediata.</p>
+  <form id="gapFillForm">
+    <div id="questions"></div>
+    <button type="submit">Comprobar respuestas</button>
+  </form>
+  <script>
+    const questions = [
+      { sentence: "Raimunda ___ (afrontar) muchas dificultades en su vida.", answer: "afronta" },
+      { sentence: "Paula ___ (matar) a Paco en defensa propia.", answer: "mata" },
+      { sentence: "Las mujeres ___ (apoyarse) entre sí para sobrevivir.", answer: "se apoyan" },
+      { sentence: "Sole ___ (esconder) a su madre en la peluquería.", answer: "esconde" },
+      { sentence: "El director ___ (mostrar) la fuerza femenina a través del guion.", answer: "muestra" },
+      { sentence: "Es posible que Irene ___ (volver) para pedir perdón.", answer: "vuelva" },
+      { sentence: "Aunque Raimunda ___ (tener) miedo, actúa con determinación.", answer: "tenga" },
+      { sentence: "Paula no ___ (saber) cómo reaccionar al principio.", answer: "sabe" },
+      { sentence: "Raimunda y Paula ___ (superar) su trauma juntas.", answer: "superan" },
+      { sentence: "La película ___ (representar) la sororidad.", answer: "representa" },
+      { sentence: "Raimunda ___ (proteger) a su hija ante todo.", answer: "protege" },
+      { sentence: "Sole y Raimunda son mujeres muy ___ (fuerte).", answer: "fuertes" },
+      { sentence: "Irene actúa como un símbolo de la ___ (redención).", answer: "redención" },
+      { sentence: "La cámara ___ (enfocar) muchas veces los rostros de las mujeres.", answer: "enfoca" },
+      { sentence: "El barrio ___ (reflejar) la vida difícil de las protagonistas.", answer: "refleja" },
+      { sentence: "La historia ___ (ser) realista y emotiva.", answer: "es" },
+      { sentence: "La relación entre madre e hija ___ (evolucionar) con el tiempo.", answer: "evoluciona" },
+      { sentence: "Raimunda no ___ (querer) que su hija sufra.", answer: "quiere" },
+      { sentence: "Irene ___ (desaparecer) después del incendio.", answer: "desaparece" },
+      { sentence: "El abuso no ___ (definir) a las protagonistas.", answer: "define" },
+      { sentence: "La película ___ (explorar) temas de violencia y perdón.", answer: "explora" },
+      { sentence: "Sole ___ (descubrir) que su madre está viva.", answer: "descubre" },
+      { sentence: "Aunque Paula ___ (ser) joven, es valiente.", answer: "sea" },
+      { sentence: "Raimunda no le ___ (decir) la verdad a su hermana al principio.", answer: "dice" },
+      { sentence: "El espectador ___ (entender) el sufrimiento de las mujeres.", answer: "entiende" },
+      { sentence: "La película ___ (criticar) el machismo tradicional.", answer: "critica" },
+      { sentence: "El trauma del pasado ___ (estar) presente en sus vidas.", answer: "está" },
+      { sentence: "La historia ___ (mostrar) la importancia de la familia.", answer: "muestra" },
+      { sentence: "Los hombres en la película ___ (representar) el peligro.", answer: "representan" },
+      { sentence: "Las mujeres ___ (resistir) las injusticias.", answer: "resisten" },
+      { sentence: "No es justo que Raimunda ___ (sufrir) tanto.", answer: "sufra" },
+      { sentence: "Paula ___ (confesar) lo ocurrido con Paco.", answer: "confiesa" },
+      { sentence: "Irene ___ (buscar) la reconciliación con sus hijas.", answer: "busca" },
+      { sentence: "Sole ___ (aceptar) la ayuda de su madre.", answer: "acepta" },
+      { sentence: "La casa ___ (tener) un papel simbólico en la historia.", answer: "tiene" }
+    ];
+
+    const container = document.getElementById('questions');
+
+    questions.forEach((q, i) => {
+      const div = document.createElement('div');
+      div.innerHTML = `
+        <label>${i + 1}. ${q.sentence.replace("___", `<input id="q${i}" data-answer="${q.answer}" type="text">`)}</label>
+      `;
+      container.appendChild(div);
+    });
+
+    document.getElementById('gapFillForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      questions.forEach((q, i) => {
+        const input = document.getElementById('q' + i);
+        const userAnswer = input.value.trim().toLowerCase();
+        if (userAnswer === q.answer) {
+          input.className = 'correct';
+        } else {
+          input.className = 'incorrect';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

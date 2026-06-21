@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 4: La Música - El papel de los cantantes y músicos</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #d32f2f, #f57c00);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .timer-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #2e7d32, #66bb6a);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            background-color: #f5f7fa;
+            border-bottom: 2px solid #e1e4e8;
+        }
+        
+        .nav-tab {
+            flex: 1;
+            padding: 15px 20px;
+            background-color: #f5f7fa;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .nav-tab:hover {
+            background-color: #e9ecef;
+        }
+        
+        .nav-tab.active {
+            background-color: white;
+            color: #d32f2f;
+            border-bottom: 3px solid #d32f2f;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .activity-card {
+            background-color: #f8f9fa;
+            border-left: 4px solid #f57c00;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .activity-title {
+            font-size: 1.3rem;
+            color: #d32f2f;
+            font-weight: 600;
+        }
+        
+        .time-badge {
+            background-color: #f57c00;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .objectives-list {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .objectives-list h3 {
+            color: #d32f2f;
+            margin-bottom: 10px;
+        }
+        
+        .objectives-list ul {
+            list-style-position: inside;
+            padding-left: 10px;
+        }
+        
+        .objectives-list li {
+            padding: 5px 0;
+        }
+        
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .vocab-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #e1e4e8;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .vocab-card:hover {
+            border-color: #f57c00;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .vocab-spanish {
+            font-weight: 600;
+            color: #d32f2f;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .vocab-english {
+            color: #666;
+            display: none;
+        }
+        
+        .vocab-card.revealed .vocab-english {
+            display: block;
+        }
+        
+        .crossword-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .crossword-clue {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .crossword-input {
+            padding: 5px 10px;
+            border: 2px solid #d1d5da;
+            border-radius: 4px;
+            font-size: 1rem;
+            width: 200px;
+        }
+        
+        .check-answer-btn {
+            background-color: #f57c00;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .check-answer-btn:hover {
+            background-color: #e64a19;
+        }
+        
+        .correct-answer {
+            background-color: #d4edda !important;
+            border-color: #28a745 !important;
+        }
+        
+        .incorrect-answer {
+            background-color: #f8d7da !important;
+            border-color: #dc3545 !important;
+        }
+        
+        .reading-text {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        
+        .reading-text p {
+            margin-bottom: 15px;
+        }
+        
+        .highlight-verb {
+            background-color: #fff3e0;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: 600;
+            color: #f57c00;
+        }
+        
+        .discussion-questions {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .question-item {
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #f8f9fa;
+            border-left: 4px solid #d32f2f;
+            border-radius: 5px;
+        }
+        
+        .question-item strong {
+            color: #d32f2f;
+        }
+        
+        .grammar-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .grammar-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .grammar-table th,
+        .grammar-table td {
+            padding: 12px;
+            border: 1px solid #e1e4e8;
+            text-align: left;
+        }
+        
+        .grammar-table th {
+            background-color: #f57c00;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .grammar-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .practice-exercise {
+            background-color: #fff3e0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .exercise-input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #d1d5da;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #d32f2f, #f57c00);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
+        }
+        
+        .accent-keyboard {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            padding: 15px;
+            z-index: 1000;
+            border: 1px solid #e1e4e8;
+        }
+        
+        .accent-btn {
+            padding: 8px 12px;
+            margin: 3px;
+            background-color: #f8f9fa;
+            border: 1px solid #d1d5da;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+        
+        .accent-btn:hover {
+            background-color: #ffe0b2;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .vocab-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timer-display {
+                position: static;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="timer-display" id="timer">⏱️ 30:00</div>
+    
+    <div class="container">
+        <header>
+            <h1>Unidad 4: La Música</h1>
+            <p class="subtitle">El papel de los cantantes y músicos</p>
+        </header>
+        
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('objectives')">Objetivos</button>
+            <button class="nav-tab" onclick="showTab('vocab')">Vocabulario</button>
+            <button class="nav-tab" onclick="showTab('reading')">Lectura</button>
+            <button class="nav-tab" onclick="showTab('comprehension')">Comprensión</button>
+            <button class="nav-tab" onclick="showTab('grammar')">Gramática</button>
+            <button class="nav-tab" onclick="showTab('verb-practice')">Práctica Verbos</button>
+            <button class="nav-tab" onclick="showTab('activities')">Actividades</button>
+        </div>
+        
+        <!-- OBJECTIVES TAB -->
+        <div class="tab-content active" id="objectives">
+            <div class="objectives-list">
+                <h3>🎯 Objetivos de la lección (Lesson Objectives):</h3>
+                <ul>
+                    <li>Estudiar la influencia de los cantantes y los músicos en los jóvenes</li>
+                    <li>Usar el tiempo futuro (futuro simple y futuro próximo)</li>
+                    <li>Entender que España habla más de un idioma</li>
+                    <li>Disfrutar la música latina</li>
+                </ul>
+            </div>
+            
+            <div class="activity-card">
+                <div class="activity-header">
+                    <div class="activity-title">📝 Do Now Activity</div>
+                    <div class="time-badge">3 mins</div>
+                </div>
+                <p><strong>Cuestionario sobre hábitos y preferencias musicales</strong></p>
+                <div class="discussion-questions">
+                    <div class="question-item">
+                        <strong>1.</strong> ¿Qué tipo de música te gusta?
+                    </div>
+                    <div class="question-item">
+                        <strong>2.</strong> ¿Cuántas horas al día escuchas música?
+                    </div>
+                    <div class="question-item">
+                        <strong>3.</strong> ¿Tienes un cantante o grupo favorito? ¿Por qué?
+                    </div>
+                    <div class="question-item">
+                        <strong>4.</strong> ¿Crees que los cantantes tienen influencia en los jóvenes?
+                    </div>
+                </div>
+                <p style="margin-top: 15px;"><em>Discuss with a partner - 3 minutes</em></p>
+            </div>
+        </div>
+        
+        <!-- VOCABULARY TAB -->
+        <div class="tab-content" id="vocab">
+            <div class="activity-card">
+                <div class="activity-header">
+                    <div class="activity-title">📚 Vocabulario Clave</div>
+                    <div class="time-badge">8 mins</div>
+                </div>
+                <p><strong>Click on each card to reveal the English translation</strong></p>
+                
+                <div class="vocab-grid">
+                    <div class="vocab-card" onclick="this.classList.toggle('revealed')">
+                        <div class="vocab-spanish">el/la intérprete</div>
+                        <div class="vocab-english">performer</div>
+                    </div>
+                    <div class="vocab-card" onclick="this.classList.toggle('revealed')">
+                        <div class="vocab-spanish">grabar</div>
+                        <div class="vocab-english">to record</div>
+                    </div>
+                    <div class="vocab-card" onclick="this.classList.toggle('revealed')">
+                        <div class="vocab-spanish">aplaudir</div>
+                        <div class="vocab-english">to applause</div>
+                    </div>
+                    <div class="vocab-card" onclick="this.classList.toggle('revealed')">
+                        <div class="vocab-spanish">mediático</div>
+                        <div class="vocab-english">(of the) media</div>
+                    </div>
+                    <div class="vocab-card" onclick="this.classList.toggle('revealed')">
+                        <div class="vocab-spanish">el contenido</div>
+                        <div class="vocab-english">contents</div>
+                    </div>
+                    <div class="vocab-card" onclick="this.classList.toggle('revealed')">
+                        <div class="vocab-spanish">el prejuicio</div>
+                        <div class="vocab-english">prejudice</div>
+                    </div>
+                    <div class="vocab-card" onclick="this.classList.toggle('revealed')">
+                        <div class="vocab-spanish">interpretar</div>
+                        <div class="vocab-english">to perform (a song)</div>
+                    </div>
+                    <div class="vocab-card" onclick="this.classList.toggle('revealed')">
+                        <div class="vocab-spanish">afrontar</div>
+                        <div class="vocab-english">to face up to</div>
+                    </div>
+                    <div class="vocab-card" onclick="this.classList.toggle('revealed')">
+                        <div class="vocab-spanish">difundir</div>
+                        <div class="vocab-english">to broadcast, disseminate</div>
+                    </div>
+                    <div class="vocab-card" onclick="this.classList.toggle('revealed')">
+                        <div class="vocab-spanish">el/la melómano/a</div>
+                        <div class="vocab-english">music-lover</div>
+                    </div>
+                    <div class="vocab-card" onclick="this.classList.toggle('revealed')">
+                        <div class="vocab-spanish">la banda sonora</div>
+                        <div class="vocab-english">soundtrack</div>
+                    </div>
+                    <div class="vocab-card" onclick="this.classList.toggle('revealed')">
+                        <div class="vocab-spanish">descargar</div>
+                        <div class="vocab-english">to download</div>
+                    </div>
+                    <div class="vocab-card" onclick="this.classList.toggle('revealed')">
+                        <div class="vocab-spanish">influir en</div>
+                        <div class="vocab-english">to influence</div>
+                    </div>
+                    <div class="vocab-card" onclick="this.classList.toggle('revealed')">
+                        <div class="vocab-spanish">el/la oyente</div>
+                        <div class="vocab-english">listener</div>
+                    </div>
+                    <div class="vocab-card" onclick="this.classList.toggle('revealed')">
+                        <div class="vocab-spanish">la crítica</div>
+                        <div class="vocab-english">review</div>
+                    </div>
+                    <div class="vocab-card" onclick="this.classList.toggle('revealed')">
+                        <div class="vocab-spanish">la letra</div>
+                        <div class="vocab-english">lyrics</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="activity-card" style="margin-top: 20px;">
+                <div class="activity-header">
+                    <div class="activity-title">🧩 Crucigrama - Crossword Practice</div>
+                </div>
+                <div class="crossword-container">
+                    <h4>Across:</h4>
+                    <div class="crossword-clue">
+                        <span><strong>3.</strong> performer</span>
+                        <input type="text" class="crossword-input" id="across3" data-answer="intérprete">
+                        <button class="check-answer-btn" onclick="checkCrossword('across3')">Check</button>
+                    </div>
+                    <div class="crossword-clue">
+                        <span><strong>4.</strong> to record</span>
+                        <input type="text" class="crossword-input" id="across4" data-answer="grabar">
+                        <button class="check-answer-btn" onclick="checkCrossword('across4')">Check</button>
+                    </div>
+                    <div class="crossword-clue">
+                        <span><strong>6.</strong> to applause</span>
+                        <input type="text" class="crossword-input" id="across6" data-answer="aplaudir">
+                        <button class="check-answer-btn" onclick="checkCrossword('across6')">Check</button>
+                    </div>
+                    
+                    <h4 style="margin-top: 20px;">Down:</h4>
+                    <div class="crossword-clue">
+                        <span><strong>1.</strong> to broadcast, disseminate</span>
+                        <input type="text" class="crossword-input" id="down1" data-answer="difundir">
+                        <button class="check-answer-btn" onclick="checkCrossword('down1')">Check</button>
+                    </div>
+                    <div class="crossword-clue">
+                        <span><strong>2.</strong> music-lover</span>
+                        <input type="text" class="crossword-input" id="down2" data-answer="melómano">
+                        <button class="check-answer-btn" onclick="checkCrossword('down2')">Check</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- READING TAB -->
+        <div class="tab-content" id="reading">
+            <div class="activity-card">
+                <div class="activity-header">
+                    <div class="activity-title">📖 Lectura: Los cantantes tienen gran influencia</div>
+                    <div class="time-badge">10 mins</div>
+                </div>
+                
+                <div class="reading-text">
+                    <p>La adolescencia es un período complicado, un tiempo cuando la persona no es ni un niño ni un adulto. Y durante esta periodo con muchas cosas que descubrir, los jóvenes adolescentes tienen muchos desafíos y a veces problemas.</p>
+                    
+                    <p>La música tiene una atracción especial para estos adolescentes que la escuchan durante dos o tres horas cada día.</p>
+                    
+                    <p>¿Pero, por qué algunos cantantes influencian tantos adolescentes y tan profundamente? ¿Por qué crean tanta admiración?</p>
+                    
+                    <p>Lo que es claro es que todos tenemos un ídolo o un grupo musical a quien seguir.</p>
+                    
+                    <p>Los adolescentes generalmente <span class="highlight-verb">buscarán</span> en sus artistas razones para identificarse con ellos.</p>
+                    
+                    <p>Una cosa <span class="highlight-verb">será</span> identificarse con la música de ellos porque ven a sus artistas favoritos como una forma de expresarse. Casi todos <span class="highlight-verb">tendrán</span> a un artista o una canción con la que se <span class="highlight-verb">identificarán</span>.</p>
+                </div>
+                
+                <div class="discussion-questions">
+                    <h4>📝 Pair Work Activity (5 mins):</h4>
+                    <div class="question-item">
+                        <strong>Paso 1:</strong> Lee el texto con tu compañero y explica el contenido general. ¿De qué se trata?
+                    </div>
+                    <div class="question-item">
+                        <strong>Paso 2:</strong> Observa los verbos destacados (en naranja). ¿Qué tiempo verbal es? ¿Cómo los traducirías al inglés?
+                    </div>
+                    <div class="question-item">
+                        <strong>Paso 3:</strong> ¿Por qué crees que se usa el tiempo futuro en este texto?
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- COMPREHENSION TAB -->
+        <div class="tab-content" id="comprehension">
+            <div class="activity-card">
+                <div class="activity-header">
+                    <div class="activity-title">📝 Comprensión de Lectura</div>
+                    <div class="time-badge">8 mins</div>
+                </div>
+                
+                <div class="reading-text" style="background-color: #fff3e0; border-left: 4px solid #d32f2f;">
+                    <h4 style="color: #d32f2f; margin-bottom: 15px;">Texto: Los cantantes tienen gran influencia</h4>
+                    <p>La adolescencia es un período complicado, un tiempo cuando la persona no es ni un niño ni un adulto. Y durante esta periodo con muchas cosas que descubrir, los jóvenes adolescentes tienen muchos desafíos y a veces problemas.</p>
+                    
+                    <p>La música tiene una atracción especial para estos adolescentes que la escuchan durante dos o tres horas cada día.</p>
+                    
+                    <p>¿Pero, por qué algunos cantantes influencian tantos adolescentes y tan profundamente? ¿Por qué crean tanta admiración?</p>
+                    
+                    <p>Lo que es claro es que todos tenemos un ídolo o un grupo musical a quien seguir.</p>
+                    
+                    <p>Los adolescentes generalmente buscarán en sus artistas razones para identificarse con ellos.</p>
+                    
+                    <p>Una cosa será identificarse con la música de ellos porque ven a sus artistas favoritos como una forma de expresarse. Casi todos tendrán a un artista o una canción con la que se identificarán.</p>
+                </div>
+                
+                <div class="practice-exercise" style="margin-top: 20px;">
+                    <h4 style="color: #d32f2f; margin-bottom: 15px;">Preguntas de Comprensión:</h4>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>1. ¿Cómo se describe la adolescencia en el texto?</strong></label>
+                        <div style="margin: 10px 0;">
+                            <label style="display: block; padding: 8px; cursor: pointer;">
+                                <input type="radio" name="q1" value="a"> a) Un período fácil y simple
+                            </label>
+                            <label style="display: block; padding: 8px; cursor: pointer;">
+                                <input type="radio" name="q1" value="b"> b) Un período complicado entre la niñez y la adultez
+                            </label>
+                            <label style="display: block; padding: 8px; cursor: pointer;">
+                                <input type="radio" name="q1" value="c"> c) Un período sin desafíos
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>2. ¿Cuántas horas al día escuchan música los adolescentes según el texto?</strong></label>
+                        <div style="margin: 10px 0;">
+                            <label style="display: block; padding: 8px; cursor: pointer;">
+                                <input type="radio" name="q2" value="a"> a) Una hora
+                            </label>
+                            <label style="display: block; padding: 8px; cursor: pointer;">
+                                <input type="radio" name="q2" value="b"> b) Dos o tres horas
+                            </label>
+                            <label style="display: block; padding: 8px; cursor: pointer;">
+                                <input type="radio" name="q2" value="c"> c) Cinco horas
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>3. Según el texto, ¿qué buscarán los adolescentes en sus artistas?</strong></label>
+                        <div style="margin: 10px 0;">
+                            <label style="display: block; padding: 8px; cursor: pointer;">
+                                <input type="radio" name="q3" value="a"> a) Dinero y fama
+                            </label>
+                            <label style="display: block; padding: 8px; cursor: pointer;">
+                                <input type="radio" name="q3" value="b"> b) Razones para identificarse con ellos
+                            </label>
+                            <label style="display: block; padding: 8px; cursor: pointer;">
+                                <input type="radio" name="q3" value="c"> c) Consejos para estudiar
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>4. ¿Qué tiempo verbal se usa principalmente en el texto para hablar del futuro?</strong></label>
+                        <input type="text" class="exercise-input" id="q4" placeholder="Escribe el nombre del tiempo verbal..." data-answer="futuro simple">
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>5. Encuentra DOS ejemplos del futuro simple en el texto y escríbelos aquí:</strong></label>
+                        <input type="text" class="exercise-input" id="q5a" placeholder="Ejemplo 1..." data-answer="buscarán">
+                        <input type="text" class="exercise-input" id="q5b" placeholder="Ejemplo 2..." data-answer="será,tendrán,identificarán">
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>6. En tus propias palabras, ¿por qué es importante la música para los adolescentes? (Respuesta abierta)</strong></label>
+                        <textarea class="exercise-input" id="q6" rows="3" placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    
+                    <button class="submit-btn" onclick="checkComprehension()">Check Answers</button>
+                    <div id="comprehension-feedback" style="margin-top: 20px; padding: 15px; border-radius: 8px; display: none;"></div>
+                </div>
+            </div>
+            
+            <div class="activity-card" style="margin-top: 20px;">
+                <div class="activity-header">
+                    <div class="activity-title">🎤 Texto 2: Música moderna de poco valor</div>
+                </div>
+                
+                <div class="reading-text" style="background-color: #e3f2fd; border-left: 4px solid #1976d2;">
+                    <p><strong>ALEJANDRO:</strong> Normalmente escucho música inglesa más que española, pues yo creo que hoy en día la música española se ha centrado más en la música comercial, sobre todo en el género reguetón, que personalmente no me gusta nada. No es como la música de otros cantantes como Juanes, Joan Manuel Serrat, o Joaquín Sabina, cuando la letra tenía significado durante cierto momento histórico.</p>
+                    
+                    <p><strong>MAR:</strong> Supongo que los tiempos han cambiado. Ahora por ejemplo si te pones a leer la letra de una canción de reguetón, te das cuenta de que el 90% de las palabras van a ser inútiles, no tendrán ningún significado más allá de cosas sexuales o de ese estilo, y que no vas a pensar en nada serio.</p>
+                    
+                    <p><strong>ALEJANDRO:</strong> Sí, en el pasado tenían un contenido político de la falta de libertad que había y una crítica contra el sistema establecido. Ahora cuando escucho un poco de música de la gente joven pienso… pues 'aquí no hay más que banalidades'. Además, estos días hay muchos cantantes que se han hecho famosos más por su físico, por cómo visten que por cómo cantan y lo qué tienen que decir.</p>
+                </div>
+                
+                <div class="practice-exercise" style="margin-top: 20px;">
+                    <h4 style="color: #1976d2; margin-bottom: 15px;">Preguntas de Comprensión:</h4>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>7. ¿Qué tipo de música prefiere escuchar Alejandro?</strong></label>
+                        <input type="text" class="exercise-input" id="q7" data-answer="música inglesa,inglesa">
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>8. Según Mar, ¿qué porcentaje de las palabras en el reguetón son inútiles?</strong></label>
+                        <input type="text" class="exercise-input" id="q8" data-answer="90%,90 por ciento,noventa por ciento">
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>9. ¿Verdadero o Falso? Alejandro cree que los cantantes modernos se hacen famosos por su talento musical.</strong></label>
+                        <div style="margin: 10px 0;">
+                            <label style="display: block; padding: 8px; cursor: pointer;">
+                                <input type="radio" name="q9" value="verdadero"> Verdadero
+                            </label>
+                            <label style="display: block; padding: 8px; cursor: pointer;">
+                                <input type="radio" name="q9" value="falso"> Falso
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>10. Menciona DOS cantantes que Alejandro considera buenos ejemplos de música con significado:</strong></label>
+                        <input type="text" class="exercise-input" id="q10" data-answer="juanes,serrat,sabina,joan manuel serrat,joaquín sabina">
+                    </div>
+                    
+                    <button class="submit-btn" onclick="checkComprehension2()">Check Answers</button>
+                    <div id="comprehension2-feedback" style="margin-top: 20px; padding: 15px; border-radius: 8px; display: none;"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- GRAMMAR TAB -->
+        <div class="tab-content" id="grammar">
+            <div class="activity-card">
+                <div class="activity-header">
+                    <div class="activity-title">⚙️ Gramática: El Futuro Simple</div>
+                    <div class="time-badge">7 mins</div>
+                </div>
+                
+                <div class="grammar-section">
+                    <h3>Formation of Future Simple:</h3>
+                    <p>Add the following endings to the infinitive:</p>
+                    
+                    <table class="grammar-table">
+                        <thead>
+                            <tr>
+                                <th>Pronoun</th>
+                                <th>Hablar</th>
+                                <th>Aprender</th>
+                                <th>Vivir</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>yo</td>
+                                <td>hablaré</td>
+                                <td>aprenderé</td>
+                                <td>viviré</td>
+                            </tr>
+                            <tr>
+                                <td>tú</td>
+                                <td>hablarás</td>
+                                <td>aprenderás</td>
+                                <td>vivirás</td>
+                            </tr>
+                            <tr>
+                                <td>él/ella/usted</td>
+                                <td>hablará</td>
+                                <td>aprenderá</td>
+                                <td>vivirá</td>
+                            </tr>
+                            <tr>
+                                <td>nosotros/-as</td>
+                                <td>hablaremos</td>
+                                <td>aprenderemos</td>
+                                <td>viviremos</td>
+                            </tr>
+                            <tr>
+                                <td>vosotros/-as</td>
+                                <td>hablaréis</td>
+                                <td>aprenderéis</td>
+                                <td>viviréis</td>
+                            </tr>
+                            <tr>
+                                <td>ellos/ellas/ustedes</td>
+                                <td>hablarán</td>
+                                <td>aprenderán</td>
+                                <td>vivirán</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h3 style="margin-top: 25px;">Irregular Verbs:</h3>
+                    <table class="grammar-table">
+                        <thead>
+                            <tr>
+                                <th>Infinitive</th>
+                                <th>English</th>
+                                <th>Future Stem</th>
+                                <th>Example (yo)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>decir</td>
+                                <td>to say</td>
+                                <td>dir-</td>
+                                <td>diré</td>
+                            </tr>
+                            <tr>
+                                <td>hacer</td>
+                                <td>to do</td>
+                                <td>har-</td>
+                                <td>haré</td>
+                            </tr>
+                            <tr>
+                                <td>poder</td>
+                                <td>to be able to</td>
+                                <td>podr-</td>
+                                <td>podré</td>
+                            </tr>
+                            <tr>
+                                <td>poner</td>
+                                <td>to put</td>
+                                <td>pondr-</td>
+                                <td>pondré</td>
+                            </tr>
+                            <tr>
+                                <td>querer</td>
+                                <td>to want</td>
+                                <td>querr-</td>
+                                <td>querré</td>
+                            </tr>
+                            <tr>
+                                <td>saber</td>
+                                <td>to know</td>
+                                <td>sabr-</td>
+                                <td>sabré</td>
+                            </tr>
+                            <tr>
+                                <td>salir</td>
+                                <td>to leave</td>
+                                <td>saldr-</td>
+                                <td>saldré</td>
+                            </tr>
+                            <tr>
+                                <td>tener</td>
+                                <td>to have</td>
+                                <td>tendr-</td>
+                                <td>tendré</td>
+                            </tr>
+                            <tr>
+                                <td>venir</td>
+                                <td>to come</td>
+                                <td>vendr-</td>
+                                <td>vendré</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- VERB PRACTICE TAB -->
+        <div class="tab-content" id="verb-practice">
+            <div class="activity-card">
+                <div class="activity-header">
+                    <div class="activity-title">💪 Práctica Intensiva: Verbos Regulares</div>
+                    <div class="time-badge">10 mins</div>
+                </div>
+                
+                <div class="practice-exercise">
+                    <h4 style="color: #d32f2f; margin-bottom: 15px;">Conjugate the verbs in the Future Simple:</h4>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>HABLAR (to speak)</strong></label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                            <div>
+                                <label>yo</label>
+                                <input type="text" class="exercise-input" id="reg1" data-answer="hablaré">
+                            </div>
+                            <div>
+                                <label>nosotros</label>
+                                <input type="text" class="exercise-input" id="reg2" data-answer="hablaremos">
+                            </div>
+                            <div>
+                                <label>tú</label>
+                                <input type="text" class="exercise-input" id="reg3" data-answer="hablarás">
+                            </div>
+                            <div>
+                                <label>vosotros</label>
+                                <input type="text" class="exercise-input" id="reg4" data-answer="hablaréis">
+                            </div>
+                            <div>
+                                <label>él/ella/usted</label>
+                                <input type="text" class="exercise-input" id="reg5" data-answer="hablará">
+                            </div>
+                            <div>
+                                <label>ellos/ellas/ustedes</label>
+                                <input type="text" class="exercise-input" id="reg6" data-answer="hablarán">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>APRENDER (to learn)</strong></label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                            <div>
+                                <label>yo</label>
+                                <input type="text" class="exercise-input" id="reg7" data-answer="aprenderé">
+                            </div>
+                            <div>
+                                <label>nosotros</label>
+                                <input type="text" class="exercise-input" id="reg8" data-answer="aprenderemos">
+                            </div>
+                            <div>
+                                <label>tú</label>
+                                <input type="text" class="exercise-input" id="reg9" data-answer="aprenderás">
+                            </div>
+                            <div>
+                                <label>ellos/ellas/ustedes</label>
+                                <input type="text" class="exercise-input" id="reg10" data-answer="aprenderán">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>VIVIR (to live)</strong></label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                            <div>
+                                <label>yo</label>
+                                <input type="text" class="exercise-input" id="reg11" data-answer="viviré">
+                            </div>
+                            <div>
+                                <label>nosotros</label>
+                                <input type="text" class="exercise-input" id="reg12" data-answer="viviremos">
+                            </div>
+                            <div>
+                                <label>él/ella/usted</label>
+                                <input type="text" class="exercise-input" id="reg13" data-answer="vivirá">
+                            </div>
+                            <div>
+                                <label>ellos/ellas/ustedes</label>
+                                <input type="text" class="exercise-input" id="reg14" data-answer="vivirán">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="submit-btn" onclick="checkRegularVerbs()">Check Regular Verbs</button>
+                    <div id="regular-feedback" style="margin-top: 20px; padding: 15px; border-radius: 8px; display: none;"></div>
+                </div>
+            </div>
+            
+            <div class="activity-card" style="margin-top: 20px;">
+                <div class="activity-header">
+                    <div class="activity-title">🔥 Práctica Intensiva: Verbos Irregulares</div>
+                    <div class="time-badge">10 mins</div>
+                </div>
+                
+                <div class="practice-exercise">
+                    <h4 style="color: #d32f2f; margin-bottom: 15px;">Conjugate the IRREGULAR verbs in the Future Simple:</h4>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>TENER (to have) → TENDR-</strong></label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                            <div>
+                                <label>yo</label>
+                                <input type="text" class="exercise-input" id="irreg1" data-answer="tendré">
+                            </div>
+                            <div>
+                                <label>nosotros</label>
+                                <input type="text" class="exercise-input" id="irreg2" data-answer="tendremos">
+                            </div>
+                            <div>
+                                <label>tú</label>
+                                <input type="text" class="exercise-input" id="irreg3" data-answer="tendrás">
+                            </div>
+                            <div>
+                                <label>ellos/ellas</label>
+                                <input type="text" class="exercise-input" id="irreg4" data-answer="tendrán">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>HACER (to do/make) → HAR-</strong></label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                            <div>
+                                <label>yo</label>
+                                <input type="text" class="exercise-input" id="irreg5" data-answer="haré">
+                            </div>
+                            <div>
+                                <label>nosotros</label>
+                                <input type="text" class="exercise-input" id="irreg6" data-answer="haremos">
+                            </div>
+                            <div>
+                                <label>él/ella</label>
+                                <input type="text" class="exercise-input" id="irreg7" data-answer="hará">
+                            </div>
+                            <div>
+                                <label>ellos/ellas</label>
+                                <input type="text" class="exercise-input" id="irreg8" data-answer="harán">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>PODER (to be able to) → PODR-</strong></label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                            <div>
+                                <label>yo</label>
+                                <input type="text" class="exercise-input" id="irreg9" data-answer="podré">
+                            </div>
+                            <div>
+                                <label>tú</label>
+                                <input type="text" class="exercise-input" id="irreg10" data-answer="podrás">
+                            </div>
+                            <div>
+                                <label>ella</label>
+                                <input type="text" class="exercise-input" id="irreg11" data-answer="podrá">
+                            </div>
+                            <div>
+                                <label>vosotros</label>
+                                <input type="text" class="exercise-input" id="irreg12" data-answer="podréis">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>DECIR (to say) → DIR-</strong></label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                            <div>
+                                <label>yo</label>
+                                <input type="text" class="exercise-input" id="irreg13" data-answer="diré">
+                            </div>
+                            <div>
+                                <label>tú</label>
+                                <input type="text" class="exercise-input" id="irreg14" data-answer="dirás">
+                            </div>
+                            <div>
+                                <label>nosotros</label>
+                                <input type="text" class="exercise-input" id="irreg15" data-answer="diremos">
+                            </div>
+                            <div>
+                                <label>ustedes</label>
+                                <input type="text" class="exercise-input" id="irreg16" data-answer="dirán">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>VENIR (to come) → VENDR-</strong></label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                            <div>
+                                <label>yo</label>
+                                <input type="text" class="exercise-input" id="irreg17" data-answer="vendré">
+                            </div>
+                            <div>
+                                <label>ellos</label>
+                                <input type="text" class="exercise-input" id="irreg18" data-answer="vendrán">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>SALIR (to leave) → SALDR-</strong></label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                            <div>
+                                <label>yo</label>
+                                <input type="text" class="exercise-input" id="irreg19" data-answer="saldré">
+                            </div>
+                            <div>
+                                <label>nosotros</label>
+                                <input type="text" class="exercise-input" id="irreg20" data-answer="saldremos">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>PONER (to put) → PONDR-</strong></label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                            <div>
+                                <label>tú</label>
+                                <input type="text" class="exercise-input" id="irreg21" data-answer="pondrás">
+                            </div>
+                            <div>
+                                <label>ellas</label>
+                                <input type="text" class="exercise-input" id="irreg22" data-answer="pondrán">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>QUERER (to want) → QUERR-</strong></label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                            <div>
+                                <label>yo</label>
+                                <input type="text" class="exercise-input" id="irreg23" data-answer="querré">
+                            </div>
+                            <div>
+                                <label>vosotros</label>
+                                <input type="text" class="exercise-input" id="irreg24" data-answer="querréis">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>SABER (to know) → SABR-</strong></label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                            <div>
+                                <label>ella</label>
+                                <input type="text" class="exercise-input" id="irreg25" data-answer="sabrá">
+                            </div>
+                            <div>
+                                <label>ustedes</label>
+                                <input type="text" class="exercise-input" id="irreg26" data-answer="sabrán">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="submit-btn" onclick="checkIrregularVerbs()">Check Irregular Verbs</button>
+                    <div id="irregular-feedback" style="margin-top: 20px; padding: 15px; border-radius: 8px; display: none;"></div>
+                </div>
+            </div>
+            
+            <div class="activity-card" style="margin-top: 20px;">
+                <div class="activity-header">
+                    <div class="activity-title">✍️ Práctica en Contexto</div>
+                </div>
+                
+                <div class="practice-exercise">
+                    <h4 style="color: #d32f2f; margin-bottom: 15px;">Complete the sentences with the correct future form:</h4>
+                    
+                    <div style="margin: 15px 0;">
+                        <label><strong>1.</strong> El próximo año, yo __________ (estudiar) música en la universidad.</label>
+                        <input type="text" class="exercise-input" id="context1" data-answer="estudiaré">
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <label><strong>2.</strong> Los cantantes __________ (tener) un concierto en Madrid.</label>
+                        <input type="text" class="exercise-input" id="context2" data-answer="tendrán">
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <label><strong>3.</strong> Nosotros __________ (poder) comprar las entradas mañana.</label>
+                        <input type="text" class="exercise-input" id="context3" data-answer="podremos">
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <label><strong>4.</strong> ¿Tú __________ (venir) al festival de música?</label>
+                        <input type="text" class="exercise-input" id="context4" data-answer="vendrás">
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <label><strong>5.</strong> La cantante __________ (hacer) una gira mundial.</label>
+                        <input type="text" class="exercise-input" id="context5" data-answer="hará">
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <label><strong>6.</strong> Ellos __________ (decir) la verdad sobre el escándalo.</label>
+                        <input type="text" class="exercise-input" id="context6" data-answer="dirán">
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <label><strong>7.</strong> El grupo __________ (salir) de gira en julio.</label>
+                        <input type="text" class="exercise-input" id="context7" data-answer="saldrá">
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <label><strong>8.</strong> Yo __________ (poner) mi música favorita en la fiesta.</label>
+                        <input type="text" class="exercise-input" id="context8" data-answer="pondré">
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <label><strong>9.</strong> Los adolescentes __________ (identificarse) con los artistas.</label>
+                        <input type="text" class="exercise-input" id="context9" data-answer="se identificarán,identificarán">
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <label><strong>10.</strong> Vosotros __________ (saber) la letra de la canción pronto.</label>
+                        <input type="text" class="exercise-input" id="context10" data-answer="sabréis">
+                    </div>
+                    
+                    <button class="submit-btn" onclick="checkContextExercises()">Check Context Exercises</button>
+                    <div id="context-feedback" style="margin-top: 20px; padding: 15px; border-radius: 8px; display: none;"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ACTIVITIES TAB -->
+        <div class="tab-content" id="activities">
+            <div class="activity-card">
+                <div class="activity-header">
+                    <div class="activity-title">✏️ Práctica del Futuro</div>
+                    <div class="time-badge">5 mins</div>
+                </div>
+                
+                <div class="practice-exercise">
+                    <p><strong>Complete the sentences with the correct future form:</strong></p>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>1.</strong> Mañana yo __________ (escuchar) el nuevo álbum de Rosalía.</label>
+                        <input type="text" class="exercise-input" id="ex1" data-answer="escucharé">
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>2.</strong> Los adolescentes __________ (buscar) artistas con los que identificarse.</label>
+                        <input type="text" class="exercise-input" id="ex2" data-answer="buscarán">
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>3.</strong> Nosotros __________ (tener) un concierto en julio.</label>
+                        <input type="text" class="exercise-input" id="ex3" data-answer="tendremos">
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>4.</strong> ¿Tú __________ (poder) venir al festival de música?</label>
+                        <input type="text" class="exercise-input" id="ex4" data-answer="podrás">
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>5.</strong> La cantante __________ (hacer) una gira mundial.</label>
+                        <input type="text" class="exercise-input" id="ex5" data-answer="hará">
+                    </div>
+                    
+                    <button class="submit-btn" onclick="checkAllExercises()">Check Answers</button>
+                    <div id="exercise-feedback" style="margin-top: 20px; padding: 15px; border-radius: 8px; display: none;"></div>
+                </div>
+            </div>
+            
+            <div class="activity-card">
+                <div class="activity-header">
+                    <div class="activity-title">🎵 Discussion Activity: Música moderna de poco valor</div>
+                    <div class="time-badge">7 mins</div>
+                </div>
+                
+                <div class="discussion-questions">
+                    <p><strong>Read the opinions and discuss with your partner:</strong></p>
+                    
+                    <div class="question-item">
+                        <strong>Alejandro dice:</strong> "La música española se ha centrado más en la música comercial, sobre todo en el género reguetón... No es como la música de otros cantantes como Juanes, Joan Manuel Serrat, o Joaquín Sabina, cuando la letra tenía significado durante cierto momento histórico."
+                    </div>
+                    
+                    <div class="question-item">
+                        <strong>Mar dice:</strong> "Ahora si te pones a leer la letra de una canción de reguetón, te das cuenta de que el 90% de las palabras van a ser inútiles, no tendrán ningún significado más allá de cosas sexuales."
+                    </div>
+                    
+                    <p style="margin-top: 20px;"><strong>Discuss:</strong></p>
+                    <ul style="padding-left: 30px; margin-top: 10px;">
+                        <li>¿Estás de acuerdo con estas opiniones? ¿Por qué (no)?</li>
+                        <li>¿Es importante que la música tenga un mensaje profundo?</li>
+                        <li>¿Qué tipo de música prefieres tú y por qué?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Floating Accent Keyboard -->
+    <div class="accent-keyboard">
+        <div style="font-weight: 600; margin-bottom: 10px; color: #d32f2f;">Spanish Accents:</div>
+        <button class="accent-btn" onclick="insertAccent('á')">á</button>
+        <button class="accent-btn" onclick="insertAccent('é')">é</button>
+        <button class="accent-btn" onclick="insertAccent('í')">í</button>
+        <button class="accent-btn" onclick="insertAccent('ó')">ó</button>
+        <button class="accent-btn" onclick="insertAccent('ú')">ú</button>
+        <button class="accent-btn" onclick="insertAccent('ñ')">ñ</button>
+        <button class="accent-btn" onclick="insertAccent('ü')">ü</button>
+        <button class="accent-btn" onclick="insertAccent('¿')">¿</button>
+        <button class="accent-btn" onclick="insertAccent('¡')">¡</button>
+    </div>
+    
+    <script>
+        // Timer functionality
+        let timeLeft = 1800; // 30 minutes in seconds
+        let timerInterval;
+        
+        function startTimer() {
+            timerInterval = setInterval(function() {
+                timeLeft--;
+                
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                
+                document.getElementById('timer').textContent = 
+                    '⏱️ ' + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('timer').textContent = '⏱️ Time Up!';
+                    document.getElementById('timer').style.background = 'linear-gradient(135deg, #d32f2f, #c62828)';
+                }
+                
+                // Warning at 5 minutes
+                if (timeLeft === 300) {
+                    document.getElementById('timer').style.background = 'linear-gradient(135deg, #f57c00, #ff6f00)';
+                }
+            }, 1000);
+        }
+        
+        // Start timer when page loads
+        window.addEventListener('load', function() {
+            startTimer();
+        });
+        
+        // Tab switching functionality
+        function showTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(function(tab) {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all nav tabs
+            const navTabs = document.querySelectorAll('.nav-tab');
+            navTabs.forEach(function(tab) {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked nav tab
+            event.target.classList.add('active');
+        }
+        
+        // Crossword checking
+        function checkCrossword(inputId) {
+            const input = document.getElementById(inputId);
+            const userAnswer = input.value.toLowerCase().trim();
+            const correctAnswer = input.getAttribute('data-answer').toLowerCase();
+            
+            // Normalize text for comparison
+            const normalizedUser = userAnswer.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            const normalizedCorrect = correctAnswer.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            
+            if (normalizedUser === normalizedCorrect || userAnswer === correctAnswer) {
+                input.classList.remove('incorrect-answer');
+                input.classList.add('correct-answer');
+            } else {
+                input.classList.remove('correct-answer');
+                input.classList.add('incorrect-answer');
+            }
+        }
+        
+        // Exercise checking
+        function checkAllExercises() {
+            const exercises = [
+                { id: 'ex1', answer: 'escucharé' },
+                { id: 'ex2', answer: 'buscarán' },
+                { id: 'ex3', answer: 'tendremos' },
+                { id: 'ex4', answer: 'podrás' },
+                { id: 'ex5', answer: 'hará' }
+            ];
+            
+            let correct = 0;
+            let total = exercises.length;
+            
+            exercises.forEach(function(exercise) {
+                const input = document.getElementById(exercise.id);
+                const userAnswer = input.value.toLowerCase().trim();
+                const correctAnswer = exercise.answer.toLowerCase();
+                
+                // Normalize for accent comparison
+                const normalizedUser = userAnswer.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                const normalizedCorrect = correctAnswer.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                
+                if (normalizedUser === normalizedCorrect || userAnswer === correctAnswer) {
+                    input.style.borderColor = '#28a745';
+                    input.style.backgroundColor = '#d4edda';
+                    correct++;
+                } else {
+                    input.style.borderColor = '#dc3545';
+                    input.style.backgroundColor = '#f8d7da';
+                }
+            });
+            
+            const feedback = document.getElementById('exercise-feedback');
+            feedback.style.display = 'block';
+            
+            if (correct === total) {
+                feedback.style.backgroundColor = '#d4edda';
+                feedback.style.borderLeft = '4px solid #28a745';
+                feedback.innerHTML = '<strong>¡Excelente!</strong> All answers are correct! 🎉';
+            } else {
+                feedback.style.backgroundColor = '#fff3cd';
+                feedback.style.borderLeft = '4px solid #ffc107';
+                feedback.innerHTML = '<strong>Score:</strong> ' + correct + '/' + total + ' correct. Review the incorrect answers and try again!';
+            }
+        }
+        
+        // Accent keyboard functionality
+        let activeInput = null;
+        
+        // Track the currently focused input
+        document.addEventListener('focusin', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                activeInput = e.target;
+            }
+        });
+        
+        function insertAccent(accent) {
+            if (activeInput) {
+                const start = activeInput.selectionStart;
+                const end = activeInput.selectionEnd;
+                const text = activeInput.value;
+                activeInput.value = text.substring(0, start) + accent + text.substring(end);
+                activeInput.selectionStart = activeInput.selectionEnd = start + accent.length;
+                activeInput.focus();
+            } else {
+                // If no input is focused, focus on the first input in the active tab
+                const firstInput = document.querySelector('.tab-content.active input');
+                if (firstInput) {
+                    firstInput.focus();
+                    activeInput = firstInput;
+                    insertAccent(accent);
+                }
+            }
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Alt + number for quick accent insertion
+            if (e.altKey) {
+                switch(e.key) {
+                    case '1': insertAccent('á'); e.preventDefault(); break;
+                    case '2': insertAccent('é'); e.preventDefault(); break;
+                    case '3': insertAccent('í'); e.preventDefault(); break;
+                    case '4': insertAccent('ó'); e.preventDefault(); break;
+                    case '5': insertAccent('ú'); e.preventDefault(); break;
+                    case 'n': insertAccent('ñ'); e.preventDefault(); break;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

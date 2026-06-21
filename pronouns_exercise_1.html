@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio de Pronombres de Objeto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        h2 {
+            color: #555;
+            margin: 20px 0 15px;
+            font-size: 18px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 8px;
+        }
+
+        .example {
+            background: #f0f4ff;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .question {
+            margin: 20px 0;
+            padding: 15px;
+            background: #fafafa;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .question p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        input[type="text"] {
+            width: 60px;
+            padding: 5px 8px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        input.correct {
+            background-color: #aaddaa !important;
+            border-color: #4CAF50;
+        }
+
+        input.incorrect {
+            background-color: #ffaaaa !important;
+            border-color: #f44336;
+        }
+
+        .answer-hint {
+            color: red;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        #results {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 8px;
+            font-weight: bold;
+            display: none;
+        }
+
+        /* Virtual Keyboard */
+        #virtualKeyboard {
+            position: fixed;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: none;
+            cursor: move;
+        }
+
+        #virtualKeyboard.visible {
+            display: block;
+        }
+
+        .keyboard-header {
+            background: #667eea;
+            color: white;
+            padding: 8px;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 5px 5px 0 0;
+            margin: -15px -15px 10px -15px;
+            cursor: move;
+        }
+
+        .keyboard-buttons {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .kb-btn {
+            background: #f0f4ff;
+            border: 2px solid #667eea;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .kb-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .kb-btn:active {
+            transform: scale(0.95);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            input[type="text"] {
+                width: 50px;
+            }
+
+            .keyboard-buttons {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ejercicio de Pronombres de Objeto Directo e Indirecto</h1>
+        <h2>Objeto directo e indirecto - Construye la frase</h2>
+
+        <div class="example">
+            <p><strong>Ejemplo:</strong> Yo – repartir los exámenes – ustedes → Yo <strong>les</strong> reparto los exámenes</p>
+        </div>
+
+        <form id="exerciseForm">
+            <div class="question">
+                <p>1. La madre - leer el <span class="bold">libro</span> - al niño. → Ella <input type="text" data-answer="lo" id="q1"> lee al niño. <span class="answer-hint" id="hint1"></span></p>
+            </div>
+
+            <div class="question">
+                <p>2. Marta – enseñar las fotos - <span class="bold">tú</span>. → Marta <input type="text" data-answer="te" id="q2"> enseña las fotos. <span class="answer-hint" id="hint2"></span></p>
+            </div>
+
+            <div class="question">
+                <p>3. Sara - vender la moto – <span class="bold">a sus amigos</span>. → Sara <input type="text" data-answer="les" id="q3"> vende la moto. <span class="answer-hint" id="hint3"></span></p>
+            </div>
+
+            <div class="question">
+                <p>4. Ella - servir unas empanadas – <span class="bold">nosotros</span>. → Ella <input type="text" data-answer="nos" id="q4"> sirve unas empanadas. <span class="answer-hint" id="hint4"></span></p>
+            </div>
+
+            <div class="question">
+                <p>5. Sofía - comprar unos regalos – <span class="bold">para mí</span> → Sofía <input type="text" data-answer="me" id="q5"> compra unos regalos. <span class="answer-hint" id="hint5"></span></p>
+            </div>
+
+            <div class="question">
+                <p>6. Lola – pedir un favor grande - <span class="bold">ustedes</span>. → Lola <input type="text" data-answer="les" id="q6"> pide un favor grande. <span class="answer-hint" id="hint6"></span></p>
+            </div>
+
+            <div class="question">
+                <p>7. Tú y yo - dar cien dólares – <span class="bold">a Luis</span>. → Tú y yo <input type="text" data-answer="le" id="q7"> damos cien dólares a Luis. <span class="answer-hint" id="hint7"></span></p>
+            </div>
+
+            <div class="question">
+                <p>8. Tu padre - pagar las cuentas – <span class="bold">tú</span>. → Tu padre <input type="text" data-answer="te" id="q8"> paga las cuentas. <span class="answer-hint" id="hint8"></span></p>
+            </div>
+
+            <div class="question">
+                <p>9. Ellos - decir un chiste bueno - <span class="bold">nosotros</span>. → Ellos <input type="text" data-answer="nos" id="q9"> dicen un chiste bueno. <span class="answer-hint" id="hint9"></span></p>
+            </div>
+
+            <div class="question">
+                <p>10. Mis tíos - mostrar una foto – <span class="bold">yo</span>. → Mis tíos <input type="text" data-answer="me" id="q10"> muestran una foto. <span class="answer-hint" id="hint10"></span></p>
+            </div>
+
+            <div id="results"></div>
+
+            <div class="buttons">
+                <button type="button" onclick="checkAnswers()">Terminé / Check Answers</button>
+                <button type="button" onclick="resetExercise()">Reiniciar / Reset</button>
+                <button type="button" onclick="downloadResults()">Descargar Resultados / Download Results</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="virtualKeyboard">
+        <div class="keyboard-header">Teclado Virtual</div>
+        <div class="keyboard-buttons">
+            <button class="kb-btn" onclick="insertChar('ñ')">ñ</button>
+            <button class="kb-btn" onclick="insertChar('á')">á</button>
+            <button class="kb-btn" onclick="insertChar('é')">é</button>
+            <button class="kb-btn" onclick="insertChar('í')">í</button>
+            <button class="kb-btn" onclick="insertChar('ó')">ó</button>
+            <button class="kb-btn" onclick="insertChar('ú')">ú</button>
+            <button class="kb-btn" onclick="insertChar('ü')">ü</button>
+            <button class="kb-btn" onclick="insertChar('Ñ')">Ñ</button>
+            <button class="kb-btn" onclick="insertChar('Á')">Á</button>
+            <button class="kb-btn" onclick="insertChar('É')">É</button>
+            <button class="kb-btn" onclick="insertChar('Í')">Í</button>
+            <button class="kb-btn" onclick="insertChar('Ó')">Ó</button>
+            <button class="kb-btn" onclick="insertChar('Ú')">Ú</button>
+            <button class="kb-btn" onclick="insertChar('Ü')">Ü</button>
+        </div>
+    </div>
+
+    <script>
+        let currentInput = null;
+        const keyboard = document.getElementById('virtualKeyboard');
+        let isDragging = false;
+        let currentX;
+        let currentY;
+        let initialX;
+        let initialY;
+        let xOffset = 100;
+        let yOffset = 100;
+
+        // Add focus event to all inputs
+        document.querySelectorAll('input[type="text"]').forEach(input => {
+            input.addEventListener('focus', function(e) {
+                currentInput = this;
+                showKeyboard(e);
+            });
+
+            input.addEventListener('blur', function() {
+                setTimeout(() => {
+                    if (!keyboard.matches(':hover')) {
+                        hideKeyboard();
+                    }
+                }, 200);
+            });
+        });
+
+        function showKeyboard(e) {
+            keyboard.classList.add('visible');
+            keyboard.style.left = Math.min(e.clientX + 20, window.innerWidth - 400) + 'px';
+            keyboard.style.top = Math.min(e.clientY + 20, window.innerHeight - 200) + 'px';
+        }
+
+        function hideKeyboard() {
+            keyboard.classList.remove('visible');
+        }
+
+        function insertChar(char) {
+            if (currentInput) {
+                currentInput.value += char;
+                currentInput.focus();
+            }
+        }
+
+        // Dragging functionality
+        const header = keyboard.querySelector('.keyboard-header');
+        
+        header.addEventListener('mousedown', dragStart);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', dragEnd);
+
+        function dragStart(e) {
+            initialX = e.clientX - xOffset;
+            initialY = e.clientY - yOffset;
+
+            if (e.target === header) {
+                isDragging = true;
+            }
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+                currentX = e.clientX - initialX;
+                currentY = e.clientY - initialY;
+
+                xOffset = currentX;
+                yOffset = currentY;
+
+                setTranslate(currentX, currentY, keyboard);
+            }
+        }
+
+        function dragEnd(e) {
+            initialX = currentX;
+            initialY = currentY;
+            isDragging = false;
+        }
+
+        function setTranslate(xPos, yPos, el) {
+            el.style.left = xPos + 'px';
+            el.style.top = yPos + 'px';
+        }
+
+        function checkAnswers() {
+            const inputs = document.querySelectorAll('input[type="text"]');
+            let correct = 0;
+            let total = inputs.length;
+
+            inputs.forEach((input, index) => {
+                const answer = input.dataset.answer.toLowerCase().trim();
+                const userAnswer = input.value.toLowerCase().trim();
+                const hintSpan = document.getElementById(`hint${index + 1}`);
+
+                if (userAnswer === answer) {
+                    input.classList.remove('incorrect');
+                    input.classList.add('correct');
+                    hintSpan.textContent = '';
+                    correct++;
+                } else {
+                    input.classList.remove('correct');
+                    input.classList.add('incorrect');
+                    hintSpan.textContent = ` (${answer})`;
+                }
+            });
+
+            const percentage = Math.round((correct / total) * 100);
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.style.display = 'block';
+            resultsDiv.innerHTML = `<strong>Has contestado correctamente ${correct} de las ${total} preguntas (${percentage}%).</strong>`;
+        }
+
+        function resetExercise() {
+            const inputs = document.querySelectorAll('input[type="text"]');
+            inputs.forEach((input, index) => {
+                input.value = '';
+                input.classList.remove('correct', 'incorrect');
+                document.getElementById(`hint${index + 1}`).textContent = '';
+            });
+            document.getElementById('results').style.display = 'none';
+        }
+
+        function downloadResults() {
+            const inputs = document.querySelectorAll('input[type="text"]');
+            let content = 'EJERCICIO DE PRONOMBRES DE OBJETO DIRECTO E INDIRECTO\n';
+            content += '=' .repeat(60) + '\n\n';
+            
+            inputs.forEach((input, index) => {
+                const questionText = input.parentElement.textContent.split('→')[0].trim();
+                const answer = input.dataset.answer;
+                const userAnswer = input.value || '(sin respuesta)';
+                const isCorrect = input.value.toLowerCase().trim() === answer.toLowerCase();
+                
+                content += `Pregunta ${index + 1}:\n`;
+                content += `${questionText}\n`;
+                content += `Tu respuesta: ${userAnswer}\n`;
+                content += `Respuesta correcta: ${answer}\n`;
+                content += `Estado: ${isCorrect ? '✓ CORRECTO' : '✗ INCORRECTO'}\n`;
+                content += '\n';
+            });
+
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ejercicio_pronombres_resultados.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

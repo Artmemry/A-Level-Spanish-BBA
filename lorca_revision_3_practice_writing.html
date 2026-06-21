@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LcdBA – Práctica de Ensayo / Essay Practice</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Georgia',serif;background:#1a1a2e;color:#e0e0e0;padding:20px;min-height:100vh}
+.container{max-width:900px;margin:0 auto}
+h1{text-align:center;color:#f0a500;font-size:1.75em;margin-bottom:6px;text-shadow:2px 2px 4px rgba(0,0,0,.5)}
+.subtitle{text-align:center;color:#b0b0c0;font-style:italic;margin-bottom:24px;font-size:.9em}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:22px}
+.tab-btn{background:rgba(240,165,0,.15);border:2px solid #f0a500;color:#f0a500;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.88em;font-weight:bold;transition:all .25s}
+.tab-btn:hover,.tab-btn.active{background:#f0a500;color:#1a1a2e}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.q-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+@media(max-width:560px){.q-grid{grid-template-columns:1fr}}
+.q-card{background:rgba(255,255,255,.05);border:2px solid rgba(240,165,0,.25);border-radius:12px;padding:16px;cursor:pointer;transition:all .25s}
+.q-card:hover{border-color:#f0a500;background:rgba(240,165,0,.08);transform:translateY(-2px)}
+.q-card.selected{border-color:#f0a500;background:rgba(240,165,0,.12)}
+.q-tag{font-size:.72em;padding:2px 8px;border-radius:10px;font-weight:bold;display:inline-block;margin-bottom:8px}
+.q-tag-rep{background:rgba(231,76,60,.25);border:1px solid #e74c3c;color:#e74c3c}
+.q-tag-lib{background:rgba(52,152,219,.25);border:1px solid #3498db;color:#3498db}
+.q-tag-hon{background:rgba(155,89,182,.25);border:1px solid #9b59b6;color:#9b59b6}
+.q-tag-cla{background:rgba(230,126,34,.25);border:1px solid #e67e22;color:#e67e22}
+.q-tag-mix{background:rgba(26,188,156,.25);border:1px solid #1abc9c;color:#1abc9c}
+.q-text{font-size:.9em;color:#e0e0e0;line-height:1.5}
+.q-level{font-size:.75em;color:#808090;margin-top:6px}
+.timer-bar{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.05);border-radius:12px;padding:14px 20px;margin-bottom:18px;border:1px solid rgba(255,255,255,.1)}
+.timer-display{font-size:2em;font-weight:bold;font-family:monospace;color:#ffd700;min-width:70px}
+.timer-display.warning{color:#FF9800;animation:timerPulse 1s infinite}
+.timer-display.danger{color:#f44336;animation:timerPulse .5s infinite}
+@keyframes timerPulse{0%,100%{opacity:1}50%{opacity:.4}}
+.timer-label{flex:1;font-size:.85em;color:#a0a0b0}
+.timer-btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn{padding:8px 15px;border:none;border-radius:6px;cursor:pointer;font-size:.85em;font-weight:bold;transition:all .2s}
+.btn-start{background:#4CAF50;color:white}.btn-start:hover{background:#388E3C}
+.btn-pause{background:#FF9800;color:white}.btn-pause:hover{background:#E65100}
+.btn-reset{background:#f44336;color:white}.btn-reset:hover{background:#c62828}
+.btn-primary{background:linear-gradient(135deg,#f0a500,#ff8c00);color:#1a1a2e}.btn-primary:hover{filter:brightness(1.1)}
+.writing-section{background:rgba(255,255,255,.04);border-radius:12px;padding:18px;margin-bottom:16px;border:1px solid rgba(255,255,255,.08)}
+.ws-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.ws-title{font-weight:bold;color:#f0a500;font-size:.95em}
+.word-count{font-size:.8em;color:#808090;background:rgba(0,0,0,.3);padding:3px 9px;border-radius:12px}
+textarea.essay-input{width:100%;background:rgba(0,0,0,.25);border:2px solid rgba(240,165,0,.2);border-radius:8px;color:#e0e0e0;font-size:.95em;font-family:'Georgia',serif;padding:14px;resize:vertical;min-height:140px;line-height:1.7;transition:border .2s}
+textarea.essay-input:focus{outline:none;border-color:rgba(240,165,0,.6)}
+.scaffold-toggle{font-size:.78em;color:#f0a500;cursor:pointer;display:flex;align-items:center;gap:4px;user-select:none;margin-bottom:8px}
+.scaffold-box{background:rgba(240,165,0,.06);border:1px solid rgba(240,165,0,.2);border-radius:8px;padding:12px;margin-bottom:10px;font-size:.83em;color:#c0b080;display:none}
+.scaffold-box.open{display:block}
+.scaffold-box ul{padding-left:18px}
+.scaffold-box li{margin-bottom:5px}
+.rubric{background:rgba(255,255,255,.04);border-radius:12px;padding:18px;margin-bottom:16px;border:1px solid rgba(255,255,255,.08)}
+.rubric h3{color:#f0a500;margin-bottom:14px;font-size:.95em}
+.rubric-row{margin-bottom:16px}
+.rubric-label{font-weight:bold;font-size:.88em;color:#e0e0e0;margin-bottom:6px;display:flex;justify-content:space-between}
+.rubric-ao{font-size:.72em;padding:2px 7px;border-radius:10px;background:rgba(255,255,255,.1);color:#a0a0b0}
+.rubric-scale{display:flex;gap:4px}
+.scale-btn{flex:1;padding:8px 4px;border:2px solid rgba(255,255,255,.12);border-radius:6px;cursor:pointer;font-size:.78em;text-align:center;background:transparent;color:#a0a0b0;transition:all .2s;line-height:1.2}
+.scale-btn:hover{border-color:#f0a500;color:#f0a500}
+.scale-btn.sel-1{background:rgba(244,67,54,.25);border-color:#f44336;color:#ef9a9a}
+.scale-btn.sel-2{background:rgba(255,152,0,.25);border-color:#FF9800;color:#ffb74d}
+.scale-btn.sel-3{background:rgba(76,175,80,.25);border-color:#4CAF50;color:#a5d6a7}
+.scale-btn.sel-4{background:rgba(33,150,243,.25);border-color:#2196F3;color:#90caf9}
+.rubric-desc{font-size:.78em;color:#808090;margin-top:5px;display:none}
+.rubric-desc.show{display:block}
+.total-score{background:linear-gradient(135deg,rgba(240,165,0,.15),rgba(255,140,0,.08));border:2px solid rgba(240,165,0,.4);border-radius:10px;padding:16px;text-align:center;margin-top:16px}
+.total-label{font-size:.85em;color:#a0a0b0;margin-bottom:4px}
+.total-num{font-size:2.2em;font-weight:bold;color:#f0a500}
+.total-grade{font-size:.9em;margin-top:4px}
+.grade-A{color:#4CAF50}.grade-B{color:#2196F3}.grade-C{color:#FF9800}.grade-D{color:#f44336}
+.feedback-general{background:rgba(255,255,255,.05);border-radius:8px;padding:12px;margin-top:12px;font-size:.85em;color:#c0c0c0;border-left:3px solid #f0a500;display:none}
+.feedback-general.show{display:block}
+.exemplar-card{background:rgba(255,255,255,.05);border-radius:12px;padding:18px;margin-bottom:16px;border:1px solid rgba(255,255,255,.1)}
+.exemplar-card h3{color:#f0a500;font-size:.95em;margin-bottom:12px}
+.exemplar-text{background:rgba(0,0,0,.25);border-radius:8px;padding:14px;font-size:.87em;color:#c0d0b0;line-height:1.7;border-left:3px solid #4CAF50;margin-bottom:10px}
+.exemplar-notes{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:540px){.exemplar-notes{grid-template-columns:1fr}}
+.note-chip{background:rgba(0,0,0,.2);border-radius:6px;padding:8px 10px;font-size:.78em;color:#a0b0c0;border-left:2px solid}
+.plan-section{background:rgba(255,255,255,.04);border-radius:12px;padding:18px;margin-bottom:16px;border:1px solid rgba(255,255,255,.08)}
+.plan-section h3{color:#f0a500;margin-bottom:12px;font-size:.95em}
+.plan-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:14px}
+.plan-num{background:#f0a500;color:#1a1a2e;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:.82em;flex-shrink:0;margin-top:3px}
+.plan-field{flex:1}
+.plan-label{font-size:.75em;color:#808090;margin-bottom:4px;font-weight:bold}
+input.plan-input,textarea.plan-input{width:100%;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:#e0e0e0;font-size:.85em;padding:8px 10px;font-family:'Georgia',serif}
+input.plan-input:focus,textarea.plan-input:focus{outline:none;border-color:rgba(240,165,0,.5)}
+textarea.plan-input{min-height:60px;resize:vertical}
+.sq-display{background:rgba(240,165,0,.08);border:2px solid rgba(240,165,0,.3);border-radius:10px;padding:14px;margin-bottom:18px;font-size:.9em;color:#ffd700;display:none}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>✍️ Práctica de Ensayo / Essay Practice</h1>
+<p class="subtitle">Planifica, escribe y autoevalúa / Plan, write and self-assess — Edexcel A-Level Paper 2<br>
+<small style="color:#808090">Citas de los párrafos modelo verificadas directamente del texto / Model paragraph quotes verified from the text</small></p>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('questions')">❓ Preguntas</button>
+  <button class="tab-btn" onclick="showTab('plan')">📋 Planificar</button>
+  <button class="tab-btn" onclick="showTab('write')">✍️ Escribir</button>
+  <button class="tab-btn" onclick="showTab('assess')">⭐ Autoevaluar</button>
+  <button class="tab-btn" onclick="showTab('exemplar')">📖 Ejemplos</button>
+</div>
+
+<!-- QUESTIONS -->
+<div id="tab-questions" class="tab-panel active">
+<p style="color:#a0a0b0;font-size:.85em;margin-bottom:16px">Selecciona una pregunta / Select a question. Modelled on Edexcel A-Level Spanish Paper 2 Section B.</p>
+<div class="q-grid" id="qGrid"></div>
+<div style="text-align:center;margin-top:8px">
+  <button class="btn btn-primary" onclick="selectQuestion()">Usar esta pregunta → / Use this question →</button>
+</div>
+</div>
+
+<!-- PLAN -->
+<div id="tab-plan" class="tab-panel">
+<div class="sq-display" id="sqDisplay"></div>
+<div class="plan-section">
+  <h3>📋 Mi Plan de Ensayo / My Essay Plan <span style="font-size:.75em;color:#808090;font-weight:normal">(~5 minutos)</span></h3>
+  <div class="plan-row">
+    <div class="plan-num">I</div>
+    <div class="plan-field">
+      <div class="plan-label">INTRODUCCIÓN — tesis principal / main thesis</div>
+      <textarea class="plan-input" id="plan-intro" placeholder="En LcdBA, Lorca explora… a través de…"></textarea>
+    </div>
+  </div>
+  <div class="plan-row">
+    <div class="plan-num">1</div>
+    <div class="plan-field">
+      <div class="plan-label">PÁRRAFO 1 — Punto / Point</div>
+      <input class="plan-input" id="plan-p1" placeholder="Tu argumento principal…">
+      <div class="plan-label" style="margin-top:6px">Cita exacta del texto / Exact quote</div>
+      <input class="plan-input" id="plan-e1" placeholder='"…" — [personaje, acto]'>
+      <div class="plan-label" style="margin-top:6px">Análisis / Analysis</div>
+      <input class="plan-input" id="plan-a1" placeholder="Esto muestra que…">
+    </div>
+  </div>
+  <div class="plan-row">
+    <div class="plan-num">2</div>
+    <div class="plan-field">
+      <div class="plan-label">PÁRRAFO 2 — Punto / Point</div>
+      <input class="plan-input" id="plan-p2" placeholder="Tu segundo argumento…">
+      <div class="plan-label" style="margin-top:6px">Cita exacta del texto / Exact quote</div>
+      <input class="plan-input" id="plan-e2" placeholder='"…" — [personaje, acto]'>
+      <div class="plan-label" style="margin-top:6px">Análisis / Analysis</div>
+      <input class="plan-input" id="plan-a2" placeholder="Esto muestra que…">
+    </div>
+  </div>
+  <div class="plan-row">
+    <div class="plan-num">3</div>
+    <div class="plan-field">
+      <div class="plan-label">PÁRRAFO 3 — Contraargumento / Counter-argument</div>
+      <input class="plan-input" id="plan-p3" placeholder="Sin embargo, se podría argumentar que…">
+      <div class="plan-label" style="margin-top:6px">Evidencia / Evidence</div>
+      <input class="plan-input" id="plan-e3" placeholder='"…" — [personaje, acto]'>
+    </div>
+  </div>
+  <div class="plan-row">
+    <div class="plan-num">C</div>
+    <div class="plan-field">
+      <div class="plan-label">CONCLUSIÓN — juicio final / final judgement</div>
+      <textarea class="plan-input" id="plan-conc" placeholder="En conclusión, Lorca presenta…"></textarea>
+    </div>
+  </div>
+</div>
+<div style="text-align:center"><button class="btn btn-primary" onclick="goToWrite()">Empezar a escribir → / Start writing →</button></div>
+</div>
+
+<!-- WRITE -->
+<div id="tab-write" class="tab-panel">
+<div class="timer-bar">
+  <div class="timer-display" id="timerDisplay">35:00</div>
+  <div class="timer-label">
+    <strong style="color:#ffd700">Temporizador / Timer</strong><br>
+    <span style="font-size:.82em">Edexcel Paper 2: ~35 min | Objetivo: 250–300 palabras / Target: 250–300 words</span>
+  </div>
+  <div class="timer-btns">
+    <button class="btn btn-start" onclick="startTimer()">▶ Iniciar</button>
+    <button class="btn btn-pause" onclick="pauseTimer()">⏸ Pausar</button>
+    <button class="btn btn-reset" onclick="resetTimer()">↺ Reset</button>
+  </div>
+</div>
+<div class="sq-display" id="sqDisplay2"></div>
+
+<div class="writing-section">
+  <div class="ws-header"><span class="ws-title">📝 Introducción</span><span class="word-count" id="wc-intro">0 palabras</span></div>
+  <div class="scaffold-toggle" onclick="toggleScaffold('s-intro')">▸ Ver ayuda / Show scaffold</div>
+  <div class="scaffold-box" id="s-intro">
+    <ul>
+      <li>Nombra obra, autor y subtítulo: <em>En <strong>La casa de Bernarda Alba</strong> de Federico García Lorca — subtitulada "Drama de mujeres en los pueblos de España"…</em></li>
+      <li>Contextualiza: <em>…escrita en 1936, poco antes de la Guerra Civil española…</em></li>
+      <li>Presenta tu tesis claramente.</li>
+    </ul>
+  </div>
+  <textarea class="essay-input" id="intro-text" placeholder="Escribe tu introducción aquí…" oninput="updateWC('intro-text','wc-intro')"></textarea>
+</div>
+
+<div class="writing-section">
+  <div class="ws-header"><span class="ws-title">📝 Párrafo 1</span><span class="word-count" id="wc-p1">0 palabras</span></div>
+  <div class="scaffold-toggle" onclick="toggleScaffold('s-p1')">▸ Ver ayuda / Show scaffold</div>
+  <div class="scaffold-box" id="s-p1">
+    <ul>
+      <li><strong>Punto:</strong> <em>El tema de [X] es evidente desde el principio, ya que…</em></li>
+      <li><strong>Ejemplo (cita exacta):</strong> <em>Por ejemplo, cuando Bernarda dice "…" (Acto I/II/III)…</em></li>
+      <li><strong>Análisis:</strong> <em>Esto demuestra que… / Lorca utiliza [metáfora/símbolo] para mostrar…</em></li>
+      <li><strong>Conectar:</strong> <em>Además, esto refleja el contexto histórico de…</em></li>
+    </ul>
+  </div>
+  <textarea class="essay-input" id="p1-text" placeholder="Escribe tu primer párrafo (estructura PEA)…" oninput="updateWC('p1-text','wc-p1')"></textarea>
+</div>
+
+<div class="writing-section">
+  <div class="ws-header"><span class="ws-title">📝 Párrafo 2</span><span class="word-count" id="wc-p2">0 palabras</span></div>
+  <div class="scaffold-toggle" onclick="toggleScaffold('s-p2')">▸ Ver ayuda / Show scaffold</div>
+  <div class="scaffold-box" id="s-p2">
+    <ul>
+      <li>Empieza con un conector: <em>Sin embargo, / Asimismo, / Por otro lado, / Además,</em></li>
+      <li>Nuevo argumento relacionado con PEA</li>
+      <li><em>El contraste entre X e Y subraya…</em></li>
+    </ul>
+  </div>
+  <textarea class="essay-input" id="p2-text" placeholder="Escribe tu segundo párrafo…" oninput="updateWC('p2-text','wc-p2')"></textarea>
+</div>
+
+<div class="writing-section">
+  <div class="ws-header"><span class="ws-title">📝 Párrafo 3 — Contraargumento</span><span class="word-count" id="wc-p3">0 palabras</span></div>
+  <div class="scaffold-toggle" onclick="toggleScaffold('s-p3')">▸ Ver ayuda / Show scaffold</div>
+  <div class="scaffold-box" id="s-p3">
+    <ul>
+      <li>Empieza: <em>Sin embargo, se podría argumentar que…</em></li>
+      <li>Perspectiva diferente — demuestra pensamiento crítico</li>
+      <li>Ej: ¿Es Bernarda también víctima del sistema? ¿Tiene razón la Poncia?</li>
+    </ul>
+  </div>
+  <textarea class="essay-input" id="p3-text" placeholder="Escribe tu contraargumento…" oninput="updateWC('p3-text','wc-p3')"></textarea>
+</div>
+
+<div class="writing-section">
+  <div class="ws-header"><span class="ws-title">📝 Conclusión</span><span class="word-count" id="wc-conc">0 palabras</span></div>
+  <div class="scaffold-toggle" onclick="toggleScaffold('s-conc')">▸ Ver ayuda / Show scaffold</div>
+  <div class="scaffold-box" id="s-conc">
+    <ul>
+      <li>Empieza: <em>En conclusión, / En resumen,</em></li>
+      <li>Resume sin repetir exactamente</li>
+      <li>Juicio final: <em>En definitiva, Lorca presenta… porque quiere que el espectador entienda que…</em></li>
+    </ul>
+  </div>
+  <textarea class="essay-input" id="conc-text" placeholder="Escribe tu conclusión…" oninput="updateWC('conc-text','wc-conc')"></textarea>
+</div>
+
+<div style="background:rgba(0,0,0,.3);border-radius:8px;padding:12px;text-align:center;margin-bottom:16px">
+  <strong style="color:#ffd700">Total: <span id="total-wc">0</span> palabras / words</strong>
+  <span style="color:#808090;font-size:.82em;margin-left:10px">(Objetivo: 250–300)</span>
+</div>
+<div style="text-align:center"><button class="btn btn-primary" onclick="showAssess()">Autoevaluar / Self-assess →</button></div>
+</div>
+
+<!-- ASSESS -->
+<div id="tab-assess" class="tab-panel">
+<p style="color:#a0a0b0;font-size:.83em;margin-bottom:18px">Evalúa tu ensayo / Assess your essay using Edexcel criteria. Haz clic en el número que mejor describe tu trabajo.</p>
+<div class="rubric">
+  <h3>📊 Criterios de Evaluación / Assessment Criteria</h3>
+  <div class="rubric-row">
+    <div class="rubric-label">AO1 — Comprensión e interpretación / Comprehension & interpretation <span class="rubric-ao">AO1</span></div>
+    <div class="rubric-scale">
+      <button class="scale-btn" data-ao="ao1" data-val="1" onclick="selectScale(this,'ao1')"><strong>1</strong><br>Limitado<br>Ideas poco claras</button>
+      <button class="scale-btn" data-ao="ao1" data-val="2" onclick="selectScale(this,'ao1')"><strong>2</strong><br>Básico<br>Algunas ideas relevantes</button>
+      <button class="scale-btn" data-ao="ao1" data-val="3" onclick="selectScale(this,'ao1')"><strong>3</strong><br>Bueno<br>Ideas claras y relevantes</button>
+      <button class="scale-btn" data-ao="ao1" data-val="4" onclick="selectScale(this,'ao1')"><strong>4</strong><br>Excelente<br>Ideas matizadas</button>
+    </div>
+    <div class="rubric-desc" id="desc-ao1"></div>
+  </div>
+  <div class="rubric-row">
+    <div class="rubric-label">AO2 — Análisis literario / Literary analysis <span class="rubric-ao">AO2</span></div>
+    <div class="rubric-scale">
+      <button class="scale-btn" data-ao="ao2" data-val="1" onclick="selectScale(this,'ao2')"><strong>1</strong><br>Ningún análisis<br>Solo descripción</button>
+      <button class="scale-btn" data-ao="ao2" data-val="2" onclick="selectScale(this,'ao2')"><strong>2</strong><br>Análisis simple<br>Algunos comentarios</button>
+      <button class="scale-btn" data-ao="ao2" data-val="3" onclick="selectScale(this,'ao2')"><strong>3</strong><br>Buen análisis<br>Símbolos y temas</button>
+      <button class="scale-btn" data-ao="ao2" data-val="4" onclick="selectScale(this,'ao2')"><strong>4</strong><br>Análisis detallado<br>Recursos y efectos</button>
+    </div>
+    <div class="rubric-desc" id="desc-ao2"></div>
+  </div>
+  <div class="rubric-row">
+    <div class="rubric-label">AO3 — Calidad del español / Quality of Spanish <span class="rubric-ao">AO3</span></div>
+    <div class="rubric-scale">
+      <button class="scale-btn" data-ao="ao3" data-val="1" onclick="selectScale(this,'ao3')"><strong>1</strong><br>Muchos errores<br>Vocabulario básico</button>
+      <button class="scale-btn" data-ao="ao3" data-val="2" onclick="selectScale(this,'ao3')"><strong>2</strong><br>Algunos errores<br>Vocabulario adecuado</button>
+      <button class="scale-btn" data-ao="ao3" data-val="3" onclick="selectScale(this,'ao3')"><strong>3</strong><br>Pocos errores<br>Buen vocabulario</button>
+      <button class="scale-btn" data-ao="ao3" data-val="4" onclick="selectScale(this,'ao3')"><strong>4</strong><br>Muy bueno<br>Variedad y precisión</button>
+    </div>
+    <div class="rubric-desc" id="desc-ao3"></div>
+  </div>
+  <div class="rubric-row">
+    <div class="rubric-label">Estructura y conectores / Structure & connectives <span class="rubric-ao">AO3</span></div>
+    <div class="rubric-scale">
+      <button class="scale-btn" data-ao="ao4" data-val="1" onclick="selectScale(this,'ao4')"><strong>1</strong><br>Sin estructura<br>Sin conectores</button>
+      <button class="scale-btn" data-ao="ao4" data-val="2" onclick="selectScale(this,'ao4')"><strong>2</strong><br>Estructura básica<br>Conectores simples</button>
+      <button class="scale-btn" data-ao="ao4" data-val="3" onclick="selectScale(this,'ao4')"><strong>3</strong><br>Buena estructura<br>Variedad</button>
+      <button class="scale-btn" data-ao="ao4" data-val="4" onclick="selectScale(this,'ao4')"><strong>4</strong><br>Clara y organizada<br>Conectores avanzados</button>
+    </div>
+    <div class="rubric-desc" id="desc-ao4"></div>
+  </div>
+  <div class="total-score">
+    <div class="total-label">Puntuación total / Total score</div>
+    <div class="total-num"><span id="scoreNum">–</span>/16</div>
+    <div class="total-grade" id="gradeLabel"></div>
+  </div>
+  <div class="feedback-general" id="feedbackGeneral"></div>
+</div>
+<div class="rubric">
+  <h3>🎯 Objetivos / Targets for next time</h3>
+  <textarea class="essay-input" style="min-height:90px" placeholder="Escribe 2–3 cosas que quieres mejorar / Write 2–3 things to improve…"></textarea>
+</div>
+</div>
+
+<!-- EXEMPLAR -->
+<div id="tab-exemplar" class="tab-panel">
+<p style="color:#a0a0b0;font-size:.85em;margin-bottom:16px">Estudia estos párrafos modelo / Study these model paragraphs. Todas las citas son exactas del texto / All quotes are exact from the text.</p>
+
+<div class="exemplar-card">
+  <h3>Pregunta: ¿Cómo presenta Lorca el tema de la represión?</h3>
+  <div style="font-size:.78em;color:#808090;margin-bottom:10px">Párrafo de introducción — calidad B/A</div>
+  <div class="exemplar-text">
+    En <em>La casa de Bernarda Alba</em> de Federico García Lorca, subtitulada "Drama de mujeres en los pueblos de España" y escrita en 1936 poco antes de la Guerra Civil española, el dramaturgo explora el tema de la represión femenina a través de la figura autoritaria de Bernarda. A lo largo de la obra, Lorca muestra cómo la opresión y el deseo de controlar las apariencias conducen inevitablemente a la tragedia. La casa funciona como símbolo de una prisión donde las cinco hijas de Bernarda están atrapadas entre sus deseos y las normas sociales de la época.
+  </div>
+  <div class="exemplar-notes">
+    <div class="note-chip" style="border-color:#4CAF50">✓ Subtítulo incluido / Subtitle included</div>
+    <div class="note-chip" style="border-color:#2196F3">✓ Tesis clara / Clear thesis</div>
+    <div class="note-chip" style="border-color:#9C27B0">✓ Simbolismo mencionado / Symbolism mentioned</div>
+    <div class="note-chip" style="border-color:#FF9800">✓ Contexto histórico / Historical context</div>
+  </div>
+</div>
+
+<div class="exemplar-card">
+  <h3>Párrafo PEA — Calidad A (cita verificada)</h3>
+  <div class="exemplar-text">
+    El tema de la represión es evidente desde el principio, ya que Bernarda impone un luto de ocho años que priva a sus hijas de toda libertad. Por ejemplo, cuando dice "En ocho años que dure el luto no ha de entrar en esta casa el viento de la calle" (Acto I), Lorca utiliza la metáfora del "viento de la calle" para representar el mundo exterior y la libertad que Bernarda quiere bloquear. Esto es significativo porque muestra que la casa no es un hogar sino una prisión simbólica. Además, esta imagen refleja el contexto histórico de la España conservadora de los años 30, donde las apariencias sociales eran más importantes que la felicidad individual.
+  </div>
+  <div class="exemplar-notes">
+    <div class="note-chip" style="border-color:#4CAF50">✓ PEA clara</div>
+    <div class="note-chip" style="border-color:#2196F3">✓ Cita exacta del texto / Exact quote</div>
+    <div class="note-chip" style="border-color:#9C27B0">✓ Metáfora analizada / Metaphor analysed</div>
+    <div class="note-chip" style="border-color:#FF9800">✓ Contexto histórico conectado</div>
+    <div class="note-chip" style="border-color:#e74c3c">✓ Acto indicado / Act indicated</div>
+    <div class="note-chip" style="border-color:#f0a500">✓ "Además" — conector avanzado</div>
+  </div>
+</div>
+
+<div class="exemplar-card">
+  <h3>Párrafo de contraste — Calidad A (cita verificada)</h3>
+  <div class="exemplar-text">
+    Sin embargo, se podría argumentar que Adela no consigue una verdadera libertad incluso cuando se rebela. Aunque rompe el bastón de Bernarda — diciendo "Esto hago yo con la vara de la dominadora. No dé usted un paso más. ¡En mí no manda nadie más que Pepe!" (Acto III) — este gesto revela que simplemente ha cambiado de amo. La ironía trágica reside en que el propio acto de liberación desencadena directamente su muerte. Lorca parece sugerir así que, en el mundo represivo que describe, la libertad individual es una ilusión imposible.
+  </div>
+  <div class="exemplar-notes">
+    <div class="note-chip" style="border-color:#4CAF50">✓ "Sin embargo" — contraargumento</div>
+    <div class="note-chip" style="border-color:#2196F3">✓ Ironía trágica identificada</div>
+    <div class="note-chip" style="border-color:#9C27B0">✓ Cita exacta y extensa / Exact extended quote</div>
+    <div class="note-chip" style="border-color:#FF9800">✓ Acto III indicado</div>
+  </div>
+</div>
+
+<div class="exemplar-card">
+  <h3>Conclusión modelo (cita verificada)</h3>
+  <div class="exemplar-text">
+    En conclusión, Lorca presenta una visión profundamente pesimista de la sociedad española, donde la represión es más poderosa que cualquier deseo individual de libertad. A través de los personajes de Bernarda y Adela, el dramaturgo muestra el conflicto eterno entre el control social y el deseo humano. La estructura circular de la obra — que empieza y termina con la misma palabra, "¡Silencio!" — demuestra que Bernarda no ha aprendido nada y que el ciclo de represión continuará. Esta obra, escrita hace casi noventa años, sigue siendo relevante hoy porque la tensión entre la libertad individual y las normas sociales es universal.
+  </div>
+  <div class="exemplar-notes">
+    <div class="note-chip" style="border-color:#4CAF50">✓ "En conclusión" — señal clara</div>
+    <div class="note-chip" style="border-color:#2196F3">✓ Estructura circular analizada</div>
+    <div class="note-chip" style="border-color:#9C27B0">✓ Juicio final claro</div>
+    <div class="note-chip" style="border-color:#FF9800">✓ Relevancia contemporánea</div>
+  </div>
+</div>
+</div>
+
+</div>
+
+<script>
+const questions=[
+  {tag:'q-tag-rep',label:'Represión',text:'¿Cómo presenta Lorca el tema de la represión en <em>La casa de Bernarda Alba</em>? / How does Lorca present the theme of repression?',level:'Temas principales / Main themes'},
+  {tag:'q-tag-lib',label:'Libertad',text:'¿De qué manera representa Adela el deseo de libertad en la obra? / How does Adela represent the desire for freedom?',level:'Análisis de personajes / Character analysis'},
+  {tag:'q-tag-hon',label:'Honra',text:'¿Cómo usa Lorca el concepto de la honra y el "qué dirán" para criticar la sociedad española? / How does Lorca use honour and public opinion to criticise Spanish society?',level:'Contexto social / Social context'},
+  {tag:'q-tag-cla',label:'Clases',text:'¿Qué papel juegan las clases sociales en el conflicto de la obra? / What role do social classes play in the conflict of the play?',level:'Sociedad / Society'},
+  {tag:'q-tag-mix',label:'Simbolismo',text:'Analiza el uso del simbolismo en <em>La casa de Bernarda Alba</em>. Escoge al menos dos símbolos. / Analyse Lorca\'s use of symbolism. Choose at least two symbols.',level:'Recursos literarios / Literary devices'},
+  {tag:'q-tag-mix',label:'Tragedia',text:'¿Por qué es inevitable la tragedia al final de la obra? Justifica tu respuesta con referencias exactas al texto. / Why is the tragedy at the end inevitable? Justify with exact references.',level:'Estructura dramática / Dramatic structure'},
+];
+
+let selectedQ=0;
+function renderQuestions(){
+  const g=document.getElementById('qGrid');
+  g.innerHTML='';
+  questions.forEach((q,i)=>{
+    const d=document.createElement('div');
+    d.className='q-card'+(i===0?' selected':'');
+    d.onclick=()=>{document.querySelectorAll('.q-card').forEach(c=>c.classList.remove('selected'));d.classList.add('selected');selectedQ=i;};
+    d.innerHTML=`<span class="q-tag ${q.tag}">${q.label}</span><div class="q-text">${q.text}</div><div class="q-level">${q.level}</div>`;
+    g.appendChild(d);
+  });
+}
+function selectQuestion(){
+  const q=questions[selectedQ];
+  ['sqDisplay','sqDisplay2'].forEach(id=>{
+    const el=document.getElementById(id);
+    el.innerHTML='<strong>Pregunta seleccionada / Selected question:</strong> '+q.text;
+    el.style.display='block';
+  });
+  showTab('plan');
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===1));
+}
+function goToWrite(){
+  showTab('write');
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===2));
+}
+
+function showTab(id){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  if(event&&event.target)event.target.classList.add('active');
+}
+
+let timerSecs=35*60,timerRunning=false,timerInterval=null;
+function formatTime(s){return Math.floor(s/60).toString().padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+function updateTimerDisplay(){
+  const d=document.getElementById('timerDisplay');
+  d.textContent=formatTime(timerSecs);
+  d.className='timer-display'+(timerSecs<=300?' danger':timerSecs<=600?' warning':'');
+}
+function startTimer(){if(timerRunning)return;timerRunning=true;timerInterval=setInterval(()=>{if(timerSecs>0){timerSecs--;updateTimerDisplay()}else{clearInterval(timerInterval);timerRunning=false;alert('¡Se acabó el tiempo! / Time\'s up!')}},1000)}
+function pauseTimer(){clearInterval(timerInterval);timerRunning=false}
+function resetTimer(){pauseTimer();timerSecs=35*60;updateTimerDisplay()}
+
+function countWords(txt){return txt.trim().length===0?0:txt.trim().split(/\s+/).length}
+function updateWC(tid,wcid){
+  const wc=countWords(document.getElementById(tid).value);
+  document.getElementById(wcid).textContent=wc+' palabras';
+  updateTotal();
+}
+function updateTotal(){
+  const ids=['intro-text','p1-text','p2-text','p3-text','conc-text'];
+  document.getElementById('total-wc').textContent=ids.reduce((s,id)=>s+countWords(document.getElementById(id).value),0);
+}
+function toggleScaffold(id){
+  const box=document.getElementById(id);
+  box.classList.toggle('open');
+  const tog=box.previousElementSibling;
+  tog.textContent=box.classList.contains('open')?'▾ Ocultar ayuda / Hide scaffold':'▸ Ver ayuda / Show scaffold';
+}
+
+const aoScores={ao1:0,ao2:0,ao3:0,ao4:0};
+const feedbackMap={
+  ao1:{1:'Tus ideas necesitan más desarrollo. Intenta conectar cada punto con la pregunta.',2:'Buenas ideas básicas. Desarrolla más tu análisis con citas exactas.',3:'Buenas ideas relevantes. Intenta añadir más matices.',4:'¡Excelente! Ideas bien desarrolladas y matizadas.'},
+  ao2:{1:'Recuerda analizar las citas — no sólo describirlas. Usa: "Esto muestra que…"',2:'Buen intento de análisis. Añade más referencias a recursos literarios.',3:'Buen análisis literario. Intenta variar más los recursos que identificas.',4:'¡Excelente análisis literario! Muy buen uso de terminología.'},
+  ao3:{1:'Revisa la gramática, especialmente los verbos y la concordancia.',2:'Tu español es comprensible. Intenta usar más vocabulario variado.',3:'Buen nivel de español. Añade más subjuntivo y construcciones complejas.',4:'¡Excelente español! Muy buena precisión y variedad lingüística.'},
+  ao4:{1:'Usa conectores para organizar mejor tus ideas: sin embargo, además, por consiguiente…',2:'Buena estructura básica. Varía más los conectores.',3:'Buena estructura con conectores variados.',4:'¡Excelente! Estructura muy clara con conectores avanzados.'},
+};
+function selectScale(btn,ao){
+  document.querySelectorAll('[data-ao="'+ao+'"]').forEach(b=>b.classList.remove('sel-1','sel-2','sel-3','sel-4'));
+  const v=parseInt(btn.dataset.val);
+  btn.classList.add('sel-'+v);
+  aoScores[ao]=v;
+  const desc=document.getElementById('desc-'+ao);
+  desc.textContent=feedbackMap[ao][v];
+  desc.className='rubric-desc show';
+  calcTotal();
+}
+function calcTotal(){
+  const total=Object.values(aoScores).reduce((a,b)=>a+b,0);
+  document.getElementById('scoreNum').textContent=total;
+  let grade='',gclass='';
+  if(total>=13){grade='A* / A — ¡Excelente trabajo!';gclass='grade-A'}
+  else if(total>=10){grade='B — Buen trabajo / Good work';gclass='grade-B'}
+  else if(total>=7){grade='C — Trabajo adecuado / Adequate work';gclass='grade-C'}
+  else{grade='D/E — Necesita mejorar / Needs improvement';gclass='grade-D'}
+  const gl=document.getElementById('gradeLabel');
+  gl.textContent=grade;gl.className='total-grade '+gclass;
+  const fb=document.getElementById('feedbackGeneral');
+  fb.className='feedback-general show';
+  const lowest=Object.entries(aoScores).sort((a,b)=>a[1]-b[1])[0];
+  fb.textContent='Prioridad de mejora / Priority for improvement: '+feedbackMap[lowest[0]][aoScores[lowest[0]]];
+}
+function showAssess(){
+  showTab('assess');
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===3));
+}
+
+updateTimerDisplay();
+renderQuestions();
+</script>
+</body>
+</html>

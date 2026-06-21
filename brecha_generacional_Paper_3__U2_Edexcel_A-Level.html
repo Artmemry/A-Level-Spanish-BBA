@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La brecha generacional – Actividad B2</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f3;color:#1a1a18;min-height:100vh;padding:2rem 1rem}
+.app{max-width:720px;margin:0 auto;padding:1.5rem 1rem}
+h1{font-size:22px;font-weight:500;margin-bottom:.25rem}
+.subtitle{font-size:14px;color:#666;margin-bottom:1.5rem}
+.progress-bar{height:4px;background:#e0e0da;border-radius:4px;margin-bottom:1.5rem}
+.progress-fill{height:4px;background:#7F77DD;border-radius:4px;transition:width .4s}
+.card{background:#fff;border:0.5px solid rgba(0,0,0,.12);border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+.question-text{font-size:16px;line-height:1.6;margin-bottom:1rem}
+.options{display:flex;flex-direction:column;gap:8px}
+.opt-btn{text-align:left;background:#fff;border:0.5px solid rgba(0,0,0,.2);border-radius:8px;padding:10px 14px;font-size:15px;cursor:pointer;transition:background .15s;color:#1a1a18}
+.opt-btn:hover:not(:disabled){background:#f0f0ee}
+.opt-btn.correct{background:#EAF3DE;border-color:#639922;color:#27500A}
+.opt-btn.wrong{background:#FCEBEB;border-color:#E24B4A;color:#791F1F}
+.opt-btn:disabled{cursor:default}
+.feedback{margin-top:.75rem;font-size:14px;line-height:1.5;color:#555;padding:10px 14px;background:#f5f5f3;border-radius:8px}
+.fill-input{width:100%;border:0.5px solid rgba(0,0,0,.2);border-radius:8px;padding:10px 14px;font-size:15px;color:#1a1a18;background:#fff;outline:none;font-family:inherit}
+.fill-input:focus{border-color:#7F77DD}
+.fill-input.correct{border-color:#639922;background:#EAF3DE;color:#27500A}
+.fill-input.wrong{border-color:#E24B4A;background:#FCEBEB;color:#791F1F}
+.kbd{display:flex;flex-wrap:wrap;gap:6px;position:fixed;bottom:16px;right:16px;background:#fff;border:0.5px solid rgba(0,0,0,.18);border-radius:12px;padding:8px 10px;z-index:999;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.kbd span{font-size:13px;color:#666;width:100%;display:block;margin-bottom:2px}
+.kbd-btn{border:0.5px solid rgba(0,0,0,.18);background:#f5f5f3;border-radius:8px;padding:5px 9px;font-size:16px;cursor:pointer;color:#1a1a18;font-family:inherit}
+.kbd-btn:hover{background:#EEEDFE;border-color:#7F77DD;color:#3C3489}
+.nav{display:flex;gap:8px;margin-top:1rem;flex-wrap:wrap}
+.btn-primary{background:#fff;border:0.5px solid rgba(0,0,0,.2);border-radius:8px;padding:9px 18px;font-size:14px;cursor:pointer;color:#1a1a18;font-family:inherit}
+.btn-primary:hover{background:#f5f5f3}
+.btn-accent{background:#7F77DD;border:none;border-radius:8px;padding:9px 18px;font-size:14px;cursor:pointer;color:#fff;font-weight:500;font-family:inherit}
+.btn-accent:hover{background:#534AB7}
+.score-big{font-size:48px;font-weight:500;color:#7F77DD;text-align:center;margin:1rem 0 .25rem}
+.score-label{text-align:center;font-size:16px;color:#666;margin-bottom:1.5rem}
+.result-card{background:#EEEDFE;border-radius:12px;padding:1.25rem;text-align:center;margin-bottom:1rem}
+.result-card p{font-size:15px;color:#3C3489;line-height:1.6}
+.section-badge{display:inline-block;font-size:12px;font-weight:500;padding:3px 10px;border-radius:8px;margin-bottom:.75rem}
+.badge-comp{background:#E6F1FB;color:#0C447C}
+.badge-vocab{background:#FAEEDA;color:#633806}
+.badge-fill{background:#E1F5EE;color:#085041}
+.badge-opinion{background:#FBEAF0;color:#72243E}
+.badge-text{background:#f0edf9;color:#3C3489}
+.match-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.match-left{min-width:140px;font-size:14px;font-weight:500;color:#1a1a18}
+select.match-sel{flex:1;border:0.5px solid rgba(0,0,0,.2);border-radius:8px;padding:8px 10px;font-size:14px;color:#1a1a18;background:#fff;font-family:inherit}
+select.match-sel.correct{border-color:#639922;background:#EAF3DE;color:#27500A}
+select.match-sel.wrong{border-color:#E24B4A;background:#FCEBEB;color:#791F1F}
+textarea.open-ta{width:100%;border:0.5px solid rgba(0,0,0,.2);border-radius:8px;padding:10px 14px;font-size:15px;color:#1a1a18;background:#fff;min-height:90px;resize:vertical;outline:none;line-height:1.6;font-family:inherit}
+textarea.open-ta:focus{border-color:#7F77DD}
+.cloze-para{font-size:15px;line-height:2;color:#1a1a18;margin-bottom:1rem}
+.cloze-input{display:inline-block;border:none;border-bottom:2px solid #7F77DD;background:transparent;font-size:15px;font-family:inherit;color:#1a1a18;outline:none;width:130px;padding:0 4px;vertical-align:middle}
+.cloze-input.correct{border-bottom-color:#639922;color:#27500A}
+.cloze-input.wrong{border-bottom-color:#E24B4A;color:#791F1F}
+.word-bank{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.25rem;padding:12px;background:#f5f5f3;border-radius:8px}
+.word-chip{font-size:14px;padding:4px 12px;background:#fff;border:0.5px solid rgba(0,0,0,.15);border-radius:20px;color:#1a1a18}
+.word-chip.used{opacity:.35;text-decoration:line-through}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <div id="namescreen">
+    <h1>La brecha generacional</h1>
+    <p class="subtitle">Actividad de comprensión y expresión · Nivel B2</p>
+    <div class="card" style="margin-top:1.5rem">
+      <div style="font-size:15px;margin-bottom:.75rem;color:#1a1a18">¿Cómo te llamas?</div>
+      <input class="fill-input" id="nameinput" type="text" placeholder="Escribe tu nombre aquí..." style="margin-bottom:1rem" onkeydown="if(event.key==='Enter')startActivity()">
+      <div class="nav"><button class="btn-accent" onclick="startActivity()">Comenzar →</button></div>
+    </div>
+  </div>
+  <div id="mainscreen" style="display:none">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.25rem">
+      <h1>La brecha generacional</h1>
+      <span id="nameplate" style="font-size:14px;color:#666"></span>
+    </div>
+    <p class="subtitle">Actividad de comprensión y expresión · Nivel B2</p>
+    <div class="progress-bar"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+    <div id="content"></div>
+  </div>
+</div>
+
+<div class="kbd">
+  <span>Acentos</span>
+  <button class="kbd-btn" onclick="ins('á')">á</button>
+  <button class="kbd-btn" onclick="ins('é')">é</button>
+  <button class="kbd-btn" onclick="ins('í')">í</button>
+  <button class="kbd-btn" onclick="ins('ó')">ó</button>
+  <button class="kbd-btn" onclick="ins('ú')">ú</button>
+  <button class="kbd-btn" onclick="ins('ñ')">ñ</button>
+  <button class="kbd-btn" onclick="ins('ü')">ü</button>
+  <button class="kbd-btn" onclick="ins('¿')">¿</button>
+  <button class="kbd-btn" onclick="ins('¡')">¡</button>
+</div>
+
+<script>
+let activeInput=null;
+document.addEventListener('focusin',e=>{if(e.target.matches('input,textarea'))activeInput=e.target;});
+function ins(ch){
+  if(!activeInput)return;
+  const s=activeInput.selectionStart,en=activeInput.selectionEnd;
+  activeInput.value=activeInput.value.slice(0,s)+ch+activeInput.value.slice(en);
+  activeInput.setSelectionRange(s+1,s+1);activeInput.focus();
+}
+
+const clozeItems=[
+  {id:'c0',ans:'hito',before:'El movimiento del 15-M fue el gran ',after:' político de los mileniales: su momento de ilusión y su posterior desengaño.'},
+  {id:'c1',ans:'precariedad',before:'El mercado laboral juvenil se caracteriza por la ',after:': contratos temporales, salarios bajos y escasa estabilidad.'},
+  {id:'c2',ans:'herencia',before:'Se habla de una gran transferencia de ',after:' de los boomers a sus hijos, pero muchos expertos dudan de su magnitud real.'},
+  {id:'c3',ans:'ensimismada',before:'Tras la pandemia, la generación Z se volvió más ',after:', absorta en su mundo digital y alejada del entorno.'},
+  {id:'c4',ans:'edadismo',before:'Cuando algunas discotecas negaron la entrada a personas mayores, el debate sobre el ',after:' en el ocio nocturno saltó a los medios.'},
+  {id:'c5',ans:'brecha',before:'En España se ha abierto una profunda ',after:' generacional entre los nacidos en distintas décadas.'},
+  {id:'c6',ans:'referentes',before:'Las redes sociales han fragmentado los ',after:' culturales compartidos que antes unían a jóvenes de una misma época.'},
+  {id:'c7',ans:'poder adquisitivo',before:'Los mileniales han perdido un 15% de su ',after:', lo que dificulta enormemente su acceso a la vivienda.'},
+];
+const clozeBank=['brecha','edadismo','ensimismada','herencia','hito','poder adquisitivo','precariedad','referentes'];
+
+const sections=[
+  {type:'vocab'},
+  {type:'reading'},
+  {
+    type:'mc',badge:'badge-comp',badgeText:'Comprensión',
+    questions:[
+      {q:'¿Cuál es una de las principales consecuencias económicas para los mileniales en España?',
+       opts:['Han perdido un 15% de su poder adquisitivo','Tienen más acceso a vivienda que los boomers','Están satisfechos con su situación laboral','Han heredado grandes sumas de dinero'],
+       ans:0,fb:'Los mileniales han perdido un 15% de su poder adquisitivo y solo el 30% tiene vivienda propia, frente al 90% de los boomers.'},
+      {q:'¿Qué efecto tuvo la pandemia en la generación Z?',
+       opts:['La hizo más activa políticamente','Frenó el uso de redes sociales','La dejó más individualista y desconectada','La unió con generaciones anteriores'],
+       ans:2,fb:'La generación Z salió de la pandemia más individualista y ensimismada, con el consumo cultural reducido a fragmentos en pantalla.'},
+      {q:'¿Por qué un profesor universitario dejó de usar referencias de Los Simpson en clase?',
+       opts:['La serie le parecía demasiado antigua','Sus alumnos ya no comparten marcos culturales comunes','La universidad lo prohibió','Los jóvenes prefieren el humor político directo'],
+       ans:1,fb:'Los jóvenes de hoy viven en nichos muy segmentados y ya no comparten referentes culturales con otras generaciones ni entre sí.'},
+      {q:'¿Qué se dice sobre la "gran transferencia" de herencias prometida a los mileniales?',
+       opts:['Será tan grande como se anuncia','Llegará cuando los mileniales aún sean jóvenes','Quedará reducida por los gastos de cuidados','Beneficiará a todos por igual'],
+       ans:2,fb:'Gran parte de ese patrimonio se gastará en cuidados para los padres mayores, y los pisos se venderán para financiarlos.'},
+    ]
+  },
+  {
+    type:'fill',badge:'badge-fill',badgeText:'Completa las frases',
+    instructions:'Completa cada frase con la palabra correcta del recuadro.',
+    bank:['boomers','pandemia','mileniales','nostalgia','brecha','15-M','realismo','patrimonio'],
+    items:[
+      {text:'La ___ ha crecido tanto entre generaciones que amenaza con imponerse a los debates de clase o género.',ans:'brecha'},
+      {text:'El 90% de los ___ tiene vivienda propia, frente al 30% de los que tienen entre 35 y 45 años.',ans:'boomers'},
+      {text:'La ___ de la covid-19 fue el mito fundacional de la generación Z.',ans:'pandemia'},
+      {text:'Muchos ___ sienten que no van a vivir mejor que sus padres y se describen como una generación derrotada.',ans:'mileniales'},
+      {text:'La ___ como arma arrojadiza contra el presente es una actitud que el texto critica.',ans:'nostalgia'},
+      {text:'El movimiento del ___ supuso la gran ilusión política de los mileniales y también su desengaño.',ans:'15-M'},
+    ]
+  },
+  {
+    type:'match',badge:'badge-vocab',badgeText:'Relaciona',
+    instructions:'Relaciona cada concepto con su definición.',
+    pairs:[
+      {term:'Silver economy',def:'La economía del ocio y consumo de las personas mayores'},
+      {term:'Mileurista',def:'Persona que gana aproximadamente mil euros al mes'},
+      {term:'Edadismo',def:'Discriminación por razón de edad'},
+      {term:'15-M',def:'Movimiento de protesta ciudadana de mayo de 2011'},
+      {term:'Generación quemada',def:'Término para los mileniales agotados al cruzar la treintena'},
+    ]
+  },
+  {
+    type:'open',badge:'badge-opinion',badgeText:'Expresión escrita',
+    questions:[
+      {prompt:'¿Crees que la brecha generacional en tu país es parecida a la descrita? ¿En qué se parece o se diferencia? Escribe 3-4 frases.',
+       hint:'"En mi opinión…", "A diferencia de España…", "Sin embargo…", "Creo que…"'},
+      {prompt:'Los jóvenes de hoy priorizan su bienestar en el trabajo y rechazan la explotación. ¿Es una actitud realista o conformista? Justifica tu respuesta.',
+       hint:'"Por un lado…, por otro lado…", "Me parece que…", "Aunque…"'}
+    ]
+  }
+];
+
+let studentName='',step=0,score=0,total=0,mcAnswered=[],fillAnswered=[],matchDone=false,openDone=[],clozeDone=false,clozeAnswers=[];
+
+function startActivity(){
+  const el=document.getElementById('nameinput');
+  const val=(el?el.value:'').trim();
+  studentName=val||'Estudiante';
+  document.getElementById('namescreen').style.display='none';
+  document.getElementById('mainscreen').style.display='block';
+  document.getElementById('nameplate').textContent=studentName;
+  render();
+}
+
+function render(){
+  const prog=Math.round((step/sections.length)*100);
+  document.getElementById('prog').style.width=prog+'%';
+  const s=sections[step];
+  let html='';
+
+  if(s.type==='vocab'){
+    html+=`<div class="section-badge badge-vocab">Vocabulario</div>
+    <div class="card">
+      <div style="font-size:14px;color:#666;margin-bottom:1rem">Lee las definiciones y luego completa el texto con las palabras del recuadro.</div>
+      <div style="margin-bottom:1.25rem">`;
+    const defs=[
+      {word:'brecha',def:'distancia o separación entre grupos sociales'},
+      {word:'poder adquisitivo',def:'capacidad económica para comprar bienes y servicios'},
+      {word:'precariedad',def:'inestabilidad laboral y económica crónica'},
+      {word:'referentes',def:'personas, obras o ideas que sirven de modelo o punto común'},
+      {word:'ensimismada',def:'absorta en sus propios pensamientos, aislada del entorno'},
+      {word:'herencia',def:'bienes y dinero que se reciben al morir un familiar'},
+      {word:'hito',def:'acontecimiento importante que marca una época'},
+      {word:'edadismo',def:'discriminación por razón de edad'},
+    ];
+    defs.forEach(d=>{
+      html+=`<div style="display:flex;gap:10px;margin-bottom:8px;font-size:14px">
+        <span style="font-weight:500;min-width:140px;color:#534AB7">${d.word}</span>
+        <span style="color:#555">${d.def}</span></div>`;
+    });
+    html+=`</div>
+      <div style="font-size:14px;font-weight:500;margin-bottom:.5rem;color:#1a1a18">Ahora completa el texto:</div>
+      <div class="word-bank" id="wbank">`;
+    clozeBank.forEach((w,i)=>{
+      const used=clozeAnswers[i]&&clozeAnswers[i].trim().toLowerCase()===w.toLowerCase();
+      html+=`<span class="word-chip${clozeDone&&used?' used':''}" id="chip${i}">${w}</span>`;
+    });
+    html+=`</div>
+      <div class="cloze-para">`;
+    clozeItems.forEach((it,i)=>{
+      const done=clozeDone;
+      const val=clozeAnswers[i]||'';
+      const correct=done&&val.trim().toLowerCase()===it.ans.toLowerCase();
+      html+=it.before+`<input class="cloze-input${done?(correct?' correct':' wrong'):''}" id="${it.id}" type="text" value="${val}" ${done?'readonly':''} placeholder="…" onkeydown="if(event.key==='Enter')checkCloze()">`;
+      if(done&&!correct) html+=` <span style="font-size:13px;color:#791F1F">(${it.ans})</span>`;
+      html+=it.after+' ';
+    });
+    html+=`</div>`;
+    if(!clozeDone)
+      html+=`<div class="nav"><button class="btn-accent" onclick="checkCloze()">Comprobar</button></div>`;
+    else
+      html+=`<div class="nav"><button class="btn-accent" onclick="next()">Leer el texto →</button></div>`;
+    html+=`</div>`;
+
+  } else if(s.type==='reading'){
+    html+=`<div class="section-badge badge-text">Texto</div>
+    <div class="card">
+      <div style="font-size:15px;line-height:1.85;color:#1a1a18">
+        <p style="margin-bottom:.9rem">En los últimos años se ha abierto en España una profunda <strong style="font-weight:500">brecha generacional</strong>. Las redes sociales, la pandemia y una sucesión de crisis económicas han convertido la distancia entre generaciones en un abismo de incomprensión.</p>
+        <p style="margin-bottom:.9rem">Un profesor universitario que antes usaba Los Simpson para conectar con sus alumnos ya no puede hacerlo: no existe ningún referente cultural compartido por todos. Los jóvenes viven en nichos muy segmentados, lo que hace que el diálogo entre generaciones sea más difícil que nunca. Antes los jóvenes se rebelaban contra un marco común; ahora directamente no lo comparten.</p>
+        <p style="margin-bottom:.9rem">La situación económica de los <strong style="font-weight:500">mileniales</strong> (nacidos entre 1980 y 1995) es especialmente grave. Han perdido un 15% de su poder adquisitivo y solo el 30% tiene vivienda propia, frente al 90% de los boomers. Muchos confían en la herencia futura, pero gran parte de ese patrimonio se habrá gastado en cuidados para los mayores. La herencia real será mucho menor de lo prometido, y el abismo entre quienes hereden y quienes no será enorme.</p>
+        <p style="margin-bottom:.9rem">Los mileniales se sienten una <strong style="font-weight:500">generación derrotada</strong>. Los que salieron a las plazas en el 15-M creyendo que podían cambiar el sistema descubrieron que no. Su desengaño político fue tan grande como su ilusión inicial.</p>
+        <p style="margin-bottom:.9rem">La <strong style="font-weight:500">generación Z</strong> (nacidos entre 1995 y 2010) tiene como hito fundacional la pandemia. Salieron de ella más individualistas y ensimismados, consumiendo contenido en fragmentos de segundos. La cadena de transmisión cultural se ha roto: no recogen el pasado ni se proyectan hacia un futuro que perciben como sombrío.</p>
+        <p style="margin-bottom:.9rem">En lo laboral, la generación Z prioriza su bienestar y rechaza la explotación. Muchos lo ven como realismo precoz: tras años de crisis y promesas rotas, hacer planes a largo plazo parece poco sensato.</p>
+        <p>Pese a todo, algo no ha cambiado: la clase social y el código postal siguen siendo determinantes. Lo que sí es nuevo es que hoy un joven español tiene más en común con un joven japonés que con su propio abuelo.</p>
+      </div>
+    </div>
+    <div class="nav"><button class="btn-accent" onclick="next()">Ir a las preguntas →</button></div>`;
+
+  } else if(s.type==='mc'){
+    html+=`<div class="section-badge ${s.badge}">${s.badgeText}</div>`;
+    s.questions.forEach((q,qi)=>{
+      const done=mcAnswered[qi]!=null;
+      html+=`<div class="card"><div class="question-text">${qi+1}. ${q.q}</div><div class="options">`;
+      q.opts.forEach((o,oi)=>{
+        let cls='opt-btn';
+        if(done&&oi===q.ans)cls+=' correct';
+        else if(done&&oi===mcAnswered[qi]&&mcAnswered[qi]!==q.ans)cls+=' wrong';
+        html+=`<button class="${cls}" ${done?'disabled':''} onclick="checkMC(${qi},${oi})">${o}</button>`;
+      });
+      html+='</div>';
+      if(done)html+=`<div class="feedback">${mcAnswered[qi]===q.ans?'✓ Correcto. ':'✗ Incorrecto. '}${q.fb}</div>`;
+      html+='</div>';
+    });
+    if(s.questions.every((_,i)=>mcAnswered[i]!=null))
+      html+=`<div class="nav"><button class="btn-accent" onclick="next()">Siguiente sección →</button></div>`;
+
+  } else if(s.type==='fill'){
+    html+=`<div class="section-badge ${s.badge}">${s.badgeText}</div><div class="card">
+    <div style="font-size:14px;color:#666;margin-bottom:.5rem">${s.instructions}</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem">`;
+    s.bank.forEach(w=>html+=`<span style="background:#f0f0ee;border:0.5px solid rgba(0,0,0,.15);border-radius:8px;padding:3px 10px;font-size:14px">${w}</span>`);
+    html+='</div>';
+    s.items.forEach((it,i)=>{
+      const done=fillAnswered[i]!=null;
+      const correct=done&&fillAnswered[i].trim().toLowerCase()===it.ans.toLowerCase();
+      const parts=it.text.split('___');
+      html+=`<div style="margin-bottom:14px">
+        <div style="font-size:15px;margin-bottom:6px;line-height:1.6">${parts[0]}<strong style="color:#7F77DD">[   ]</strong>${parts[1]||''}</div>
+        <input class="fill-input${done?(correct?' correct':' wrong'):''}" id="fi${i}" type="text" placeholder="Escribe la palabra..."
+          value="${fillAnswered[i]||''}" ${done?'readonly':''}
+          onkeydown="if(event.key==='Enter')checkFill(${i})">
+        ${done?`<div style="font-size:13px;margin-top:4px;color:${correct?'#27500A':'#791F1F'}">${correct?'✓ Correcto':'✗ La respuesta es: '+it.ans}</div>`:''}
+      </div>`;
+    });
+    const allDone=s.items.every((_,i)=>fillAnswered[i]!=null);
+    html+=`<div class="nav">${!allDone?`<button class="btn-accent" onclick="checkAllFill()">Comprobar respuestas</button>`:`<button class="btn-accent" onclick="next()">Siguiente sección →</button>`}</div></div>`;
+
+  } else if(s.type==='match'){
+    html+=`<div class="section-badge ${s.badge}">${s.badgeText}</div><div class="card">
+    <div style="font-size:14px;color:#666;margin-bottom:1rem">${s.instructions}</div>`;
+    if(!matchDone&&!window._matchShuffled)
+      window._matchShuffled=[...s.pairs.map(p=>p.def)].sort(()=>Math.random()-.5);
+    const sh=window._matchShuffled||s.pairs.map(p=>p.def);
+    s.pairs.forEach((p,i)=>{
+      const val=window._matchVals&&window._matchVals[i]?window._matchVals[i]:'';
+      const done=matchDone;
+      const correct=done&&val===p.def;
+      html+=`<div class="match-row">
+        <div class="match-left">${p.term}</div>
+        <select class="match-sel${done?(correct?' correct':' wrong'):''}" id="ms${i}" ${done?'disabled':''}>
+          <option value="">— elige —</option>`;
+      sh.forEach(d=>html+=`<option value="${d}" ${val===d?'selected':''}>${d}</option>`);
+      html+=`</select></div>`;
+    });
+    html+=`<div class="nav">${!matchDone?`<button class="btn-accent" onclick="checkMatch()">Comprobar</button>`:`<button class="btn-accent" onclick="next()">Siguiente sección →</button>`}</div></div>`;
+
+  } else if(s.type==='open'){
+    html+=`<div class="section-badge ${s.badge}">${s.badgeText}</div>`;
+    s.questions.forEach((q,i)=>{
+      html+=`<div class="card">
+        <div class="question-text">${i+1}. ${q.prompt}</div>
+        <div style="font-size:13px;color:#666;margin-bottom:.5rem;font-style:italic">${q.hint}</div>
+        <textarea class="open-ta" id="oa${i}" placeholder="Escribe tu respuesta aquí...">${openDone[i]||''}</textarea>
+      </div>`;
+    });
+    html+=`<div class="nav"><button class="btn-accent" onclick="saveOpen()">Guardar y ver resultados →</button></div>`;
+
+  } else if(s.type==='result'){
+    const pct=total>0?Math.round((score/total)*100):0;
+    let msg=pct>=80?'¡Excelente trabajo! Comprendes muy bien el tema.':pct>=60?'Buen trabajo. Repasa las respuestas incorrectas para mejorar.':'Sigue practicando. Te recomendamos releer el texto con atención.';
+    html+=`<div class="result-card"><div class="score-big">${score}/${total}</div>
+      <div class="score-label">Respuestas correctas (ejercicios cerrados)</div>
+      <p>${msg}</p></div>
+    <div class="card"><div style="font-size:15px;font-weight:500;margin-bottom:.75rem">Tus respuestas de expresión escrita</div>`;
+    sections.find(ss=>ss.type==='open').questions.forEach((q,i)=>{
+      html+=`<div style="margin-bottom:12px;padding-bottom:12px;border-bottom:0.5px solid rgba(0,0,0,.1)">
+        <div style="font-size:13px;color:#666;margin-bottom:4px">${q.prompt}</div>
+        <div style="font-size:15px;font-style:italic">${openDone[i]||'(sin respuesta)'}</div></div>`;
+    });
+    html+=`</div><div class="nav">
+      <button class="btn-accent" onclick="downloadBlob()">Descargar mis respuestas</button>
+      <button class="btn-primary" onclick="restart()">Reiniciar actividad</button>
+    </div>`;
+  }
+  document.getElementById('content').innerHTML=html;
+}
+
+function checkCloze(){
+  clozeItems.forEach((it,i)=>{
+    const el=document.getElementById(it.id);
+    clozeAnswers[i]=el?el.value:'';
+    if((clozeAnswers[i]||'').trim().toLowerCase()===it.ans.toLowerCase()){score++;total++;}else total++;
+  });
+  clozeDone=true;render();
+}
+function checkMC(qi,oi){
+  if(mcAnswered[qi]!=null)return;
+  if(oi===sections[step].questions[qi].ans){score++;total++;}else total++;
+  mcAnswered[qi]=oi;render();
+}
+function checkFill(i){
+  const el=document.getElementById('fi'+i);
+  if(!el||fillAnswered[i]!=null)return;
+  fillAnswered[i]=el.value;
+}
+function checkAllFill(){
+  sections[step].items.forEach((_,i)=>{
+    const el=document.getElementById('fi'+i);
+    if(el&&fillAnswered[i]==null){
+      fillAnswered[i]=el.value;
+      if(el.value.trim().toLowerCase()===sections[step].items[i].ans.toLowerCase()){score++;total++;}else total++;
+    }
+  });render();
+}
+function checkMatch(){
+  window._matchVals=[];
+  sections[step].pairs.forEach((_,i)=>{
+    const el=document.getElementById('ms'+i);
+    window._matchVals[i]=el?el.value:'';
+  });
+  sections[step].pairs.forEach((p,i)=>{
+    if(window._matchVals[i]===p.def){score++;total++;}else total++;
+  });
+  matchDone=true;render();
+}
+function saveOpen(){
+  sections.find(ss=>ss.type==='open').questions.forEach((_,i)=>{
+    const el=document.getElementById('oa'+i);
+    openDone[i]=el?el.value:'';
+  });
+  step++;sections.push({type:'result'});render();
+}
+function next(){step++;render();}
+function restart(){
+  step=0;score=0;total=0;mcAnswered=[];fillAnswered=[];matchDone=false;openDone=[];
+  clozeDone=false;clozeAnswers=[];
+  window._matchVals=null;window._matchShuffled=null;
+  sections.length=6;
+  document.getElementById('mainscreen').style.display='none';
+  document.getElementById('namescreen').style.display='block';
+  document.getElementById('nameinput').value='';
+}
+function downloadBlob(){
+  const lines=[];
+  lines.push('ACTIVIDAD: LA BRECHA GENERACIONAL – MIS RESPUESTAS\n=====================================================\n');
+  lines.push(`Alumno/a: ${studentName}`);
+  lines.push(`Puntuación ejercicios cerrados: ${score}/${total}\n`);
+  lines.push('VOCABULARIO – TEXTO CON HUECOS');
+  clozeItems.forEach((it,i)=>{
+    const ans=clozeAnswers[i]||'Sin respuesta';
+    const ok=ans.trim().toLowerCase()===it.ans.toLowerCase()?'✓':'✗';
+    lines.push(`${ok} ${it.before}[${ans}]${it.after}  →  correcta: ${it.ans}`);
+  });
+  lines.push('');
+  const mc=sections.find(s=>s.type==='mc');
+  lines.push('COMPRENSIÓN LECTORA');
+  mc.questions.forEach((q,i)=>{
+    const ans=mcAnswered[i]!=null?q.opts[mcAnswered[i]]:'Sin respuesta';
+    const ok=mcAnswered[i]===q.ans?'✓':'✗';
+    lines.push(`${ok} ${q.q}\n   Tu respuesta: ${ans}\n   Respuesta correcta: ${q.opts[q.ans]}\n`);
+  });
+  const fi=sections.find(s=>s.type==='fill');
+  lines.push('COMPLETA LAS FRASES');
+  fi.items.forEach((it,i)=>{
+    const ans=fillAnswered[i]||'Sin respuesta';
+    const ok=ans.trim().toLowerCase()===it.ans.toLowerCase()?'✓':'✗';
+    lines.push(`${ok} "${it.text}"\n   Tu respuesta: ${ans} | Correcta: ${it.ans}\n`);
+  });
+  const ma=sections.find(s=>s.type==='match');
+  lines.push('RELACIONA LOS CONCEPTOS');
+  ma.pairs.forEach((p,i)=>{
+    const ans=window._matchVals&&window._matchVals[i]?window._matchVals[i]:'Sin respuesta';
+    const ok=ans===p.def?'✓':'✗';
+    lines.push(`${ok} ${p.term}\n   Tu respuesta: ${ans}\n   Correcta: ${p.def}\n`);
+  });
+  const op=sections.find(s=>s.type==='open');
+  lines.push('EXPRESIÓN ESCRITA');
+  op.questions.forEach((q,i)=>{
+    lines.push(`${q.prompt}\n→ ${openDone[i]||'Sin respuesta'}\n`);
+  });
+  const blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='brecha_generacional_respuestas.txt';
+  a.click();URL.revokeObjectURL(url);
+}
+render();
+</script>
+</body>
+</html>

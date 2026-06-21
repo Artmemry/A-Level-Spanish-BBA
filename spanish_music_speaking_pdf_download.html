@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A-Level Spanish Speaking - Music Task 1</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .header {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .header h1 {
+      color: #667eea;
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    
+    .header p {
+      color: #666;
+      font-size: 14px;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+    
+    .panel {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .panel h2 {
+      color: #667eea;
+      font-size: 18px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .question-type {
+      background: #f3f4f6;
+      border-left: 4px solid #667eea;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: 4px;
+    }
+    
+    .question-type-label {
+      font-size: 12px;
+      color: #764ba2;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    
+    .statement {
+      background: #ede9fe;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      font-size: 15px;
+      font-weight: 500;
+      color: #5b21b6;
+    }
+    
+    .question {
+      background: #f0fdf4;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-left: 3px solid #10b981;
+    }
+    
+    .question-label {
+      font-size: 11px;
+      color: #059669;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    
+    .question-text {
+      color: #064e3b;
+      font-size: 14px;
+    }
+    
+    .bullets {
+      background: #fef3c7;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+      font-size: 13px;
+    }
+    
+    .bullets-label {
+      font-size: 11px;
+      color: #92400e;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .bullets ul {
+      margin-left: 20px;
+      color: #78350f;
+    }
+    
+    .bullets li {
+      margin-bottom: 4px;
+    }
+    
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      padding: 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      resize: vertical;
+      margin-bottom: 12px;
+    }
+    
+    textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+    
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      margin-right: 8px;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102,126,234,0.4);
+    }
+    
+    .btn-secondary {
+      background: #f3f4f6;
+      color: #374151;
+    }
+    
+    .btn-secondary:hover {
+      background: #e5e7eb;
+    }
+    
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    
+    .indicative-content {
+      background: #fef2f2;
+      border: 2px solid #fecaca;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 12px;
+      display: none;
+    }
+    
+    .indicative-content.show {
+      display: block;
+    }
+    
+    .indicative-content h3 {
+      color: #991b1b;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    
+    .indicative-content p {
+      color: #7f1d1d;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+    
+    .indicative-content ul {
+      margin-left: 20px;
+      color: #7f1d1d;
+    }
+    
+    .indicative-content li {
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+    
+    .timer {
+      background: #dbeafe;
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    
+    .timer-label {
+      font-size: 12px;
+      color: #1e40af;
+      margin-bottom: 4px;
+    }
+    
+    .timer-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: #1e3a8a;
+    }
+    
+    .timer-controls {
+      margin-top: 8px;
+    }
+    
+    .word-count {
+      font-size: 12px;
+      color: #6b7280;
+      text-align: right;
+      margin-bottom: 4px;
+    }
+    
+    .tips {
+      background: #f0f9ff;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 16px;
+      border-left: 4px solid #0284c7;
+    }
+    
+    .tips h3 {
+      color: #0c4a6e;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    
+    .tips ul {
+      margin-left: 20px;
+      color: #075985;
+      font-size: 13px;
+    }
+    
+    .tips li {
+      margin-bottom: 4px;
+    }
+    
+    .floating-keyboard {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: white;
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 1000;
+    }
+    
+    .floating-keyboard.minimized {
+      padding: 8px 12px;
+    }
+    
+    .keyboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .keyboard-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+    }
+    
+    .keyboard-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: #6b7280;
+      padding: 0;
+    }
+    
+    .keyboard-keys {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
+    }
+    
+    .accent-key {
+      padding: 8px;
+      background: #f3f4f6;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    
+    .accent-key:hover {
+      background: #667eea;
+      color: white;
+      transform: translateY(-2px);
+    }
+    
+    .accent-key:active {
+      transform: translateY(0);
+    }
+    
+    .download-section {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #e5e7eb;
+    }
+    
+    .download-btn {
+      width: 100%;
+      padding: 10px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16,185,129,0.4);
+    }
+    
+    @media (max-width: 768px) {
+      .floating-keyboard {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+      }
+      
+      .keyboard-keys {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🎵 A-Level Spanish Speaking Exam - Music</h1>
+      <p>Paper 3, Task 1: Random Question Generator with Indicative Content</p>
+    </div>
+
+    <div class="grid">
+      <!-- Left Panel: Question -->
+      <div class="panel">
+        <h2>📝 Tu pregunta / Your Question</h2>
+        
+        <div class="question-type" id="question-type"></div>
+        
+        <div class="statement" id="statement"></div>
+        
+        <div class="bullets" id="bullets">
+          <div class="bullets-label">Debes considerar:</div>
+          <ul id="bullet-list"></ul>
+        </div>
+        
+        <div class="question" id="question1">
+          <div class="question-label">Pregunta del examinador 1 (0:00-2:30):</div>
+          <div class="question-text"></div>
+        </div>
+        
+        <div class="question" id="question2">
+          <div class="question-label">Pregunta del examinador 2 (2:30-5:00):</div>
+          <div class="question-text"></div>
+        </div>
+        
+        <div class="btn-group">
+          <button class="btn btn-primary" onclick="generateQuestion()">🎲 Nueva pregunta</button>
+          <button class="btn btn-secondary" onclick="resetAnswer()">🔄 Reiniciar</button>
+        </div>
+      </div>
+
+      <!-- Right Panel: Answer & Timer -->
+      <div class="panel">
+        <h2>✍️ Tu preparación / Your Preparation</h2>
+        
+        <div class="timer">
+          <div class="timer-label">Tiempo de preparación / Preparation time</div>
+          <div class="timer-value" id="timer">2:00</div>
+          <div class="timer-controls">
+            <button class="btn btn-secondary" onclick="startTimer()">▶️ Iniciar</button>
+            <button class="btn btn-secondary" onclick="stopTimer()">⏸️ Pausar</button>
+            <button class="btn btn-secondary" onclick="resetTimer()">🔄 Reiniciar</button>
+          </div>
+        </div>
+        
+        <div class="word-count" id="word-count">0 palabras</div>
+        <textarea 
+          id="answer" 
+          placeholder="Escribe tus notas aquí en español... (palabras clave, ejemplos, estructuras)&#10;&#10;Recuerda:&#10;- Usar vocabulario específico del tema&#10;- Incluir ejemplos concretos (artistas, canciones, géneros)&#10;- Preparar transiciones entre ideas"
+          oninput="updateWordCount()"></textarea>
+        
+        <div class="btn-group">
+          <button class="btn btn-primary" onclick="toggleIndicativeContent()">👀 Ver contenido indicativo</button>
+        </div>
+        
+        <div class="indicative-content" id="indicative-content"></div>
+        
+        <div class="download-section">
+          <button class="download-btn" onclick="downloadPDF()">
+            📄 Descargar todo como PDF / Download as PDF
+          </button>
+        </div>
+        
+        <div class="tips">
+          <h3>💡 Consejos / Tips</h3>
+          <ul>
+            <li>Usa <strong>conectores</strong>: sin embargo, además, por otro lado, en cuanto a</li>
+            <li>Menciona <strong>artistas específicos</strong>: Shakira, Juanes, Bad Bunny, Rosalía</li>
+            <li>Incluye <strong>géneros</strong>: reggaetón, salsa, flamenco, tango, vallenato</li>
+            <li>Usa el <strong>subjuntivo</strong> cuando sea apropiado</li>
+            <li>Haz <strong>preguntas al examinador</strong> durante el examen</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Floating Accent Keyboard -->
+    <div class="floating-keyboard" id="floating-keyboard">
+      <div class="keyboard-header">
+        <div class="keyboard-title">Acentos españoles</div>
+        <button class="keyboard-toggle" onclick="toggleKeyboard()">
+          <span id="keyboard-icon">▼</span>
+        </button>
+      </div>
+      <div class="keyboard-keys" id="keyboard-keys">
+        <button class="accent-key" onclick="insertAccent('á')">á</button>
+        <button class="accent-key" onclick="insertAccent('é')">é</button>
+        <button class="accent-key" onclick="insertAccent('í')">í</button>
+        <button class="accent-key" onclick="insertAccent('ó')">ó</button>
+        <button class="accent-key" onclick="insertAccent('ú')">ú</button>
+        <button class="accent-key" onclick="insertAccent('Á')">Á</button>
+        <button class="accent-key" onclick="insertAccent('É')">É</button>
+        <button class="accent-key" onclick="insertAccent('Í')">Í</button>
+        <button class="accent-key" onclick="insertAccent('Ó')">Ó</button>
+        <button class="accent-key" onclick="insertAccent('Ú')">Ú</button>
+        <button class="accent-key" onclick="insertAccent('ñ')">ñ</button>
+        <button class="accent-key" onclick="insertAccent('Ñ')">Ñ</button>
+        <button class="accent-key" onclick="insertAccent('ü')">ü</button>
+        <button class="accent-key" onclick="insertAccent('¿')">¿</button>
+        <button class="accent-key" onclick="insertAccent('¡')">¡</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    const QUESTION_TYPES = {
+      language: {
+        name: "Tipo 1: Idioma y mercado global",
+        color: "#667eea"
+      },
+      controversial: {
+        name: "Tipo 2: Letras polémicas y libertad de expresión",
+        color: "#dc2626"
+      },
+      origins: {
+        name: "Tipo 3: Orígenes e influencias culturales",
+        color: "#059669"
+      },
+      messages: {
+        name: "Tipo 4: Mensajes sociales y políticos",
+        color: "#d97706"
+      },
+      identity: {
+        name: "Tipo 5: Música e identidad nacional",
+        color: "#7c3aed"
+      },
+      evolution: {
+        name: "Tipo 6: Evolución y tradición",
+        color: "#0891b2"
+      }
+    };
+
+    const QUESTIONS = [
+      {
+        type: "language",
+        statement: "Los artistas populares hispanos prefieren cantar en inglés.",
+        bullets: [
+          "Tu opinión sobre la decisión de los artistas hispanos de cantar en inglés",
+          "El éxito de algún artista hispano y el idioma en que canta"
+        ],
+        q1: "En tu opinión, ¿por qué cantan en inglés algunos artistas hispanos?",
+        q2: "Háblame del éxito de algún artista hispano y su elección de idioma.",
+        indicative: `<h3>Contenido Indicativo:</h3>
+<p><strong>Contexto general:</strong></p>
+<ul>
+  <li>Muchos artistas latinos piensan que la única manera de tener éxito en EE.UU. y la industria musical mundial es cantar en inglés</li>
+  <li>Durante muchos años, artistas latinos como Ricky Martin, Enrique Iglesias y Shakira lograron el éxito crossover grabando álbumes en inglés</li>
+  <li>Sin embargo, ahora artistas como Juanes y Romeo Santos intentan llegar al público norteamericano cantando solo en español</li>
+  <li>Éxitos globales como "Despacito" o el éxito mundial del reggaetón muestran que en los últimos 10 años los músicos hispanos pueden lograr éxitos globales cantando en español</li>
+</ul>
+
+<p><strong>Ejemplos de artistas:</strong></p>
+<ul>
+  <li><strong>Juanes</strong> (Juan Esteban Aristizábal Vásquez): músico colombiano que fue miembro de la banda de rock Ekhymosis. Su álbum debut en solitario "Fíjate Bien" (2000) ganó tres Latin Grammy Awards. Ha elegido cantar predominantemente en español</li>
+  <li><strong>Daddy Yankee</strong> (Ramón Luis Ayala Rodríguez): cantante, compositor y rapero puertorriqueño. Fue uno de los primeros artistas en actuar internacionalmente en música reggaetón. Alterna entre inglés y español</li>
+  <li><strong>Shakira</strong>: artista colombiana que ha grabado álbumes tanto en español como en inglés, logrando éxito masivo en ambos mercados</li>
+</ul>
+
+<p><strong>Vocabulario clave:</strong></p>
+<ul>
+  <li>el éxito crossover, la industria musical mundial</li>
+  <li>alcanzar/llegar al público, el mercado estadounidense</li>
+  <li>grabar un álbum, cantar predominantemente en...</li>
+  <li>lograr éxitos globales, tener éxito comercial</li>
+</ul>`
+      },
+      {
+        type: "controversial",
+        statement: "La letra de algunas canciones populares hispanas es polémica.",
+        bullets: [
+          "Tu opinión sobre la letra de algunas canciones populares hispanas",
+          "Las características de la música hispana más popular entre los jóvenes hispanos hoy en día"
+        ],
+        q1: "En tu opinión, ¿es polémica la letra de algunas canciones populares hispanas? ¿Por qué (no)?",
+        q2: "¿Cuáles son las características de la música hispana más popular entre los jóvenes hispanos hoy en día?",
+        indicative: `<h3>Contenido Indicativo:</h3>
+<p><strong>Casos de censura en España:</strong></p>
+<ul>
+  <li>Algunos artistas hispanos están llevando su libertad de expresión al límite</li>
+  <li><strong>César Strawberry</strong>: cantante español del grupo Def Con Dos, condenado a un año de cárcel en 2017 por enaltecer el terrorismo y humillar a las víctimas del terrorismo</li>
+  <li><strong>Pablo Hasél</strong>: fue juzgado en 2018 por el contenido de algunos tuits y letras de canciones en los que atacaba a la policía y a la monarquía española. Condenado a 9 meses de prisión y 30.000 euros de multa por "enaltecimiento del terrorismo e injurias a la corona"</li>
+  <li><strong>Valtònyc</strong>: rapero mallorquín condenado a tres años y medio de cárcel por enaltecer el terrorismo e insultar a la monarquía en sus letras</li>
+  <li>12 miembros del grupo de rap <strong>Insurgencia</strong> recibieron cada uno condenas de dos años de cárcel por enaltecer el terrorismo en una de sus canciones</li>
+  <li>Más de 200 personalidades del mundo del cine, la música y el teatro firmaron un manifiesto en apoyo a estos músicos, señalando que "el Estado español ha pasado a encabezar la lista de países que más artistas ha represaliado por el contenido de sus canciones"</li>
+</ul>
+
+<p><strong>Música popular entre jóvenes:</strong></p>
+<ul>
+  <li>La música de baile sigue siendo muy popular entre los jóvenes hispanohablantes. Algunos nombres populares son Malú, Melendi y Alejandro Sanz</li>
+  <li><strong>El reggaetón</strong> es el estilo de música más popular hoy en día por su combinación de rap, rock; es pegadizo, atrevido y fácil de bailar. Artistas como Wisin, Reik, Ozuna, Bad Bunny, Karol G han logrado el éxito en este campo</li>
+  <li>Críticas al reggaetón: las letras y actuaciones pueden parecer sexistas (similar al hip hop). Sin embargo, en ambos géneros, las mujeres están entre los intérpretes más destacados (por ejemplo, Ivy Queen, Rosalía, Karol G)</li>
+</ul>
+
+<p><strong>Vocabulario clave:</strong></p>
+<ul>
+  <li>enaltecer el terrorismo, insultar/injuriar la monarquía</li>
+  <li>la libertad de expresión, la censura</li>
+  <li>provocar, ser polémico/a, ofensivo/a</li>
+  <li>pegadizo/a, atrevido/a, fácil de bailar</li>
+</ul>`
+      },
+      {
+        type: "origins",
+        statement: "La música hispana nace de una mezcla de estilos e influencias.",
+        bullets: [
+          "El origen de la música hispana que conoces",
+          "La popularidad de un estilo de música hispana que has estudiado"
+        ],
+        q1: "¿Cuál es el origen de la música hispana que conoces?",
+        q2: "Explícame la popularidad de un estilo de música hispana que has estudiado.",
+        indicative: `<h3>Contenido Indicativo:</h3>
+<p><strong>La Salsa:</strong></p>
+<ul>
+  <li>La salsa es un género musical bailable resultante de la síntesis del son cubano y otros géneros de música caribeña, con el jazz y otros ritmos estadounidenses</li>
+  <li>Fue consolidada como un éxito comercial por músicos de origen cubano y puertorriqueño en la ciudad de Nueva York en la década de 1960, aunque sus raíces se remontan a décadas anteriores en países de la cuenca del Caribe</li>
+  <li>La salsa ha sido influenciada por los ritmos africanos traídos a Cuba por los esclavos africanos</li>
+  <li>Se extendió a lo largo de Colombia y al resto de América, dando lugar a escenas regionales puertorriqueña, panameña, venezolana, cubana, dominicana, colombiana</li>
+  <li>Abarca varios estilos como la salsa dura, la salsa romántica y la timba</li>
+  <li>Artistas destacados: Celia Cruz, Oscar D'León, Fania All Stars</li>
+</ul>
+
+<p><strong>El Flamenco:</strong></p>
+<ul>
+  <li>Se origina en las regiones de Andalucía, Murcia y Extremadura, en España</li>
+  <li>Típicamente incluye: el cante (canto), el toque (tocar la guitarra), el baile, el jaleo, las palmas y los pitos</li>
+  <li>Tiene una historia larga y compleja, con influencias de los gitanos romaníes y música folclórica andaluza</li>
+  <li>Sigue siendo popular porque puede ser considerado un símbolo de la identidad española</li>
+  <li>Hay muchas variedades de flamenco, desde el cante jondo más puro hasta el flamenco turístico</li>
+  <li>Artistas destacados: Paco de Lucía, Camarón de la Isla, la Pequeña de Jerez</li>
+</ul>
+
+<p><strong>El Reggaetón:</strong></p>
+<ul>
+  <li>Representa una rica historia cultural, llena de historias de migración, de resistencia y de celebración</li>
+  <li>Tiene raíces profundas en Panamá, donde las comunidades negras en los años ochenta y noventa fueron pioneras en pistas de reggae en español</li>
+  <li>Prosperó en Puerto Rico en los años noventa, cruzándose con escenas de hip hop en Nueva York</li>
+  <li>Artistas: Bad Bunny, Ivy Queen, Rosalía, Karol G, Ozuna, J. Balvin, Daddy Yankee, Don Omar</li>
+</ul>
+
+<p><strong>Vocabulario clave:</strong></p>
+<ul>
+  <li>una mezcla de estilos, la síntesis de...</li>
+  <li>influenciado/a por, las raíces se remontan a...</li>
+  <li>un símbolo de identidad, el patrimonio cultural</li>
+</ul>`
+      },
+      {
+        type: "messages",
+        statement: "Las canciones hispanas tienen una letra muy importante que afecta a la gente de varias maneras.",
+        bullets: [
+          "El mensaje que quiere transmitir un tipo de música hispana que conoces",
+          "El impacto que tiene un tipo de música hispana que conoces en la sociedad"
+        ],
+        q1: "¿Cuál es el mensaje que quiere transmitir la música hispana que tú conoces?",
+        q2: "¿Qué impacto tiene la música hispana en la sociedad?",
+        indicative: `<h3>Contenido Indicativo:</h3>
+<p><strong>Mensajes sociales en la música latina:</strong></p>
+<ul>
+  <li>La música y las letras representan toda la cultura y el entorno donde se produjo por primera vez</li>
+  <li>La música latina es a menudo un reflejo de problemas sociales como la identidad, la raza y la pobreza</li>
+  <li><strong>Calle 13</strong>: canción "Latinoamérica" – sobre estar orgulloso de ser sudamericano</li>
+  <li><strong>Grupo Niche</strong>: canción "Etnia", una salsa que nos recuerda que todos tenemos la misma sangre</li>
+  <li>La pobreza y el desequilibrio social son temas populares en la música latinoamericana, por ejemplo la música merengue de <strong>Juan Luis Guerra</strong> (República Dominicana) y la bachata que a veces subrayan las diferencias sociales</li>
+  <li>En España, la música a menudo tiene letras políticas, pero diferentes regiones también tienen tradiciones musicales distintas. Por ejemplo, Andalucía es conocida por el flamenco, tradicionalmente cantado sobre la persecución de los gitanos/romaníes</li>
+</ul>
+
+<p><strong>Impacto y compromiso social:</strong></p>
+<ul>
+  <li>La tendencia de música y letras en conciertos con mensajes sociales continúa siendo muy popular dentro de la sociedad hispana</li>
+  <li>Bandas como <strong>Maná</strong> (México) y <strong>Juanes</strong> (Colombia) han organizado conciertos de paz en todo el mundo, promoviendo la paz y mostrando conciencia de la pobreza y el daño causado al planeta por las acciones humanas</li>
+  <li>Los artistas hispanos están entre los músicos más comprometidos con trabajar por el bienestar de los niños de la calle, por ejemplo</li>
+  <li><strong>Shakira</strong> y su organización "Pies Descalzos" (1997): apoya a niños desfavorecidos. También fundó ALAS, una asociación para la educación infantil. Fue nombrada Embajadora de Buena Voluntad de UNICEF (2003)</li>
+  <li><strong>La Oreja de Van Gogh</strong>: promueve la conciencia de problemas sociales, como la negación de educación a las niñas, la lucha contra el terrorismo. En 2004, las ventas de su canción "11 de marzo" se donaron a las víctimas del ataque terrorista del tren de Madrid</li>
+</ul>
+
+<p><strong>Vocabulario clave:</strong></p>
+<ul>
+  <li>transmitir un mensaje, concienciar a sus seguidores</li>
+  <li>el compromiso social, la justicia social</li>
+  <li>promover la paz, luchar contra la pobreza</li>
+  <li>las obras benéficas, donar a...</li>
+</ul>`
+      },
+      {
+        type: "messages",
+        statement: "Los cantantes hispanos usan su música para concienciar a sus seguidores de cuestiones sociales.",
+        bullets: [
+          "El mensaje político o social del artista o grupo que has estudiado",
+          "El impacto de este artista o grupo y su música"
+        ],
+        q1: "¿Cuál es el mensaje político o social del artista o grupo que has estudiado?",
+        q2: "Explícame el impacto de este artista o grupo y su música.",
+        indicative: `<h3>Contenido Indicativo:</h3>
+<p><strong>Artistas comprometidos socialmente:</strong></p>
+<ul>
+  <li><strong>Shakira</strong>: "La educación no es un lujo, es un derecho del ser humano"
+    <ul>
+      <li>1997: Fundadora de la Asociación Pies Descalzos, que apoya a niños desfavorecidos. También fundó ALAS, una asociación para la educación infantil</li>
+      <li>2003: Nombrada Embajadora de Buena Voluntad de UNICEF</li>
+      <li>2007: La Fundación ALAS donó más de 40 millones de dólares tras los desastres naturales en Perú y Nicaragua</li>
+      <li>2017: Premio del Foro Económico Mundial por su liderazgo a favor de la educación infantil</li>
+    </ul>
+  </li>
+  <li><strong>Juanes</strong>: ha organizado conciertos de paz en todo el mundo, promoviendo la paz y mostrando conciencia de la pobreza y el daño causado al planeta</li>
+  <li><strong>Maná</strong> (México): organiza conciertos con mensajes sociales y ambientales</li>
+  <li><strong>La Oreja de Van Gogh</strong>: promueve la conciencia de problemas sociales. En 2004, las ventas de "11 de marzo" se donaron a víctimas del ataque terrorista del tren de Madrid</li>
+  <li><strong>Calle 13</strong>: música con mensajes políticos fuertes sobre identidad latinoamericana, justicia social y anti-imperialismo</li>
+</ul>
+
+<p><strong>Impacto:</strong></p>
+<ul>
+  <li>Los artistas hispanos están entre los músicos más comprometidos con trabajar por el bienestar de los niños de la calle y la educación</li>
+  <li>Influyen en millones de jóvenes a través de sus mensajes</li>
+  <li>Recaudan fondos significativos para causas benéficas</li>
+  <li>Aumentan la conciencia sobre problemas sociales y ambientales</li>
+</ul>
+
+<p><strong>Preguntas para reflexionar:</strong></p>
+<ul>
+  <li>¿Por qué crees que las acciones de estos artistas son importantes?</li>
+  <li>En general, ¿crees que el comportamiento de las celebridades del mundo hispánico influye en los jóvenes?</li>
+</ul>
+
+<p><strong>Vocabulario clave:</strong></p>
+<ul>
+  <li>concienciar a sus seguidores, crear conciencia</li>
+  <li>el compromiso social, las obras benéficas</li>
+  <li>recaudar fondos, donar a una causa</li>
+  <li>influir en, tener un impacto en</li>
+</ul>`
+      },
+      {
+        type: "identity",
+        statement: "La música de los países hispanohablantes está fuertemente conectada con su país de origen.",
+        bullets: [
+          "Las características principales de un género de música hispana que hayas estudiado",
+          "La importancia que tiene esa música para el país donde se originó"
+        ],
+        q1: "¿Cuáles son las características principales de un género de música hispana que hayas estudiado?",
+        q2: "¿Qué importancia tiene esa música para el país donde se originó?",
+        indicative: `<h3>Contenido Indicativo:</h3>
+<p><strong>El Flamenco (España):</strong></p>
+<ul>
+  <li><strong>Características:</strong> Se origina en Andalucía, Murcia y Extremadura. Incluye: el cante (canto), el toque (tocar la guitarra), el baile, el jaleo, las palmas y los pitos</li>
+  <li>Hay muchas variedades, desde el cante jondo más puro hasta el flamenco turístico</li>
+  <li><strong>Importancia:</strong> Tiene fuertes vínculos con el sur de España y Andalucía en particular. Es reconocido como una parte integral del patrimonio español. Puede ser considerado un símbolo de identidad española</li>
+  <li>Historia larga y compleja, con gitanos romaníes y música folclórica andaluza</li>
+  <li><strong>Paco de Lucía</strong>: guitarrista flamenco innovador de prestigio internacional. Nació en Algeciras (1947) en un barrio gitano. Colaboró con Camarón de la Isla. Lo que destaca de su música es su "inquietud innovadora", su deseo de rechazar el tradicionalismo</li>
+</ul>
+
+<p><strong>El Tango (Argentina):</strong></p>
+<ul>
+  <li><strong>Características:</strong> Música y baile característico de Buenos Aires</li>
+  <li>Comenzó como un baile de los pobres y se ha convertido en un símbolo de identidad nacional argentina</li>
+  <li><strong>Importancia:</strong> Representa la identidad argentina y la melancolía de los inmigrantes. Patrimonio cultural inmaterial de la humanidad (UNESCO)</li>
+  <li><strong>Relevancia para Volver:</strong> La canción "Volver" de Carlos Gardel (tango transformado a flamenco en la película) es central al tema de la película</li>
+</ul>
+
+<p><strong>La Cueca (Chile):</strong></p>
+<ul>
+  <li>Música chilena con raíces en aborígenes andinos y ritmos coloniales españoles</li>
+  <li>Es la danza nacional de Chile</li>
+</ul>
+
+<p><strong>El Vallenato (Colombia):</strong></p>
+<ul>
+  <li>Cuenta con más de cien años de antigüedad. Sigue viva y cautivando el gusto de millones de jóvenes</li>
+  <li><strong>Carlos Vives</strong>: conocido por su fusión de voces pop y música vallenata tradicional colombiana. Ganó un Grammy en 2002</li>
+</ul>
+
+<p><strong>Vocabulario clave:</strong></p>
+<ul>
+  <li>el patrimonio cultural, un símbolo de identidad</li>
+  <li>las raíces se remontan a...</li>
+  <li>fuertemente conectado/a con, los vínculos con</li>
+  <li>formar parte integral de...</li>
+</ul>`
+      },
+      {
+        type: "evolution",
+        statement: "La música tradicional en el mundo hispanohablante ha evolucionado a través de los años.",
+        bullets: [
+          "Los cambios en un tipo de música tradicional hispana que conoces",
+          "El papel que juega actualmente esa música en la sociedad hispanohablante"
+        ],
+        q1: "La música tradicional no es la misma hoy que antes. ¿Estás de acuerdo? ¿Por qué (no)?",
+        q2: "En tu opinión, ¿qué papel juega actualmente esa música en la sociedad hispanohablante?",
+        indicative: `<h3>Contenido Indicativo:</h3>
+<p><strong>Evolución del Flamenco:</strong></p>
+<ul>
+  <li><strong>Orígenes:</strong> Originalmente era solo una voz (un grito) y el ritmo golpeado en el piso (el tablao). Muchos gitanos se ganaban la vida dando presentaciones privadas (juergas) y no tenían dinero para comprar instrumentos</li>
+  <li><strong>Desarrollo:</strong> Luego vino la mezcla del estilo gitano tradicional romaní y la música folclórica andaluza (fandangos)</li>
+  <li>El período del café cantante (1850-1910) consolidó su lugar en la sociedad española, pero muchos sintieron que esta no era la verdadera música flamenca</li>
+  <li><strong>Hoy en día:</strong>
+    <ul>
+      <li>El flamenco ahora se escucha y se realiza en muchos países de habla hispana y no española. Hay más escuelas en Japón que en España que enseñan flamenco</li>
+      <li>La fusión del flamenco con el jazz, la salsa y otros estilos de música es un lugar común en la actualidad</li>
+      <li>El flamenco puro (cante jondo) se mantiene vivo por artistas particulares como la Pequeña de Jerez y en la propia Andalucía</li>
+      <li><strong>Rosalía</strong>: artista contemporánea que fusiona flamenco tradicional con reggaetón y otros estilos modernos</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Evolución de otros géneros:</strong></p>
+<ul>
+  <li><strong>El tango:</strong> comenzó como música de los pobres en los suburbios de Buenos Aires, ahora es reconocido internacionalmente como patrimonio cultural</li>
+  <li><strong>La salsa:</strong> evolucionó de ritmos africanos y caribeños en Nueva York en los años 60, ahora tiene escenas regionales en toda América Latina</li>
+  <li><strong>El reggaetón:</strong> género relativamente nuevo que ha evolucionado desde los años 90 en Panamá y Puerto Rico hasta convertirse en el género más popular globalmente</li>
+</ul>
+
+<p><strong>Papel en la sociedad actual:</strong></p>
+<ul>
+  <li>La música tradicional sigue siendo importante para mantener la identidad cultural</li>
+  <li>La fusión de estilos tradicionales con música moderna permite que las nuevas generaciones se conecten con sus raíces</li>
+  <li>Algunos géneros tradicionales se mantienen puros en ciertos contextos (festivales, celebraciones tradicionales)</li>
+  <li>La globalización ha permitido que la música hispana tradicional llegue a audiencias internacionales</li>
+</ul>
+
+<p><strong>Vocabulario clave:</strong></p>
+<ul>
+  <li>evolucionar, desarrollarse, transformarse</li>
+  <li>la fusión de estilos, mantener la tradición</li>
+  <li>las raíces culturales, el patrimonio</li>
+  <li>adaptarse a los tiempos modernos</li>
+</ul>`
+      }
+    ];
+
+    let currentQuestion = null;
+    let timerInterval = null;
+    let timeRemaining = 120; // 2 minutes in seconds
+
+    function generateQuestion() {
+      const randomIndex = Math.floor(Math.random() * QUESTIONS.length);
+      currentQuestion = QUESTIONS[randomIndex];
+      displayQuestion();
+      resetAnswer();
+      resetTimer();
+      document.getElementById('indicative-content').classList.remove('show');
+    }
+
+    function displayQuestion() {
+      if (!currentQuestion) return;
+
+      const typeInfo = QUESTION_TYPES[currentQuestion.type];
+      document.getElementById('question-type').innerHTML = `
+        <div class="question-type-label">${typeInfo.name}</div>
+      `;
+      document.getElementById('question-type').style.borderLeftColor = typeInfo.color;
+
+      document.getElementById('statement').textContent = currentQuestion.statement;
+
+      const bulletList = document.getElementById('bullet-list');
+      bulletList.innerHTML = '';
+      currentQuestion.bullets.forEach(bullet => {
+        const li = document.createElement('li');
+        li.textContent = bullet;
+        bulletList.appendChild(li);
+      });
+
+      document.getElementById('question1').querySelector('.question-text').textContent = currentQuestion.q1;
+      document.getElementById('question2').querySelector('.question-text').textContent = currentQuestion.q2;
+    }
+
+    function resetAnswer() {
+      document.getElementById('answer').value = '';
+      updateWordCount();
+    }
+
+    function updateWordCount() {
+      const text = document.getElementById('answer').value.trim();
+      const words = text ? text.split(/\s+/).length : 0;
+      document.getElementById('word-count').textContent = `${words} palabra${words !== 1 ? 's' : ''}`;
+    }
+
+    function toggleIndicativeContent() {
+      if (!currentQuestion) {
+        alert('Por favor, genera una pregunta primero.');
+        return;
+      }
+      
+      const content = document.getElementById('indicative-content');
+      if (content.classList.contains('show')) {
+        content.classList.remove('show');
+      } else {
+        content.innerHTML = currentQuestion.indicative;
+        content.classList.add('show');
+      }
+    }
+
+    function startTimer() {
+      if (timerInterval) return; // Already running
+      
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+        
+        if (timeRemaining <= 0) {
+          stopTimer();
+          alert('¡Tiempo terminado! / Time\'s up!');
+        }
+      }, 1000);
+    }
+
+    function stopTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }
+
+    function resetTimer() {
+      stopTimer();
+      timeRemaining = 120;
+      updateTimerDisplay();
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeRemaining / 60);
+      const seconds = timeRemaining % 60;
+      document.getElementById('timer').textContent = 
+        `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    }
+    
+    function insertAccent(char) {
+      const textarea = document.getElementById('answer');
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const text = textarea.value;
+      
+      textarea.value = text.substring(0, start) + char + text.substring(end);
+      textarea.selectionStart = textarea.selectionEnd = start + 1;
+      textarea.focus();
+      updateWordCount();
+    }
+    
+    function toggleKeyboard() {
+      const keyboard = document.getElementById('floating-keyboard');
+      const keys = document.getElementById('keyboard-keys');
+      const icon = document.getElementById('keyboard-icon');
+      
+      if (keyboard.classList.contains('minimized')) {
+        keyboard.classList.remove('minimized');
+        keys.style.display = 'grid';
+        icon.textContent = '▼';
+      } else {
+        keyboard.classList.add('minimized');
+        keys.style.display = 'none';
+        icon.textContent = '▲';
+      }
+    }
+    
+    function downloadPDF() {
+      if (!currentQuestion) {
+        alert('Por favor, genera una pregunta primero. / Please generate a question first.');
+        return;
+      }
+      
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      
+      const typeInfo = QUESTION_TYPES[currentQuestion.type];
+      const studentAnswer = document.getElementById('answer').value;
+      
+      // Title
+      doc.setFontSize(16);
+      doc.setTextColor(102, 126, 234);
+      doc.text('A-Level Spanish Speaking Exam - Music', 20, 20);
+      
+      // Question Type
+      doc.setFontSize(12);
+      doc.setTextColor(118, 75, 162);
+      doc.text(typeInfo.name, 20, 30);
+      
+      // Statement
+      doc.setFontSize(11);
+      doc.setTextColor(91, 33, 182);
+      doc.text('Declaración / Statement:', 20, 40);
+      doc.setFontSize(10);
+      doc.setTextColor(0, 0, 0);
+      const statementLines = doc.splitTextToSize(currentQuestion.statement, 170);
+      doc.text(statementLines, 20, 47);
+      
+      let yPos = 47 + (statementLines.length * 7);
+      
+      // Debes considerar
+      doc.setFontSize(11);
+      doc.setTextColor(146, 64, 14);
+      doc.text('Debes considerar:', 20, yPos);
+      yPos += 7;
+      
+      doc.setFontSize(9);
+      doc.setTextColor(0, 0, 0);
+      currentQuestion.bullets.forEach(bullet => {
+        const bulletLines = doc.splitTextToSize('• ' + bullet, 165);
+        doc.text(bulletLines, 25, yPos);
+        yPos += bulletLines.length * 6;
+      });
+      
+      yPos += 5;
+      
+      // Question 1
+      doc.setFontSize(10);
+      doc.setTextColor(5, 150, 105);
+      doc.text('Pregunta 1 (0:00-2:30):', 20, yPos);
+      yPos += 6;
+      doc.setFontSize(9);
+      doc.setTextColor(0, 0, 0);
+      const q1Lines = doc.splitTextToSize(currentQuestion.q1, 170);
+      doc.text(q1Lines, 20, yPos);
+      yPos += q1Lines.length * 6 + 5;
+      
+      // Question 2
+      doc.setFontSize(10);
+      doc.setTextColor(5, 150, 105);
+      doc.text('Pregunta 2 (2:30-5:00):', 20, yPos);
+      yPos += 6;
+      doc.setFontSize(9);
+      doc.setTextColor(0, 0, 0);
+      const q2Lines = doc.splitTextToSize(currentQuestion.q2, 170);
+      doc.text(q2Lines, 20, yPos);
+      yPos += q2Lines.length * 6 + 10;
+      
+      // Check if we need a new page
+      if (yPos > 250) {
+        doc.addPage();
+        yPos = 20;
+      }
+      
+      // Student Answer
+      doc.setFontSize(12);
+      doc.setTextColor(102, 126, 234);
+      doc.text('Tu preparación / Your Preparation:', 20, yPos);
+      yPos += 8;
+      
+      doc.setFontSize(9);
+      doc.setTextColor(0, 0, 0);
+      if (studentAnswer.trim()) {
+        const answerLines = doc.splitTextToSize(studentAnswer, 170);
+        answerLines.forEach(line => {
+          if (yPos > 280) {
+            doc.addPage();
+            yPos = 20;
+          }
+          doc.text(line, 20, yPos);
+          yPos += 6;
+        });
+      } else {
+        doc.setTextColor(150, 150, 150);
+        doc.text('[No hay respuesta escrita / No answer written]', 20, yPos);
+        yPos += 6;
+      }
+      
+      yPos += 10;
+      
+      // Add new page for indicative content
+      doc.addPage();
+      yPos = 20;
+      
+      // Indicative Content
+      doc.setFontSize(14);
+      doc.setTextColor(220, 38, 38);
+      doc.text('Contenido Indicativo / Indicative Content', 20, yPos);
+      yPos += 10;
+      
+      // Parse the HTML indicative content
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = currentQuestion.indicative;
+      
+      doc.setFontSize(9);
+      doc.setTextColor(0, 0, 0);
+      
+      const processNode = (node, indent = 0) => {
+        if (node.nodeType === Node.TEXT_NODE) {
+          const text = node.textContent.trim();
+          if (text) {
+            const lines = doc.splitTextToSize(text, 170 - indent);
+            lines.forEach(line => {
+              if (yPos > 280) {
+                doc.addPage();
+                yPos = 20;
+              }
+              doc.text(line, 20 + indent, yPos);
+              yPos += 5;
+            });
+          }
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+          if (node.tagName === 'H3') {
+            yPos += 3;
+            doc.setFontSize(11);
+            doc.setTextColor(153, 27, 27);
+            doc.text(node.textContent, 20, yPos);
+            yPos += 7;
+            doc.setFontSize(9);
+            doc.setTextColor(0, 0, 0);
+          } else if (node.tagName === 'P') {
+            Array.from(node.childNodes).forEach(child => processNode(child, indent));
+            yPos += 3;
+          } else if (node.tagName === 'UL') {
+            Array.from(node.children).forEach(li => {
+              if (yPos > 280) {
+                doc.addPage();
+                yPos = 20;
+              }
+              const text = li.textContent.trim();
+              const lines = doc.splitTextToSize('• ' + text, 165 - indent);
+              lines.forEach(line => {
+                if (yPos > 280) {
+                  doc.addPage();
+                  yPos = 20;
+                }
+                doc.text(line, 25 + indent, yPos);
+                yPos += 5;
+              });
+            });
+            yPos += 2;
+          } else if (node.tagName === 'STRONG') {
+            doc.setFont(undefined, 'bold');
+            doc.text(node.textContent, 20 + indent, yPos, { maxWidth: 170 - indent });
+            doc.setFont(undefined, 'normal');
+          } else {
+            Array.from(node.childNodes).forEach(child => processNode(child, indent));
+          }
+        }
+      };
+      
+      Array.from(tempDiv.childNodes).forEach(node => processNode(node));
+      
+      // Save the PDF
+      const fileName = `Spanish_Music_Speaking_${typeInfo.name.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
+      doc.save(fileName);
+    }
+
+    // Initialize with first question
+    window.onload = function() {
+      generateQuestion();
+    };
+  </script>
+</body>
+</html>

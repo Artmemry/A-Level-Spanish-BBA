@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volver – Essay Phrases Quiz</title>
+  <style>
+    :root {
+      --primary: #8e44ad;
+      --secondary: #2980b9;
+      --success: #27ae60;
+      --warning: #e67e22;
+      --danger: #c0392b;
+      --light: #ecf0f1;
+      --dark: #2c3e50;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      color: var(--dark);
+    }
+    .container {
+      max-width: 950px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      overflow: hidden;
+    }
+    header {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+    header h1 { font-size: 2rem; margin-bottom: 8px; text-shadow: 1px 1px 3px rgba(0,0,0,0.2); }
+    header p { font-size: 1rem; opacity: 0.9; }
+    .tabs {
+      display: flex;
+      border-bottom: 3px solid var(--primary);
+      background: #f8f9fa;
+      flex-wrap: wrap;
+    }
+    .tab {
+      padding: 12px 18px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #666;
+      border: none;
+      background: none;
+      transition: all 0.2s;
+      flex: 1;
+      min-width: 100px;
+      text-align: center;
+    }
+    .tab:hover { background: #e8e0f0; color: var(--primary); }
+    .tab.active { background: white; color: var(--primary); border-bottom: 3px solid var(--primary); margin-bottom: -3px; }
+    .controls-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 25px;
+      background: #fafafa;
+      border-bottom: 1px solid #eee;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .mode-toggle {
+      display: flex;
+      gap: 8px;
+    }
+    .mode-btn {
+      padding: 8px 16px;
+      border: 2px solid var(--primary);
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      background: white;
+      color: var(--primary);
+      transition: all 0.2s;
+    }
+    .mode-btn.active { background: var(--primary); color: white; }
+    .progress-info { font-size: 0.9rem; color: #666; font-weight: 500; }
+    .progress-bar-wrap { height: 8px; background: #e0e0e0; border-radius: 4px; margin: 0 25px 15px; }
+    .progress-fill { height: 100%; background: linear-gradient(to right, var(--secondary), var(--primary)); border-radius: 4px; transition: width 0.4s ease; }
+    .quiz-area { padding: 20px 25px 30px; }
+
+    /* FLASHCARD MODE */
+    .flashcard-wrap { perspective: 1000px; max-width: 620px; margin: 0 auto 20px; height: 220px; }
+    .flashcard {
+      width: 100%; height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.6s;
+      cursor: pointer;
+    }
+    .flashcard.flipped { transform: rotateY(180deg); }
+    .card-face {
+      position: absolute; width: 100%; height: 100%;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .card-front { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+    .card-back { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; transform: rotateY(180deg); }
+    .card-face .lang-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; margin-bottom: 10px; }
+    .card-face .phrase { font-size: 1.2rem; font-weight: 600; line-height: 1.5; }
+    .card-face .click-hint { font-size: 0.8rem; opacity: 0.6; margin-top: 12px; }
+    .flashcard-nav {
+      display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px;
+    }
+    .nav-btn {
+      padding: 10px 22px; border: none; border-radius: 8px;
+      cursor: pointer; font-weight: 600; font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .prev-btn { background: #ecf0f1; color: var(--dark); }
+    .prev-btn:hover { background: #dfe6e9; }
+    .next-btn { background: var(--primary); color: white; }
+    .next-btn:hover { background: #7d3c98; }
+    .card-counter { font-size: 0.9rem; color: #666; min-width: 80px; text-align: center; }
+    .shuffle-btn {
+      display: block; margin: 0 auto;
+      padding: 8px 20px; border: 2px dashed var(--secondary); border-radius: 20px;
+      background: white; color: var(--secondary); cursor: pointer; font-size: 0.85rem; font-weight: 600;
+      transition: all 0.2s;
+    }
+    .shuffle-btn:hover { background: var(--secondary); color: white; }
+
+    /* QUIZ MODE */
+    .question-card {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .question-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .question-card.correct-border { border-left: 4px solid var(--success); }
+    .question-card.incorrect-border { border-left: 4px solid var(--danger); }
+    .q-header {
+      display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;
+    }
+    .q-num { font-weight: 700; color: var(--primary); font-size: 0.9rem; }
+    .q-cat { font-size: 0.75rem; background: #e8d5f5; color: var(--primary); padding: 3px 8px; border-radius: 10px; font-weight: 600; }
+    .q-english { font-size: 1.05rem; margin-bottom: 12px; line-height: 1.5; color: var(--dark); }
+    .q-input-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .q-input {
+      flex: 1; min-width: 200px; padding: 10px 14px;
+      border: 2px solid #ddd; border-radius: 8px; font-size: 0.95rem;
+      transition: border-color 0.2s;
+    }
+    .q-input:focus { outline: none; border-color: var(--secondary); box-shadow: 0 0 0 3px rgba(41,128,185,0.15); }
+    .q-input.correct-input { border-color: var(--success); background: #eafaf1; }
+    .q-input.incorrect-input { border-color: var(--danger); background: #fdedec; }
+    .check-btn-q, .hint-btn-q {
+      padding: 10px 16px; border: none; border-radius: 8px;
+      cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: all 0.2s;
+    }
+    .check-btn-q { background: var(--secondary); color: white; }
+    .check-btn-q:hover { background: #2471a3; }
+    .hint-btn-q { background: #fef9e7; color: var(--warning); border: 1px solid var(--warning); }
+    .hint-btn-q:hover { background: var(--warning); color: white; }
+    .q-feedback { margin-top: 8px; font-size: 0.9rem; font-weight: 600; }
+    .q-feedback.ok { color: var(--success); }
+    .q-feedback.bad { color: var(--danger); }
+    .q-answer-reveal {
+      margin-top: 8px; padding: 8px 12px; background: #ebf5fb;
+      border-left: 3px solid var(--secondary); border-radius: 5px;
+      font-size: 0.9rem; color: #1a5276; display: none;
+    }
+    .q-answer-reveal.show { display: block; }
+    .q-hint-box {
+      margin-top: 8px; padding: 8px 12px; background: #fef9e7;
+      border-left: 3px solid var(--warning); border-radius: 5px;
+      font-size: 0.88rem; color: #784212; display: none;
+    }
+    .q-hint-box.show { display: block; }
+    .attempts-label { font-size: 0.78rem; color: #999; margin-top: 4px; }
+
+    /* RESULT PANEL */
+    .result-panel {
+      margin: 20px 0; padding: 20px;
+      background: #f4f6f7; border-radius: 10px;
+      border: 2px dashed var(--primary); display: none; text-align: center;
+    }
+    .result-panel.show { display: block; }
+    .result-panel h2 { color: var(--primary); margin-bottom: 10px; }
+    .result-panel .big-score { font-size: 2.5rem; font-weight: 700; color: var(--primary); }
+
+    .bottom-btns {
+      display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; padding: 10px 0 10px;
+    }
+    .action-btn {
+      padding: 12px 24px; border: none; border-radius: 8px;
+      cursor: pointer; font-weight: 600; font-size: 0.95rem; transition: all 0.2s;
+    }
+    .submit-btn { background: var(--primary); color: white; }
+    .submit-btn:hover { background: #7d3c98; transform: translateY(-2px); }
+    .reset-btn { background: var(--dark); color: white; }
+    .reset-btn:hover { background: #34495e; transform: translateY(-2px); }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Volver – Essay Phrases Quiz</h1>
+    <p>Master the key phrases for A-Level Spanish Paper 2 essays — 66 phrases across 6 categories</p>
+  </header>
+
+  <div class="tabs" id="tabBar">
+    <button class="tab active" onclick="setCategory('all')">All (66)</button>
+    <button class="tab" onclick="setCategory('general')">General (13)</button>
+    <button class="tab" onclick="setCategory('sophisticated')">Sophisticated (14)</button>
+    <button class="tab" onclick="setCategory('plot')">Plot (9)</button>
+    <button class="tab" onclick="setCategory('character')">Character (10)</button>
+    <button class="tab" onclick="setCategory('setting')">Setting (9)</button>
+    <button class="tab" onclick="setCategory('film')">Film (11)</button>
+  </div>
+
+  <div class="controls-bar">
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="flashBtn" onclick="setMode('flash')">🃏 Flashcards</button>
+      <button class="mode-btn" id="quizBtn" onclick="setMode('quiz')">✏️ Quiz</button>
+    </div>
+    <div class="progress-info" id="progressInfo">66 phrases selected</div>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+  <div class="quiz-area" id="quizArea">
+    <!-- dynamically populated -->
+  </div>
+</div>
+
+<script>
+const ALL_PHRASES = [
+  // GENERAL
+  { cat: 'general', en: 'as a result (of)', es: 'como consecuencia (de)' },
+  { cat: 'general', en: 'on the other hand / instead', es: 'en cambio' },
+  { cat: 'general', en: 'these days / nowadays', es: 'en estos tiempos / hoy en día' },
+  { cat: 'general', en: 'In my opinion, one can(not) believe…', es: 'En mi opinión, (no) se puede creer…' },
+  { cat: 'general', en: 'in fact', es: 'en realidad' },
+  { cat: 'general', en: 'to sum up / in a nutshell', es: 'en resumen' },
+  { cat: 'general', en: 'to begin / to finish…', es: 'para comenzar / terminar…' },
+  { cat: 'general', en: 'finally / in the end', es: 'por último' },
+  { cat: 'general', en: 'on the one hand… on the other…', es: 'por una parte… por otra…' },
+  { cat: 'general', en: "First, let's consider…", es: 'Primero consideremos…' },
+  { cat: 'general', en: 'It is often said/claimed that…', es: 'Se suele afirmar que…' },
+  { cat: 'general', en: 'We must also consider…', es: 'También debemos considerar…' },
+  { cat: 'general', en: 'Watching the film, you realise that…', es: 'Al ver la película, uno se da cuenta de que…' },
+  // SOPHISTICATED
+  { cat: 'sophisticated', en: 'After all / In the end, one can conclude that…', es: 'Al fin y al cabo, se puede concluir que…' },
+  { cat: 'sophisticated', en: 'As the story/film progresses…', es: 'A medida que se avanza en el relato/la película…' },
+  { cat: 'sophisticated', en: 'Likewise, it should be stressed that…', es: 'Cabe destacar igualmente que…' },
+  { cat: 'sophisticated', en: 'As the director shows / points out…', es: 'Como señala el/la director/a…' },
+  { cat: 'sophisticated', en: 'It is a perfect backcloth', es: 'Es un telón de fondo perfecto' },
+  { cat: 'sophisticated', en: 'You/One can even say…', es: 'Incluso se puede decir que…' },
+  { cat: 'sophisticated', en: 'The fact/truth is that…', es: 'Lo cierto es que…' },
+  { cat: 'sophisticated', en: "It cannot be denied that… / There's no denying…", es: 'No se puede negar que…' },
+  { cat: 'sophisticated', en: 'For instance…', es: 'Pongamos por caso…' },
+  { cat: 'sophisticated', en: 'It is hard to believe that…', es: 'Resulta difícil creer que…' },
+  { cat: 'sophisticated', en: 'Be that as it may / In any case, you have to say that…', es: 'Sea lo que sea, hay que decir que…' },
+  { cat: 'sophisticated', en: 'You could even say…', es: 'Se podría decir incluso que…' },
+  { cat: 'sophisticated', en: "It's a question (of love and remorse)", es: 'Se trata (del amor y del remordimiento)' },
+  { cat: 'sophisticated', en: 'by way of example / a case in point is', es: 'sirva de ejemplo' },
+  // PLOT
+  { cat: 'plot', en: 'the complexity of the plot', es: 'la complejidad del argumento' },
+  { cat: 'plot', en: 'linear development', es: 'el desarrollo lineal' },
+  { cat: 'plot', en: 'plot development', es: 'el desarrollo de la trama/intriga' },
+  { cat: 'plot', en: 'a flashback', es: 'una escena retrospectiva' },
+  { cat: 'plot', en: 'at the end of the film', es: 'al final de la película' },
+  { cat: 'plot', en: 'an unexpected twist', es: 'un giro inesperado' },
+  { cat: 'plot', en: 'The work has a tragic denouement/ending.', es: 'La obra tiene un desenlace trágico.' },
+  { cat: 'plot', en: 'a summary of the plot', es: 'un resumen del argumento' },
+  { cat: 'plot', en: 'the sequence of events', es: 'la secuencia de los sucesos' },
+  // CHARACTER
+  { cat: 'character', en: 'the development of a conflict between…', es: 'el desarrollo de un conflicto entre…' },
+  { cat: 'character', en: 'The character (x) stands out', es: 'Destaca el personaje (x)' },
+  { cat: 'character', en: 'He/She is one of those characters you do not easily forget.', es: 'Es uno de esos personajes que no se olvidan fácilmente.' },
+  { cat: 'character', en: "the character's development", es: 'la evolución del personaje' },
+  { cat: 'character', en: 'the main character / the protagonist', es: 'el personaje principal / el/la protagonista' },
+  { cat: 'character', en: 'The characters are very alike', es: 'Los personajes se parecen mucho' },
+  { cat: 'character', en: 'a portrait of the main character', es: 'un retrato del protagonista' },
+  { cat: 'character', en: 'They are very different in character', es: 'Se diferencian mucho en su carácter' },
+  { cat: 'character', en: 'He/She has a hard/kind/cheerful character', es: 'Tiene un carácter duro/simpático/alegre' },
+  { cat: 'character', en: "the characters' inner life", es: 'la vida interior de los personajes' },
+  // SETTING
+  { cat: 'setting', en: 'The action takes place in the past/present/future', es: 'La acción ocurre en el pasado/presente/futuro' },
+  { cat: 'setting', en: 'the atmosphere of the village, district etc.', es: 'el ambiente de la aldea, del barrio, etc.' },
+  { cat: 'setting', en: 'to describe the environment', es: 'describir el entorno/medio ambiente' },
+  { cat: 'setting', en: 'description of the landscape', es: 'la descripción del paisaje' },
+  { cat: 'setting', en: 'the historical/social setting', es: 'el marco histórico/social' },
+  { cat: 'setting', en: 'The film reflects reality.', es: 'La película refleja la realidad.' },
+  { cat: 'setting', en: 'to recreate the period/era', es: 'recrear el período/la época' },
+  { cat: 'setting', en: 'a sense of place', es: 'un sentido de lugar' },
+  { cat: 'setting', en: 'to convey the impression of a place', es: 'transmitir la impresión de un lugar' },
+  // FILM
+  { cat: 'film', en: 'performance in a role', es: 'la actuación/interpretación de un papel' },
+  { cat: 'film', en: 'He/She appeared in his/her first feature film', es: 'Apareció en su primer largometraje' },
+  { cat: 'film', en: 'to change swiftly between long/full/medium shot', es: 'cambiar con agilidad de plano general/entero/medio' },
+  { cat: 'film', en: 'a creative film-maker', es: 'un/a cineasta creativo/a' },
+  { cat: 'film', en: 'an exciting/emotional scene', es: 'una escena emocionante' },
+  { cat: 'film', en: 'to be premiered', es: 'estrenarse una película' },
+  { cat: 'film', en: 'an effective image', es: 'una imagen eficaz' },
+  { cat: 'film', en: 'The film is thrilling from the first moment.', es: 'La película emociona desde el primer momento.' },
+  { cat: 'film', en: 'the biggest box-office hit in the history of Spanish cinema', es: 'la película española más taquillera de la historia' },
+  { cat: 'film', en: 'the shooting of the film', es: 'el rodaje de la película' },
+  { cat: 'film', en: 'the use of close-up / tracking shot', es: 'el uso del primer plano / plano de seguimiento' },
+];
+
+const CAT_LABELS = {
+  general: 'General Essay',
+  sophisticated: 'Sophisticated',
+  plot: 'Plot',
+  character: 'Character',
+  setting: 'Setting',
+  film: 'Film'
+};
+
+let currentCategory = 'all';
+let currentMode = 'flash';
+let filteredPhrases = [];
+let flashIndex = 0;
+let flashFlipped = false;
+let quizAttempts = {};
+let quizCorrect = {};
+
+function normalize(s) {
+  return s.toLowerCase()
+    .replace(/[áàâä]/g, 'a').replace(/[éèêë]/g, 'e')
+    .replace(/[íìîï]/g, 'i').replace(/[óòôö]/g, 'o')
+    .replace(/[úùûü]/g, 'u').replace(/ñ/g, 'n')
+    .replace(/[^a-z0-9\s]/g, '').trim();
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function setCategory(cat) {
+  currentCategory = cat;
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    const cats = ['all','general','sophisticated','plot','character','setting','film'];
+    t.classList.toggle('active', cats[i] === cat);
+  });
+  filteredPhrases = cat === 'all' ? [...ALL_PHRASES] : ALL_PHRASES.filter(p => p.cat === cat);
+  flashIndex = 0; flashFlipped = false;
+  quizAttempts = {}; quizCorrect = {};
+  document.getElementById('progressInfo').textContent = `${filteredPhrases.length} phrases selected`;
+  render();
+}
+
+function setMode(mode) {
+  currentMode = mode;
+  document.getElementById('flashBtn').classList.toggle('active', mode === 'flash');
+  document.getElementById('quizBtn').classList.toggle('active', mode === 'quiz');
+  flashIndex = 0; flashFlipped = false;
+  render();
+}
+
+function render() {
+  if (currentMode === 'flash') renderFlash();
+  else renderQuiz();
+}
+
+function renderFlash() {
+  const p = filteredPhrases[flashIndex] || filteredPhrases[0];
+  const area = document.getElementById('quizArea');
+  area.innerHTML = `
+    <div class="flashcard-wrap">
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="card-face card-front">
+          <div class="lang-label">🇬🇧 English</div>
+          <div class="phrase">${p.en}</div>
+          <div class="click-hint">Click to reveal Spanish</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="lang-label">🇪🇸 Español · ${CAT_LABELS[p.cat]}</div>
+          <div class="phrase">${p.es}</div>
+          <div class="click-hint">Click to flip back</div>
+        </div>
+      </div>
+    </div>
+    <div class="flashcard-nav">
+      <button class="nav-btn prev-btn" onclick="prevCard()">← Previous</button>
+      <span class="card-counter">${flashIndex + 1} / ${filteredPhrases.length}</span>
+      <button class="nav-btn next-btn" onclick="nextCard()">Next →</button>
+    </div>
+    <button class="shuffle-btn" onclick="shuffleCards()">🔀 Shuffle cards</button>
+  `;
+  updateProgressBar(flashIndex + 1, filteredPhrases.length);
+}
+
+function flipCard() {
+  flashFlipped = !flashFlipped;
+  const card = document.getElementById('flashcard');
+  card.classList.toggle('flipped', flashFlipped);
+}
+function prevCard() { flashIndex = (flashIndex - 1 + filteredPhrases.length) % filteredPhrases.length; flashFlipped = false; renderFlash(); }
+function nextCard() { flashIndex = (flashIndex + 1) % filteredPhrases.length; flashFlipped = false; renderFlash(); }
+function shuffleCards() { filteredPhrases = shuffle(filteredPhrases); flashIndex = 0; flashFlipped = false; renderFlash(); }
+
+function renderQuiz() {
+  const area = document.getElementById('quizArea');
+  const correctCount = Object.values(quizCorrect).filter(Boolean).length;
+  const total = filteredPhrases.length;
+  updateProgressBar(correctCount, total);
+  let html = '';
+  filteredPhrases.forEach((p, i) => {
+    const att = quizAttempts[i] || 0;
+    const correct = quizCorrect[i] || false;
+    const disabled = correct || att >= 3 ? 'disabled' : '';
+    const borderClass = correct ? 'correct-border' : (att >= 3 ? 'incorrect-border' : '');
+    html += `
+      <div class="question-card ${borderClass}" id="qcard${i}">
+        <div class="q-header">
+          <span class="q-num">Q${i + 1}</span>
+          <span class="q-cat">${CAT_LABELS[p.cat]}</span>
+        </div>
+        <div class="q-english">${p.en}</div>
+        <div class="q-input-row">
+          <input class="q-input" id="qi${i}" type="text" placeholder="Type the Spanish…" ${disabled}
+            onkeydown="if(event.key==='Enter') checkQ(${i})">
+          <button class="check-btn-q" onclick="checkQ(${i})" ${disabled}>Check</button>
+          <button class="hint-btn-q" onclick="toggleHint(${i})">Hint</button>
+        </div>
+        <div class="q-hint-box" id="hint${i}">First letter(s): <strong>${p.es.slice(0, Math.min(5, p.es.indexOf(' ') > 0 ? p.es.indexOf(' ') : 4))}…</strong></div>
+        <div class="q-feedback" id="fb${i}"></div>
+        <div class="q-answer-reveal" id="ans${i}">✅ Answer: <strong>${p.es}</strong></div>
+        <div class="attempts-label" id="att${i}">${att > 0 ? `Attempts: ${att}/3` : ''}</div>
+      </div>`;
+  });
+
+  html += `
+    <div class="result-panel" id="resultPanel">
+      <h2>🎉 All questions answered!</h2>
+      <div class="big-score">${correctCount} / ${total}</div>
+      <p style="margin-top:10px;color:#666">${Math.round(correctCount/total*100)}% correct — ${correctCount===total ? 'Perfect score!' : 'Keep practising!'}</p>
+    </div>
+    <div class="bottom-btns">
+      <button class="action-btn submit-btn" onclick="submitAll()">Submit All</button>
+      <button class="action-btn reset-btn" onclick="resetQuiz()">Reset</button>
+    </div>`;
+  area.innerHTML = html;
+
+  // Re-apply existing state visuals
+  filteredPhrases.forEach((p, i) => {
+    const inp = document.getElementById('qi' + i);
+    if (!inp) return;
+    if (quizCorrect[i]) { inp.classList.add('correct-input'); document.getElementById('fb' + i).textContent = '✓ Correct!'; document.getElementById('fb' + i).className = 'q-feedback ok'; }
+    else if ((quizAttempts[i] || 0) >= 3) { inp.classList.add('incorrect-input'); document.getElementById('ans' + i).classList.add('show'); document.getElementById('fb' + i).textContent = '✗ Revealed after 3 attempts.'; document.getElementById('fb' + i).className = 'q-feedback bad'; }
+  });
+}
+
+function checkQ(i) {
+  if (quizCorrect[i] || (quizAttempts[i] || 0) >= 3) return;
+  const inp = document.getElementById('qi' + i);
+  const val = inp.value.trim();
+  if (!val) return;
+  quizAttempts[i] = (quizAttempts[i] || 0) + 1;
+  const p = filteredPhrases[i];
+  const correct = normalize(val) === normalize(p.es);
+  const fb = document.getElementById('fb' + i);
+  const attEl = document.getElementById('att' + i);
+  const ansEl = document.getElementById('ans' + i);
+  const card = document.getElementById('qcard' + i);
+  attEl.textContent = `Attempts: ${quizAttempts[i]}/3`;
+  if (correct) {
+    quizCorrect[i] = true;
+    inp.classList.add('correct-input'); inp.disabled = true;
+    document.querySelector(`#qcard${i} .check-btn-q`).disabled = true;
+    fb.textContent = '✓ Correct!'; fb.className = 'q-feedback ok';
+    card.classList.add('correct-border');
+    ansEl.classList.add('show');
+  } else {
+    inp.classList.add('incorrect-input');
+    fb.textContent = quizAttempts[i] >= 3 ? '✗ 3 attempts used — answer revealed.' : `✗ Try again (${quizAttempts[i]}/3)`;
+    fb.className = 'q-feedback bad';
+    if (quizAttempts[i] >= 3) {
+      inp.disabled = true;
+      document.querySelector(`#qcard${i} .check-btn-q`).disabled = true;
+      ansEl.classList.add('show');
+      card.classList.add('incorrect-border');
+    }
+  }
+  const total = filteredPhrases.length;
+  const correctCount = Object.values(quizCorrect).filter(Boolean).length;
+  updateProgressBar(correctCount, total);
+  document.getElementById('progressInfo').textContent = `${correctCount}/${total} correct`;
+}
+
+function toggleHint(i) {
+  const h = document.getElementById('hint' + i);
+  h.classList.toggle('show');
+}
+
+function submitAll() {
+  filteredPhrases.forEach((p, i) => {
+    if (!quizCorrect[i] && !(quizAttempts[i] >= 3)) {
+      quizAttempts[i] = 3;
+      const ansEl = document.getElementById('ans' + i);
+      if (ansEl) ansEl.classList.add('show');
+      const inp = document.getElementById('qi' + i);
+      if (inp) { inp.disabled = true; inp.classList.add('incorrect-input'); }
+      const fb = document.getElementById('fb' + i);
+      if (fb) { fb.textContent = '— Not answered.'; fb.className = 'q-feedback bad'; }
+    }
+  });
+  const total = filteredPhrases.length;
+  const correctCount = Object.values(quizCorrect).filter(Boolean).length;
+  updateProgressBar(correctCount, total);
+  const rp = document.getElementById('resultPanel');
+  if (rp) {
+    rp.innerHTML = `<h2>Final Results</h2><div class="big-score">${correctCount} / ${total}</div><p style="margin-top:10px;color:#666">${Math.round(correctCount/total*100)}% — ${correctCount===total?'Perfect!':'Keep practising!'}</p>`;
+    rp.classList.add('show');
+  }
+  document.getElementById('progressInfo').textContent = `${correctCount}/${total} correct`;
+}
+
+function resetQuiz() {
+  quizAttempts = {}; quizCorrect = {};
+  filteredPhrases = currentCategory === 'all' ? [...ALL_PHRASES] : ALL_PHRASES.filter(p => p.cat === currentCategory);
+  document.getElementById('progressInfo').textContent = `${filteredPhrases.length} phrases selected`;
+  updateProgressBar(0, filteredPhrases.length);
+  renderQuiz();
+}
+
+function updateProgressBar(done, total) {
+  document.getElementById('progressFill').style.width = total > 0 ? `${(done / total) * 100}%` : '0%';
+}
+
+// Init
+filteredPhrases = [...ALL_PHRASES];
+render();
+</script>
+</body>
+</html>

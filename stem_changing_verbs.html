@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verbos con Cambios de Raíz - Presente</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .rules {
+            padding: 25px;
+            background: #f0f4ff;
+            border-bottom: 3px solid #667eea;
+        }
+        .rules h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .rule-explanation {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #764ba2;
+        }
+        .verb-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .verb-box {
+            background: #fff9e6;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid #ffc107;
+        }
+        .verb-box strong {
+            color: #764ba2;
+            font-size: 1.1em;
+        }
+        .conjugation {
+            margin-top: 8px;
+            font-style: italic;
+            color: #555;
+            line-height: 1.6;
+        }
+        .stem-change {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+        .verb-list {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .verb-list h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+        .exercise-section {
+            padding: 30px;
+        }
+        .instructions {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            border-left: 4px solid #2196f3;
+        }
+        .score-display {
+            text-align: center;
+            font-size: 1.5em;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f0f4ff;
+            border-radius: 10px;
+            border: 2px solid #667eea;
+        }
+        .score-display span {
+            color: #764ba2;
+            font-weight: bold;
+        }
+        .question {
+            margin: 15px 0;
+            padding: 18px;
+            background: #fafafa;
+            border-radius: 8px;
+            border-left: 4px solid #764ba2;
+        }
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+        .given-verb {
+            font-style: italic;
+            color: #666;
+        }
+        input[type="text"] {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1.05em;
+            min-width: 150px;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        input.correct {
+            border-color: #4caf50;
+            background: #e8f5e9;
+        }
+        input.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+        .translation {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #ddd;
+        }
+        .buttons {
+            text-align: center;
+            margin: 30px 0;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 12px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        .btn-check {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-check:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .btn-download {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(17, 153, 142, 0.4);
+        }
+        .btn-reset {
+            background: #f44336;
+            color: white;
+        }
+        .btn-reset:hover {
+            background: #d32f2f;
+            transform: translateY(-2px);
+        }
+        .name-input {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .name-input input {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            width: 300px;
+        }
+        .feedback {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f0f4ff;
+            border-radius: 10px;
+        }
+        .feedback h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .feedback-item {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .feedback-correct {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+        }
+        .feedback-incorrect {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+        }
+        @media (max-width: 768px) {
+            .verb-examples {
+                grid-template-columns: 1fr;
+            }
+            .buttons {
+                flex-direction: column;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Verbos con Cambios de Raíz</h1>
+            <p>Stem-Changing Verbs in the Present Tense</p>
+        </div>
+
+        <div class="rules">
+            <h3>Reglas de los Cambios de Raíz</h3>
+            
+            <div class="rule-explanation">
+                <p>Todos los verbos españoles tienen una raíz y una terminación (-ar, -er, -ir). Hay un gran grupo de verbos que cambian su raíz en el presente cuando la vocal de la raíz está acentuada. Hay tres tipos principales:</p>
+            </div>
+
+            <div class="verb-examples">
+                <div class="verb-box">
+                    <strong>e → ie</strong>
+                    <div class="conjugation">
+                        <u>pensar</u> (to think):<br>
+                        <span class="stem-change">pienso</span>, <span class="stem-change">piensas</span>, <span class="stem-change">piensa</span>,<br>
+                        pensamos, pensáis, <span class="stem-change">piensan</span>
+                    </div>
+                </div>
+
+                <div class="verb-box">
+                    <strong>o → ue</strong>
+                    <div class="conjugation">
+                        <u>volver</u> (to return):<br>
+                        <span class="stem-change">vuelvo</span>, <span class="stem-change">vuelves</span>, <span class="stem-change">vuelve</span>,<br>
+                        volvemos, volvéis, <span class="stem-change">vuelven</span>
+                    </div>
+                </div>
+
+                <div class="verb-box">
+                    <strong>e → i</strong>
+                    <div class="conjugation">
+                        <u>pedir</u> (to ask for):<br>
+                        <span class="stem-change">pido</span>, <span class="stem-change">pides</span>, <span class="stem-change">pide</span>,<br>
+                        pedimos, pedís, <span class="stem-change">piden</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rule-explanation" style="background: #fff3cd; border-left-color: #ffc107;">
+                <strong>Nota importante:</strong> El cambio de raíz ocurre cuando la raíz está acentuada (yo, tú, él/ella, ellos/ellas), pero NO en nosotros ni vosotros.
+            </div>
+
+            <div class="verb-list">
+                <h4>e → ie:</h4>
+                cerrar, comenzar, empezar, entender, pensar, perder, preferir, querer, sentir
+            </div>
+
+            <div class="verb-list" style="background: #fff3e0;">
+                <h4>o → ue:</h4>
+                contar, dormir, encontrar, morir, mostrar, poder, resolver, volar, volver
+            </div>
+
+            <div class="verb-list" style="background: #fce4ec;">
+                <h4>e → i:</h4>
+                elegir, (im)pedir, seguir, servir, (son)reír
+            </div>
+
+            <div class="verb-box" style="background: #e1f5fe; border-left-color: #0277bd;">
+                <strong>Caso especial: jugar (u → ue)</strong>
+                <div class="conjugation">
+                    <span class="stem-change">juego</span>, <span class="stem-change">juegas</span>, <span class="stem-change">juega</span>, jugamos, jugáis, <span class="stem-change">juegan</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="exercise-section">
+            <div class="instructions">
+                <strong>Instrucciones:</strong> Completa cada oración con la forma correcta del verbo en el presente.
+            </div>
+
+            <div class="score-display">
+                Puntuación: <span id="score">0</span>%
+            </div>
+
+            <div id="questions"></div>
+
+            <div class="name-input">
+                <label for="studentName"><strong>Tu nombre:</strong></label><br>
+                <input type="text" id="studentName" placeholder="Escribe tu nombre aquí">
+            </div>
+
+            <div class="buttons">
+                <button class="btn-check" onclick="checkAnswers()">Verificar Respuestas</button>
+                <button class="btn-download" onclick="downloadResults()">Descargar Resultados</button>
+                <button class="btn-reset" onclick="resetExercise()">Reiniciar</button>
+            </div>
+
+            <div class="feedback" id="feedback">
+                <h3>Resultados Detallados</h3>
+                <div id="feedbackContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const exercises = [
+            {
+                spanish: "Todos <span class='given-verb'>pensamos</span> en ti. ¿Alguien ___ en mí?",
+                verb: "pensar",
+                answer: "piensa",
+                english: "We all think of you. Does anyone think of me?"
+            },
+            {
+                spanish: "No <span class='given-verb'>jugamos</span> con nadie. Tú tampoco ___ con nadie.",
+                verb: "jugar",
+                answer: "juegas",
+                english: "We don't play with anyone. Neither do you."
+            },
+            {
+                spanish: "<span class='given-verb'>Resuelven</span> algunos dilemas. La señora Vélez y yo también ___ dilemas.",
+                verb: "resolver",
+                answer: "resolvemos",
+                english: "They solve some dilemmas. Mrs. Velez and I do too."
+            },
+            {
+                spanish: "No <span class='given-verb'>pedimos</span> nada a nadie. Ella tampoco ___ nada a nadie.",
+                verb: "pedir",
+                answer: "pide",
+                english: "We don't ask anything from anyone. Neither does she."
+            },
+            {
+                spanish: "Las águilas <span class='given-verb'>vuelan</span> muy alto. El avión también ___ altísimo.",
+                verb: "volar",
+                answer: "vuela",
+                english: "Eagles fly very high. The plane flies extremely high, too."
+            },
+            {
+                spanish: "Nunca <span class='given-verb'>encontramos</span> nada. Tú tampoco ___ nada nunca.",
+                verb: "encontrar",
+                answer: "encuentras",
+                english: "We never find anything. You don't ever find anything either."
+            },
+            {
+                spanish: "Ni tú ni ella <span class='given-verb'>entienden</span>. El doctor López tampoco ___.",
+                verb: "entender",
+                answer: "entiende",
+                english: "Neither you nor she understands. Doctor Lopez doesn't understand either."
+            },
+            {
+                spanish: "<span class='given-verb'>Empezamos</span> a cualquier hora. La profesora Vélez también ___ a cualquier hora.",
+                verb: "empezar",
+                answer: "empieza",
+                english: "We start at any time at all. Professor Velez starts at any time, too."
+            },
+            {
+                spanish: "Nunca <span class='given-verb'>elijo</span> los problemas. Ni ella ni yo ___ los problemas.",
+                verb: "elegir",
+                answer: "elegimos",
+                english: "I never choose my problems. Neither she nor I choose our problems."
+            },
+            {
+                spanish: "Nunca <span class='given-verb'>seguimos</span> las instrucciones. Él tampoco ___ nunca las instrucciones.",
+                verb: "seguir",
+                answer: "sigue",
+                english: "We never follow directions. He never follows directions either."
+            }
+        ];
+
+        function createExercises() {
+            const container = document.getElementById('questions');
+            exercises.forEach((ex, idx) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                
+                const sentence = ex.spanish.replace('___', `<input type="text" id="q${idx}" data-answer="${ex.answer}" data-verb="${ex.verb}">`);
+                
+                questionDiv.innerHTML = `
+                    <div class="question-text">${idx + 1}. ${sentence}</div>
+                    <div style="font-size: 0.9em; color: #764ba2; margin-top: 5px;">
+                        <strong>Verbo:</strong> ${ex.verb}
+                    </div>
+                    <div class="translation">${ex.english}</div>
+                `;
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function normalizeAnswer(str) {
+            return str.toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .trim();
+        }
+
+        function checkAnswers() {
+            let correct = 0;
+            let total = exercises.length;
+            let feedbackHTML = '';
+            
+            exercises.forEach((ex, idx) => {
+                const input = document.getElementById(`q${idx}`);
+                if (input) {
+                    const userAnswer = input.value.trim();
+                    const correctAnswer = ex.answer;
+                    const isCorrect = normalizeAnswer(userAnswer) === normalizeAnswer(correctAnswer);
+                    
+                    if (isCorrect) {
+                        correct++;
+                        input.className = 'correct';
+                    } else {
+                        input.className = 'incorrect';
+                    }
+                    
+                    const feedbackClass = isCorrect ? 'feedback-correct' : 'feedback-incorrect';
+                    const icon = isCorrect ? '✓' : '✗';
+                    
+                    feedbackHTML += `
+                        <div class="feedback-item ${feedbackClass}">
+                            <strong>${icon} ${idx + 1}.</strong> ${ex.spanish.replace('___', `<strong>${correctAnswer}</strong>`).replace(/<span class='given-verb'>/g, '<em>').replace(/<\/span>/g, '</em>')}<br>
+                            <div style="margin-top: 8px;">
+                                <strong>Verbo:</strong> ${ex.verb} → Tu respuesta: <strong>${userAnswer || '(vacío)'}</strong>
+                                ${!isCorrect ? ` | Correcto: <strong style="color: #4caf50;">${correctAnswer}</strong>` : ''}
+                            </div>
+                            <div style="font-size: 0.9em; color: #666; margin-top: 5px;"><em>${ex.english}</em></div>
+                        </div>
+                    `;
+                }
+            });
+            
+            const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+            document.getElementById('score').textContent = percentage;
+            document.getElementById('feedbackContent').innerHTML = `
+                <div style="text-align: center; font-size: 1.3em; margin-bottom: 20px; padding: 15px; background: white; border-radius: 10px; border: 2px solid #667eea;">
+                    <strong>Puntuación Final: ${correct}/${total} (${percentage}%)</strong>
+                </div>
+                ${feedbackHTML}
+            `;
+            
+            document.getElementById('feedback').style.display = 'block';
+            document.getElementById('feedback').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function downloadResults() {
+            const studentName = document.getElementById('studentName').value.trim() || 'Estudiante';
+            let text = `VERBOS CON CAMBIOS DE RAÍZ - RESULTADOS\n`;
+            text += `========================================\n\n`;
+            text += `Estudiante: ${studentName}\n`;
+            text += `Fecha: ${new Date().toLocaleString('es-ES')}\n\n`;
+            
+            let correct = 0;
+            let total = exercises.length;
+            
+            exercises.forEach((ex, idx) => {
+                const input = document.getElementById(`q${idx}`);
+                if (input) {
+                    const userAnswer = input.value.trim() || '(vacío)';
+                    const correctAnswer = ex.answer;
+                    const isCorrect = normalizeAnswer(userAnswer) === normalizeAnswer(correctAnswer);
+                    
+                    if (isCorrect) correct++;
+                    
+                    text += `\nPregunta ${idx + 1}:\n`;
+                    text += `Frase: ${ex.spanish.replace('___', '___').replace(/<span class='given-verb'>/g, '').replace(/<\/span>/g, '')}\n`;
+                    text += `Verbo base: ${ex.verb}\n`;
+                    text += `Tu respuesta: ${userAnswer}\n`;
+                    text += `Respuesta correcta: ${correctAnswer}\n`;
+                    text += `Resultado: ${isCorrect ? '✓ CORRECTO' : '✗ INCORRECTO'}\n`;
+                    text += `Traducción: ${ex.english}\n`;
+                    text += `---\n`;
+                }
+            });
+            
+            const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+            text += `\n========================================\n`;
+            text += `PUNTUACIÓN FINAL: ${correct}/${total} (${percentage}%)\n`;
+            text += `========================================\n`;
+            
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            const safeName = studentName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            const timestamp = new Date().getTime();
+            link.download = `verbos_raiz_${safeName}_${timestamp}.txt`;
+            
+            document.body.appendChild(link);
+            link.click();
+            
+            setTimeout(() => {
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }, 100);
+            
+            alert(`¡Resultados descargados para ${studentName}!\nRespuestas correctas: ${correct}/${total} (${percentage}%)`);
+        }
+
+        function resetExercise() {
+            exercises.forEach((ex, idx) => {
+                const input = document.getElementById(`q${idx}`);
+                if (input) {
+                    input.value = '';
+                    input.className = '';
+                }
+            });
+            document.getElementById('score').textContent = '0';
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('studentName').value = '';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        createExercises();
+    </script>
+</body>
+</html>

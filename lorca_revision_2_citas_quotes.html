@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LcdBA – Tarjetas de Citas / Quote Flashcards</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Georgia',serif;background:#1a1a2e;color:#e0e0e0;padding:20px;min-height:100vh}
+.container{max-width:800px;margin:0 auto}
+h1{text-align:center;color:#f0a500;font-size:1.75em;margin-bottom:6px;text-shadow:2px 2px 4px rgba(0,0,0,.5)}
+.subtitle{text-align:center;color:#b0b0c0;font-style:italic;margin-bottom:24px;font-size:.9em}
+.filter-bar{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:20px}
+.filter-btn{padding:7px 14px;border:2px solid;border-radius:20px;cursor:pointer;font-size:.82em;font-weight:bold;background:transparent;transition:all .25s}
+.filter-btn.all{border-color:#f0a500;color:#f0a500}.filter-btn.all.active,.filter-btn.all:hover{background:#f0a500;color:#1a1a2e}
+.filter-btn.rep{border-color:#e74c3c;color:#e74c3c}.filter-btn.rep.active,.filter-btn.rep:hover{background:#e74c3c;color:white}
+.filter-btn.lib{border-color:#3498db;color:#3498db}.filter-btn.lib.active,.filter-btn.lib:hover{background:#3498db;color:white}
+.filter-btn.hon{border-color:#9b59b6;color:#9b59b6}.filter-btn.hon.active,.filter-btn.hon:hover{background:#9b59b6;color:white}
+.filter-btn.cla{border-color:#e67e22;color:#e67e22}.filter-btn.cla.active,.filter-btn.cla:hover{background:#e67e22;color:white}
+.filter-btn.sym{border-color:#1abc9c;color:#1abc9c}.filter-btn.sym.active,.filter-btn.sym:hover{background:#1abc9c;color:white}
+.filter-btn.tra{border-color:#95a5a6;color:#95a5a6}.filter-btn.tra.active,.filter-btn.tra:hover{background:#95a5a6;color:#1a1a2e}
+.stats-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-size:.85em;color:#a0a0b0}
+.progress-wrap{background:rgba(255,255,255,.1);border-radius:10px;height:8px;flex:1;margin:0 12px}
+.progress-fill{height:100%;background:linear-gradient(90deg,#f0a500,#ff8c00);border-radius:10px;transition:width .4s}
+.card-area{perspective:1200px;margin-bottom:20px;min-height:320px}
+.card{width:100%;min-height:320px;position:relative;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1);cursor:pointer;border-radius:16px}
+.card.flipped{transform:rotateY(180deg)}
+.card-face{position:absolute;width:100%;min-height:320px;backface-visibility:hidden;border-radius:16px;padding:28px;display:flex;flex-direction:column;justify-content:space-between}
+.card-front{background:linear-gradient(135deg,#2d1b4e,#1a1a2e);border:2px solid rgba(240,165,0,.4);box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.card-back{background:linear-gradient(135deg,#1b3a2d,#1a1a2e);border:2px solid rgba(76,175,80,.4);box-shadow:0 8px 32px rgba(0,0,0,.4);transform:rotateY(180deg)}
+.card-badge{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.badge{font-size:.72em;padding:3px 9px;border-radius:12px;font-weight:bold}
+.badge-rep{background:rgba(231,76,60,.25);border:1px solid #e74c3c;color:#e74c3c}
+.badge-lib{background:rgba(52,152,219,.25);border:1px solid #3498db;color:#3498db}
+.badge-hon{background:rgba(155,89,182,.25);border:1px solid #9b59b6;color:#9b59b6}
+.badge-cla{background:rgba(230,126,34,.25);border:1px solid #e67e22;color:#e67e22}
+.badge-sym{background:rgba(26,188,156,.25);border:1px solid #1abc9c;color:#1abc9c}
+.badge-tra{background:rgba(149,165,166,.25);border:1px solid #95a5a6;color:#95a5a6}
+.badge-act{background:rgba(240,165,0,.2);border:1px solid #f0a500;color:#f0a500}
+.card-quote{font-size:1.15em;color:#ffd700;font-style:italic;line-height:1.6;text-align:center;flex:1;display:flex;align-items:center;justify-content:center;padding:10px 0}
+.card-speaker{font-size:.83em;color:#a0a0b0;text-align:right;margin-top:10px}
+.card-flip-hint{font-size:.78em;color:rgba(240,165,0,.6);text-align:center;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+.card-back-content{flex:1;display:flex;flex-direction:column;gap:10px}
+.back-section{background:rgba(0,0,0,.25);border-radius:8px;padding:12px}
+.back-label{font-size:.75em;font-weight:bold;text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
+.back-label.theme{color:#4CAF50}
+.back-label.analysis{color:#2196F3}
+.back-label.link{color:#FF9800}
+.back-text{font-size:.86em;color:#c0d0c0;line-height:1.5}
+.back-analysis{font-size:.86em;color:#90caf9;line-height:1.5}
+.back-link{font-size:.84em;color:#ffb74d;line-height:1.5}
+.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.btn{padding:10px 20px;border:none;border-radius:8px;cursor:pointer;font-size:.9em;font-weight:bold;transition:all .25s}
+.btn-prev{background:rgba(255,255,255,.1);color:#e0e0e0;border:2px solid rgba(255,255,255,.2)}.btn-prev:hover{background:rgba(255,255,255,.2)}
+.btn-next{background:linear-gradient(135deg,#f0a500,#ff8c00);color:#1a1a2e}.btn-next:hover{filter:brightness(1.1)}
+.btn-flip{background:rgba(76,175,80,.2);color:#a5d6a7;border:2px solid #4CAF50}.btn-flip:hover{background:rgba(76,175,80,.35)}
+.btn-shuffle{background:rgba(33,150,243,.2);color:#90caf9;border:2px solid #2196F3}.btn-shuffle:hover{background:rgba(33,150,243,.35)}
+.self-assess{background:rgba(255,255,255,.05);border-radius:12px;padding:16px;margin-bottom:20px;border:1px solid rgba(255,255,255,.1)}
+.sa-title{font-size:.88em;color:#a0a0b0;margin-bottom:12px;text-align:center}
+.sa-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.sa-btn{padding:8px 18px;border:none;border-radius:20px;cursor:pointer;font-size:.85em;font-weight:bold;transition:all .2s}
+.sa-know{background:#4CAF50;color:white}.sa-know:hover{background:#388E3C}
+.sa-unsure{background:#FF9800;color:white}.sa-unsure:hover{background:#E65100}
+.sa-again{background:#f44336;color:white}.sa-again:hover{background:#c62828}
+.score-table{background:rgba(255,255,255,.05);border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,.1)}
+.score-table h3{color:#f0a500;margin-bottom:12px;font-size:1em}
+.score-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:.88em}
+.score-row:last-child{border:none}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px}
+.dot-know{background:#4CAF50}.dot-unsure{background:#FF9800}.dot-again{background:#f44336}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🎴 Tarjetas de Citas Clave / Key Quote Flashcards</h1>
+<p class="subtitle">Haz clic en la tarjeta para ver el análisis / Click the card to reveal the analysis — AO1 &amp; AO2<br>
+<small style="color:#808090">Todas las citas verificadas directamente del texto / All quotes verified directly from the text</small></p>
+
+<div class="filter-bar">
+  <button class="filter-btn all active" onclick="filterCards('all',this)">Todas / All</button>
+  <button class="filter-btn rep" onclick="filterCards('rep',this)">🔒 Represión</button>
+  <button class="filter-btn lib" onclick="filterCards('lib',this)">🌊 Libertad</button>
+  <button class="filter-btn hon" onclick="filterCards('hon',this)">👁️ Honra</button>
+  <button class="filter-btn cla" onclick="filterCards('cla',this)">💰 Clases</button>
+  <button class="filter-btn sym" onclick="filterCards('sym',this)">🔮 Simbolismo</button>
+  <button class="filter-btn tra" onclick="filterCards('tra',this)">💀 Tragedia</button>
+</div>
+
+<div class="stats-bar">
+  <span id="card-label">Tarjeta 1 de <span id="total-n">20</span></span>
+  <div class="progress-wrap"><div class="progress-fill" id="progress" style="width:5%"></div></div>
+  <span>✓ <span id="know-n" style="color:#4CAF50">0</span> &nbsp;? <span id="unsure-n" style="color:#FF9800">0</span> &nbsp;✗ <span id="again-n" style="color:#f44336">0</span></span>
+</div>
+
+<div class="card-area">
+  <div class="card" id="mainCard" onclick="flipCard()">
+    <div class="card-face card-front" id="cardFront">
+      <div class="card-badge" id="cardBadges"></div>
+      <div class="card-quote" id="cardQuote"></div>
+      <div class="card-speaker" id="cardSpeaker"></div>
+      <div class="card-flip-hint">👆 Haz clic para analizar / Click to analyse</div>
+    </div>
+    <div class="card-face card-back" id="cardBack">
+      <div class="card-badge" id="backBadges"></div>
+      <div class="card-back-content" id="backContent"></div>
+      <div class="card-flip-hint" style="color:rgba(76,175,80,.6)">👆 Haz clic para volver / Click to go back</div>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="btn btn-prev" onclick="prevCard()">← Anterior</button>
+  <button class="btn btn-flip" onclick="flipCard()">🔄 Voltear / Flip</button>
+  <button class="btn btn-shuffle" onclick="shuffleCards()">🔀 Mezclar / Shuffle</button>
+  <button class="btn btn-next" onclick="nextCard()">Siguiente →</button>
+</div>
+
+<div class="self-assess">
+  <div class="sa-title">¿Cómo te fue? / How did you do?</div>
+  <div class="sa-btns">
+    <button class="sa-btn sa-know" onclick="assess('know')">✓ Lo sé / I know it</button>
+    <button class="sa-btn sa-unsure" onclick="assess('unsure')">? No estoy seguro/a</button>
+    <button class="sa-btn sa-again" onclick="assess('again')">✗ Repasar / Study again</button>
+  </div>
+</div>
+
+<div class="score-table">
+  <h3>📊 Mi Progreso / My Progress</h3>
+  <div class="score-row"><span><span class="dot dot-know"></span>Lo sé / Know it</span><span id="know-count">0 tarjetas</span></div>
+  <div class="score-row"><span><span class="dot dot-unsure"></span>No estoy seguro/a / Unsure</span><span id="unsure-count">0 tarjetas</span></div>
+  <div class="score-row"><span><span class="dot dot-again"></span>Repasar / Study again</span><span id="again-count">0 tarjetas</span></div>
+</div>
+</div>
+
+<script>
+// All quotes verified against the full text of LcdBA
+const allCards=[
+  {
+    quote:'«¡Silencio!»',
+    speaker:'Bernarda — primera palabra (Acto I) y última palabra (Acto III)',
+    themes:['rep','tra'],act:'I & III',
+    theme_note:'Represión y estructura circular / Repression and circular structure',
+    analysis:'Esta es la primera y la última palabra de Bernarda. La estructura circular muestra que no ha aprendido nada de la tragedia. El propio uso de la palabra impone el silencio a todos. / This is both the first and last word. The circular structure shows Bernarda has learnt nothing. The very word imposes silence on everyone.',
+    link:'Conecta con las últimas palabras completas: "Silencio, silencio he dicho. ¡Silencio!" — Bernarda sigue obsesionada con las apariencias incluso tras la muerte de Adela.'
+  },
+  {
+    quote:'«Tirana de todos los que la rodean. Es capaz de sentarse encima de tu corazón y ver cómo te mueres durante un año sin que se le cierre esa sonrisa fría que lleva en su maldita cara.»',
+    speaker:'Poncia — Acto I',
+    themes:['rep'],act:'I',
+    theme_note:'Autoridad y crueldad / Authority and cruelty',
+    analysis:'Poncia, con treinta años trabajando para Bernarda, tiene una perspectiva única. La imagen de "sentarse encima de tu corazón" es una hipérbole que muestra la crueldad emocional de Bernarda. / Poncia, with thirty years working for Bernarda, has a unique perspective. "Sitting on your heart" is a hyperbole showing Bernarda\'s emotional cruelty.',
+    link:'Conecta con el contexto histórico: la obra está subtitulada "Drama de mujeres en los pueblos de España" — Lorca documenta una realidad social.'
+  },
+  {
+    quote:'«Hilo y aguja para las hembras. Látigo y mula para el varón. Eso tiene la gente que nace con posibles.»',
+    speaker:'Bernarda — Acto I',
+    themes:['rep','cla'],act:'I',
+    theme_note:'Roles de género y clases sociales / Gender roles and social class',
+    analysis:'Bernarda define claramente los roles de género: las mujeres son domésticas y sumisas; los hombres, activos y dominantes. La referencia a "los que nacen con posibles" añade la dimensión de clase social. / Bernarda clearly defines gender roles. The reference to those "born with means" adds the social class dimension.',
+    link:'Contrasta con la rebelión de Adela, quien declara "¡Yo hago con mi cuerpo lo que me parece!" — el conflicto central de la obra.'
+  },
+  {
+    quote:'«En ocho años que dure el luto no ha de entrar en esta casa el viento de la calle.»',
+    speaker:'Bernarda — Acto I',
+    themes:['rep','sym'],act:'I',
+    theme_note:'Represión y simbolismo / Repression and symbolism',
+    analysis:'La metáfora del "viento de la calle" representa el mundo exterior y la libertad que Bernarda quiere bloquear. Tapar "con ladrillos puertas y ventanas" convierte la casa en una prisión simbólica. / The metaphor of "the street wind" represents the outside world and freedom Bernarda wants to block. The house becomes a symbolic prison.',
+    link:'Conecta con el vestido verde de Adela — su intento de traer "el viento de la calle" al interior.'
+  },
+  {
+    quote:'«Aquí se hace lo que yo mando.»',
+    speaker:'Bernarda — Acto I',
+    themes:['rep'],act:'I',
+    theme_note:'Autoridad absoluta / Absolute authority',
+    analysis:'Esta frase establece la dinámica de poder desde el principio. No hay negociación ni compasión. Bernarda golpea el suelo con el bastón al hablar, reforzando visualmente el mensaje. / This phrase establishes the power dynamic from the start. There is no negotiation or compassion. Bernarda strikes the floor with her stick, visually reinforcing the message.',
+    link:'El bastón es el símbolo de este poder — por eso el momento en que Adela lo parte en dos al final es tan poderoso.'
+  },
+  {
+    quote:'«Los pobres son como los animales. Parece como si estuvieran hechos de otras sustancias.»',
+    speaker:'Bernarda — Acto I',
+    themes:['cla'],act:'I',
+    theme_note:'Clases sociales / Social class',
+    analysis:'Bernarda deshumaniza a los pobres desde el principio. Esta mentalidad explica por qué no deja a sus hijas relacionarse con los hombres del pueblo. La hipocresía es evidente ya que su criada lleva treinta años sirviéndola. / Bernarda dehumanises the poor from the start. This mentality explains why she won\'t let her daughters mix with the village men.',
+    link:'Irónicamente, su obsesión con la clase social es la causa del desastre: Martirio no pudo casarse con Enrique Humanes porque "su padre fue gañán."'
+  },
+  {
+    quote:'«No hay en cien leguas a la redonda quien se pueda acercar a ellas. Los hombres de aquí no son de su clase.»',
+    speaker:'Bernarda — Acto I',
+    themes:['cla','rep'],act:'I',
+    theme_note:'Clases sociales y represión / Social class and repression',
+    analysis:'El esnobismo de Bernarda es la razón directa por la que sus hijas no pueden casarse. Esto aumenta su frustración y represión. La ironía es que este mismo esnobismo provoca la tragedia. / Bernarda\'s snobbery is the direct reason her daughters cannot marry. This increases their frustration and repression. The irony is that this same snobbery causes the tragedy.',
+    link:'Conecta con el comentario de Magdalena: "Pepe el Romano tiene veinticinco años y es el mejor tipo de todos estos contornos" — por eso todas lo desean.'
+  },
+  {
+    quote:'«Nacer mujer es el mayor castigo.»',
+    speaker:'Amelia — Acto II',
+    themes:['rep'],act:'II',
+    theme_note:'Represión femenina / Female repression',
+    analysis:'Amelia, normalmente callada y sumisa, expresa aquí la opinión más radical de todas las hijas. Lorca usa este personaje resignado para hacer la crítica social más contundente. / Amelia, normally quiet and submissive, here expresses the most radical opinion of all the daughters. Lorca uses this resigned character to make the social critique more powerful.',
+    link:'Conecta con el comentario de Magdalena: "Y ni nuestros ojos siquiera nos pertenecen" — ambas frases, seguidas, forman una condena total de la condición femenina.'
+  },
+  {
+    quote:'«Me escapé porque me quiero casar, porque quiero casarme con un varón hermoso de la orilla del mar, ya que aquí los hombres huyen de las mujeres.»',
+    speaker:'María Josefa — Actos I y III',
+    themes:['lib','sym'],act:'I & III',
+    theme_note:'Libertad y el mar como símbolo / Freedom and the sea as symbol',
+    analysis:'María Josefa, aunque parece loca, dice verdades que los demás callan. El "mar" y la "orilla" simbolizan la libertad y el escape. Su locura le da licencia para decir lo que todas piensan. / María Josefa, though she seems mad, speaks truths others suppress. The "sea" and "shore" symbolise freedom and escape. Her madness gives her licence to say what all are thinking.',
+    link:'Adela usa la misma imagen: "Él me lleva a los juncos de la orilla" — el mar representa la libertad para ambas, la vieja y la joven.'
+  },
+  {
+    quote:'«¡No quiero que se me pongan las carnes como a vosotras! ¡No quiero perder mi blancura en estas habitaciones!»',
+    speaker:'Adela — Acto I',
+    themes:['lib','rep'],act:'I',
+    theme_note:'Vitalidad y juventud / Vitality and youth',
+    analysis:'"Blancura" aquí representa la juventud y la vitalidad, no la pureza moral. Adela teme marchitarse como sus hermanas. El contraste entre el vestido verde (que ya lleva puesto) y el luto negro es visual e ideológico. / "Whiteness" here represents youth and vitality, not moral purity. Adela fears withering like her sisters. The contrast between the green dress and black mourning is both visual and ideological.',
+    link:'El vestido verde de Adela es el primer símbolo de rebelión en la obra — lo viste para "mirarlas las gallinas", un acto de libertad pequeño pero significativo.'
+  },
+  {
+    quote:'«Ésa es la única tierra que nos dejan a los que no tenemos nada.»',
+    speaker:'Criada — Acto I',
+    themes:['cla'],act:'I',
+    theme_note:'Clases sociales / Social class',
+    analysis:'La Criada responde a Poncia, quien dice "Nosotras tenemos nuestras manos y un hoyo en la tierra de la verdad." Juntas, estas dos frases expresan la condición de las clases más bajas: sólo les pertenece la muerte. / The Maid responds to Poncia who says "we have our hands and a hole in the ground of truth." Together these phrases express the lowest classes\' condition: only death belongs to them.',
+    link:'Lorca incluye este intercambio para mostrar la jerarquía social dentro de la misma casa: Bernarda, las hijas, Poncia, la Criada, y la Mendiga que aparece después.'
+  },
+  {
+    quote:'«¡Aquí se acabaron las voces de presidio! Esto hago yo con la vara de la dominadora. No dé usted un paso más. ¡En mí no manda nadie más que Pepe!»',
+    speaker:'Adela — Acto III',
+    themes:['lib','tra'],act:'III',
+    theme_note:'Rebelión y libertad / Rebellion and freedom',
+    analysis:'Este es el momento de mayor rebelión de Adela. Sin embargo, al decir que sólo Pepe manda en ella, revela que no ha conseguido una verdadera libertad — ha cambiado de amo. Esto es una ironía trágica. / This is Adela\'s greatest act of rebellion. However, saying only Pepe commands her reveals she hasn\'t achieved true freedom — she has just changed master. This is tragic irony.',
+    link:'La acotación es crucial: "Adela arrebata el bastón a su madre y lo parte en dos." El gesto físico de romper el bastón es el símbolo más poderoso de la obra.'
+  },
+  {
+    quote:'«Ella, la hija menor de Bernarda Alba, ha muerto virgen. ¿Me habéis oído? Silencio, silencio he dicho. ¡Silencio!»',
+    speaker:'Bernarda — Acto III (palabras finales)',
+    themes:['hon','tra'],act:'III',
+    theme_note:'Honra e hipocresía / Honour and hypocrisy',
+    analysis:'Incluso tras el suicidio de su hija, Bernarda sólo piensa en las apariencias. "Ha muerto virgen" es una mentira que quiere mantener. Su obsesión con la honra supera el dolor maternal. / Even after her daughter\'s suicide, Bernarda only thinks about appearances. "She died a virgin" is a lie she wants to maintain. Her obsession with honour exceeds maternal grief.',
+    link:'La estructura circular — la última palabra es "¡Silencio!", igual que la primera — muestra que Bernarda no ha aprendido nada. El ciclo de represión continúa.'
+  },
+  {
+    quote:'«En mi tiempo las perlas significaban lágrimas.»',
+    speaker:'Prudencia — Acto III',
+    themes:['tra','sym'],act:'III',
+    theme_note:'Presagio y tragedia / Omen and tragedy',
+    analysis:'Lorca usa este comentario como presagio (foreshadowing) de la tragedia. Junto con la sal derramada por Magdalena en el mismo acto, crea una atmósfera de desastre inevitable. La respuesta de Adela — "Las cosas significan siempre lo mismo" — confirma que la tragedia es inevitable. / Lorca uses this as foreshadowing. Together with the spilt salt, it creates an atmosphere of inevitable disaster.',
+    link:'La respuesta de Adela es clave: "Las cosas significan siempre lo mismo." Ella sabe que el destino trágico es inevitable, a diferencia de Angustias.'
+  },
+  {
+    quote:'«Hay una tormenta en cada cuarto. El día que estallen nos barrerán a todas.»',
+    speaker:'Poncia — Acto III',
+    themes:['rep','tra'],act:'III',
+    theme_note:'Presagio y represión / Omen and repression',
+    analysis:'La metáfora de la "tormenta" representa el conflicto interno de cada hija. La tensión acumulada está a punto de explotar. Poncia ve lo que Bernarda no quiere ver. / The "storm" metaphor represents each daughter\'s internal conflict. The accumulated tension is about to explode. Poncia sees what Bernarda refuses to see.',
+    link:'"El día que estallen nos barrerán a todas" — Poncia predice exactamente lo que ocurre: la tragedia de Adela "barre" la fachada de la familia.'
+  },
+  {
+    quote:'«Esta noche voy a dormir bien.»',
+    speaker:'Bernarda — Acto III',
+    themes:['hon','tra'],act:'III',
+    theme_note:'Ironía trágica / Tragic irony',
+    analysis:'Bernarda decide no vigilar porque cree que Pepe no vendrá. Esta frase revela que normalmente la criada la despierta para que vigile. La ironía trágica es que la única noche que baja la guardia es cuando ocurre el desenlace fatal. / Bernarda decides not to watch because she thinks Pepe won\'t come. The tragic irony is that the only night she lets her guard down is when the fatal denouement occurs.',
+    link:'Conecta con la advertencia de Poncia: "No pasa nada por fuera... pero ni tú ni nadie puede vigilar por el interior de los pechos."'
+  },
+  {
+    quote:'«No pasa nada por fuera. Eso es verdad. Tus hijas están y viven como metidas en alacenas. Pero ni tú ni nadie puede vigilar por el interior de los pechos.»',
+    speaker:'Poncia — Acto III',
+    themes:['rep','hon'],act:'III',
+    theme_note:'Hipocresía y represión / Hypocrisy and repression',
+    analysis:'Poncia señala la contradicción fundamental de Bernarda: puede controlar las apariencias externas pero no los deseos internos. La imagen de las "alacenas" (cupboards) es poderosa — las hijas están guardadas como objetos. / Poncia points to Bernarda\'s fundamental contradiction: she can control external appearances but not internal desires. The image of "cupboards" is powerful — the daughters are stored like objects.',
+    link:'Este es el argumento central contra Bernarda: lo externo no puede suprimir lo interno. La tragedia lo demuestra.'
+  },
+  {
+    quote:'«Pepe el Romano es un gigante. Todas lo queréis. Pero él os va a devorar porque vosotras sois granos de trigo. No granos de trigo, no. ¡Ranas sin lengua!»',
+    speaker:'María Josefa — Acto III',
+    themes:['tra','lib'],act:'III',
+    theme_note:'Profecía y tragedia / Prophecy and tragedy',
+    analysis:'María Josefa profetiza exactamente lo que ocurrirá. "Ranas sin lengua" es una imagen brutal: las hijas no tienen voz ni libertad. La locura de María Josefa le permite decir la verdad sin las restricciones sociales. / María Josefa prophesies exactly what will happen. "Frogs without tongues" is brutal: the daughters have no voice or freedom. Her madness allows her to speak truth without social restrictions.',
+    link:'Conecta con "Me escapé porque me quiero casar" — María Josefa encarna el deseo de libertad más puro de la obra, sin las inhibiciones sociales.'
+  },
+  {
+    quote:'«¡Y lo haría mil veces! ¡Mi sangre no se junta con la de los Humanes mientras yo viva! Su padre fue gañán.»',
+    speaker:'Bernarda — Acto II',
+    themes:['cla','rep'],act:'II',
+    theme_note:'Clases sociales y represión / Social class and repression',
+    analysis:'Bernarda confiesa que impidió que Martirio se casara con Enrique Humanes por razones de clase. Esto revela que la causa directa de la amargura de Martirio — y por extensión de la tragedia — es el esnobismo de Bernarda. / Bernarda confesses she prevented Martirio from marrying Enrique Humanes for class reasons. This reveals that the direct cause of Martirio\'s bitterness — and of the tragedy — is Bernarda\'s snobbery.',
+    link:'Poncia le dice: "No has dejado a tus hijas libres." — Esta frase de Bernarda lo confirma perfectamente.'
+  },
+  {
+    quote:'«¡Nos hundiremos todas en un mar de luto!»',
+    speaker:'Bernarda — Acto III (palabras finales)',
+    themes:['rep','tra'],act:'III',
+    theme_note:'Represión y tragedia / Repression and tragedy',
+    analysis:'La metáfora del "mar de luto" sugiere algo vasto e inevitable. Bernarda impone más represión incluso en este momento. El luto no es sólo por Adela sino por toda esperanza de libertad. / The "sea of mourning" metaphor suggests something vast and inevitable. Bernarda imposes more repression even at this moment. The mourning is not just for Adela but for all hope of freedom.',
+    link:'Continúa: "Ella, la hija menor de Bernarda Alba, ha muerto virgen." — La mentira es inmediata. La apariencia importa más que el duelo real.'
+  },
+];
+
+let filteredCards=[...allCards];
+let currentIdx=0;
+let isFlipped=false;
+let scores={know:0,unsure:0,again:0};
+
+const badgeMap={rep:'badge-rep',lib:'badge-lib',hon:'badge-hon',cla:'badge-cla',sym:'badge-sym',tra:'badge-tra'};
+const badgeLabel={rep:'Represión',lib:'Libertad',hon:'Honra',cla:'Clases',sym:'Simbolismo',tra:'Tragedia'};
+
+function renderCard(){
+  const c=filteredCards[currentIdx];
+  document.getElementById('card-label').innerHTML=`Tarjeta ${currentIdx+1} de <span id="total-n">${filteredCards.length}</span>`;
+  document.getElementById('progress').style.width=((currentIdx+1)/filteredCards.length*100)+'%';
+  const badges=c.themes.map(t=>`<span class="badge ${badgeMap[t]}">${badgeLabel[t]}</span>`).join('');
+  const actBadge=`<span class="badge badge-act">Acto ${c.act}</span>`;
+  document.getElementById('cardBadges').innerHTML=badges+actBadge;
+  document.getElementById('cardQuote').innerHTML=c.quote;
+  document.getElementById('cardSpeaker').textContent='— '+c.speaker;
+  document.getElementById('backBadges').innerHTML=badges+actBadge;
+  document.getElementById('backContent').innerHTML=`
+    <div class="back-section"><div class="back-label theme">🎯 Tema / Theme</div><div class="back-text">${c.theme_note}</div></div>
+    <div class="back-section"><div class="back-label analysis">📖 Análisis / Analysis</div><div class="back-analysis">${c.analysis}</div></div>
+    <div class="back-section"><div class="back-label link">🔗 Conexión / Connection</div><div class="back-link">${c.link}</div></div>`;
+  document.getElementById('mainCard').classList.remove('flipped');
+  isFlipped=false;
+}
+function flipCard(){document.getElementById('mainCard').classList.toggle('flipped');isFlipped=!isFlipped;}
+function nextCard(){currentIdx=(currentIdx+1)%filteredCards.length;renderCard();}
+function prevCard(){currentIdx=(currentIdx-1+filteredCards.length)%filteredCards.length;renderCard();}
+function shuffleCards(){filteredCards.sort(()=>Math.random()-.5);currentIdx=0;renderCard();}
+function filterCards(theme,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  filteredCards=theme==='all'?[...allCards]:allCards.filter(c=>c.themes.includes(theme));
+  currentIdx=0;renderCard();
+}
+function assess(type){
+  scores[type]++;
+  document.getElementById('know-n').textContent=scores.know;
+  document.getElementById('unsure-n').textContent=scores.unsure;
+  document.getElementById('again-n').textContent=scores.again;
+  document.getElementById('know-count').textContent=scores.know+(scores.know===1?' tarjeta':' tarjetas');
+  document.getElementById('unsure-count').textContent=scores.unsure+(scores.unsure===1?' tarjeta':' tarjetas');
+  document.getElementById('again-count').textContent=scores.again+(scores.again===1?' tarjeta':' tarjetas');
+  nextCard();
+}
+renderCard();
+</script>
+</body>
+</html>

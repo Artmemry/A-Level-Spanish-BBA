@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Casa de Bernarda Alba — Taller A*</title>
+<style>
+:root {
+  --navy:      #2A1B2D;
+  --navy-d:    #160B17;
+  --sand:      #C9A85C;
+  --sand-d:    #8F7634;
+  --cream:     #F4ECDA;
+  --cream-l:   #FBF6E9;
+  --terra:     #8B1E1E;
+  --terra-l:   #B43A3A;
+  --green:     #4A6B3A;
+  --green-l:   #6B8B5A;
+  --red-warn:  #C0392B;
+  --ink:       #1A1A1A;
+  --grey:      #555;
+  --light:     #DDD3B8;
+  --shadow:    0 4px 14px rgba(42,27,45,0.16);
+  --shadow-lg: 0 10px 28px rgba(42,27,45,0.22);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: Calibri, "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(201,168,92,0.18) 0%, transparent 50%),
+    radial-gradient(circle at 0% 100%, rgba(139,30,30,0.10) 0%, transparent 50%),
+    var(--cream);
+  background-attachment: fixed;
+  line-height: 1.55;
+  min-height: 100vh;
+  padding-bottom: 90px;
+}
+
+/* ---- Header ---- */
+header.topbar {
+  background: var(--navy);
+  color: var(--cream);
+  padding: 18px 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow);
+  position: sticky; top: 0; z-index: 50;
+}
+.brand { display: flex; flex-direction: column; gap: 2px; }
+.brand .eyebrow {
+  color: var(--sand);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.brand h1 {
+  margin: 0; font-size: 26px; font-weight: 700; color: var(--cream);
+  font-family: Georgia, "Times New Roman", serif;
+}
+.brand h1 em {
+  color: var(--sand); font-style: italic;
+}
+.global-stats {
+  display: flex; gap: 18px; align-items: center;
+}
+.stat-pill {
+  background: rgba(244,236,218,0.10);
+  padding: 6px 14px;
+  border-radius: 999px;
+  display: flex; flex-direction: column; align-items: center;
+  font-size: 11px; letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--sand);
+  font-weight: 700;
+}
+.stat-pill strong {
+  display: block; font-size: 20px; color: var(--cream); font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Layout ---- */
+main {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 22px 24px;
+}
+
+.title-bar {
+  background: #fff;
+  border-radius: 14px;
+  padding: 18px 22px;
+  box-shadow: var(--shadow);
+  margin-bottom: 22px;
+  border-left: 6px solid var(--terra);
+}
+.title-bar h2 {
+  margin: 0 0 6px; font-size: 20px; color: var(--navy);
+  font-family: Georgia, serif;
+}
+.title-bar p {
+  margin: 4px 0 0; color: var(--grey); font-size: 14px;
+}
+.title-buttons {
+  display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px;
+}
+.title-btn {
+  background: var(--cream);
+  border: 2px solid var(--sand);
+  color: var(--navy);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 140ms ease;
+}
+.title-btn:hover { background: var(--sand); }
+.title-btn.active {
+  background: var(--navy);
+  color: var(--cream);
+  border-color: var(--navy);
+}
+.formal-q {
+  margin-top: 14px;
+  padding: 14px 18px;
+  background: var(--cream);
+  border-left: 4px solid var(--navy);
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: var(--ink);
+  font-size: 16px;
+}
+
+/* ---- Workshop grid ---- */
+.workshop {
+  display: grid;
+  grid-template-columns: 280px 1fr 320px;
+  gap: 18px;
+}
+@media (max-width: 1180px) {
+  .workshop { grid-template-columns: 1fr; }
+}
+
+/* ---- Side panels ---- */
+aside.panel {
+  background: white;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  align-self: start;
+  position: sticky; top: 100px;
+  max-height: calc(100vh - 130px);
+  display: flex; flex-direction: column;
+}
+@media (max-width: 1180px) {
+  aside.panel { position: static; max-height: none; }
+}
+aside.panel .panel-header {
+  background: var(--navy);
+  color: var(--cream);
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+aside.panel .panel-tabs {
+  display: flex; flex-wrap: wrap; gap: 4px;
+  padding: 8px;
+  background: var(--cream-l);
+  border-bottom: 1px solid var(--light);
+}
+.tab-btn {
+  flex: 1 1 auto;
+  background: white;
+  border: 1px solid var(--sand);
+  color: var(--navy);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+.tab-btn:hover { background: var(--sand); color: var(--navy); }
+.tab-btn.active { background: var(--terra); color: var(--cream); border-color: var(--terra); }
+
+aside.panel .panel-body {
+  padding: 14px 16px;
+  overflow-y: auto;
+  flex: 1;
+  font-size: 14px;
+}
+.lex-section h4 {
+  margin: 14px 0 6px;
+  font-size: 13px;
+  color: var(--terra);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.lex-section h4:first-child { margin-top: 0; }
+.lex-list {
+  margin: 0; padding: 0; list-style: none;
+}
+.lex-list li {
+  padding: 5px 8px;
+  margin-bottom: 4px;
+  background: var(--cream);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 120ms ease;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.lex-list li:hover {
+  background: var(--sand);
+}
+
+/* ---- Writing area ---- */
+section.writing {
+  background: white;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 22px 26px;
+}
+.writing h3 {
+  margin: 0 0 6px; color: var(--navy); font-size: 22px;
+  font-family: Georgia, serif;
+}
+.writing > p.intro-instructions {
+  color: var(--grey); margin: 0 0 16px; font-size: 14px;
+}
+.section-block {
+  margin-bottom: 18px;
+}
+.section-block .label-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 6px;
+}
+.section-block label {
+  font-weight: 700;
+  color: var(--navy);
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.section-block .wc {
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--grey);
+}
+.section-block .wc.over { color: var(--terra); }
+.section-block .wc.good { color: var(--green); }
+.section-block textarea {
+  width: 100%;
+  min-height: 70px;
+  padding: 12px 14px;
+  border: 2px solid var(--light);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: #FFFEF9;
+  resize: vertical;
+  transition: border-color 160ms ease;
+}
+.section-block textarea:focus {
+  outline: none;
+  border-color: var(--terra);
+  background: white;
+}
+.section-block textarea.plan { min-height: 90px; background: var(--cream-l); }
+.section-block textarea.intro,
+.section-block textarea.conclusion { min-height: 100px; }
+.section-block textarea.peel { min-height: 130px; }
+
+/* ---- Feedback panel ---- */
+.fb-empty { color: var(--grey); font-style: italic; padding: 8px 0; }
+.fb-block {
+  background: var(--cream-l);
+  border-left: 4px solid var(--navy);
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border-radius: 0 6px 6px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.fb-block.good { border-left-color: var(--green); }
+.fb-block.warn { border-left-color: var(--terra); }
+.fb-block.info { border-left-color: var(--sand-d); }
+.fb-block h5 {
+  margin: 0 0 4px;
+  font-size: 12px;
+  color: var(--navy);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 800;
+}
+.fb-block .chip {
+  display: inline-block;
+  background: white;
+  border: 1px solid var(--light);
+  border-radius: 999px;
+  padding: 2px 9px;
+  margin: 2px 3px 0 0;
+  font-size: 12px;
+  color: var(--navy);
+}
+.fb-block .chip.ok { background: #DCEFE0; border-color: var(--green); color: #1F5C2C; }
+.fb-block .chip.miss { background: #FAE0DA; border-color: var(--terra); color: #7C2C18; }
+.fb-block .chip.suggest { background: #FFF1D6; border-color: var(--sand); color: #6C4D17; }
+
+/* Score grid */
+.score-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 10px;
+  margin-top: 6px;
+}
+.score-grid .crit { font-size: 13px; color: var(--ink); }
+.score-grid .pts {
+  font-weight: 800;
+  color: var(--terra);
+  font-variant-numeric: tabular-nums;
+}
+.score-total {
+  margin-top: 8px;
+  padding: 8px 0 0;
+  border-top: 1px solid var(--light);
+  font-size: 14px;
+  font-weight: 800;
+  display: flex; justify-content: space-between;
+  color: var(--navy);
+}
+.score-total span { color: var(--terra); font-size: 18px; }
+
+/* ---- Action bar ---- */
+.actions {
+  margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.btn {
+  background: var(--cream);
+  color: var(--navy);
+  border: 2px solid var(--sand);
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 140ms ease;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.10);
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 4px 0 rgba(0,0,0,0.10); }
+.btn:active { transform: translateY(0); }
+.btn.primary { background: var(--terra); color: var(--cream); border-color: var(--terra); }
+.btn.primary:hover { background: var(--terra-l); }
+.btn.success { background: var(--green); color: var(--cream); border-color: var(--green); }
+.btn.success:hover { background: var(--green-l); }
+.btn.dark { background: var(--navy); color: var(--cream); border-color: var(--navy); }
+.btn.dark:hover { background: var(--navy-d); }
+
+/* ---- Floating accent keyboard ---- */
+#keyboard {
+  position: fixed;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  background: var(--navy);
+  color: var(--cream);
+  padding: 8px 12px;
+  border-radius: 14px;
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  align-items: center;
+  cursor: move;
+  user-select: none;
+  max-width: 92vw;
+}
+#keyboard.hidden { display: none; }
+#keyboard .kb-grip {
+  color: var(--sand);
+  font-size: 18px;
+  padding: 0 6px;
+  cursor: move;
+  font-weight: 800;
+}
+#keyboard .kb-label {
+  color: var(--sand);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 0 6px 0 2px;
+}
+#keyboard button {
+  background: var(--cream);
+  color: var(--navy);
+  border: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 100ms ease;
+}
+#keyboard button.accent-key {
+  background: var(--sand);
+  color: var(--navy);
+  box-shadow: 0 2px 0 var(--sand-d);
+}
+#keyboard button.accent-key:hover {
+  background: var(--cream);
+  transform: translateY(-1px);
+}
+#keyboard button:hover {
+  background: var(--sand);
+  transform: translateY(-1px);
+}
+#keyboard button:active {
+  transform: translateY(1px);
+  background: var(--terra);
+  color: var(--cream);
+  box-shadow: none;
+}
+#keyboard .kb-toggle {
+  color: var(--sand);
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  width: auto;
+  padding: 0 8px;
+  box-shadow: none;
+}
+#kb-show {
+  position: fixed;
+  bottom: 14px;
+  right: 14px;
+  z-index: 100;
+  background: var(--navy);
+  color: var(--cream);
+  border: none;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  display: none;
+}
+#kb-show.show { display: block; }
+
+/* ---- Modal ---- */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(22, 11, 23, 0.78);
+  z-index: 200;
+  display: none;
+  align-items: center; justify-content: center;
+  padding: 24px;
+}
+.modal-backdrop.show { display: flex; }
+.modal {
+  background: white;
+  border-radius: 14px;
+  max-width: 1100px; width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  box-shadow: var(--shadow-lg);
+}
+.modal-header {
+  background: var(--navy);
+  color: var(--cream);
+  padding: 16px 24px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.modal-header h3 { margin: 0; font-size: 18px; font-family: Georgia, serif; }
+.modal-close {
+  background: transparent;
+  color: var(--cream);
+  border: 1px solid rgba(244,236,218,0.4);
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+}
+.modal-close:hover { background: rgba(244,236,218,0.1); }
+.modal-body {
+  padding: 22px 28px;
+  overflow-y: auto;
+  flex: 1;
+}
+.model-tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+.model-tabs button {
+  background: var(--cream);
+  color: var(--navy);
+  border: 2px solid var(--sand);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.model-tabs button.active { background: var(--terra); color: var(--cream); border-color: var(--terra); }
+.model-essay {
+  background: var(--cream-l);
+  padding: 16px 20px;
+  border-left: 4px solid var(--sand-d);
+  border-radius: 0 8px 8px 0;
+  font-size: 15px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+.model-essay p { margin: 0 0 12px; }
+.compare-toggle {
+  text-align: right; margin-bottom: 8px;
+}
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 800px) { .split { grid-template-columns: 1fr; } }
+.your-essay {
+  background: white;
+  padding: 16px 20px;
+  border-left: 4px solid var(--terra);
+  border-radius: 0 8px 8px 0;
+  font-size: 15px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+.your-essay h6, .model-essay h6 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--navy);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 800;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 80px; left: 50%;
+  transform: translateX(-50%) translateY(120px);
+  background: var(--navy);
+  color: var(--cream);
+  padding: 10px 22px;
+  border-radius: 999px;
+  box-shadow: var(--shadow-lg);
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform 280ms ease;
+  z-index: 150;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* footer */
+footer {
+  margin: 30px auto 14px;
+  text-align: center;
+  color: var(--grey);
+  font-size: 12px;
+}
+
+/* hide on print */
+@media print {
+  header.topbar, .actions, #keyboard, #kb-show, aside.panel { display: none; }
+  .workshop { grid-template-columns: 1fr; }
+  body { background: white; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="eyebrow">A-Level Spanish · Edexcel · Nivel A*</span>
+    <h1>La Casa de <em>Bernarda Alba</em> — Taller de redacción</h1>
+  </div>
+  <div class="global-stats">
+    <div class="stat-pill"><strong id="g-words">0</strong>palabras</div>
+    <div class="stat-pill"><strong id="g-target">320-350</strong>meta</div>
+    <div class="stat-pill"><strong id="g-score">— / 24</strong>nota AO4</div>
+  </div>
+</header>
+
+<main>
+
+  <!-- Title selector -->
+  <div class="title-bar">
+    <h2>Elige tu tema</h2>
+    <p>Tres preguntas oficiales del examen Edexcel. Pulsa cualquier botón para cambiar de pregunta — tu redacción se conserva.</p>
+    <div class="title-buttons" id="title-buttons"></div>
+    <div class="formal-q" id="formal-q"></div>
+  </div>
+
+  <!-- Workshop -->
+  <div class="workshop">
+
+    <!-- Left panel: lexis -->
+    <aside class="panel">
+      <div class="panel-header">Ayuda redactiva</div>
+      <div class="panel-tabs">
+        <button class="tab-btn active" data-tab="conectores">Conectores</button>
+        <button class="tab-btn" data-tab="frases">Frases evaluativas</button>
+        <button class="tab-btn" data-tab="lexico">Léxico LCBA</button>
+        <button class="tab-btn" data-tab="citas">Citas clave</button>
+      </div>
+      <div class="panel-body" id="lexis-body"></div>
+    </aside>
+
+    <!-- Center: writing area -->
+    <section class="writing">
+      <h3>Tu ensayo</h3>
+      <p class="intro-instructions">
+        Escribe un plan rápido (3 min), luego desarrolla cada sección. Pulsa
+        <strong>Evaluar</strong> cuando quieras para ver tu nota AO4 estimada y la retroalimentación.
+      </p>
+
+      <div class="section-block">
+        <div class="label-row">
+          <label>Plan rápido  ·  3 min</label>
+          <span class="wc" id="wc-plan">0 palabras</span>
+        </div>
+        <textarea class="plan" id="plan" data-min="0" data-max="100"
+          placeholder="Palabra clave del tema · 3 ángulos · 3 escenas · 1 contraargumento"></textarea>
+      </div>
+
+      <div class="section-block">
+        <div class="label-row">
+          <label>Introducción  ·  50–70 palabras</label>
+          <span class="wc" id="wc-intro">0/60 palabras</span>
+        </div>
+        <textarea class="intro" id="intro" data-min="50" data-max="70"
+          placeholder="Contextualizar (Lorca, 1936, vísperas de la Guerra Civil) → reformular el tema → anunciar 3 ideas."></textarea>
+      </div>
+
+      <div class="section-block">
+        <div class="label-row">
+          <label>PEEL 1 — primer ángulo  ·  70–90 palabras</label>
+          <span class="wc" id="wc-peel1">0/80 palabras</span>
+        </div>
+        <textarea class="peel" id="peel1" data-min="70" data-max="90"
+          placeholder="P : afirmación que responde directamente al tema.
+E : escena / cita precisa (ej. «¡Silencio!»).
+Ex : efecto en el lector, simbolismo, técnica lorquiana.
+L : vuelta a la palabra clave del tema."></textarea>
+      </div>
+
+      <div class="section-block">
+        <div class="label-row">
+          <label>PEEL 2 — ampliación  ·  70–90 palabras</label>
+          <span class="wc" id="wc-peel2">0/80 palabras</span>
+        </div>
+        <textarea class="peel" id="peel2" data-min="70" data-max="90"
+          placeholder="Segundo ángulo — otra escena, otro personaje, otra técnica."></textarea>
+      </div>
+
+      <div class="section-block">
+        <div class="label-row">
+          <label>PEEL 3 — contraargumento matizado  ·  70–90 palabras</label>
+          <span class="wc" id="wc-peel3">0/80 palabras</span>
+        </div>
+        <textarea class="peel" id="peel3" data-min="70" data-max="90"
+          placeholder="Sin embargo… / No obstante… — demuestra una lectura crítica."></textarea>
+      </div>
+
+      <div class="section-block">
+        <div class="label-row">
+          <label>Conclusión  ·  50–70 palabras</label>
+          <span class="wc" id="wc-conclusion">0/60 palabras</span>
+        </div>
+        <textarea class="conclusion" id="conclusion" data-min="50" data-max="70"
+          placeholder="Síntesis → matiz → apertura (vigencia hoy, eco contemporáneo)."></textarea>
+      </div>
+    </section>
+
+    <!-- Right panel: feedback -->
+    <aside class="panel">
+      <div class="panel-header">Retroalimentación en vivo</div>
+      <div class="panel-body" id="feedback-body">
+        <div class="fb-empty">
+          Pulsa <strong>Evaluar mi ensayo</strong> abajo para recibir un feedback completo
+          (palabras, conectores, citas, nota AO4 estimada).
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Action bar -->
+  <div class="actions">
+    <button class="btn primary" id="btn-evaluate">⚡  Evaluar mi ensayo</button>
+    <button class="btn" id="btn-model">📖  Ver ensayo modelo</button>
+    <button class="btn dark" id="btn-compare">🪞  Comparar lado a lado</button>
+    <button class="btn success" id="btn-download">⬇  Descargar copia + feedback</button>
+    <button class="btn" id="btn-print">🖨️  Imprimir</button>
+    <button class="btn" id="btn-reset">↺  Reiniciar</button>
+  </div>
+
+  <footer>
+    Taller offline · sin cookies · La Casa de Bernarda Alba de Federico García Lorca (1936) · A-Level Edexcel
+  </footer>
+</main>
+
+<!-- Floating accent keyboard -->
+<div id="keyboard">
+  <span class="kb-grip" title="Arrastrar para mover">⋮⋮</span>
+  <span class="kb-label">Tildes ES</span>
+  <button class="accent-key" data-c="á">á</button>
+  <button class="accent-key" data-c="é">é</button>
+  <button class="accent-key" data-c="í">í</button>
+  <button class="accent-key" data-c="ó">ó</button>
+  <button class="accent-key" data-c="ú">ú</button>
+  <button data-c="Á">Á</button>
+  <button data-c="É">É</button>
+  <button data-c="Í">Í</button>
+  <button data-c="Ó">Ó</button>
+  <button data-c="Ú">Ú</button>
+  <button data-c="ñ">ñ</button>
+  <button data-c="Ñ">Ñ</button>
+  <button data-c="ü">ü</button>
+  <button data-c="¿">¿</button>
+  <button data-c="¡">¡</button>
+  <button data-c="«">«</button>
+  <button data-c="»">»</button>
+  <button class="kb-toggle" id="kb-hide">×</button>
+</div>
+<button id="kb-show">⌨ Teclado español</button>
+
+<!-- Modal for model essay -->
+<div class="modal-backdrop" id="model-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="model-title">Ensayo modelo</h3>
+      <button class="modal-close" id="model-close">Cerrar  ×</button>
+    </div>
+    <div class="modal-body">
+      <div class="model-tabs" id="model-tabs"></div>
+      <div class="compare-toggle">
+        <label style="font-size: 13px; color: #555;">
+          <input type="checkbox" id="compare-toggle"> Comparar con mi ensayo
+        </label>
+      </div>
+      <div id="model-content"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   DATA — titles + model essays
+   ============================================================ */
+const TITLES = [
+  {
+    id: "poncia",
+    label: "Tema 1 · El consejo de La Poncia a Adela (2025)",
+    formalQ: "Evalúa el consejo que La Poncia da a Adela sobre su relación con Pepe el Romano. ¿Es un consejo prudente, hipócrita o cómplice de la represión?",
+    models: [
+      {
+        label: "Enfoque crítico (A*)",
+        text:
+"El consejo que La Poncia da a Adela en el segundo acto — «Mata esos pensamientos», «Deja en paz a tu hermana, y si Pepe el Romano te gusta, te aguantas» — constituye uno de los momentos más complejos de la obra. A primera vista parece un acto de protección maternal, pero un análisis más cuidadoso revela una postura ambigua: La Poncia simultáneamente advierte y reprime, encarnando la voz pragmática del «qué dirán» andaluz.\n\n" +
+"En primer lugar, su consejo es indudablemente lúcido. La criada conoce «lo malo de las gentes a cien leguas» y comprende que la pasión de Adela traerá la ruina sobre toda la casa. Su advertencia «aquí pasa una cosa muy grande» demuestra una clarividencia trágica que ni la propia Bernarda posee. Por ello, podemos afirmar que su consejo refleja una sabiduría popular auténtica, derivada de treinta años «comiendo de las sobras» de Bernarda.\n\n" +
+"Sin embargo, la motivación de La Poncia es profundamente ambivalente. Aconseja a Adela que se «aguante», es decir, que reprima su deseo — exactamente lo que Bernarda exige a sus hijas. De este modo, la criada se convierte en cómplice involuntaria de la tiranía doméstica. Su lealtad final a la casa que le da de comer pesa más que su solidaridad femenina: «yo tapo más de lo que te figuras».\n\n" +
+"No obstante, sería injusto reducir a La Poncia a una mera reproductora del orden patriarcal. Cuando dice «las cosas se han puesto ya demasiado maduras» y «hay una tormenta en cada cuarto», su voz adquiere una dimensión casi profética que denuncia la represión sin atreverse a romperla. Lorca la presenta como víctima del sistema que sirve, lo cual matiza nuestro juicio moral.\n\n" +
+"En conclusión, el consejo de La Poncia no es ni puramente prudente ni puramente hipócrita: es trágicamente realista. Lorca utiliza este personaje para mostrar cómo la represión se reproduce incluso entre quienes la padecen, anticipando así el destino fatídico de Adela. Hoy, esta dinámica sigue vigente en cualquier sociedad donde la supervivencia exige callar."
+      },
+      {
+        label: "Enfoque feminista",
+        text:
+"Desde una óptica feminista, el consejo de La Poncia a Adela revela las contradicciones de la solidaridad femenina dentro de un sistema patriarcal. La criada actúa como guardiana de un orden que ella misma sufre, ilustrando lo que Lorca denuncia: la complicidad estructural de las mujeres en su propia represión.\n\n" +
+"Por un lado, La Poncia ofrece a Adela una verdad sobre los hombres que ninguna otra mujer de la casa se atreve a articular: «el hombre, a los quince días de la boda, deja la cama por la mesa, y luego la mesa por la tabernilla». Este refrán condensa la doble moral de la época: a los hombres se les perdona todo, mientras que a las mujeres «la honra» las condena. Cabe destacar que este análisis lúcido viene precisamente de la única mujer libre del cerco materno.\n\n" +
+"Por otro lado, su consejo final — «aguántate» — traiciona esta lucidez. En vez de animar a Adela a romper la jaula, le pide que la acepte. La Poncia conoce el fuego que «arde levantado por piernas y boca» de Adela, y aun así le aconseja apagarlo. Esto revela que la represión interiorizada es a menudo más eficaz que la externa: Bernarda manda con el bastón, pero La Poncia manda con el sentido común.\n\n" +
+"Sin embargo, hay que reconocer que La Poncia carece de poder real. Como mujer pobre y dependiente, sabe que un escándalo la dejaría en la calle. Su «consejo» es, en parte, un acto de supervivencia. Lorca matiza así su retrato: la represión no es solo cuestión de villanas, sino de estructuras que obligan a la complicidad.\n\n" +
+"En definitiva, el consejo de La Poncia es un espejo del trágico dilema femenino que Lorca pone en escena: callar para sobrevivir o gritar y morir, como Adela. Aún hoy, esta tensión entre prudencia y libertad sigue siendo materia de debate en cualquier reflexión sobre el patriarcado."
+      },
+      {
+        label: "Enfoque dramático",
+        text:
+"Desde un punto de vista dramático, los consejos de La Poncia a Adela cumplen una función estructural decisiva: aumentan la tensión, presagian el desenlace y refuerzan el papel de La Poncia como coro trágico. Lorca explota magistralmente este recurso para construir el clímax del tercer acto.\n\n" +
+"En primer lugar, sus advertencias funcionan como augurios. Cuando dice «aquí pasa una cosa muy grande» o «el día que estallen nos barrerán a todas», La Poncia anticipa el suicidio de Adela mediante un lenguaje cargado de presagios meteorológicos. Esta acumulación de imágenes (la tormenta, el rayo, la sangre) crea una atmósfera de fatalidad ineludible, característica del teatro lorquiano.\n\n" +
+"Asimismo, La Poncia opera como confidente clásica. Su intimidad con Adela — «yo te suponía dormida» — y su acceso a los secretos de toda la casa la convierten en el personaje que mejor conoce la verdad. Sus consejos no son simples palabras, sino testigos de un saber prohibido que el público comparte. Por eso, cuando ella se calla — «mejor será que no me meta en nada» — el silencio se vuelve estremecedor.\n\n" +
+"No obstante, conviene matizar esta lectura. La Poncia no es un coro neutral: tiene intereses propios. Odia a Bernarda, teme por su puesto y disfruta del cotilleo. Por ello, sus consejos a Adela no son meramente proféticos, sino también estratégicos. Esto añade complejidad psicológica y rompe con el modelo clásico del confidente desinteresado.\n\n" +
+"En conclusión, el consejo de La Poncia a Adela funciona simultáneamente como aviso humano y como dispositivo dramático. Lorca, fiel a su estética del «documental fotográfico», entrelaza la psicología realista con la fatalidad trágica, logrando que cada palabra de la criada resuene con doble eco: el de la prudencia y el del presagio."
+      }
+    ]
+  },
+  {
+    id: "represion",
+    label: "Tema 2 · Represión: Adela vs. María Josefa (2024)",
+    formalQ: "En La casa de Bernarda Alba, ¿quién ejemplifica mejor el tema de la represión y sus efectos: Adela o María Josefa?",
+    models: [
+      {
+        label: "Tesis: Adela (A*)",
+        text:
+"Aunque ambos personajes encarnan la represión, es Adela quien la ejemplifica de manera más completa porque su rebeldía consciente, su deseo y su muerte trágica permiten a Lorca visualizar el coste humano del autoritarismo de Bernarda. María Josefa, aunque conmovedora, opera más como símbolo que como personaje pleno.\n\n" +
+"En primer lugar, Adela vive la represión en cuerpo y alma. Su grito «¡No quiero estar encerrada! ¡No quiero que se me pongan las carnes como a vosotras!» traduce físicamente lo que sus hermanas sólo sufren mentalmente. El abanico de flores rojas, el vestido verde y, sobre todo, su confrontación final con el bastón — «Aquí se acabaron las voces de presidio» — convierten su rebeldía en un acto político. Por consiguiente, ella es el termómetro emocional de la represión.\n\n" +
+"Además, la muerte de Adela tiene un alcance simbólico que la locura de María Josefa no alcanza. Al ahorcarse, Adela cierra «para siempre el camino de la libertad para las otras hermanas». Su suicidio no es un escape individual, sino la condena colectiva de toda la casa: las hermanas quedan «condenadas a vivir encerradas sin la más mínima esperanza». De este modo, Lorca convierte su cuerpo en metáfora total de la represión.\n\n" +
+"Sin embargo, no se debe minusvalorar a María Josefa. Su locura le permite gritar verdades que nadie más puede pronunciar: «Pepe el Romano es un gigante. Todas lo queréis. Pero él os va a devorar». La canción de la ovejita y su huida con la oveja en brazos son imágenes desgarradoras que denuncian la esterilidad impuesta a las mujeres. Por consiguiente, podríamos decir que María Josefa expresa la represión de manera más poética, mientras que Adela la expresa de manera más dramática.\n\n" +
+"En conclusión, ambas figuras son indispensables, pero Adela ejemplifica mejor la represión porque la combate con plena conciencia y paga el precio supremo. María Josefa es la voz; Adela es el cuerpo. Lorca necesita ambas, pero es Adela quien hace estallar la tragedia."
+      },
+      {
+        label: "Tesis: María Josefa",
+        text:
+"Si bien Adela protagoniza la rebelión más visible, es María Josefa quien ejemplifica de forma más profunda los efectos de la represión, pues encarna su consecuencia última: la locura. Lorca la sitúa como espejo deformante donde se refleja el destino que aguarda a todas las mujeres de la casa si no rompen sus cadenas.\n\n" +
+"En primer lugar, María Josefa sufre la forma más radical de encierro. Mientras las hijas viven «como metidas en alacenas», a la abuela se la confina en una habitación, lo cual representa una represión de segundo grado: encerrada dentro del encierro. Esta cárcel concéntrica explica por qué su única vía de escape es la locura, una válvula que la libera de la lógica patriarcal.\n\n" +
+"Asimismo, su discurso oblicuo le permite denunciar la tiranía con una contundencia que ningún otro personaje alcanza. Llama a Bernarda «cara de leoparda» y a Magdalena «cara de hiena», desnudando la animalidad oculta de la represión doméstica. Su anhelo — «yo quiero casas, pero casas abiertas» — sintetiza el tema central de la obra con una claridad casi infantil. Por ello, María Josefa cumple la función del «loco shakespeariano» que dice la verdad porque ya no tiene nada que perder.\n\n" +
+"No obstante, hay que matizar esta lectura. Adela combate la represión con su deseo y su muerte, mientras que María Josefa la padece sin transformarla. La abuela conmueve, pero no actúa: lleva una oveja porque no puede tener un hijo, y al final regresa a su encierro. Este detalle podría sugerir que ejemplifica la víctima más que la rebelde.\n\n" +
+"Sin embargo, precisamente por eso María Josefa muestra el efecto más auténtico de la represión: la pérdida de la razón. Adela escapa por la muerte, pero María Josefa permanece, recordándonos que la verdadera consecuencia del autoritarismo no es siempre la tragedia espectacular, sino el lento desgaste de la mente. En definitiva, su locura es la radiografía más honesta de la opresión que Lorca denuncia."
+      },
+      {
+        label: "Tesis matizada",
+        text:
+"Plantear la pregunta como una elección entre Adela y María Josefa puede ser reductor, pues Lorca diseña a estos dos personajes como caras complementarias de un mismo fenómeno represivo. Adela ejemplifica la represión activa (la que se combate), mientras que María Josefa ejemplifica la represión pasiva (la que ya ha vencido). Juntas, dibujan el espectro completo del sufrimiento femenino en la obra.\n\n" +
+"En primer lugar, ambas comparten el mismo enemigo: el autoritarismo de Bernarda y el «qué dirán» del pueblo. Sin embargo, lo viven en momentos distintos del ciclo opresivo. María Josefa, anciana, simboliza el final de la trayectoria: la mujer reducida a la locura tras décadas de obediencia. Adela, joven, simboliza el principio: la rebeldía que aún cree posible la libertad. Por consiguiente, una sin la otra resulta incompleta.\n\n" +
+"Cabe destacar también que sus lenguajes dramáticos se complementan. Adela emplea un código realista (el abanico, el vestido verde, el caballo semental) anclado en la pasión sensual. María Josefa, en cambio, recurre al lenguaje poético-onírico (la ovejita, la orilla del mar, la espuma blanca) que abre la obra hacia lo simbólico. Lorca necesita ambos registros para construir su «documental fotográfico».\n\n" +
+"No obstante, si tuviéramos que elegir, podríamos argumentar que Adela ejemplifica mejor la represión porque rompe el bastón — el símbolo central de la tiranía — antes de morir. Su muerte deja a Bernarda gritando «¡Silencio!», prueba dramática de que la represión, aunque triunfe, queda herida. María Josefa, por contraste, regresa a su cuarto sin transformar nada.\n\n" +
+"En conclusión, la pregunta «¿quién mejor?» admite múltiples respuestas, pero la mejor es probablemente «ambas, en planos distintos». Lorca, con la maestría de su «defecto fatídico» trágico, distribuye el peso de la represión entre dos cuerpos para que el espectador comprenda que la jaula afecta tanto a quien la golpea como a quien ya no la ve."
+      }
+    ]
+  },
+  {
+    id: "mujer",
+    label: "Tema 3 · El papel de la mujer (2023)",
+    formalQ: "Examina la importancia del papel de la mujer en la obra. ¿Cómo presenta Lorca la condición femenina en la sociedad rural española de los años treinta?",
+    models: [
+      {
+        label: "Enfoque sociológico",
+        text:
+"En La casa de Bernarda Alba, Federico García Lorca convierte el espacio doméstico en un microcosmos de la condición femenina española de los años treinta. Al excluir a los hombres del escenario, el dramaturgo nos obliga a ver la sociedad desde el lugar más invisibilizado: el patio interior donde las mujeres bordan, callan y mueren.\n\n" +
+"En primer lugar, Lorca denuncia la doble moral que rige la vida de sus personajes. Mientras a los hombres «se les perdona todo» — incluyendo las visitas a Paca la Roseta o el lupanar —, a las mujeres se les exige una decencia inmaculada. La frase de Amelia, «nacer mujer es el mayor castigo», resume esta condena de género. Por ello, el papel de la mujer en la obra no es decorativo: es el eje crítico de la denuncia social.\n\n" +
+"Asimismo, Lorca presenta una jerarquía interna entre mujeres que reproduce las desigualdades del exterior. Bernarda manda con el bastón, La Poncia obedece y murmura, la Criada sirve, y la Mendiga pide sobras. Esta cadena de humillaciones femeninas demuestra que la represión no es sólo masculina, sino estructural: las mujeres se vigilan entre sí. La frase «¡Cada clase tiene que hacer lo suyo!» revela cómo el patriarcado se entrelaza con la conciencia de clase.\n\n" +
+"Sin embargo, el cuadro no es uniformemente negro. Lorca presenta también figuras de resistencia: Adela rompe el bastón, María Josefa proclama «yo quiero casas abiertas», y la hija de la Librada — aunque linchada — ejerce su sexualidad fuera del matrimonio. Estos destellos de rebeldía sugieren que la condición femenina, por opresiva que sea, contiene siempre el germen de su propia transgresión.\n\n" +
+"En conclusión, el papel de la mujer en La casa de Bernarda Alba no es un tema entre otros: es la sustancia misma del drama. Escrita en 1936, vísperas de la Guerra Civil, la obra anticipa los debates contemporáneos sobre el patriarcado y mantiene una sorprendente actualidad. Hoy, sus voces silenciadas siguen interpelándonos."
+      },
+      {
+        label: "Enfoque simbólico",
+        text:
+"Lorca construye el papel de la mujer en su tragedia mediante una densa red de símbolos que transforman el realismo costumbrista en mito poético. Cada personaje femenino encarna una faceta de la condición femenina: Bernarda la represión, Adela el deseo, María Josefa la locura, La Poncia la complicidad, Angustias la mercancía matrimonial.\n\n" +
+"En primer lugar, los colores marcan la cartografía emocional de las mujeres. El blanco de las paredes simboliza la pureza impuesta y la esterilidad; el negro del luto, la muerte social; el verde del vestido de Adela, la transgresión vital; el rojo del abanico, el deseo prohibido. Mediante esta paleta cromática, Lorca traduce visualmente la opresión femenina sin necesidad de discurso explícito.\n\n" +
+"Además, el caballo semental — encerrado, dando coces contra el muro — funciona como metáfora directa de la sexualidad femenina reprimida. La frase de María Josefa «las olas, una y otra y otra» evoca una fertilidad cósmica que contrasta brutalmente con la esterilidad impuesta dentro de la casa. De este modo, los símbolos de la naturaleza denuncian lo antinatural del encierro.\n\n" +
+"No obstante, hay que matizar esta lectura simbólica. Lorca no presenta a sus mujeres como meros símbolos, sino como individuos con voces distintas. La risa irónica de Magdalena, los celos de Martirio, el orgullo de Angustias, la sed de Adela: cada una habla con un idiolecto que el habla popular andaluz enriquece. El símbolo no aplasta el personaje, sino que lo amplifica.\n\n" +
+"En definitiva, el papel de la mujer en la obra es a la vez sociológico y simbólico. Lorca convierte a sus personajes en arquetipos sin despojarlos de humanidad, y por eso su crítica del patriarcado conserva fuerza casi un siglo después. La casa de Bernarda Alba sigue siendo, hoy, un manifiesto poético contra todas las formas de encierro femenino."
+      },
+      {
+        label: "Enfoque comparativo",
+        text:
+"Para examinar el papel de la mujer en La casa de Bernarda Alba conviene situar la obra en su contexto: 1936, antesala de la Guerra Civil, en una España rural donde la honra, la dote y el qué dirán dominaban la vida cotidiana. Lorca dialoga con esta realidad mediante un drama enteramente femenino — sólo se oye a Pepe el Romano fuera de escena — para mostrar cómo el patriarcado opera incluso cuando los hombres están ausentes.\n\n" +
+"En primer lugar, conviene comparar a las cinco hermanas como un espectro de respuestas posibles a la opresión. Angustias, la mayor, representa el matrimonio como huida económica («afortunadamente pronto voy a salir de este infierno»); Magdalena, la resignación; Amelia, la sumisión miedosa; Martirio, los celos perversos producto de la frustración; y Adela, la rebeldía erótica. Cada una ilustra una estrategia distinta — y todas, salvo Adela, fracasan.\n\n" +
+"Asimismo, el contraste con las mujeres de fuera de la casa es crucial. Paca la Roseta, la hija de la Librada, las prostitutas contratadas por los segadores: estas mujeres viven «al margen de la sociedad» y son condenadas o linchadas, pero ejercen una libertad que las hijas de Bernarda envidian en secreto. Lorca utiliza este contraste para denunciar la falsa elección que se ofrece a la mujer: o decencia y muerte en vida, o libertad y muerte social.\n\n" +
+"Sin embargo, hay que reconocer que Lorca no romantiza la libertad transgresora. La hija de la Librada mata a su recién nacido y termina arrastrada por la calle. La libertad de Adela termina en suicidio. Por consiguiente, la obra no propone una solución, sino que diagnostica un sistema sin salida, donde toda opción femenina conduce al sufrimiento.\n\n" +
+"En conclusión, el papel de la mujer en La casa de Bernarda Alba es central, plural y trágico. Lorca compone un retrato coral que abarca la jerarquía social, los espacios prohibidos y los anhelos imposibles. Hoy, esta cartografía femenina nos sigue hablando porque, aunque las cadenas hayan cambiado de forma, la pregunta sobre la libertad de las mujeres continúa abierta."
+      }
+    ]
+  }
+];
+
+/* ============================================================
+   LEXIS BANK
+   ============================================================ */
+const LEXIS = {
+  conectores: {
+    title: "Conectores sofisticados",
+    sections: [
+      { h: "En lugar de POR ESO →", items: ["por consiguiente", "por lo tanto", "de ahí que", "así pues", "en consecuencia"] },
+      { h: "En lugar de PERO →", items: ["sin embargo", "no obstante", "ahora bien", "en cambio", "con todo"] },
+      { h: "En lugar de TAMBIÉN →", items: ["además", "asimismo", "de igual modo", "por añadidura"] },
+      { h: "En lugar de PORQUE →", items: ["dado que", "puesto que", "ya que", "en la medida en que"] },
+      { h: "Para estructurar →", items: ["en primer lugar", "en segundo lugar", "por último", "para terminar", "cabe destacar que"] }
+    ]
+  },
+  frases: {
+    title: "Frases evaluativas (memorizables)",
+    sections: [
+      { h: "Para introducir un argumento", items: [
+        "Conviene subrayar que…",
+        "Se puede afirmar / sostener que…",
+        "Es evidente que…",
+        "A mi juicio / Desde mi perspectiva,…"
+      ]},
+      { h: "Para analizar", items: [
+        "Esto muestra / ilustra / revela / pone de manifiesto…",
+        "Esto traduce / encarna…",
+        "Esta escena / este pasaje refleja…",
+        "Lejos de + infinitivo, Lorca / el dramaturgo…"
+      ]},
+      { h: "Para matizar", items: [
+        "Sin embargo, conviene matizar que…",
+        "No obstante, hay que tener en cuenta que…",
+        "Cabe relativizar esta lectura porque…",
+        "Por otro lado, no se debe olvidar que…"
+      ]},
+      { h: "Para concluir", items: [
+        "En conclusión / Para concluir,…",
+        "En definitiva,…",
+        "Aún hoy, la obra conserva su vigencia porque…"
+      ]}
+    ]
+  },
+  lexico: {
+    title: "Léxico crítico para LCBA",
+    sections: [
+      { h: "Represión y autoridad", items: [
+        "el autoritarismo · la tiranía",
+        "el encierro · el luto · la cárcel",
+        "el bastón — símbolo del poder",
+        "el «qué dirán» · la honra · la decencia",
+        "la moral rígida · las apariencias"
+      ]},
+      { h: "Deseo y libertad", items: [
+        "el deseo reprimido · la pasión",
+        "la rebeldía · el anhelo de libertad",
+        "el caballo semental — la fuerza erótica",
+        "el abanico de flores rojas",
+        "el vestido verde — la transgresión"
+      ]},
+      { h: "Estilo lorquiano", items: [
+        "las acotaciones (con crueldad, con odio)",
+        "el simbolismo cromático (blanco/negro/verde)",
+        "el habla popular · los refranes",
+        "el documental fotográfico",
+        "el presagio · el augurio · el clímax"
+      ]},
+      { h: "Personajes clave", items: [
+        "Bernarda — la tirana miedosa",
+        "Adela — la rebeldía vital",
+        "María Josefa — la locura lúcida",
+        "La Poncia — la voz del pueblo",
+        "Pepe el Romano — el ausente omnipresente"
+      ]}
+    ]
+  },
+  citas: {
+    title: "Citas clave (a mobilizar)",
+    sections: [
+      { h: "Autoridad y represión", items: [
+        "«¡Silencio!» (Bernarda)",
+        "«Afortunadamente mis hijas me respetan»",
+        "«¡Cada clase tiene que hacer lo suyo!»",
+        "«Estarán las vecinas con el oído pegado a los tabiques»"
+      ]},
+      { h: "Deseo y rebeldía", items: [
+        "«¡Que la dejen escapar!» (Adela)",
+        "«No quiero perder mi blancura en estas habitaciones»",
+        "«Pepe el Romano es mío»",
+        "«Aquí se acabaron las voces de presidio»"
+      ]},
+      { h: "La Poncia y la sabiduría", items: [
+        "«Aquí pasa una cosa muy grande»",
+        "«Hay una tormenta en cada cuarto»",
+        "«Mata esos pensamientos»",
+        "«El hombre… deja la cama por la mesa»"
+      ]},
+      { h: "María Josefa y el final", items: [
+        "«Pepe el Romano es un gigante»",
+        "«Yo quiero casas abiertas»",
+        "«Mi hija ha muerto virgen»",
+        "«Nacer mujer es el mayor castigo» (Amelia)"
+      ]}
+    ]
+  }
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const state = {
+  titleIdx: 0,
+  sections: { plan: "", intro: "", peel1: "", peel2: "", peel3: "", conclusion: "" },
+  currentLexisTab: "conectores",
+  feedback: null,
+  modelChoice: 0,
+  compare: false,
+  lastFocused: null
+};
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function escapeHtml(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+function countWords(text) {
+  const t = text.trim();
+  if (!t) return 0;
+  return t.split(/\s+/).filter(w => w.match(/[a-zA-ZÀ-ÿñÑ]/)).length;
+}
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => t.classList.remove("show"), 2000);
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function renderTitleButtons() {
+  const wrap = document.getElementById("title-buttons");
+  wrap.innerHTML = "";
+  TITLES.forEach((t, i) => {
+    const btn = document.createElement("button");
+    btn.className = "title-btn" + (i === state.titleIdx ? " active" : "");
+    btn.textContent = t.label;
+    btn.onclick = () => {
+      state.titleIdx = i;
+      renderTitleButtons();
+      renderFormalQ();
+    };
+    wrap.appendChild(btn);
+  });
+}
+function renderFormalQ() {
+  document.getElementById("formal-q").textContent = TITLES[state.titleIdx].formalQ;
+}
+
+function renderLexis() {
+  const data = LEXIS[state.currentLexisTab];
+  const body = document.getElementById("lexis-body");
+  let html = "";
+  data.sections.forEach(sec => {
+    html += `<div class="lex-section"><h4>${escapeHtml(sec.h)}</h4><ul class="lex-list">`;
+    sec.items.forEach(it => {
+      html += `<li data-insert="${escapeHtml(it.replace(/[«»…]/g, "").trim())}">${escapeHtml(it)}</li>`;
+    });
+    html += "</ul></div>";
+  });
+  body.innerHTML = html;
+  body.querySelectorAll(".lex-list li").forEach(li => {
+    li.addEventListener("click", () => {
+      const text = li.dataset.insert;
+      const ta = state.lastFocused;
+      if (ta) {
+        insertAtCursor(ta, text);
+      } else {
+        navigator.clipboard?.writeText(text);
+        showToast(`Copiado: « ${text} »`);
+      }
+    });
+  });
+}
+
+function insertAtCursor(ta, text) {
+  const start = ta.selectionStart, end = ta.selectionEnd;
+  const before = ta.value.substring(0, start);
+  const after = ta.value.substring(end);
+  ta.value = before + text + after;
+  const newPos = start + text.length;
+  ta.setSelectionRange(newPos, newPos);
+  ta.focus();
+  state.sections[ta.id] = ta.value;
+  updateWordCounts();
+}
+
+function updateWordCounts() {
+  const SECTIONS = ["plan", "intro", "peel1", "peel2", "peel3", "conclusion"];
+  let total = 0;
+  SECTIONS.forEach(id => {
+    const ta = document.getElementById(id);
+    const wc = countWords(ta.value);
+    if (id !== "plan") total += wc;
+    const el = document.getElementById("wc-" + id);
+    const min = parseInt(ta.dataset.min, 10);
+    const max = parseInt(ta.dataset.max, 10);
+    if (id === "plan") {
+      el.textContent = `${wc} palabras`;
+      el.className = "wc";
+    } else {
+      el.textContent = `${wc}/${min}-${max} palabras`;
+      el.className = "wc";
+      if (wc > max + 5) el.className = "wc over";
+      else if (wc >= min && wc <= max) el.className = "wc good";
+    }
+  });
+  document.getElementById("g-words").textContent = total;
+}
+
+/* ============================================================
+   FEEDBACK ENGINE — substantive AO4-style assessment
+   ============================================================ */
+function evaluate() {
+  const sections = state.sections;
+  const fullEssay = [
+    sections.intro, sections.peel1, sections.peel2, sections.peel3, sections.conclusion
+  ].filter(Boolean).join(" \n\n ");
+  const lc = fullEssay.toLowerCase();
+  const totalWords = countWords(fullEssay);
+
+  /* ---- 1. Connectors ---- */
+  const SOPH = [
+    "por consiguiente", "por lo tanto", "de ahí que", "así pues", "en consecuencia",
+    "sin embargo", "no obstante", "ahora bien", "en cambio", "con todo",
+    "además", "asimismo", "de igual modo", "por añadidura",
+    "dado que", "puesto que", "ya que", "en la medida en que",
+    "en primer lugar", "en segundo lugar", "por último", "cabe destacar",
+    "para concluir", "en definitiva", "en conclusión"
+  ];
+  const BASIC_OVERUSED = [" y ", " pero ", " también ", " porque ", " entonces "];
+  const sophUsed = [];
+  SOPH.forEach(w => {
+    const re = new RegExp("\\b" + w.replace(/ /g, "\\s+") + "\\b", "gi");
+    const m = (lc.match(re) || []).length;
+    if (m > 0) sophUsed.push(`${w}${m > 1 ? " ×" + m : ""}`);
+  });
+  const basicCounts = {};
+  BASIC_OVERUSED.forEach(w => {
+    const re = new RegExp(w.replace(/ /g, "\\s+"), "gi");
+    const c = (lc.match(re) || []).length;
+    if (c > 0) basicCounts[w.trim()] = c;
+  });
+
+  /* ---- 2. Evaluative phrases ---- */
+  const EVAL_PHRASES = [
+    "conviene subrayar", "conviene matizar", "se puede afirmar", "se puede sostener",
+    "es evidente", "a mi juicio", "desde mi perspectiva",
+    "esto muestra", "esto ilustra", "esto revela", "esto traduce",
+    "pone de manifiesto", "lejos de", "cabe destacar", "cabe relativizar",
+    "hay que reconocer", "hay que tener en cuenta", "en definitiva",
+    "en conclusión", "para concluir"
+  ];
+  const evalUsed = EVAL_PHRASES.filter(p => lc.includes(p));
+
+  /* ---- 3. Citations (« ... » / "...") ---- */
+  const quotes = (fullEssay.match(/[«"][^«»"]{4,}[»"]/g) || []);
+
+  /* ---- 4. Specific references / lexis ---- */
+  const REFS = ["bernarda", "adela", "martirio", "angustias", "magdalena", "amelia",
+                "maría josefa", "maria josefa", "la poncia", "poncia", "pepe el romano",
+                "pepe", "la criada", "prudencia",
+                "el bastón", "bastón", "luto", "honra", "qué dirán", "lupanar",
+                "el caballo", "abanico", "vestido verde", "represión", "libertad"];
+  const refsUsed = REFS.filter(r => lc.includes(r));
+
+  /* ---- 5. Forbidden / register problems ---- */
+  const tooHighFound = ["sine qua non", "ad nauseam", "modus operandi"]
+    .filter(p => lc.includes(p));
+  const angloFound = [];
+  if (lc.match(/\brealizar\s+que\b/)) angloFound.push("realizar que (anglicismo — preferir « darse cuenta de que »)");
+  if (lc.match(/\bsoportar\s+(la|el|una|un)\b/) && lc.match(/\b(idea|argumento|tesis)\b/)) {
+    angloFound.push("soportar (¿= apoyar?) — preferir « apoyar / sostener »");
+  }
+  if (lc.match(/\bintroducir\s+(a|al)\s+\w+/)) {
+    angloFound.push("introducir (¿= presentar?) — preferir « presentar »");
+  }
+
+  /* ---- 6. Repeated weak verbs ---- */
+  const VERBS_TO_DIVERSIFY = ["mostrar", "hay", "importante", "muy", "decir", "ser"];
+  const repeated = {};
+  VERBS_TO_DIVERSIFY.forEach(v => {
+    const re = new RegExp("\\b" + v + "\\w*\\b", "gi");
+    const c = (lc.match(re) || []).length;
+    const threshold = (v === "ser" || v === "hay") ? 12 : 5;
+    if (c >= threshold) repeated[v] = c;
+  });
+
+  /* ---- 7. Structure check ---- */
+  const structureChecks = {
+    intro: countWords(sections.intro) >= 30,
+    peel1: countWords(sections.peel1) >= 50,
+    peel2: countWords(sections.peel2) >= 50,
+    peel3: countWords(sections.peel3) >= 50,
+    conclusion: countWords(sections.conclusion) >= 30
+  };
+
+  /* ---- 8. Missing accent heuristic ---- */
+  const accentMisses = [];
+  // common words that should have tildes
+  const accentRules = [
+    { wrong: /\bque\s+dirian\b/i, right: "qué dirán" },
+    { wrong: /\bmaria\s+josefa\b/i, right: "María Josefa" },
+    { wrong: /\bbernardha?\s/i, right: "Bernarda" },
+    { wrong: /\baqui\b/i, right: "aquí" },
+    { wrong: /\bmas\s+(que|importante|fuerte)\b/i, right: "más" },
+    { wrong: /\btambien\b/i, right: "también" },
+    { wrong: /\bsegun\b/i, right: "según" },
+    { wrong: /\btragica\b/i, right: "trágica" },
+    { wrong: /\brepresion\b/i, right: "represión" },
+    { wrong: /\btradicion\b/i, right: "tradición" }
+  ];
+  accentRules.forEach(r => {
+    if (r.wrong.test(fullEssay)) accentMisses.push(r.right);
+  });
+
+  /* ---- 9. AO4-style scoring out of 24 ---- */
+  const titleQ = TITLES[state.titleIdx].formalQ.toLowerCase();
+  const titleKeywords = ["poncia", "adela", "pepe", "consejo",
+                          "represión", "represion", "maría josefa", "maria josefa",
+                          "mujer", "papel", "femenina", "libertad", "honra"];
+  const titleHits = titleKeywords.filter(k => titleQ.includes(k) && lc.includes(k));
+  const pertinence = totalWords > 100 && titleHits.length >= 1
+    ? Math.min(4, 1 + titleHits.length) : (totalWords > 50 ? 1 : 0);
+
+  const argumentation =
+    Object.values(structureChecks).every(Boolean) ? 4 :
+    Object.values(structureChecks).filter(Boolean).length >= 4 ? 3 :
+    Object.values(structureChecks).filter(Boolean).length >= 3 ? 2 :
+    Object.values(structureChecks).filter(Boolean).length >= 2 ? 1 : 0;
+
+  const precision = Math.min(4,
+    Math.floor(refsUsed.length / 3) + Math.min(2, quotes.length));
+
+  const range = Math.min(4,
+    Math.floor(sophUsed.length / 2) + Math.floor(evalUsed.length / 2));
+
+  const conclQ = sections.conclusion.toLowerCase();
+  let conclusionScore = 0;
+  if (countWords(sections.conclusion) >= 40) conclusionScore += 2;
+  if (conclQ.match(/sin embargo|no obstante|matiz/)) conclusionScore += 1;
+  if (conclQ.match(/hoy|actualidad|vigencia|moderno|sigue|aún|aun/)) conclusionScore += 1;
+
+  let grammar = 4;
+  if ((basicCounts["y"] || 0) > 14) grammar -= 1;
+  if ((basicCounts["pero"] || 0) > 5) grammar -= 1;
+  if (Object.keys(repeated).length > 1) grammar -= 1;
+  if (accentMisses.length >= 2) grammar -= 1;
+  grammar = Math.max(0, grammar);
+
+  const total = pertinence + argumentation + precision + range + conclusionScore + grammar;
+
+  const fb = {
+    totalWords,
+    sophUsed,
+    basicCounts,
+    evalUsed,
+    quotes,
+    refsUsed,
+    tooHighFound,
+    angloFound,
+    repeated,
+    accentMisses,
+    structureChecks,
+    titleHits,
+    scores: {
+      pertinence, argumentation, precision, range,
+      conclusion: conclusionScore, grammar
+    },
+    total
+  };
+  state.feedback = fb;
+  return fb;
+}
+
+function renderFeedback(fb) {
+  const body = document.getElementById("feedback-body");
+  if (!fb) {
+    body.innerHTML = '<div class="fb-empty">Pulsa <strong>Evaluar mi ensayo</strong>…</div>';
+    return;
+  }
+  let html = "";
+
+  /* Score block */
+  html += `<div class="fb-block info">
+    <h5>Nota AO4 estimada</h5>
+    <div class="score-grid">
+      <span class="crit">Pertinencia al tema</span><span class="pts">${fb.scores.pertinence} / 4</span>
+      <span class="crit">Argumentación (intro + 3 PEEL + concl)</span><span class="pts">${fb.scores.argumentation} / 4</span>
+      <span class="crit">Precisión léxica (citas, léxico)</span><span class="pts">${fb.scores.precision} / 4</span>
+      <span class="crit">Rango (conectores + frases evaluativas)</span><span class="pts">${fb.scores.range} / 4</span>
+      <span class="crit">Conclusión (síntesis + matiz + apertura)</span><span class="pts">${fb.scores.conclusion} / 4</span>
+      <span class="crit">Precisión gramatical (heurística)</span><span class="pts">${fb.scores.grammar} / 4</span>
+    </div>
+    <div class="score-total">Total <span>${fb.total} / 24</span></div>
+  </div>`;
+  document.getElementById("g-score").textContent = fb.total + " / 24";
+
+  /* Word count */
+  html += `<div class="fb-block ${fb.totalWords >= 300 && fb.totalWords <= 360 ? "good" : "warn"}">
+    <h5>Extensión</h5>
+    ${fb.totalWords} palabras${fb.totalWords < 300 ? ' (corto · meta 300-350)' :
+      fb.totalWords > 360 ? ' (largo · riesgo de digresión)' : ' ✓ dentro de la meta'}
+  </div>`;
+
+  /* Connectors */
+  html += `<div class="fb-block ${fb.sophUsed.length >= 4 ? "good" : "warn"}">
+    <h5>Conectores sofisticados (${fb.sophUsed.length})</h5>`;
+  if (fb.sophUsed.length === 0) {
+    html += '<span class="chip miss">Ninguno detectado — añade « sin embargo », « por consiguiente »…</span>';
+  } else {
+    fb.sophUsed.forEach(w => html += `<span class="chip ok">${escapeHtml(w)}</span>`);
+  }
+  if (Object.keys(fb.basicCounts).length) {
+    html += "<div style='margin-top:6px; font-size:12px; color:#7C2C18;'>Conectores básicos sobreutilizados: ";
+    html += Object.entries(fb.basicCounts).map(([w, c]) => `${w} ×${c}`).join(", ");
+    html += "</div>";
+  }
+  html += "</div>";
+
+  /* Evaluative phrases */
+  html += `<div class="fb-block ${fb.evalUsed.length >= 2 ? "good" : "warn"}">
+    <h5>Frases evaluativas (${fb.evalUsed.length})</h5>`;
+  if (fb.evalUsed.length === 0) {
+    html += '<span class="chip miss">Añade « conviene subrayar », « esto muestra que », « a mi juicio »…</span>';
+  } else {
+    fb.evalUsed.forEach(p => html += `<span class="chip ok">${escapeHtml(p)}…</span>`);
+  }
+  html += "</div>";
+
+  /* Citations */
+  html += `<div class="fb-block ${fb.quotes.length >= 2 ? "good" : "warn"}">
+    <h5>Citas / pruebas textuales (${fb.quotes.length})</h5>`;
+  if (fb.quotes.length === 0) {
+    html += '<span class="chip miss">Ninguna cita detectada — usa « ... » al menos dos veces.</span>';
+  } else {
+    fb.quotes.slice(0, 4).forEach(q => {
+      const trim = q.length > 50 ? q.substring(0, 47) + "…" : q;
+      html += `<span class="chip ok">${escapeHtml(trim)}</span>`;
+    });
+  }
+  html += "</div>";
+
+  /* References */
+  html += `<div class="fb-block ${fb.refsUsed.length >= 5 ? "good" : "info"}">
+    <h5>Referencias textuales (${fb.refsUsed.length})</h5>`;
+  fb.refsUsed.forEach(r => html += `<span class="chip ok">${escapeHtml(r)}</span>`);
+  if (fb.refsUsed.length < 5) {
+    html += '<div style="margin-top:6px; font-size:12px; color:#6C4D17;">Añade más referencias: La Poncia, Pepe el Romano, María Josefa, el bastón, el luto…</div>';
+  }
+  html += "</div>";
+
+  /* Title relevance */
+  if (fb.titleHits.length === 0 && fb.totalWords > 60) {
+    html += `<div class="fb-block warn"><h5>Pertinencia al tema</h5>
+    <span class="chip miss">No se detectan palabras clave del tema en tu ensayo. Repite la palabra clave del enunciado.</span></div>`;
+  }
+
+  /* Warnings */
+  if (fb.tooHighFound.length || fb.angloFound.length || Object.keys(fb.repeated).length || fb.accentMisses.length) {
+    html += `<div class="fb-block warn"><h5>A vigilar</h5>`;
+    fb.tooHighFound.forEach(p => html += `<div>⚠ Registro demasiado elevado: « ${escapeHtml(p)} »</div>`);
+    fb.angloFound.forEach(p => html += `<div>⚠ ${escapeHtml(p)}</div>`);
+    Object.entries(fb.repeated).forEach(([v, c]) => {
+      html += `<div>⚠ « ${escapeHtml(v)} » utilizado ${c} veces — varía (ilustrar, plasmar, encarnar, traducir…)</div>`;
+    });
+    fb.accentMisses.forEach(a => html += `<div>⚠ Falta tilde: probablemente debes escribir « ${escapeHtml(a)} »</div>`);
+    html += "</div>";
+  }
+
+  /* Structure */
+  if (!Object.values(fb.structureChecks).every(Boolean)) {
+    html += `<div class="fb-block warn"><h5>Secciones incompletas</h5>`;
+    Object.entries(fb.structureChecks).forEach(([k, ok]) => {
+      if (!ok) html += `<span class="chip miss">${k} demasiado corto</span>`;
+    });
+    html += "</div>";
+  }
+
+  body.innerHTML = html;
+}
+
+/* ============================================================
+   ACTIONS — sophisticated blob download
+   ============================================================ */
+function exportEssay(includeModel = true) {
+  const t = TITLES[state.titleIdx];
+  const fb = state.feedback || evaluate();
+  renderFeedback(fb);
+  const date = new Date().toLocaleDateString("es-ES", {
+    year: "numeric", month: "long", day: "numeric"
+  });
+  const safeFull = (s) => escapeHtml(s).replace(/\n/g, "<br>");
+  const fullEssay = [
+    state.sections.intro,
+    state.sections.peel1,
+    state.sections.peel2,
+    state.sections.peel3,
+    state.sections.conclusion
+  ].filter(Boolean).join("\n\n");
+
+  const modelHtml = includeModel
+    ? `<h2>Ensayo modelo de comparación — ${escapeHtml(t.models[state.modelChoice].label)}</h2>
+       <div class="boxed model">${safeFull(t.models[state.modelChoice].text)}</div>`
+    : "";
+
+  const html = `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
+<title>La Casa de Bernarda Alba — Mi ensayo (${date})</title>
+<style>
+body { font-family: Calibri, Arial, sans-serif; max-width: 850px; margin: 30px auto;
+       padding: 0 24px; color: #1A1A1A; line-height: 1.6; background: #FBF6E9; }
+h1 { color: #2A1B2D; border-bottom: 3px solid #8B1E1E; padding-bottom: 8px;
+     font-family: Georgia, serif; }
+h2 { color: #2A1B2D; margin-top: 28px; font-size: 18px; font-family: Georgia, serif; }
+h3 { color: #8B1E1E; font-size: 14px; text-transform: uppercase;
+     letter-spacing: 0.08em; margin: 22px 0 6px; }
+.title-q { background: #F4ECDA; padding: 14px 18px; border-left: 4px solid #2A1B2D;
+           font-style: italic; margin: 16px 0; border-radius: 0 6px 6px 0; }
+.boxed { padding: 14px 18px; border: 1px solid #DDD3B8; border-radius: 8px;
+         background: #fff; margin-bottom: 12px; white-space: pre-wrap; }
+.boxed.model { background: #F0E8D0; border-left: 4px solid #C9A85C; }
+.score-table { width: 100%; border-collapse: collapse; margin: 12px 0; background: #fff;
+               border: 1px solid #DDD3B8; border-radius: 8px; overflow: hidden; }
+.score-table td { padding: 8px 12px; border-bottom: 1px solid #EEE; font-size: 14px; }
+.score-table td:last-child { text-align: right; font-weight: 700; color: #8B1E1E;
+                              font-variant-numeric: tabular-nums; }
+.score-row.total td { font-weight: 800; border-top: 2px solid #2A1B2D;
+                       padding-top: 10px; font-size: 16px; background: #F4ECDA; }
+.fb-section { background: #FFFEF9; padding: 12px 16px; border-left: 4px solid #2A1B2D;
+              margin: 10px 0; border-radius: 0 6px 6px 0; }
+.fb-section.good { border-left-color: #4A6B3A; }
+.fb-section.warn { border-left-color: #8B1E1E; }
+.chip { display: inline-block; background: white; border: 1px solid #DDD3B8;
+        border-radius: 999px; padding: 2px 9px; margin: 2px 3px 0 0; font-size: 13px; }
+.chip.ok { background: #DCEFE0; border-color: #4A6B3A; color: #1F5C2C; }
+.chip.miss { background: #FAE0DA; border-color: #8B1E1E; color: #7C2C18; }
+.meta-bar { display: flex; gap: 20px; flex-wrap: wrap; padding: 12px 18px;
+            background: #2A1B2D; color: #F4ECDA; border-radius: 8px; margin: 12px 0; }
+.meta-bar div { font-size: 13px; }
+.meta-bar strong { display: block; font-size: 22px; color: #C9A85C; }
+@media print { .boxed { break-inside: avoid; } body { background: #fff; } }
+</style></head><body>
+<h1>La Casa de Bernarda Alba — Mi copia de examen</h1>
+<p style="color:#555;"><em>Exportado el ${date}  ·  A-Level Spanish Edexcel  ·  Nivel A*</em></p>
+
+<div class="meta-bar">
+  <div><strong>${fb.total} / 24</strong>nota AO4 estimada</div>
+  <div><strong>${fb.totalWords}</strong>palabras</div>
+  <div><strong>${fb.quotes.length}</strong>citas textuales</div>
+  <div><strong>${fb.sophUsed.length}</strong>conectores sofisticados</div>
+  <div><strong>${fb.refsUsed.length}</strong>referencias</div>
+</div>
+
+<h2>Tema elegido</h2>
+<div class="title-q">${escapeHtml(t.formalQ)}</div>
+
+<h2>Desglose de la nota AO4</h2>
+<table class="score-table">
+  <tr><td>Pertinencia al tema</td><td>${fb.scores.pertinence} / 4</td></tr>
+  <tr><td>Argumentación (5 secciones)</td><td>${fb.scores.argumentation} / 4</td></tr>
+  <tr><td>Precisión léxica (citas, léxico)</td><td>${fb.scores.precision} / 4</td></tr>
+  <tr><td>Rango (conectores, frases evaluativas)</td><td>${fb.scores.range} / 4</td></tr>
+  <tr><td>Conclusión (síntesis, matiz, apertura)</td><td>${fb.scores.conclusion} / 4</td></tr>
+  <tr><td>Precisión gramatical (heurística)</td><td>${fb.scores.grammar} / 4</td></tr>
+  <tr class="score-row total"><td>TOTAL</td><td>${fb.total} / 24</td></tr>
+</table>
+
+<h2>Mi ensayo (${fb.totalWords} palabras)</h2>
+<h3>Plan</h3>
+<div class="boxed">${safeFull(state.sections.plan || "(ningún plan)")}</div>
+<h3>Introducción</h3>
+<div class="boxed">${safeFull(state.sections.intro || "(vacío)")}</div>
+<h3>PEEL 1</h3>
+<div class="boxed">${safeFull(state.sections.peel1 || "(vacío)")}</div>
+<h3>PEEL 2</h3>
+<div class="boxed">${safeFull(state.sections.peel2 || "(vacío)")}</div>
+<h3>PEEL 3</h3>
+<div class="boxed">${safeFull(state.sections.peel3 || "(vacío)")}</div>
+<h3>Conclusión</h3>
+<div class="boxed">${safeFull(state.sections.conclusion || "(vacío)")}</div>
+
+<h2>Retroalimentación detallada</h2>
+<div class="fb-section ${fb.sophUsed.length >= 4 ? "good" : "warn"}">
+  <strong>Conectores sofisticados (${fb.sophUsed.length})</strong><br>
+  ${fb.sophUsed.length ? fb.sophUsed.map(w => `<span class="chip ok">${escapeHtml(w)}</span>`).join(" ") : "<em>Ninguno detectado.</em>"}
+</div>
+<div class="fb-section ${fb.evalUsed.length >= 2 ? "good" : "warn"}">
+  <strong>Frases evaluativas (${fb.evalUsed.length})</strong><br>
+  ${fb.evalUsed.length ? fb.evalUsed.map(p => `<span class="chip ok">${escapeHtml(p)}…</span>`).join(" ") : "<em>Ninguna detectada.</em>"}
+</div>
+<div class="fb-section ${fb.quotes.length >= 2 ? "good" : "warn"}">
+  <strong>Citas textuales (${fb.quotes.length})</strong><br>
+  ${fb.quotes.length ? fb.quotes.slice(0, 6).map(q => `<span class="chip ok">${escapeHtml(q)}</span>`).join(" ") : "<em>Ninguna cita detectada.</em>"}
+</div>
+<div class="fb-section">
+  <strong>Referencias textuales (${fb.refsUsed.length})</strong><br>
+  ${fb.refsUsed.map(r => `<span class="chip ok">${escapeHtml(r)}</span>`).join(" ")}
+</div>
+${(fb.tooHighFound.length || fb.angloFound.length || Object.keys(fb.repeated).length || fb.accentMisses.length) ? `
+<div class="fb-section warn">
+  <strong>A vigilar</strong><br>
+  ${fb.tooHighFound.map(p => `<div>⚠ Registro demasiado elevado: « ${escapeHtml(p)} »</div>`).join("")}
+  ${fb.angloFound.map(p => `<div>⚠ ${escapeHtml(p)}</div>`).join("")}
+  ${Object.entries(fb.repeated).map(([v, c]) => `<div>⚠ « ${escapeHtml(v)} » utilizado ${c} veces — varía el vocabulario.</div>`).join("")}
+  ${fb.accentMisses.map(a => `<div>⚠ Falta tilde: probablemente « ${escapeHtml(a)} »</div>`).join("")}
+</div>` : ""}
+
+${modelHtml}
+
+<p style="margin-top:30px; color:#888; font-size:11px; text-align:center;">
+Generado por el Taller LCBA · A-Level Spanish Edexcel · ${date}
+</p>
+
+</body></html>`;
+
+  const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  const stamp = new Date().toISOString().slice(0, 10);
+  a.download = `LCBA_ensayo_${TITLES[state.titleIdx].id}_${stamp}.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 0);
+  showToast("¡Descarga iniciada!");
+}
+
+function showModel(compare = false) {
+  const t = TITLES[state.titleIdx];
+  state.modelChoice = 0;
+  state.compare = compare;
+  document.getElementById("model-title").textContent =
+    "Ensayo modelo — " + t.label;
+  const tabs = document.getElementById("model-tabs");
+  tabs.innerHTML = "";
+  t.models.forEach((m, i) => {
+    const btn = document.createElement("button");
+    btn.textContent = m.label;
+    if (i === state.modelChoice) btn.classList.add("active");
+    btn.onclick = () => {
+      state.modelChoice = i;
+      Array.from(tabs.children).forEach((b, j) =>
+        b.classList.toggle("active", j === i));
+      renderModelContent();
+    };
+    tabs.appendChild(btn);
+  });
+  document.getElementById("compare-toggle").checked = compare;
+  renderModelContent();
+  document.getElementById("model-modal").classList.add("show");
+}
+
+function renderModelContent() {
+  const t = TITLES[state.titleIdx];
+  const m = t.models[state.modelChoice];
+  const cmp = document.getElementById("compare-toggle").checked;
+  const studentEssay = [
+    state.sections.intro, state.sections.peel1, state.sections.peel2,
+    state.sections.peel3, state.sections.conclusion
+  ].filter(Boolean).join("\n\n") || "(tu ensayo todavía no está redactado)";
+  const cont = document.getElementById("model-content");
+  if (cmp) {
+    cont.innerHTML = `<div class="split">
+      <div class="your-essay"><h6>Tu ensayo</h6>${escapeHtml(studentEssay).replace(/\n\n/g, "</p><p>").replace(/^/, "<p>") + "</p>"}</div>
+      <div class="model-essay"><h6>Modelo — ${escapeHtml(m.label)}</h6>${escapeHtml(m.text).replace(/\n\n/g, "</p><p>").replace(/^/, "<p>") + "</p>"}</div>
+    </div>`;
+  } else {
+    cont.innerHTML = `<div class="model-essay">${escapeHtml(m.text).replace(/\n\n/g, "</p><p>").replace(/^/, "<p>") + "</p>"}</div>`;
+  }
+}
+
+/* ============================================================
+   FLOATING KEYBOARD — drag + insert + show/hide
+   ============================================================ */
+function setupKeyboard() {
+  const kb = document.getElementById("keyboard");
+  kb.querySelectorAll("button[data-c]").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const c = btn.dataset.c;
+      const ta = state.lastFocused;
+      if (ta) {
+        insertAtCursor(ta, c);
+      } else {
+        showToast("Haz clic en un cuadro de texto primero");
+      }
+    });
+    btn.addEventListener("mousedown", e => e.preventDefault());
+  });
+
+  document.getElementById("kb-hide").addEventListener("click", () => {
+    kb.classList.add("hidden");
+    document.getElementById("kb-show").classList.add("show");
+  });
+  document.getElementById("kb-show").addEventListener("click", () => {
+    kb.classList.remove("hidden");
+    document.getElementById("kb-show").classList.remove("show");
+  });
+
+  let dragging = false, dx = 0, dy = 0;
+  const onDown = (e) => {
+    if (e.target.tagName === "BUTTON") return;
+    dragging = true;
+    const r = kb.getBoundingClientRect();
+    dx = (e.clientX || e.touches[0].clientX) - r.left;
+    dy = (e.clientY || e.touches[0].clientY) - r.top;
+    kb.style.transform = "none";
+    kb.style.left = r.left + "px";
+    kb.style.top = r.top + "px";
+    kb.style.bottom = "auto";
+    e.preventDefault();
+  };
+  const onMove = (e) => {
+    if (!dragging) return;
+    const x = (e.clientX || e.touches?.[0].clientX) - dx;
+    const y = (e.clientY || e.touches?.[0].clientY) - dy;
+    kb.style.left = Math.max(0, Math.min(window.innerWidth - kb.offsetWidth, x)) + "px";
+    kb.style.top = Math.max(0, Math.min(window.innerHeight - kb.offsetHeight, y)) + "px";
+  };
+  const onUp = () => { dragging = false; };
+  kb.addEventListener("mousedown", onDown);
+  document.addEventListener("mousemove", onMove);
+  document.addEventListener("mouseup", onUp);
+  kb.addEventListener("touchstart", onDown);
+  document.addEventListener("touchmove", onMove);
+  document.addEventListener("touchend", onUp);
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+function init() {
+  renderTitleButtons();
+  renderFormalQ();
+  renderLexis();
+  setupKeyboard();
+
+  document.querySelectorAll(".tab-btn").forEach(b => {
+    b.addEventListener("click", () => {
+      state.currentLexisTab = b.dataset.tab;
+      document.querySelectorAll(".tab-btn").forEach(x =>
+        x.classList.toggle("active", x === b));
+      renderLexis();
+    });
+  });
+
+  document.querySelectorAll("textarea").forEach(ta => {
+    ta.addEventListener("focus", () => { state.lastFocused = ta; });
+    ta.addEventListener("input", () => {
+      state.sections[ta.id] = ta.value;
+      updateWordCounts();
+    });
+  });
+
+  document.getElementById("btn-evaluate").addEventListener("click", () => {
+    const fb = evaluate();
+    renderFeedback(fb);
+    showToast(`Nota estimada: ${fb.total} / 24`);
+  });
+  document.getElementById("btn-model").addEventListener("click", () => showModel(false));
+  document.getElementById("btn-compare").addEventListener("click", () => showModel(true));
+  document.getElementById("btn-download").addEventListener("click", () => exportEssay(true));
+  document.getElementById("btn-print").addEventListener("click", () => window.print());
+  document.getElementById("btn-reset").addEventListener("click", () => {
+    if (!confirm("¿Borrar toda tu redacción?")) return;
+    Object.keys(state.sections).forEach(k => state.sections[k] = "");
+    document.querySelectorAll("textarea").forEach(ta => ta.value = "");
+    state.feedback = null;
+    updateWordCounts();
+    renderFeedback(null);
+    document.getElementById("g-score").textContent = "— / 24";
+    showToast("Reiniciado.");
+  });
+
+  document.getElementById("model-close").addEventListener("click", () =>
+    document.getElementById("model-modal").classList.remove("show"));
+  document.getElementById("model-modal").addEventListener("click", (e) => {
+    if (e.target.id === "model-modal")
+      document.getElementById("model-modal").classList.remove("show");
+  });
+  document.getElementById("compare-toggle").addEventListener("change", renderModelContent);
+
+  updateWordCounts();
+}
+init();
+</script>
+</body>
+</html>

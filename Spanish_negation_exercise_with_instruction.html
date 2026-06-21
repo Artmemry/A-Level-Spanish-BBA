@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Spanish Negation: Complete Exercise</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    .question { margin-bottom: 1rem; }
+    .feedback { margin-left: 1rem; font-weight: bold; }
+    .correct { color: green; }
+    .incorrect { color: red; }
+    input[type="text"] { width: 70%; padding: 0.2rem; }
+    #score, #summary, #printout { font-size: 1.2em; margin-top: 2rem; }
+    #printout { display: none; border: 1px solid #888; padding: 1em; background: #f8f8f8;}
+    .hidden { display: none; }
+    .show { display: block; }
+    button { margin: 1em 0; }
+  </style>
+</head>
+<body>
+  <h2>Spanish Negation: Complete Exercise</h2>
+  <div style="background:#eef;padding:1em;border-radius:8px;max-width:800px;">
+    <strong>Instructions:</strong>
+    <ul>
+      <li>For each Spanish sentence, type the correct <b>negative version</b> in Spanish.</li>
+      <li>Press <b>Enter</b> after each answer to check your response.</li>
+      <li>You have up to <b>5 attempts</b> per question. Your score for each question decreases with more attempts:</li>
+      <ul>
+        <li>2 or fewer attempts: full points</li>
+        <li>3 attempts: half points</li>
+        <li>4 attempts: quarter points</li>
+        <li>5 or more attempts: 10% of points</li>
+      </ul>
+      <li>Once all questions are answered, you will see a summary and can print your results to show your teacher.</li>
+    </ul>
+  </div>
+  <form id="exerciseForm" autocomplete="off">
+    <!-- Questions will be inserted here by JavaScript -->
+  </form>
+  <div id="score"></div>
+  <div id="summary"></div>
+  <button id="printBtn" class="hidden" onclick="printResults()">Print Results</button>
+  <div id="printout"></div>
+  <script>
+    // Questions and correct answers
+    const questions = [
+      ["Ella habla inglés.", "Ella no habla inglés."],
+      ["Comemos carne.", "No comemos carne."],
+      ["Ellos viajan mucho.", "Ellos no viajan mucho."],
+      ["Hay leche.", "No hay leche."],
+      ["Siempre estudio por la noche.", "Nunca estudio por la noche."],
+      ["Ella ve a alguien en la calle.", "Ella no ve a nadie en la calle."],
+      ["Hay algo en la mesa.", "No hay nada en la mesa."],
+      ["Juan tiene amigos en Madrid.", "Juan no tiene amigos en Madrid."],
+      ["Ellos compran algo en la tienda.", "Ellos no compran nada en la tienda."],
+      ["Ella siempre llega a tiempo.", "Ella nunca llega a tiempo."],
+      ["Hay alguien en casa.", "No hay nadie en casa."],
+      ["Él tiene algún libro interesante.", "Él no tiene ningún libro interesante."],
+      ["Vimos a alguien en la fiesta.", "No vimos a nadie en la fiesta."],
+      ["Hay algo importante aquí.", "No hay nada importante aquí."],
+      ["Siempre como verduras.", "Nunca como verduras."],
+      ["Ellos tienen dinero y trabajo.", "Ellos no tienen ni dinero ni trabajo."],
+      ["Veo a Juan y a Pedro también.", "No veo ni a Juan ni a Pedro tampoco."],
+      ["María canta y baila.", "María no canta ni baila."],
+      ["Ellos estudian y yo también.", "Ellos no estudian y yo tampoco."],
+      ["Hay libros y revistas en la mesa.", "No hay ni libros ni revistas en la mesa."],
+      ["Siempre vamos al cine los sábados.", "Nunca vamos al cine los sábados."],
+      ["Hay alguien que sabe la respuesta.", "No hay nadie que sepa la respuesta."],
+      ["Tienes algo que decir.", "No tienes nada que decir."],
+      ["Hay algún estudiante en la clase.", "No hay ningún estudiante en la clase."],
+      ["Ellos van siempre a la playa.", "Ellos nunca van a la playa."]
+    ];
+
+    // Track attempts and completion
+    const attempts = Array(questions.length).fill(0);
+    const completed = Array(questions.length).fill(false);
+    const userAnswers = Array(questions.length).fill("");
+    let totalAnswered = 0;
+
+    // Insert questions into the form
+    const form = document.getElementById("exerciseForm");
+    questions.forEach((q, i) => {
+      const div = document.createElement("div");
+      div.className = "question";
+      div.innerHTML = `${i + 1}. ${q[0]}<br>
+        <input type="text" id="q${i+1}" data-index="${i}" placeholder="Type your answer here">
+        <span class="feedback" id="f${i+1}"></span>`;
+      form.appendChild(div);
+    });
+
+    // Normalize function
+    function normalize(str) {
+      return str.trim().toLowerCase()
+        .replace(/\s+/g, " ")
+        .replace(/[áàäâ]/g, "a")
+        .replace(/[éèëê]/g, "e")
+        .replace(/[íìïî]/g, "i")
+        .replace(/[óòöô]/g, "o")
+        .replace(/[úùüû]/g, "u")
+        .replace(/[ñ]/g, "n");
+    }
+
+    // Check answer
+    function checkAnswer(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        const input = event.target;
+        const idx = parseInt(input.dataset.index);
+        if (completed[idx]) return; // Already completed
+
+        attempts[idx]++;
+        const user = normalize(input.value);
+        const correct = normalize(questions[idx][1]);
+        const feedback = document.getElementById("f" + (idx + 1));
+        userAnswers[idx] = input.value;
+
+        if (user === correct) {
+          feedback.textContent = "Correct! / ¡Correcto!";
+          feedback.className = "feedback correct";
+          completed[idx] = true;
+          input.disabled = true;
+          totalAnswered++;
+        } else {
+          if (attempts[idx] < 5) {
+            feedback.textContent = "Try again. / Inténtalo de nuevo.";
+            feedback.className = "feedback incorrect";
+          } else {
+            feedback.textContent = "Incorrect. Solution: " + questions[idx][1];
+            feedback.className = "feedback incorrect";
+            completed[idx] = true;
+            input.disabled = true;
+            totalAnswered++;
+          }
+        }
+        updateScore();
+        if (totalAnswered === questions.length) {
+          showSummary();
+        }
+      }
+    }
+
+    // Attach event listeners
+    for (let i = 1; i <= questions.length; i++) {
+      document.getElementById("q" + i).addEventListener("keydown", checkAnswer);
+    }
+
+    // Scoring function
+    function pointsForAttempts(n) {
+      if (n <= 2) return 1;
+      if (n === 3) return 0.5;
+      if (n === 4) return 0.25;
+      return 0.1;
+    }
+
+    function updateScore() {
+      let total = 0;
+      for (let i = 0; i < questions.length; i++) {
+        if (completed[i]) total += pointsForAttempts(attempts[i]);
+      }
+      const percent = Math.round((total / questions.length) * 100);
+      document.getElementById("score").textContent = `Current Score: ${percent}%`;
+    }
+
+    function showSummary() {
+      let total = 0, full = 0, half = 0, quarter = 0, tenth = 0;
+      let summary = "<h3>Exercise Complete!</h3>";
+      summary += "<ul>";
+      for (let i = 0; i < questions.length; i++) {
+        let pts = pointsForAttempts(attempts[i]);
+        total += pts;
+        if (pts === 1) full++;
+        else if (pts === 0.5) half++;
+        else if (pts === 0.25) quarter++;
+        else tenth++;
+        summary += `<li>Q${i+1}: ${userAnswers[i] ? userAnswers[i] : "(no answer)"}<br>
+        <span style="color:${pts === 1 ? 'green' : pts === 0.5 ? 'blue' : pts === 0.25 ? 'orange' : 'red'}">
+        Score: ${Math.round(pts*100)}%</span> 
+        <br><em>Correct answer:</em> ${questions[i][1]}</li>`;
+      }
+      summary += "</ul>";
+      const percent = Math.round((total / questions.length) * 100);
+      summary += `<strong>Total Score: ${percent}%</strong><br>
+      <strong>Full points:</strong> ${full}, <strong>Half:</strong> ${half}, <strong>Quarter:</strong> ${quarter}, <strong>10%:</strong> ${tenth}`;
+      document.getElementById("summary").innerHTML = summary;
+      document.getElementById("printBtn").classList.remove("hidden");
+    }
+
+    // Printout function
+    function printResults() {
+      let printHTML = `<h2>Spanish Negation Exercise: Results</h2>
+      <p><strong>Name:</strong> ______________________</p>
+      <p><strong>Date:</strong> ______________________</p>
+      <ol>`;
+      let total = 0;
+      for (let i = 0; i < questions.length; i++) {
+        let pts = pointsForAttempts(attempts[i]);
+        total += pts;
+        printHTML += `<li>
+        <strong>Original:</strong> ${questions[i][0]}<br>
+        <strong>Your answer:</strong> ${userAnswers[i] ? userAnswers[i] : "(no answer)"}<br>
+        <strong>Correct answer:</strong> ${questions[i][1]}<br>
+        <strong>Score for this question:</strong> ${Math.round(pts*100)}%
+        </li>`;
+      }
+      const percent = Math.round((total / questions.length) * 100);
+      printHTML += `</ol>
+      <h3>Total Score: ${percent}%</h3>
+      <p><strong>Signature:</strong> ______________________</p>
+      `;
+      const printoutDiv = document.getElementById("printout");
+      printoutDiv.innerHTML = printHTML;
+      printoutDiv.style.display = "block";
+      window.print();
+    }
+  </script>
+</body>
+</html>

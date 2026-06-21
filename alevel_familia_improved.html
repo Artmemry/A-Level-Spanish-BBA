@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica: Los Cambios en las Estructuras Familiares</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .timer {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #c0392b;
+        }
+        
+        .section h2 {
+            color: #c0392b;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: #c0392b;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .question p {
+            margin-bottom: 15px;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+        
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #c0392b;
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .clue {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.85em;
+            color: #6c757d;
+            border-left: 3px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .clue:hover {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+            color: #856404;
+        }
+        
+        .clue::before {
+            content: "💡 ";
+        }
+        
+        .clue-content {
+            display: none;
+            background: #fff3cd;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        
+        .checkbox-group {
+            margin-top: 10px;
+        }
+        
+        .checkbox-item {
+            display: block;
+            padding: 10px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .checkbox-item:hover {
+            border-color: #c0392b;
+            background: #f8f9ff;
+        }
+        
+        .checkbox-item input {
+            margin-right: 10px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            box-shadow: 0 4px 15px rgba(192, 57, 43, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(192, 57, 43, 0.6);
+        }
+        
+        .result {
+            display: none;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .result.show {
+            display: block;
+        }
+        
+        .result.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+        
+        .result.partial {
+            background: #fff3cd;
+            color: #856404;
+            border: 2px solid #ffc107;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #c0392b 0%, #e74c3c 100%);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        #finalScore {
+            display: none;
+            margin-top: 20px;
+            padding: 30px;
+            background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+            color: white;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        #finalScore h2 {
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        #scoreText {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .speaking-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 4px solid #c0392b;
+        }
+        
+        .speaking-card h3 {
+            color: #c0392b;
+            margin-bottom: 15px;
+        }
+        
+        .speaking-card ul {
+            padding-left: 20px;
+        }
+        
+        .speaking-card li {
+            margin-bottom: 8px;
+        }
+        
+        .grammar-tip {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .grammar-tip h4 {
+            color: #0d47a1;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🇪🇸 Los Cambios en las Estructuras Familiares</h1>
+            <p>Práctica para A-Level Spanish Edexcel - Paper 3 Task 1</p>
+            <div class="timer" id="timer">⏱️ 45:00</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Speaking Card Simulation -->
+            <div class="speaking-card">
+                <h3>Tarjeta de Estudiante - Tema: Los cambios en las estructuras familiares</h3>
+                <p><strong>El papel de los abuelos en las familias españolas sigue siendo muy importante</strong></p>
+                <p>Debes considerar:</p>
+                <ul>
+                    <li>El papel tradicional de los abuelos en la familia española</li>
+                    <li>Cómo los cambios en la familia han afectado el papel de los abuelos españoles</li>
+                </ul>
+            </div>
+            
+            <!-- Section 1: Verdadero o Falso -->
+            <div class="section">
+                <h2>Sección 1: Verdadero o Falso (5 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">1</span> La familia nuclear tradicional representa todavía aproximadamente el 80% de las familias con hijos menores en España.</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="q1" value="verdadero"> Verdadero
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="q1" value="falso"> Falso
+                        </label>
+                    </div>
+                    <div class="result" id="result1"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">2</span> En España, las parejas de hecho están reguladas por una ley nacional unificada.</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="q2" value="verdadero"> Verdadero
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="q2" value="falso"> Falso
+                        </label>
+                    </div>
+                    <div class="result" id="result2"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">3</span> La ley que legalizó el matrimonio entre personas del mismo sexo en España fue aprobada en 2005.</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="q3" value="verdadero"> Verdadero
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="q3" value="falso"> Falso
+                        </label>
+                    </div>
+                    <div class="result" id="result3"></div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Rellenar los espacios en blanco -->
+            <div class="section">
+                <h2>Sección 2: Completa las frases (10 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">4</span> Las familias ___________ están en aumento y representan aproximadamente el 13-15% de las familias españolas con hijos menores.</p>
+                    <input type="text" id="q4" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content">Estas familias están dirigidas por un solo progenitor</div>
+                    <div class="result" id="result4"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">5</span> La ___________ de hecho es una unión civil que se registra a nivel autonómico o municipal en España.</p>
+                    <input type="text" id="q5" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content">Esta palabra significa "couple" en inglés</div>
+                    <div class="result" id="result5"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">6</span> Las familias ___________ representan aproximadamente el 5% de las familias españolas.</p>
+                    <input type="text" id="q6" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content">Se refiere a familias donde uno o ambos padres tienen hijos de relaciones anteriores</div>
+                    <div class="result" id="result6"></div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Preguntas de opción múltiple -->
+            <div class="section">
+                <h2>Sección 3: Opción Múltiple (8 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">7</span> ¿Cuáles son los factores que han contribuido al declive de la familia tradicional? (Selecciona todas las respuestas correctas)</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="a"> La evolución del papel de la mujer
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="b"> La legalización del divorcio en 1981
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="c"> La aceptación social de la convivencia sin matrimonio
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="d"> El aumento de los matrimonios religiosos
+                        </label>
+                    </div>
+                    <div class="result" id="result7"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">8</span> ¿Qué afirmaciones son ciertas sobre la pareja de hecho en España? (Selecciona todas las respuestas correctas)</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="a"> Está regulada por las comunidades autónomas
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="b"> Ofrece los mismos derechos que el matrimonio en toda España
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="c"> Los requisitos varían según la región
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="d"> Cataluña fue la primera región en adoptar legislación en 1998
+                        </label>
+                    </div>
+                    <div class="result" id="result8"></div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Vocabulario -->
+            <div class="section">
+                <h2>Sección 4: Vocabulario Clave (7 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">9</span> Traduce al español: "blended family / stepfamily"</p>
+                    <input type="text" id="q9" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content">familia ___________</div>
+                    <div class="result" id="result9"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">10</span> Traduce al español: "de facto union / domestic partnership"</p>
+                    <input type="text" id="q10" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content">pareja de ___________</div>
+                    <div class="result" id="result10"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">11</span> Traduce al español: "gender equality"</p>
+                    <input type="text" id="q11" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content">igualdad de ___________</div>
+                    <div class="result" id="result11"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">12</span> ¿Qué significa "el techo de cristal" en inglés?</p>
+                    <input type="text" id="q12" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content">the glass ___________</div>
+                    <div class="result" id="result12"></div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Emparejar -->
+            <div class="section">
+                <h2>Sección 5: Empareja los Conceptos (5 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">13</span> Empareja las leyes con sus años:</p>
+                    <p style="margin: 15px 0;"><strong>A.</strong> Ley de Matrimonio Homosexual</p>
+                    <input type="text" id="q13a" placeholder="Número...">
+                    
+                    <p style="margin: 15px 0;"><strong>B.</strong> Ley del Divorcio</p>
+                    <input type="text" id="q13b" placeholder="Número...">
+                    
+                    <p style="margin: 15px 0;"><strong>C.</strong> Primera ley autonómica de parejas de hecho (Cataluña)</p>
+                    <input type="text" id="q13c" placeholder="Número...">
+                    
+                    <p style="margin: 15px 0;"><strong>D.</strong> Ley de Igualdad Efectiva</p>
+                    <input type="text" id="q13d" placeholder="Número...">
+                    
+                    <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 8px;">
+                        <p><strong>Años:</strong></p>
+                        <p>1. 2005</p>
+                        <p>2. 1998</p>
+                        <p>3. 2007</p>
+                        <p>4. 1981</p>
+                    </div>
+                    <div class="result" id="result13"></div>
+                </div>
+            </div>
+            
+            <!-- Section 6: Preguntas cortas -->
+            <div class="section">
+                <h2>Sección 6: Respuestas Cortas (15 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">14</span> <strong>¿Cuál ha sido el papel tradicional de los abuelos en la familia española? ¿Cómo han afectado los cambios familiares al papel de los abuelos españoles?</strong></p>
+                    
+                    <div class="grammar-tip">
+                        <h4>Consejos para maximizar AO3 (Rango lingüístico):</h4>
+                        <p>Incluye en tu respuesta:</p>
+                        <ul>
+                            <li>Cláusulas con <em>si</em> (ej: Si los abuelos no estuvieran disponibles...)</li>
+                            <li>Subjuntivo (ej: Es importante que los abuelos tengan...)</li>
+                            <li>Pronombres relativos (ej: Los abuelos, quienes tradicionalmente...)</li>
+                        </ul>
+                    </div>
+                    
+                    <textarea id="q14" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content">
+                        <ul>
+                            <li>Tradicionalmente cuidaban a los nietos mientras los padres trabajaban</li>
+                            <li>Las familias están más dispersas geográficamente</li>
+                            <li>Los abuelos trabajan más tiempo antes de jubilarse</li>
+                            <li>Mayor diferencia de edad entre abuelos y nietos</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result14"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">15</span> <strong>¿Crees que el matrimonio sigue siendo importante para los españoles hoy en día? ¿Por qué (no)?</strong></p>
+                    
+                    <textarea id="q15" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content">
+                        <ul>
+                            <li>Bodas civiles más populares que religiosas</li>
+                            <li>Aumento de parejas de hecho y convivencia</li>
+                            <li>Edad media de matrimonio: 37 años (mujeres), 39 años (hombres)</li>
+                            <li>Impacto de factores económicos</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result15"></div>
+                </div>
+            </div>
+            
+            <button class="submit-btn" onclick="checkAnswers()">Verificar mis respuestas ✓</button>
+            
+            <div id="finalScore">
+                <h2>📊 Resultado Final</h2>
+                <p id="scoreText"></p>
+                <div id="feedback"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let timeLeft = 45 * 60;
+        const timerElement = document.getElementById('timer');
+        let timeTaken = 0;
+        
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `⏱️ ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            timeTaken++;
+            
+            if (timeLeft > 0) {
+                timeLeft--;
+                setTimeout(updateTimer, 1000);
+            }
+        }
+        
+        updateTimer();
+        
+        function revealClue(element) {
+            const clueContent = element.nextElementSibling;
+            if (clueContent && clueContent.className === 'clue-content') {
+                clueContent.style.display = 'block';
+            }
+        }
+        
+        function updateProgress() {
+            const totalQuestions = 15;
+            let answered = 0;
+            
+            document.querySelectorAll('input[type="text"], textarea').forEach(input => {
+                if (input.value.trim() !== '') answered++;
+            });
+            
+            for (let i = 1; i <= 3; i++) {
+                if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
+            }
+            
+            if (document.querySelector('input[name="q7"]:checked')) answered++;
+            if (document.querySelector('input[name="q8"]:checked')) answered++;
+            
+            const percentage = (answered / totalQuestions) * 100;
+            document.getElementById('progress').style.width = percentage + '%';
+        }
+        
+        document.querySelectorAll('input, textarea').forEach(element => {
+            element.addEventListener('input', updateProgress);
+            element.addEventListener('change', updateProgress);
+        });
+        
+        function checkAnswers() {
+            let score = 0;
+            const total = 15;
+            
+            // Q1 - Verdadero (80% nuclear families)
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const result1 = document.getElementById('result1');
+            if (q1 && q1.value === 'verdadero') {
+                result1.textContent = '✓ ¡Correcto! Según datos de 2018, el 82.8% de niños menores vivían en familias nucleares o reconstituidas.';
+                result1.className = 'result correct show';
+                score++;
+            } else {
+                result1.textContent = '✗ Falso. La respuesta correcta es Verdadero.';
+                result1.className = 'result partial show';
+            }
+            
+            // Q2 - Falso (no hay ley nacional)
+            const q2 = document.querySelector('input[name="q2"]:checked');
+            const result2 = document.getElementById('result2');
+            if (q2 && q2.value === 'falso') {
+                result2.textContent = '✓ ¡Correcto! Las parejas de hecho están reguladas por cada comunidad autónoma.';
+                result2.className = 'result correct show';
+                score++;
+            } else {
+                result2.textContent = '✗ Falso. No existe una ley nacional unificada - cada comunidad autónoma tiene sus propias leyes.';
+                result2.className = 'result partial show';
+            }
+            
+            // Q3 - Verdadero (2005)
+            const q3 = document.querySelector('input[name="q3"]:checked');
+            const result3 = document.getElementById('result3');
+            if (q3 && q3.value === 'verdadero') {
+                result3.textContent = '✓ ¡Correcto!';
+                result3.className = 'result correct show';
+                score++;
+            } else {
+                result3.textContent = '✗ Falso. La ley fue aprobada el 3 de julio de 2005.';
+                result3.className = 'result partial show';
+            }
+            
+            // Q4 - monoparentales
+            const q4 = document.getElementById('q4').value.trim().toLowerCase();
+            const result4 = document.getElementById('result4');
+            if (q4.includes('monoparental')) {
+                result4.textContent = '✓ ¡Correcto! Familias monoparentales';
+                result4.className = 'result correct show';
+                score++;
+            } else {
+                result4.textContent = '✗ La respuesta correcta es: familias monoparentales';
+                result4.className = 'result partial show';
+            }
+            
+            // Q5 - pareja
+            const q5 = document.getElementById('q5').value.trim().toLowerCase();
+            const result5 = document.getElementById('result5');
+            if (q5.includes('pareja')) {
+                result5.textContent = '✓ ¡Correcto! Pareja de hecho';
+                result5.className = 'result correct show';
+                score++;
+            } else {
+                result5.textContent = '✗ La respuesta correcta es pareja';
+                result5.className = 'result partial show';
+            }
+            
+            // Q6 - reconstituidas
+            const q6 = document.getElementById('q6').value.trim().toLowerCase();
+            const result6 = document.getElementById('result6');
+            if (q6.includes('reconstituida') || q6.includes('ensamblada')) {
+                result6.textContent = '✓ ¡Correcto! Familias reconstituidas';
+                result6.className = 'result correct show';
+                score++;
+            } else {
+                result6.textContent = '✗ La respuesta correcta es reconstituidas o ensambladas';
+                result6.className = 'result partial show';
+            }
+            
+            // Q7 - A, B, C correct
+            const q7Checked = document.querySelectorAll('input[name="q7"]:checked');
+            const result7 = document.getElementById('result7');
+            let q7Correct = true;
+            
+            q7Checked.forEach(checkbox => {
+                if (checkbox.value === 'd') q7Correct = false;
+            });
+            
+            if (q7Checked.length === 3 && q7Correct) {
+                result7.textContent = '✓ ¡Correcto! A, B y C son correctas';
+                result7.className = 'result correct show';
+                score++;
+            } else {
+                result7.textContent = '✗ Las respuestas A, B y C son correctas. Los matrimonios religiosos han disminuido.';
+                result7.className = 'result partial show';
+                if (q7Checked.length > 0 && q7Correct) score += 0.5;
+            }
+            
+            // Q8 - A, C, D correct (not B)
+            const q8Checked = document.querySelectorAll('input[name="q8"]:checked');
+            const result8 = document.getElementById('result8');
+            let q8Correct = true;
+            
+            q8Checked.forEach(checkbox => {
+                if (checkbox.value === 'b') q8Correct = false;
+            });
+            
+            if (q8Checked.length === 3 && q8Correct) {
+                result8.textContent = '✓ ¡Correcto! A, C y D son correctas';
+                result8.className = 'result correct show';
+                score++;
+            } else {
+                result8.textContent = '✗ Las respuestas A, C y D son correctas. Los derechos varían según la comunidad autónoma.';
+                result8.className = 'result partial show';
+                if (q8Checked.length > 0 && q8Correct) score += 0.5;
+            }
+            
+            // Q9 - reconstituida/ensamblada
+            const q9 = document.getElementById('q9').value.trim().toLowerCase();
+            const result9 = document.getElementById('result9');
+            if (q9.includes('reconstituida') || q9.includes('ensamblada')) {
+                result9.textContent = '✓ ¡Correcto! familia reconstituida/ensamblada';
+                result9.className = 'result correct show';
+                score++;
+            } else {
+                result9.textContent = '✗ La respuesta correcta es: familia reconstituida o ensamblada';
+                result9.className = 'result partial show';
+            }
+            
+            // Q10 - hecho
+            const q10 = document.getElementById('q10').value.trim().toLowerCase();
+            const result10 = document.getElementById('result10');
+            if (q10.includes('hecho')) {
+                result10.textContent = '✓ ¡Correcto! pareja de hecho';
+                result10.className = 'result correct show';
+                score++;
+            } else {
+                result10.textContent = '✗ La respuesta correcta es: pareja de hecho';
+                result10.className = 'result partial show';
+            }
+            
+            // Q11 - género
+            const q11 = document.getElementById('q11').value.trim().toLowerCase();
+            const result11 = document.getElementById('result11');
+            if (q11.includes('género')) {
+                result11.textContent = '✓ ¡Correcto! igualdad de género';
+                result11.className = 'result correct show';
+                score++;
+            } else {
+                result11.textContent = '✗ La respuesta correcta es: igualdad de género';
+                result11.className = 'result partial show';
+            }
+            
+            // Q12 - glass ceiling
+            const q12 = document.getElementById('q12').value.trim().toLowerCase();
+            const result12 = document.getElementById('result12');
+            if (q12.includes('glass') && q12.includes('ceiling')) {
+                result12.textContent = '✓ ¡Correcto! the glass ceiling';
+                result12.className = 'result correct show';
+                score++;
+            } else {
+                result12.textContent = '✗ La respuesta correcta es: the glass ceiling';
+                result12.className = 'result partial show';
+            }
+            
+            // Q13 - Matching: A=1(2005), B=4(1981), C=2(1998), D=3(2007)
+            const q13a = document.getElementById('q13a').value.trim();
+            const q13b = document.getElementById('q13b').value.trim();
+            const q13c = document.getElementById('q13c').value.trim();
+            const q13d = document.getElementById('q13d').value.trim();
+            const result13 = document.getElementById('result13');
+            
+            let matchScore = 0;
+            if (q13a === '1') matchScore++;
+            if (q13b === '4') matchScore++;
+            if (q13c === '2') matchScore++;
+            if (q13d === '3') matchScore++;
+            
+            if (matchScore === 4) {
+                result13.textContent = '✓ ¡Correcto! Todas las asociaciones son correctas';
+                result13.className = 'result correct show';
+                score++;
+            } else {
+                result13.textContent = `⚠ ${matchScore}/4 correcto. Respuestas: A=1, B=4, C=2, D=3`;
+                result13.className = 'result partial show';
+                score += matchScore * 0.25;
+            }
+            
+            // Q14-15 - Extended responses
+            for (let i = 14; i <= 15; i++) {
+                const answer = document.getElementById(`q${i}`).value.trim();
+                const resultElement = document.getElementById(`result${i}`);
+                
+                if (answer.length > 100) {
+                    // Check for complex structures
+                    const hasSubjunctive = /(?:es\s+importante|es\s+necesario|es\s+fundamental|es\s+probable)\s+que/i.test(answer);
+                    const hasSiClause = /si\s+\w+\s+(?:estuviera|tuviera|fuera|hubiera)/i.test(answer);
+                    const hasRelative = /(?:quien|quienes|el\s+cual|la\s+cual)/i.test(answer);
+                    
+                    const structureCount = [hasSubjunctive, hasSiClause, hasRelative].filter(Boolean).length;
+                    
+                    if (structureCount >= 2) {
+                        resultElement.textContent = '✓ Respuesta bien desarrollada con estructuras complejas';
+                        resultElement.className = 'result correct show';
+                        score++;
+                    } else if (structureCount >= 1) {
+                        resultElement.textContent = '✓ Respuesta adecuada, pero podría incluir más estructuras complejas';
+                        resultElement.className = 'result partial show';
+                        score += 0.5;
+                    } else {
+                        resultElement.textContent = '⚠ Respuesta desarrollada, pero necesita estructuras complejas para maximizar AO3';
+                        resultElement.className = 'result partial show';
+                        score += 0.25;
+                    }
+                } else {
+                    resultElement.textContent = '✗ Respuesta demasiado breve. Desarrolla más tu respuesta.';
+                    resultElement.className = 'result partial show';
+                }
+            }
+            
+            // Show final score
+            const percentage = ((score / total) * 100).toFixed(1);
+            const finalScore = document.getElementById('finalScore');
+            const scoreText = document.getElementById('scoreText');
+            const feedbackElement = document.getElementById('feedback');
+            
+            scoreText.textContent = `${score.toFixed(1)}/${total} (${percentage}%)`;
+            
+            let feedbackHTML = '<div style="text-align: left; margin-top: 20px;">';
+            feedbackHTML += '<h3>Retroalimentación:</h3><ul>';
+            
+            if (percentage >= 80) {
+                feedbackHTML += '<li>¡Excelente trabajo! Dominas bien el contenido.</li>';
+            } else if (percentage >= 60) {
+                feedbackHTML += '<li>Buen trabajo. Revisa las áreas donde cometiste errores.</li>';
+            } else {
+                feedbackHTML += '<li>Necesitas repasar el contenido sobre las estructuras familiares en España.</li>';
+            }
+            
+            feedbackHTML += `
+                <li><strong>Datos clave para recordar:</strong></li>
+                <li>• Las parejas de hecho se regulan por CCAA, no hay ley nacional</li>
+                <li>• La ley de matrimonio homosexual se aprobó en 2005</li>
+                <li>• Las familias nucleares siguen siendo mayoritarias (~80%)</li>
+                <li>• Las familias monoparentales representan el 13-15%</li>
+                <li>• Cataluña aprobó la primera ley de parejas de hecho en 1998</li>
+            </ul></div>`;
+            
+            feedbackElement.innerHTML = feedbackHTML;
+            finalScore.style.display = 'block';
+            finalScore.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spanish Grammar Practice - La casa de Bernarda Alba</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: #1f2937;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #6b7280;
+            font-style: italic;
+        }
+        
+        .section-nav {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .nav-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn.active {
+            background: #ea580c;
+            color: white;
+        }
+        
+        .nav-btn:not(.active) {
+            background: #e5e7eb;
+            color: #374151;
+        }
+        
+        .nav-btn:not(.active):hover {
+            background: #d1d5db;
+        }
+        
+        .exercise-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .exercise-section.active {
+            display: block;
+        }
+        
+        .explanation {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+        }
+        
+        .explanation h3 {
+            color: #1e3a8a;
+            margin-bottom: 8px;
+        }
+        
+        .explanation p {
+            color: #1e40af;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .keyboard-hint {
+            background: #f0f9ff;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #0c4a6e;
+            margin-top: 8px;
+        }
+        
+        .keyboard-hint strong {
+            color: #075985;
+        }
+        
+        .question {
+            border: 1px solid #e5e7eb;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .question-text {
+            font-weight: 500;
+            color: #1f2937;
+            margin-bottom: 15px;
+        }
+        
+        .options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .option-btn {
+            padding: 10px 20px;
+            border: 2px solid #d1d5db;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .option-btn:hover:not(:disabled) {
+            border-color: #fb923c;
+        }
+        
+        .option-btn.selected {
+            background: #fed7aa;
+            border-color: #ea580c;
+            color: #7c2d12;
+        }
+        
+        .option-btn.correct {
+            background: #dcfce7;
+            border-color: #16a34a;
+            color: #14532d;
+        }
+        
+        .option-btn.incorrect {
+            background: #fee2e2;
+            border-color: #dc2626;
+            color: #7f1d1d;
+        }
+        
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+        
+        .text-input {
+            padding: 10px 15px;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 200px;
+            transition: all 0.3s;
+        }
+        
+        .text-input:focus {
+            outline: none;
+            border-color: #fb923c;
+        }
+        
+        .text-input.correct {
+            background: #dcfce7;
+            border-color: #16a34a;
+        }
+        
+        .text-input.incorrect {
+            background: #fee2e2;
+            border-color: #dc2626;
+        }
+        
+        .text-input:disabled {
+            background: #f3f4f6;
+            cursor: not-allowed;
+        }
+        
+        .feedback {
+            margin-top: 10px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+        }
+        
+        .feedback.correct {
+            background: #dcfce7;
+            color: #14532d;
+        }
+        
+        .feedback.incorrect {
+            background: #fef2f2;
+            color: #991b1b;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-top: 25px;
+        }
+        
+        .check-btn, .reset-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .check-btn {
+            background: #ea580c;
+            color: white;
+        }
+        
+        .check-btn:hover:not(:disabled) {
+            background: #c2410c;
+        }
+        
+        .check-btn:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+        }
+        
+        .reset-btn {
+            background: #3b82f6;
+            color: white;
+            display: none;
+        }
+        
+        .reset-btn.show {
+            display: block;
+        }
+        
+        .reset-btn:hover {
+            background: #2563eb;
+        }
+        
+        .score {
+            padding: 12px 24px;
+            background: #f3f4f6;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #1f2937;
+            display: none;
+        }
+        
+        .score.show {
+            display: block;
+        }
+        
+        .tips {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .tips h3 {
+            color: #7c2d12;
+            margin-bottom: 15px;
+        }
+        
+        .tips ul {
+            list-style: none;
+        }
+        
+        .tips li {
+            color: #9a3412;
+            font-size: 14px;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .tips li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Spanish Grammar Practice</h1>
+            <p>Based on your La casa de Bernarda Alba essay</p>
+        </div>
+
+        <div class="section-nav">
+            <div class="nav-buttons">
+                <button class="nav-btn active" onclick="changeSection('gender')">Gender Agreement</button>
+                <button class="nav-btn" onclick="changeSection('accents')">Accent Marks</button>
+                <button class="nav-btn" onclick="changeSection('pronouns')">Pronouns</button>
+                <button class="nav-btn" onclick="changeSection('vocabulary')">Vocabulary</button>
+                <button class="nav-btn" onclick="changeSection('verbforms')">Verb Forms</button>
+            </div>
+        </div>
+
+        <div id="gender" class="exercise-section active">
+            <div class="explanation">
+                <h3>Gender Agreement Practice</h3>
+                <p>Remember: Adjectives and articles must agree with the noun's gender. Common errors: el mano (✗) → la mano (✓)</p>
+            </div>
+            
+            <div class="question" data-question="g1">
+                <div class="question-text">1. La abuela está _____ (escondido/escondida) en su habitación.</div>
+                <div class="options">
+                    <button class="option-btn" onclick="selectAnswer('g1', 'escondido', 'escondida')">escondido</button>
+                    <button class="option-btn" onclick="selectAnswer('g1', 'escondida', 'escondida')">escondida</button>
+                </div>
+                <div class="feedback">Correct answer: escondida</div>
+            </div>
+
+            <div class="question" data-question="g2">
+                <div class="question-text">2. La represión es _____ (alto/alta) dentro de la casa.</div>
+                <div class="options">
+                    <button class="option-btn" onclick="selectAnswer('g2', 'alto', 'alta')">alto</button>
+                    <button class="option-btn" onclick="selectAnswer('g2', 'alta', 'alta')">alta</button>
+                </div>
+                <div class="feedback">Correct answer: alta</div>
+            </div>
+
+            <div class="question" data-question="g3">
+                <div class="question-text">3. Bernarda usa _____ (el/la) mano para controlar.</div>
+                <div class="options">
+                    <button class="option-btn" onclick="selectAnswer('g3', 'el', 'la')">el</button>
+                    <button class="option-btn" onclick="selectAnswer('g3', 'la', 'la')">la</button>
+                </div>
+                <div class="feedback">Correct answer: la</div>
+            </div>
+
+            <div class="question" data-question="g4">
+                <div class="question-text">4. El control físico está _____ (visto/vista) en la obra.</div>
+                <div class="options">
+                    <button class="option-btn" onclick="selectAnswer('g4', 'visto', 'visto')">visto</button>
+                    <button class="option-btn" onclick="selectAnswer('g4', 'vista', 'visto')">vista</button>
+                </div>
+                <div class="feedback">Correct answer: visto</div>
+            </div>
+
+            <div class="question" data-question="g5">
+                <div class="question-text">5. Las hijas están _____ (atrapados/atrapadas) en la casa.</div>
+                <div class="options">
+                    <button class="option-btn" onclick="selectAnswer('g5', 'atrapados', 'atrapadas')">atrapados</button>
+                    <button class="option-btn" onclick="selectAnswer('g5', 'atrapadas', 'atrapadas')">atrapadas</button>
+                </div>
+                <div class="feedback">Correct answer: atrapadas</div>
+            </div>
+
+            <div class="controls">
+                <button class="check-btn" onclick="checkAnswers('gender')">Check Answers</button>
+                <div class="score"></div>
+                <button class="reset-btn" onclick="resetSection('gender')">Try Again</button>
+            </div>
+        </div>
+
+        <div id="accents" class="exercise-section">
+            <div class="explanation">
+                <h3>Accent Mark Practice - Type the Word</h3>
+                <p>Type the complete word with the correct accent mark. These are the exact errors from your essay!</p>
+                <div class="keyboard-hint">
+                    <strong>Keyboard shortcuts:</strong><br>
+                    Mac: Hold Option + e, then type the vowel (á, é, í, ó, ú)<br>
+                    Windows: Hold Alt and type number code (á=160, é=130, í=161, ó=162, ú=163)<br>
+                    Or copy/paste: á é í ó ú
+                </div>
+            </div>
+            
+            <div class="question" data-question="a1">
+                <div class="question-text">1. La abuela _____ encerrada físicamente. (from your essay: "la abuela maría esta encerrado")</div>
+                <input type="text" class="text-input" data-answer="está" placeholder="Type here..." onkeyup="checkTypedAnswer(event, 'a1')">
+                <div class="feedback">Correct answer: está</div>
+            </div>
+
+            <div class="question" data-question="a2">
+                <div class="question-text">2. La represión _____ es evidente. (from your essay: "represión fisica")</div>
+                <input type="text" class="text-input" data-answer="física" placeholder="Type here..." onkeyup="checkTypedAnswer(event, 'a2')">
+                <div class="feedback">Correct answer: física</div>
+            </div>
+
+            <div class="question" data-question="a3">
+                <div class="question-text">3. La clase social _____ dentro del límite. (from your essay: "la clase social estas")</div>
+                <input type="text" class="text-input" data-answer="está" placeholder="Type here..." onkeyup="checkTypedAnswer(event, 'a3')">
+                <div class="feedback">Correct answer: está</div>
+            </div>
+
+            <div class="question" data-question="a4">
+                <div class="question-text">4. La represión es más _____. (from your essay: "mas alto")</div>
+                <input type="text" class="text-input" data-answer="alta" placeholder="Type here..." onkeyup="checkTypedAnswer(event, 'a4')">
+                <div class="feedback">Correct answer: alta</div>
+            </div>
+
+            <div class="question" data-question="a5">
+                <div class="question-text">5. Lorca escribió la obra durante un tiempo con reglas muy _____. (strange/different)</div>
+                <input type="text" class="text-input" data-answer="extrañas" placeholder="Type here..." onkeyup="checkTypedAnswer(event, 'a5')">
+                <div class="feedback">Correct answer: extrañas</div>
+            </div>
+
+            <div class="controls">
+                <button class="check-btn" onclick="checkTypedAnswers('accents')">Check Answers</button>
+                <div class="score"></div>
+                <button class="reset-btn" onclick="resetSection('accents')">Try Again</button>
+            </div>
+        </div>
+
+        <div id="pronouns" class="exercise-section">
+            <div class="explanation">
+                <h3>Object Pronoun Placement</h3>
+                <p>Object pronouns go BEFORE conjugated verbs: 'lo detuvo' not 'detuvo lo'</p>
+            </div>
+            
+            <div class="question" data-question="p1">
+                <div class="question-text">1. Bernarda _____ (detuvo lo/lo detuvo).</div>
+                <div class="options">
+                    <button class="option-btn" onclick="selectAnswer('p1', 'detuvo lo', 'lo detuvo')">detuvo lo</button>
+                    <button class="option-btn" onclick="selectAnswer('p1', 'lo detuvo', 'lo detuvo')">lo detuvo</button>
+                </div>
+                <div class="feedback">Correct answer: lo detuvo</div>
+            </div>
+
+            <div class="question" data-question="p2">
+                <div class="question-text">2. Lorca _____ (nos muestra/muestra nos) la represión.</div>
+                <div class="options">
+                    <button class="option-btn" onclick="selectAnswer('p2', 'nos muestra', 'nos muestra')">nos muestra</button>
+                    <button class="option-btn" onclick="selectAnswer('p2', 'muestra nos', 'nos muestra')">muestra nos</button>
+                </div>
+                <div class="feedback">Correct answer: nos muestra</div>
+            </div>
+
+            <div class="question" data-question="p3">
+                <div class="question-text">3. Bernarda _____ (paró la/la paró) inmediatamente.</div>
+                <div class="options">
+                    <button class="option-btn" onclick="selectAnswer('p3', 'paró la', 'la paró')">paró la</button>
+                    <button class="option-btn" onclick="selectAnswer('p3', 'la paró', 'la paró')">la paró</button>
+                </div>
+                <div class="feedback">Correct answer: la paró</div>
+            </div>
+
+            <div class="question" data-question="p4">
+                <div class="question-text">4. El autor _____ (explora lo/lo explora) en detalle.</div>
+                <div class="options">
+                    <button class="option-btn" onclick="selectAnswer('p4', 'explora lo', 'lo explora')">explora lo</button>
+                    <button class="option-btn" onclick="selectAnswer('p4', 'lo explora', 'lo explora')">lo explora</button>
+                </div>
+                <div class="feedback">Correct answer: lo explora</div>
+            </div>
+
+            <div class="question" data-question="p5">
+                <div class="question-text">5. Las criadas _____ (deben encerrarla/la deben encerrar).</div>
+                <div class="options">
+                    <button class="option-btn" onclick="selectAnswer('p5', 'deben encerrarla', 'deben encerrarla')">deben encerrarla</button>
+                    <button class="option-btn" onclick="selectAnswer('p5', 'la deben encerrar', 'deben encerrarla')">la deben encerrar</button>
+                </div>
+                <div class="feedback">Correct answer: deben encerrarla</div>
+            </div>
+
+            <div class="controls">
+                <button class="check-btn" onclick="checkAnswers('pronouns')">Check Answers</button>
+                <div class="score"></div>
+                <button class="reset-btn" onclick="resetSection('pronouns')">Try Again</button>
+            </div>
+        </div>
+
+        <div id="vocabulary" class="exercise-section">
+            <div class="explanation">
+                <h3>Precise Vocabulary Selection</h3>
+                <p>Choose the most appropriate verb for the context. 'Atrapar' = catch/trap; 'Encerrar' = lock up/confine</p>
+            </div>
+            
+            <div class="question" data-question="v1">
+                <div class="question-text">1. Las criadas deben _____ a la abuela en su habitación.</div>
+                <div class="options">
+                    <button class="option-btn" onclick="selectAnswer('v1', 'atrapar', 'encerrar')">atrapar</button>
+                    <button class="option-btn" onclick="selectAnswer('v1', 'encerrar', 'encerrar')">encerrar</button>
+                </div>
+                <div class="feedback">Correct answer: encerrar</div>
+            </div>
+
+            <div class="question" data-question="v2">
+                <div class="question-text">2. Lorca _____ este tema en su obra.</div>
+                <div class="options">
+                    <button class="option-btn" onclick="selectAnswer('v2', 'usa', 'explora')">usa</button>
+                    <button class="option-btn" onclick="selectAnswer('v2', 'explora', 'explora')">explora</button>
+                </div>
+                <div class="feedback">Correct answer: explora</div>
+            </div>
+
+            <div class="question" data-question="v3">
+                <div class="question-text">3. La represión _____ a todos los personajes.</div>
+                <div class="options">
+                    <button class="option-btn" onclick="selectAnswer('v3', 'daña', 'afecta')">daña</button>
+                    <button class="option-btn" onclick="selectAnswer('v3', 'afecta', 'afecta')">afecta</button>
+                </div>
+                <div class="feedback">Correct answer: afecta</div>
+            </div>
+
+            <div class="question" data-question="v4">
+                <div class="question-text">4. El autor ha _____ una sociedad represiva.</div>
+                <div class="options">
+                    <button class="option-btn" onclick="selectAnswer('v4', 'descubierto', 'descrito')">descubierto</button>
+                    <button class="option-btn" onclick="selectAnswer('v4', 'descrito', 'descrito')">descrito</button>
+                </div>
+                <div class="feedback">Correct answer: descrito</div>
+            </div>
+
+            <div class="question" data-question="v5">
+                <div class="question-text">5. Para _____ las ideas de Lorca...</div>
+                <div class="options">
+                    <button class="option-btn" onclick="selectAnswer('v5', 'usar', 'analizar')">usar</button>
+                    <button class="option-btn" onclick="selectAnswer('v5', 'analizar', 'analizar')">analizar</button>
+                </div>
+                <div class="feedback">Correct answer: analizar</div>
+            </div>
+
+            <div class="controls">
+                <button class="check-btn" onclick="checkAnswers('vocabulary')">Check Answers</button>
+                <div class="score"></div>
+                <button class="reset-btn" onclick="resetSection('vocabulary')">Try Again</button>
+            </div>
+        </div>
+
+        <div id="verbforms" class="exercise-section">
+            <div class="explanation">
+                <h3>Verb Forms and Moods</h3>
+                <p>After verbs like 'buscar' and 'luchar' use infinitive or indicative, not subjunctive (luchan not luchen)</p>
+            </div>
+            
+            <div class="question" data-question="vf1">
+                <div class="question-text">1. Ellos que _____ (luchen/luchan) la represión...</div>
+                <div class="options">
+                    <button class="option-btn" onclick="selectAnswer('vf1', 'luchen', 'luchan')">luchen</button>
+                    <button class="option-btn" onclick="selectAnswer('vf1', 'luchan', 'luchan')">luchan</button>
+                </div>
+                <div class="feedback">Correct answer: luchan</div>
+            </div>
+
+            <div class="question" data-question="vf2">
+                <div class="question-text">2. Las hijas que _____ (busquen/buscan) la libertad...</div>
+                <div class="options">
+                    <button class="option-btn" onclick="selectAnswer('vf2', 'busquen', 'buscan')">busquen</button>
+                    <button class="option-btn" onclick="selectAnswer('vf2', 'buscan', 'buscan')">buscan</button>
+                </div>
+                <div class="feedback">Correct answer: buscan</div>
+            </div>
+
+            <div class="question" data-question="vf3">
+                <div class="question-text">3. La clase social _____ (estas/está) dentro del límite.</div>
+                <div class="options">
+                    <button class="option-btn" onclick="selectAnswer('vf3', 'estas', 'está')">estas</button>
+                    <button class="option-btn" onclick="selectAnswer('vf3', 'está', 'está')">está</button>
+                </div>
+                <div class="feedback">Correct answer: está</div>
+            </div>
+
+            <div class="question" data-question="vf4">
+                <div class="question-text">4. Lorca _____ (se usa/usa) símbolos para...</div>
+                <div class="options">
+                    <button class="option-btn" onclick="selectAnswer('vf4', 'se usa', 'usa')">se usa</button>
+                    <button class="option-btn" onclick="selectAnswer('vf4', 'usa', 'usa')">usa</button>
+                </div>
+                <div class="feedback">Correct answer: usa</div>
+            </div>
+
+            <div class="question" data-question="vf5">
+                <div class="question-text">5. La represión _____ (se daña/daña) a la familia.</div>
+                <div class="options">
+                    <button class="option-btn" onclick="selectAnswer('vf5', 'se daña', 'daña')">se daña</button>
+                    <button class="option-btn" onclick="selectAnswer('vf5', 'daña', 'daña')">daña</button>
+                </div>
+                <div class="feedback">Correct answer: daña</div>
+            </div>
+
+            <div class="controls">
+                <button class="check-btn" onclick="checkAnswers('verbforms')">Check Answers</button>
+                <div class="score"></div>
+                <button class="reset-btn" onclick="resetSection('verbforms')">Try Again</button>
+            </div>
+        </div>
+
+        <div class="tips">
+            <h3>Study Tips</h3>
+            <ul>
+                <li>Practice each section until you score 100% consistently</li>
+                <li>Review the explanation at the top of each section</li>
+                <li>Apply these corrections when revising your essay</li>
+                <li>Create flashcards for the most challenging patterns</li>
+                <li>Read Spanish texts noting how native writers use these structures</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const answers = {};
+        const typedAnswers = {};
+        
+        function changeSection(sectionId) {
+            document.querySelectorAll('.exercise-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+            
+            resetSection(sectionId);
+        }
+        
+        function selectAnswer(questionId, selected, correct) {
+            answers[questionId] = selected;
+            
+            const question = document.querySelector(`[data-question="${questionId}"]`);
+            const buttons = question.querySelectorAll('.option-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            event.target.classList.add('selected');
+        }
+        
+        function checkTypedAnswer(event, questionId) {
+            const input = event.target;
+            typedAnswers[questionId] = input.value.trim();
+        }
+        
+        function checkAnswers(sectionId) {
+            const section = document.getElementById(sectionId);
+            const questions = section.querySelectorAll('.question');
+            let correct = 0;
+            let total = questions.length;
+            
+            questions.forEach(q => {
+                const questionId = q.getAttribute('data-question');
+                const buttons = q.querySelectorAll('.option-btn');
+                const feedback = q.querySelector('.feedback');
+                const userAnswer = answers[questionId];
+                
+                buttons.forEach(btn => {
+                    btn.disabled = true;
+                    const btnText = btn.textContent;
+                    const correctAnswer = feedback.textContent.replace('Correct answer: ', '');
+                    
+                    if (btnText === correctAnswer) {
+                        btn.classList.add('correct');
+                        if (btnText === userAnswer) correct++;
+                    } else if (btnText === userAnswer) {
+                        btn.classList.add('incorrect');
+                        feedback.classList.add('show');
+                    }
+                });
+            });
+            
+            const checkBtn = section.querySelector('.check-btn');
+            const resetBtn = section.querySelector('.reset-btn');
+            const scoreDiv = section.querySelector('.score');
+            
+            checkBtn.style.display = 'none';
+            resetBtn.classList.add('show');
+            scoreDiv.classList.add('show');
+            scoreDiv.textContent = `${correct}/${total} (${Math.round(correct/total*100)}%)`;
+        }
+        
+        function checkTypedAnswers(sectionId) {
+            const section = document.getElementById(sectionId);
+            const questions = section.querySelectorAll('.question');
+            let correct = 0;
+            let total = questions.length;
+            
+            questions.forEach(q => {
+                const questionId = q.getAttribute('data-question');
+                const input = q.querySelector('.text-input');
+                const feedback = q.querySelector('.feedback');
+                const correctAnswer = input.getAttribute('data-answer');
+                const userAnswer = typedAnswers[questionId] || '';
+                
+                input.disabled = true;
+                
+                if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+                    input.classList.add('correct');
+                    feedback.classList.add('show', 'correct');
+                    feedback.textContent = '✓ Correct!';
+                    correct++;
+                } else {
+                    input.classList.add('incorrect');
+                    feedback.classList.add('show', 'incorrect');
+                    feedback.textContent = `Correct answer: ${correctAnswer}`;
+                }
+            });
+            
+            const checkBtn = section.querySelector('.check-btn');
+            const resetBtn = section.querySelector('.reset-btn');
+            const scoreDiv = section.querySelector('.score');
+            
+            checkBtn.style.display = 'none';
+            resetBtn.classList.add('show');
+            scoreDiv.classList.add('show');
+            scoreDiv.textContent = `${correct}/${total} (${Math.round(correct/total*100)}%)`;
+        }
+        
+        function resetSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            const questions = section.querySelectorAll('.question');
+            
+            // Clear stored answers
+            Object.keys(answers).forEach(key => {
+                if (key.startsWith(sectionId.charAt(0))) {
+                    delete answers[key];
+                }
+            });
+            Object.keys(typedAnswers).forEach(key => {
+                if (key.startsWith(sectionId.charAt(0))) {
+                    delete typedAnswers[key];
+                }
+            });
+            
+            questions.forEach(q => {
+                const buttons = q.querySelectorAll('.option-btn');
+                const feedback = q.querySelector('.feedback');
+                const input = q.querySelector('.text-input');
+                
+                // Reset buttons
+                buttons.forEach(btn => {
+                    btn.disabled = false;
+                    btn.classList.remove('selected', 'correct', 'incorrect');
+                });
+                
+                // Reset text inputs
+                if (input) {
+                    input.disabled = false;
+                    input.value = '';
+                    input.classList.remove('correct', 'incorrect');
+                }
+                
+                // Reset feedback
+                feedback.classList.remove('show', 'correct', 'incorrect');
+            });
+            
+            const checkBtn = section.querySelector('.check-btn');
+            const resetBtn = section.querySelector('.reset-btn');
+            const scoreDiv = section.querySelector('.score');
+            
+            checkBtn.style.display = 'block';
+            resetBtn.classList.remove('show');
+            scoreDiv.classList.remove('show');
+        }
+    </script>
+</body>
+</html>

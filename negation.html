@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica de Negación - Español</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .section-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .instructions {
+            background: #e7f3ff;
+            border: 2px solid #2196F3;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .instructions h3 {
+            color: #1976D2;
+            margin-bottom: 10px;
+        }
+
+        .instructions ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+        }
+
+        .example-box {
+            background: #fff3cd;
+            border: 2px dashed #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-style: italic;
+        }
+
+        .question {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #ecf0f1;
+        }
+
+        .question-text {
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .answer-input {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-size: 1em;
+            min-width: 120px;
+            transition: all 0.3s;
+        }
+
+        .answer-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .answer-input.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .answer-input.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .static-text {
+            color: #555;
+            font-weight: 500;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .check-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+        }
+
+        .check-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+            color: white;
+        }
+
+        .reset-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.3);
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .results {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 1.2em;
+            text-align: center;
+        }
+
+        .feedback {
+            background: #fff;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback-item {
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 5px;
+            background: #f8f9fa;
+        }
+
+        .feedback-item.correct {
+            border-left: 4px solid #28a745;
+        }
+
+        .feedback-item.incorrect {
+            border-left: 4px solid #dc3545;
+        }
+
+        .keyboard {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        .keyboard-title {
+            font-size: 0.9em;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .keyboard-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .keyboard-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.2s;
+        }
+
+        .keyboard-btn:hover {
+            background: #764ba2;
+            transform: scale(1.1);
+        }
+
+        .keyboard-btn:active {
+            transform: scale(0.95);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .keyboard {
+                bottom: 10px;
+                right: 10px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 Práctica de Negación en Español</h1>
+        <p class="subtitle">Negative and Indefinite Words Practice</p>
+
+        <div class="instructions">
+            <h3>📋 Instrucciones:</h3>
+            <ul>
+                <li><strong>Haga negativas las siguientes afirmaciones</strong> - Make the following statements negative</li>
+                <li>Recuerde usar la <strong>doble negación</strong> en español: "No... ni... tampoco"</li>
+                <li>Use el teclado flotante para escribir acentos españoles (á, é, í, ó, ú, ñ, ¿, ¡)</li>
+                <li>Después de completar, haga clic en "Verificar Respuestas" para ver su puntuación</li>
+                <li>Puede descargar sus resultados con explicaciones de errores</li>
+            </ul>
+            <div class="example-box">
+                <strong>Ejemplo:</strong> Acepta el problema y la solución también. →<br>
+                <strong>Respuesta:</strong> <em>No acepta ni el problema ni la solución tampoco.</em>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Sección A: Nunca, Nada, Nadie</div>
+            
+            <div class="question" data-section="A">
+                <div class="question-text">1. ¿Todo el mundo quiere algo?</div>
+                <div class="input-group">
+                    <input type="text" class="answer-input" data-q="A1" data-blank="1" placeholder="...">
+                    <span class="static-text">quiere</span>
+                    <input type="text" class="answer-input" data-q="A1" data-blank="2" placeholder="...">
+                    <span class="static-text">.</span>
+                </div>
+            </div>
+
+            <div class="question" data-section="A">
+                <div class="question-text">2. ¿A veces habla con alguien?</div>
+                <div class="input-group">
+                    <input type="text" class="answer-input" data-q="A2" data-blank="1" placeholder="...">
+                    <span class="static-text">habla con</span>
+                    <input type="text" class="answer-input" data-q="A2" data-blank="2" placeholder="...">
+                    <span class="static-text">.</span>
+                </div>
+            </div>
+
+            <div class="question" data-section="A">
+                <div class="question-text">3. ¿Tiene algo en la mano?</div>
+                <div class="input-group">
+                    <input type="text" class="answer-input" data-q="A3" data-blank="1" placeholder="...">
+                    <span class="static-text">tiene</span>
+                    <input type="text" class="answer-input" data-q="A3" data-blank="2" placeholder="...">
+                    <span class="static-text">en la mano.</span>
+                </div>
+            </div>
+
+            <div class="question" data-section="A">
+                <div class="question-text">4. ¿Cualquiera tiene razón?</div>
+                <div class="input-group">
+                    <input type="text" class="answer-input" data-q="A4" data-blank="1" placeholder="...">
+                    <span class="static-text">tiene razón.</span>
+                </div>
+            </div>
+
+            <div class="feedback" data-section="A"></div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Sección B: Ni... ni... tampoco</div>
+
+            <div class="question" data-section="B">
+                <div class="question-text">1. El doctor y su esposa tienen hambre.</div>
+                <div class="input-group">
+                    <input type="text" class="answer-input" data-q="B1" data-blank="1" style="min-width: 400px" placeholder="Escriba la oración completa">
+                </div>
+            </div>
+
+            <div class="question" data-section="B">
+                <div class="question-text">2. Siempre piden carne o pescado.</div>
+                <div class="input-group">
+                    <input type="text" class="answer-input" data-q="B2" data-blank="1" style="min-width: 400px" placeholder="Escriba la oración completa">
+                </div>
+            </div>
+
+            <div class="question" data-section="B">
+                <div class="question-text">3. Hoy quieren sopa, arroz y ensalada también.</div>
+                <div class="input-group">
+                    <input type="text" class="answer-input" data-q="B3" data-blank="1" style="min-width: 400px" placeholder="Escriba la oración completa">
+                </div>
+            </div>
+
+            <div class="question" data-section="B">
+                <div class="question-text">4. Tienen hambre y sueño también.</div>
+                <div class="input-group">
+                    <input type="text" class="answer-input" data-q="B4" data-blank="1" style="min-width: 400px" placeholder="Escriba la oración completa">
+                </div>
+            </div>
+
+            <div class="question" data-section="B">
+                <div class="question-text">5. Van a almorzar y a hacer siesta.</div>
+                <div class="input-group">
+                    <input type="text" class="answer-input" data-q="B5" data-blank="1" style="min-width: 400px" placeholder="Escriba la oración completa">
+                </div>
+            </div>
+
+            <div class="feedback" data-section="B"></div>
+        </div>
+
+        <div class="button-group">
+            <button class="action-btn check-btn" onclick="checkAnswers()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                Verificar Respuestas
+            </button>
+            <button class="action-btn reset-btn" onclick="resetExercise()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="1 4 1 10 7 10"></polyline>
+                    <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                </svg>
+                Reiniciar
+            </button>
+            <button class="action-btn download-btn" onclick="downloadResults()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Descargar Resultados
+            </button>
+        </div>
+
+        <div id="results"></div>
+    </div>
+
+    <div class="keyboard">
+        <div class="keyboard-title">Acentos Españoles</div>
+        <div class="keyboard-buttons">
+            <button class="keyboard-btn" onclick="insertChar('á')">á</button>
+            <button class="keyboard-btn" onclick="insertChar('é')">é</button>
+            <button class="keyboard-btn" onclick="insertChar('í')">í</button>
+            <button class="keyboard-btn" onclick="insertChar('ó')">ó</button>
+            <button class="keyboard-btn" onclick="insertChar('ú')">ú</button>
+            <button class="keyboard-btn" onclick="insertChar('ñ')">ñ</button>
+            <button class="keyboard-btn" onclick="insertChar('ü')">ü</button>
+            <button class="keyboard-btn" onclick="insertChar('¿')">¿</button>
+            <button class="keyboard-btn" onclick="insertChar('¡')">¡</button>
+        </div>
+    </div>
+
+    <script>
+        var correctAnswers = {
+            "A1": {
+                "1": ["no", "nadie"],
+                "2": ["nada"]
+            },
+            "A2": {
+                "1": ["no", "nunca"],
+                "2": ["nadie"]
+            },
+            "A3": {
+                "1": ["no"],
+                "2": ["nada"]
+            },
+            "A4": {
+                "1": ["nadie"]
+            },
+            "B1": {
+                "1": ["ni el doctor ni su esposa tienen hambre", "el doctor y su esposa no tienen hambre"]
+            },
+            "B2": {
+                "1": ["no piden ni carne ni pescado", "nunca piden ni carne ni pescado", "nunca piden carne ni pescado"]
+            },
+            "B3": {
+                "1": ["hoy no quieren ni sopa ni arroz ni ensalada tampoco", "hoy no quieren ni sopa, ni arroz, ni ensalada tampoco", "no quieren ni sopa ni arroz ni ensalada tampoco"]
+            },
+            "B4": {
+                "1": ["no tienen ni hambre ni sueño tampoco", "no tienen hambre ni sueño tampoco"]
+            },
+            "B5": {
+                "1": ["no van a almorzar ni a hacer siesta", "no van ni a almorzar ni a hacer siesta"]
+            }
+        };
+
+        var lastFocusedInput = null;
+
+        function normalizeAnswer(answer) {
+            return answer.toLowerCase().trim()
+                .replace(/\s+/g, ' ')
+                .replace(/,\s*/g, ', ')
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
+
+        function checkAnswers() {
+            var allInputs = document.querySelectorAll('.answer-input');
+            var totalBlanks = 0;
+            var correctCount = 0;
+            var results = {};
+
+            for (var i = 0; i < allInputs.length; i++) {
+                var input = allInputs[i];
+                var q = input.getAttribute('data-q');
+                var blank = input.getAttribute('data-blank');
+                var userAnswer = input.value.trim();
+                var normalizedUser = normalizeAnswer(userAnswer);
+                
+                if (!q) continue;
+                totalBlanks++;
+
+                var possibleAnswers = correctAnswers[q][blank];
+                var isCorrect = false;
+
+                for (var j = 0; j < possibleAnswers.length; j++) {
+                    var normalizedCorrect = normalizeAnswer(possibleAnswers[j]);
+                    if (normalizedUser === normalizedCorrect) {
+                        isCorrect = true;
+                        break;
+                    }
+                }
+
+                if (isCorrect) {
+                    input.classList.add('correct');
+                    input.classList.remove('incorrect');
+                    correctCount++;
+                } else if (userAnswer !== '') {
+                    input.classList.add('incorrect');
+                    input.classList.remove('correct');
+                } else {
+                    input.classList.remove('correct', 'incorrect');
+                }
+
+                if (!results[q]) {
+                    results[q] = [];
+                }
+                results[q].push({
+                    blank: blank,
+                    userAnswer: userAnswer || '(vacío)',
+                    correctAnswers: possibleAnswers.join(' / '),
+                    isCorrect: isCorrect
+                });
+            }
+
+            displayFeedback(results);
+
+            var percentage = Math.round((correctCount / totalBlanks) * 100);
+            var resultsDiv = document.getElementById('results');
+            
+            var message = '';
+            if (percentage >= 90) {
+                message = '¡Excelente trabajo! 🌟';
+            } else if (percentage >= 70) {
+                message = '¡Muy bien! 👏';
+            } else if (percentage >= 50) {
+                message = 'Bien, pero puede mejorar 📚';
+            } else {
+                message = 'Siga practicando 💪';
+            }
+
+            resultsDiv.innerHTML = '<div class="results">' + message + '<br>Puntuación: ' + correctCount + ' / ' + totalBlanks + ' (' + percentage + '%)</div>';
+        }
+
+        function displayFeedback(results) {
+            var sections = document.querySelectorAll('[data-section]');
+            
+            for (var i = 0; i < sections.length; i++) {
+                var section = sections[i];
+                var sectionName = section.getAttribute('data-section');
+                
+                if (section.classList.contains('feedback')) {
+                    var html = '<h4 style="color: #667eea; margin-bottom: 10px;">Retroalimentación:</h4>';
+                    var hasContent = false;
+
+                    for (var q in results) {
+                        if (q.startsWith(sectionName)) {
+                            hasContent = true;
+                            var questionResults = results[q];
+                            html += '<div style="margin-bottom: 15px;"><strong>Pregunta ' + q + ':</strong>';
+                            
+                            for (var j = 0; j < questionResults.length; j++) {
+                                var result = questionResults[j];
+                                var className = result.isCorrect ? 'correct' : 'incorrect';
+                                var icon = result.isCorrect ? '✓' : '✗';
+                                
+                                html += '<div class="feedback-item ' + className + '">';
+                                html += '<strong>' + icon + ' Espacio ' + result.blank + ':</strong> ';
+                                html += 'Su respuesta: <em>' + result.userAnswer + '</em><br>';
+                                
+                                if (!result.isCorrect) {
+                                    html += 'Respuestas correctas: <strong>' + result.correctAnswers + '</strong><br>';
+                                    html += '<small style="color: #666;">💡 Recuerde: En español usamos la doble negación. Palabras como "nunca", "nada", "nadie" requieren "no" antes del verbo cuando van después.</small>';
+                                }
+                                html += '</div>';
+                            }
+                            html += '</div>';
+                        }
+                    }
+
+                    if (hasContent) {
+                        section.innerHTML = html;
+                        section.classList.add('show');
+                    }
+                }
+            }
+        }
+
+        function resetExercise() {
+            var allInputs = document.querySelectorAll('.answer-input');
+            for (var i = 0; i < allInputs.length; i++) {
+                allInputs[i].value = '';
+                allInputs[i].classList.remove('correct', 'incorrect');
+            }
+            
+            var feedbacks = document.querySelectorAll('.feedback');
+            for (var i = 0; i < feedbacks.length; i++) {
+                feedbacks[i].innerHTML = '';
+                feedbacks[i].classList.remove('show');
+            }
+            
+            document.getElementById('results').innerHTML = '';
+        }
+
+        function downloadResults() {
+            var allInputs = document.querySelectorAll('.answer-input');
+            var content = 'PRÁCTICA DE NEGACIÓN EN ESPAÑOL\n';
+            content += 'Resultados del ejercicio\n';
+            content += '==================================================\n\n';
+
+            var totalBlanks = 0;
+            var correctCount = 0;
+            var currentQ = '';
+
+            for (var i = 0; i < allInputs.length; i++) {
+                var input = allInputs[i];
+                var q = input.getAttribute('data-q');
+                var blank = input.getAttribute('data-blank');
+                
+                if (!q) continue;
+                
+                var userAnswer = input.value.trim();
+                var normalizedUser = normalizeAnswer(userAnswer);
+                var possibleAnswers = correctAnswers[q][blank];
+                var isCorrect = false;
+
+                for (var j = 0; j < possibleAnswers.length; j++) {
+                    if (normalizeAnswer(possibleAnswers[j]) === normalizedUser) {
+                        isCorrect = true;
+                        break;
+                    }
+                }
+
+                if (isCorrect) correctCount++;
+                totalBlanks++;
+
+                if (currentQ !== q) {
+                    currentQ = q;
+                    content += '\n--- PREGUNTA ' + q + ' ---\n';
+                }
+
+                content += 'Espacio ' + blank + ':\n';
+                content += '  Su respuesta: ' + (userAnswer || '(vacío)') + '\n';
+                content += '  Respuestas correctas: ' + possibleAnswers.join(' / ') + '\n';
+                content += '  ' + (isCorrect ? '✓ CORRECTO' : '✗ INCORRECTO') + '\n';
+                
+                if (!isCorrect) {
+                    content += '  💡 Explicación: ';
+                    if (q.startsWith('A')) {
+                        content += 'Recuerde usar la doble negación: "no" + verbo + palabra negativa (nada/nadie/nunca)\n';
+                    } else if (q.startsWith('B')) {
+                        content += 'Use "ni... ni..." para "neither... nor..." y añada "tampoco" al final si es necesario\n';
+                    }
+                }
+                content += '\n';
+            }
+
+            var percentage = Math.round((correctCount / totalBlanks) * 100);
+            content += '==================================================\n';
+            content += 'PUNTUACIÓN FINAL: ' + correctCount + '/' + totalBlanks + ' (' + percentage + '%)\n\n';
+            
+            content += 'REGLAS IMPORTANTES DE NEGACIÓN:\n';
+            content += '1. La doble negación es obligatoria en español\n';
+            content += '2. Nunca = never (requiere "no" si va después del verbo)\n';
+            content += '3. Nada = nothing (requiere "no" si va después del verbo)\n';
+            content += '4. Nadie = nobody (requiere "no" si va después del verbo)\n';
+            content += '5. Ni... ni... = neither... nor...\n';
+            content += '6. Tampoco = neither / not... either (equivalente negativo de "también")\n';
+
+            var blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'practica_negacion_resultados.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function insertChar(char) {
+            if (lastFocusedInput) {
+                var start = lastFocusedInput.selectionStart;
+                var end = lastFocusedInput.selectionEnd;
+                var value = lastFocusedInput.value;
+                lastFocusedInput.value = value.substring(0, start) + char + value.substring(end);
+                lastFocusedInput.focus();
+                lastFocusedInput.selectionStart = lastFocusedInput.selectionEnd = start + 1;
+            }
+        }
+
+        document.addEventListener('focusin', function(e) {
+            if (e.target.classList.contains('answer-input')) {
+                lastFocusedInput = e.target;
+            }
+        });
+
+        var allInputs = document.querySelectorAll('.answer-input');
+        for (var i = 0; i < allInputs.length; i++) {
+            allInputs[i].addEventListener('focus', function() {
+                lastFocusedInput = this;
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 4.3: El Tango - Extended Practice</title>
+    <style>
+        :root {
+            --primary: #8b0000; /* Deep Red */
+            --secondary: #2c3e50; /* Dark Blue/Grey */
+            --light: #f8f9fa;
+            --white: #ffffff;
+            --border: #dee2e6;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light);
+            color: #333;
+            padding-bottom: 100px; /* Space for keyboard */
+        }
+
+        /* --- Sticky Header --- */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 15px 20px;
+        }
+
+        .header-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background-color: var(--primary);
+            transition: width 0.4s ease;
+        }
+
+        .score-badge {
+            background: var(--secondary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        /* --- Layout --- */
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        h1 { color: var(--primary); text-align: center; margin-bottom: 10px; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 40px; font-style: italic; }
+        
+        h2 { 
+            color: var(--secondary); 
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+            margin-top: 0;
+        }
+
+        .exercise-card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        /* --- Dynamic Word Bank --- */
+        .word-bank-container {
+            background-color: #eef2f5;
+            border: 2px dashed #cbd5e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .bank-word {
+            display: inline-block;
+            background: white;
+            padding: 5px 12px;
+            margin: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-family: monospace;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .bank-word:hover { transform: translateY(-2px); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .bank-word.used { opacity: 0.5; text-decoration: line-through; background-color: #ddd; }
+
+        /* --- Inputs --- */
+        .question-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            line-height: 1.8;
+        }
+
+        .question-item:last-child { border-bottom: none; }
+
+        input[type="text"], select {
+            padding: 8px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            margin: 0 10px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+            width: 180px;
+        }
+
+        input[type="text"]:focus, select:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .gap-input { width: 140px; text-align: center; font-weight: bold; color: var(--primary); }
+
+        /* --- Feedback --- */
+        .feedback-icon { font-size: 1.2em; margin-left: 10px; }
+        .correct { color: #27ae60; }
+        .incorrect { color: #c0392b; }
+
+        /* --- Keyboard --- */
+        .accent-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #2c3e50;
+            padding: 10px 0;
+            text-align: center;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+            z-index: 2000;
+        }
+
+        .key-btn {
+            background: #4a627a;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 0 3px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .key-btn:hover { background: var(--primary); }
+        .key-btn:active { transform: scale(0.95); }
+
+        /* --- Action Buttons --- */
+        .controls { text-align: center; margin: 40px 0 80px 0; }
+        
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-secondary { background: var(--secondary); color: white; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 8px rgba(0,0,0,0.15); }
+
+    </style>
+</head>
+<body>
+
+    <div class="sticky-header">
+        <div class="header-inner">
+            <span style="font-weight: bold; font-size: 1.2em;">Unit 4.3: El Tango</span>
+            <span class="score-badge" id="score-display">Score: 0/20</span>
+        </div>
+        <div class="progress-track">
+            <div class="progress-fill" id="progress-bar"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Tiene olor a vida... tiene gusto a muerte</h1>
+        <p class="subtitle">Vocabulary, Reading Comprehension & History</p>
+
+        <div class="exercise-card">
+            <h2>1. Vocabulario Esencial</h2>
+            <p>Select the correct English translation for the Spanish terms.</p>
+
+            <div class="question-item" data-answer="mixture">
+                <span style="width: 150px; font-weight: bold;">La mezcla:</span>
+                <select class="quiz-select">
+                    <option value="">---</option>
+                    <option value="mixture">Mixture</option>
+                    <option value="half">Half</option>
+                    <option value="crowd">Crowd</option>
+                </select>
+                <span class="feedback-icon"></span>
+            </div>
+
+            <div class="question-item" data-answer="century">
+                <span style="width: 150px; font-weight: bold;">El siglo:</span>
+                <select class="quiz-select">
+                    <option value="">---</option>
+                    <option value="sign">Sign</option>
+                    <option value="century">Century</option>
+                    <option value="single">Single</option>
+                </select>
+                <span class="feedback-icon"></span>
+            </div>
+
+            <div class="question-item" data-answer="root">
+                <span style="width: 150px; font-weight: bold;">La raíz:</span>
+                <select class="quiz-select">
+                    <option value="">---</option>
+                    <option value="race">Race</option>
+                    <option value="root">Root</option>
+                    <option value="strange">Strange</option>
+                </select>
+                <span class="feedback-icon"></span>
+            </div>
+
+            <div class="question-item" data-answer="to trick">
+                <span style="width: 150px; font-weight: bold;">Engañar:</span>
+                <select class="quiz-select">
+                    <option value="">---</option>
+                    <option value="to win">To win</option>
+                    <option value="to trick">To trick</option>
+                    <option value="to anger">To anger</option>
+                </select>
+                <span class="feedback-icon"></span>
+            </div>
+
+            <div class="question-item" data-answer="bitterness">
+                <span style="width: 150px; font-weight: bold;">La amargura:</span>
+                <select class="quiz-select">
+                    <option value="">---</option>
+                    <option value="love">Love</option>
+                    <option value="yellow">Yellow</option>
+                    <option value="bitterness">Bitterness</option>
+                </select>
+                <span class="feedback-icon"></span>
+            </div>
+
+            <div class="question-item" data-answer="river bank">
+                <span style="width: 150px; font-weight: bold;">La orilla:</span>
+                <select class="quiz-select">
+                    <option value="">---</option>
+                    <option value="gold">Gold</option>
+                    <option value="river bank">River bank</option>
+                    <option value="ear">Ear</option>
+                </select>
+                <span class="feedback-icon"></span>
+            </div>
+        </div>
+
+        <div class="exercise-card">
+            <h2>2. Completar el Texto (Ejercicio 2a)</h2>
+            <p><strong>Instrucciones:</strong> Complete the text using the words below. Note: The word bank is <strong>shuffled</strong> every time, and there are <strong>4 extra words</strong> you do not need!</p>
+            
+            <div class="word-bank-container" id="shuffled-bank">
+                </div>
+
+            <div class="text-content">
+                <div class="question-item" data-answer="siglo">
+                    1. Esta música inventada en la segunda mitad del 
+                    <input type="text" class="quiz-input gap-input" placeholder="..."> 
+                    XIX mantuvo su popularidad.
+                    <span class="feedback-icon"></span>
+                </div>
+
+                <div class="question-item" data-answer="capitales">
+                    2. Con sus raíces en el mundo más bajo de las 
+                    <input type="text" class="quiz-input gap-input" placeholder="..."> 
+                    de las orillas del Río de la Plata.
+                    <span class="feedback-icon"></span>
+                </div>
+
+                <div class="question-item" data-answer="sigue">
+                    3. Hoy esta popularidad 
+                    <input type="text" class="quiz-input gap-input" placeholder="..."> 
+                    claramente conectada con sus orígenes.
+                    <span class="feedback-icon"></span>
+                </div>
+
+                <div class="question-item" data-answer="inmigrantes">
+                    4. Una música marginal, mezcla de razas, de 
+                    <input type="text" class="quiz-input gap-input" placeholder="..."> 
+                    y de gauchos.
+                    <span class="feedback-icon"></span>
+                </div>
+
+                <div class="question-item" data-answer="haber">
+                    5. Podía 
+                    <input type="text" class="quiz-input gap-input" placeholder="..."> 
+                    desaparecido bajo las críticas de la 'alta sociedad'.
+                    <span class="feedback-icon"></span>
+                </div>
+
+                <div class="question-item" data-answer="llena">
+                    6. Las damas no bailarían esta música tan 
+                    <input type="text" class="quiz-input gap-input" placeholder="..."> 
+                    de erotismo.
+                    <span class="feedback-icon"></span>
+                </div>
+
+                <div class="question-item" data-answer="introducir">
+                    7. Después de 
+                    <input type="text" class="quiz-input gap-input" placeholder="..."> 
+                    nuevos instrumentos el baile perdió un poco de su aire picaresco.
+                    <span class="feedback-icon"></span>
+                </div>
+
+                <div class="question-item" data-answer="bailes">
+                    8. Actualmente sigue vivo en unos 
+                    <input type="text" class="quiz-input gap-input" placeholder="..."> 
+                    dinámicos y sensuales.
+                    <span class="feedback-icon"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="exercise-card">
+            <h2>3. Comprensión de Lectura (Ejercicio 2b)</h2>
+            <p>Answer based on the text provided in the lesson.</p>
+
+            <div class="question-item" data-answer="a">
+                <span style="width: 100%;"><strong>1. ¿Dónde surgió el tango originalmente?</strong></span>
+                <div style="margin-top: 10px;">
+                    <select class="quiz-select" style="width: 100%; max-width: 400px;">
+                        <option value="">--- Seleccionar ---</option>
+                        <option value="a">En los barrios humildes y las orillas</option>
+                        <option value="b">En los palacios de la alta sociedad</option>
+                        <option value="c">En las escuelas de música de París</option>
+                    </select>
+                    <span class="feedback-icon"></span>
+                </div>
+            </div>
+
+            <div class="question-item" data-answer="c">
+                <span style="width: 100%;"><strong>2. ¿Qué efecto tuvo la llegada del tango a París?</strong></span>
+                <div style="margin-top: 10px;">
+                    <select class="quiz-select" style="width: 100%; max-width: 400px;">
+                        <option value="">--- Seleccionar ---</option>
+                        <option value="a">Los franceses lo prohibieron inmediatamente</option>
+                        <option value="b">Se volvió más vulgar y lascivo</option>
+                        <option value="c">Produjo un cambio básico en su estilo y ganó fama internacional</option>
+                    </select>
+                    <span class="feedback-icon"></span>
+                </div>
+            </div>
+
+            <div class="question-item" data-answer="b">
+                <span style="width: 100%;"><strong>3. ¿Qué rol tuvo Carlos Gardel?</strong></span>
+                <div style="margin-top: 10px;">
+                    <select class="quiz-select" style="width: 100%; max-width: 400px;">
+                        <option value="">--- Seleccionar ---</option>
+                        <option value="a">Inventó el bandoneón</option>
+                        <option value="b">Popularizó el tango canción y confirmó su importancia</option>
+                        <option value="c">Prohibió el tango en Argentina</option>
+                    </select>
+                    <span class="feedback-icon"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-primary" onclick="checkWork()">✅ Verificar (Check)</button>
+            <button class="btn btn-secondary" onclick="generateReport()">📄 Descargar Resultados</button>
+        </div>
+    </div>
+
+    <div class="accent-bar">
+        <button class="key-btn" onclick="typeChar('á')">á</button>
+        <button class="key-btn" onclick="typeChar('é')">é</button>
+        <button class="key-btn" onclick="typeChar('í')">í</button>
+        <button class="key-btn" onclick="typeChar('ó')">ó</button>
+        <button class="key-btn" onclick="typeChar('ú')">ú</button>
+        <button class="key-btn" onclick="typeChar('ñ')">ñ</button>
+        <button class="key-btn" onclick="typeChar('ü')">ü</button>
+        <button class="key-btn" onclick="typeChar('¡')">¡</button>
+        <button class="key-btn" onclick="typeChar('¿')">¿</button>
+    </div>
+
+    <script>
+        // --- 1. CONFIGURATION & DATA ---
+        // The complete word bank from Source 1: "Sobran cuatro palabras"
+        const wordBankData = [
+            "haber", "capitales", "introducir", "prohibir", 
+            "inmigrantes", "sigue", "ser", "siglo", 
+            "vacía", "llena", "bailes", "países"
+        ];
+
+        let activeInput = null;
+
+        // --- 2. INITIALIZATION ---
+        window.onload = function() {
+            shuffleAndRenderBank();
+            setupInputListeners();
+        };
+
+        // --- 3. LOGIC: SHUFFLE & RENDER ---
+        function shuffleAndRenderBank() {
+            const container = document.getElementById('shuffled-bank');
+            // Fisher-Yates Shuffle
+            let shuffled = [...wordBankData];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+
+            // Render
+            let html = "";
+            shuffled.forEach(word => {
+                html += `<span class="bank-word" onclick="fillActiveInput('${word}')">${word}</span>`;
+            });
+            container.innerHTML = html;
+        }
+
+        // --- 4. LOGIC: KEYBOARD & CLICK TO FILL ---
+        function setupInputListeners() {
+            const inputs = document.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.addEventListener('focus', () => { activeInput = input; });
+                input.addEventListener('input', updateProgress);
+                input.addEventListener('change', updateProgress);
+            });
+        }
+
+        function typeChar(char) {
+            if(!activeInput) return alert("Please click inside a text box first.");
+            insertAtCursor(activeInput, char);
+            updateProgress();
+        }
+
+        function fillActiveInput(word) {
+            if(!activeInput || activeInput.tagName !== 'INPUT') {
+                return alert("Please click inside a gap-fill box (Section 2) first.");
+            }
+            activeInput.value = word;
+            updateProgress();
+        }
+
+        function insertAtCursor(myField, myValue) {
+            if (myField.selectionStart || myField.selectionStart == '0') {
+                var startPos = myField.selectionStart;
+                var endPos = myField.selectionEnd;
+                myField.value = myField.value.substring(0, startPos)
+                    + myValue
+                    + myField.value.substring(endPos, myField.value.length);
+                myField.selectionStart = startPos + myValue.length; 
+                myField.selectionEnd = startPos + myValue.length;
+                myField.focus();
+            } else {
+                myField.value += myValue;
+            }
+        }
+
+        // --- 5. LOGIC: PROGRESS BAR ---
+        function updateProgress() {
+            const inputs = document.querySelectorAll('.question-item input, .question-item select');
+            let filled = 0;
+            inputs.forEach(inp => { if(inp.value.trim() !== "") filled++; });
+            
+            const pct = (filled / inputs.length) * 100;
+            document.getElementById('progress-bar').style.width = pct + "%";
+        }
+
+        // --- 6. LOGIC: VERIFICATION ---
+        function checkWork() {
+            const questions = document.querySelectorAll('.question-item');
+            let correctCount = 0;
+
+            questions.forEach(q => {
+                const inputs = q.querySelectorAll('input, select');
+                const correctAnswer = q.getAttribute('data-answer').toLowerCase();
+                const feedbackSpan = q.querySelector('.feedback-icon');
+                
+                // Get user value
+                let userVal = "";
+                if(inputs.length > 0) userVal = inputs[0].value.trim().toLowerCase();
+
+                // Reset styles
+                inputs[0].style.borderColor = "#e2e8f0";
+                feedbackSpan.className = "feedback-icon";
+                feedbackSpan.innerHTML = "";
+
+                if(userVal === "") {
+                    inputs[0].style.borderColor = "#f1c40f"; // Yellow for empty
+                } else if(userVal === correctAnswer) {
+                    correctCount++;
+                    inputs[0].style.borderColor = "#27ae60";
+                    feedbackSpan.classList.add("correct");
+                    feedbackSpan.innerHTML = "✓";
+                } else {
+                    inputs[0].style.borderColor = "#c0392b";
+                    feedbackSpan.classList.add("incorrect");
+                    feedbackSpan.innerHTML = "✗";
+                }
+            });
+
+            // Update Score
+            const total = questions.length;
+            const pct = Math.round((correctCount / total) * 100);
+            document.getElementById('score-display').innerText = `Score: ${correctCount}/${total} (${pct}%)`;
+
+            // Scroll to top to see score
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            return { correct: correctCount, total: total };
+        }
+
+        // --- 7. LOGIC: DOWNLOAD REPORT ---
+        function generateReport() {
+            const stats = checkWork(); // Run check to ensure data is fresh
+            
+            let text = `STUDENT REPORT: EL TANGO (Unit 4.3)\n`;
+            text += `Date: ${new Date().toLocaleString()}\n`;
+            text += `Final Score: ${stats.correct}/${stats.total}\n`;
+            text += `-------------------------------------------\n\n`;
+
+            const questions = document.querySelectorAll('.question-item');
+            questions.forEach((q, idx) => {
+                const inputs = q.querySelectorAll('input, select');
+                const correctAnswer = q.getAttribute('data-answer');
+                const userVal = inputs[0].value.trim() || "(Empty)";
+                
+                const isCorrect = userVal.toLowerCase() === correctAnswer.toLowerCase();
+                
+                text += `${idx + 1}. Answer: ${userVal} ... [${isCorrect ? "CORRECT" : "INCORRECT"}]\n`;
+                if(!isCorrect) text += `   -> Correct: ${correctAnswer}\n`;
+            });
+
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "Tango_Lesson_Report.txt";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Condicionales y Subjuntivo - Turismo Sostenible</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 32px;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .grammar-box {
+            background: #f0f4ff;
+            padding: 20px;
+            border-left: 5px solid #667eea;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+
+        .grammar-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .grammar-box p {
+            line-height: 1.6;
+            margin: 5px 0;
+        }
+
+        .grammar-box strong {
+            color: #764ba2;
+        }
+
+        .section {
+            margin: 25px 0;
+            padding: 20px;
+            background: #fafafa;
+            border-radius: 10px;
+            border: 2px solid #667eea;
+        }
+
+        .question {
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .question-number {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .instruction {
+            color: #555;
+            font-style: italic;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .example {
+            background: #fffbea;
+            padding: 10px;
+            border-left: 3px solid #f59e0b;
+            margin: 10px 0;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            resize: vertical;
+            transition: all 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        textarea.correct {
+            background-color: #d4edda !important;
+            border-color: #28a745 !important;
+        }
+
+        textarea.incorrect {
+            background-color: #f8d7da !important;
+            border-color: #dc3545 !important;
+        }
+
+        .answer-key {
+            background: #e8f5e9;
+            padding: 12px;
+            margin-top: 10px;
+            border-left: 4px solid #28a745;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .answer-key.show {
+            display: block;
+        }
+
+        .answer-key strong {
+            color: #28a745;
+        }
+
+        .conjugation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .conjugation-table th,
+        .conjugation-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .conjugation-table th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        .conjugation-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        #results {
+            margin-top: 20px;
+            padding: 20px;
+            background: #d5f4e6;
+            border-radius: 8px;
+            font-weight: bold;
+            display: none;
+            text-align: center;
+            border: 2px solid #28a745;
+        }
+
+        .highlight-ind {
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        .highlight-subj {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        /* Virtual Keyboard */
+        #virtualKeyboard {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.98);
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .kb-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .kb-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .kb-toggle {
+            background: none;
+            border: none;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0 5px;
+            font-weight: bold;
+        }
+
+        .kb-buttons {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .kb-btn {
+            background: #f0f4ff;
+            border: 1px solid #667eea;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.2s;
+            min-width: 32px;
+            text-align: center;
+        }
+
+        .kb-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .kb-btn:active {
+            transform: scale(0.95);
+        }
+
+        .kb-content.minimized {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .conjugation-table {
+                font-size: 11px;
+            }
+
+            .conjugation-table th,
+            .conjugation-table td {
+                padding: 6px;
+            }
+
+            #virtualKeyboard {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+            }
+
+            .kb-buttons {
+                grid-template-columns: repeat(7, 1fr);
+            }
+
+            .kb-btn {
+                min-width: 28px;
+                padding: 6px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Ejercicio: Condicionales y Subjuntivo</h1>
+        <p class="subtitle">Tema: Turismo Sostenible en España</p>
+
+        <!-- Grammar Reference -->
+        <div class="grammar-box">
+            <h3>📚 Guía Rápida: Indicativo vs Subjuntivo</h3>
+            <p><strong class="highlight-ind">INDICATIVO:</strong> Para hechos reales, certezas, acciones habituales</p>
+            <p><strong class="highlight-subj">SUBJUNTIVO:</strong> Para situaciones hipotéticas, dudas, deseos, condiciones futuras</p>
+        </div>
+
+        <!-- Conjugation Table -->
+        <div class="section">
+            <h3 style="color: #667eea; margin-bottom: 15px;">Tabla de Conjugación - Presente del Subjuntivo</h3>
+            <table class="conjugation-table">
+                <thead>
+                    <tr>
+                        <th>Pronombre</th>
+                        <th>Cambiar</th>
+                        <th>Establecer</th>
+                        <th>Reducir</th>
+                        <th>Permitir</th>
+                        <th>Ser</th>
+                        <th>Haber</th>
+                        <th>Dar</th>
+                        <th>Hacer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Yo</strong></td>
+                        <td>cambie</td>
+                        <td>establezca</td>
+                        <td>reduzca</td>
+                        <td>permita</td>
+                        <td>sea</td>
+                        <td>haya</td>
+                        <td>dé</td>
+                        <td>haga</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tú</strong></td>
+                        <td>cambies</td>
+                        <td>establezcas</td>
+                        <td>reduzcas</td>
+                        <td>permitas</td>
+                        <td>seas</td>
+                        <td>hayas</td>
+                        <td>des</td>
+                        <td>hagas</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Él/Ella/Ud.</strong></td>
+                        <td>cambie</td>
+                        <td>establezca</td>
+                        <td>reduzca</td>
+                        <td>permita</td>
+                        <td>sea</td>
+                        <td>haya</td>
+                        <td>dé</td>
+                        <td>haga</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Nosotros</strong></td>
+                        <td>cambiemos</td>
+                        <td>establezcamos</td>
+                        <td>reduzcamos</td>
+                        <td>permitamos</td>
+                        <td>seamos</td>
+                        <td>hayamos</td>
+                        <td>demos</td>
+                        <td>hagamos</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Vosotros</strong></td>
+                        <td>cambiéis</td>
+                        <td>establezcáis</td>
+                        <td>reduzcáis</td>
+                        <td>permitáis</td>
+                        <td>seáis</td>
+                        <td>hayáis</td>
+                        <td>deis</td>
+                        <td>hagáis</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ellos/Ellas/Uds.</strong></td>
+                        <td>cambien</td>
+                        <td>establezcan</td>
+                        <td>reduzcan</td>
+                        <td>permitan</td>
+                        <td>sean</td>
+                        <td>hayan</td>
+                        <td>den</td>
+                        <td>hagan</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Questions -->
+        <form id="exerciseForm">
+            
+            <!-- Question 1: Si + Indicative -->
+            <div class="question">
+                <div class="question-number">1. Si ... (Indicativo - condición posible)</div>
+                <p class="instruction">Escribe una oración sobre la necesidad de reducir el consumo de energía y agua, usando el <strong class="highlight-ind">indicativo</strong> para una condición real.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> Si no reducimos el consumo energético y de agua, el impacto ambiental del turismo masivo seguirá aumentando.
+                </div>
+                <textarea id="q1" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q1">
+                    <strong>✓ Respuesta modelo:</strong> Si no reducimos el consumo energético y de agua, el impacto ambiental del turismo masivo seguirá aumentando. (Indicativo)
+                </div>
+            </div>
+
+            <!-- Question 2: Si + Subjunctive -->
+            <div class="question">
+                <div class="question-number">2. Si ... (Subjuntivo pasado - condición hipotética)</div>
+                <p class="instruction">Escribe una oración sobre la necesidad de reducir el consumo de energía y agua, usando el <strong class="highlight-subj">subjuntivo pasado</strong> para una condición hipotética.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> Si fuera posible desarrollar más destinos alternativos, habría menos presión sobre los destinos turísticos de la costa catalana, el sur y las islas.
+                </div>
+                <textarea id="q2" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q2">
+                    <strong>✓ Respuesta modelo:</strong> Si fuera posible desarrollar más destinos alternativos, habría menos presión sobre los destinos turísticos de la costa catalana, el sur y las islas. (Subjuntivo pasado + Condicional)
+                </div>
+            </div>
+
+            <!-- Question 3: A menos que -->
+            <div class="question">
+                <div class="question-number">3. A menos que (unless) + Subjuntivo</div>
+                <p class="instruction">Escribe una oración sobre garantizar el turismo sostenible diversificando modelos, usando el <strong class="highlight-subj">subjuntivo</strong>.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> No podremos garantizar la sostenibilidad turística a menos que diversifiquemos/cambiemos los modelos turísticos actuales.
+                </div>
+                <textarea id="q3" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q3">
+                    <strong>✓ Respuesta modelo:</strong> No podremos garantizar la sostenibilidad turística a menos que diversifiquemos/cambiemos los modelos turísticos actuales. (Subjuntivo)
+                </div>
+            </div>
+
+            <!-- Question 4: Cuando -->
+            <div class="question">
+                <div class="question-number">4. Cuando (sea) + Subjuntivo</div>
+                <p class="instruction">Escribe una oración sobre respetar las reglas al visitar destinos ecológicos, usando el <strong class="highlight-subj">subjuntivo</strong>.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> Cuando visitemos destinos verdes, debemos respetar las regulaciones urbanísticas para minimizar el impacto ambiental.
+                </div>
+                <textarea id="q4" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q4">
+                    <strong>✓ Respuesta modelo:</strong> Cuando visitemos destinos verdes, debemos respetar las regulaciones urbanísticas para minimizar el impacto ambiental. (Subjuntivo)
+                </div>
+            </div>
+
+            <!-- Question 5: En caso de que -->
+            <div class="question">
+                <div class="question-number">5. En caso de (que) + Subjuntivo</div>
+                <p class="instruction">Escribe una oración sobre qué pasa si continúa la sequía, usando el <strong class="highlight-subj">subjuntivo</strong>.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> En caso de que continúe la sequía, será necesario implementar restricciones más estrictas sobre el uso del agua.
+                </div>
+                <textarea id="q5" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q5">
+                    <strong>✓ Respuesta modelo:</strong> En caso de que continúe la sequía, será necesario implementar restricciones más estrictas sobre el uso del agua. (Subjuntivo)
+                </div>
+            </div>
+
+            <!-- Question 6: A pesar de -->
+            <div class="question">
+                <div class="question-number">6. A pesar de (que) + Indicativo</div>
+                <p class="instruction">Escribe una oración sobre turistas que continúan visitando España a pesar de las restricciones, usando el <strong class="highlight-ind">indicativo</strong>.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> A pesar de las restricciones de agua, los turistas internacionales siguieron visitando España en grandes números.
+                </div>
+                <textarea id="q6" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q6">
+                    <strong>✓ Respuesta modelo:</strong> A pesar de las restricciones de agua, los turistas internacionales siguieron visitando España en grandes números. (Indicativo)
+                </div>
+            </div>
+
+            <!-- Question 7: Debido a -->
+            <div class="question">
+                <div class="question-number">7. Debido a (que) + Indicativo</div>
+                <p class="instruction">Escribe una oración sobre España adaptando su modelo turístico debido al cambio climático, usando el <strong class="highlight-ind">indicativo</strong>.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> Debido al cambio climático, España está adaptando su modelo turístico para fomentar destinos más sostenibles.
+                </div>
+                <textarea id="q7" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q7">
+                    <strong>✓ Respuesta modelo:</strong> Debido al cambio climático, España está adaptando su modelo turístico para fomentar destinos más sostenibles. (Indicativo)
+                </div>
+            </div>
+
+            <!-- Question 8: Puesto que -->
+            <div class="question">
+                <div class="question-number">8. Ya que / Puesto que + Indicativo</div>
+                <p class="instruction">Escribe una oración sobre la crisis de vivienda y las regulaciones urbanísticas locales, usando el <strong class="highlight-ind">indicativo</strong>.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> Puesto que la crisis de vivienda afecta a los lugareños en varias ciudades españolas, las regulaciones urbanísticas se han endurecido.
+                </div>
+                <textarea id="q8" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q8">
+                    <strong>✓ Respuesta modelo:</strong> Puesto que la crisis de vivienda afecta a los lugareños en varias ciudades españolas, las regulaciones urbanísticas se han endurecido. (Indicativo)
+                </div>
+            </div>
+
+            <!-- Question 9: Por lo tanto -->
+            <div class="question">
+                <div class="question-number">9. Por lo tanto + Indicativo</div>
+                <p class="instruction">Escribe una oración sobre el problema de la estacionalidad y la necesidad de diversificar el turismo, usando el <strong class="highlight-ind">indicativo</strong>.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> La estacionalidad sigue siendo un problema en el turismo español; por lo tanto, es necesario fomentar la diversificación turística para equilibrar la demanda.
+                </div>
+                <textarea id="q9" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q9">
+                    <strong>✓ Respuesta modelo:</strong> La estacionalidad sigue siendo un problema en el turismo español; por lo tanto, es necesario fomentar la diversificación turística para equilibrar la demanda. (Indicativo)
+                </div>
+            </div>
+
+            <!-- Question 10: Mientras que -->
+            <div class="question">
+                <div class="question-number">10. Mientras que + Indicativo</div>
+                <p class="instruction">Escribe una oración sobre cómo el cambio climático amenaza destinos clásicos mientras las inversiones se desplazan a regiones alternativas, usando el <strong class="highlight-ind">indicativo</strong>.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> Mientras que el calentamiento global afecta las regiones clásicas, las inversiones hoteleras siguen creciendo en destinos alternativos como Galicia y el País Vasco.
+                </div>
+                <textarea id="q10" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q10">
+                    <strong>✓ Respuesta modelo:</strong> Mientras que el calentamiento global afecta las regiones clásicas, las inversiones hoteleras siguen creciendo en destinos alternativos como Galicia y el País Vasco. (Indicativo)
+                </div>
+            </div>
+
+            <!-- Question 11: Antes de que -->
+            <div class="question">
+                <div class="question-number">11. Antes de (que) + Subjuntivo</div>
+                <p class="instruction">Escribe una oración sobre las autoridades evaluando el impacto del turismo antes de conceder nuevas licencias de alojamiento, usando el <strong class="highlight-subj">subjuntivo</strong>.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> Antes de que se permitan nuevos alojamientos turísticos, las autoridades deben evaluar los impactos del turismo masivo en las zonas costeras.
+                </div>
+                <textarea id="q11" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q11">
+                    <strong>✓ Respuesta modelo:</strong> Antes de que se permitan nuevos alojamientos turísticos, las autoridades deben evaluar los impactos del turismo masivo en las zonas costeras. (Subjuntivo)
+                </div>
+            </div>
+
+            <!-- Question 12: Aunque (Indicativo) -->
+            <div class="question">
+                <div class="question-number">12. Aunque + Indicativo (hecho cierto)</div>
+                <p class="instruction">Escribe una oración sobre el crecimiento del turismo gastronómico, usando el <strong class="highlight-ind">indicativo</strong>.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> Aunque el turismo cultural crece en popularidad, a muchos destinos les falta la infraestructura adecuada.
+                </div>
+                <textarea id="q12" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q12">
+                    <strong>✓ Respuesta modelo:</strong> Aunque el turismo cultural crece en popularidad, a muchos destinos les falta la infraestructura adecuada. (Indicativo)
+                </div>
+            </div>
+
+            <!-- Question 13: Aunque (Subjuntivo) -->
+            <div class="question">
+                <div class="question-number">13. Aunque + Subjuntivo (hecho dudoso/posible)</div>
+                <p class="instruction">Escribe una oración sobre la escasez de agua a pesar de las desalinizadoras, usando el <strong class="highlight-subj">subjuntivo</strong>.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> Aunque existan desalinizadoras, la escasez de agua sigue siendo un desafío.
+                </div>
+                <textarea id="q13" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q13">
+                    <strong>✓ Respuesta modelo:</strong> Aunque existan desalinizadoras, la escasez de agua sigue siendo un desafío. (Subjuntivo)
+                </div>
+            </div>
+
+            <!-- Question 14: Así que -->
+            <div class="question">
+                <div class="question-number">14. Así que + Indicativo</div>
+                <p class="instruction">Escribe una oración sobre el impacto del turismo masivo en los recursos hídricos y las acciones resultantes de las autoridades, usando el <strong class="highlight-ind">indicativo</strong>.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> El aumento del turismo masivo ha sobrecargado los recursos hídricos, así que las autoridades han impuesto restricciones de agua.
+                </div>
+                <textarea id="q14" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q14">
+                    <strong>✓ Respuesta modelo:</strong> El aumento del turismo masivo ha sobrecargado los recursos hídricos, así que las autoridades han impuesto restricciones de agua. (Indicativo)
+                </div>
+            </div>
+
+            <!-- Question 15: Mientras -->
+            <div class="question">
+                <div class="question-number">15. Mientras + Indicativo</div>
+                <p class="instruction">Escribe una oración sobre turistas buscando experiencias auténticas mientras los hoteles adaptan su oferta, usando el <strong class="highlight-ind">indicativo</strong>.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> Mientras los turistas buscan experiencias auténticas, los hoteles locales siguen adaptando su oferta para atraer visitantes más exigentes.
+                </div>
+                <textarea id="q15" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q15">
+                    <strong>✓ Respuesta modelo:</strong> Mientras los turistas buscan experiencias auténticas, los hoteles locales siguen adaptando su oferta para atraer visitantes más exigentes. (Indicativo)
+                </div>
+            </div>
+
+            <!-- Question 16: Siempre que -->
+            <div class="question">
+                <div class="question-number">16. Siempre que + Subjuntivo</div>
+                <p class="instruction">Escribe una oración sobre lograr la sostenibilidad en el turismo adoptando prácticas innovadoras, usando el <strong class="highlight-subj">subjuntivo</strong>.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> La sostenibilidad turística se puede lograr siempre que los destinos adopten prácticas innovadoras y respetuosas con el medio ambiente.
+                </div>
+                <textarea id="q16" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q16">
+                    <strong>✓ Respuesta modelo:</strong> La sostenibilidad turística se puede lograr siempre que los destinos adopten prácticas innovadoras y respetuosas con el medio ambiente. (Subjuntivo)
+                </div>
+            </div>
+
+            <!-- Question 17: Por eso -->
+            <div class="question">
+                <div class="question-number">17. Por eso + Indicativo/Subjuntivo</div>
+                <p class="instruction">Escribe una oración sobre el calentamiento global afectando el clima de España y la promoción resultante de destinos verdes, usando el <strong class="highlight-ind">indicativo</strong> o el <strong class="highlight-subj">subjuntivo</strong>.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> El calentamiento global afecta las condiciones climáticas de España; por eso es esencial promover destinos verdes / que se promuevan destinos verdes.
+                </div>
+                <textarea id="q17" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q17">
+                    <strong>✓ Respuesta modelo:</strong> El calentamiento global afecta las condiciones climáticas de España; por eso es esencial promover destinos verdes / que se promuevan destinos verdes. (Indicativo o Subjuntivo)
+                </div>
+            </div>
+
+            <!-- Question 18: Sin embargo -->
+            <div class="question">
+                <div class="question-number">18. Sin embargo + Indicativo</div>
+                <p class="instruction">Escribe una oración sobre los beneficios económicos del turismo masivo contrastados con su impacto ambiental, usando el <strong class="highlight-ind">indicativo</strong>.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> El turismo masivo genera importantes ingresos económicos; sin embargo, su impacto ambiental es alarmante.
+                </div>
+                <textarea id="q18" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q18">
+                    <strong>✓ Respuesta modelo:</strong> El turismo masivo genera importantes ingresos económicos; sin embargo, su impacto ambiental es alarmante. (Indicativo)
+                </div>
+            </div>
+
+            <!-- Question 19: Al mismo tiempo que -->
+            <div class="question">
+                <div class="question-number">19. Al mismo tiempo que + Indicativo</div>
+                <p class="instruction">Escribe una oración sobre el crecimiento simultáneo de la demanda de viviendas y las restricciones de licencias turísticas, usando el <strong class="highlight-ind">indicativo</strong>.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> Al mismo tiempo que aumenta la demanda de viviendas turísticas, las autoridades han limitado la concesión de nuevas licencias.
+                </div>
+                <textarea id="q19" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q19">
+                    <strong>✓ Respuesta modelo:</strong> Al mismo tiempo que aumenta la demanda de viviendas turísticas, las autoridades han limitado la concesión de nuevas licencias. (Indicativo)
+                </div>
+            </div>
+
+            <!-- Question 20: De modo que -->
+            <div class="question">
+                <div class="question-number">20. De modo que + Subjuntivo</div>
+                <p class="instruction">Escribe una oración sobre adaptar el turismo al cambio climático para reducir impactos ambientales, usando el <strong class="highlight-subj">subjuntivo</strong>.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> Los destinos turísticos deben adaptarse al cambio climático de modo que se reduzca su impacto ambiental.
+                </div>
+                <textarea id="q20" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q20">
+                    <strong>✓ Respuesta modelo:</strong> Los destinos turísticos deben adaptarse al cambio climático de modo que se reduzca su impacto ambiental. (Subjuntivo)
+                </div>
+            </div>
+
+            <!-- Question 21: Por consiguiente -->
+            <div class="question">
+                <div class="question-number">21. Por consiguiente + Indicativo</div>
+                <p class="instruction">Escribe una oración sobre la diversificación aumentando la competitividad del turismo y las inversiones hoteleras resultantes en el norte de España, usando el <strong class="highlight-ind">indicativo y el pretérito perfecto</strong>.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> La diversificación turística ha incrementado la competitividad de los destinos; por consiguiente, ha crecido la inversión hotelera en el norte de España.
+                </div>
+                <textarea id="q21" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q21">
+                    <strong>✓ Respuesta modelo:</strong> La diversificación turística ha incrementado la competitividad de los destinos; por consiguiente, ha crecido la inversión hotelera en el norte de España. (Indicativo - Pretérito Perfecto)
+                </div>
+            </div>
+
+            <!-- Question 22: En tanto que -->
+            <div class="question">
+                <div class="question-number">22. En tanto que + Subjuntivo</div>
+                <p class="instruction">Escribe una oración sobre el éxito del turismo cultural dependiendo del respeto a la identidad local, usando el <strong class="highlight-subj">subjuntivo</strong>.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> El turismo sostenible será exitoso en tanto que las comunidades locales participen activamente en su planificación.
+                </div>
+                <textarea id="q22" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q22">
+                    <strong>✓ Respuesta modelo:</strong> El turismo sostenible será exitoso en tanto que las comunidades locales participen activamente en su planificación. (Subjuntivo)
+                </div>
+            </div>
+
+            <!-- Question 23: A fin de que -->
+            <div class="question">
+                <div class="question-number">23. A fin de que + Subjuntivo</div>
+                <p class="instruction">Escribe una oración sobre innovaciones desarrollándose para que los destinos turísticos sean más sostenibles, usando el <strong class="highlight-subj">subjuntivo</strong>.</p>
+                <div class="example">
+                    <strong>Ejemplo:</strong> Se están implementando innovaciones turísticas a fin de que los destinos sean más sostenibles y resilientes frente al cambio climático.
+                </div>
+                <textarea id="q23" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <div class="answer-key" id="answer-q23">
+                    <strong>✓ Respuesta modelo:</strong> Se están implementando innovaciones turísticas a fin de que los destinos sean más sostenibles y resilientes frente al cambio climático. (Subjuntivo)
+                </div>
+            </div>
+
+        </form>
+
+        <div id="results"></div>
+
+        <div class="buttons">
+            <button onclick="showAnswers()">👁️ Mostrar Respuestas Modelo</button>
+            <button onclick="hideAnswers()">🙈 Ocultar Respuestas</button>
+            <button onclick="resetExercise()">🔄 Reiniciar Ejercicio</button>
+            <button onclick="downloadResponses()">📥 Descargar Mis Respuestas</button>
+        </div>
+    </div>
+
+    <!-- Floating Virtual Keyboard -->
+    <div id="virtualKeyboard">
+        <div class="kb-header">
+            <span class="kb-title">⌨️ Teclado</span>
+            <button class="kb-toggle" onclick="toggleKeyboard()">−</button>
+        </div>
+        <div class="kb-content" id="kbContent">
+            <div class="kb-buttons">
+                <button class="kb-btn" onclick="insertChar('ñ')">ñ</button>
+                <button class="kb-btn" onclick="insertChar('á')">á</button>
+                <button class="kb-btn" onclick="insertChar('é')">é</button>
+                <button class="kb-btn" onclick="insertChar('í')">í</button>
+                <button class="kb-btn" onclick="insertChar('ó')">ó</button>
+                <button class="kb-btn" onclick="insertChar('ú')">ú</button>
+                <button class="kb-btn" onclick="insertChar('ü')">ü</button>
+                <button class="kb-btn" onclick="insertChar('Ñ')">Ñ</button>
+                <button class="kb-btn" onclick="insertChar('Á')">Á</button>
+                <button class="kb-btn" onclick="insertChar('É')">É</button>
+                <button class="kb-btn" onclick="insertChar('Í')">Í</button>
+                <button class="kb-btn" onclick="insertChar('Ó')">Ó</button>
+                <button class="kb-btn" onclick="insertChar('Ú')">Ú</button>
+                <button class="kb-btn" onclick="insertChar('Ü')">Ü</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentTextarea = null;
+
+        // Track current textarea
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('textarea').forEach(textarea => {
+                textarea.addEventListener('focus', function() {
+                    currentTextarea = this;
+                });
+            });
+        });
+
+        function insertChar(char) {
+            if (currentTextarea) {
+                const start = currentTextarea.selectionStart;
+                const end = currentTextarea.selectionEnd;
+                const text = currentTextarea.value;
+                currentTextarea.value = text.substring(0, start) + char + text.substring(end);
+                currentTextarea.focus();
+                currentTextarea.selectionStart = currentTextarea.selectionEnd = start + 1;
+            }
+        }
+
+        function toggleKeyboard() {
+            const content = document.getElementById('kbContent');
+            const toggle = document.querySelector('.kb-toggle');
+            if (content.classList.contains('minimized')) {
+                content.classList.remove('minimized');
+                toggle.textContent = '−';
+            } else {
+                content.classList.add('minimized');
+                toggle.textContent = '+';
+            }
+        }
+
+        function showAnswers() {
+            document.querySelectorAll('.answer-key').forEach(key => {
+                key.classList.add('show');
+            });
+        }
+
+        function hideAnswers() {
+            document.querySelectorAll('.answer-key').forEach(key => {
+                key.classList.remove('show');
+            });
+        }
+
+        function resetExercise() {
+            document.querySelectorAll('textarea').forEach(textarea => {
+                textarea.value = '';
+                textarea.classList.remove('correct', 'incorrect');
+            });
+            hideAnswers();
+            document.getElementById('results').style.display = 'none';
+        }
+
+        function downloadResponses() {
+            let content = 'EJERCICIO: CONDICIONALES Y SUBJUNTIVO - TURISMO SOSTENIBLE\n';
+            content += '='.repeat(70) + '\n\n';
+
+            const questions = [
+                { num: 1, title: 'Si ... (Indicativo - condición posible)' },
+                { num: 2, title: 'Si ... (Subjuntivo pasado - condición hipotética)' },
+                { num: 3, title: 'A menos que (unless) + Subjuntivo' },
+                { num: 4, title: 'Cuando (sea) + Subjuntivo' },
+                { num: 5, title: 'En caso de (que) + Subjuntivo' },
+                { num: 6, title: 'A pesar de (que) + Indicativo' },
+                { num: 7, title: 'Debido a (que) + Indicativo' },
+                { num: 8, title: 'Ya que / Puesto que + Indicativo' },
+                { num: 9, title: 'Por lo tanto + Indicativo' },
+                { num: 10, title: 'Mientras que + Indicativo' },
+                { num: 11, title: 'Antes de (que) + Subjuntivo' },
+                { num: 12, title: 'Aunque + Indicativo (hecho cierto)' },
+                { num: 13, title: 'Aunque + Subjuntivo (hecho dudoso/posible)' },
+                { num: 14, title: 'Así que + Indicativo' },
+                { num: 15, title: 'Mientras + Indicativo' },
+                { num: 16, title: 'Siempre que + Subjuntivo' },
+                { num: 17, title: 'Por eso + Indicativo/Subjuntivo' },
+                { num: 18, title: 'Sin embargo + Indicativo' },
+                { num: 19, title: 'Al mismo tiempo que + Indicativo' },
+                { num: 20, title: 'De modo que + Subjuntivo' },
+                { num: 21, title: 'Por consiguiente + Indicativo' },
+                { num: 22, title: 'En tanto que + Subjuntivo' },
+                { num: 23, title: 'A fin de que + Subjuntivo' }
+            ];
+
+            questions.forEach(q => {
+                const textarea = document.getElementById(`q${q.num}`);
+                content += `PREGUNTA ${q.num}: ${q.title}\n`;
+                content += '-'.repeat(70) + '\n';
+                content += `Tu respuesta:\n${textarea.value || '(sin respuesta)'}\n\n`;
+            });
+
+            content += '\n' + '='.repeat(70) + '\n';
+            content += 'Fecha: ' + new Date().toLocaleString('es-ES') + '\n';
+
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'condicionales_subjuntivo_respuestas.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spanish Numbers Practice</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #3498db;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 30px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #eee;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+        }
+        .exercise {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            border: 1px solid #eaeaea;
+        }
+        input[type="text"] {
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            width: 100%;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        input[type="text"]:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .feedback {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            display: none;
+        }
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .score {
+            text-align: center;
+            font-size: 20px;
+            margin: 25px 0;
+            font-weight: bold;
+            padding: 15px;
+            background: #e8f4fc;
+            border-radius: 10px;
+        }
+        .instructions {
+            background: #e8f4fc;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+        .hint {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-top: 8px;
+            font-style: italic;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        #resetButton {
+            background: #95a5a6;
+        }
+        #resetButton:hover {
+            background: #7f8c8d;
+        }
+        .key-hint {
+            text-align: center;
+            margin-top: 10px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .gender-note {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 0.9em;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Spanish Numbers Practice</h1>
+        
+        <div class="instructions">
+            <p>Complete the following exercises based on your knowledge of Spanish numbers, dates, and times. Type your answers in the input fields and check your answers by pressing <strong>Enter</strong> in any field or by clicking "Check Answers" when finished.</p>
+            <div class="gender-note">
+                <strong>Remember:</strong> Ordinal numbers are adjectives and agree with the noun in both gender and number!
+            </div>
+        </div>
+        
+        <div class="score" id="scoreDisplay">Score: 0/0</div>
+        
+        <div class="section">
+            <h2>Ordinal Numbers</h2>
+            
+            <div class="exercise">
+                <p>1. Write the Spanish ordinal number for "5th" (masculine):</p>
+                <input type="text" id="q1" placeholder="Your answer" class="answer-input">
+                <div class="hint">Remember to use the correct masculine form</div>
+                <div class="feedback" id="fb1"></div>
+            </div>
+            
+            <div class="exercise">
+                <p>2. Write the Spanish ordinal number for "5th" (feminine):</p>
+                <input type="text" id="q2" placeholder="Your answer" class="answer-input">
+                <div class="hint">Remember to use the correct feminine form</div>
+                <div class="feedback" id="fb2"></div>
+            </div>
+            
+            <div class="exercise">
+                <p>3. Write the Spanish ordinal number for "3rd" as it would appear before a masculine singular noun:</p>
+                <input type="text" id="q3" placeholder="Your answer" class="answer-input">
+                <div class="hint">Remember the special rule for primero and tercero</div>
+                <div class="feedback" id="fb3"></div>
+            </div>
+            
+            <div class="exercise">
+                <p>4. Write the Spanish ordinal number for "1st" as it would appear before a feminine singular noun:</p>
+                <input type="text" id="q4" placeholder="Your answer" class="answer-input">
+                <div class="hint">Remember the special rule for primero and tercero</div>
+                <div class="feedback" id="fb4"></div>
+            </div>
+            
+            <div class="exercise">
+                <p>5. How would you say "the tenth century" in Spanish?</p>
+                <input type="text" id="q5" placeholder="Your answer" class="answer-input">
+                <div class="feedback" id="fb5"></div>
+            </div>
+            
+            <div class="exercise">
+                <p>6. How would you say "the nineteenth century" in Spanish?</p>
+                <input type="text" id="q6" placeholder="Your answer" class="answer-input">
+                <div class="hint">Remember the rule for numbers above 10</div>
+                <div class="feedback" id="fb6"></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Time Expressions</h2>
+            
+            <div class="exercise">
+                <p>7. How would you say "22:45" using the 24-hour clock format in Spanish?</p>
+                <input type="text" id="q7" placeholder="Your answer" class="answer-input">
+                <div class="feedback" id="fb7"></div>
+            </div>
+            
+            <div class="exercise">
+                <p>8. How would you say "10:45 PM" in Spanish using the 12-hour clock?</p>
+                <input type="text" id="q8" placeholder="Your answer" class="answer-input">
+                <div class="feedback" id="fb8"></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Dates and Years</h2>
+            
+            <div class="exercise">
+                <p>9. Write "June 9th" in Spanish:</p>
+                <input type="text" id="q9" placeholder="Your answer" class="answer-input">
+                <div class="feedback" id="fb9"></div>
+            </div>
+            
+            <div class="exercise">
+                <p>10. Write "December 1st" in Spanish:</p>
+                <input type="text" id="q10" placeholder="Your answer" class="answer-input">
+                <div class="hint">Remember the special rule for the first day of the month</div>
+                <div class="feedback" id="fb10"></div>
+            </div>
+            
+            <div class="exercise">
+                <p>11. How would you say the year 1945 in Spanish?</p>
+                <input type="text" id="q11" placeholder="Your answer" class="answer-input">
+                <div class="feedback" id="fb11"></div>
+            </div>
+            
+            <div class="exercise">
+                <p>12. How would you say the year 2024 in Spanish (both formal and informal ways)?</p>
+                <input type="text" id="q12" placeholder="Your answer" class="answer-input">
+                <div class="feedback" id="fb12"></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Percentages and Fractions</h2>
+            
+            <div class="exercise">
+                <p>13. How would you say "32%" in Spanish?</p>
+                <input type="text" id="q13" placeholder="Your answer" class="answer-input">
+                <div class="feedback" id="fb13"></div>
+            </div>
+            
+            <div class="exercise">
+                <p>14. How would you write "44.5%" following Spanish conventions?</p>
+                <input type="text" id="q14" placeholder="Your answer" class="answer-input">
+                <div class="hint">Remember the decimal point rule</div>
+                <div class="feedback" id="fb14"></div>
+            </div>
+            
+            <div class="exercise">
+                <p>15. How would you say "half a million" in Spanish?</p>
+                <input type="text" id="q15" placeholder="Your answer" class="answer-input">
+                <div class="feedback" id="fb15"></div>
+            </div>
+            
+            <div class="exercise">
+                <p>16. How would you say "a fifth of the population" in Spanish?</p>
+                <input type="text" id="q16" placeholder="Your answer" class="answer-input">
+                <div class="feedback" id="fb16"></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Large Numbers</h2>
+            
+            <div class="exercise">
+                <p>17. How would you write "1,500" following Spanish number conventions?</p>
+                <input type="text" id="q17" placeholder="Your answer" class="answer-input">
+                <div class="hint">Remember the thousands separator rule</div>
+                <div class="feedback" id="fb17"></div>
+            </div>
+            
+            <div class="exercise">
+                <p>18. How would you say "1,500,000" in Spanish?</p>
+                <input type="text" id="q18" placeholder="Your answer" class="answer-input">
+                <div class="feedback" id="fb18"></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Historical Dates</h2>
+            
+            <div class="exercise">
+                <p>19. How would you say "In 1978 the Spanish Constitution was approved" in Spanish?</p>
+                <input type="text" id="q19" placeholder="Your answer" class="answer-input">
+                <div class="feedback" id="fb19"></div>
+            </div>
+            
+            <div class="exercise">
+                <p>20. How would you say "In 1982 Spain joined NATO" in Spanish?</p>
+                <input type="text" id="q20" placeholder="Your answer" class="answer-input">
+                <div class="feedback" id="fb20"></div>
+            </div>
+        </div>
+        
+        <div class="button-container">
+            <button id="checkAnswers">Check All Answers</button>
+            <button id="resetButton">Reset All</button>
+        </div>
+        
+        <div class="key-hint">
+            <p>Tip: Press <strong>Enter</strong> in any answer field to check your answers</p>
+        </div>
+    </div>
+
+    <script>
+        // Complete answer key with all sections
+        const answers = {
+            q1: ["quinto"],
+            q2: ["quinta"],
+            q3: ["tercer"],
+            q4: ["primera"],
+            q5: ["el siglo décimo", "el siglo x", "siglo décimo", "siglo x"],
+            q6: ["el siglo diecinueve", "el siglo xix", "siglo diecinueve", "siglo xix"],
+            q7: ["veintidós cuarenta y cinco", "veintidos cuarenta y cinco"],
+            q8: ["las diez cuarenta y cinco de la noche", "las once menos cuarto de la noche", "un cuarto para las once de la noche"],
+            q9: ["el 9 de junio"],
+            q10: ["el primero de diciembre", "el 1 de diciembre"],
+            q11: ["mil novecientos cuarenta y cinco"],
+            q12: ["dos mil veinticuatro", "veinte veinticuatro"],
+            q13: ["treinta y dos por ciento", "treinta y dos por cien"],
+            q14: ["44,5%", "44,5 por ciento", "44,5 por cien"],
+            q15: ["medio millón"],
+            q16: ["la quinta parte de la población"],
+            q17: ["1.500"],
+            q18: ["un millón quinientos mil"],
+            q19: ["En 1978 se aprobó la Constitución española", "En mil novecientos setenta y ocho se aprobó la Constitución española"],
+            q20: ["En 1982 España ingresó en la OTAN", "En mil novecientos ochenta y dos España ingresó en la OTAN"]
+        };
+
+        document.getElementById('checkAnswers').addEventListener('click', function() {
+            checkAllAnswers();
+        });
+        
+        document.getElementById('resetButton').addEventListener('click', function() {
+            resetForm();
+        });
+        
+        // Add event listeners for Enter key
+        const inputFields = document.querySelectorAll('.answer-input');
+        inputFields.forEach(input => {
+            input.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    checkSingleAnswer(this.id);
+                    // Move to next input
+                    const nextInput = document.getElementById(getNextInputId(this.id));
+                    if (nextInput) {
+                        nextInput.focus();
+                    }
+                }
+            });
+        });
+        
+        function getNextInputId(currentId) {
+            const currentNum = parseInt(currentId.substring(1));
+            if (currentNum < 20) {
+                return 'q' + (currentNum + 1);
+            }
+            return null;
+        }
+        
+        function normalizeAnswer(answer) {
+            return answer
+                .toLowerCase()
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Remove accents
+                .replace(/\s+/g, ' ') // Normalize spaces
+                .trim();
+        }
+        
+        function checkSingleAnswer(questionId) {
+            const userAnswer = normalizeAnswer(document.getElementById(questionId).value);
+            const correctAnswers = answers[questionId].map(a => normalizeAnswer(a));
+            
+            const feedbackElement = document.getElementById('fb' + questionId.substring(1));
+            
+            if (correctAnswers.includes(userAnswer)) {
+                feedbackElement.textContent = "✓ Correct!";
+                feedbackElement.className = "feedback correct";
+            } else {
+                feedbackElement.textContent = "✗ Incorrect. Possible answers: " + answers[questionId].join(" OR ");
+                feedbackElement.className = "feedback incorrect";
+            }
+            feedbackElement.style.display = "block";
+            
+            updateTotalScore();
+        }
+        
+        function checkAllAnswers() {
+            for (let i = 1; i <= 20; i++) {
+                checkSingleAnswer('q' + i);
+            }
+        }
+        
+        function updateTotalScore() {
+            let score = 0;
+            const totalQuestions = 20;
+            
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionId = 'q' + i;
+                const userAnswer = normalizeAnswer(document.getElementById(questionId).value);
+                const correctAnswers = answers[questionId].map(a => normalizeAnswer(a));
+                
+                if (correctAnswers.includes(userAnswer)) {
+                    score++;
+                }
+            }
+            
+            document.getElementById('scoreDisplay').textContent = `Score: ${score}/${totalQuestions}`;
+        }
+        
+        function resetForm() {
+            // Clear all input fields
+            const inputs = document.querySelectorAll('input[type="text"]');
+            inputs.forEach(input => {
+                input.value = '';
+            });
+            
+            // Hide all feedback
+            const feedbacks = document.querySelectorAll('.feedback');
+            feedbacks.forEach(feedback => {
+                feedback.style.display = 'none';
+            });
+            
+            // Reset score
+            document.getElementById('scoreDisplay').textContent = 'Score: 0/0';
+        }
+    </script>
+</body>
+</html>

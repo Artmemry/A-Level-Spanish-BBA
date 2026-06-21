@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice 100 Most Common Spanish Nouns</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f9ff;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            position: relative;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 20px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .instructions {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .practice-area {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .noun-display {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px dashed #d1d8e0;
+        }
+        
+        .noun-english {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .article-type {
+            font-size: 1.2rem;
+            color: #e74c3c;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .hint {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+        
+        .input-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .input-container {
+            display: flex;
+            width: 100%;
+            max-width: 500px;
+            gap: 10px;
+        }
+        
+        .article-select {
+            padding: 12px;
+            font-size: 1.1rem;
+            border: 2px solid #bdc3c7;
+            border-radius: 6px;
+            background-color: white;
+            width: 100px;
+        }
+        
+        .noun-input {
+            flex: 1;
+            padding: 12px;
+            font-size: 1.1rem;
+            border: 2px solid #bdc3c7;
+            border-radius: 6px;
+            transition: border-color 0.3s;
+        }
+        
+        .noun-input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        
+        .accent-keyboard {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+            max-width: 500px;
+        }
+        
+        .accent-btn {
+            padding: 8px 15px;
+            background-color: #ecf0f1;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+        }
+        
+        .accent-btn:hover {
+            background-color: #d5dbdb;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-secondary {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #27ae60;
+        }
+        
+        .btn-ghost {
+            background-color: transparent;
+            color: #7f8c8d;
+            border: 1px solid #bdc3c7;
+        }
+        
+        .btn-ghost:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+            min-height: 30px;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        
+        .correct {
+            background-color: #d5f4e6;
+            color: #27ae60;
+        }
+        
+        .almost {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .incorrect {
+            background-color: #fde8e8;
+            color: #e74c3c;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-box {
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: #3498db;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .download-area {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            border-top: 1px solid #eaeaea;
+            padding-top: 20px;
+        }
+        
+        .settings {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .setting-item {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .setting-item label {
+            font-size: 0.95rem;
+        }
+        
+        .tolerance-display {
+            font-weight: bold;
+            color: #3498db;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .input-container {
+                flex-direction: column;
+            }
+            
+            .article-select {
+                width: 100%;
+            }
+            
+            .stat-box {
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Practice 100 Most Common Spanish Nouns</h1>
+            <p class="subtitle">Practice with definite (el, la, los, las) and indefinite (un, una, unos, unas) articles</p>
+        </header>
+        
+        <div class="instructions">
+            <p><strong>Instructions:</strong> For each English noun shown, <strong>select the correct Spanish article</strong> (based on the English article shown) and type the Spanish noun. Use the accent keyboard for special characters. <strong>Small typing errors are allowed and accents are optional</strong> (Levenshtein distance system). Your score will be tracked and you can download your results at the end.</p>
+        </div>
+        
+        <div class="practice-area">
+            <div class="noun-display">
+                <div class="article-type" id="article-type">Indefinite</div>
+                <div class="noun-english" id="english-noun">Loading...</div>
+                <div class="hint" id="hint">Gender: -- | Plurality: --</div>
+                <div class="progress-bar">
+                    <div class="progress" id="progress"></div>
+                </div>
+            </div>
+            
+            <div class="input-area">
+                <div class="input-container">
+                    <select class="article-select" id="article-select">
+                        <option value="">Select article</option>
+                        <option value="el">el</option>
+                        <option value="la">la</option>
+                        <option value="los">los</option>
+                        <option value="las">las</option>
+                        <option value="un">un</option>
+                        <option value="una">una</option>
+                        <option value="unos">unos</option>
+                        <option value="unas">unas</option>
+                    </select>
+                    <input type="text" class="noun-input" id="noun-input" placeholder="Type the Spanish noun..." autocomplete="off">
+                </div>
+                
+                <div class="accent-keyboard" id="accent-keyboard">
+                    <!-- Accent buttons will be added by JavaScript -->
+                </div>
+                
+                <div class="buttons">
+                    <button class="btn btn-primary" id="check-btn">Check Answer</button>
+                    <button class="btn btn-ghost" id="hint-btn">Show Hint</button>
+                    <button class="btn btn-secondary" id="next-btn">Next Noun</button>
+                </div>
+                
+                <div class="result" id="result"></div>
+            </div>
+        </div>
+        
+        <div class="settings">
+            <h3>Settings</h3>
+            <div class="setting-item">
+                <input type="range" id="tolerance-slider" min="0" max="3" value="1" step="1">
+                <label for="tolerance-slider">Typing tolerance: <span class="tolerance-display" id="tolerance-display">Low</span></label>
+                <div style="font-size: 0.8rem; color: #666; margin-top: 5px;">Higher tolerance allows more typing errors (Levenshtein distance ignores accents)</div>
+            </div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-value" id="score">0</div>
+                <div class="stat-label">Score</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="correct-count">0</div>
+                <div class="stat-label">Correct</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="almost-count">0</div>
+                <div class="stat-label">Almost</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="incorrect-count">0</div>
+                <div class="stat-label">Incorrect</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="remaining">100</div>
+                <div class="stat-label">Remaining</div>
+            </div>
+        </div>
+        
+        <div class="download-area">
+            <h3>Download Your Results</h3>
+            <p>Save your practice results as a CSV file to track your progress over time.</p>
+            <button class="btn btn-primary" id="download-btn">Download Results CSV</button>
+        </div>
+        
+        <footer>
+            <p>Practice tool for the 100 most frequent Spanish nouns (Spain) | Includes definite and indefinite articles | Levenshtein distance ignores accents</p>
+        </footer>
+    </div>
+
+    <script>
+        // Remove accents for Levenshtein comparison
+        function removeAccents(str) {
+            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+
+        // Levenshtein distance function for string similarity (ignores accents)
+        function levenshteinDistanceIgnoreAccents(a, b) {
+            const normalizedA = removeAccents(a.toLowerCase());
+            const normalizedB = removeAccents(b.toLowerCase());
+            
+            const matrix = [];
+            
+            // Increment along the first column of each row
+            for (let i = 0; i <= normalizedB.length; i++) {
+                matrix[i] = [i];
+            }
+            
+            // Increment each column in the first row
+            for (let j = 0; j <= normalizedA.length; j++) {
+                matrix[0][j] = j;
+            }
+            
+            // Fill in the rest of the matrix
+            for (let i = 1; i <= normalizedB.length; i++) {
+                for (let j = 1; j <= normalizedA.length; j++) {
+                    if (normalizedB.charAt(i - 1) === normalizedA.charAt(j - 1)) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(
+                            matrix[i - 1][j - 1] + 1, // substitution
+                            matrix[i][j - 1] + 1,     // insertion
+                            matrix[i - 1][j] + 1      // deletion
+                        );
+                    }
+                }
+            }
+            
+            return matrix[normalizedB.length][normalizedA.length];
+        }
+        
+        // Check similarity between strings with Levenshtein (ignores accents)
+        function isSimilarEnough(userInput, correctAnswer, tolerance) {
+            const distance = levenshteinDistanceIgnoreAccents(userInput, correctAnswer);
+            const maxLength = Math.max(userInput.length, correctAnswer.length);
+            
+            // Allow more tolerance for longer words
+            const allowedDistance = tolerance === 0 ? 0 : 
+                                  tolerance === 1 ? Math.min(1, Math.floor(maxLength * 0.1)) :
+                                  tolerance === 2 ? Math.min(2, Math.floor(maxLength * 0.15)) :
+                                  Math.min(3, Math.floor(maxLength * 0.2));
+            
+            return distance <= allowedDistance;
+        }
+
+        // Spanish nouns data - 100 most common nouns in Spanish (Spain)
+        // Now includes synonyms as arrays
+        const spanishNouns = [
+            { english: "time", spanish: ["tiempo"], gender: "masculine", plurality: "singular" },
+            { english: "year", spanish: ["año"], gender: "masculine", plurality: "singular" },
+            { english: "person", spanish: ["persona"], gender: "feminine", plurality: "singular" },
+            { english: "day", spanish: ["día"], gender: "masculine", plurality: "singular" },
+            { english: "thing", spanish: ["cosa"], gender: "feminine", plurality: "singular" },
+            { english: "man", spanish: ["hombre"], gender: "masculine", plurality: "singular" },
+            { english: "world", spanish: ["mundo"], gender: "masculine", plurality: "singular" },
+            { english: "life", spanish: ["vida"], gender: "feminine", plurality: "singular" },
+            { english: "hand", spanish: ["mano"], gender: "feminine", plurality: "singular" },
+            { english: "part", spanish: ["parte"], gender: "feminine", plurality: "singular" },
+            { english: "child", spanish: ["niño", "niña"], gender: "masculine", plurality: "singular" },
+            { english: "eye", spanish: ["ojo"], gender: "masculine", plurality: "singular" },
+            { english: "woman", spanish: ["mujer"], gender: "feminine", plurality: "singular" },
+            { english: "place", spanish: ["lugar"], gender: "masculine", plurality: "singular" },
+            { english: "work", spanish: ["trabajo"], gender: "masculine", plurality: "singular" },
+            { english: "week", spanish: ["semana"], gender: "feminine", plurality: "singular" },
+            { english: "case", spanish: ["caso"], gender: "masculine", plurality: "singular" },
+            { english: "point", spanish: ["punto"], gender: "masculine", plurality: "singular" },
+            { english: "government", spanish: ["gobierno"], gender: "masculine", plurality: "singular" },
+            { english: "company", spanish: ["empresa"], gender: "feminine", plurality: "singular" },
+            { english: "number", spanish: ["número"], gender: "masculine", plurality: "singular" },
+            { english: "group", spanish: ["grupo"], gender: "masculine", plurality: "singular" },
+            { english: "problem", spanish: ["problema"], gender: "masculine", plurality: "singular" },
+            { english: "fact", spanish: ["hecho"], gender: "masculine", plurality: "singular" },
+            { english: "water", spanish: ["agua"], gender: "feminine", plurality: "singular" },
+            { english: "money", spanish: ["dinero"], gender: "masculine", plurality: "singular" },
+            { english: "month", spanish: ["mes"], gender: "masculine", plurality: "singular" },
+            { english: "right", spanish: ["derecho"], gender: "masculine", plurality: "singular" },
+            { english: "study", spanish: ["estudio"], gender: "masculine", plurality: "singular" },
+            { english: "book", spanish: ["libro"], gender: "masculine", plurality: "singular" },
+            { english: "word", spanish: ["palabra"], gender: "feminine", plurality: "singular" },
+            { english: "business", spanish: ["negocio"], gender: "masculine", plurality: "singular" },
+            { english: "issue", spanish: ["asunto"], gender: "masculine", plurality: "singular" },
+            { english: "side", spanish: ["lado"], gender: "masculine", plurality: "singular" },
+            { english: "kind", spanish: ["tipo"], gender: "masculine", plurality: "singular" },
+            { english: "head", spanish: ["cabeza"], gender: "feminine", plurality: "singular" },
+            { english: "house", spanish: ["casa"], gender: "feminine", plurality: "singular" },
+            { english: "service", spanish: ["servicio"], gender: "masculine", plurality: "singular" },
+            { english: "father", spanish: ["padre"], gender: "masculine", plurality: "singular" },
+            { english: "power", spanish: ["poder"], gender: "masculine", plurality: "singular" },
+            { english: "hour", spanish: ["hora"], gender: "feminine", plurality: "singular" },
+            { english: "game", spanish: ["juego"], gender: "masculine", plurality: "singular" },
+            { english: "line", spanish: ["línea"], gender: "feminine", plurality: "singular" },
+            { english: "end", spanish: ["fin"], gender: "masculine", plurality: "singular" },
+            { english: "member", spanish: ["miembro"], gender: "masculine", plurality: "singular" },
+            { english: "law", spanish: ["ley"], gender: "feminine", plurality: "singular" },
+            { english: "car", spanish: ["coche", "auto", "automóvil"], gender: "masculine", plurality: "singular" },
+            { english: "city", spanish: ["ciudad"], gender: "feminine", plurality: "singular" },
+            { english: "community", spanish: ["comunidad"], gender: "feminine", plurality: "singular" },
+            { english: "name", spanish: ["nombre"], gender: "masculine", plurality: "singular" },
+            { english: "president", spanish: ["presidente", "presidenta"], gender: "masculine", plurality: "singular" },
+            { english: "team", spanish: ["equipo"], gender: "masculine", plurality: "singular" },
+            { english: "minute", spanish: ["minuto"], gender: "masculine", plurality: "singular" },
+            { english: "idea", spanish: ["idea"], gender: "feminine", plurality: "singular" },
+            { english: "kid", spanish: ["chico", "chica", "niño", "niña"], gender: "masculine", plurality: "singular" },
+            { english: "body", spanish: ["cuerpo"], gender: "masculine", plurality: "singular" },
+            { english: "information", spanish: ["información"], gender: "feminine", plurality: "singular" },
+            { english: "back", spanish: ["espalda"], gender: "feminine", plurality: "singular" },
+            { english: "face", spanish: ["cara"], gender: "feminine", plurality: "singular" },
+            { english: "others", spanish: ["otros", "otras"], gender: "masculine", plurality: "plural" },
+            { english: "level", spanish: ["nivel"], gender: "masculine", plurality: "singular" },
+            { english: "office", spanish: ["oficina"], gender: "feminine", plurality: "singular" },
+            { english: "door", spanish: ["puerta"], gender: "feminine", plurality: "singular" },
+            { english: "health", spanish: ["salud"], gender: "feminine", plurality: "singular" },
+            { english: "art", spanish: ["arte"], gender: "masculine", plurality: "singular" },
+            { english: "war", spanish: ["guerra"], gender: "feminine", plurality: "singular" },
+            { english: "history", spanish: ["historia"], gender: "feminine", plurality: "singular" },
+            { english: "party", spanish: ["fiesta"], gender: "feminine", plurality: "singular" },
+            { english: "result", spanish: ["resultado"], gender: "masculine", plurality: "singular" },
+            { english: "change", spanish: ["cambio"], gender: "masculine", plurality: "singular" },
+            { english: "morning", spanish: ["mañana"], gender: "feminine", plurality: "singular" },
+            { english: "reason", spanish: ["razón"], gender: "feminine", plurality: "singular" },
+            { english: "research", spanish: ["investigación"], gender: "feminine", plurality: "singular" },
+            { english: "girl", spanish: ["chica", "niña"], gender: "feminine", plurality: "singular" },
+            { english: "guy", spanish: ["chico", "tipo"], gender: "masculine", plurality: "singular" },
+            { english: "moment", spanish: ["momento"], gender: "masculine", plurality: "singular" },
+            { english: "air", spanish: ["aire"], gender: "masculine", plurality: "singular" },
+            { english: "teacher", spanish: ["profesor", "profesora", "maestro", "maestra"], gender: "masculine", plurality: "singular" },
+            { english: "force", spanish: ["fuerza"], gender: "feminine", plurality: "singular" },
+            { english: "education", spanish: ["educación"], gender: "feminine", plurality: "singular" },
+            { english: "foot", spanish: ["pie"], gender: "masculine", plurality: "singular" },
+            { english: "boy", spanish: ["niño", "chico"], gender: "masculine", plurality: "singular" },
+            { english: "age", spanish: ["edad"], gender: "feminine", plurality: "singular" },
+            { english: "policy", spanish: ["política"], gender: "feminine", plurality: "singular" },
+            { english: "music", spanish: ["música"], gender: "feminine", plurality: "singular" },
+            { english: "reading", spanish: ["lectura"], gender: "feminine", plurality: "singular" },
+            { english: "method", spanish: ["método"], gender: "masculine", plurality: "singular" },
+            { english: "data", spanish: ["datos"], gender: "masculine", plurality: "plural" },
+            { english: "food", spanish: ["comida"], gender: "feminine", plurality: "singular" },
+            { english: "understanding", spanish: ["comprensión"], gender: "feminine", plurality: "singular" },
+            { english: "theory", spanish: ["teoría"], gender: "feminine", plurality: "singular" },
+            { english: "bird", spanish: ["pájaro"], gender: "masculine", plurality: "singular" },
+            { english: "literature", spanish: ["literatura"], gender: "feminine", plurality: "singular" },
+            { english: "software", spanish: ["software", "programa"], gender: "masculine", plurality: "singular" },
+            { english: "control", spanish: ["control"], gender: "masculine", plurality: "singular" },
+            { english: "knowledge", spanish: ["conocimiento"], gender: "masculine", plurality: "singular" },
+            { english: "system", spanish: ["sistema"], gender: "masculine", plurality: "singular" },
+            { english: "room", spanish: ["habitación", "cuarto", "sala"], gender: "feminine", plurality: "singular" },
+            { english: "friend", spanish: ["amigo", "amiga"], gender: "masculine", plurality: "singular" },
+            { english: "country", spanish: ["país"], gender: "masculine", plurality: "singular" },
+            { english: "question", spanish: ["pregunta"], gender: "feminine", plurality: "singular" }
+        ];
+
+        // App state
+        let currentNounIndex = 0;
+        let score = 0;
+        let correctCount = 0;
+        let almostCount = 0;
+        let incorrectCount = 0;
+        let practiceHistory = [];
+        let currentNoun = null;
+        let showHint = false;
+        let currentArticleType = "definite"; // "definite" or "indefinite"
+        let toleranceLevel = 1; // 0: Strict, 1: Low, 2: Medium, 3: High
+
+        // DOM elements
+        const englishNounElement = document.getElementById('english-noun');
+        const articleTypeElement = document.getElementById('article-type');
+        const hintElement = document.getElementById('hint');
+        const articleSelectElement = document.getElementById('article-select');
+        const nounInputElement = document.getElementById('noun-input');
+        const resultElement = document.getElementById('result');
+        const scoreElement = document.getElementById('score');
+        const correctCountElement = document.getElementById('correct-count');
+        const almostCountElement = document.getElementById('almost-count');
+        const incorrectCountElement = document.getElementById('incorrect-count');
+        const remainingElement = document.getElementById('remaining');
+        const progressElement = document.getElementById('progress');
+        const checkButton = document.getElementById('check-btn');
+        const hintButton = document.getElementById('hint-btn');
+        const nextButton = document.getElementById('next-btn');
+        const downloadButton = document.getElementById('download-btn');
+        const accentKeyboardElement = document.getElementById('accent-keyboard');
+        const toleranceSlider = document.getElementById('tolerance-slider');
+        const toleranceDisplay = document.getElementById('tolerance-display');
+
+        // Initialize accent keyboard
+        function initAccentKeyboard() {
+            const accents = ['á', 'é', 'í', 'ó', 'ú', 'ñ', 'ü', '¿', '¡'];
+            
+            accents.forEach(accent => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'accent-btn';
+                button.textContent = accent;
+                button.addEventListener('click', () => {
+                    nounInputElement.value += accent;
+                    nounInputElement.focus();
+                });
+                accentKeyboardElement.appendChild(button);
+            });
+        }
+
+        // Get a random noun from the list
+        function getRandomNoun() {
+            // Make a copy of the nouns that haven't been practiced yet
+            const remainingNouns = spanishNouns.filter((noun, index) => 
+                !practiceHistory.some(item => item.index === index)
+            );
+            
+            // If all nouns have been practiced, reset
+            if (remainingNouns.length === 0) {
+                // Keep the history but allow practicing again
+                practiceHistory = [];
+                const randomIndex = Math.floor(Math.random() * spanishNouns.length);
+                currentNounIndex = randomIndex;
+                return {...spanishNouns[randomIndex], index: randomIndex};
+            }
+            
+            // Get a random noun from remaining ones
+            const randomIndex = Math.floor(Math.random() * remainingNouns.length);
+            const noun = remainingNouns[randomIndex];
+            const originalIndex = spanishNouns.findIndex(n => 
+                n.english === noun.english && n.spanish[0] === noun.spanish[0]
+            );
+            
+            currentNounIndex = originalIndex;
+            return {...noun, index: originalIndex};
+        }
+
+        // Update the displayed noun
+        function updateNounDisplay() {
+            currentNoun = getRandomNoun();
+            
+            // Randomly choose definite or indefinite article for this noun
+            currentArticleType = Math.random() > 0.5 ? "definite" : "indefinite";
+            
+            // Display the English with the appropriate article
+            let englishDisplay = "";
+            if (currentArticleType === "definite") {
+                englishDisplay = `the ${currentNoun.english}`;
+                articleTypeElement.textContent = "Definite Article";
+                articleTypeElement.style.color = "#e74c3c";
+            } else {
+                // Use "a" or "an" based on first letter sound
+                const firstLetter = currentNoun.english.charAt(0).toLowerCase();
+                const useAn = ['a', 'e', 'i', 'o', 'u'].includes(firstLetter);
+                englishDisplay = `${useAn ? "an" : "a"} ${currentNoun.english}`;
+                articleTypeElement.textContent = "Indefinite Article";
+                articleTypeElement.style.color = "#3498db";
+            }
+            
+            englishNounElement.textContent = englishDisplay;
+            showHint = false;
+            hintElement.textContent = "Click 'Show Hint' for gender and plurality";
+            
+            // Clear input and result
+            articleSelectElement.value = "";
+            nounInputElement.value = "";
+            resultElement.textContent = "";
+            resultElement.className = "result";
+            
+            // Focus on article select
+            articleSelectElement.focus();
+            
+            updateStats();
+        }
+
+        // Update statistics display
+        function updateStats() {
+            scoreElement.textContent = score;
+            correctCountElement.textContent = correctCount;
+            almostCountElement.textContent = almostCount;
+            incorrectCountElement.textContent = incorrectCount;
+            remainingElement.textContent = spanishNouns.length - practiceHistory.length;
+            
+            const progressPercent = Math.round((practiceHistory.length / spanishNouns.length) * 100);
+            progressElement.style.width = `${progressPercent}%`;
+        }
+
+        // Determine correct article based on noun and article type
+        function getCorrectArticle() {
+            if (currentArticleType === "definite") {
+                if (currentNoun.gender === "masculine" && currentNoun.plurality === "singular") {
+                    return "el";
+                } else if (currentNoun.gender === "feminine" && currentNoun.plurality === "singular") {
+                    return "la";
+                } else if (currentNoun.gender === "masculine" && currentNoun.plurality === "plural") {
+                    return "los";
+                } else if (currentNoun.gender === "feminine" && currentNoun.plurality === "plural") {
+                    return "las";
+                }
+            } else { // indefinite
+                if (currentNoun.gender === "masculine" && currentNoun.plurality === "singular") {
+                    return "un";
+                } else if (currentNoun.gender === "feminine" && currentNoun.plurality === "singular") {
+                    return "una";
+                } else if (currentNoun.gender === "masculine" && currentNoun.plurality === "plural") {
+                    return "unos";
+                } else if (currentNoun.gender === "feminine" && currentNoun.plurality === "plural") {
+                    return "unas";
+                }
+            }
+            return "";
+        }
+
+        // Check if user's noun matches any of the accepted synonyms
+        function checkNounMatch(userInput) {
+            const userInputNormalized = removeAccents(userInput.toLowerCase().trim());
+            
+            // Check for exact match (with or without accents)
+            for (const correctNoun of currentNoun.spanish) {
+                const correctNormalized = removeAccents(correctNoun.toLowerCase());
+                if (userInputNormalized === correctNormalized) {
+                    return { match: true, exact: true, correctNoun };
+                }
+            }
+            
+            // Check for similar match with Levenshtein
+            for (const correctNoun of currentNoun.spanish) {
+                if (isSimilarEnough(userInput, correctNoun, toleranceLevel)) {
+                    return { match: true, exact: false, correctNoun };
+                }
+            }
+            
+            return { match: false, exact: false, correctNoun: currentNoun.spanish[0] };
+        }
+
+        // Check the user's answer
+        function checkAnswer() {
+            const selectedArticle = articleSelectElement.value;
+            const userNoun = nounInputElement.value.trim();
+            const correctArticle = getCorrectArticle();
+            
+            // Check article
+            const isArticleCorrect = selectedArticle === correctArticle;
+            
+            // Check noun against synonyms with Levenshtein
+            const nounCheck = checkNounMatch(userNoun);
+            const isNounMatch = nounCheck.match;
+            const isNounExact = nounCheck.exact;
+            const displayedCorrectNoun = nounCheck.correctNoun;
+            
+            // Determine result
+            let resultType = "incorrect";
+            let points = 0;
+            let message = "";
+            
+            if (isArticleCorrect && isNounExact) {
+                // Perfect answer
+                resultType = "correct";
+                points = 10;
+                correctCount++;
+                message = `✓ Perfect! "${correctArticle} ${displayedCorrectNoun}" is correct.`;
+                if (currentNoun.spanish.length > 1) {
+                    message += ` (Also accepted: ${currentNoun.spanish.slice(1).join(', ')})`;
+                }
+            } else if (isArticleCorrect && isNounMatch && !isNounExact) {
+                // Almost correct (article right, noun close)
+                resultType = "almost";
+                points = 7;
+                almostCount++;
+                message = `✓ Almost! You wrote "${selectedArticle} ${userNoun}". The correct answer is "${correctArticle} ${displayedCorrectNoun}".`;
+                if (currentNoun.spanish.length > 1) {
+                    message += ` (Also accepted: ${currentNoun.spanish.slice(1).join(', ')})`;
+                }
+            } else if (isArticleCorrect && !isNounMatch) {
+                // Wrong noun
+                resultType = "incorrect";
+                points = -2;
+                incorrectCount++;
+                const acceptedNouns = currentNoun.spanish.join(' or ');
+                message = `✗ Article correct but noun wrong. You wrote "${selectedArticle} ${userNoun}". Accepted: ${acceptedNouns}.`;
+            } else if (!isArticleCorrect && isNounMatch) {
+                // Wrong article
+                resultType = "incorrect";
+                points = -2;
+                incorrectCount++;
+                message = `✗ Noun correct but article wrong. You wrote "${selectedArticle} ${userNoun}". The correct article is "${correctArticle}".`;
+            } else {
+                // Both wrong
+                resultType = "incorrect";
+                points = -3;
+                incorrectCount++;
+                const acceptedNouns = currentNoun.spanish.join(' or ');
+                message = `✗ Incorrect. The correct answer is "${correctArticle} ${acceptedNouns}".`;
+            }
+            
+            // Update score
+            score = Math.max(0, score + points);
+            
+            // Record the attempt
+            const attempt = {
+                index: currentNoun.index,
+                english: currentNoun.english,
+                spanish: currentNoun.spanish,
+                gender: currentNoun.gender,
+                plurality: currentNoun.plurality,
+                articleType: currentArticleType,
+                userArticle: selectedArticle,
+                userNoun: userNoun,
+                correctArticle: correctArticle,
+                correctNoun: displayedCorrectNoun,
+                resultType: resultType,
+                points: points,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Only add to history if not already practiced (avoid duplicates in current session)
+            if (!practiceHistory.some(item => item.index === currentNoun.index)) {
+                practiceHistory.push(attempt);
+            }
+            
+            // Display result
+            resultElement.textContent = message;
+            resultElement.className = `result ${resultType}`;
+            
+            updateStats();
+            nextButton.focus();
+        }
+
+        // Show hint for current noun
+        function showCurrentHint() {
+            showHint = true;
+            const synonyms = currentNoun.spanish.length > 1 ? 
+                ` (Synonyms: ${currentNoun.spanish.join(', ')})` : '';
+            hintElement.textContent = `Gender: ${currentNoun.gender} | Plurality: ${currentNoun.plurality}${synonyms}`;
+        }
+
+        // Update tolerance display
+        function updateToleranceDisplay() {
+            const toleranceLabels = ["Strict", "Low", "Medium", "High"];
+            toleranceDisplay.textContent = toleranceLabels[toleranceLevel];
+        }
+
+        // Download results as CSV
+        function downloadResults() {
+            if (practiceHistory.length === 0) {
+                alert("No practice data to download yet. Complete some exercises first.");
+                return;
+            }
+            
+            // Create CSV content
+            let csvContent = "Timestamp,English Word,Spanish Answer,Article Type,Your Article,Your Noun,Correct Article,Correct Noun,Result,Points\n";
+            
+            practiceHistory.forEach(attempt => {
+                const row = [
+                    attempt.timestamp,
+                    `"${attempt.english}"`,
+                    `"${Array.isArray(attempt.spanish) ? attempt.spanish.join('/') : attempt.spanish}"`,
+                    attempt.articleType,
+                    attempt.userArticle,
+                    `"${attempt.userNoun}"`,
+                    attempt.correctArticle,
+                    `"${attempt.correctNoun}"`,
+                    attempt.resultType,
+                    attempt.points
+                ].join(",");
+                
+                csvContent += row + "\n";
+            });
+            
+            // Add summary
+            csvContent += `\n\nSummary\n`;
+            csvContent += `Total Practice Sessions,${practiceHistory.length}\n`;
+            csvContent += `Correct Answers,${correctCount}\n`;
+            csvContent += `Almost Correct,${almostCount}\n`;
+            csvContent += `Incorrect Answers,${incorrectCount}\n`;
+            csvContent += `Final Score,${score}\n`;
+            csvContent += `Accuracy,${correctCount + almostCount > 0 ? Math.round(((correctCount + almostCount) / practiceHistory.length) * 100) : 0}%\n`;
+            csvContent += `Tolerance Level,${["Strict", "Low", "Medium", "High"][toleranceLevel]}\n`;
+            
+            // Create download link
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `spanish-nouns-practice-${new Date().toISOString().slice(0, 10)}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Event listeners
+        checkButton.addEventListener('click', checkAnswer);
+        
+        hintButton.addEventListener('click', showCurrentHint);
+        
+        nextButton.addEventListener('click', updateNounDisplay);
+        
+        downloadButton.addEventListener('click', downloadResults);
+        
+        nounInputElement.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                checkAnswer();
+            }
+        });
+        
+        // Allow Enter key to move to next after checking
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && resultElement.textContent !== "") {
+                updateNounDisplay();
+            }
+        });
+        
+        // Tolerance slider
+        toleranceSlider.addEventListener('input', (e) => {
+            toleranceLevel = parseInt(e.target.value);
+            updateToleranceDisplay();
+        });
+
+        // Initialize the app
+        function initApp() {
+            initAccentKeyboard();
+            updateToleranceDisplay();
+            updateNounDisplay();
+        }
+
+        // Start the app when page loads
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>

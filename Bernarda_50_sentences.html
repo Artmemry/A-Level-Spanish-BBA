@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La casa de Bernarda Alba - Práctica de frases para ensayo</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        :root {
+            --primary: #8e44ad;
+            --secondary: #3498db;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 30px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px;
+            margin: -30px -30px 30px -30px;
+            border-radius: 0 0 15px 15px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .instructions {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--secondary);
+        }
+        
+        .instructions h2 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: var(--dark);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .question {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            border: 1px solid #e0e0e0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .question:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .question-number {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .sentence {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        
+        .input-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        input {
+            min-width: 150px;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .check-btn {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .check-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .hint-btn {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .hint-btn:hover {
+            background: #e67e22;
+            transform: translateY(-2px);
+        }
+        
+        .hint {
+            background: #fff9e6;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid var(--warning);
+            display: none;
+        }
+        
+        .hint.show {
+            display: block;
+        }
+        
+        .status {
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        
+        .correct {
+            background: rgba(46, 204, 113, 0.15);
+            color: #27ae60;
+        }
+        
+        .incorrect {
+            background: rgba(231, 76, 60, 0.15);
+            color: #c0392b;
+        }
+        
+        .attempts {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .pdf-btn {
+            background: var(--primary);
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+        }
+        
+        .pdf-btn:hover {
+            background: #9b59b6;
+            transform: translateY(-2px);
+        }
+        
+        .reset-btn {
+            background: var(--dark);
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+        }
+        
+        .reset-btn:hover {
+            background: #34495e;
+            transform: translateY(-2px);
+        }
+        
+        .question.correct-border {
+            border: 2px solid var(--success);
+        }
+        
+        .question.incorrect-border {
+            border: 2px solid var(--danger);
+        }
+        
+        .completion-message {
+            text-align: center;
+            padding: 20px;
+            background: rgba(46, 204, 113, 0.1);
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 2px dashed var(--success);
+            display: none;
+        }
+        
+        .completion-message.show {
+            display: block;
+        }
+        
+        .answer-reveal {
+            background: rgba(52, 152, 219, 0.1);
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-top: 10px;
+            color: var(--secondary);
+            border-left: 3px solid var(--secondary);
+            display: none;
+        }
+        
+        .answer-reveal.show {
+            display: block;
+        }
+        
+        .input-wrapper {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            header {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .input-container {
+                flex-direction: column;
+            }
+            
+            input {
+                width: 100%;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>La casa de Bernarda Alba - Práctica de frases para ensayo</h1>
+            <p class="subtitle">Escribe la palabra o expresión correcta en cada espacio. Tendrás dos intentos para cada frase.</p>
+        </header>
+        
+        <div class="instructions">
+            <h2>Instrucciones:</h2>
+            <ul>
+                <li>Completa cada frase con la palabra o expresión correcta.</li>
+                <li>Tienes <strong>dos intentos</strong> para cada pregunta.</li>
+                <li>Después de dos intentos incorrectos, se revelará la respuesta correcta.</li>
+                <li>Utiliza el botón <strong>"Mostrar pista"</strong> si necesitas ayuda.</li>
+                <li>Tu progreso se guarda automáticamente.</li>
+                <li>Al finalizar, genera un PDF con tus resultados usando el botón <strong>"Generar PDF"</strong>.</li>
+            </ul>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-header">
+                <span>Progreso: <span id="progress-text">0%</span></span>
+                <span>Respuestas: <span id="score-text">0/50</span></span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+        
+        <div id="questions-container"></div>
+        
+        <div class="completion-message" id="completion-message">
+            <h2>¡Felicidades! Has completado todas las preguntas.</h2>
+            <p>Genera tu reporte en PDF para ver tus resultados detallados.</p>
+        </div>
+        
+        <div class="controls">
+            <button class="pdf-btn" id="generate-pdf">Generar PDF con resultados</button>
+            <button class="reset-btn" id="reset-btn">Reiniciar práctica</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Questions data with hints and answers
+            const questions = [
+                { id: 1, text: "Bernarda Alba impone un luto riguroso que ________ la represión y el control sobre sus hijas.", hint: "Hint: This verb means 'symbolises' and is in the present tense.", answer: "simboliza,representa" },
+                { id: 2, text: "Es esencial que el lector ________ el contexto histórico de la España rural de los años 30.", hint: "Hint: This verb means 'to understand' and is in the present subjunctive.", answer: "comprenda,entienda" },
+                { id: 3, text: "Adela se rebela contra las normas establecidas como si ________ derecho a ser feliz.", hint: "Hint: This verb means 'to have' and is in the imperfect subjunctive.", answer: "tuviera" },
+                { id: 4, text: "La obra muestra una sociedad en la que las mujeres ________ sometidas a la autoridad masculina, representada por Bernarda", hint: "Hint: This verb means 'to be' and is in the present indicative.", answer: "son,están" },
+                { id: 5, text: "Aunque ________ muchas restricciones, Adela busca su libertad a toda costa.", hint: "Hint: This verb means 'there are' and is in the present subjunctive.", answer: "haya" },
+                { id: 6, text: "Es probable que Lorca ________ criticar la opresión de la mujer en la sociedad tradicional.", hint: "Hint: This verb means 'to want' and is in the present subjunctive.", answer: "quiera" },
+                { id: 7, text: "La relación entre las hermanas se deteriora hasta que ________ enemigas entre sí.", hint: "Hint: This verb means 'to become' and is in the present subjunctive.", answer: "sean,se conviertan en,vuelvan ser,vuelven ser,son,se convierten en" },
+                { id: 8, text: "Es importante que el espectador ________ el simbolismo del color blanco y negro en la obra.", hint: "Hint: This verb means 'to notice' and is in the present subjunctive.", answer: "note,observe,perciba" },
+                { id: 9, text: "La Poncia actúa como si ________ más sobre los secretos de la familia.", hint: "Hint: This verb means 'to know' and is in the imperfect subjunctive.", answer: "supiera" },
+                { id: 10, text: "No cabe duda de que Bernarda ________ el personaje más autoritario de la obra.", hint: "Hint: This verb means 'to be' and is in the present indicative.", answer: "es" },
+                { id: 11, text: "Me sorprende que Pepe el Romano no ________ en escena nunca.", hint: "Hint: This verb means 'to appear' and is in the present subjunctive.", answer: "aparezca" },
+                { id: 12, text: "El calor sofocante hace que la atmósfera ________ aún más opresiva.", hint: "Hint: This verb means 'to feel' and is in the present subjunctive.", answer: "se sienta" },
+                { id: 13, text: "Es significativo que la obra ________ escrita en 1936, poco antes de la Guerra Civil.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" },
+                { id: 14, text: "Martirio confiesa que ________ celos de su hermana Adela.", hint: "Hint: This verb means 'to feel' and is in the present indicative.", answer: "siente" },
+                { id: 15, text: "No es que Bernarda ________ mala madre, sino que sigue ciegamente las convenciones sociales.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" },
+                { id: 16, text: "La obra sugiere que la represión sexual ________ a consecuencias trágicas.", hint: "Hint: This verb means 'to lead' and is in the present indicative.", answer: "lleva,conduce" },
+                { id: 17, text: "Es posible que el final de la obra ________ el más impactante del teatro lorquiano.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" },
+                { id: 18, text: "Lorca utiliza símbolos para que el público ________ la crítica social de manera indirecta.", hint: "Hint: This verb means 'to perceive' and is the present subjunctive.", answer: "perciba,comprenda" },
+                { id: 19, text: "A pesar de que ________ mucho tiempo desde su escritura, la obra sigue siendo relevante.", hint: "Hint: This verb means 'to pass' and is in the present subjunctive.", answer: "haya pasado" },
+                { id: 20, text: "La casa funciona como una metáfora que ________ la prisión en que viven las mujeres.", hint: "Hint: This verb means 'to represent' and is in the present indicative.", answer: "representa" },
+                { id: 21, text: "No me extraña que Adela ________ el único personaje que desafía abiertamente a Bernarda.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" },
+                { id: 22, text: "Es evidente que Lorca ________ muy consciente de las desigualdades de género.", hint: "Hint: This verb means 'to be' and is in the imperfect indicative.", answer: "era" },
+                { id: 23, text: "Angustias actúa como si ________ el derecho a heredar toda la fortuna. (in fact, she does have the right, as she inherited the money from Bernarda's first husband", hint: "Hint: This verb means 'to have' and is in the imperfect subjunctive.", answer: "tuviera" },
+                { id: 24, text: "La obra plantea que la honra ________ más importante que la felicidad individual.", hint: "Hint: This verb means 'to be' and is in the present indicative.", answer: "es" },
+                { id: 25, text: "Es imprescindible que el lector ________ el paralelismo entre la casa y la sociedad española.", hint: "Hint: This verb means 'to understand' and is in the present subjunctive.", answer: "comprenda,entienda" },
+                { id: 26, text: "Bernarda exige que sus hijas ________ el luto durante ocho años.", hint: "Hint: This verb means 'to keep' and is in the present subjunctive.", answer: "guarden,mantengan,observen" },
+                { id: 27, text: "No dudo que esta obra ________ una de las más importantes del teatro español.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" },
+                { id: 28, text: "Bernarda dice que los hombres en el pueblo no ________ dignos de sus hijas.", hint: "Hint: This verb means 'to be' and is in the present indicative.", answer: "son" },
+                { id: 29, text: "Es curioso que Pepe el Romano no ________ físicamente en la obra.", hint: "Hint: This verb means 'to appear' and is in the present subjunctive.", answer: "aparezca" },
+                { id: 30, text: "Magdalena confiesa que ________ cansada de sufrir.", hint: "Hint: This verb means 'to be' and is in the present indicative.", answer: "está" },
+                { id: 31, text: "Parece mentira que Bernarda ________ capaz de controlar hasta los sentimientos de sus hijas.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" },
+                { id: 32, text: "La obra muestra cómo las convenciones sociales ________ la vida de las mujeres.", hint: "Hint: This verb means 'to limit' and is in the present indicative.", answer: "limitan,determinan" },
+                { id: 33, text: "Es probable que Lorca ________ inspirado en mujeres reales para crear sus personajes.", hint: "Hint: This verb means 'to be' and is in the present perfect subjunctive.", answer: "se haya,haya sido" },
+                { id: 34, text: "Adela ________ victima de la oppresión e hipocresía materna y la perfidia de su hermana.", hint: "Hint: This verb means 'to die'.", answer: "muere" },
+                { id: 35, text: "No es cierto que las hermanas ________ bien entre sí antes de la llegada de Pepe.", hint: "Hint: This verb means 'to get along' and is in the imperfect subjunctive.", answer: "se llevaran" },
+                { id: 36, text: "La Poncia advierte a Bernarda que sus hijas ________ rebelarse si las oprime demasiado.", hint: "Hint: This verb means 'can' and is in the future indicative.", answer: "pueden,podrán" },
+                { id: 37, text: "Es trágico que Adela ________ suicidarse como única forma de rebelión.", hint: "Hint: This verb means 'to decide' and is in the present subjunctive.", answer: "decida" },
+                { id: 38, text: "La obra sugiere que la represión ________ inevitablemente a la tragedia.", hint: "Hint: This verb means 'to lead' and is in the present indicative.", answer: "lleva,conduce" },
+                { id: 39, text: "No pienso que Bernarda ________ consciente del daño que causa a sus hijas.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" },
+                { id: 40, text: "Es obvio que Lorca ________ una denuncia social a través de esta obra.", hint: "Hint: This verb means 'to make' and is in the present indicative.", answer: "hace" },
+                { id: 41, text: "Me emociona que esta obra todavía ________ relevante en el siglo XXI.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" },
+                { id: 42, text: "Las hijas viven como si ________ en una cárcel.", hint: "Hint: This verb means 'to be' and is in the imperfect subjunctive.", answer: "estuvieran" },
+                { id: 43, text: "Es importante que el público ________ el papel de la religión en la opresión femenina.", hint: "Hint: This verb means 'to understand' and is in the present subjunctive.", answer: "comprenda,entienda" },
+                { id: 44, text: "Bernarda insiste en que sus hijas ________ las apariencias por encima de todo.", hint: "Hint: This verb means 'to keep' and is in the present subjunctive.", answer: "guarden" },
+                { id: 45, text: "No hay duda de que el color blanco ________ la pureza impuesta.", hint: "Hint: This verb means 'to represent' and is in the present indicative.", answer: "representa" },
+                { id: 46, text: "Es posible que Lorca ________ esta obra como parte de su trilogía rural.", hint: "Hint: This verb means 'to conceive' and is in the imperfect subjunctive.", answer: "concibiera" },
+                { id: 47, text: "La obra plantea que la moral tradicional ________ más dañina que liberadora.", hint: "Hint: This verb means 'to be' and is in the present indicative.", answer: "es" },
+                { id: 48, text: "Adela actúa como si no ________ miedo a las consecuencias de sus actos.", hint: "Hint: This verb means 'to have' and is in the imperfect subjunctive.", answer: "tuviera" },
+                { id: 49, text: "Es fundamental que el lector ________ el contexto de la España pre-guerra civil.", hint: "Hint: This verb means 'to know' and is in the present subjunctive.", answer: "conozca" },
+                { id: 50, text: "La obra demuestra que la opresión ________ la esencia misma de la condición femenina de la época.", hint: "Hint: This verb means 'to be' and is in the imperfect.", answer: "era" }
+            ];
+
+            let userAnswers = Array(questions.length).fill().map(() => ({
+                attempts: 0,
+                correct: false,
+                answers: []
+            }));
+            
+            // Initialize the application
+            function init() {
+                renderQuestions();
+                updateProgress();
+                setupEventListeners();
+            }
+            
+            // Render all questions
+            function renderQuestions() {
+                const container = document.getElementById('questions-container');
+                container.innerHTML = '';
+                
+                questions.forEach((q, index) => {
+                    const questionEl = document.createElement('div');
+                    questionEl.className = 'question';
+                    questionEl.dataset.id = q.id;
+                    
+                    const inputHtml = `<input type="text" class="answer-input" data-id="${q.id}" 
+                        placeholder="escribe aquí" value="${userAnswers[index].answers.length > 0 ? 
+                        userAnswers[index].answers[userAnswers[index].answers.length - 1] : ''}">`;
+                    
+                    questionEl.innerHTML = `
+                        <div class="question-number">
+                            <span>Pregunta ${q.id}</span>
+                            <span class="attempts">Intentos: ${userAnswers[index].attempts}/2</span>
+                        </div>
+                        <div class="sentence">${q.text.replace('________', inputHtml)}</div>
+                        <div class="input-container">
+                            <button class="check-btn" data-id="${q.id}">Comprobar respuesta</button>
+                            <button class="hint-btn" data-id="${q.id}">Mostrar pista</button>
+                        </div>
+                        <div class="hint" data-id="${q.id}">${q.hint}</div>
+                        <div class="status" data-id="${q.id}"></div>
+                        <div class="answer-reveal" data-id="${q.id}">Respuesta correcta: <strong>${q.answer.split(',').join(' o ')}</strong></div>
+                    `;
+                    container.appendChild(questionEl);
+                    
+                    // Get elements for this question
+                    const input = questionEl.querySelector('.answer-input');
+                    const checkBtn = questionEl.querySelector('.check-btn');
+                    const statusEl = questionEl.querySelector('.status');
+                    
+                    // Disable if already answered correctly or used both attempts
+                    if (userAnswers[index].correct || userAnswers[index].attempts >= 2) {
+                        input.disabled = true;
+                        checkBtn.disabled = true;
+                        checkBtn.textContent = userAnswers[index].correct ? '✓ Correcto' : '✗ Incorrecto';
+                        checkBtn.style.background = userAnswers[index].correct ? 'var(--success)' : 'var(--danger)';
+                    }
+                    
+                    // Show status if attempts made
+                    if (userAnswers[index].attempts > 0) {
+                        const lastAnswer = userAnswers[index].answers[userAnswers[index].answers.length - 1];
+                        const isCorrect = checkAnswerCorrect(lastAnswer, q.answer);
+                        
+                        if (isCorrect) {
+                            statusEl.textContent = '✓ Correcto!';
+                            statusEl.className = 'status correct';
+                            questionEl.classList.add('correct-border');
+                        } else if (userAnswers[index].attempts >= 2) {
+                            statusEl.textContent = '✗ Incorrecto';
+                            statusEl.className = 'status incorrect';
+                            questionEl.classList.add('incorrect-border');
+                            questionEl.querySelector('.answer-reveal').classList.add('show');
+                        } else {
+                            statusEl.textContent = `✗ Inténtalo de nuevo. Te queda ${2 - userAnswers[index].attempts} intento${userAnswers[index].attempts === 1 ? '' : 's'}.`;
+                            statusEl.className = 'status incorrect';
+                        }
+                    }
+                });
+            }
+            
+            // Check if answer is correct (handles multiple correct answers)
+            function checkAnswerCorrect(userAnswer, correctAnswers) {
+                if (!userAnswer) return false;
+                const correctOptions = correctAnswers.split(',').map(a => a.trim().toLowerCase());
+                return correctOptions.includes(userAnswer.trim().toLowerCase());
+            }
+            
+            // Check user's answer for a question
+            function checkAnswer(questionId) {
+                const index = questionId - 1;
+                const input = document.querySelector(`.answer-input[data-id="${questionId}"]`);
+                const answer = input.value.trim();
+                
+                if (!answer) return;
+                
+                const question = questions[index];
+                const userAnswer = userAnswers[index];
+                
+                // If already answered correctly or used both attempts, do nothing
+                if (userAnswer.correct || userAnswer.attempts >= 2) return;
+                
+                // Record the attempt
+                userAnswer.attempts++;
+                userAnswer.answers.push(answer);
+                
+                // Check if answer is correct
+                userAnswer.correct = checkAnswerCorrect(answer, question.answer);
+                
+                // Update UI
+                renderQuestions();
+                updateProgress();
+            }
+            
+            // Show hint for a question
+            function showHint(questionId) {
+                const hint = document.querySelector(`.hint[data-id="${questionId}"]`);
+                hint.classList.toggle('show');
+            }
+            
+            // Update progress bar and score
+            function updateProgress() {
+                const answeredCount = userAnswers.filter(a => a.attempts > 0).length;
+                const correctCount = userAnswers.filter(a => a.correct).length;
+                const progress = (answeredCount / questions.length) * 100;
+                
+                document.getElementById('progress-text').textContent = `${Math.round(progress)}%`;
+                document.getElementById('score-text').textContent = `${correctCount}/${questions.length}`;
+                document.getElementById('progress-fill').style.width = `${progress}%`;
+                
+                // Show completion message if all questions answered
+                if (answeredCount === questions.length) {
+                    document.getElementById('completion-message').classList.add('show');
+                }
+            }
+            
+            // Generate PDF report
+            function generatePDF() {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Title
+                doc.setFontSize(20);
+                doc.text("Resultados - La casa de Bernarda Alba", 105, 20, null, null, 'center');
+                doc.setFontSize(12);
+                doc.text("Fecha: " + new Date().toLocaleDateString(), 105, 28, null, null, 'center');
+                
+                // Summary statistics
+                const answeredCount = userAnswers.filter(a => a.attempts > 0).length;
+                const correctCount = userAnswers.filter(a => a.correct).length;
+                const incorrectCount = answeredCount - correctCount;
+                const unansweredCount = questions.length - answeredCount;
+                const score = Math.round((correctCount / questions.length) * 100);
+                
+                doc.setFontSize(14);
+                doc.text("Resumen de resultados", 20, 40);
+                doc.setFontSize(11);
+                doc.text(`Preguntas totales: ${questions.length}`, 20, 50);
+                doc.text(`Respuestas correctas: ${correctCount} (${score}%)`, 20, 60);
+                doc.text(`Respuestas incorrectas: ${incorrectCount}`, 20, 70);
+                doc.text(`Preguntas sin contestar: ${unansweredCount}`, 20, 80);
+                
+                // Detailed results table
+                doc.setFontSize(14);
+                doc.text("Detalle de respuestas", 20, 95);
+                
+                const tableData = [];
+                questions.forEach((q, index) => {
+                    const userAnswer = userAnswers[index];
+                    const lastAnswer = userAnswer.answers.length > 0 ? userAnswer.answers[userAnswer.answers.length - 1] : '';
+                    const status = userAnswer.correct ? 'Correcto' : 
+                                  userAnswer.attempts >= 2 ? 'Incorrecto' : 'No contestada';
+                    
+                    tableData.push([
+                        q.id,
+                        q.text.replace('________', lastAnswer || '________'),
+                        q.answer.split(',').join(' o '),
+                        status
+                    ]);
+                });
+                
+                doc.autoTable({
+                    startY: 100,
+                    head: [['Pregunta', 'Tu respuesta', 'Respuesta correcta', 'Estado']],
+                    body: tableData,
+                    theme: 'grid',
+                    headStyles: { fillColor: [142, 68, 173] },
+                    styles: { fontSize: 10, cellPadding: 3 },
+                    columnStyles: {
+                        0: { cellWidth: 20 },
+                        1: { cellWidth: 70 },
+                        2: { cellWidth: 50 },
+                        3: { cellWidth: 30 }
+                    },
+                    margin: { left: 15 }
+                });
+                
+                // Save the PDF
+                doc.save(`Resultados_Bernarda_Alba_${new Date().toISOString().slice(0,10)}.pdf`);
+            }
+            
+            // Reset all answers
+            function resetAnswers() {
+                if (confirm('¿Estás seguro de que quieres reiniciar toda la práctica? Se perderán todas tus respuestas.')) {
+                    userAnswers = Array(questions.length).fill().map(() => ({
+                        attempts: 0,
+                        correct: false,
+                        answers: []
+                    }));
+                    renderQuestions();
+                    updateProgress();
+                    document.getElementById('completion-message').classList.remove('show');
+                }
+            }
+            
+            // Set up event listeners
+            function setupEventListeners() {
+                // Check answer buttons
+                document.addEventListener('click', function(e) {
+                    if (e.target && e.target.classList.contains('check-btn')) {
+                        const questionId = parseInt(e.target.dataset.id);
+                        checkAnswer(questionId);
+                    }
+                });
+                
+                // Hint buttons
+                document.addEventListener('click', function(e) {
+                    if (e.target && e.target.classList.contains('hint-btn')) {
+                        const questionId = parseInt(e.target.dataset.id);
+                        showHint(questionId);
+                    }
+                });
+                
+                // Enter key in input fields
+                document.addEventListener('keypress', function(e) {
+                    if (e.target && e.target.classList.contains('answer-input') && e.key === 'Enter') {
+                        const questionId = parseInt(e.target.dataset.id);
+                        checkAnswer(questionId);
+                    }
+                });
+                
+                // Generate PDF button
+                document.getElementById('generate-pdf').addEventListener('click', generatePDF);
+                
+                // Reset button
+                document.getElementById('reset-btn').addEventListener('click', resetAnswers);
+            }
+            
+            // Initialize the app
+            init();
+        });
+    </script>
+</body>
+</html>

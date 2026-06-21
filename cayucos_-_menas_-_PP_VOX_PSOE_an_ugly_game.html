@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Envenenado Debate sobre la Inmigración en España</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .content-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+        }
+        
+        .reading-section {
+            background: #fff3e0;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 5px solid #e74c3c;
+        }
+        
+        .reading-section h2 {
+            color: #c0392b;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        
+        .reading-section h3 {
+            color: #e74c3c;
+            margin: 20px 0 10px 0;
+            font-size: 18px;
+        }
+        
+        .reading-section p, .reading-section ul {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .reading-section ul {
+            margin-left: 30px;
+        }
+        
+        .reading-section li {
+            margin-bottom: 8px;
+        }
+        
+        .quote-box {
+            background: #ffebee;
+            padding: 15px;
+            border-left: 4px solid #e74c3c;
+            margin: 15px 0;
+            font-style: italic;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        
+        .data-table th {
+            background: #e74c3c;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .data-table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .data-table tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 12px 20px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .tab:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        .tab.active {
+            background: #8e44ad;
+        }
+        
+        .activity-section {
+            display: none;
+        }
+        
+        .activity-section.active {
+            display: block;
+        }
+        
+        .question {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .option {
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        .option:hover {
+            border-color: #e74c3c;
+            background: #ffebee;
+        }
+        
+        .option.selected {
+            border-color: #e74c3c;
+            background: #ffcdd2;
+        }
+        
+        .option.correct {
+            border-color: #27ae60;
+            background: #d4edda;
+        }
+        
+        .option.incorrect {
+            border-color: #e74c3c;
+            background: #f8d7da;
+        }
+        
+        .text-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            margin-top: 10px;
+        }
+        
+        .text-input:focus {
+            outline: none;
+            border-color: #e74c3c;
+        }
+        
+        .match-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .match-column {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .match-item {
+            padding: 10px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .match-item:hover {
+            border-color: #e74c3c;
+        }
+        
+        .match-item.selected {
+            border-color: #e74c3c;
+            background: #ffebee;
+        }
+        
+        .match-item.matched {
+            border-color: #27ae60;
+            background: #d4edda;
+            cursor: default;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .btn-check {
+            background: #27ae60;
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-check:hover {
+            background: #229954;
+        }
+        
+        .btn-reset {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .btn-reset:hover {
+            background: #e67e22;
+        }
+        
+        .btn-download {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-download:hover {
+            background: #2980b9;
+        }
+        
+        .score-box {
+            padding: 20px;
+            background: linear-gradient(135deg, #e74c3c 0%, #8e44ad 100%);
+            color: white;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 20px;
+            margin-top: 20px;
+        }
+        
+        .score-box .score {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .explanation {
+            margin-top: 10px;
+            padding: 12px;
+            background: #fff3cd;
+            border-radius: 6px;
+            font-size: 14px;
+            border-left: 3px solid #f39c12;
+        }
+        
+        .stat-highlight {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #2196f3;
+        }
+        
+                /* Floating Keyboard Styles */
+        .floating-keyboard {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            padding: 15px;
+            z-index: 1000;
+            display: none;
+            max-width: 200px;
+        }
+        
+        .keyboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .keyboard-title {
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 14px;
+        }
+        
+        .keyboard-close {
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .keyboard-keys {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        
+        .keyboard-key {
+            padding: 10px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        
+        .keyboard-key:hover {
+            background: #e74c3c;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .keyboard-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            z-index: 999;
+            font-size: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .floating-keyboard {
+                max-width: 180px;
+                right: 10px;
+                bottom: 70px;
+            }
+            
+            .keyboard-keys {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 6px;
+            }
+            
+            .keyboard-key {
+                padding: 8px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🗣️ El Envenenado Debate sobre la Inmigración</h1>
+            <p>Actividades interactivas sobre el debate migratorio en España</p>
+        </div>
+        
+        <div class="content-box">
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('lectura')">📖 Lectura</button>
+                <button class="tab" onclick="showTab('comprension')">✍️ Comprensión</button>
+                <button class="tab" onclick="showTab('vocabulario')">📚 Vocabulario</button>
+                <button class="tab" onclick="showTab('datos')">📊 Datos</button>
+                <button class="tab" onclick="showTab('opinion')">💭 Opinión</button>
+                <button class="tab" onclick="showTab('descargas')">📥 Descargas</button>
+            </div>
+            
+            <!-- LECTURA -->
+            <div id="lectura" class="activity-section active">
+                <div class="reading-section">
+                    <h2>El Contexto del Debate</h2>
+                    
+                    <div class="quote-box">
+                        <strong>Los expertos advierten:</strong> la extrema derecha ha conseguido simplificar una discusión en la que factores cruciales, como el económico, se diluyen ante lo identitario.
+                    </div>
+                    
+                    <h3>Las Posiciones Políticas</h3>
+                    
+                    <p><strong>PP (Partido Popular):</strong></p>
+                    <ul>
+                        <li>El 4 de julio, Miguel Tellado propuso que el Gobierno desplegara fragatas en torno a las costas africanas para impedir que las pateras llenas de inmigrantes salieran al mar.</li>
+                        <li>Propone imitar al canciller alemán Olaf Scholz y hacer "deportaciones masivas".</li>
+                        <li>El 24 de julio, el PP votó en contra de la reforma de la ley de extranjería para obligar a las comunidades autónomas a acoger a menores inmigrantes cuando una autonomía esté sobresaturada.</li>
+                        <li>Alberto Núñez Feijóo relacionó la inmigración con la delincuencia y la ocupación de viviendas durante la campaña catalana.</li>
+                    </ul>
+                    
+                    <div class="stat-highlight">
+                        <strong>Nota importante:</strong> Las deportaciones masivas, como denuncian los especialistas, están prohibidas por el derecho internacional y son impracticables.
+                    </div>
+                    
+                    <p><strong>PSOE (Partido Socialista):</strong></p>
+                    <ul>
+                        <li>Patxi López replicó a la propuesta del PP: "¿Qué será lo próximo? ¿Bombardear cayucos?"</li>
+                        <li>Pedro Sánchez viajó a Mauritania, Gambia y Senegal para tratar de contener la llegada de cayucos a Canarias.</li>
+                        <li>Propone estimular la inmigración circular (el emigrante llega, trabaja en algo determinado y se vuelve).</li>
+                    </ul>
+                    
+                    <h3>La Realidad de los Inmigrantes</h3>
+                    
+                    <p><strong>Delmi Galeano</strong>, una inmigrante salvadoreña y portavoz de Sedoac (organización que defiende los derechos de las empleadas de hogar inmigrantes), explica:</p>
+                    
+                    <div class="quote-box">
+                        "Todas las semanas hay mujeres mayores inmigrantes que trabajan de internas en casas y que, en su día libre, se van a dormir al aeropuerto de Barajas. Lo hacen porque no tienen dinero para pagarse una habitación porque a ellas les pagan menos de lo que les corresponde y porque, si se quedan en la casa, aunque sea su día libre, las obligan a trabajar."
+                    </div>
+                    
+                    <h3>La Opinión Pública según el CIS</h3>
+                    
+                    <div class="stat-highlight">
+                        <p><strong>Septiembre 2024:</strong> La inmigración es el principal problema en España con un <strong>30,4%</strong> de menciones.</p>
+                        <p><strong>Junio 2024:</strong> Solo el <strong>11,2%</strong> lo mencionaba (ocupaba el cuarto lugar).</p>
+                        <p><strong>Aumento:</strong> Casi 20 puntos en solo tres meses.</p>
+                    </div>
+                    
+                    <p>Sin embargo, cuando se pregunta por problemas <strong>personales</strong>, la inmigración cae al quinto lugar.</p>
+                    
+                    <h3>Los Datos Reales</h3>
+                    
+                    <p><strong>Aumento de inmigración irregular (enero-agosto 2024):</strong></p>
+                    <ul>
+                        <li>31.155 personas llegaron por tierra o mar</li>
+                        <li>66% más que el año anterior</li>
+                        <li>Canarias: 126% más</li>
+                        <li>Ceuta: 143% más</li>
+                    </ul>
+                    
+                    <h3>La Opinión de los Expertos</h3>
+                    
+                    <p><strong>Javier de Lucas</strong> señala que la preocupación es más una "percepción general" que un problema personal. Considera que:</p>
+                    <ul>
+                        <li>Los medios y ciertos partidos políticos (como Vox) aumentan esta sensación</li>
+                        <li>Se presentan datos sin contexto, generando miedo injustificado</li>
+                        <li>Factores cruciales como el económico se diluyen ante lo identitario</li>
+                    </ul>
+                    
+                    <div class="quote-box">
+                        "¿Qué mercado de trabajo queremos? Hay quien mira para otro lado y no ve, por ejemplo, que buena parte del sistema de cuidados reposa en manos de inmigrantes."
+                    </div>
+                </div>
+                
+                <div class="reading-section">
+                    <h2>Tabla: Los residentes extranjeros que más han aumentado en España (2018-2023)</h2>
+                    
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>País de nacimiento</th>
+                                <th>2018</th>
+                                <th>2023</th>
+                                <th>Diferencia</th>
+                                <th>% Aumento</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Colombia</strong></td>
+                                <td>380.503</td>
+                                <td>715.655</td>
+                                <td>+335.152</td>
+                                <td>+88%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Venezuela</strong></td>
+                                <td>243.837</td>
+                                <td>518.918</td>
+                                <td>+275.081</td>
+                                <td>+113%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Marruecos</strong></td>
+                                <td>781.725</td>
+                                <td>1.026.371</td>
+                                <td>+244.646</td>
+                                <td>+31%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Perú</strong></td>
+                                <td>197.319</td>
+                                <td>322.407</td>
+                                <td>+125.088</td>
+                                <td>+63%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Honduras</strong></td>
+                                <td>75.231</td>
+                                <td>177.616</td>
+                                <td>+102.385</td>
+                                <td>+136%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Nicaragua</strong></td>
+                                <td>32.706</td>
+                                <td>80.013</td>
+                                <td>+47.307</td>
+                                <td>+145%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="font-size: 12px; color: #666; margin-top: 10px;"><em>Fuente: Estadística Continua de Población, INE</em></p>
+                </div>
+            </div>
+            
+            <!-- COMPRENSIÓN -->
+            <div id="comprension" class="activity-section">
+                <h2 style="margin-bottom: 20px;">Actividad de Comprensión</h2>
+                <div id="comprensionQuestions"></div>
+                <div class="buttons">
+                    <button class="btn btn-check" onclick="checkActivity('comprension')">Comprobar Respuestas</button>
+                    <button class="btn btn-reset" onclick="resetActivity('comprension')">Reintentar</button>
+                </div>
+                <div id="comprensionScore"></div>
+            </div>
+            
+            <!-- VOCABULARIO -->
+            <div id="vocabulario" class="activity-section">
+                <h2 style="margin-bottom: 20px;">Actividad de Vocabulario</h2>
+                <p style="margin-bottom: 20px;">Empareja cada término con su definición:</p>
+                <div id="vocabMatching"></div>
+                <div class="buttons">
+                    <button class="btn btn-check" onclick="checkMatching()">Comprobar</button>
+                    <button class="btn btn-reset" onclick="resetMatching()">Reintentar</button>
+                </div>
+                <div id="vocabScore"></div>
+            </div>
+            
+            <!-- DATOS -->
+            <div id="datos" class="activity-section">
+                <h2 style="margin-bottom: 20px;">Interpretación de Datos</h2>
+                <div id="datosQuestions"></div>
+                <div class="buttons">
+                    <button class="btn btn-check" onclick="checkActivity('datos')">Comprobar Respuestas</button>
+                    <button class="btn btn-reset" onclick="resetActivity('datos')">Reintentar</button>
+                </div>
+                <div id="datosScore"></div>
+            </div>
+            
+            <!-- OPINIÓN -->
+            <div id="opinion" class="activity-section">
+                <h2 style="margin-bottom: 20px;">Preguntas de Reflexión y Opinión</h2>
+                <div id="opinionQuestions"></div>
+                <div class="buttons">
+                    <button class="btn btn-reset" onclick="resetActivity('opinion')">Limpiar Respuestas</button>
+                </div>
+                <p style="margin-top: 15px; color: #666; font-style: italic;">Nota: Estas son preguntas abiertas para reflexión personal o discusión en clase.</p>
+            </div>
+            
+            <!-- DESCARGAS -->
+            <div id="descargas" class="activity-section">
+                <h2 style="margin-bottom: 20px;">📥 Material de Estudio para Descargar</h2>
+                <p style="margin-bottom: 20px;">Aquí puedes descargar resúmenes y materiales para estudiar los conceptos clave del debate migratorio.</p>
+                
+                <div class="download-section">
+                    <h3>📚 Vocabulario Esencial</h3>
+                    
+                    <div class="download-item">
+                        <h4>Términos Clave</h4>
+                        <div class="download-content">
+                            <p><strong>Cayuco:</strong> Embarcación precaria usada para cruzar el océano desde África</p>
+                            <p><strong>Patera:</strong> Embarcación pequeña usada para cruzar el Mediterráneo</p>
+                            <p><strong>Deportación masiva:</strong> Expulsión de muchas personas a la vez (prohibida por derecho internacional)</p>
+                            <p><strong>Inmigración circular:</strong> Sistema donde el migrante llega, trabaja temporalmente y regresa</p>
+                            <p><strong>Comunidad autónoma:</strong> Región con gobierno propio dentro de España (ej: Cataluña, Canarias)</p>
+                            <p><strong>Interna:</strong> Empleada doméstica que vive en la casa donde trabaja</p>
+                        </div>
+                        <button class="btn btn-download" onclick="downloadContent('vocabulario')">Descargar Vocabulario</button>
+                    </div>
+                    
+                    <h3>📊 Datos y Estadísticas</h3>
+                    
+                    <div class="download-item">
+                        <h4>Principales Cifras</h4>
+                        <div class="download-content">
+                            <p><strong>Inmigración irregular (enero-agosto 2024):</strong> 31.155 personas (+66%)</p>
+                            <p><strong>Aumento en Canarias:</strong> 126%</p>
+                            <p><strong>Aumento en Ceuta:</strong> 143%</p>
+                            <p><strong>Países con mayor aumento de residentes (2018-2023):</strong></p>
+                            <ul>
+                                <li>Nicaragua: +145%</li>
+                                <li>Honduras: +136%</li>
+                                <li>Venezuela: +113%</li>
+                                <li>Colombia: +88%</li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-download" onclick="downloadContent('datos')">Descargar Datos</button>
+                    </div>
+                    
+                    <h3>👥 Personajes y Posiciones</h3>
+                    
+                    <div class="download-item">
+                        <h4>Figuras Clave del Debate</h4>
+                        <div class="download-content">
+                            <p><strong>Miguel Tellado (PP):</strong> Propuso desplegar fragatas en costas africanas</p>
+                            <p><strong>Patxi López (PSOE):</strong> Respondió "¿Qué será lo próximo? ¿Bombardear cayucos?"</p>
+                            <p><strong>Delmi Galeano:</strong> Denuncia que empleadas duermen en el aeropuerto en su día libre</p>
+                            <p><strong>Javier de Lucas:</strong> Analista que señala que los medios y Vox aumentan la sensación de problema migratorio</p>
+                            <p><strong>Pedro Sánchez:</strong> Viajó a África para promover la inmigración circular</p>
+                        </div>
+                        <button class="btn btn-download" onclick="downloadContent('personajes')">Descargar Personajes</button>
+                    </div>
+                    
+                    <h3>📝 Resumen Completo</h3>
+                    
+                    <div class="download-item">
+                        <h4>Conceptos y Conclusiones</h4>
+                        <div class="download-content">
+                            <p><strong>Problema general vs. problema personal:</strong> La inmigración es percibida como el principal problema en España (30,4%), pero cae al quinto lugar cuando se pregunta por problemas personales.</p>
+                            <p><strong>Influencia mediática:</strong> Según Javier de Lucas, los medios y ciertos partidos políticos aumentan la percepción de la inmigración como problema.</p>
+                            <p><strong>Realidad laboral:</strong> Muchas empleadas de hogar inmigrantes trabajan en condiciones precarias y duermen en el aeropuerto en sus días libres.</p>
+                            <p><strong>Propuestas políticas:</strong> El debate se polariza entre propuestas de control fronterizo (PP) y enfoques de gestión ordenada (PSOE).</p>
+                        </div>
+                        <button class="btn btn-download" onclick="downloadContent('resumen')">Descargar Resumen Completo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Keyboard Toggle -->
+    <div class="keyboard-toggle" onclick="toggleKeyboard()">
+        ⌨️
+    </div>
+
+        <!-- Floating Keyboard Toggle -->
+    <div class="keyboard-toggle" onclick="toggleKeyboard()">
+        ⌨️
+    </div>
+
+    <!-- Floating Keyboard -->
+    <div class="floating-keyboard" id="floatingKeyboard">
+        <div class="keyboard-header">
+            <div class="keyboard-title">Teclado Virtual</div>
+            <button class="keyboard-close" onclick="toggleKeyboard()">✕</button>
+        </div>
+        <div class="keyboard-keys" id="keyboardKeys">
+            <!-- Keyboard keys will be generated by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        const activities = {
+            comprension: {
+                questions: [
+                    {
+                        q: 'Según el CIS, ¿cuál es el principal problema que preocupa a los españoles actualmente (septiembre 2024)?',
+                        options: ['El paro', 'La inmigración', 'La vivienda', 'Los problemas económicos'],
+                        correct: 1
+                    },
+                    {
+                        q: '¿Cómo ha cambiado el porcentaje de personas que consideran la inmigración un problema desde junio hasta septiembre?',
+                        options: ['Ha bajado 10 puntos', 'Ha subido casi 20 puntos', 'Se ha mantenido igual', 'Ha subido 5 puntos'],
+                        correct: 1
+                    },
+                    {
+                        q: 'Según Javier de Lucas, ¿qué factores influyen en la percepción de la inmigración como problema?',
+                        options: [
+                            'Solo los datos reales de inmigración',
+                            'Los mensajes de partidos políticos como Vox y la cobertura mediática sin contexto',
+                            'Únicamente las experiencias personales',
+                            'Las políticas del gobierno'
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: '¿Qué propuso Miguel Tellado (PP) el 4 de julio?',
+                        options: [
+                            'Aumentar la ayuda humanitaria',
+                            'Desplegar fragatas en las costas africanas',
+                            'Crear centros de acogida',
+                            'Facilitar la inmigración legal'
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: '¿Qué problema real enfrentan las empleadas de hogar inmigrantes según Delmi Galeano?',
+                        options: [
+                            'No encuentran trabajo',
+                            'Tienen problemas de idioma',
+                            'Les pagan menos de lo que corresponde y duermen en el aeropuerto',
+                            'No tienen documentación'
+                        ],
+                        correct: 2
+                    },
+                    {
+                        q: 'Cuando se pregunta a las personas por problemas que les afectan PERSONALMENTE, ¿qué lugar ocupa la inmigración?',
+                        options: ['Primer lugar', 'Segundo lugar', 'Quinto lugar', 'No aparece'],
+                        correct: 2
+                    },
+                    {
+                        q: '¿Cuál fue el aumento porcentual de inmigración irregular en Canarias?',
+                        options: ['66%', '126%', '143%', '88%'],
+                        correct: 1
+                    },
+                    {
+                        q: '¿Qué dice el derecho internacional sobre las deportaciones masivas?',
+                        options: [
+                            'Las permite en casos especiales',
+                            'Las prohíbe',
+                            'No las regula',
+                            'Las recomienda'
+                        ],
+                        correct: 1
+                    }
+                ]
+            },
+            datos: {
+                questions: [
+                    {
+                        q: '¿Qué país tiene el mayor porcentaje de aumento de residentes entre 2018 y 2023?',
+                        options: ['Colombia (+88%)', 'Nicaragua (+145%)', 'Venezuela (+113%)', 'Honduras (+136%)'],
+                        correct: 1
+                    },
+                    {
+                        q: '¿Cuál es la diferencia numérica más grande de nuevos residentes?',
+                        options: ['Colombia: +335.152', 'Venezuela: +275.081', 'Marruecos: +244.646', 'Perú: +125.088'],
+                        correct: 0
+                    },
+                    {
+                        q: 'Entre enero y agosto de 2024, ¿cuántas personas llegaron a España por tierra o mar?',
+                        options: ['15.000', '31.155', '45.000', '50.000'],
+                        correct: 1
+                    },
+                    {
+                        q: '¿Qué representa el aumento del 66% en la llegada de migrantes?',
+                        options: [
+                            'Comparación con el año anterior (mismo periodo)',
+                            'Comparación con todo el año anterior',
+                            'Comparación con hace 10 años',
+                            'Comparación con la media europea'
+                        ],
+                        correct: 0
+                    }
+                ]
+            }
+        };
+
+        const vocabTerms = {
+            left: [
+                { id: 1, text: 'Cayuco', match: 5 },
+                { id: 2, text: 'Patera', match: 6 },
+                { id: 3, text: 'Deportación masiva', match: 7 },
+                { id: 4, text: 'Inmigración circular', match: 8 },
+                { id: 5, text: 'Comunidad autónoma', match: 9 },
+                { id: 6, text: 'Interna', match: 10 }
+            ],
+            right: [
+                { id: 5, text: 'Embarcación precaria usada para cruzar el océano desde África' },
+                { id: 6, text: 'Embarcación pequeña usada para cruzar el Mediterráneo' },
+                { id: 7, text: 'Expulsión de muchas personas a la vez (prohibida por derecho internacional)' },
+                { id: 8, text: 'Sistema donde el migrante llega, trabaja temporalmente y regresa' },
+                { id: 9, text: 'Región con gobierno propio dentro de España (ej: Cataluña, Canarias)' },
+                { id: 10, text: 'Empleada doméstica que vive en la casa donde trabaja' }
+            ]
+        };
+
+        const opinionQuestions = [
+            '¿Por qué crees que la percepción de la inmigración como problema aumentó tanto entre junio y septiembre de 2024?',
+            '¿Qué diferencia hay entre considerar la inmigración un "problema general" versus un "problema personal"? ¿Por qué es importante esta distinción?',
+            'Según el texto, "buena parte del sistema de cuidados reposa en manos de inmigrantes". ¿Qué contradicción ves en este hecho y el debate político actual?',
+            '¿Crees que las propuestas del PP (fragatas, deportaciones) son realistas? ¿Por qué sí o por qué no?',
+            'La situación de las empleadas de hogar que duermen en el aeropuerto: ¿qué dice esto sobre la integración económica de los inmigrantes en España?',
+            '¿Cómo pueden los medios de comunicación presentar datos sobre inmigración de manera más responsable y contextualizada?'
+        ];
+
+        let userAnswers = {};
+        let matchSelected = { left: null, right: null };
+        let matches = {};
+        let activeTextarea = null;
+
+        function initActivities() {
+            renderMultipleChoice('comprension');
+            renderMultipleChoice('datos');
+            renderMatching();
+            renderOpinionQuestions();
+            createKeyboard();
+        }
+
+        function renderMultipleChoice(activityId) {
+            const container = document.getElementById(activityId + 'Questions');
+            const activity = activities[activityId];
+            
+            container.innerHTML = activity.questions.map((q, qIndex) => `
+                <div class="question">
+                    <div class="question-text">${qIndex + 1}. ${q.q}</div>
+                    <div class="options">
+                        ${q.options.map((option, oIndex) => `
+                            <div class="option" onclick="selectOption('${activityId}', ${qIndex}, ${oIndex})">
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderMatching() {
+            const container = document.getElementById('vocabMatching');
+            
+            const leftHTML = vocabTerms.left.map(term => `
+                <div class="match-item" onclick="selectMatch('left', ${term.id})">
+                    ${term.text}
+                </div>
+            `).join('');
+            
+            const rightHTML = vocabTerms.right.map(term => `
+                <div class="match-item" onclick="selectMatch('right', ${term.id})">
+                    ${term.text}
+                </div>
+            `).join('');
+            
+            container.innerHTML = `
+                <div class="match-container">
+                    <div class="match-column">
+                        <h3 style="margin-bottom: 15px; color: #e74c3c;">Términos</h3>
+                        ${leftHTML}
+                    </div>
+                    <div class="match-column">
+                        <h3 style="margin-bottom: 15px; color: #e74c3c;">Definiciones</h3>
+                        ${rightHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderOpinionQuestions() {
+            const container = document.getElementById('opinionQuestions');
+            
+            container.innerHTML = opinionQuestions.map((q, i) => `
+                <div class="question">
+                    <div class="question-text">${i + 1}. ${q}</div>
+                    <textarea class="text-input" id="opinion-${i}" rows="4" 
+                        placeholder="Escribe tu respuesta aquí..." onfocus="setActiveTextarea(this)"></textarea>
+                </div>
+            `).join('');
+        }
+
+        function selectOption(activityId, questionIndex, optionIndex) {
+            const key = `${activityId}-${questionIndex}`;
+            userAnswers[key] = optionIndex;
+            
+            const question = document.querySelectorAll(`#${activityId}Questions .question`)[questionIndex];
+            const options = question.querySelectorAll('.option');
+            options.forEach((opt, idx) => {
+                opt.classList.remove('selected');
+                if (idx === optionIndex) {
+                    opt.classList.add('selected');
+                }
+            });
+        }
+
+        function selectMatch(side, id) {
+            matchSelected[side] = id;
+            
+            // Update UI
+            const items = document.querySelectorAll('.match-item');
+            items.forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            if (matchSelected.left) {
+                const leftItem = Array.from(items).find(item => 
+                    item.textContent.trim() === vocabTerms.left.find(t => t.id === matchSelected.left).text
+                );
+                if (leftItem) leftItem.classList.add('selected');
+            }
+            
+            if (matchSelected.right) {
+                const rightItem = Array.from(items).find(item => 
+                    item.textContent.trim() === vocabTerms.right.find(t => t.id === matchSelected.right).text
+                );
+                if (rightItem) rightItem.classList.add('selected');
+            }
+            
+            // Check if both sides selected
+            if (matchSelected.left && matchSelected.right) {
+                matches[matchSelected.left] = matchSelected.right;
+                
+                // Mark as matched
+                const leftItem = Array.from(items).find(item => 
+                    item.textContent.trim() === vocabTerms.left.find(t => t.id === matchSelected.left).text
+                );
+                const rightItem = Array.from(items).find(item => 
+                    item.textContent.trim() === vocabTerms.right.find(t => t.id === matchSelected.right).text
+                );
+                
+                if (leftItem) {
+                    leftItem.classList.remove('selected');
+                    leftItem.classList.add('matched');
+                    leftItem.onclick = null;
+                }
+                if (rightItem) {
+                    rightItem.classList.remove('selected');
+                    rightItem.classList.add('matched');
+                    rightItem.onclick = null;
+                }
+                
+                matchSelected = { left: null, right: null };
+            }
+        }
+
+        function checkMatching() {
+            let correct = 0;
+            const total = vocabTerms.left.length;
+            
+            vocabTerms.left.forEach(term => {
+                if (matches[term.id] === term.match) {
+                    correct++;
+                }
+            });
+            
+            const percentage = Math.round((correct / total) * 100);
+            const scoreBox = document.getElementById('vocabScore');
+            scoreBox.innerHTML = `
+                <div class="score-box">
+                    <div>Puntuación</div>
+                    <div class="score">${correct} / ${total}</div>
+                    <div>${percentage}% correcto</div>
+                </div>
+            `;
+        }
+
+        function resetMatching() {
+            matches = {};
+            matchSelected = { left: null, right: null };
+            renderMatching();
+            document.getElementById('vocabScore').innerHTML = '';
+        }
+
+        function checkActivity(activityId) {
+            const activity = activities[activityId];
+            let correct = 0;
+            
+            activity.questions.forEach((q, qIndex) => {
+                const userAnswer = userAnswers[`${activityId}-${qIndex}`];
+                const isCorrect = userAnswer === q.correct;
+                
+                if (isCorrect) correct++;
+                
+                const question = document.querySelectorAll(`#${activityId}Questions .question`)[qIndex];
+                const options = question.querySelectorAll('.option');
+                
+                options.forEach((opt, oIndex) => {
+                    opt.onclick = null;
+                    opt.classList.remove('selected');
+                    
+                    if (oIndex === q.correct) {
+                        opt.classList.add('correct');
+                    } else if (oIndex === userAnswer && userAnswer !== q.correct) {
+                        opt.classList.add('incorrect');
+                    }
+                });
+            });
+            
+            const scoreBox = document.getElementById(activityId + 'Score');
+            const percentage = Math.round((correct / activity.questions.length) * 100);
+            scoreBox.innerHTML = `
+                <div class="score-box">
+                    <div>Puntuación</div>
+                    <div class="score">${correct} / ${activity.questions.length}</div>
+                    <div>${percentage}% correcto</div>
+                </div>
+            `;
+        }
+
+        function resetActivity(activityId) {
+            if (activityId === 'opinion') {
+                opinionQuestions.forEach((q, i) => {
+                    const textarea = document.getElementById(`opinion-${i}`);
+                    if (textarea) textarea.value = '';
+                });
+                return;
+            }
+            
+            // Clear user answers
+            Object.keys(userAnswers).forEach(key => {
+                if (key.startsWith(activityId)) {
+                    delete userAnswers[key];
+                }
+            });
+            
+            // Re-render
+            renderMultipleChoice(activityId);
+            
+            // Clear score
+            document.getElementById(activityId + 'Score').innerHTML = '';
+        }
+
+        function showTab(tabName) {
+            // Hide all sections
+            document.querySelectorAll('.activity-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+                // Floating Keyboard Functions
+        function createKeyboard() {
+            const keyboardKeys = document.getElementById('keyboardKeys');
+            const specialChars = [
+                'á', 'é', 'í', 'ó', 'ú',
+                'ñ', '¿', '¡', 'ü', 'º', 'ª'
+            ];
+            
+            keyboardKeys.innerHTML = specialChars.map(char => 
+                `<div class="keyboard-key" onclick="typeKey('${char}')">${char}</div>`
+            ).join('');
+        }
+
+        function toggleKeyboard() {
+            const keyboard = document.getElementById('floatingKeyboard');
+            if (keyboard.style.display === 'block') {
+                keyboard.style.display = 'none';
+            } else {
+                keyboard.style.display = 'block';
+            }
+        }
+
+        function setActiveTextarea(textarea) {
+            activeTextarea = textarea;
+            // Auto-show keyboard when focusing on textareas
+            const keyboard = document.getElementById('floatingKeyboard');
+            keyboard.style.display = 'block';
+        }
+
+        function typeKey(key) {
+            if (!activeTextarea) return;
+            
+            const start = activeTextarea.selectionStart;
+            const end = activeTextarea.selectionEnd;
+            const value = activeTextarea.value;
+            
+            activeTextarea.value = value.substring(0, start) + key + value.substring(end);
+            activeTextarea.selectionStart = activeTextarea.selectionEnd = start + key.length;
+            activeTextarea.focus();
+        }
+
+        function backspace() {
+            if (!activeTextarea) return;
+            
+            const start = activeTextarea.selectionStart;
+            const end = activeTextarea.selectionEnd;
+            const value = activeTextarea.value;
+            
+            if (start === end && start > 0) {
+                activeTextarea.value = value.substring(0, start - 1) + value.substring(end);
+                activeTextarea.selectionStart = activeTextarea.selectionEnd = start - 1;
+            } else if (start !== end) {
+                activeTextarea.value = value.substring(0, start) + value.substring(end);
+                activeTextarea.selectionStart = activeTextarea.selectionEnd = start;
+            }
+            
+            activeTextarea.focus();
+        }
+
+        // Download Functions
+        function downloadContent(type) {
+            let content = '';
+            let filename = '';
+            
+            switch(type) {
+                case 'vocabulario':
+                    content = generateVocabularyContent();
+                    filename = 'vocabulario-inmigracion.txt';
+                    break;
+                case 'datos':
+                    content = generateDataContent();
+                    filename = 'datos-inmigracion.txt';
+                    break;
+                case 'personajes':
+                    content = generateCharactersContent();
+                    filename = 'personajes-debate-inmigracion.txt';
+                    break;
+                case 'resumen':
+                    content = generateSummaryContent();
+                    filename = 'resumen-debate-inmigracion.txt';
+                    break;
+            }
+            
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function generateVocabularyContent() {
+            return `VOCABULARIO ESENCIAL - DEBATE SOBRE INMIGRACIÓN
+
+Cayuco: Embarcación precaria usada para cruzar el océano desde África
+Patera: Embarcación pequeña usada para cruzar el Mediterráneo
+Deportación masiva: Expulsión de muchas personas a la vez (prohibida por derecho internacional)
+Inmigración circular: Sistema donde el migrante llega, trabaja temporalmente y regresa
+Comunidad autónoma: Región con gobierno propio dentro de España (ej: Cataluña, Canarias)
+Interna: Empleada doméstica que vive en la casa donde trabaja
+
+---
+Material de estudio - Debate sobre Inmigración en España
+Generado el: ${new Date().toLocaleDateString()}
+`;
+        }
+
+        function generateDataContent() {
+            return `DATOS Y ESTADÍSTICAS - DEBATE SOBRE INMIGRACIÓN
+
+INMIGRACIÓN IRREGULAR (enero-agosto 2024):
+- Total de personas: 31.155
+- Aumento respecto al año anterior: 66%
+- Aumento en Canarias: 126%
+- Aumento en Ceuta: 143%
+
+PAÍSES CON MAYOR AUMENTO DE RESIDENTES (2018-2023):
+- Nicaragua: +145%
+- Honduras: +136%
+- Venezuela: +113%
+- Colombia: +88%
+- Perú: +63%
+- Marruecos: +31%
+
+OPINIÓN PÚBLICA (CIS septiembre 2024):
+- Inmigración como principal problema: 30,4%
+- En junio 2024: 11,2% (cuarto lugar)
+- Aumento: casi 20 puntos en tres meses
+- Como problema personal: quinto lugar
+
+---
+Material de estudio - Debate sobre Inmigración en España
+Generado el: ${new Date().toLocaleDateString()}
+`;
+        }
+
+        function generateCharactersContent() {
+            return `PERSONAJES Y POSICIONES - DEBATE SOBRE INMIGRACIÓN
+
+FIGURAS CLAVE:
+
+Miguel Tellado (PP):
+- Propuso desplegar fragatas en costas africanas
+- Sugirió "deportaciones masivas"
+- Votó en contra del reparto obligatorio de menores inmigrantes
+
+Patxi López (PSOE):
+- Respondió: "¿Qué será lo próximo? ¿Bombardear cayucos?"
+- Defendió las políticas del gobierno
+
+Delmi Galeano:
+- Inmigrante salvadoreña, portavoz de Sedoac
+- Denuncia que empleadas duermen en el aeropuerto en su día libre
+- Expone la precariedad laboral de las empleadas de hogar inmigrantes
+
+Javier de Lucas:
+- Analista que señala la influencia de medios y partidos en la percepción
+- Considera que es más una "percepción general" que un problema personal
+- Critica la presentación de datos sin contexto
+
+Pedro Sánchez:
+- Viajó a Mauritania, Gambia y Senegal
+- Propone la "inmigración circular"
+- Busca contener la llegada de cayucos a Canarias
+
+---
+Material de estudio - Debate sobre Inmigración en España
+Generado el: ${new Date().toLocaleDateString()}
+`;
+        }
+
+        function generateSummaryContent() {
+            return `RESUMEN COMPLETO - DEBATE SOBRE INMIGRACIÓN
+
+CONTEXTO:
+La extrema derecha ha simplificado el debate migratorio, diluyendo factores económicos ante lo identitario.
+
+POSICIONES POLÍTICAS:
+
+PP (Partido Popular):
+- Control fronterizo con fragatas
+- Deportaciones masivas (aunque prohibidas por derecho internacional)
+- Rechazo al reparto obligatorio de menores inmigrantes
+- Relación inmigración-delincuencia-ocupación
+
+PSOE (Partido Socialista):
+- Crítica a las propuestas del PP como exageradas
+- Inmigración circular como alternativa
+- Diálogo con países africanos
+
+REALIDAD INMIGRANTE:
+- Empleadas de hogar duermen en aeropuertos en días libres
+- Precariedad laboral: salarios inferiores a lo debido
+- Explotación laboral: obligadas a trabajar en días libres
+
+DATOS CLAVE:
+- Inmigración: principal problema para 30,4% de españoles
+- Aumento de 20 puntos en tres meses
+- Pero cae al 5º lugar como problema personal
+- 31.155 llegadas irregulares (enero-agosto 2024), +66%
+
+ANÁLISIS EXPERTOS:
+- Javier de Lucas: percepción influida por medios y partidos
+- Los datos se presentan sin contexto adecuado
+- "Buena parte del sistema de cuidados reposa en manos de inmigrantes"
+
+CONCLUSIONES:
+- Debate polarizado entre control y gestión ordenada
+- Discrepancia entre percepción general y experiencia personal
+- Necesidad de contextualizar datos migratorios
+- Importancia de considerar factores económicos, no solo identitarios
+
+---
+Material de estudio - Debate sobre Inmigración en España
+Generado el: ${new Date().toLocaleDateString()}
+`;
+        }
+
+        // Initialize
+        window.onload = initActivities;
+    </script>
+</body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Transición Española 1975–1986</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #f5f0e8; color: #2c2c2c; }
+  header { background: #8b1a1a; color: white; padding: 20px 30px; text-align: center; }
+  header h1 { font-size: 1.4em; letter-spacing: 1px; }
+  header p { font-size: 0.85em; opacity: 0.85; margin-top: 4px; }
+
+  .toolbar { background: #fff; border-bottom: 2px solid #ddd; padding: 10px 20px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+  .toolbar-left { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .toolbar label { font-size: 0.82em; color: #555; font-weight: 600; }
+
+  .accent-bar { background: #f0f0f0; padding: 8px 20px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; border-bottom: 1px solid #ddd; }
+  .accent-bar span { font-size: 0.8em; color: #666; margin-right: 4px; }
+  .acc-btn { background: white; border: 1px solid #ccc; border-radius: 4px; padding: 4px 9px; cursor: pointer; font-size: 1em; color: #333; transition: background 0.15s; }
+  .acc-btn:hover { background: #8b1a1a; color: white; border-color: #8b1a1a; }
+
+  .filter-btn { padding: 5px 12px; border: 1px solid #ccc; border-radius: 20px; background: white; cursor: pointer; font-size: 0.8em; transition: all 0.2s; }
+  .filter-btn.active { background: #8b1a1a; color: white; border-color: #8b1a1a; }
+
+  .download-btn { background: #2c5f2e; color: white; border: none; padding: 7px 16px; border-radius: 6px; cursor: pointer; font-size: 0.82em; font-weight: 600; }
+  .download-btn:hover { background: #1e4020; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+  .answer-box { background: #fffbe6; border: 1px solid #e0c060; border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; }
+  .answer-box label { font-size: 0.82em; font-weight: 700; color: #7a5c00; display: block; margin-bottom: 5px; }
+  .answer-box textarea { width: 100%; min-height: 70px; border: 1px solid #d4b84a; border-radius: 5px; padding: 8px; font-size: 0.9em; resize: vertical; font-family: inherit; background: #fffef5; }
+
+  table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  thead tr { background: #8b1a1a; color: white; }
+  thead th { padding: 11px 14px; text-align: left; font-size: 0.85em; letter-spacing: 0.5px; }
+  tbody tr { border-bottom: 1px solid #eee; transition: background 0.15s; }
+  tbody tr:hover { background: #fdf5f5; }
+  tbody tr.hidden { display: none; }
+  td { padding: 10px 14px; font-size: 0.88em; vertical-align: top; }
+  td.fecha { font-weight: 700; color: #8b1a1a; white-space: nowrap; width: 130px; }
+  td.quien { color: #555; font-style: italic; width: 180px; }
+
+  .tag { display: inline-block; font-size: 0.72em; padding: 2px 7px; border-radius: 10px; margin-left: 6px; font-weight: 600; vertical-align: middle; }
+  .tag-rey { background: #fff3cd; color: #856404; }
+  .tag-suarez { background: #d1ecf1; color: #0c5460; }
+  .tag-cortes { background: #f8d7da; color: #721c24; }
+  .tag-demo { background: #d4edda; color: #155724; }
+
+  .note-row td { background: #fef9e7; font-size: 0.82em; color: #7a6000; padding: 4px 14px 10px 14px; }
+
+  .section-header td { background: #2c2c2c; color: white; font-weight: 700; font-size: 0.85em; padding: 7px 14px; letter-spacing: 1px; }
+
+  footer { text-align: center; padding: 20px; font-size: 0.78em; color: #888; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>La Transición Española (1975–1986)</h1>
+  <p>Cronología de Eventos Clave</p>
+</header>
+
+<div class="toolbar">
+  <div class="toolbar-left">
+    <label>Filtrar por:</label>
+    <button class="filter-btn active" onclick="filterTag('all', this)">Todos</button>
+    <button class="filter-btn" onclick="filterTag('rey', this)">Rey</button>
+    <button class="filter-btn" onclick="filterTag('suarez', this)">Suárez</button>
+    <button class="filter-btn" onclick="filterTag('cortes', this)">Cortes franquistas</button>
+    <button class="filter-btn" onclick="filterTag('demo', this)">Cortes democráticas</button>
+  </div>
+  <button class="download-btn" onclick="downloadBlob()">⬇ Descargar HTML</button>
+</div>
+
+<div class="accent-bar">
+  <span>Acentos:</span>
+  <button class="acc-btn" onclick="insertAccent('á')">á</button>
+  <button class="acc-btn" onclick="insertAccent('é')">é</button>
+  <button class="acc-btn" onclick="insertAccent('í')">í</button>
+  <button class="acc-btn" onclick="insertAccent('ó')">ó</button>
+  <button class="acc-btn" onclick="insertAccent('ú')">ú</button>
+  <button class="acc-btn" onclick="insertAccent('ñ')">ñ</button>
+  <button class="acc-btn" onclick="insertAccent('ü')">ü</button>
+  <button class="acc-btn" onclick="insertAccent('¿')">¿</button>
+  <button class="acc-btn" onclick="insertAccent('¡')">¡</button>
+</div>
+
+<div class="container">
+
+  <div class="answer-box">
+    <label>📝 Antes de leer: ¿Qué sabes ya sobre la Transición española? Escribe tus ideas aquí:</label>
+    <textarea id="mainAnswer" placeholder="Escribe aquí..." onfocus="setActive(this)"></textarea>
+  </div>
+
+  <table id="timeline">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Evento</th>
+        <th>¿Quién? / Comentario</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr class="section-header"><td colspan="3">LA MUERTE DE FRANCO Y EL INICIO DE LA TRANSICIÓN</td></tr>
+
+      <tr data-tag="all">
+        <td class="fecha">20 nov. 1975</td>
+        <td>Muere Franco</td>
+        <td class="quien">Carlos Arias Navarro, presidente del Gobierno, anuncia la muerte de Franco</td>
+      </tr>
+
+      <tr data-tag="rey">
+        <td class="fecha">22 nov. 1975</td>
+        <td>Juramento de Juan Carlos como rey y Jefe de Estado. Indulta a 9.000 presos políticos. Arias Navarro sigue como primer ministro.</td>
+        <td class="quien"><span class="tag tag-rey">Rey</span></td>
+      </tr>
+
+      <tr data-tag="all">
+        <td class="fecha">Ene–Mar 1976</td>
+        <td>Protestas democráticas: 17.455 huelgas, 1.672 manifestaciones y 283 sentadas según el Ministerio del Interior franquista.</td>
+        <td class="quien">Lee: <em>"La democracia se ganó en la calle"</em>, Madrid Sindical</td>
+      </tr>
+
+      <tr class="section-header"><td colspan="3">LEGISLACIÓN DE LA REFORMA (1976–1977)</td></tr>
+
+      <tr data-tag="cortes">
+        <td class="fecha">29 may. 1976</td>
+        <td>Ley de Derecho de Reunión — permite manifestaciones públicas.</td>
+        <td class="quien"><span class="tag tag-cortes">Cortes franquistas</span></td>
+      </tr>
+
+      <tr data-tag="cortes">
+        <td class="fecha">14 jun. 1976</td>
+        <td>Ley de Asociaciones Políticas — permite partidos políticos.</td>
+        <td class="quien"><span class="tag tag-cortes">Cortes franquistas</span></td>
+      </tr>
+
+      <tr data-tag="rey">
+        <td class="fecha">1 jul. 1976</td>
+        <td>Adolfo Suárez nombrado primer ministro. Anuncia su intención de crear una democracia moderna.</td>
+        <td class="quien"><span class="tag tag-rey">Rey</span></td>
+      </tr>
+
+      <tr data-tag="suarez">
+        <td class="fecha">19 jul. 1976</td>
+        <td>Reforma del Código Penal — despenaliza derechos de reunión, asociación, expresión de ideas y libertad de trabajo.</td>
+        <td class="quien"><span class="tag tag-suarez">Suárez</span> <span class="tag tag-cortes">Cortes franquistas</span></td>
+      </tr>
+
+      <tr data-tag="suarez">
+        <td class="fecha">30 jul. 1976</td>
+        <td>Amnistía para algunos presos políticos, excluyendo crímenes de sangre.</td>
+        <td class="quien"><span class="tag tag-suarez">Suárez</span> <span class="tag tag-cortes">Cortes franquistas</span></td>
+      </tr>
+
+      <tr data-tag="suarez">
+        <td class="fecha">18 nov. 1976</td>
+        <td>Aprobada la Ley de Reforma Política — restablece la democracia.</td>
+        <td class="quien"><span class="tag tag-suarez">Suárez</span> <span class="tag tag-cortes">Cortes franquistas</span></td>
+      </tr>
+
+      <tr data-tag="all">
+        <td class="fecha">18 dic. 1976</td>
+        <td>La Ley de Reforma Política es ratificada por referéndum.</td>
+        <td class="quien">Referéndum nacional</td>
+      </tr>
+
+      <tr data-tag="suarez">
+        <td class="fecha">4 mar. 1977</td>
+        <td>Ley de Relaciones Laborales — legaliza el derecho a la huelga.</td>
+        <td class="quien"><span class="tag tag-suarez">Suárez</span> <span class="tag tag-cortes">Cortes franquistas</span></td>
+      </tr>
+
+      <tr data-tag="suarez">
+        <td class="fecha">18 mar. 1977</td>
+        <td>Se aprueba la Ley de Normas Electorales.</td>
+        <td class="quien"><span class="tag tag-suarez">Suárez</span> <span class="tag tag-cortes">Cortes franquistas</span></td>
+      </tr>
+
+      <tr data-tag="suarez">
+        <td class="fecha">1 abr. 1977</td>
+        <td>Ley Sindical — legaliza el derecho a la organización sindical.</td>
+        <td class="quien"><span class="tag tag-suarez">Suárez</span> <span class="tag tag-cortes">Cortes franquistas</span></td>
+      </tr>
+
+      <tr data-tag="suarez">
+        <td class="fecha">9 abr. 1977</td>
+        <td>Se legaliza el Partido Comunista.</td>
+        <td class="quien"><span class="tag tag-suarez">Suárez</span> <span class="tag tag-cortes">Cortes franquistas</span></td>
+      </tr>
+
+      <tr class="section-header"><td colspan="3">LA NUEVA DEMOCRACIA (1977–1978)</td></tr>
+
+      <tr data-tag="all">
+        <td class="fecha">15 jun. 1977</td>
+        <td>Primeras elecciones libres en España desde 1936, con mandato de redactar una nueva constitución.</td>
+        <td class="quien">Elecciones generales</td>
+      </tr>
+
+      <tr data-tag="demo">
+        <td class="fecha">15 oct. 1977</td>
+        <td>Ley de Amnistía — libera a presos políticos incluyendo crímenes de sangre (ETA), permite el regreso de exiliados y garantiza impunidad para crímenes durante la Guerra Civil y el franquismo.</td>
+        <td class="quien"><span class="tag tag-demo">Cortes democráticas</span></td>
+      </tr>
+
+      <tr data-tag="demo">
+        <td class="fecha">29 sep. 1977</td>
+        <td>Restablecimiento de la Generalitat — el gobierno autónomo de Cataluña, única institución de la Segunda República restablecida.</td>
+        <td class="quien"><span class="tag tag-demo">Cortes democráticas</span></td>
+      </tr>
+
+      <tr data-tag="all">
+        <td class="fecha">25 oct. 1977</td>
+        <td>Los Pactos de la Moncloa — acuerdos entre el Gobierno, partidos políticos, asociaciones empresariales y sindicatos para la estabilización democrática y la reducción de la inflación (26,39%).</td>
+        <td class="quien">Partidos, empresarios y sindicatos</td>
+      </tr>
+
+      <tr data-tag="all">
+        <td class="fecha">6 dic. 1978</td>
+        <td>Nueva constitución ratificada por referéndum.</td>
+        <td class="quien">Referéndum nacional</td>
+      </tr>
+
+      <tr class="section-header"><td colspan="3">CONSOLIDACIÓN Y RETOS (1981–1986)</td></tr>
+
+      <tr data-tag="all">
+        <td class="fecha">23 feb. 1981</td>
+        <td>Intento de golpe de Estado — el 23-F. El Rey juega un papel clave en el fracaso del golpe.</td>
+        <td class="quien">Guardias civiles y militares / Rey</td>
+      </tr>
+
+      <tr data-tag="all">
+        <td class="fecha">7 jul. 1981</td>
+        <td>Ley del divorcio.</td>
+        <td class="quien">—</td>
+      </tr>
+
+      <tr data-tag="all">
+        <td class="fecha">30 may. 1982</td>
+        <td>España se une a la OTAN.</td>
+        <td class="quien">—</td>
+      </tr>
+
+      <tr data-tag="all">
+        <td class="fecha">28 oct. 1982</td>
+        <td>Gobierno socialista elegido con mayoría abrumadora.</td>
+        <td class="quien">Felipe González</td>
+      </tr>
+
+      <tr data-tag="all">
+        <td class="fecha">1986</td>
+        <td>Adhesión de España a la Comunidad Económica Europea (Unión Europea).</td>
+        <td class="quien">—</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <div class="answer-box" style="margin-top:20px;">
+    <label>💬 Después de leer: ¿Qué papel jugó el Rey Juan Carlos en la Transición? ¿Y Adolfo Suárez?</label>
+    <textarea id="afterAnswer" placeholder="Escribe aquí..." onfocus="setActive(this)"></textarea>
+  </div>
+
+  <div class="answer-box">
+    <label>🤔 Debate: ¿Fue la Transición un proceso "desde arriba" o "desde abajo"? Justifica tu respuesta con ejemplos de la cronología.</label>
+    <textarea id="debateAnswer" placeholder="Escribe aquí..." onfocus="setActive(this)"></textarea>
+  </div>
+
+</div>
+
+<footer>Las dos Españas — Tarea: La Transición Española 1975–1986</footer>
+
+<script>
+  let activeTextarea = null;
+
+  function setActive(el) {
+    activeTextarea = el;
+  }
+
+  function insertAccent(char) {
+    if (!activeTextarea) return;
+    const start = activeTextarea.selectionStart;
+    const end = activeTextarea.selectionEnd;
+    const val = activeTextarea.value;
+    activeTextarea.value = val.substring(0, start) + char + val.substring(end);
+    activeTextarea.selectionStart = activeTextarea.selectionEnd = start + char.length;
+    activeTextarea.focus();
+  }
+
+  function filterTag(tag, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('tbody tr[data-tag]').forEach(row => {
+      if (tag === 'all') {
+        row.classList.remove('hidden');
+      } else {
+        row.classList.toggle('hidden', row.dataset.tag !== tag && row.dataset.tag !== 'all');
+      }
+    });
+    // Always show section headers
+    document.querySelectorAll('.section-header').forEach(r => r.classList.remove('hidden'));
+  }
+
+  function downloadBlob() {
+    const html = document.documentElement.outerHTML;
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'transicion_espanola_1975_1986.html';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+</script>
+</body>
+</html>

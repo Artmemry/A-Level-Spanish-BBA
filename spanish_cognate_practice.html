@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spanish Cognate Pattern Practice</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .progress-container {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .progress-text {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .pattern-info {
+            background: #e3f2fd;
+            border-left: 5px solid #2196F3;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .pattern-info h3 {
+            color: #1976D2;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .pattern-info p {
+            color: #424242;
+            line-height: 1.5;
+        }
+
+        .practice-area {
+            padding: 40px;
+        }
+
+        .question-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .question-card.correct {
+            border-color: #4CAF50;
+            background: #e8f5e9;
+        }
+
+        .question-card.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+
+        .english-word {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .word-info {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .meaning-hint {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #e65100;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .spanish-input {
+            flex: 1;
+            padding: 15px;
+            font-size: 1.3em;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .spanish-input:focus {
+            border-color: #667eea;
+        }
+
+        .check-btn {
+            padding: 15px 25px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .check-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .accent-keyboard {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .accent-keyboard h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .accent-btn {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .accent-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .result {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .result.show {
+            opacity: 1;
+        }
+
+        .result.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .result.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .next-btn {
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .next-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .export-btn, .pattern-btn {
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .pattern-btn {
+            background: linear-gradient(45deg, #9c27b0, #673ab7);
+        }
+
+        .export-btn:hover, .pattern-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .completion-screen {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+
+        .completion-screen.show {
+            display: block;
+        }
+
+        .completion-screen h2 {
+            font-size: 2.5em;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        .final-score {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .pattern-selector {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .pattern-selector.show {
+            display: block;
+        }
+
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .pattern-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pattern-card:hover {
+            border-color: #667eea;
+            background: #e3f2fd;
+        }
+
+        .pattern-card.selected {
+            border-color: #4CAF50;
+            background: #e8f5e9;
+        }
+
+        .pattern-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .pattern-count {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .variation-info {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .input-container {
+                flex-direction: column;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .controls > * {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Spanish Cognate Pattern Practice</h1>
+            <p>Master Spanish-English word patterns through systematic practice</p>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">0 / 0</div>
+            </div>
+        </div>
+
+        <div class="pattern-selector" id="patternSelector">
+            <h2>Choose Learning Mode</h2>
+            <div style="margin: 20px 0;">
+                <button class="pattern-btn" onclick="practiceAll()" style="margin-right: 15px;">Practice All Patterns (419 words)</button>
+                <button class="pattern-btn" onclick="showPatternGrid()">Practice by Pattern</button>
+            </div>
+            <div class="pattern-grid" id="patternGrid" style="display: none;"></div>
+        </div>
+
+        <div class="pattern-info" id="patternInfo" style="display: none;">
+            <h3 id="currentPatternTitle"></h3>
+            <p id="currentPatternDesc"></p>
+        </div>
+
+        <div class="practice-area" id="practiceArea" style="display: none;">
+            <div class="question-card" id="questionCard">
+                <div class="english-word" id="englishWord"></div>
+                <div class="word-info" id="wordInfo"></div>
+                <div class="meaning-hint" id="meaningHint" style="display: none;"></div>
+                
+                <div class="accent-keyboard">
+                    <h3>Accent Helper</h3>
+                    <button class="accent-btn" onclick="addAccent('á')">á</button>
+                    <button class="accent-btn" onclick="addAccent('é')">é</button>
+                    <button class="accent-btn" onclick="addAccent('í')">í</button>
+                    <button class="accent-btn" onclick="addAccent('ó')">ó</button>
+                    <button class="accent-btn" onclick="addAccent('ú')">ú</button>
+                    <button class="accent-btn" onclick="addAccent('ü')">ü</button>
+                    <button class="accent-btn" onclick="addAccent('ñ')">ñ</button>
+                </div>
+
+                <div class="input-container">
+                    <input type="text" id="spanishInput" class="spanish-input" placeholder="Type the Spanish cognate..." autocomplete="off">
+                    <button class="check-btn" id="checkBtn" onclick="checkAnswer()">Check</button>
+                </div>
+
+                <div class="result" id="result"></div>
+                <div class="variation-info" id="variationInfo" style="display: none;">
+                    Note: We accept conjugated verbs and gender variations where appropriate.
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="next-btn" id="nextBtn" onclick="nextQuestion()" disabled>Next Question</button>
+                <button class="pattern-btn" onclick="showPatternSelector()">Change Pattern</button>
+                <button class="export-btn" onclick="exportToPDF()">Export Results</button>
+            </div>
+        </div>
+
+        <div class="completion-screen" id="completionScreen">
+            <h2>🎉 Congratulations!</h2>
+            <div class="final-score" id="finalScore"></div>
+            <button class="next-btn" onclick="restartPractice()">Practice Again</button>
+            <button class="export-btn" onclick="exportToPDF()">Export Final Results</button>
+            <button class="pattern-btn" onclick="showPatternSelector()">Choose New Pattern</button>
+        </div>
+    </div>
+
+    <script>
+        // Full cognate patterns data
+        const cognatePatterns = {
+            1: {
+                title: "English to Spanish: Add -o or change -e to -o",
+                description: "English words that add -o (sometimes with accent) or change final -e to -o",
+                words: [
+                    {english: "case", spanish: "caso", meanings: "case, occasion, instance"},
+                    {english: "human", spanish: "humano", meanings: "human"},
+                    {english: "article", spanish: "artículo", meanings: "article, product, item"},
+                    {english: "minute", spanish: "minuto", meanings: "minute"},
+                    {english: "rest", spanish: "resto", meanings: "rest, remainder, leftover"},
+                    {english: "element", spanish: "elemento", meanings: "element"},
+                    {english: "period", spanish: "período", meanings: "period, time"},
+                    {english: "medical", spanish: "médico", meanings: "medical"},
+                    {english: "Cuban", spanish: "cubano", meanings: "Cuban"},
+                    {english: "model", spanish: "modelo", meanings: "model, pattern"},
+                    {english: "future", spanish: "futuro", meanings: "future"},
+                    {english: "bank", spanish: "banco", meanings: "(financial) bank, bench"},
+                    {english: "text", spanish: "texto", meanings: "text"},
+                    {english: "motive", spanish: "motivo", meanings: "motive, cause"},
+                    {english: "contact", spanish: "contacto", meanings: "contact"},
+                    {english: "historical", spanish: "histórico", meanings: "historical"},
+                    {english: "public", spanish: "público", meanings: "public, audience"},
+                    {english: "Mexican", spanish: "mexicano", meanings: "Mexican"},
+                    {english: "modern", spanish: "moderno", meanings: "modern"},
+                    {english: "concept", spanish: "concepto", meanings: "concept"},
+                    {english: "department", spanish: "departamento", meanings: "department, apartment"},
+                    {english: "pure", spanish: "puro", meanings: "pure, clean"},
+                    {english: "document", spanish: "documento", meanings: "document"},
+                    {english: "organism", spanish: "organismo", meanings: "organism, (human) body"},
+                    {english: "conflict", spanish: "conflicto", meanings: "conflict"},
+                    {english: "instrument", spanish: "instrumento", meanings: "instrument"},
+                    {english: "absolute", spanish: "absoluto", meanings: "absolute"},
+                    {english: "perfect", spanish: "perfecto", meanings: "perfect"},
+                    {english: "tone", spanish: "tono", meanings: "tone"},
+                    {english: "Italian", spanish: "italiano", meanings: "Italian"},
+                    {english: "basic", spanish: "básico", meanings: "basic, essential"},
+                    {english: "American", spanish: "americano", meanings: "American"},
+                    {english: "access", spanish: "acceso", meanings: "access, entry"},
+                    {english: "positive", spanish: "positivo", meanings: "positive"},
+                    {english: "candidate", spanish: "candidato", meanings: "candidate"},
+                    {english: "liquid", spanish: "líquido", meanings: "liquid"},
+                    {english: "extreme", spanish: "extremo", meanings: "extreme"},
+                    {english: "artistic", spanish: "artístico", meanings: "artistic"},
+                    {english: "electric", spanish: "eléctrico", meanings: "electric"},
+                    {english: "precise", spanish: "preciso", meanings: "precise, necessary"},
+                    {english: "sex", spanish: "sexo", meanings: "sex"},
+                    {english: "Roman", spanish: "romano", meanings: "Roman"},
+                    {english: "intense", spanish: "intenso", meanings: "intense, acute"},
+                    {english: "exact", spanish: "exacto", meanings: "exact, faithful, true"},
+                    {english: "secret", spanish: "secreto", meanings: "secret"},
+                    {english: "event", spanish: "evento", meanings: "event"},
+                    {english: "kilometer", spanish: "kilómetro", meanings: "kilometer"},
+                    {english: "definitive", spanish: "definitivo", meanings: "definitive, conclusive"},
+                    {english: "false", spanish: "falo", meanings: "false"},
+                    {english: "universe", spanish: "universo", meanings: "universe"},
+                    {english: "Colombian", spanish: "colombiano", meanings: "Colombian"},
+                    {english: "democratic", spanish: "democrático", meanings: "democratic"},
+                    {english: "argument", spanish: "argumento", meanings: "argument, plot"},
+                    {english: "urban", spanish: "urbano", meanings: "urban, city, urbane"},
+                    {english: "cost", spanish: "costo", meanings: "price, cost, expense"},
+                    {english: "organ", spanish: "órgano", meanings: "organ"},
+                    {english: "absurd", spanish: "absurdo", meanings: "absurd"},
+                    {english: "Latin", spanish: "latino", meanings: "Latin"},
+                    {english: "negative", spanish: "negativo", meanings: "negative, pessimistic"},
+                    {english: "expert", spanish: "experto", meanings: "expert"},
+                    {english: "relative", spanish: "relativo", meanings: "relative"},
+                    {english: "fruit", spanish: "fruto", meanings: "fruit, result"},
+                    {english: "violent", spanish: "violento", meanings: "violent"},
+                    {english: "typical", spanish: "típico", meanings: "typical"},
+                    {english: "content", spanish: "contento", meanings: "happy, content"},
+                    {english: "plastic", spanish: "plástico", meanings: "plastic"},
+                    {english: "divine", spanish: "divino", meanings: "divine"},
+                    {english: "context", spanish: "contexto", meanings: "context"},
+                    {english: "administrative", spanish: "administrativo", meanings: "administrative"},
+                    {english: "temple", spanish: "templo", meanings: "temple, church"}
+                ]
+            },
+            2: {
+                title: "English to Spanish: Add -a",
+                description: "English words that add -a (sometimes with accent)",
+                words: [
+                    {english: "person", spanish: "persona", meanings: "person"},
+                    {english: "problem", spanish: "problema", meanings: "problem"},
+                    {english: "music", spanish: "música", meanings: "music"},
+                    {english: "weapon", spanish: "arma", meanings: "weapon"},
+                    {english: "optimistic", spanish: "optimista", meanings: "optimistic"},
+                    {english: "victim", spanish: "víctima", meanings: "victim, casualty"},
+                    {english: "poem", spanish: "poema", meanings: "poem"},
+                    {english: "planet", spanish: "planeta", meanings: "planet"},
+                    {english: "column", spanish: "columna", meanings: "column, spine"},
+                    {english: "communist", spanish: "comunista", meanings: "communist"},
+                    {english: "protagonist", spanish: "protagonista", meanings: "protagonist, main character"},
+                    {english: "socialist", spanish: "socialista", meanings: "socialist"},
+                    {english: "system", spanish: "sistema", meanings: "system"},
+                    {english: "adventure", spanish: "aventura", meanings: "adventure"}
+                ]
+            },
+            3: {
+                title: "English -ist to Spanish -ista",
+                description: "English words ending in -ist become -ista in Spanish",
+                words: [
+                    {english: "optimist", spanish: "optimista", meanings: "optimistic"},
+                    {english: "communist", spanish: "comunista", meanings: "communist"},
+                    {english: "protagonist", spanish: "protagonista", meanings: "protagonist, main character"},
+                    {english: "socialist", spanish: "socialista", meanings: "socialist"}
+                ]
+            },
+            4: {
+                title: "English -e to Spanish -a",
+                description: "English words ending in -e change to -a in Spanish",
+                words: [
+                    {english: "cause", spanish: "causa", meanings: "cause"},
+                    {english: "literature", spanish: "literatura", meanings: "literature"},
+                    {english: "temperature", spanish: "temperatura", meanings: "temperature"},
+                    {english: "medicine", spanish: "medicina", meanings: "medicine"},
+                    {english: "architecture", spanish: "arquitectura", meanings: "architecture"},
+                    {english: "defense", spanish: "defensa", meanings: "defense, plea"}
+                ]
+            },
+            5: {
+                title: "English word adds -e",
+                description: "English words that add -e in Spanish",
+                words: [
+                    {english: "firm", spanish: "firme", meanings: "firm, steady"},
+                    {english: "continent", spanish: "continente", meanings: "continent"}
+                ]
+            },
+            6: {
+                title: "English -y to Spanish -ía/-ia",
+                description: "Words ending in -y in English become -ía or -ia in Spanish",
+                words: [
+                    {english: "family", spanish: "familia", meanings: "family"},
+                    {english: "company", spanish: "compañía", meanings: "company"},
+                    {english: "energy", spanish: "energía", meanings: "energy, power"},
+                    {english: "economy", spanish: "economía", meanings: "economy, economics, thriftiness"},
+                    {english: "memory", spanish: "memoria", meanings: "memory"},
+                    {english: "theory", spanish: "teoría", meanings: "theory"},
+                    {english: "industry", spanish: "industria", meanings: "industry, factory"},
+                    {english: "technology", spanish: "tecnología", meanings: "technology"},
+                    {english: "victory", spanish: "victoria", meanings: "victory, triumph"},
+                    {english: "frequency", spanish: "frecuencia", meanings: "frequency"},
+                    {english: "photography", spanish: "fotografía", meanings: "photograph"},
+                    {english: "philosophy", spanish: "filosofía", meanings: "philosophy"},
+                    {english: "category", spanish: "categoría", meanings: "category"},
+                    {english: "democracy", spanish: "democracia", meanings: "democracy"},
+                    {english: "glory", spanish: "gloria", meanings: "glory, fame"},
+                    {english: "colony", spanish: "colonia", meanings: "colony, cologne"}
+                ]
+            },
+            7: {
+                title: "English -our to Spanish -or",
+                description: "British English -our becomes -or in Spanish",
+                words: [
+                    {english: "labour", spanish: "labor", meanings: "labour, labor, work, task"},
+                    {english: "honour", spanish: "honor", meanings: "honour, honor, honesty"}
+                ]
+            },
+            8: {
+                title: "English verbs add -ar/-er/-ir",
+                description: "English verbs add Spanish infinitive endings -ar, -er, or -ir",
+                words: [
+                    {english: "exist", spanish: "existir", meanings: "to exist"},
+                    {english: "realize", spanish: "realizar", meanings: "to fulfill, carry out"},
+                    {english: "present", spanish: "presentar", meanings: "to introduce, present"},
+                    {english: "produce", spanish: "producir", meanings: "to produce, cause"},
+                    {english: "consider", spanish: "considerar", meanings: "to consider"},
+                    {english: "convert", spanish: "convertir", meanings: "to convert, change, become"},
+                    {english: "result", spanish: "resultar", meanings: "to result, turn out"},
+                    {english: "serve", spanish: "servir", meanings: "to serve"},
+                    {english: "use", spanish: "usar", meanings: "to use"},
+                    {english: "respond", spanish: "responder", meanings: "to answer, respond"},
+                    {english: "move", spanish: "mover", meanings: "to move, incite"},
+                    {english: "imagine", spanish: "imaginar", meanings: "to imagine"},
+                    {english: "represent", spanish: "representar", meanings: "to represent"},
+                    {english: "refer", spanish: "referir", meanings: "to refer (to)"},
+                    {english: "observe", spanish: "observar", meanings: "to observe"},
+                    {english: "prepare", spanish: "preparar", meanings: "to prepare"},
+                    {english: "depend", spanish: "depender", meanings: "to depend on"},
+                    {english: "abandon", spanish: "abandonar", meanings: "to abandon, leave (a place)"},
+                    {english: "note", spanish: "notar", meanings: "to notice"},
+                    {english: "defend", spanish: "defender", meanings: "to defend, protect"},
+                    {english: "visit", spanish: "visitar", meanings: "to visit"},
+                    {english: "extend", spanish: "extender", meanings: "to extend, spread"},
+                    {english: "base", spanish: "basar", meanings: "to base on, base upon"},
+                    {english: "preoccupy", spanish: "preocupar", meanings: "to worry"},
+                    {english: "resolve", spanish: "resolver", meanings: "to resolve, settle, work out"},
+                    {english: "reduce", spanish: "reducir", meanings: "to reduce"},
+                    {english: "correspond", spanish: "corresponder", meanings: "to correspond with"},
+                    {english: "escape", spanish: "escapar", meanings: "to escape"},
+                    {english: "cause", spanish: "causar", meanings: "to cause, bring about"},
+                    {english: "declare", spanish: "declarar", meanings: "to declare, testify"},
+                    {english: "control", spanish: "controlar", meanings: "to control"},
+                    {english: "conserve", spanish: "conservar", meanings: "to conserve, preserve"},
+                    {english: "impede", spanish: "impedir", meanings: "to prevent, hinder"},
+                    {english: "determine", spanish: "determinar", meanings: "to determine, decide"},
+                    {english: "define", spanish: "definir", meanings: "to define"},
+                    {english: "insist", spanish: "insistir", meanings: "to insist on"},
+                    {english: "identify", spanish: "identificar", meanings: "to identify"},
+                    {english: "consist", spanish: "consistir", meanings: "to consist of"},
+                    {english: "analyze", spanish: "analizar", meanings: "to analyze"},
+                    {english: "introduce", spanish: "introducir", meanings: "to introduce, bring in"},
+                    {english: "transform", spanish: "transformar", meanings: "to transform, change"},
+                    {english: "respect", spanish: "respetar", meanings: "to respect"},
+                    {english: "describe", spanish: "describir", meanings: "to describe"},
+                    {english: "confirm", spanish: "confirmar", meanings: "to confirm"},
+                    {english: "transmit", spanish: "transmitir", meanings: "to transmit, broadcast"},
+                    {english: "adopt", spanish: "adoptar", meanings: "to adopt"},
+                    {english: "limit", spanish: "limitar", meanings: "to limit"},
+                    {english: "divide", spanish: "dividir", meanings: "to divide"},
+                    {english: "march", spanish: "marchar", meanings: "to go, leave, march"},
+                    {english: "distinguish", spanish: "distinguir", meanings: "to distinguish"},
+                    {english: "interpret", spanish: "interpretar", meanings: "to interpret"},
+                    {english: "admit", spanish: "admitir", meanings: "to admit"},
+                    {english: "emit", spanish: "emitir", meanings: "to emit, give (off)"},
+                    {english: "invent", spanish: "inventar", meanings: "to invent, make up"},
+                    {english: "intervene", spanish: "intervenir", meanings: "to intervene"},
+                    {english: "coincide", spanish: "coincidir", meanings: "to coincide, agree"},
+                    {english: "practice", spanish: "practicar", meanings: "to practice"},
+                    {english: "register", spanish: "registrar", meanings: "to register, record"},
+                    {english: "proceed", spanish: "proceder", meanings: "to proceed, start"},
+                    {english: "modify", spanish: "modificar", meanings: "to modify"},
+                    {english: "ignore", spanish: "ignorar", meanings: "to be unaware"},
+                    {english: "resist", spanish: "resistir", meanings: "to resist, endure"},
+                    {english: "revise", spanish: "revisar", meanings: "to check, revise, inspect"},
+                    {english: "operate", spanish: "operar", meanings: "to operate"},
+                    {english: "consult", spanish: "consultar", meanings: "to consult"},
+                    {english: "figure", spanish: "figurar", meanings: "to appear, represent, figure (in)"},
+                    {english: "consume", spanish: "consumir", meanings: "to consume, take in"},
+                    {english: "vote", spanish: "votar", meanings: "to vote"},
+                    {english: "criticize", spanish: "criticar", meanings: "to criticize"},
+                    {english: "converse", spanish: "conversar", meanings: "to converse, talk"},
+                    {english: "arm", spanish: "armar", meanings: "to arm, put together"},
+                    {english: "descend", spanish: "descender", meanings: "to descend"},
+                    {english: "fabricate", spanish: "fabricar", meanings: "to manufacture"},
+                    {english: "procure", spanish: "procurar", meanings: "to try, seek"},
+                    {english: "combine", spanish: "combinar", meanings: "to combine"},
+                    {english: "accept", spanish: "aceptar", meanings: "to accept"},
+                    {english: "repeat", spanish: "repetir", meanings: "to repeat"},
+                    {english: "signify", spanish: "significar", meanings: "to mean"},
+                    {english: "accompany", spanish: "acompañar", meanings: "to accompany"},
+                    {english: "comment", spanish: "comentar", meanings: "to comment on"},
+                    {english: "affirm", spanish: "afirmar", meanings: "to assert, affirm"},
+                    {english: "express", spanish: "expresar", meanings: "to express"},
+                    {english: "constitute", spanish: "constituir", meanings: "to constitute, consist of"},
+                    {english: "generate", spanish: "generar", meanings: "to generate"},
+                    {english: "act", spanish: "actuar", meanings: "to act"},
+                    {english: "advance", spanish: "avanzar", meanings: "to advance, progress"},
+                    {english: "affect", spanish: "afectar", meanings: "to affect"},
+                    {english: "install", spanish: "instalar", meanings: "to install"},
+                    {english: "conclude", spanish: "concluir", meanings: "to conclude, finish"},
+                    {english: "recommend", spanish: "recomendar", meanings: "to recommend"},
+                    {english: "confess", spanish: "confesar", meanings: "to confess, admit"},
+                    {english: "vary", spanish: "variar", meanings: "to change, vary"},
+                    {english: "characterize", spanish: "caracterizar", meanings: "to characterize, portray"},
+                    {english: "justify", spanish: "justificar", meanings: "to justify, excuse"},
+                    {english: "connect", spanish: "conectar", meanings: "to connect, plug in"},
+                    {english: "pronounce", spanish: "pronunciar", meanings: "to pronounce"}
+                ]
+            },
+            9: {
+                title: "English -ate to Spanish -ar",
+                description: "English verbs ending in -ate become -ar in Spanish",
+                words: [
+                    {english: "liberate", spanish: "liberar", meanings: "to free, liberate"},
+                    {english: "obligate", spanish: "obligar", meanings: "to obligate, force"},
+                    {english: "orientate", spanish: "orientar", meanings: "to guide, show the way"},
+                    {english: "contemplate", spanish: "contemplar", meanings: "to contemplate"},
+                    {english: "incorporate", spanish: "incorporar", meanings: "to incorporate, include"},
+                    {english: "eliminate", spanish: "eliminar", meanings: "to eliminate, exclude"},
+                    {english: "integrate", spanish: "integrar", meanings: "to integrate, fit in"},
+                    {english: "investigate", spanish: "investigar", meanings: "to investigate"},
+                    {english: "estimate", spanish: "estimar", meanings: "to estimate, hold in esteem"},
+                    {english: "calculate", spanish: "calcular", meanings: "to calculate, figure out"},
+                    {english: "indicate", spanish: "indicar", meanings: "to indicate"},
+                    {english: "participate", spanish: "participar", meanings: "to participate"},
+                    {english: "separate", spanish: "separar", meanings: "to separate"},
+                    {english: "celebrate", spanish: "celebrar", meanings: "to celebrate"},
+                    {english: "facilitate", spanish: "facilitar", meanings: "to facilitate"},
+                    {english: "demonstrate", spanish: "demostrar", meanings: "to show, demonstrate"},
+                    {english: "communicate", spanish: "comunicar", meanings: "to communicate"}
+                ]
+            },
+            10: {
+                title: "English -ct to Spanish -cto",
+                description: "English words ending in -ct become -cto in Spanish",
+                words: [
+                    {english: "product", spanish: "producto", meanings: "product"},
+                    {english: "conflict", spanish: "conflicto", meanings: "conflict"},
+                    {english: "contact", spanish: "contacto", meanings: "contact"},
+                    {english: "perfect", spanish: "perfecto", meanings: "perfect"},
+                    {english: "exact", spanish: "exacto", meanings: "exact, faithful, true"},
+                    {english: "abstract", spanish: "abstracto", meanings: "abstract"},
+                    {english: "distinct", spanish: "distinto", meanings: "distinct, different"},
+                    {english: "instinct", spanish: "instinto", meanings: "instinct"}
+                ]
+            },
+            11: {
+                title: "English th to Spanish t",
+                description: "English 'th' becomes 't' in Spanish",
+                words: [
+                    {english: "author", spanish: "autor", meanings: "writer, author"},
+                    {english: "authority", spanish: "autoridad", meanings: "authority"},
+                    {english: "method", spanish: "método", meanings: "method"},
+                    {english: "Catholic", spanish: "católico", meanings: "Catholic"},
+                    {english: "authentic", spanish: "auténtico", meanings: "authentic"},
+                    {english: "theory", spanish: "teoría", meanings: "theory"}
+                ]
+            },
+            12: {
+                title: "English -ly to Spanish -mente",
+                description: "English adverbs ending in -ly become -mente in Spanish",
+                words: [
+                    {english: "really", spanish: "realmente", meanings: "really, actually, in fact"},
+                    {english: "simply", spanish: "simplemente", meanings: "simply, just"},
+                    {english: "especially", spanish: "especialmente", meanings: "especially"},
+                    {english: "precisely", spanish: "precisamente", meanings: "precisely"},
+                    {english: "totally", spanish: "totalmente", meanings: "totally, completely"},
+                    {english: "finally", spanish: "finalmente", meanings: "finally, at last"},
+                    {english: "exactly", spanish: "exactamente", meanings: "exactly"},
+                    {english: "practically", spanish: "prácticamente", meanings: "practically"},
+                    {english: "completely", spanish: "completamente", meanings: "completely"},
+                    {english: "directly", spanish: "directamente", meanings: "directly, straight away"},
+                    {english: "surely", spanish: "seguramente", meanings: "surely, securely"},
+                    {english: "probably", spanish: "probablemente", meanings: "probably"},
+                    {english: "generally", spanish: "generalmente", meanings: "generally, usually"},
+                    {english: "immediately", spanish: "inmediatamente", meanings: "immediately"},
+                    {english: "absolutely", spanish: "absolutamente", meanings: "absolutely, completely"},
+                    {english: "approximately", spanish: "aproximadamente", meanings: "approximately"},
+                    {english: "rapidly", spanish: "rápidamente", meanings: "rapidly, quickly"},
+                    {english: "perfectly", spanish: "perfectamente", meanings: "perfectly"},
+                    {english: "principally", spanish: "principalmente", meanings: "principally, mainly"},
+                    {english: "normally", spanish: "normalmente", meanings: "normally"},
+                    {english: "naturally", spanish: "naturalmente", meanings: "naturally"},
+                    {english: "slowly", spanish: "lentamente", meanings: "slowly"},
+                    {english: "evidently", spanish: "evidentemente", meanings: "evidently, obviously"},
+                    {english: "only", spanish: "solamente", meanings: "only"}
+                ]
+            },
+            13: {
+                title: "English -ous to Spanish -oso/-osa",
+                description: "English adjectives ending in -ous become -oso/-osa in Spanish",
+                words: [
+                    {english: "religious", spanish: "religioso", meanings: "religious"},
+                    {english: "famous", spanish: "famoso", meanings: "famous, well known"}
+                ]
+            },
+            14: {
+                title: "English -tion to Spanish -ción",
+                description: "English words ending in -tion become -ción in Spanish",
+                words: [
+                    {english: "relation", spanish: "relación", meanings: "relationship, relation"},
+                    {english: "situation", spanish: "situación", meanings: "situation"},
+                    {english: "information", spanish: "información", meanings: "information"},
+                    {english: "action", spanish: "acción", meanings: "action, act, deed"},
+                    {english: "condition", spanish: "condición", meanings: "condition"},
+                    {english: "attention", spanish: "atención", meanings: "attention"},
+                    {english: "education", spanish: "educación", meanings: "education"},
+                    {english: "investigation", spanish: "investigación", meanings: "investigation"},
+                    {english: "production", spanish: "producción", meanings: "production"},
+                    {english: "communication", spanish: "comunicación", meanings: "communication"},
+                    {english: "position", spanish: "posición", meanings: "position"},
+                    {english: "institution", spanish: "institución", meanings: "institution"},
+                    {english: "election", spanish: "elección", meanings: "election, choice"},
+                    {english: "construction", spanish: "construcción", meanings: "construction"},
+                    {english: "nation", spanish: "nación", meanings: "nation"},
+                    {english: "solution", spanish: "solución", meanings: "solution, answer"},
+                    {english: "generation", spanish: "generación", meanings: "generation"},
+                    {english: "creation", spanish: "creación", meanings: "creation"},
+                    {english: "conversation", spanish: "conversación", meanings: "conversation"},
+                    {english: "operation", spanish: "operación", meanings: "operation"},
+                    {english: "application", spanish: "aplicación", meanings: "application"},
+                    {english: "sensation", spanish: "sensación", meanings: "sensation, feeling"},
+                    {english: "tradition", spanish: "tradición", meanings: "tradition"},
+                    {english: "revolution", spanish: "revolución", meanings: "revolution"},
+                    {english: "administration", spanish: "administración", meanings: "administration"},
+                    {english: "intention", spanish: "intención", meanings: "intention"},
+                    {english: "option", spanish: "opción", meanings: "option, choice"},
+                    {english: "traditional", spanish: "tradicional", meanings: "traditional"},
+                    {english: "declaration", spanish: "declaración", meanings: "declaration, statement"},
+                    {english: "reaction", spanish: "reacción", meanings: "reaction"},
+                    {english: "exposition", spanish: "exposición", meanings: "exhibition, display"},
+                    {english: "protection", spanish: "protección", meanings: "protection"},
+                    {english: "opposition", spanish: "oposión", meanings: "opposition"},
+                    {english: "emotion", spanish: "emoción", meanings: "emotion, excitement"},
+                    {english: "edition", spanish: "edición", meanings: "edition, publication"},
+                    {english: "obligation", spanish: "obligación", meanings: "obligation"},
+                    {english: "association", spanish: "asociación", meanings: "association"},
+                    {english: "constitution", spanish: "constitución", meanings: "constitution"},
+                    {english: "disposition", spanish: "disposición", meanings: "disposal, disposition"},
+                    {english: "evolution", spanish: "evolución", meanings: "evolution, development"},
+                    {english: "intervention", spanish: "intervención", meanings: "intervention"},
+                    {english: "collection", spanish: "colección", meanings: "collection"},
+                    {english: "representation", spanish: "representación", meanings: "representation"},
+                    {english: "section", spanish: "sección", meanings: "section, cut"},
+                    {english: "presentation", spanish: "presentación", meanings: "presentation, introduction"},
+                    {english: "manifestation", spanish: "manifestación", meanings: "protest, manifestation"},
+                    {english: "interpretation", spanish: "interpretación", meanings: "interpretation, interpreting"},
+                    {english: "imagination", spanish: "imaginación", meanings: "imagination, fantasy"},
+                    {english: "dimension", spanish: "dimensión", meanings: "dimension, size"},
+                    {english: "exception", spanish: "excepción", meanings: "exception"},
+                    {english: "introduction", spanish: "introducción", meanings: "introduction"}
+                ]
+            },
+            15: {
+                title: "English -ant/-ent to Spanish -ante/-iente",
+                description: "English words ending in -ant or -ent become -ante or -iente in Spanish",
+                words: [
+                    {english: "important", spanish: "importante", meanings: "important"},
+                    {english: "student", spanish: "estudiante", meanings: "student"},
+                    {english: "instant", spanish: "instante", meanings: "instant, moment"},
+                    {english: "client", spanish: "cliente", meanings: "client, customer"},
+                    {english: "independent", spanish: "independiente", meanings: "independent, self-sufficient"},
+                    {english: "current", spanish: "corriente", meanings: "current, common"},
+                    {english: "recent", spanish: "reciente", meanings: "recent"},
+                    {english: "constant", spanish: "constante", meanings: "constant"},
+                    {english: "corresponding", spanish: "correspondiente", meanings: "corresponding"},
+                    {english: "sufficient", spanish: "suficiente", meanings: "sufficient, enough"},
+                    {english: "patient", spanish: "paciente", meanings: "patient"},
+                    {english: "brilliant", spanish: "brillante", meanings: "brilliant, shiny, sparkling"}
+                ]
+            },
+            16: {
+                title: "English -nce to Spanish -ncia",
+                description: "English words ending in -nce become -ncia in Spanish",
+                words: [
+                    {english: "difference", spanish: "diferencia", meanings: "difference"},
+                    {english: "presence", spanish: "presencia", meanings: "presence, appearance"},
+                    {english: "importance", spanish: "importancia", meanings: "importance"},
+                    {english: "consequence", spanish: "consecuencia", meanings: "consequence"},
+                    {english: "distance", spanish: "distancia", meanings: "distance"},
+                    {english: "conscience", spanish: "conciencia", meanings: "conscience, consciousness"},
+                    {english: "existence", spanish: "existencia", meanings: "existence, life"},
+                    {english: "influence", spanish: "influencia", meanings: "influence"},
+                    {english: "province", spanish: "provincia", meanings: "province, region"},
+                    {english: "reference", spanish: "referencia", meanings: "reference, allusion"},
+                    {english: "conference", spanish: "conferencia", meanings: "conference, lecture"},
+                    {english: "independence", spanish: "independencia", meanings: "independence"},
+                    {english: "intelligence", spanish: "inteligencia", meanings: "intelligence"},
+                    {english: "resistance", spanish: "resistencia", meanings: "resistance, opposition"}
+                ]
+            },
+            17: {
+                title: "English -ical to Spanish -ico/-ica",
+                description: "English adjectives ending in -ical become -ico/-ica in Spanish",
+                words: [
+                    {english: "political", spanish: "político", meanings: "political"},
+                    {english: "medical", spanish: "médico", meanings: "medical"},
+                    {english: "technical", spanish: "técnico", meanings: "technical"},
+                    {english: "electrical", spanish: "eléctrico", meanings: "electrical"},
+                    {english: "critical", spanish: "crítico", meanings: "critical"},
+                    {english: "typical", spanish: "típico", meanings: "typical"}
+                ]
+            },
+            18: {
+                title: "English oun to Spanish un",
+                description: "English 'oun' becomes 'un' in Spanish",
+                words: [
+                    {english: "announce", spanish: "anunciar", meanings: "to announce, advertise"},
+                    {english: "pronounce", spanish: "pronunciar", meanings: "to pronounce"}
+                ]
+            },
+            19: {
+                title: "English dis- to Spanish des-",
+                description: "English prefix 'dis-' becomes 'des-' in Spanish",
+                words: [
+                    {english: "discover", spanish: "descubrir", meanings: "to discover"},
+                    {english: "describe", spanish: "describir", meanings: "to describe"},
+                    {english: "destroy", spanish: "destruir", meanings: "to destroy, ruin"}
+                ]
+            },
+            20: {
+                title: "English -ty to Spanish -dad/-tad",
+                description: "English words ending in -ty become -dad or -tad in Spanish",
+                words: [
+                    {english: "reality", spanish: "realidad", meanings: "reality, actuality"},
+                    {english: "activity", spanish: "actividad", meanings: "activity, action"},
+                    {english: "society", spanish: "sociedad", meanings: "society"},
+                    {english: "university", spanish: "universidad", meanings: "university, college"},
+                    {english: "opportunity", spanish: "oportunidad", meanings: "opportunity, chance"},
+                    {english: "authority", spanish: "autoridad", meanings: "authority"},
+                    {english: "capacity", spanish: "capacidad", meanings: "capacity"},
+                    {english: "unity", spanish: "unidad", meanings: "unit, unity"},
+                    {english: "responsibility", spanish: "responsabilidad", meanings: "responsibility"},
+                    {english: "velocity", spanish: "velocidad", meanings: "speed, velocity"},
+                    {english: "entity", spanish: "entidad", meanings: "entity"},
+                    {english: "faculty", spanish: "facultad", meanings: "faculty, ability"},
+                    {english: "personality", spanish: "personalidad", meanings: "personality, celebrity"},
+                    {english: "humanity", spanish: "humanidad", meanings: "humanity, mankind"},
+                    {english: "obscurity", spanish: "oscuridad", meanings: "darkness"},
+                    {english: "variety", spanish: "variedad", meanings: "variety"},
+                    {english: "curiosity", spanish: "curiosidad", meanings: "curiosity, quaintness"},
+                    {english: "property", spanish: "propiedad", meanings: "property"},
+                    {english: "solitude", spanish: "soledad", meanings: "loneliness, solitude"}
+                ]
+            },
+            21: {
+                title: "Place names ending in -ense",
+                description: "Adjectives ending in -ense indicating place of origin",
+                words: [
+                    {english: "United States", spanish: "estadounidense", meanings: "U.S., American"}
+                ]
+            },
+            22: {
+                title: "English -t- to Spanish -d-",
+                description: "English intervocalic 't' becomes 'd' in Spanish",
+                words: [
+                    {english: "investigator", spanish: "investigador", meanings: "researcher, investigator"}
+                ]
+            },
+            23: {
+                title: "Spanish adds extra letters",
+                description: "English word adds extra letters in Spanish",
+                words: [
+                    {english: "possible", spanish: "posible", meanings: "possible"},
+                    {english: "series", spanish: "serie", meanings: "series"},
+                    {english: "advance", spanish: "avance", meanings: "advance, progress"},
+                    {english: "annual", spanish: "anual", meanings: "annual, yearly"},
+                    {english: "session", spanish: "sesión", meanings: "session, meeting"}
+                ]
+            },
+            24: {
+                title: "Spanish adds e- before s+consonant",
+                description: "Spanish adds epenthetic e- before words beginning with s + consonant",
+                words: [
+                    {english: "special", spanish: "especial", meanings: "special"},
+                    {english: "style", spanish: "estilo", meanings: "style"},
+                    {english: "structure", spanish: "estructura", meanings: "structure"},
+                    {english: "spirit", spanish: "espíritu", meanings: "spirit, ghost"},
+                    {english: "strategy", spanish: "estrategia", meanings: "strategy"},
+                    {english: "spiritual", spanish: "espiritual", meanings: "spiritual"}
+                ]
+            },
+            25: {
+                title: "English vowel to Spanish diphthong",
+                description: "Single vowel in English becomes a diphthong in Spanish",
+                words: [
+                    {english: "cause", spanish: "causar", meanings: "to cause, bring about"},
+                    {english: "auto", spanish: "auto", meanings: "auto, car"},
+                    {english: "authentic", spanish: "auténtico", meanings: "authentic"},
+                    {english: "ray", spanish: "rayo", meanings: "ray, beam, lightning"},
+                    {english: "May", spanish: "mayo", meanings: "May"},
+                    {english: "November", spanish: "noviembre", meanings: "November"},
+                    {english: "movement", spanish: "movimiento", meanings: "movement"},
+                    {english: "piece", spanish: "pieza", meanings: "piece, part"},
+                    {english: "treatment", spanish: "tratamiento", meanings: "treatment, processing"},
+                    {english: "September", spanish: "septiembre", meanings: "September"},
+                    {english: "December", spanish: "diciembre", meanings: "December"},
+                    {english: "independent", spanish: "independiente", meanings: "independent, self-sufficient"},
+                    {english: "recent", spanish: "reciente", meanings: "recent"},
+                    {english: "concert", spanish: "concierto", meanings: "concert, concerto"}
+                ]
+            }
+        };
+
+        let currentPatternKey = null;
+        let currentWords = [];
+        let currentIndex = 0;
+        let correctAnswers = 0;
+        let results = [];
+        let answered = false;
+
+        // Words that need meaning hints due to complexity or difference from English
+        const meaningHints = {
+            "banco": "Remember: can mean financial bank OR bench",
+            "público": "Can be adjective (public) or noun (audience)",
+            "causar": "Different from English 'cause' - this is the verb 'to cause'",
+            "realizar": "False friend alert: means 'to carry out', not 'to realize'",
+            "ignorar": "False friend: means 'to be unaware of', not 'to ignore'",
+            "éxito": "Success, not 'exit'",
+            "realizar": "To carry out/fulfill, not 'to realize' (understand)",
+            "lectura": "Reading (the act), not 'lecture'",
+            "sensación": "Can mean physical sensation or general feeling",
+            "manifestación": "Often means 'protest' in modern Spanish",
+            "personalidad": "Can mean personality or celebrity person",
+            "constitución": "Can mean constitution (political) or constitution (health)",
+            "disposición": "Arrangement/disposal, not emotional 'disposition'",
+            "corriente": "Can mean current (flow) or common/ordinary",
+            "político": "Can be adjective (political) or noun (politician)",
+            "crítico": "Can be adjective (critical) or noun (critic)",
+            "técnico": "Can be adjective (technical) or noun (technician)",
+            "tradición": "Note: tradition, customs",
+            "revolución": "Revolution (political change or rotation)",
+            "exposición": "Exhibition/display, not 'exposition' (explanation)",
+            "aplicación": "Can mean application (form) or application (app/use)",
+            "investigación": "Investigation or research",
+            "producción": "Production or output",
+            "construcción": "Construction or building",
+            "generación": "Generation (age group or creation)",
+            "conversación": "Conversation, talk",
+            "operación": "Operation (medical, military, or mathematical)",
+            "administración": "Administration or management",
+            "representación": "Representation or performance",
+            "interpretación": "Interpretation or performance (music/theater)",
+            "imaginación": "Imagination or fantasy",
+            "estadounidense": "Specifically refers to United States, not all of America"
+        };
+
+        // Improved normalization function that preserves word structure
+        function normalize(text) {
+            return text.toLowerCase().trim()
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remove accents but preserve other characters
+        }
+
+        // Check if the user's answer is correct with flexible matching
+        function isAnswerCorrect(userAnswer, correctAnswer, englishWord) {
+            // Normalize both answers
+            const normalizedUser = normalize(userAnswer);
+            const normalizedCorrect = normalize(correctAnswer);
+            
+            // Direct match
+            if (normalizedUser === normalizedCorrect) {
+                return true;
+            }
+            
+            // Check for verb conjugations
+            if (isVerbConjugation(userAnswer, correctAnswer, englishWord)) {
+                return true;
+            }
+            
+            // Check for gender variations (o/a endings)
+            if (isGenderVariation(userAnswer, correctAnswer)) {
+                return true;
+            }
+            
+            // Check for number variations (singular/plural)
+            if (isNumberVariation(userAnswer, correctAnswer)) {
+                return true;
+            }
+            
+            return false;
+        }
+
+        // Check if the user's answer is a valid verb conjugation
+        function isVerbConjugation(userAnswer, correctAnswer, englishWord) {
+            // Only check for verbs
+            if (!englishWord || typeof englishWord !== 'string') return false;
+            
+            const normalizedUser = normalize(userAnswer);
+            const normalizedCorrect = normalize(correctAnswer);
+            
+            // Check if the correct answer is a verb (ends with -ar, -er, -ir)
+            if (normalizedCorrect.endsWith('ar') || normalizedCorrect.endsWith('er') || normalizedCorrect.endsWith('ir')) {
+                // Common conjugated forms
+                const conjugatedForms = getConjugatedForms(normalizedCorrect);
+                
+                // Check if user's answer matches any conjugated form
+                return conjugatedForms.includes(normalizedUser);
+            }
+            
+            return false;
+        }
+
+        // Generate common conjugated forms for a verb
+        function getConjugatedForms(verb) {
+            const base = verb.slice(0, -2); // Remove the -ar/-er/-ir ending
+            const ending = verb.slice(-2); // Get the ending (-ar, -er, or -ir)
+            
+            let forms = [];
+            
+            if (ending === 'ar') {
+                forms = [
+                    base + 'o',      // yo form
+                    base + 'as',     // tú form
+                    base + 'a',      // él/ella/usted form
+                    base + 'amos',   // nosotros form
+                    base + 'áis',    // vosotros form
+                    base + 'an'      // ellos/ustedes form
+                ];
+            } else if (ending === 'er') {
+                forms = [
+                    base + 'o',      // yo form
+                    base + 'es',     // tú form
+                    base + 'e',      // él/ella/usted form
+                    base + 'emos',   // nosotros form
+                    base + 'éis',    // vosotros form
+                    base + 'en'      // ellos/ustedes form
+                ];
+            } else if (ending === 'ir') {
+                forms = [
+                    base + 'o',      // yo form
+                    base + 'es',     // tú form
+                    base + 'e',      // él/ella/usted form
+                    base + 'imos',   // nosotros form
+                    base + 'ís',     // vosotros form
+                    base + 'en'      // ellos/ustedes form
+                ];
+            }
+            
+            return forms;
+        }
+
+        // Check if the user's answer is a gender variation (o/a ending)
+        function isGenderVariation(userAnswer, correctAnswer) {
+            const normalizedUser = normalize(userAnswer);
+            const normalizedCorrect = normalize(correctAnswer);
+            
+            // Check for o/a variation
+            if (normalizedCorrect.endsWith('o') && normalizedUser === normalizedCorrect.slice(0, -1) + 'a') {
+                return true;
+            }
+            
+            if (normalizedCorrect.endsWith('a') && normalizedUser === normalizedCorrect.slice(0, -1) + 'o') {
+                return true;
+            }
+            
+            return false;
+        }
+
+        // Check if the user's answer is a number variation (singular/plural)
+        function isNumberVariation(userAnswer, correctAnswer) {
+            const normalizedUser = normalize(userAnswer);
+            const normalizedCorrect = normalize(correctAnswer);
+            
+            // Check for singular/plural variation
+            if (normalizedCorrect.endsWith('s') && normalizedUser === normalizedCorrect.slice(0, -1)) {
+                return true;
+            }
+            
+            if (!normalizedCorrect.endsWith('s') && normalizedUser === normalizedCorrect + 's') {
+                return true;
+            }
+            
+            // Check for -es pluralization
+            if (normalizedCorrect.endsWith('es') && normalizedUser === normalizedCorrect.slice(0, -2)) {
+                return true;
+            }
+            
+            if (!normalizedCorrect.endsWith('es') && normalizedUser === normalizedCorrect + 'es') {
+                return true;
+            }
+            
+            return false;
+        }
+
+        function showPatternSelector() {
+            document.getElementById('patternSelector').classList.add('show');
+            document.getElementById('practiceArea').style.display = 'none';
+            document.getElementById('completionScreen').classList.remove('show');
+            document.getElementById('patternInfo').style.display = 'none';
+            updateProgress(0, 0);
+        }
+
+        function showPatternGrid() {
+            const grid = document.getElementById('patternGrid');
+            grid.style.display = 'grid';
+            grid.innerHTML = '';
+            
+            Object.entries(cognatePatterns).forEach(([key, pattern]) => {
+                const card = document.createElement('div');
+                card.className = 'pattern-card';
+                card.onclick = () => selectPattern(key);
+                card.innerHTML = `
+                    <div class="pattern-title">${pattern.title}</div>
+                    <div class="pattern-count">${pattern.words.length} words</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function selectPattern(patternKey) {
+            currentPatternKey = patternKey;
+            startPractice([cognatePatterns[patternKey]]);
+        }
+
+        function practiceAll() {
+            currentPatternKey = 'all';
+            startPractice(Object.values(cognatePatterns));
+        }
+
+        function startPractice(patterns) {
+            currentWords = [];
+            patterns.forEach(pattern => {
+                pattern.words.forEach(word => {
+                    currentWords.push({
+                        ...word,
+                        pattern: pattern.title,
+                        patternDesc: pattern.description
+                    });
+                });
+            });
+            
+            // Shuffle words
+            currentWords = currentWords.sort(() => Math.random() - 0.5);
+            
+            currentIndex = 0;
+            correctAnswers = 0;
+            results = [];
+            answered = false;
+            
+            document.getElementById('patternSelector').classList.remove('show');
+            document.getElementById('practiceArea').style.display = 'block';
+            document.getElementById('completionScreen').classList.remove('show');
+            
+            if (currentPatternKey !== 'all') {
+                const pattern = cognatePatterns[currentPatternKey];
+                document.getElementById('patternInfo').style.display = 'block';
+                document.getElementById('currentPatternTitle').textContent = pattern.title;
+                document.getElementById('currentPatternDesc').textContent = pattern.description;
+            } else {
+                document.getElementById('patternInfo').style.display = 'none';
+            }
+            
+            // Show variation info for verbs
+            document.getElementById('variationInfo').style.display = 'block';
+            
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            if (currentIndex >= currentWords.length) {
+                showCompletion();
+                return;
+            }
+
+            const current = currentWords[currentIndex];
+            document.getElementById('englishWord').textContent = current.english;
+            
+            let wordInfo = `<div><strong>Word class:</strong> ${current.class || 'varies'} | <strong>Frequency rank:</strong> ${current.rank || 'varies'}</div>`;
+            if (currentPatternKey === 'all') {
+                wordInfo += `<div style="margin-top: 8px;"><strong>Pattern:</strong> ${current.pattern}</div>`;
+            }
+            wordInfo += `<div style="margin-top: 8px; color: #555;"><strong>Spanish meanings:</strong> ${current.meanings}</div>`;
+            
+            document.getElementById('wordInfo').innerHTML = wordInfo;
+            
+            // Show meaning hint if needed
+            const hintDiv = document.getElementById('meaningHint');
+            if (meaningHints[current.spanish]) {
+                hintDiv.style.display = 'block';
+                hintDiv.textContent = `💡 Learning tip: ${meaningHints[current.spanish]}`;
+            } else {
+                hintDiv.style.display = 'none';
+            }
+            
+            document.getElementById('spanishInput').value = '';
+            document.getElementById('spanishInput').focus();
+            document.getElementById('result').classList.remove('show');
+            document.getElementById('questionCard').classList.remove('correct', 'incorrect');
+            document.getElementById('nextBtn').disabled = true;
+            document.getElementById('checkBtn').disabled = false;
+            answered = false;
+            updateProgress(currentIndex, currentWords.length);
+        }
+
+        function checkAnswer() {
+            if (answered) return;
+            
+            const userInput = document.getElementById('spanishInput').value.trim();
+            const current = currentWords[currentIndex];
+            const resultDiv = document.getElementById('result');
+            
+            const isCorrect = isAnswerCorrect(userInput, current.spanish, current.english);
+            
+            if (isCorrect) {
+                correctAnswers++;
+                resultDiv.textContent = '✓ Correct! Well done recognizing the pattern.';
+                resultDiv.className = 'result correct show';
+                document.getElementById('questionCard').classList.add('correct');
+            } else {
+                resultDiv.innerHTML = `✗ Incorrect. The answer is: <strong>${current.spanish}</strong><br>Pattern: ${current.patternDesc}`;
+                resultDiv.className = 'result incorrect show';
+                document.getElementById('questionCard').classList.add('incorrect');
+            }
+            
+            results.push({
+                english: current.english,
+                userAnswer: userInput,
+                correctAnswer: current.spanish,
+                isCorrect: isCorrect,
+                wordClass: current.class || 'varies',
+                rank: current.rank || 'varies',
+                meanings: current.meanings,
+                pattern: current.pattern,
+                patternDesc: current.patternDesc
+            });
+            
+            answered = true;
+            document.getElementById('nextBtn').disabled = false;
+            document.getElementById('checkBtn').disabled = true;
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            displayQuestion();
+        }
+
+        function showCompletion() {
+            document.getElementById('practiceArea').style.display = 'none';
+            document.getElementById('completionScreen').classList.add('show');
+            document.getElementById('patternInfo').style.display = 'none';
+            const percentage = Math.round((correctAnswers / currentWords.length) * 100);
+            document.getElementById('finalScore').textContent = 
+                `You got ${correctAnswers} out of ${currentWords.length} correct (${percentage}%)`;
+        }
+
+        function restartPractice() {
+            if (currentPatternKey === 'all') {
+                practiceAll();
+            } else {
+                selectPattern(currentPatternKey);
+            }
+        }
+
+        function updateProgress(current, total) {
+            const progress = total > 0 ? (current / total) * 100 : 0;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `${current} / ${total}`;
+        }
+
+        function addAccent(letter) {
+            const input = document.getElementById('spanishInput');
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            const currentValue = input.value;
+            
+            input.value = currentValue.substring(0, start) + letter + currentValue.substring(end);
+            input.selectionStart = input.selectionEnd = start + 1;
+            input.focus();
+        }
+
+        function exportToPDF() {
+            if (results.length === 0) {
+                alert('No results to export yet! Complete some questions first.');
+                return;
+            }
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Title
+            doc.setFontSize(18);
+            doc.text('Spanish Cognate Pattern Practice Results', 20, 20);
+            
+            // Summary
+            doc.setFontSize(12);
+            const percentage = Math.round((correctAnswers / results.length) * 100);
+            doc.text(`Score: ${correctAnswers}/${results.length} (${percentage}%)`, 20, 35);
+            doc.text(`Date: ${new Date().toLocaleDateString()}`, 20, 45);
+            doc.text(`Practice Mode: ${currentPatternKey === 'all' ? 'All Patterns' : cognatePatterns[currentPatternKey]?.title || 'Selected Pattern'}`, 20, 55);
+            
+            // Group results by pattern for better organization
+            const groupedResults = {};
+            results.forEach(result => {
+                if (!groupedResults[result.pattern]) {
+                    groupedResults[result.pattern] = [];
+                }
+                groupedResults[result.pattern].push(result);
+            });
+            
+            let y = 75;
+            
+            Object.entries(groupedResults).forEach(([pattern, patternResults]) => {
+                if (y > 260) {
+                    doc.addPage();
+                    y = 20;
+                }
+                
+                // Pattern header
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                doc.text(`Pattern: ${pattern}`, 20, y);
+                y += 8;
+                
+                // Results for this pattern
+                doc.setFontSize(9);
+                doc.setFont(undefined, 'normal');
+                
+                patternResults.forEach(result => {
+                    if (y > 270) {
+                        doc.addPage();
+                        y = 20;
+                    }
+                    
+                    const status = result.isCorrect ? '✓' : '✗';
+                    doc.text(`${status} ${result.english} → ${result.correctAnswer}`, 25, y);
+                    
+                    if (!result.isCorrect && result.userAnswer) {
+                        y += 5;
+                        doc.text(`   Your answer: ${result.userAnswer}`, 25, y);
+                    }
+                    
+                    y += 6;
+                });
+                
+                y += 5; // Space between patterns
+            });
+            
+            doc.save('spanish-cognate-pattern-results.pdf');
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('spanishInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    if (!answered) {
+                        checkAnswer();
+                    } else {
+                        nextQuestion();
+                    }
+                }
+            });
+            
+            showPatternSelector();
+        });
+    </script>
+</body>
+</html>

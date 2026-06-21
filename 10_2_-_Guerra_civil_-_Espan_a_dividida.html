@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guerra Civil Española - Actividad Interactiva</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #c31432 0%, #240b36 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.4);
+        }
+        
+        h1 {
+            background: linear-gradient(135deg, #c31432, #240b36);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.8em;
+            font-weight: 900;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .header-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 35px;
+            background: #e0e0e0;
+            border-radius: 17px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #c31432, #240b36);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .section {
+            margin-bottom: 50px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 6px solid #c31432;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .section:hover {
+            box-shadow: 0 10px 30px rgba(195, 20, 50, 0.2);
+        }
+        
+        .section.completed {
+            border-left-color: #28a745;
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8f4 100%);
+        }
+        
+        .section h2 {
+            color: #333;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.8em;
+        }
+        
+        .section-number {
+            background: linear-gradient(135deg, #c31432, #240b36);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .section.completed .section-number {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+        
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+        
+        .question:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+        }
+        
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-size: 1.05em;
+        }
+        
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        
+        input[type="text"]:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #c31432;
+            box-shadow: 0 0 0 3px rgba(195, 20, 50, 0.1);
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .reading-text {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            line-height: 1.9;
+            margin-bottom: 25px;
+            border: 2px solid #e0e0e0;
+            font-size: 1.05em;
+        }
+        
+        .reading-text p {
+            margin-bottom: 18px;
+        }
+        
+        .reading-text h3 {
+            color: #c31432;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+        }
+        
+        .orwell-quote {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            border-left: 5px solid #240b36;
+            margin: 20px 0;
+            font-style: italic;
+            border-radius: 8px;
+        }
+        
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .vocab-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .vocab-card:hover {
+            border-color: #c31432;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(195, 20, 50, 0.2);
+        }
+        
+        .vocab-spanish {
+            font-weight: bold;
+            color: #c31432;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        .vocab-english {
+            color: #666;
+            font-size: 0.95em;
+        }
+        
+        .vocab-input {
+            margin-top: 10px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #c31432, #240b36);
+            color: white;
+            padding: 14px 35px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin: 10px 5px;
+            box-shadow: 0 4px 15px rgba(195, 20, 50, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(195, 20, 50, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .btn-check {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+        
+        .btn-check:hover {
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+        }
+        
+        .btn-download {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            font-size: 18px;
+            padding: 16px 40px;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .feedback.correct {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            color: #155724;
+            border: 2px solid #28a745;
+        }
+        
+        .feedback.incorrect {
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+            color: #721c24;
+            border: 2px solid #dc3545;
+        }
+        
+        .multiple-choice {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .choice {
+            padding: 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        .choice:hover {
+            background: #f8f9fa;
+            border-color: #c31432;
+        }
+        
+        .choice.selected {
+            background: linear-gradient(135deg, #c31432, #240b36);
+            color: white;
+            border-color: #c31432;
+        }
+        
+        /* Floating Accent Keyboard */
+        .accent-keyboard-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.98);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+        
+        .accent-keyboard-float.minimized {
+            width: 60px;
+            height: 60px;
+            padding: 0;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        
+        .keyboard-toggle {
+            background: linear-gradient(135deg, #c31432, #240b36);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(195, 20, 50, 0.3);
+        }
+        
+        .keyboard-toggle:hover {
+            transform: scale(1.1) rotate(10deg);
+        }
+        
+        .accent-keyboard-float.minimized .keyboard-toggle {
+            margin: 5px;
+        }
+        
+        .keyboard-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        
+        .accent-keyboard-float.minimized .keyboard-content {
+            display: none;
+        }
+        
+        .accent-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+        
+        .accent-btn:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+        }
+        
+        .accent-btn:active {
+            transform: translateY(-1px) scale(1.05);
+        }
+        
+        .keyboard-label {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-size: 0.85em;
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .download-section {
+            background: linear-gradient(135deg, #e8f5e9, #c3e6cb);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+            border: 3px solid #28a745;
+        }
+        
+        .download-section h3 {
+            color: #28a745;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        .completion-message {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #c31432, #240b36);
+            color: white;
+            border-radius: 15px;
+            display: none;
+            margin-top: 30px;
+        }
+        
+        .completion-message h2 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+        
+        .match-container {
+            display: flex;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        .match-column {
+            flex: 1;
+        }
+        
+        .match-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .match-item:hover {
+            border-color: #c31432;
+            transform: translateX(5px);
+        }
+        
+        .match-item.selected {
+            background: linear-gradient(135deg, #c31432, #240b36);
+            color: white;
+            border-color: #c31432;
+        }
+        
+        .match-item.correct {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+        
+        .grammar-hint {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #ffc107;
+        }
+        
+        .grammar-hint strong {
+            color: #856404;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .accent-keyboard-float {
+                bottom: 20px;
+                right: 20px;
+                left: 20px;
+            }
+            
+            .keyboard-content {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .match-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚔️ Guerra Civil Española</h1>
+        <p class="subtitle">España Dividida - Actividad Interactiva Completa</p>
+        
+        <div class="header-stats">
+            <div class="stat-box">
+                <div class="stat-label">⏱️ Tiempo</div>
+                <div class="stat-value" id="timer">0:00</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">✅ Completadas</div>
+                <div class="stat-value" id="completedCount">0/10</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">🎯 Puntuación</div>
+                <div class="stat-value" id="scoreCount">0%</div>
+            </div>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress">0%</div>
+        </div>
+        
+        <div class="download-section">
+            <h3>💾 Guardar Progreso</h3>
+            <p>Descarga tus respuestas y puntuación al final</p>
+            <button class="btn btn-download" onclick="downloadProgress()">⬇️ Descargar Resultados</button>
+        </div>
+
+        <!-- SECTION 1: GEORGE ORWELL - DO NOW -->
+        <div class="section" id="section1">
+            <h2><span class="section-number">1</span>Do Now: George Orwell</h2>
+            
+            <div class="orwell-quote">
+                <p><strong>Traduce la parte en rojo al inglés:</strong></p>
+                <p>"Había viajado a España con alguna idea de escribir artículos periodísticos, pero <span style="color: #c31432;">ingresé en la milicia casi de inmediato, porque en esa época y en esa atmósfera parecía ser la única actitud concebible.</span> Los anarquistas seguían manteniendo el control virtual de Cataluña, y la revolución estaba aún en pleno apogeo..."</p>
+                <p style="margin-top: 15px; font-size: 0.9em;">— <em>Homenaje a Cataluña</em>, George Orwell</p>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Tu traducción al inglés:</div>
+                <textarea id="orwell1" placeholder="Traduce el texto en rojo..."></textarea>
+                <button class="btn btn-check" onclick="checkOrwell1()">Verificar</button>
+                <div class="feedback"></div>
+            </div>
+            
+            <button class="btn" onclick="completeSection(1)">Completar Sección 1</button>
+        </div>
+
+        <!-- SECTION 2: VOCABULARY MATCHING -->
+        <div class="section" id="section2">
+            <h2><span class="section-number">2</span>Vocabulario Clave</h2>
+            
+            <p><strong>Empareja el vocabulario español con su traducción en inglés:</strong></p>
+            
+            <div class="match-container">
+                <div class="match-column">
+                    <h3 style="text-align: center; margin-bottom: 15px;">Español</h3>
+                    <div class="match-item" data-id="1" onclick="selectMatch(this, 'spanish')">la guerra civil</div>
+                    <div class="match-item" data-id="2" onclick="selectMatch(this, 'spanish')">el sublevado</div>
+                    <div class="match-item" data-id="3" onclick="selectMatch(this, 'spanish')">derrocar</div>
+                    <div class="match-item" data-id="4" onclick="selectMatch(this, 'spanish')">el latifundio</div>
+                    <div class="match-item" data-id="5" onclick="selectMatch(this, 'spanish')">fracasar</div>
+                    <div class="match-item" data-id="6" onclick="selectMatch(this, 'spanish')">hacerse con el poder</div>
+                    <div class="match-item" data-id="7" onclick="selectMatch(this, 'spanish')">el bando</div>
+                    <div class="match-item" data-id="8" onclick="selectMatch(this, 'spanish')">el bombardeo</div>
+                </div>
+                
+                <div class="match-column">
+                    <h3 style="text-align: center; margin-bottom: 15px;">English</h3>
+                    <div class="match-item" data-id="1" onclick="selectMatch(this, 'english')">the civil war</div>
+                    <div class="match-item" data-id="7" onclick="selectMatch(this, 'english')">the side / faction</div>
+                    <div class="match-item" data-id="3" onclick="selectMatch(this, 'english')">to overthrow</div>
+                    <div class="match-item" data-id="2" onclick="selectMatch(this, 'english')">the rebel</div>
+                    <div class="match-item" data-id="6" onclick="selectMatch(this, 'english')">to seize power</div>
+                    <div class="match-item" data-id="4" onclick="selectMatch(this, 'english')">large estate</div>
+                    <div class="match-item" data-id="8" onclick="selectMatch(this, 'english')">the bombing</div>
+                    <div class="match-item" data-id="5" onclick="selectMatch(this, 'english')">to fail</div>
+                </div>
+            </div>
+            
+            <button class="btn btn-check" onclick="checkMatches()">Verificar Emparejamientos</button>
+            <div class="feedback"></div>
+            <button class="btn" onclick="completeSection(2)">Completar Sección 2</button>
+        </div>
+
+        <!-- SECTION 3: VOCABULARY FILL-IN -->
+        <div class="section" id="section3">
+            <h2><span class="section-number">3</span>Vocabulario: Rellenar</h2>
+            
+            <p><strong>Completa las frases con la palabra correcta del banco de palabras:</strong></p>
+            
+            <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                <strong>Banco de palabras:</strong> estalló, sublevados, fracasaron, partida, mantener, derrocar, desempeñó, golpistas
+            </div>
+            
+            <div class="question">
+                <div class="question-text">1. La Guerra Civil _______ en 1936.</div>
+                <input type="text" id="vocab1" placeholder="Tu respuesta...">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">2. El ejército podía _______ a la República.</div>
+                <input type="text" id="vocab2" placeholder="Tu respuesta...">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">3. Los golpistas _______ en Madrid y Barcelona.</div>
+                <input type="text" id="vocab3" placeholder="Tu respuesta...">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">4. La República logró _______ el control de las ciudades.</div>
+                <input type="text" id="vocab4" placeholder="Tu respuesta...">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">5. España quedó _______ en dos bandos.</div>
+                <input type="text" id="vocab5" placeholder="Tu respuesta...">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">6. Los _______ no tuvieron éxito inmediato.</div>
+                <input type="text" id="vocab6" placeholder="Tu respuesta...">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">7. La ayuda extranjera _______ un papel importante.</div>
+                <input type="text" id="vocab7" placeholder="Tu respuesta...">
+            </div>
+            
+            <button class="btn btn-check" onclick="checkVocabFill()">Verificar Respuestas</button>
+            <div class="feedback"></div>
+            <button class="btn" onclick="completeSection(3)">Completar Sección 3</button>
+        </div>
+
+        <!-- SECTION 4: READING COMPREHENSION -->
+        <div class="section" id="section4">
+            <h2><span class="section-number">4</span>Comprensión: España Dividida</h2>
+            
+            <div class="reading-text">
+                <h3>España dividida - Párrafo A</h3>
+                <p>La Guerra civil estalló cuando los partidos y simpatizantes de la derecha creyeron que era imprescindible acabar con la República: los hechos de 1936, cuando grupos de jornaleros ocuparon ilegalmente varios latifundios, encendieron las alarmas de los terratenientes y la radicalización de la izquierda terminó por despertar los temores de la Iglesia y la derecha en general. Solo el ejército podía derrocar a la República y cuando el complot de varios generales se transformó en sublevación ya no habría vuelta atrás. Francisco Franco, que había esperado hasta el último momento para actuar de forma irrevocable, llegó a Marruecos desde Canarias y al pasar a la Península el Alzamiento cobró ritmo.</p>
+                
+                <h3>Párrafo B</h3>
+                <p>Sin embargo, los sublevados fracasaron en su empeño de hacerse con el poder inmediatamente, porque solo se sublevó una parte del ejército, con otros elementos manteniéndose fieles a la República. El fracaso de los golpistas en Madrid y Barcelona hizo que la República mantuviera el control de estas ciudades y otras zonas, que eran en general más progresistas e industriales. Franco obtuvo el control sobre extensas zonas agrícolas y España quedó partida en dos.</p>
+                
+                <h3>Párrafo C</h3>
+                <p>No se puede subvalorar lo que Franco consiguió en octubre de 1936, a declararse Jefe de Estado, tomando el mando militar y creando incluso su propio partido político para respaldar sus pretensiones. Si la República hubiera podido hacer algo parecido para unificar su "bando", quizás se podría haber cambiado el curso de la guerra, pero era casi imposible que las diferentes facciones anarquistas, comunistas, socialistas y marxistas se pusieran de acuerdo. Aunque en términos generales los dos bandos poseían fuerzas militares similares en cuanto a su número, al ejército nacional, liderado por oficiales curtidos en varias guerras, no le faltaba profesionalidad. La ayuda extranjera también desempeñó un papel importante a lo largo del conflicto y, aunque la Unión Soviética ayudó con su oro, y los componentes de las Brigadas Internacionales acudieron al frente, era difícil que la República con sus limitaciones pudiera igualar el poder de la aviación alemana (implicada sin reserva en el atroz bombardeo de Gernika) o el tamaño del ejército enviado por una Italia fascista.</p>
+            </div>
+            
+            <p><strong>¿A qué párrafo (A, B o C) corresponden estas afirmaciones?</strong></p>
+            
+            <div class="question">
+                <div class="question-text">1. Un ejército profesional aseguraba el control de Franco.</div>
+                <select id="comp1">
+                    <option value="">Selecciona...</option>
+                    <option value="A">Párrafo A</option>
+                    <option value="B">Párrafo B</option>
+                    <option value="C">Párrafo C</option>
+                </select>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">2. Los nacionales no tuvieron éxito en las capitales.</div>
+                <select id="comp2">
+                    <option value="">Selecciona...</option>
+                    <option value="A">Párrafo A</option>
+                    <option value="B">Párrafo B</option>
+                    <option value="C">Párrafo C</option>
+                </select>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">3. Franco cruzó el estrecho de Gibraltar.</div>
+                <select id="comp3">
+                    <option value="">Selecciona...</option>
+                    <option value="A">Párrafo A</option>
+                    <option value="B">Párrafo B</option>
+                    <option value="C">Párrafo C</option>
+                </select>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">4. España se dividió en dos bandos.</div>
+                <select id="comp4">
+                    <option value="">Selecciona...</option>
+                    <option value="A">Párrafo A</option>
+                    <option value="B">Párrafo B</option>
+                    <option value="C">Párrafo C</option>
+                </select>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">5. La importancia de la ayuda de otros países se notó.</div>
+                <select id="comp5">
+                    <option value="">Selecciona...</option>
+                    <option value="A">Párrafo A</option>
+                    <option value="B">Párrafo B</option>
+                    <option value="C">Párrafo C</option>
+                </select>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">6. El pánico se difundió en la Iglesia.</div>
+                <select id="comp6">
+                    <option value="">Selecciona...</option>
+                    <option value="A">Párrafo A</option>
+                    <option value="B">Párrafo B</option>
+                    <option value="C">Párrafo C</option>
+                </select>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">7. Franco tomó las riendas al proclamarse máximo líder.</div>
+                <select id="comp7">
+                    <option value="">Selecciona...</option>
+                    <option value="A">Párrafo A</option>
+                    <option value="B">Párrafo B</option>
+                    <option value="C">Párrafo C</option>
+                </select>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">8. La ocupación ilegal de fincas no pasó inadvertida.</div>
+                <select id="comp8">
+                    <option value="">Selecciona...</option>
+                    <option value="A">Párrafo A</option>
+                    <option value="B">Párrafo B</option>
+                    <option value="C">Párrafo C</option>
+                </select>
+            </div>
+            
+            <button class="btn btn-check" onclick="checkComprehension()">Verificar Respuestas</button>
+            <div class="feedback"></div>
+            <button class="btn" onclick="completeSection(4)">Completar Sección 4</button>
+        </div>
+
+        <!-- SECTION 5: TRUE/FALSE STATEMENTS -->
+        <div class="section" id="section5">
+            <h2><span class="section-number">5</span>Verdadero o Falso</h2>
+            
+            <p><strong>¿Cuáles de las siguientes declaraciones son correctas?</strong></p>
+            
+            <div class="question">
+                <div class="question-text">1. Los incendios perpetrados por los jornaleros en 1936 significaron el comienzo de la Guerra Civil.</div>
+                <div class="multiple-choice" data-answer="false">
+                    <div class="choice" data-value="true">Verdadero</div>
+                    <div class="choice" data-value="false">Falso</div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">2. Franco tardó tiempo en tomar la decisión de sumarse al golpe militar.</div>
+                <div class="multiple-choice" data-answer="true">
+                    <div class="choice" data-value="true">Verdadero</div>
+                    <div class="choice" data-value="false">Falso</div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">3. El conflicto duró bastante más de lo que habían calculado los golpistas.</div>
+                <div class="multiple-choice" data-answer="true">
+                    <div class="choice" data-value="true">Verdadero</div>
+                    <div class="choice" data-value="false">Falso</div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">4. El papel unificador de Franco fue decisivo en el desenlace del conflicto.</div>
+                <div class="multiple-choice" data-answer="true">
+                    <div class="choice" data-value="true">Verdadero</div>
+                    <div class="choice" data-value="false">Falso</div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">5. Gracias a los anarquistas, la República se pudo unificar para luchar contra los Nacionales.</div>
+                <div class="multiple-choice" data-answer="false">
+                    <div class="choice" data-value="true">Verdadero</div>
+                    <div class="choice" data-value="false">Falso</div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">6. En el bombardeo de Gernika estuvieron implicados los nazis.</div>
+                <div class="multiple-choice" data-answer="true">
+                    <div class="choice" data-value="true">Verdadero</div>
+                    <div class="choice" data-value="false">Falso</div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <button class="btn" onclick="completeSection(5)">Completar Sección 5</button>
+        </div>
+
+        <!-- SECTION 6: ORWELL TRANSLATION -->
+        <div class="section" id="section6">
+            <h2><span class="section-number">6</span>Traducción: Orwell en Barcelona</h2>
+            
+            <div class="orwell-quote">
+                <p><strong>George Orwell escribió:</strong></p>
+                <p>"Practically every building of any size had been seized by the workers and was draped with red flags or with the red and black flag of the Anarchists; almost every church had been gutted and its images burnt. Churches here and there were being systematically demolished by gangs of workmen. Every shop and café had an inscription saying that it had been collectivized; even the bootblacks had been collectivized and their boxes painted red and black."</p>
+                <p style="margin-top: 15px; font-size: 0.9em;">— <em>Homage to Catalonia</em>, 1938</p>
+            </div>
+            
+            <div class="question">
+                <div class="question-text"><strong>Traduce este pasaje al español:</strong></div>
+                <textarea id="orwell2" style="min-height: 200px;" placeholder="Escribe tu traducción completa aquí..."></textarea>
+                <div style="margin-top: 10px; color: #666;">
+                    Palabras: <span id="orwellWordCount">0</span>
+                </div>
+                <button class="btn btn-check" onclick="checkOrwell2()">Guardar Traducción</button>
+                <div class="feedback"></div>
+            </div>
+            
+            <button class="btn" onclick="completeSection(6)">Completar Sección 6</button>
+        </div>
+
+        <!-- SECTION 7: IMPERFECT SUBJUNCTIVE -->
+        <div class="section" id="section7">
+            <h2><span class="section-number">7</span>Gramática: Imperfecto de Subjuntivo</h2>
+            
+            <div class="grammar-hint">
+                <strong>Formación:</strong><br>
+                1. Toma la forma ellos/ellas del pretérito (ej: comieron)<br>
+                2. Quita -ron (comie-)<br>
+                3. Añade: -ra, -ras, -ra, -ramos, -rais, -ran<br><br>
+                <strong>Ejemplos:</strong> tuvieron → tuviera, hicieron → hiciera, fueron → fuera
+            </div>
+            
+            <p><strong>Completa con el imperfecto de subjuntivo:</strong></p>
+            
+            <div class="question">
+                <div class="question-text">1. Si la República _______ (poder) unificar su bando, habría cambiado el curso de la guerra.</div>
+                <input type="text" id="gram1" placeholder="Conjuga el verbo...">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">2. Era imprescindible que el ejército _______ (derrocar) a la República.</div>
+                <input type="text" id="gram2" placeholder="Conjuga el verbo...">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">3. Aunque Franco _______ (esperar) hasta el último momento, finalmente actuó.</div>
+                <input type="text" id="gram3" placeholder="Conjuga el verbo...">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">4. Si las facciones se _______ (poner) de acuerdo, todo sería diferente.</div>
+                <input type="text" id="gram4" placeholder="Conjuga el verbo...">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">5. Era necesario que los sublevados _______ (hacerse) con el poder rápidamente.</div>
+                <input type="text" id="gram5" placeholder="Conjuga el verbo...">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">6. Si Franco no _______ (llegar) a Marruecos, el alzamiento no habría cobrado ritmo.</div>
+                <input type="text" id="gram6" placeholder="Conjuga el verbo...">
+            </div>
+            
+            <button class="btn btn-check" onclick="checkGrammar()">Verificar Respuestas</button>
+            <div class="feedback"></div>
+            <button class="btn" onclick="completeSection(7)">Completar Sección 7</button>
+        </div>
+
+        <!-- SECTION 8: PLUPERFECT SUBJUNCTIVE -->
+        <div class="section" id="section8">
+            <h2><span class="section-number">8</span>Gramática: Pluscuamperfecto de Subjuntivo</h2>
+            
+            <div class="grammar-hint">
+                <strong>Formación:</strong> Imperfecto de subjuntivo de HABER + Participio<br>
+                hubiera/hubieras/hubiera/hubiéramos/hubierais/hubieran + hablado/comido/vivido<br><br>
+                <strong>Uso:</strong> Para expresar situaciones hipotéticas en el pasado<br>
+                <em>Si hubiera estudiado más, habría aprobado.</em>
+            </div>
+            
+            <p><strong>Completa las frases con el pluscuamperfecto de subjuntivo:</strong></p>
+            
+            <div class="question">
+                <div class="question-text">1. Si la República _______ (unificar) sus facciones, habría ganado la guerra.</div>
+                <input type="text" id="plup1" placeholder="hubiera/hubieras... + participio">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">2. Si los golpistas _______ (tener) éxito en Madrid, todo habría cambiado.</div>
+                <input type="text" id="plup2" placeholder="hubiera/hubieras... + participio">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">3. Si no _______ (estallar) la guerra, España sería diferente hoy.</div>
+                <input type="text" id="plup3" placeholder="hubiera/hubieras... + participio">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">4. Si los anarquistas _______ (cooperar) mejor, habrían mantenido el control.</div>
+                <input type="text" id="plup4" placeholder="hubiera/hubieras... + participio">
+            </div>
+            
+            <button class="btn btn-check" onclick="checkPluperfect()">Verificar Respuestas</button>
+            <div class="feedback"></div>
+            <button class="btn" onclick="completeSection(8)">Completar Sección 8</button>
+        </div>
+
+        <!-- SECTION 9: CONDITIONAL SENTENCES -->
+        <div class="section" id="section9">
+            <h2><span class="section-number">9</span>Frases Condicionales</h2>
+            
+            <div class="grammar-hint">
+                <strong>Tipo 1 - Presente/Futuro:</strong> Si + imperfecto subjuntivo, condicional<br>
+                <em>Si tuviera dinero, viajaría.</em><br><br>
+                <strong>Tipo 2 - Pasado:</strong> Si + pluscuamperfecto subjuntivo, condicional perfecto<br>
+                <em>Si hubiera estudiado, habría aprobado.</em>
+            </div>
+            
+            <p><strong>Completa las frases condicionales:</strong></p>
+            
+            <div class="question">
+                <div class="question-text">1. Si Franco no _______ (declararse) Jefe de Estado, la guerra _______ (ser) diferente.</div>
+                <input type="text" id="cond1" placeholder="se hubiera declarado / habría sido">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">2. Si los nacionales _______ (fracasar) completamente, la República _______ (sobrevivir).</div>
+                <input type="text" id="cond2" placeholder="hubieran fracasado / habría sobrevivido">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">3. Si la aviación alemana no _______ (bombardear) Gernika, la historia _______ (recordar) la guerra de otra manera.</div>
+                <input type="text" id="cond3" placeholder="hubiera bombardeado / recordaría">
+            </div>
+            
+            <button class="btn btn-check" onclick="checkConditional()">Verificar Respuestas</button>
+            <div class="feedback"></div>
+            <button class="btn" onclick="completeSection(9)">Completar Sección 9</button>
+        </div>
+
+        <!-- SECTION 10: WRITING - TICKET DE SALIDA -->
+        <div class="section" id="section10">
+            <h2><span class="section-number">10</span>Ticket de Salida</h2>
+            
+            <p><strong>Elige UNA de las siguientes opciones y responde en 5-7 frases completas:</strong></p>
+            
+            <div class="question">
+                <div class="question-text">
+                    <strong>Opción A:</strong> Basándote en lo que estudiaste hoy, ¿cuál fue el momento clave que más te impactó y por qué?<br><br>
+                    <strong>Opción B:</strong> Menciona dos consecuencias principales de la victoria de Franco y explica brevemente cómo una de ellas afectó a España a largo plazo.
+                </div>
+                <textarea id="finalEssay" style="min-height: 180px;" placeholder="Escribe tu respuesta aquí... Usa vocabulario y estructuras gramaticales de la lección."></textarea>
+                <div style="margin-top: 10px; color: #666;">
+                    Frases: <span id="sentenceCount">0</span> | Palabras: <span id="finalWordCount">0</span>
+                </div>
+                <button class="btn btn-check" onclick="checkFinalEssay()">Guardar Respuesta</button>
+                <div class="feedback"></div>
+            </div>
+            
+            <button class="btn" onclick="completeSection(10)">Completar Actividad</button>
+        </div>
+
+        <div class="completion-message" id="completionMsg">
+            <h2>🎉 ¡Felicidades! 🎉</h2>
+            <p style="font-size: 1.3em; margin: 20px 0;">Has completado toda la actividad sobre la Guerra Civil Española</p>
+            <p id="finalTime" style="font-size: 1.2em;"></p>
+            <p id="finalScore" style="font-size: 1.5em; margin-top: 15px;"></p>
+            <button class="btn btn-download" onclick="downloadProgress()" style="margin-top: 20px;">⬇️ Descargar Resultados Completos</button>
+        </div>
+    </div>
+
+    <!-- Floating Accent Keyboard -->
+    <div class="accent-keyboard-float" id="accentKeyboard">
+        <button class="keyboard-toggle" onclick="toggleKeyboard()">Ñ</button>
+        <div class="keyboard-content">
+            <div class="keyboard-label">Teclado Español</div>
+            <button class="accent-btn" onclick="insertAccent('á')">á</button>
+            <button class="accent-btn" onclick="insertAccent('é')">é</button>
+            <button class="accent-btn" onclick="insertAccent('í')">í</button>
+            <button class="accent-btn" onclick="insertAccent('ó')">ó</button>
+            <button class="accent-btn" onclick="insertAccent('ú')">ú</button>
+            <button class="accent-btn" onclick="insertAccent('ñ')">ñ</button>
+            <button class="accent-btn" onclick="insertAccent('¿')">¿</button>
+            <button class="accent-btn" onclick="insertAccent('¡')">¡</button>
+            <button class="accent-btn" onclick="insertAccent('Á')">Á</button>
+            <button class="accent-btn" onclick="insertAccent('É')">É</button>
+            <button class="accent-btn" onclick="insertAccent('Í')">Í</button>
+            <button class="accent-btn" onclick="insertAccent('Ó')">Ó</button>
+            <button class="accent-btn" onclick="insertAccent('Ú')">Ú</button>
+            <button class="accent-btn" onclick="insertAccent('Ñ')">Ñ</button>
+            <button class="accent-btn" onclick="insertAccent('ü')">ü</button>
+            <button class="accent-btn" onclick="insertAccent('Ü')">Ü</button>
+        </div>
+    </div>
+
+    <script>
+        let completedSections = 0;
+        const totalSections = 10;
+        let startTime = Date.now();
+        let timerInterval;
+        let totalScore = 0;
+        let maxScore = 0;
+        let lastFocusedInput = null;
+        
+        // Track focused input
+        document.addEventListener('focusin', (e) => {
+            if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') {
+                lastFocusedInput = e.target;
+            }
+        });
+        
+        // Timer
+        function updateTimer() {
+            const elapsed = Date.now() - startTime;
+            const minutes = Math.floor(elapsed / 60000);
+            const seconds = Math.floor((elapsed % 60000) / 1000);
+            document.getElementById('timer').textContent = 
+                `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        timerInterval = setInterval(updateTimer, 1000);
+        
+        // Progress
+        function updateProgress() {
+            const percentage = (completedSections / totalSections) * 100;
+            document.getElementById('progress').style.width = percentage + '%';
+            document.getElementById('progress').textContent = Math.round(percentage) + '%';
+            document.getElementById('completedCount').textContent = `${completedSections}/${totalSections}`;
+            
+            const scorePercentage = maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0;
+            document.getElementById('scoreCount').textContent = `${scorePercentage}%`;
+        }
+        
+        function completeSection(sectionNum) {
+            const section = document.getElementById('section' + sectionNum);
+            if (!section.classList.contains('completed')) {
+                section.classList.add('completed');
+                completedSections++;
+                updateProgress();
+                
+                if (completedSections === totalSections) {
+                    clearInterval(timerInterval);
+                    const finalTime = document.getElementById('timer').textContent;
+                    document.getElementById('finalTime').textContent = `Tiempo total: ${finalTime}`;
+                    const scorePercentage = maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0;
+                    document.getElementById('finalScore').textContent = `Puntuación final: ${scorePercentage}%`;
+                    document.getElementById('completionMsg').style.display = 'block';
+                    document.getElementById('completionMsg').scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        }
+        
+        // Floating keyboard
+        function toggleKeyboard() {
+            const keyboard = document.getElementById('accentKeyboard');
+            keyboard.classList.toggle('minimized');
+        }
+        
+        function insertAccent(char) {
+            if (lastFocusedInput) {
+                const start = lastFocusedInput.selectionStart;
+                const end = lastFocusedInput.selectionEnd;
+                const text = lastFocusedInput.value;
+                
+                lastFocusedInput.value = text.substring(0, start) + char + text.substring(end);
+                lastFocusedInput.focus();
+                lastFocusedInput.selectionStart = lastFocusedInput.selectionEnd = start + 1;
+                
+                // Update word counts if needed
+                if (lastFocusedInput.id === 'orwell2') {
+                    updateOrwellWordCount();
+                } else if (lastFocusedInput.id === 'finalEssay') {
+                    updateFinalWordCount();
+                }
+            }
+        }
+        
+        // Section 1: Orwell translation check
+        function checkOrwell1() {
+            const answer = document.getElementById('orwell1').value.toLowerCase();
+            const feedback = document.querySelector('#section1 .feedback');
+            const keywords = ['joined', 'militia', 'immediately', 'atmosphere', 'seemed', 'only', 'conceivable', 'attitude'];
+            
+            maxScore += 10;
+            
+            if (answer.length < 30) {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = '✗ Tu traducción es muy corta. Intenta traducir toda la frase.';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            const matchedKeywords = keywords.filter(keyword => answer.includes(keyword));
+            
+            if (matchedKeywords.length >= 5) {
+                totalScore += 10;
+                feedback.className = 'feedback correct';
+                feedback.textContent = '✓ ¡Excelente traducción! Has capturado el significado correctamente.';
+            } else {
+                totalScore += 5;
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = `✗ Traducción parcial. Palabras clave encontradas: ${matchedKeywords.length}/8. Revisa el vocabulario.`;
+            }
+            feedback.style.display = 'block';
+            updateProgress();
+        }
+        
+        // Section 2: Matching
+        let selectedSpanish = null;
+        let selectedEnglish = null;
+        let matches = [];
+        
+        function selectMatch(element, type) {
+            if (type === 'spanish') {
+                if (selectedSpanish) selectedSpanish.classList.remove('selected');
+                selectedSpanish = element;
+                element.classList.add('selected');
+            } else {
+                if (selectedEnglish) selectedEnglish.classList.remove('selected');
+                selectedEnglish = element;
+                element.classList.add('selected');
+            }
+            
+            if (selectedSpanish && selectedEnglish) {
+                matches.push({
+                    spanish: selectedSpanish.dataset.id,
+                    english: selectedEnglish.dataset.id
+                });
+                
+                if (selectedSpanish.dataset.id === selectedEnglish.dataset.id) {
+                    selectedSpanish.classList.add('correct');
+                    selectedEnglish.classList.add('correct');
+                }
+                
+                selectedSpanish = null;
+                selectedEnglish = null;
+            }
+        }
+        
+        function checkMatches() {
+            const feedback = document.querySelector('#section2 .feedback');
+            let correct = 0;
+            
+            maxScore += 8;
+            
+            matches.forEach(match => {
+                if (match.spanish === match.english) correct++;
+            });
+            
+            totalScore += correct;
+            
+            if (correct === 8) {
+                feedback.className = 'feedback correct';
+                feedback.textContent = `✓ ¡Perfecto! ${correct}/8 emparejamientos correctos.`;
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = `✗ ${correct}/8 correctos. Revisa los emparejamientos incorrectos.`;
+            }
+            feedback.style.display = 'block';
+            updateProgress();
+        }
+        
+        // Section 3: Vocab fill
+        function checkVocabFill() {
+            const answers = {
+                vocab1: 'estalló',
+                vocab2: 'derrocar',
+                vocab3: 'fracasaron',
+                vocab4: 'mantener',
+                vocab5: 'partida',
+                vocab6: 'sublevados',
+                vocab7: 'desempeñó'
+            };
+            
+            let correct = 0;
+            const feedback = document.querySelector('#section3 .feedback');
+            
+            maxScore += 7;
+            
+            for (let id in answers) {
+                const input = document.getElementById(id);
+                const value = input.value.toLowerCase().trim();
+                
+                if (value === answers[id]) {
+                    input.style.borderColor = '#28a745';
+                    correct++;
+                } else {
+                    input.style.borderColor = '#dc3545';
+                }
+            }
+            
+            totalScore += correct;
+            
+            if (correct === 7) {
+                feedback.className = 'feedback correct';
+                feedback.textContent = '✓ ¡Perfecto! Todas las respuestas son correctas.';
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = `✗ ${correct}/7 correctas. Usa el banco de palabras para las incorrectas.`;
+            }
+            feedback.style.display = 'block';
+            updateProgress();
+        }
+        
+        // Section 4: Comprehension
+        function checkComprehension() {
+            const answers = {
+                comp1: 'C',
+                comp2: 'B',
+                comp3: 'A',
+                comp4: 'B',
+                comp5: 'C',
+                comp6: 'A',
+                comp7: 'C',
+                comp8: 'A'
+            };
+            
+            let correct = 0;
+            const feedback = document.querySelector('#section4 .feedback');
+            
+            maxScore += 8;
+            
+            for (let id in answers) {
+                const select = document.getElementById(id);
+                if (select.value === answers[id]) {
+                    select.style.borderColor = '#28a745';
+                    correct++;
+                } else {
+                    select.style.borderColor = '#dc3545';
+                }
+            }
+            
+            totalScore += correct;
+            
+            if (correct === 8) {
+                feedback.className = 'feedback correct';
+                feedback.textContent = '✓ ¡Excelente comprensión! Todas las respuestas correctas.';
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = `✗ ${correct}/8 correctas. Relee los párrafos para las incorrectas.`;
+            }
+            feedback.style.display = 'block';
+            updateProgress();
+        }
+        
+        // Section 5: Multiple choice
+        document.querySelectorAll('.multiple-choice').forEach(container => {
+            container.querySelectorAll('.choice').forEach(choice => {
+                choice.addEventListener('click', function() {
+                    container.querySelectorAll('.choice').forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    const correctAnswer = container.dataset.answer;
+                    const selectedValue = this.dataset.value;
+                    const feedback = container.nextElementSibling;
+                    
+                    if (!container.dataset.scored) {
+                        maxScore += 1;
+                        container.dataset.scored = 'true';
+                    }
+                    
+                    if (selectedValue === correctAnswer) {
+                        if (!container.dataset.correct) {
+                            totalScore += 1;
+                            container.dataset.correct = 'true';
+                        }
+                        feedback.className = 'feedback correct';
+                        feedback.textContent = '✓ ¡Correcto!';
+                    } else {
+                        container.dataset.correct = 'false';
+                        feedback.className = 'feedback incorrect';
+                        feedback.textContent = '✗ Incorrecto. Revisa el texto.';
+                    }
+                    feedback.style.display = 'block';
+                    updateProgress();
+                });
+            });
+        });
+        
+        // Section 6: Orwell translation 2
+        function updateOrwellWordCount() {
+            const text = document.getElementById('orwell2').value;
+            const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+            document.getElementById('orwellWordCount').textContent = words;
+        }
+        
+        document.getElementById('orwell2').addEventListener('input', updateOrwellWordCount);
+        
+        function checkOrwell2() {
+            const answer = document.getElementById('orwell2').value;
+            const words = answer.trim().split(/\s+/).filter(w => w.length > 0).length;
+            const feedback = document.querySelector('#section6 .feedback');
+            
+            maxScore += 15;
+            
+            if (words < 50) {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = '✗ Tu traducción es muy corta. El texto original tiene más contenido.';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            const keywords = ['edificio', 'trabajador', 'bandera', 'roj', 'anarquist', 'iglesia', 'quemad', 'demol', 'tienda', 'café', 'colectiviz'];
+            const lowerAnswer = answer.toLowerCase();
+            const matchedKeywords = keywords.filter(keyword => lowerAnswer.includes(keyword));
+            
+            if (matchedKeywords.length >= 7) {
+                totalScore += 15;
+                feedback.className = 'feedback correct';
+                feedback.textContent = `✓ ¡Excelente traducción! Has incluido ${matchedKeywords.length}/11 conceptos clave.`;
+            } else if (matchedKeywords.length >= 4) {
+                totalScore += 10;
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = `✗ Traducción parcial. ${matchedKeywords.length}/11 conceptos clave. Revisa el texto original.`;
+            } else {
+                totalScore += 5;
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = '✗ Necesitas incluir más detalles del texto original.';
+            }
+            feedback.style.display = 'block';
+            updateProgress();
+        }
+        
+        // Section 7: Grammar - Imperfect Subjunctive
+        function checkGrammar() {
+            const answers = {
+                gram1: 'pudiera',
+                gram2: 'derrocara',
+                gram3: 'esperara',
+                gram4: 'pusieran',
+                gram5: 'hicieran',
+                gram6: 'llegara'
+            };
+            
+            let correct = 0;
+            const feedback = document.querySelector('#section7 .feedback');
+            
+            maxScore += 6;
+            
+            for (let id in answers) {
+                const input = document.getElementById(id);
+                const value = input.value.toLowerCase().trim();
+                
+                if (value === answers[id]) {
+                    input.style.borderColor = '#28a745';
+                    correct++;
+                } else {
+                    input.style.borderColor = '#dc3545';
+                }
+            }
+            
+            totalScore += correct;
+            
+            if (correct === 6) {
+                feedback.className = 'feedback correct';
+                feedback.textContent = '✓ ¡Perfecto! Dominas el imperfecto de subjuntivo.';
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = `✗ ${correct}/6 correctas. Recuerda: ellos pretérito → quita -ron → añade -ra/-ras/-ra/-ramos/-rais/-ran`;
+            }
+            feedback.style.display = 'block';
+            updateProgress();
+        }
+        
+        // Section 8: Pluperfect Subjunctive
+        function checkPluperfect() {
+            const answers = {
+                plup1: 'hubiera unificado',
+                plup2: 'hubieran tenido',
+                plup3: 'hubiera estallado',
+                plup4: 'hubieran cooperado'
+            };
+            
+            let correct = 0;
+            const feedback = document.querySelector('#section8 .feedback');
+            
+            maxScore += 4;
+            
+            for (let id in answers) {
+                const input = document.getElementById(id);
+                const value = input.value.toLowerCase().trim();
+                
+                if (value === answers[id]) {
+                    input.style.borderColor = '#28a745';
+                    correct++;
+                } else {
+                    input.style.borderColor = '#dc3545';
+                }
+            }
+            
+            totalScore += correct;
+            
+            if (correct === 4) {
+                feedback.className = 'feedback correct';
+                feedback.textContent = '✓ ¡Excelente! Entiendes el pluscuamperfecto de subjuntivo.';
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = `✗ ${correct}/4 correctas. Fórmula: hubiera/hubieras/etc. + participio pasado`;
+            }
+            feedback.style.display = 'block';
+            updateProgress();
+        }
+        
+        // Section 9: Conditional Sentences
+        function checkConditional() {
+            const answer1 = document.getElementById('cond1').value.toLowerCase().trim();
+            const answer2 = document.getElementById('cond2').value.toLowerCase().trim();
+            const answer3 = document.getElementById('cond3').value.toLowerCase().trim();
+            
+            const feedback = document.querySelector('#section9 .feedback');
+            let correct = 0;
+            
+            maxScore += 3;
+            
+            // Check answer 1
+            if (answer1.includes('hubiera declarado') || answer1.includes('se hubiera declarado')) {
+                document.getElementById('cond1').style.borderColor = '#28a745';
+                correct++;
+            } else {
+                document.getElementById('cond1').style.borderColor = '#dc3545';
+            }
+            
+            // Check answer 2
+            if (answer2.includes('hubieran fracasado') || answer2.includes('hubiesen fracasado')) {
+                document.getElementById('cond2').style.borderColor = '#28a745';
+                correct++;
+            } else {
+                document.getElementById('cond2').style.borderColor = '#dc3545';
+            }
+            
+            // Check answer 3
+            if (answer3.includes('hubiera bombardeado') || answer3.includes('hubiese bombardeado')) {
+                document.getElementById('cond3').style.borderColor = '#28a745';
+                correct++;
+            } else {
+                document.getElementById('cond3').style.borderColor = '#dc3545';
+            }
+            
+            totalScore += correct;
+            
+            if (correct === 3) {
+                feedback.className = 'feedback correct';
+                feedback.textContent = '✓ ¡Perfecto! Dominas las frases condicionales.';
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = `✗ ${correct}/3 correctas. Recuerda: Si + pluscuamperfecto subjuntivo, condicional perfecto.`;
+            }
+            feedback.style.display = 'block';
+            updateProgress();
+        }
+        
+        // Section 10: Final Essay
+        function updateFinalWordCount() {
+            const text = document.getElementById('finalEssay').value;
+            const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+            const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+            document.getElementById('sentenceCount').textContent = sentences;
+            document.getElementById('finalWordCount').textContent = words;
+        }
+        
+        document.getElementById('finalEssay').addEventListener('input', updateFinalWordCount);
+        
+        function checkFinalEssay() {
+            const text = document.getElementById('finalEssay').value;
+            const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+            const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+            const feedback = document.querySelector('#section10 .feedback');
+            
+            maxScore += 10;
+            
+            if (sentences < 5) {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = `✗ Necesitas al menos 5 frases completas. Tienes ${sentences}.`;
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            if (words < 50) {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = '✗ Tu respuesta es muy corta. Desarrolla más tus ideas.';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            const vocabKeywords = ['guerra', 'civil', 'franco', 'república', 'bando', 'sublevad', 'nacional', 'bombard', 'gernika'];
+            const lowerText = text.toLowerCase();
+            const matchedVocab = vocabKeywords.filter(keyword => lowerText.includes(keyword));
+            
+            if (matchedVocab.length >= 4 && sentences >= 5) {
+                totalScore += 10;
+                feedback.className = 'feedback correct';
+                feedback.textContent = '✓ ¡Excelente respuesta! Has demostrado comprensión profunda del tema.';
+            } else if (matchedVocab.length >= 2 && sentences >= 5) {
+                totalScore += 7;
+                feedback.className = 'feedback correct';
+                feedback.textContent = '✓ Buena respuesta. Podrías incluir más vocabulario específico de la lección.';
+            } else {
+                totalScore += 5;
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = '✗ Respuesta básica. Usa más vocabulario de la lección y desarrolla mejor tus ideas.';
+            }
+            feedback.style.display = 'block';
+            updateProgress();
+        }
+        
+        // Download Progress
+        function downloadProgress() {
+            const timestamp = new Date().toLocaleString('es-ES');
+            const elapsedTime = document.getElementById('timer').textContent;
+            const scorePercentage = maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0;
+            
+            let content = `GUERRA CIVIL ESPAÑOLA - RESULTADOS DEL ESTUDIANTE\n`;
+            content += `==============================================\n\n`;
+            content += `Fecha: ${timestamp}\n`;
+            content += `Tiempo total: ${elapsedTime}\n`;
+            content += `Secciones completadas: ${completedSections}/${totalSections}\n`;
+            content += `Puntuación total: ${totalScore}/${maxScore} puntos (${scorePercentage}%)\n`;
+            content += `\n==============================================\n\n`;
+            
+            // Section 1
+            content += `SECCIÓN 1: GEORGE ORWELL - DO NOW\n\n`;
+            content += `Traducción:\n${document.getElementById('orwell1').value}\n\n`;
+            
+            // Section 2
+            content += `SECCIÓN 2: VOCABULARIO - EMPAREJAMIENTO\n`;
+            content += `Emparejamientos realizados: ${matches.length}\n\n`;
+            
+            // Section 3
+            content += `SECCIÓN 3: VOCABULARIO - RELLENAR\n\n`;
+            content += `1. estalló: ${document.getElementById('vocab1').value}\n`;
+            content += `2. derrocar: ${document.getElementById('vocab2').value}\n`;
+            content += `3. fracasaron: ${document.getElementById('vocab3').value}\n`;
+            content += `4. mantener: ${document.getElementById('vocab4').value}\n`;
+            content += `5. partida: ${document.getElementById('vocab5').value}\n`;
+            content += `6. sublevados: ${document.getElementById('vocab6').value}\n`;
+            content += `7. desempeñó: ${document.getElementById('vocab7').value}\n\n`;
+            
+            // Section 4
+            content += `SECCIÓN 4: COMPRENSIÓN - ESPAÑA DIVIDIDA\n\n`;
+            content += `1. Un ejército profesional aseguraba el control de Franco: ${document.getElementById('comp1').value}\n`;
+            content += `2. Los nacionales no tuvieron éxito en las capitales: ${document.getElementById('comp2').value}\n`;
+            content += `3. Franco cruzó el estrecho de Gibraltar: ${document.getElementById('comp3').value}\n`;
+            content += `4. España se dividió en dos bandos: ${document.getElementById('comp4').value}\n`;
+            content += `5. La importancia de la ayuda de otros países: ${document.getElementById('comp5').value}\n`;
+            content += `6. El pánico se difundió en la Iglesia: ${document.getElementById('comp6').value}\n`;
+            content += `7. Franco tomó las riendas: ${document.getElementById('comp7').value}\n`;
+            content += `8. La ocupación ilegal de fincas: ${document.getElementById('comp8').value}\n\n`;
+            
+            // Section 5
+            content += `SECCIÓN 5: VERDADERO O FALSO\n`;
+            content += `(Ver respuestas marcadas en la actividad)\n\n`;
+            
+            // Section 6
+            content += `SECCIÓN 6: TRADUCCIÓN DE ORWELL\n\n`;
+            const orwell2Text = document.getElementById('orwell2').value;
+            content += `${orwell2Text}\n\n`;
+            content += `Palabras: ${orwell2Text.trim().split(/\s+/).filter(w => w.length > 0).length}\n\n`;
+            
+            // Section 7
+            content += `SECCIÓN 7: GRAMÁTICA - IMPERFECTO DE SUBJUNTIVO\n\n`;
+            content += `1. pudiera: ${document.getElementById('gram1').value}\n`;
+            content += `2. derrocara: ${document.getElementById('gram2').value}\n`;
+            content += `3. esperara: ${document.getElementById('gram3').value}\n`;
+            content += `4. pusieran: ${document.getElementById('gram4').value}\n`;
+            content += `5. hicieran: ${document.getElementById('gram5').value}\n`;
+            content += `6. llegara: ${document.getElementById('gram6').value}\n\n`;
+            
+            // Section 8
+            content += `SECCIÓN 8: PLUSCUAMPERFECTO DE SUBJUNTIVO\n\n`;
+            content += `1. ${document.getElementById('plup1').value}\n`;
+            content += `2. ${document.getElementById('plup2').value}\n`;
+            content += `3. ${document.getElementById('plup3').value}\n`;
+            content += `4. ${document.getElementById('plup4').value}\n\n`;
+            
+            // Section 9
+            content += `SECCIÓN 9: FRASES CONDICIONALES\n\n`;
+            content += `1. ${document.getElementById('cond1').value}\n`;
+            content += `2. ${document.getElementById('cond2').value}\n`;
+            content += `3. ${document.getElementById('cond3').value}\n\n`;
+            
+            // Section 10
+            content += `SECCIÓN 10: TICKET DE SALIDA - ENSAYO FINAL\n\n`;
+            const finalEssay = document.getElementById('finalEssay').value;
+            const finalSentences = finalEssay.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+            const finalWords = finalEssay.trim().split(/\s+/).filter(w => w.length > 0).length;
+            content += `Frases: ${finalSentences} | Palabras: ${finalWords}\n\n`;
+            content += `${finalEssay}\n\n`;
+            
+            content += `==============================================\n`;
+            content += `RESUMEN DE EVALUACIÓN\n`;
+            content += `==============================================\n\n`;
+            content += `Puntuación final: ${totalScore}/${maxScore} (${scorePercentage}%)\n`;
+            content += `Tiempo empleado: ${elapsedTime}\n`;
+            content += `Secciones completadas: ${completedSections}/${totalSections}\n\n`;
+            
+            if (scorePercentage >= 90) {
+                content += `Evaluación: EXCELENTE - Dominio sobresaliente del contenido\n`;
+            } else if (scorePercentage >= 75) {
+                content += `Evaluación: MUY BIEN - Buen dominio del contenido\n`;
+            } else if (scorePercentage >= 60) {
+                content += `Evaluación: BIEN - Comprensión adecuada\n`;
+            } else {
+                content += `Evaluación: NECESITA MEJORAR - Revisa el material\n`;
+            }
+            
+            content += `\nFin del documento\n`;
+            
+            // Create blob and download
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Guerra_Civil_Española_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            // Show confirmation
+            alert(`✓ ¡Resultados descargados exitosamente!\n\nPuntuación: ${scorePercentage}%\nTiempo: ${elapsedTime}`);
+        }
+    </script>
+</body>
+</html>

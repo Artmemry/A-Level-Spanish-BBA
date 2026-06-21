@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Casa de Bernarda Alba - Acto I</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .keyboard-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #f0a500;
+            color: #1a1a2e;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(240, 165, 0, 0.4);
+            z-index: 999;
+            transition: all 0.3s;
+        }
+
+        .keyboard-toggle:hover { transform: scale(1.05); }
+
+        #accentKeyboard {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: rgba(240, 165, 0, 0.95);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+        }
+
+        #accentKeyboard.show { display: block; }
+
+        .accent-btn {
+            background: #1a1a2e;
+            color: #f0a500;
+            border: none;
+            padding: 8px 12px;
+            margin: 3px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .accent-btn:hover {
+            background: #f0a500;
+            color: #1a1a2e;
+            transform: scale(1.1);
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #f0a500;
+            margin-bottom: 10px;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #c0c0c0;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .download-section {
+            margin-bottom: 20px;
+            text-align: center;
+            background: rgba(156, 39, 176, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #9C27B0;
+        }
+
+        #studentName {
+            width: 300px;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(240,165,0,0.5);
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-size: 1em;
+            margin-right: 10px;
+        }
+
+        #studentName::placeholder { color: #a0a0a0; }
+
+        .download-btn {
+            background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(156, 39, 176, 0.4);
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(135deg, #7B1FA2 0%, #6A1B9A 100%);
+            transform: scale(1.05);
+        }
+        
+        .exercise-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+        
+        .exercise-btn {
+            background: rgba(240, 165, 0, 0.2);
+            border: 2px solid #f0a500;
+            color: #f0a500;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        
+        .exercise-btn:hover {
+            background: #f0a500;
+            color: #1a1a2e;
+            transform: translateY(-2px);
+        }
+        
+        .exercise-btn.active {
+            background: #f0a500;
+            color: #1a1a2e;
+        }
+        
+        .exercise-section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .exercise-section.active { display: block; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .question {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #f0a500;
+        }
+        
+        .question-text {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(240, 165, 0, 0.3);
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-size: 1em;
+            margin-bottom: 10px;
+            transition: border 0.3s;
+        }
+        
+        input[type="text"]:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #f0a500;
+        }
+        
+        textarea {
+            min-height: 100px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        select { cursor: pointer; }
+        option { background: #1a1a2e; color: #e0e0e0; }
+        
+        .check-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            margin-right: 10px;
+            margin-top: 5px;
+        }
+        
+        .check-btn:hover {
+            background: #45a049;
+            transform: scale(1.05);
+        }
+        
+        .answer {
+            display: none;
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid #4CAF50;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 8px;
+            color: #a5d6a7;
+        }
+        
+        .answer.show {
+            display: block;
+            animation: slideDown 0.3s;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; }
+            to { opacity: 1; max-height: 1000px; }
+        }
+        
+        .note {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-style: italic;
+            color: #ffe082;
+        }
+
+        .text-passage {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            border-left: 4px solid #6495ED;
+        }
+
+        .blank {
+            display: inline-block;
+            min-width: 80px;
+            padding: 2px 8px;
+            margin: 0 3px;
+            border-bottom: 2px solid #f0a500;
+            background: rgba(240, 165, 0, 0.1);
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .vocab-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #f0a500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>La Casa de Bernarda Alba - Acto I</h1>
+        <p class="subtitle">Ejercicios sobre el primer acto de la obra de Federico García Lorca</p>
+        
+        <div class="download-section">
+            <h3 style="color: #9C27B0; margin-bottom: 15px;">💾 Guardar Tu Trabajo</h3>
+            <p style="color: #c0c0c0; margin-bottom: 15px; font-size: 0.9em;">Introduce tu nombre y descarga tus respuestas</p>
+            <input type="text" id="studentName" placeholder="Escribe tu nombre completo aquí">
+            <button class="download-btn" onclick="downloadWork()">📥 DESCARGAR TRABAJO</button>
+        </div>
+
+        <div class="exercise-selector">
+            <button class="exercise-btn active" onclick="showExercise(1)">Ejercicio 7</button>
+            <button class="exercise-btn" onclick="showExercise(2)">Ejercicio 8</button>
+            <button class="exercise-btn" onclick="showExercise(3)">Ejercicio 9</button>
+            <button class="exercise-btn" onclick="showExercise(4)">Ejercicio 10</button>
+            <button class="exercise-btn" onclick="showExercise(5)">Ejercicio 11</button>
+            <button class="exercise-btn" onclick="showExercise(6)">Ejercicio 12</button>
+        </div>
+
+        <button class="keyboard-toggle" onclick="toggleKeyboard()">Ñ á é í ó ú</button>
+        <div id="accentKeyboard">
+            <div style="text-align: center; margin-bottom: 10px; color: #1a1a2e; font-weight: bold;">Acentos</div>
+            <button class="accent-btn" onclick="insertChar('á')">á</button>
+            <button class="accent-btn" onclick="insertChar('é')">é</button>
+            <button class="accent-btn" onclick="insertChar('í')">í</button>
+            <button class="accent-btn" onclick="insertChar('ó')">ó</button>
+            <button class="accent-btn" onclick="insertChar('ú')">ú</button>
+            <button class="accent-btn" onclick="insertChar('ñ')">ñ</button>
+            <br>
+            <button class="accent-btn" onclick="insertChar('Á')">Á</button>
+            <button class="accent-btn" onclick="insertChar('É')">É</button>
+            <button class="accent-btn" onclick="insertChar('Í')">Í</button>
+            <button class="accent-btn" onclick="insertChar('Ó')">Ó</button>
+            <button class="accent-btn" onclick="insertChar('Ú')">Ú</button>
+            <button class="accent-btn" onclick="insertChar('Ñ')">Ñ</button>
+            <br>
+            <button class="accent-btn" onclick="insertChar('¿')">¿</button>
+            <button class="accent-btn" onclick="insertChar('¡')">¡</button>
+            <button class="accent-btn" onclick="insertChar('ü')">ü</button>
+            <button class="accent-btn" onclick="insertChar('Ü')">Ü</button>
+        </div>
+
+        <!-- EJERCICIO 7 -->
+        <div id="ex1" class="exercise-section active">
+            <h2 style="color: #f0a500; margin-bottom: 20px;">Ejercicio 7: Comprensión lectora</h2>
+            <p style="color: #c0c0c0; margin-bottom: 20px;">Responde a las siguientes preguntas sobre el primer acto:</p>
+            
+            <div class="question">
+                <div class="question-text">1. ¿Qué parte de los familiares no fueron al funeral y por qué?</div>
+                <textarea id="q7_1" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans7_1')">Verificar</button>
+                <div id="ans7_1" class="answer">
+                    <strong>Respuesta:</strong> Los del marido de Bernarda. Porque la odian.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">2. ¿Cuánto tiempo lleva a Poncia trabajando con Bernarda?</div>
+                <textarea id="q7_2" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans7_2')">Verificar</button>
+                <div id="ans7_2" class="answer">
+                    <strong>Respuesta:</strong> Treinta años.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">3. ¿Qué personaje del primer acto está por debajo de la criada en la escala social?</div>
+                <textarea id="q7_3" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans7_3')">Verificar</button>
+                <div id="ans7_3" class="answer">
+                    <strong>Respuesta:</strong> La mendiga.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">4. ¿Dónde dice la criada que el marido de Bernarda le levantaba la falda?</div>
+                <textarea id="q7_4" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans7_4')">Verificar</button>
+                <div id="ans7_4" class="answer">
+                    <strong>Respuesta:</strong> Detrás de la puerta de su corral.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">5. ¿Cuál es la primera palabra que dice Bernarda en la obra?</div>
+                <textarea id="q7_5" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans7_5')">Verificar</button>
+                <div id="ans7_5" class="answer">
+                    <strong>Respuesta:</strong> Silencio.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">6. ¿Cómo es el abanico que Adela le da a su madre?</div>
+                <textarea id="q7_6" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans7_6')">Verificar</button>
+                <div id="ans7_6" class="answer">
+                    <strong>Respuesta:</strong> Con flores rojas y verdes.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">7. ¿Por qué no quiere Bernarda que su madre se acerque al pozo?</div>
+                <textarea id="q7_7" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans7_7')">Verificar</button>
+                <div id="ans7_7" class="answer">
+                    <strong>Respuesta:</strong> Para que no la vean las vecinas.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">8. ¿Por qué no ha dejado Bernarda que sus hijas tengan novio?</div>
+                <textarea id="q7_8" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans7_8')">Verificar</button>
+                <div id="ans7_8" class="answer">
+                    <strong>Respuesta:</strong> Porque según ella, los hombres del pueblo no son de su clase.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">9. ¿Qué se puso Adela cuando fue al corral y le gritó a las gallinas?</div>
+                <textarea id="q7_9" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans7_9')">Verificar</button>
+                <div id="ans7_9" class="answer">
+                    <strong>Respuesta:</strong> El traje verde que se había hecho para su cumpleaños.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">10. ¿Cómo reacciona Adela cuando escucha que Pepe se va a casar con Angustias?</div>
+                <textarea id="q7_10" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans7_10')">Verificar</button>
+                <div id="ans7_10" class="answer">
+                    <strong>Respuesta:</strong> Se sorprende, dice que el luto le ha pillado en el peor tiempo de su vida y que quiere salir y no quedarse como sus hermanas.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">11. ¿A cuál de las hermanas le ha quedado más dinero?</div>
+                <textarea id="q7_11" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans7_11')">Verificar</button>
+                <div id="ans7_11" class="answer">
+                    <strong>Respuesta:</strong> A Angustias.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">12. ¿Por qué no les quiere dejar nada María Josefa a sus nietas?</div>
+                <textarea id="q7_12" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans7_12')">Verificar</button>
+                <div id="ans7_12" class="answer">
+                    <strong>Respuesta:</strong> Porque dice que no se van a casar.
+                </div>
+            </div>
+        </div>
+
+        <!-- EJERCICIO 8 -->
+        <div id="ex2" class="exercise-section">
+            <h2 style="color: #f0a500; margin-bottom: 20px;">Ejercicio 8: Traducciones al inglés</h2>
+            <p style="color: #c0c0c0; margin-bottom: 20px;">Traduce las siguientes frases del primer acto al inglés:</p>
+            
+            <div class="question">
+                <div class="question-text">a. Nosotras tenemos nuestras manos y un hoyo en la tierra de la verdad.</div>
+                <textarea id="q8_a" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans8_a')">Verificar</button>
+                <div id="ans8_a" class="answer">
+                    <strong>Respuesta:</strong> We have our hands and a hole in the land of truth.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">b. Si quieres llorar te metes debajo de la cama. ¿Me has oído?</div>
+                <textarea id="q8_b" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans8_b')">Verificar</button>
+                <div id="ans8_b" class="answer">
+                    <strong>Respuesta:</strong> If you want to cry go under the bed. Is that clear?
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">c. Es así como se tiene que hablar en este maldito pueblo sin río, pueblo de pozos, donde siempre se bebe el agua con el miedo de que esté envenenada.</div>
+                <textarea id="q8_c" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans8_c')">Verificar</button>
+                <div id="ans8_c" class="answer">
+                    <strong>Respuesta:</strong> That is how we need to talk about this bloody town with no river, town with no wells, where we always drink water with fear that it might be poisoned.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">d. ¿Es éste el abanico que se da a una viuda? Dame uno negro y aprende a respetar el luto de tu padre.</div>
+                <textarea id="q8_d" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans8_d')">Verificar</button>
+                <div id="ans8_d" class="answer">
+                    <strong>Respuesta:</strong> Is this the fan that one gives to a widow? Give me a black one and learn to respect your father's mourning period.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">e. ¿Es decente que una mujer de tu clase vaya con el anzuelo detrás de un hombre el día de la misa de su padre?</div>
+                <textarea id="q8_e" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans8_e')">Verificar</button>
+                <div id="ans8_e" class="answer">
+                    <strong>Respuesta:</strong> Is it decent for a woman of your class to go after a man with the fishing hook the day of her father's funeral?
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">f. Lo mejor que puedes hacer es regalárselo a Angustias para la boda con Pepe el Romano.</div>
+                <textarea id="q8_f" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans8_f')">Verificar</button>
+                <div id="ans8_f" class="answer">
+                    <strong>Respuesta:</strong> The best thing that you can do is give it to Angustias for her wedding with Pepe el Romano.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">g. Pienso que este luto me ha cogido en la peor época de mi vida para pasarlo.</div>
+                <textarea id="q8_g" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans8_g')">Verificar</button>
+                <div id="ans8_g" class="answer">
+                    <strong>Respuesta:</strong> I think that this mourning period has come in the worst time of my life to pass it.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">h. Me escapé porque me quiero casar, porque quiero casarme con un varón hermoso de la orilla del mar, ya que aquí los hombres huyen de las mujeres.</div>
+                <textarea id="q8_h" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans8_h')">Verificar</button>
+                <div id="ans8_h" class="answer">
+                    <strong>Respuesta:</strong> I escaped because I want to get married, because I want to marry a handsome man from the seashore, as here men run away from women.
+                </div>
+            </div>
+        </div>
+
+        <!-- EJERCICIO 9 -->
+        <div id="ex3" class="exercise-section">
+            <h2 style="color: #f0a500; margin-bottom: 20px;">Ejercicio 9: Análisis de citas</h2>
+            <p style="color: #c0c0c0; margin-bottom: 20px;">Analiza las siguientes citas del primer acto:</p>
+            
+            <div class="note">
+                <p>Puedes usar expresiones como:</p>
+                <ul>
+                    <li>Se refiere a...</li>
+                    <li>Menciona...</li>
+                    <li>Este comentario es útil para ver...</li>
+                    <li>Esto revela...</li>
+                    <li>Hacer referencia a...</li>
+                    <li>Habla de...</li>
+                    <li>Con esto el autor nos demuestra que...</li>
+                    <li>Esto demuestra hasta qué punto... es importante</li>
+                    <li>Está mencionando...</li>
+                    <li>Esto se usa para...</li>
+                    <li>Este comentario indica que...</li>
+                </ul>
+            </div>
+
+            <div class="question">
+                <div class="question-text">a. Pág. 5. Poncia: Tirana de todos los que la rodean.</div>
+                <textarea id="q9_a" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans9_a')">Verificar</button>
+                <div id="ans9_a" class="answer">
+                    <strong>Respuesta:</strong> Poncia está hablando de Bernarda, y la palabra tirana se usa para mostrar el carácter controlador y autoritario de ésta.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">b. Pág. 14. Bernarda: Con el veneno de sus lenguas:</div>
+                <textarea id="q9_b" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans9_b')">Verificar</button>
+                <div id="ans9_b" class="answer">
+                    <strong>Respuesta:</strong> Esta expresión se refiere al qué dirán, gran preocupación de Bernarda.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">c. Pág. 15. Bernarda: Hilo y aguja para las hembras. Látigo y mula para el varón.</div>
+                <textarea id="q9_c" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans9_c')">Verificar</button>
+                <div id="ans9_c" class="answer">
+                    <strong>Respuesta:</strong> Esta frase hace referencia a uno de los temas de la obra; el papel de la mujer en la época.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">d. Pág. 16. Bernarda: Las vecinas pueden verla desde sus ventanas.</div>
+                <textarea id="q9_d" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans9_d')">Verificar</button>
+                <div id="ans9_d" class="answer">
+                    <strong>Respuesta:</strong> Tenemos aquí otra muestra de la preocupación de Bernarda por el qué dirán, aunque esta vez también podemos ver como ésta parece preocuparse más por lo que piensen los vecinos que por el bien de su madre.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">e. Pág. 20. Bernarda: Los hombres de aquí no son de su clase.</div>
+                <textarea id="q9_e" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans9_e')">Verificar</button>
+                <div id="ans9_e" class="answer">
+                    <strong>Respuesta:</strong> Esta oración presenta el tema de las clases sociales y nos muestra la visión de Bernarda, quien se cree de una clase superior al resto del pueblo.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">f. Pág. 22. Amelia: De todo tiene la culpa esta crítica que no nos deja vivir.</div>
+                <textarea id="q9_f" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans9_f')">Verificar</button>
+                <div id="ans9_f" class="answer">
+                    <strong>Respuesta:</strong> Otra alusión a los cotilleos, aunque esta vez vemos ésta reprime a los personajes.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">g. Pág. 23. Martirio: No, pero las cosas se repiten.</div>
+                <textarea id="q9_g" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans9_g')">Verificar</button>
+                <div id="ans9_g" class="answer">
+                    <strong>Respuesta:</strong> Aquí hay una referencia al destino, el cual es una idea importante en la obra.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">h. Pág. 25. Magdalena: ¡Ah!, se ha puesto el traje verde.</div>
+                <textarea id="q9_h" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans9_h')">Verificar</button>
+                <div id="ans9_h" class="answer">
+                    <strong>Respuesta:</strong> El hecho de ponerse el traje verde y no uno negro, (como se espera durante el luto), ilustra el carácter rebelde de Adela.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">i. Pág. 29. Adela: Mañana me pondré mi vestido verde y me echaré a andar por la calle.</div>
+                <textarea id="q9_i" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans9_i')">Verificar</button>
+                <div id="ans9_i" class="answer">
+                    <strong>Respuesta:</strong> Otro ejemplo del deseo de libertad de Adela y de su rebeldía, negándose a seguir las normas de la época.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">j. Pág. 33. María Josefa: La orilla del mar.</div>
+                <textarea id="q9_j" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans9_j')">Verificar</button>
+                <div id="ans9_j" class="answer">
+                    <strong>Respuesta:</strong> Esto es una metáfora que significa libertad, ya que el agua en la obra está asociada con la idea de libertad, y también con la idea de sexo.
+                </div>
+            </div>
+        </div>
+
+        <!-- EJERCICIO 10 -->
+        <div id="ex4" class="exercise-section">
+            <h2 style="color: #f0a500; margin-bottom: 20px;">Ejercicio 10: Traducción de extractos importantes</h2>
+            <p style="color: #c0c0c0; margin-bottom: 20px;">Traduce estos importantes extractos de la obra al inglés:</p>
+            
+            <div class="question">
+                <div class="question-text">Pág. 5. Poncia. «Tirana de todos los que la rodean. Es capaz de sentarse encima de tu corazón y ver cómo te mueres durante un año sin que se le cierre esa sonrisa fría que lleva en su maldita cara. ¡Limpia, limpia ese vidriado!»</div>
+                <textarea id="q10_1" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans10_1')">Verificar</button>
+                <div id="ans10_1" class="answer">
+                    <strong>Respuesta:</strong> Tyrant of everyone who surrounds her. She could sit on your heart and see how you die for a whole year without getting rid of that cold grin that she has on her dammed face. Clean, clean that glass!
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Pág. 6. Poncia. «Ese día me encerraré con ella en un cuarto y le estaré escupiendo un año entero: 'Bernarda, por eso, por aquello, por lo otro', hasta ponerla como un lagarto machacado por los niños, que es lo que es ella y toda su parentela. Claro es que no le envidio la vida. Le quedan cinco mujeres, cinco hijas feas, que quitando a Angustia, la mayor, que es la hija del primer marido y tiene dineros, las demás, mucha puntilla bordada, muchas camisas de hilo, pero pan y uvas por toda herencia.»</div>
+                <textarea id="q10_2" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans10_2')">Verificar</button>
+                <div id="ans10_2" class="answer">
+                    <strong>Respuesta:</strong> That day I will lock myself with her in a room and I will be spitting at her for a whole year: 'Bernarda, for this, for that, for the other', until I leave her like a lizard crushed by the children, which is what she is and all her family. Of course I don't envy her life. She has five women left, five ugly daughters, that except for Angustias, the eldest, who is the daughter of the first husband and has money, the others, lots of embroidered lace, lots of linen shirts, but bread and grapes for all inheritance.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Pág. 9. Bernarda. «Aquí se hace lo que yo mando. Ya no puedes salir al patio. Mi casa no es la calle. Lo que quiera un cristiano en su casa es una silla donde sentarse y un plato donde comer.»</div>
+                <textarea id="q10_3" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans10_3')">Verificar</button>
+                <div id="ans10_3" class="answer">
+                    <strong>Respuesta:</strong> Here we do what I command. You can no longer go out to the courtyard. My house is not the street. What a Christian wants in his house is a chair to sit on and a plate to eat from.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Pág. 15. Bernarda. «Hilo y aguja para las hembras. Látigo y mula para el varón. Eso tiene la gente que nace con posibles.»</div>
+                <textarea id="q10_4" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans10_4')">Verificar</button>
+                <div id="ans10_4" class="answer">
+                    <strong>Respuesta:</strong> Thread and needle for the females. Whip and mule for the male. That's what people who are born with possibilities have.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Pág. 20. Bernarda. «A mi no me importa el dinero, pero me gusta que todo esté en su sitio. A vosotras, el padre os deja un porvenir.»</div>
+                <textarea id="q10_5" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans10_5')">Verificar</button>
+                <div id="ans10_5" class="answer">
+                    <strong>Respuesta:</strong> I don't care about money, but I like everything to be in its place. To you, your father leaves you a future.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Pág. 29. Adela. «Me pondré la corona de espinas que tienen las que quieren ser casadas.»</div>
+                <textarea id="q10_6" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans10_6')">Verificar</button>
+                <div id="ans10_6" class="answer">
+                    <strong>Respuesta:</strong> I will put on the crown of thorns that those who want to be married have.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Pág. 33. María Josefa. «Me escapé porque me quiero casar, porque quiero casarme con un varón hermoso de la orilla del mar, ya que aquí los hombres huyen de las mujeres.»</div>
+                <textarea id="q10_7" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans10_7')">Verificar</button>
+                <div id="ans10_7" class="answer">
+                    <strong>Respuesta:</strong> I escaped because I want to get married, because I want to marry a handsome man from the seashore, as here men run away from women.
+                </div>
+            </div>
+        </div>
+
+        <!-- EJERCICIO 11 -->
+        <div id="ex5" class="exercise-section">
+            <h2 style="color: #f0a500; margin-bottom: 20px;">Ejercicio 11: Vocabulario</h2>
+            <p style="color: #c0c0c0; margin-bottom: 20px;">Completa las siguientes frases con el vocabulario adecuado:</p>
+            
+            <div class="vocab-grid">
+                <div class="vocab-item">1. <strong>Luto:</strong> Período de duelo tras una muerte</div>
+                <div class="vocab-item">2. <strong>Pozo:</strong> Hoyo profundo para sacar agua</div>
+                <div class="vocab-item">3. <strong>Viuda:</strong> Mujer cuyo marido ha fallecido</div>
+                <div class="vocab-item">4. <strong>Anzuelo:</strong> Instrumento para pescar</div>
+                <div class="vocab-item">5. <strong>Boda:</strong> Ceremonia de matrimonio</div>
+                <div class="vocab-item">6. <strong>Mendiga:</strong> Persona que pide limosna</div>
+                <div class="vocab-item">7. <strong>Criada:</strong> Mujer que trabaja en servicio doméstico</div>
+                <div class="vocab-item">8. <strong>Corral:</strong> Patio interior de una casa</div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">a. Bernarda impuso un ________ de ocho años tras la muerte de su marido.</div>
+                <input type="text" id="q11_a" placeholder="Escribe la palabra correcta...">
+                <button class="check-btn" onclick="toggleAnswer('ans11_a')">Verificar</button>
+                <div id="ans11_a" class="answer">
+                    <strong>Respuesta:</strong> luto
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">b. La ________ llegó a la puerta de Bernarda pidiendo comida.</div>
+                <input type="text" id="q11_b" placeholder="Escribe la palabra correcta...">
+                <button class="check-btn" onclick="toggleAnswer('ans11_b')">Verificar</button>
+                <div id="ans11_b" class="answer">
+                    <strong>Respuesta:</strong> mendiga
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">c. Poncia trabajaba como ________ en la casa de Bernarda.</div>
+                <input type="text" id="q11_c" placeholder="Escribe la palabra correcta...">
+                <button class="check-btn" onclick="toggleAnswer('ans11_c')">Verificar</button>
+                <div id="ans11_c" class="answer">
+                    <strong>Respuesta:</strong> criada
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">d. Las hijas de Bernarda no podían salir al ________ para evitar que las vieran las vecinas.</div>
+                <input type="text" id="q11_d" placeholder="Escribe la palabra correcta...">
+                <button class="check-btn" onclick="toggleAnswer('ans11_d')">Verificar</button>
+                <div id="ans11_d" class="answer">
+                    <strong>Respuesta:</strong> corral
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">e. Angustias se preparaba para su ________ con Pepe el Romano.</div>
+                <input type="text" id="q11_e" placeholder="Escribe la palabra correcta...">
+                <button class="check-btn" onclick="toggleAnswer('ans11_e')">Verificar</button>
+                <div id="ans11_e" class="answer">
+                    <strong>Respuesta:</strong> boda
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">f. Bernarda se convirtió en ________ tras la muerte de su segundo marido.</div>
+                <input type="text" id="q11_f" placeholder="Escribe la palabra correcta...">
+                <button class="check-btn" onclick="toggleAnswer('ans11_f')">Verificar</button>
+                <div id="ans11_f" class="answer">
+                    <strong>Respuesta:</strong> viuda
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">g. En el pueblo no había río, solo ________ donde sacar agua.</div>
+                <input type="text" id="q11_g" placeholder="Escribe la palabra correcta...">
+                <button class="check-btn" onclick="toggleAnswer('ans11_g')">Verificar</button>
+                <div id="ans11_g" class="answer">
+                    <strong>Respuesta:</strong> pozos
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">h. Bernarda acusó a Angustias de ir con el ________ detrás de Pepe el Romano.</div>
+                <input type="text" id="q11_h" placeholder="Escribe la palabra correcta...">
+                <button class="check-btn" onclick="toggleAnswer('ans11_h')">Verificar</button>
+                <div id="ans11_h" class="answer">
+                    <strong>Respuesta:</strong> anzuelo
+                </div>
+            </div>
+        </div>
+
+        <!-- EJERCICIO 12 -->
+        <div id="ex6" class="exercise-section">
+            <h2 style="color: #f0a500; margin-bottom: 20px;">Ejercicio 12: Rellenar espacios</h2>
+            <p style="color: #c0c0c0; margin-bottom: 20px;">Completa los espacios en blanco en este fragmento del primer acto:</p>
+            
+            <div class="text-passage">
+                <p>BERNARDA: —Y no quiero llantos. La muerte hay que mirarla cara a cara. ¡Silencio! (A otra hija.) ¡A callar he dicho! (A otra hija.) ¡Las lágrimas cuando estés sola! Nos hundiremos todas en un mar de <span class="blank"><input type="text" id="blank1" placeholder="..."></span>. La hija menor de la Librada estuvo <span class="blank"><input type="text" id="blank2" placeholder="..."></span> y nadie ha hablado con ella. Está <span class="blank"><input type="text" id="blank3" placeholder="..."></span> y se pasa la noche en vela como si fuera un <span class="blank"><input type="text" id="blank4" placeholder="..."></span> para que no la oigan <span class="blank"><input type="text" id="blank5" placeholder="..."></span> cuando llega el momento.</p>
+            </div>
+
+            <button class="check-btn" onclick="checkBlanks()">Verificar Respuestas</button>
+            <div id="blankAnswers" class="answer" style="display: none;">
+                <strong>Respuestas correctas:</strong><br>
+                1. luto<br>
+                2. soltera<br>
+                3. encima<br>
+                4. caracol<br>
+                5. gritar
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mostrar/ocultar ejercicios
+        function showExercise(num) {
+            // Ocultar todos los ejercicios
+            document.querySelectorAll('.exercise-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Mostrar el ejercicio seleccionado
+            document.getElementById('ex' + num).classList.add('active');
+            
+            // Actualizar botones activos
+            document.querySelectorAll('.exercise-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Mostrar/ocultar respuestas
+        function toggleAnswer(id) {
+            const answer = document.getElementById(id);
+            answer.classList.toggle('show');
+        }
+
+        // Verificar respuestas de espacios en blanco
+        function checkBlanks() {
+            const answers = {
+                blank1: 'luto',
+                blank2: 'soltera',
+                blank3: 'encima',
+                blank4: 'caracol',
+                blank5: 'gritar'
+            };
+            
+            let allCorrect = true;
+            
+            for (const [id, correctAnswer] of Object.entries(answers)) {
+                const input = document.getElementById(id);
+                const userAnswer = input.value.trim().toLowerCase();
+                
+                if (userAnswer === correctAnswer) {
+                    input.style.backgroundColor = 'rgba(76, 175, 80, 0.3)';
+                    input.style.borderColor = '#4CAF50';
+                } else {
+                    input.style.backgroundColor = 'rgba(244, 67, 54, 0.3)';
+                    input.style.borderColor = '#f44336';
+                    allCorrect = false;
+                }
+            }
+            
+            // Mostrar respuestas correctas
+            document.getElementById('blankAnswers').classList.add('show');
+        }
+
+        // Teclado de acentos
+        let activeInput = null;
+
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                activeInput = e.target;
+            }
+        });
+
+        function insertChar(char) {
+            if (activeInput) {
+                const start = activeInput.selectionStart;
+                const end = activeInput.selectionEnd;
+                const value = activeInput.value;
+                
+                activeInput.value = value.substring(0, start) + char + value.substring(end);
+                activeInput.selectionStart = activeInput.selectionEnd = start + char.length;
+                activeInput.focus();
+            }
+        }
+
+        function toggleKeyboard() {
+            const keyboard = document.getElementById('accentKeyboard');
+            keyboard.classList.toggle('show');
+        }
+
+        // Descargar trabajo
+        function downloadWork() {
+            const studentName = document.getElementById('studentName').value || 'Estudiante';
+            let content = `TRABAJO SOBRE "LA CASA DE BERNARDA ALBA" - ACTO I\n`;
+            content += `Nombre del estudiante: ${studentName}\n`;
+            content += `Fecha: ${new Date().toLocaleDateString()}\n\n`;
+            
+            // Recopilar respuestas de todos los ejercicios
+            const exercises = document.querySelectorAll('.exercise-section');
+            exercises.forEach(exercise => {
+                if (exercise.id !== 'ex6') { // Excluir ejercicio de espacios en blanco
+                    const exerciseTitle = exercise.querySelector('h2').textContent;
+                    content += `\n${exerciseTitle}\n`;
+                    content += '='.repeat(exerciseTitle.length) + '\n\n';
+                    
+                    const questions = exercise.querySelectorAll('.question');
+                    questions.forEach((question, index) => {
+                        const questionText = question.querySelector('.question-text').textContent;
+                        const answerInput = question.querySelector('input, textarea');
+                        
+                        content += `${index + 1}. ${questionText}\n`;
+                        if (answerInput && answerInput.value.trim() !== '') {
+                            content += `   Respuesta: ${answerInput.value}\n\n`;
+                        } else {
+                            content += `   Respuesta: [Sin responder]\n\n`;
+                        }
+                    });
+                }
+            });
+            
+            // Crear y descargar archivo
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Bernarda_Alba_Acto_I_${studentName.replace(/\s+/g, '_')}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A-Level Spanish Grammar Practice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #d4145a 0%, #fbb03b 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .main-content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .section-title {
+            font-size: 1.6em;
+            color: #d4145a;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #f093fb;
+        }
+        
+        .exercise {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #f093fb;
+        }
+        
+        .question {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #f093fb;
+        }
+        
+        input[type="text"].correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        
+        input[type="text"].incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.95em;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .accent-keyboard {
+            position: fixed;
+            display: none;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-width: 450px;
+            border: 2px solid #f093fb;
+        }
+        
+        .accent-keyboard.show {
+            display: flex;
+        }
+        
+        .accent-btn {
+            padding: 8px 12px;
+            background: #f093fb;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+        
+        .accent-btn:hover {
+            background: #d4145a;
+        }
+        
+        .accent-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .btn-primary {
+            background: #f093fb;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #d4145a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(240,147,251,0.4);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+            transition: width 0.5s ease;
+        }
+        
+        .score-display {
+            text-align: center;
+            font-size: 1.3em;
+            color: #d4145a;
+            margin: 20px 0;
+        }
+        
+        #menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .menu-item {
+            padding: 25px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        .menu-item h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        
+        .name-input-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .name-input-section.show {
+            display: block;
+        }
+        
+        #studentName {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Práctica de Gramática Española</h1>
+            <p class="subtitle">A-Level Edexcel Grammar Exercises</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <div class="score-display" id="scoreDisplay"></div>
+            
+            <!-- Main Menu -->
+            <div id="menu" class="section active">
+                <div class="menu-item" onclick="startSection('subjunctive')">
+                    <h3>El Subjuntivo</h3>
+                    <p>Subjunctive Mood</p>
+                </div>
+                <div class="menu-item" onclick="startSection('serestár')">
+                    <h3>Ser vs Estar</h3>
+                    <p>"To Be" - Permanent vs Temporary</p>
+                </div>
+                <div class="menu-item" onclick="startSection('porpara')">
+                    <h3>Por vs Para</h3>
+                    <p>"For" - Reason vs Purpose</p>
+                </div>
+                <div class="menu-item" onclick="startSection('preterite')">
+                    <h3>Pretérito vs Imperfecto</h3>
+                    <p>Preterite vs Imperfect</p>
+                </div>
+            </div>
+            
+            <!-- Subjunctive Section -->
+            <div id="subjunctive" class="section">
+                <h2 class="section-title">El Subjuntivo Presente</h2>
+                
+                <div class="exercise" data-exercise="1">
+                    <p class="question">Espero que tú <input type="text" id="subj1" data-answer="vengas"> (venir) a mi fiesta mañana.</p>
+                    <div class="feedback" id="feedback-subj1"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="2">
+                    <p class="question">Es importante que nosotros <input type="text" id="subj2" data-answer="estudiemos"> (estudiar) para el examen.</p>
+                    <div class="feedback" id="feedback-subj2"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="3">
+                    <p class="question">Dudo que ella <input type="text" id="subj3" data-answer="pueda"> (poder) terminar el proyecto a tiempo.</p>
+                    <div class="feedback" id="feedback-subj3"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="4">
+                    <p class="question">Me alegra que vosotros <input type="text" id="subj4" data-answer="estéis"> (estar) aquí conmigo.</p>
+                    <div class="feedback" id="feedback-subj4"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="5">
+                    <p class="question">No creo que él <input type="text" id="subj5" data-answer="sepa"> (saber) la respuesta correcta.</p>
+                    <div class="feedback" id="feedback-subj5"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="6">
+                    <p class="question">Ojalá que <input type="text" id="subj6" data-answer="haga"> (hacer) buen tiempo este fin de semana.</p>
+                    <div class="feedback" id="feedback-subj6"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="7">
+                    <p class="question">Es necesario que ustedes <input type="text" id="subj7" data-answer="sean"> (ser) más responsables.</p>
+                    <div class="feedback" id="feedback-subj7"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="8">
+                    <p class="question">Quiero que tú me <input type="text" id="subj8" data-answer="digas"> (decir) la verdad.</p>
+                    <div class="feedback" id="feedback-subj8"></div>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="showMenu()">Menú</button>
+                    <button class="btn btn-primary" onclick="finishSection('subjunctive')">Terminar</button>
+                </div>
+            </div>
+            
+            <!-- Ser vs Estar Section -->
+            <div id="serestár" class="section">
+                <h2 class="section-title">Ser vs Estar</h2>
+                
+                <div class="exercise" data-exercise="1">
+                    <p class="question">Mi hermana <input type="text" id="ser1" data-answer="es"> médica en el hospital central.</p>
+                    <div class="feedback" id="feedback-ser1"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="2">
+                    <p class="question">Hoy <input type="text" id="ser2" data-answer="estoy"> muy cansado porque dormí poco.</p>
+                    <div class="feedback" id="feedback-ser2"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="3">
+                    <p class="question">La fiesta <input type="text" id="ser3" data-answer="es"> en casa de María el sábado.</p>
+                    <div class="feedback" id="feedback-ser3"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="4">
+                    <p class="question">¿Dónde <input type="text" id="ser4" data-answer="está"> el museo? No lo encuentro.</p>
+                    <div class="feedback" id="feedback-ser4"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="5">
+                    <p class="question">Este café <input type="text" id="ser5" data-answer="está"> muy caliente, ten cuidado.</p>
+                    <div class="feedback" id="feedback-ser5"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="6">
+                    <p class="question">Mi padre <input type="text" id="ser6" data-answer="es"> de Barcelona pero vive en Madrid.</p>
+                    <div class="feedback" id="feedback-ser6"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="7">
+                    <p class="question">Los estudiantes <input type="text" id="ser7" data-answer="están"> muy contentos con sus notas.</p>
+                    <div class="feedback" id="feedback-ser7"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="8">
+                    <p class="question">¿De qué <input type="text" id="ser8" data-answer="es"> este vestido? Parece seda.</p>
+                    <div class="feedback" id="feedback-ser8"></div>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="showMenu()">Menú</button>
+                    <button class="btn btn-primary" onclick="finishSection('serestár')">Terminar</button>
+                </div>
+            </div>
+            
+            <!-- Por vs Para Section -->
+            <div id="porpara" class="section">
+                <h2 class="section-title">Por vs Para</h2>
+                
+                <div class="exercise" data-exercise="1">
+                    <p class="question">Este regalo es <input type="text" id="por1" data-answer="para"> ti. ¡Feliz cumpleaños!</p>
+                    <div class="feedback" id="feedback-por1"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="2">
+                    <p class="question">Gracias <input type="text" id="por2" data-answer="por"> ayudarme con los deberes.</p>
+                    <div class="feedback" id="feedback-por2"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="3">
+                    <p class="question">Estudiamos mucho <input type="text" id="por3" data-answer="para"> sacar buenas notas.</p>
+                    <div class="feedback" id="feedback-por3"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="4">
+                    <p class="question">Caminamos <input type="text" id="por4" data-answer="por"> el parque durante una hora.</p>
+                    <div class="feedback" id="feedback-por4"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="5">
+                    <p class="question">Necesito terminar este trabajo <input type="text" id="por5" data-answer="para"> el viernes.</p>
+                    <div class="feedback" id="feedback-por5"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="6">
+                    <p class="question">No pude ir a clase <input type="text" id="por6" data-answer="por"> la lluvia.</p>
+                    <div class="feedback" id="feedback-por6"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="7">
+                    <p class="question">Voy a España <input type="text" id="por7" data-answer="para"> mejorar mi español.</p>
+                    <div class="feedback" id="feedback-por7"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="8">
+                    <p class="question">Pagué 50 euros <input type="text" id="por8" data-answer="por"> estos zapatos.</p>
+                    <div class="feedback" id="feedback-por8"></div>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="showMenu()">Menú</button>
+                    <button class="btn btn-primary" onclick="finishSection('porpara')">Terminar</button>
+                </div>
+            </div>
+            
+            <!-- Preterite vs Imperfect Section -->
+            <div id="preterite" class="section">
+                <h2 class="section-title">Pretérito vs Imperfecto</h2>
+                
+                <div class="exercise" data-exercise="1">
+                    <p class="question">Ayer <input type="text" id="pret1" data-answer="fui"> (ir) al cine con mis amigos.</p>
+                    <div class="feedback" id="feedback-pret1"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="2">
+                    <p class="question">Cuando <input type="text" id="pret2" data-answer="era"> (ser) niño, vivía en México.</p>
+                    <div class="feedback" id="feedback-pret2"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="3">
+                    <p class="question">De repente, <input type="text" id="pret3" data-answer="empezó"> (empezar) a llover.</p>
+                    <div class="feedback" id="feedback-pret3"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="4">
+                    <p class="question">Nosotros <input type="text" id="pret4" data-answer="estudiábamos"> (estudiar) cuando sonó el teléfono.</p>
+                    <div class="feedback" id="feedback-pret4"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="5">
+                    <p class="question">Ella <input type="text" id="pret5" data-answer="comió"> (comer) toda la pizza ella sola.</p>
+                    <div class="feedback" id="feedback-pret5"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="6">
+                    <p class="question">Todos los veranos <input type="text" id="pret6" data-answer="íbamos"> (ir) a la playa con mi familia.</p>
+                    <div class="feedback" id="feedback-pret6"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="7">
+                    <p class="question">Mi abuelo me <input type="text" id="pret7" data-answer="dio"> (dar) este reloj antes de morir.</p>
+                    <div class="feedback" id="feedback-pret7"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="8">
+                    <p class="question">Mientras yo <input type="text" id="pret8" data-answer="hacía"> (hacer) la cena, mi hermano veía la tele.</p>
+                    <div class="feedback" id="feedback-pret8"></div>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="showMenu()">Menú</button>
+                    <button class="btn btn-primary" onclick="finishSection('preterite')">Terminar</button>
+                </div>
+            </div>
+            
+            <!-- Name Input Section -->
+            <div class="name-input-section" id="nameInputSection">
+                <h2 class="section-title">Descargar tus resultados</h2>
+                <p style="margin-bottom: 20px; text-align: center;">Introduce tu nombre para recibir tu informe de progreso:</p>
+                <input type="text" id="studentName" placeholder="Tu nombre completo">
+                <div class="nav-buttons">
+                    <button class="btn btn-primary" onclick="downloadResults()">Descargar informe</button>
+                    <button class="btn btn-secondary" onclick="showMenu()">Volver al menú</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Accent Keyboard -->
+    <div class="accent-keyboard" id="accentKeyboard">
+        <button class="accent-btn" onclick="insertAccent('á')">á</button>
+        <button class="accent-btn" onclick="insertAccent('é')">é</button>
+        <button class="accent-btn" onclick="insertAccent('í')">í</button>
+        <button class="accent-btn" onclick="insertAccent('ó')">ó</button>
+        <button class="accent-btn" onclick="insertAccent('ú')">ú</button>
+        <button class="accent-btn" onclick="insertAccent('ü')">ü</button>
+        <button class="accent-btn" onclick="insertAccent('ñ')">ñ</button>
+        <button class="accent-btn" onclick="insertAccent('¿')">¿</button>
+        <button class="accent-btn" onclick="insertAccent('¡')">¡</button>
+    </div>
+
+    <script>
+        let currentInput = null;
+        const results = {
+            subjunctive: [],
+            'serestár': [],
+            porpara: [],
+            preterite: []
+        };
+        
+        function startSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            updateProgress();
+        }
+        
+        function showMenu() {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById('menu').classList.add('active');
+            document.getElementById('accentKeyboard').classList.remove('show');
+            document.getElementById('nameInputSection').classList.remove('show');
+            updateProgress();
+        }
+        
+        function positionKeyboard(input) {
+            const keyboard = document.getElementById('accentKeyboard');
+            const rect = input.getBoundingClientRect();
+            
+            let top = rect.bottom + 10;
+            let left = rect.left;
+            
+            const keyboardWidth = 450;
+            const keyboardHeight = 100;
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            
+            if (left + keyboardWidth > viewportWidth) {
+                left = viewportWidth - keyboardWidth - 20;
+            }
+            
+            if (left < 10) {
+                left = 10;
+            }
+            
+            if (top + keyboardHeight > viewportHeight) {
+                top = rect.top - keyboardHeight - 10;
+                if (top < 10) {
+                    top = viewportHeight - keyboardHeight - 10;
+                }
+            }
+            
+            keyboard.style.top = top + 'px';
+            keyboard.style.left = left + 'px';
+            keyboard.classList.add('show');
+        }
+        
+        function insertAccent(char) {
+            if (currentInput) {
+                const start = currentInput.selectionStart;
+                const end = currentInput.selectionEnd;
+                const text = currentInput.value;
+                currentInput.value = text.substring(0, start) + char + text.substring(end);
+                currentInput.selectionStart = currentInput.selectionEnd = start + 1;
+                currentInput.focus();
+                positionKeyboard(currentInput);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input[type="text"]');
+            
+            inputs.forEach(input => {
+                if (input.id === 'studentName') return;
+                
+                input.addEventListener('focus', function() {
+                    currentInput = this;
+                    positionKeyboard(this);
+                });
+                
+                input.addEventListener('blur', function(e) {
+                    setTimeout(() => {
+                        const keyboard = document.getElementById('accentKeyboard');
+                        const activeEl = document.activeElement;
+                        
+                        if (activeEl.closest('.accent-keyboard') || 
+                            (activeEl.tagName === 'INPUT' && activeEl.type === 'text' && activeEl.id !== 'studentName')) {
+                            return;
+                        }
+                        keyboard.classList.remove('show');
+                    }, 100);
+                });
+                
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        checkAnswer(this);
+                    }
+                });
+            });
+            
+            window.addEventListener('scroll', function() {
+                if (currentInput && document.getElementById('accentKeyboard').classList.contains('show')) {
+                    positionKeyboard(currentInput);
+                }
+            });
+            
+            window.addEventListener('resize', function() {
+                if (currentInput && document.getElementById('accentKeyboard').classList.contains('show')) {
+                    positionKeyboard(currentInput);
+                }
+            });
+        });
+        
+        function normalize(str) {
+            return str.toLowerCase().trim().replace(/\s+/g, ' ');
+        }
+        
+        function checkAnswer(input) {
+            const correctAnswer = normalize(input.dataset.answer);
+            const userAnswer = normalize(input.value);
+            const feedbackId = 'feedback-' + input.id;
+            const feedbackEl = document.getElementById(feedbackId);
+            
+            const section = input.closest('.section').id;
+            const exerciseNum = parseInt(input.closest('.exercise').dataset.exercise);
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.remove('incorrect');
+                input.classList.add('correct');
+                feedbackEl.className = 'feedback correct show';
+                feedbackEl.textContent = '✓ ¡Correcto! ¡Bien hecho!';
+                
+                if (!results[section].find(r => r.exercise === exerciseNum)) {
+                    results[section].push({
+                        exercise: exerciseNum,
+                        correct: true,
+                        userAnswer: input.value,
+                        correctAnswer: input.dataset.answer
+                    });
+                }
+            } else {
+                input.classList.remove('correct');
+                input.classList.add('incorrect');
+                feedbackEl.className = 'feedback incorrect show';
+                feedbackEl.innerHTML = `✗ Incorrecto. La respuesta correcta es: <strong>${input.dataset.answer}</strong><br>${getFeedback(section, input.id)}`;
+                
+                const existing = results[section].find(r => r.exercise === exerciseNum);
+                if (!existing) {
+                    results[section].push({
+                        exercise: exerciseNum,
+                        correct: false,
+                        userAnswer: input.value,
+                        correctAnswer: input.dataset.answer
+                    });
+                } else {
+                    existing.correct = false;
+                    existing.userAnswer = input.value;
+                }
+            }
+            
+            updateProgress();
+        }
+        
+        function getFeedback(section, inputId) {
+            const feedback = {
+                subjunctive: {
+                    subj1: "Subjuntivo de 'venir': yo venga, tú vengas, él/ella venga. Usa el subjuntivo después de 'espero que'.",
+                    subj2: "Verbos -ar en subjuntivo: -e, -es, -e, -emos, -éis, -en. 'Es importante que' requiere subjuntivo.",
+                    subj3: "Subjuntivo de 'poder': yo pueda, tú puedas, él/ella pueda. 'Dudar que' siempre lleva subjuntivo.",
+                    subj4: "Subjuntivo de 'estar': esté, estés, esté, estemos, estéis, estén. Emociones requieren subjuntivo.",
+                    subj5: "Subjuntivo irregular de 'saber': sepa, sepas, sepa, sepamos, sepáis, sepan.",
+                    subj6: "'Ojalá' siempre lleva subjuntivo. Subjuntivo de 'hacer': haga, hagas, haga, hagamos, hagáis, hagan.",
+                    subj7: "Subjuntivo irregular de 'ser': sea, seas, sea, seamos, seáis, sean.",
+                    subj8: "Subjuntivo de 'decir': diga, digas, diga, digamos, digáis, digan. 'Querer que' requiere subjuntivo."
+                },
+                'serestár': {
+                    ser1: "Usa SER para profesiones y ocupaciones permanentes.",
+                    ser2: "Usa ESTAR para estados temporales y condiciones físicas/emocionales.",
+                    ser3: "Usa SER para ubicación de eventos (fiestas, reuniones, etc.).",
+                    ser4: "Usa ESTAR para ubicación de lugares y objetos.",
+                    ser5: "Usa ESTAR para temperatura cuando hablas de sensación o condición temporal.",
+                    ser6: "Usa SER para origen y nacionalidad (de dónde es alguien).",
+                    ser7: "Usa ESTAR para emociones y sentimientos temporales (contentos, tristes, etc.).",
+                    ser8: "Usa SER para material de composición (¿de qué está hecho algo?)."
+                },
+                porpara: {
+                    por1: "PARA = destinatario/recipiente. '¿Para quién?' = Para ti/él/ella.",
+                    por2: "POR = razón/motivo. Gracias POR algo. '¿Por qué razón?' = Por ayudar.",
+                    por3: "PARA = propósito/objetivo. '¿Para qué?' = Para sacar buenas notas.",
+                    por4: "POR = movimiento a través de un lugar. Caminar/viajar POR.",
+                    por5: "PARA = fecha límite/deadline. Algo debe estar listo PARA una fecha.",
+                    por6: "POR = causa. '¿Por qué no fuiste?' = Por la lluvia (a causa de).",
+                    por7: "PARA = propósito/meta. Voy a España PARA mejorar (con el fin de).",
+                    por8: "POR = intercambio/precio. '¿Cuánto pagaste POR...?' Pagué X POR Y."
+                },
+                preterite: {
+                    pret1: "PRETÉRITO para acciones completadas. 'Ayer' indica acción específica y terminada. Ir: fui, fuiste, fue.",
+                    pret2: "IMPERFECTO para descripciones del pasado y acciones habituales. 'Cuando era niño' = condición continua.",
+                    pret3: "PRETÉRITO para acciones repentinas/súbitas. 'De repente' indica inicio específico. Empezar: empezó.",
+                    pret4: "IMPERFECTO para acción en progreso (estudiábamos) cuando otra acción la interrumpe.",
+                    pret5: "PRETÉRITO para acción completada con principio y fin claros. Comer: comí, comiste, comió.",
+                    pret6: "IMPERFECTO para acciones repetidas/habituales. 'Todos los veranos' = repetición. Ir: iba, ibas, iba.",
+                    pret7: "PRETÉRITO para evento único y completado. 'Antes de morir' = momento específico. Dar: di, diste, dio.",
+                    pret8: "IMPERFECTO para dos acciones simultáneas en progreso. 'Mientras' + imperfecto = acciones paralelas."
+                }
+            };
+            
+            return feedback[section]?.[inputId] || "Revisa las reglas de esta estructura gramatical.";
+        }
+        
+        function updateProgress() {
+            const totalSections = 4;
+            const completedSections = Object.values(results).filter(r => r.length > 0).length;
+            const percentage = (completedSections / totalSections) * 100;
+            document.getElementById('progressFill').style.width = percentage + '%';
+            
+            const totalCorrect = Object.values(results).reduce((sum, section) => {
+                return sum + section.filter(r => r.correct).length;
+            }, 0);
+            const totalAnswered = Object.values(results).reduce((sum, section) => sum + section.length, 0);
+            
+            if (totalAnswered > 0) {
+                document.getElementById('scoreDisplay').textContent = 
+                    `Puntuación: ${totalCorrect}/${totalAnswered} (${Math.round((totalCorrect/totalAnswered)*100)}%)`;
+            }
+        }
+        
+        function finishSection(sectionId) {
+            const sectionInputs = document.querySelectorAll(`#${sectionId} input[type="text"]`);
+            let allAnswered = true;
+            
+            sectionInputs.forEach(input => {
+                if (!input.value.trim()) {
+                    allAnswered = false;
+                }
+            });
+            
+            if (!allAnswered) {
+                alert('Por favor, responde a todas las preguntas antes de terminar.');
+                return;
+            }
+            
+            document.getElementById('accentKeyboard').classList.remove('show');
+            document.getElementById('nameInputSection').classList.add('show');
+            document.getElementById(sectionId).classList.remove('active');
+        }
+        
+        function downloadResults() {
+            const studentName = document.getElementById('studentName').value.trim();
+            
+            if (!studentName) {
+                alert('Por favor, introduce tu nombre.');
+                return;
+            }
+            
+            const report = generateReport(studentName);
+            const blob = new Blob([report], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Informe_Gramatica_Espanola_${studentName.replace(/\s+/g, '_')}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('¡Tu informe ha sido descargado con éxito!');
+            showMenu();
+        }
+        
+        function generateReport(studentName) {
+            const date = new Date().toLocaleDateString('es-ES');
+            let report = `═══════════════════════════════════════════════════════════
+INFORME DE PRÁCTICA DE GRAMÁTICA ESPAÑOLA
+A-Level Edexcel Grammar Exercises
+═══════════════════════════════════════════════════════════
+
+Estudiante: ${studentName}
+Fecha: ${date}
+
+`;
+            
+            const sections = {
+                subjunctive: 'EL SUBJUNTIVO PRESENTE',
+                'serestár': 'SER VS ESTAR',
+                porpara: 'POR VS PARA',
+                preterite: 'PRETÉRITO VS IMPERFECTO'
+            };
+            
+            let totalCorrect = 0;
+            let totalQuestions = 0;
+            
+            for (const [key, title] of Object.entries(sections)) {
+                if (results[key].length > 0) {
+                    const correct = results[key].filter(r => r.correct).length;
+                    const total = results[key].length;
+                    totalCorrect += correct;
+                    totalQuestions += total;
+                    
+                    report += `\n${title}\n`;
+                    report += `${'─'.repeat(50)}\n`;
+                    report += `Puntuación: ${correct}/${total} (${Math.round((correct/total)*100)}%)\n\n`;
+                    
+                    results[key].forEach((r, index) => {
+                        report += `Pregunta ${r.exercise}: ${r.correct ? '✓ CORRECTO' : '✗ INCORRECTO'}\n`;
+                        if (!r.correct) {
+                            report += `  Tu respuesta: ${r.userAnswer}\n`;
+                            report += `  Corrección: ${r.correctAnswer}\n`;
+                            report += `  Consejo: ${getFeedback(key, getInputId(key, r.exercise))}\n`;
+                        }
+                        report += '\n';
+                    });
+                }
+            }
+            
+            report += `\n${'═'.repeat(60)}\n`;
+            report += `PUNTUACIÓN TOTAL: ${totalCorrect}/${totalQuestions} (${Math.round((totalCorrect/totalQuestions)*100)}%)\n`;
+            report += `${'═'.repeat(60)}\n\n`;
+            
+            report += `RECOMENDACIONES PARA MEJORAR:\n`;
+            report += `${'─'.repeat(50)}\n\n`;
+            
+            for (const [key, title] of Object.entries(sections)) {
+                if (results[key].length > 0) {
+                    const correct = results[key].filter(r => r.correct).length;
+                    const total = results[key].length;
+                    const percentage = (correct / total) * 100;
+                    
+                    if (percentage < 100) {
+                        report += `${title}:\n`;
+                        report += getRecommendations(key, percentage);
+                        report += '\n';
+                    }
+                }
+            }
+            
+            report += `\n¡Sigue practicando regularmente para mejorar tus habilidades!\n`;
+            report += `¡Buena suerte con tus exámenes A-Level!\n\n`;
+            report += `${'═'.repeat(60)}\n`;
+            
+            return report;
+        }
+        
+        function getInputId(section, exerciseNum) {
+            const prefixes = {
+                subjunctive: 'subj',
+                'serestár': 'ser',
+                porpara: 'por',
+                preterite: 'pret'
+            };
+            return prefixes[section] + exerciseNum;
+        }
+        
+        function getRecommendations(section, percentage) {
+            const recommendations = {
+                subjunctive: `  • Repasa los verbos irregulares en subjuntivo (ser, estar, haber, ir, saber)
+  • Practica las terminaciones: -e, -es, -e, -emos, -éis, -en (verbos -ar)
+  • Memoriza las expresiones que desencadenan el subjuntivo (WEIRDO)
+  • Recursos: studyspanish.com, spanishdict.com, conjuguemos.com
+`,
+                'serestár': `  • SER = identidad, profesión, origen, material, evento (ubicación)
+  • ESTAR = ubicación (lugares/cosas), condición temporal, emociones, presente progresivo
+  • Regla DOCTOR (SER) vs PLACE (ESTAR)
+  • Recursos: spanishdict.com/guide/ser-vs-estar, studyspanish.com
+`,
+                porpara: `  • POR = razón/causa, movimiento a través, intercambio, tiempo no específico
+  • PARA = destino/recipiente, propósito/objetivo, fecha límite, comparación
+  • Practica con frases comunes: gracias por, para mí, por la mañana, para siempre
+  • Recursos: spanishdict.com/guide/por-vs-para, thoughtco.com/spanish
+`,
+                preterite: `  • PRETÉRITO = acciones completadas, eventos específicos, series de acciones
+  • IMPERFECTO = descripciones, acciones habituales, edad/hora, acciones en progreso
+  • Palabras clave: ayer, de repente (pretérito) / siempre, todos los días (imperfecto)
+  • Recursos: studyspanish.com, spanishdict.com/guide/preterite-vs-imperfect
+`
+            };
+            
+            return recommendations[section] || '';
+        }
+    </script>
+</body>
+</html>

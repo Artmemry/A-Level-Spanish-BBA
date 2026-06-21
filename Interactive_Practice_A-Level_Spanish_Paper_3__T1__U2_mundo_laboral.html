@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica: El Mundo Laboral en España</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .timer {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .question p {
+            margin-bottom: 15px;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+        
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .clue {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.85em;
+            color: #6c757d;
+            border-left: 3px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .clue:hover {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+            color: #856404;
+        }
+        
+        .clue::before {
+            content: "💡 ";
+            opacity: 0.5;
+        }
+        
+        .clue.revealed {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+            color: #856404;
+        }
+        
+        .clue.revealed::before {
+            opacity: 1;
+        }
+        
+        .checkbox-group {
+            margin-top: 10px;
+        }
+        
+        .checkbox-item {
+            display: block;
+            padding: 10px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .checkbox-item:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .checkbox-item input {
+            margin-right: 10px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        
+        .result {
+            display: none;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .result.show {
+            display: block;
+        }
+        
+        .result.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+        
+        .result.partial {
+            background: #fff3cd;
+            color: #856404;
+            border: 2px solid #ffc107;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .vocab-highlight {
+            background: #e3f2fd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        #finalScore {
+            display: none;
+            margin-top: 20px;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        #finalScore h2 {
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        #scoreText {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .speaking-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+        }
+        
+        .speaking-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .speaking-card ul {
+            padding-left: 20px;
+        }
+        
+        .speaking-card li {
+            margin-bottom: 8px;
+        }
+        
+        .grammar-tip {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .grammar-tip h4 {
+            color: #0d47a1;
+            margin-bottom: 8px;
+        }
+        
+        .complex-structure {
+            background: #f3e5f5;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-style: italic;
+        }
+        
+        .stat-box {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .stat-box h4 {
+            color: #495057;
+            margin-bottom: 10px;
+        }
+        
+        .update-highlight {
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .update-highlight h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🇪🇸 El Mundo Laboral en España</h1>
+            <p>Práctica para A-Level Spanish Edexcel - Unit 2: El Mundo Laboral</p>
+            <div class="timer" id="timer">⏱️ 45:00</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Speaking Card Simulation -->
+            <div class="speaking-card">
+                <h3>Tarjeta de Estudiante - Tema: El mundo laboral en España</h3>
+                <p><strong>La mujer en España ha conseguido igualdad de oportunidades en el mundo laboral</strong></p>
+                <p>Debes considerar:</p>
+                <ul>
+                    <li>Hasta qué punto tienen las mujeres igualdad en el mundo laboral</li>
+                    <li>Los cambios en la ley que han facilitado compaginar la vida familiar y el trabajo</li>
+                </ul>
+            </div>
+            
+            <!-- Section 1: Verdadero o Falso -->
+            <div class="section">
+                <h2>Sección 1: Verdadero o Falso (5 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">1</span> España supera la media europea en porcentaje de mujeres en puestos directivos senior.</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="q1" value="verdadero"> Verdadero
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="q1" value="falso"> Falso
+                        </label>
+                    </div>
+                    <div class="result" id="result1"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">2</span> La reforma de 2025 amplía el permiso por nacimiento a 19 semanas para cada progenitor.</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="q2" value="verdadero"> Verdadero
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="q2" value="falso"> Falso
+                        </label>
+                    </div>
+                    <div class="result" id="result2"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">3</span> El sector turístico representa aproximadamente un tercio del crecimiento económico español.</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="q3" value="verdadero"> Verdadero
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="q3" value="falso"> Falso
+                        </label>
+                    </div>
+                    <div class="result" id="result3"></div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Rellenar los espacios en blanco -->
+            <div class="section">
+                <h2>Sección 2: Completa las frases (10 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">4</span> El ___________ de cristal sigue siendo una barrera para las mujeres que aspiran a puestos directivos.</p>
+                    <input type="text" id="q4" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">Barrera invisible que limita el ascenso profesional</div>
+                    <div class="result" id="result4"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">5</span> Los ___________ basura son contratos temporales que no suelen conducir a empleo permanente.</p>
+                    <input type="text" id="q5" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">Tipo de contrato criticado por su precariedad</div>
+                    <div class="result" id="result5"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">6</span> La ___________ de cerebros afecta a España debido a la emigración de jóvenes cualificados.</p>
+                    <input type="text" id="q6" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">Pérdida de talento hacia otros países</div>
+                    <div class="result" id="result6"></div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Preguntas de opción múltiple -->
+            <div class="section">
+                <h2>Sección 3: Opción Múltiple (8 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">7</span> ¿Cuáles son los sectores con mayor crecimiento laboral en España? (Selecciona todas las respuestas correctas)</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="a"> Hostelería y turismo
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="b"> Transporte y logística
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="c"> Sector financiero
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="d"> Tecnología y comunicaciones
+                        </label>
+                    </div>
+                    <div class="result" id="result7"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">8</span> ¿Qué factores caracterizan la jornada laboral española? (Selecciona todas las respuestas correctas)</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="a"> Horario intensivo continuo
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="b"> Larga pausa para comer
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="c"> Menos horas de sueño que otros europeos
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="d"> Alta productividad laboral
+                        </label>
+                    </div>
+                    <div class="result" id="result8"></div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Vocabulario -->
+            <div class="section">
+                <h2>Sección 4: Vocabulario Clave (7 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">9</span> Traduce al español: "gender pay gap"</p>
+                    <input type="text" id="q9" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">brecha salarial ___________</div>
+                    <div class="result" id="result9"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">10</span> Traduce al español: "temporary contract"</p>
+                    <input type="text" id="q10" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">contrato ___________</div>
+                    <div class="result" id="result10"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">11</span> Traduce al español: "work-life balance"</p>
+                    <input type="text" id="q11" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">___________ entre la vida laboral y personal</div>
+                    <div class="result" id="result11"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">12</span> ¿Qué significa "jornada intensiva" en inglés?</p>
+                    <input type="text" id="q12" placeholder="Escribe tu respuesta...">
+                    <div class="clue" onclick="revealClue(this)">Haz clic para la pista</div>
+                    <div class="clue-content" style="display:none;">___________ working day</div>
+                    <div class="result" id="result12"></div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Emparejar -->
+            <div class="section">
+                <h2>Sección 5: Empareja los Conceptos (5 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">13</span> Empareja los términos laborales con sus definiciones:</p>
+                    <p style="margin: 15px 0;"><strong>A.</strong> Contrato indefinido</p>
+                    <input type="text" id="q13a" placeholder="Número...">
+                    
+                    <p style="margin: 15px 0;"><strong>B.</strong> Techo de cristal</p>
+                    <input type="text" id="q13b" placeholder="Número...">
+                    
+                    <p style="margin: 15px 0;"><strong>C.</strong> Baja paternal</p>
+                    <input type="text" id="q13c" placeholder="Número...">
+                    
+                    <p style="margin: 15px 0;"><strong>D.</strong> Fuga de cerebros</p>
+                    <input type="text" id="q13d" placeholder="Número...">
+                    
+                    <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 8px;">
+                        <p><strong>Definiciones:</strong></p>
+                        <p>1. Permiso de paternidad remunerado</p>
+                        <p>2. Contrato laboral sin fecha de finalización</p>
+                        <p>3. Emigración de profesionales cualificados</p>
+                        <p>4. Barrera invisible para el ascenso profesional de mujeres</p>
+                    </div>
+                    <div class="result" id="result13"></div>
+                </div>
+            </div>
+            
+            <!-- Section 6: Preguntas cortas -->
+            <div class="section">
+                <h2>Sección 6: Respuestas Cortas (15 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">14</span> <strong>En tu opinión, ¿hasta qué punto tienen las mujeres igualdad en el mundo laboral? ¿Cuáles han sido los cambios en la ley que han facilitado el compaginar la vida familiar y el trabajo?</strong></p>
+                    
+                    <div class="grammar-tip">
+                        <h4>Consejos para maximizar AO3 (Rango lingüístico):</h4>
+                        <p>Incluye en tu respuesta:</p>
+                        <ul>
+                            <li>Cláusulas con <em>si</em> (ej: Si no existiera el techo de cristal...)</li>
+                            <li>Uso de <em>se</em> + infinitivo (ej: Se observa que...)</li>
+                            <li>Subjuntivo presente y pasado (ej: Es fundamental que se promueva...)</li>
+                            <li>Pronombres relativos (ej: Las mujeres, quienes tradicionalmente...)</li>
+                            <li>Oraciones complejas con conjunciones</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="stat-box">
+                        <h4>Datos clave sobre mujeres en el mercado laboral (2023-2024):</h4>
+                        <ul>
+                            <li>38.4% de puestos directivos ocupados por mujeres</li>
+                            <li>Tasa de empleo femenino: 46% (por debajo de la media UE)</li>
+                            <li>Tasa de desempleo femenino: 13.89%</li>
+                            <li>88.9% de mujeres empleadas en el sector servicios</li>
+                        </ul>
+                    </div>
+                    
+                    <textarea id="q14" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content" style="display:none;">
+                        <ul>
+                            <li>Creación del Instituto de la Mujer para garantizar igualdad</li>
+                            <li>Ampliación de permisos de maternidad/paternidad</li>
+                            <li>Derecho a anticoncepción y aborto</li>
+                            <li>Mujeres infrarepresentadas en puestos directivos (solo 9.2% en gerencia general)</li>
+                            <li>Brecha salarial persistente</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result14"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">15</span> <strong>En tu opinión, ¿los hombres y las mujeres españoles desempeñan un papel igualitario en cuanto al trabajo doméstico? ¿Cuál es la actitud actual de los españoles hacia la baja maternal y la paternal?</strong></p>
+                    
+                    <div class="grammar-tip">
+                        <h4>Estructuras complejas sugeridas:</h4>
+                        <div class="complex-structure">
+                            A pesar de que la ley establezca igualdad de permisos, se observa que...
+                        </div>
+                        <div class="complex-structure">
+                            Si los hombres participaran más en las tareas domésticas, probablemente...
+                        </div>
+                    </div>
+                    
+                    <div class="update-highlight">
+                        <h4>⚠️ ACTUALIZACIÓN 2025 - Reforma de permisos parentales:</h4>
+                        <ul>
+                            <li><strong>19 semanas para cada progenitor</strong> (antes 16 semanas)</li>
+                            <li><strong>6 semanas obligatorias</strong> tras el nacimiento</li>
+                            <li><strong>11 semanas flexibles</strong> durante el primer año</li>
+                            <li><strong>2 semanas adicionales</strong> hasta los 8 años del menor</li>
+                            <li><strong>Familias monoparentales:</strong> 32 semanas en total</li>
+                            <li><strong>100% de la base reguladora</strong></li>
+                            <li><strong>Entró en vigor:</strong> 31 de julio de 2025</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="stat-box">
+                        <h4>Contexto adicional:</h4>
+                        <ul>
+                            <li>Los hombres hacen menos tareas domésticas y de cuidado infantil</li>
+                            <li>Horarios laborales inflexibles que dificultan la conciliación</li>
+                            <li>Persisten valores patriarcales en la sociedad española</li>
+                            <li>Menos del 2% de padres tomaba las últimas 10 semanas del permiso anterior</li>
+                        </ul>
+                    </div>
+                    
+                    <textarea id="q15" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content" style="display:none;">
+                        <ul>
+                            <li>Los hombres hacen menos tareas domésticas y de cuidado infantil</li>
+                            <li>Horarios laborales inflexibles que dificultan la conciliación</li>
+                            <li>Reforma "19 semanas" de permisos parentales (2025)</li>
+                            <li>Baja aceptación social de los padres que toman permisos largos</li>
+                            <li>Valores patriarcales persistentes</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result15"></div>
+                </div>
+            </div>
+            
+            <!-- Section 7: Análisis crítico -->
+            <div class="section">
+                <h2>Sección 7: Análisis Crítico (10 minutos)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">16</span> <strong>¿Qué opinas de la actitud de los españoles hacia el trabajo? ¿Cuáles son las características de la vida laboral en España?</strong></p>
+                    
+                    <div class="grammar-tip">
+                        <h4>Estructuras complejas sugeridas:</h4>
+                        <div class="complex-structure">
+                            Mientras que algunos defienden la cultura laboral española, otros argumentan que...
+                        </div>
+                        <div class="complex-structure">
+                            Se podría mejorar la productividad si se modificara...
+                        </div>
+                    </div>
+                    
+                    <textarea id="q16" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content" style="display:none;">
+                        <ul>
+                            <li>Jornada laboral larga con pausa extensa para comer</li>
+                            <li>53 minutos menos de sueño que otros europeos</li>
+                            <li>Baja productividad comparada con otros países UE</li>
+                            <li>Fuerte cultura del café que influye en la vida laboral</li>
+                            <li>Muchos puentes y festivos (14 días al año)</li>
+                            <li>Vacaciones de agosto en muchas empresas</li>
+                            <li>Disposición a aceptar trabajos por debajo de la cualificación</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result16"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">17</span> <strong>¿Crees que el mercado laboral español empieza a estabilizarse? ¿Cuáles son los sectores del mercado laboral español que han experimentado más crecimiento económico en los últimos años?</strong></p>
+                    
+                    <div class="grammar-tip">
+                        <h4>Estructuras complejas sugeridas:</h4>
+                        <div class="complex-structure">
+                            Aunque se observe cierta estabilización, es evidente que...
+                        </div>
+                        <div class="complex-structure">
+                            Los sectores que más han crecido, los cuales son...
+                        </div>
+                    </div>
+                    
+                    <textarea id="q17" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content" style="display:none;">
+                        <ul>
+                            <li>Crecimiento del 0.5% en 2019 según ManpowerGroup</li>
+                            <li>Turismo: 1/3 del crecimiento económico post-COVID</li>
+                            <li>Hostelería: 8% de crecimiento (2019)</li>
+                            <li>Transporte y logística: 8% de crecimiento</li>
+                            <li>Agricultura y construcción: 7% de crecimiento (2018)</li>
+                            <li>Finanzas y manufactura: peores cifras de crecimiento</li>
+                            <li>Fuga de cerebros hacia otros países europeos</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result17"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">18</span> <strong>¿Crees que es fácil para los españoles con títulos universitarios encontrar trabajo adecuado? ¿Cómo es la situación actual laboral para los jóvenes en España?</strong></p>
+                    
+                    <div class="grammar-tip">
+                        <h4>Estructuras complejas sugeridas:</h4>
+                        <div class="complex-structure">
+                            Si los jóvenes tuvieran mejores oportunidades, seguramente...
+                        </div>
+                        <div class="complex-structure">
+                            Se observa una paradoja en la que...
+                        </div>
+                    </div>
+                    
+                    <div class="stat-box">
+                        <h4>Datos sobre empleo juvenil (2023-2024):</h4>
+                        <ul>
+                            <li>40% de graduados trabajan en empleos no acordes a su cualificación</li>
+                            <li>Tasa de desempleo juvenil: 28% (de las más altas de Europa)</li>
+                            <li>19% de desempleo entre graduados universitarios</li>
+                            <li>33% abandona educación después de la enseñanza obligatoria</li>
+                            <li>Altas tasas de abandono escolar</li>
+                        </ul>
+                    </div>
+                    
+                    <textarea id="q18" placeholder="Escribe tu respuesta en español..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Haz clic para ver contenido indicativo</div>
+                    <div class="clue-content" style="display:none;">
+                        <ul>
+                            <li>Contratos basura que no conducen a empleo permanente</li>
+                            <li>89% de jóvenes de 23-30 años tiene dificultad para encontrar empleo</li>
+                            <li>Trabajadores sobrecualificados para los puestos disponibles</li>
+                            <li>Fuga de cerebros hacia otros países europeos</li>
+                            <li>Ley de 2021 para limitar contratos temporales</li>
+                        </ul>
+                    </div>
+                    <div class="result" id="result18"></div>
+                </div>
+            </div>
+            
+            <button class="submit-btn" onclick="checkAnswers()">Verificar mis respuestas ✓</button>
+            
+            <div id="finalScore">
+                <h2>📊 Resultado Final</h2>
+                <p id="scoreText"></p>
+                <div id="feedback"></div>
+                <button class="submit-btn" onclick="downloadResults()" style="background: white; color: #667eea; margin-top: 20px;">📥 Descargar mis resultados</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Timer functionality
+        let timeLeft = 45 * 60;
+        const timerElement = document.getElementById('timer');
+        let timeTaken = 0;
+        
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `⏱️ ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            timeTaken++;
+            
+            if (timeLeft > 0) {
+                timeLeft--;
+                setTimeout(updateTimer, 1000);
+            } else {
+                timerElement.textContent = '⏱️ ¡Tiempo agotado!';
+                timerElement.style.background = 'rgba(255,0,0,0.3)';
+            }
+        }
+        
+        updateTimer();
+        
+        // Clue reveal function
+        function revealClue(element) {
+            const clueContent = element.nextElementSibling;
+            if (clueContent && clueContent.className === 'clue-content') {
+                clueContent.style.display = 'block';
+                element.classList.add('revealed');
+                element.onclick = null;
+            }
+        }
+        
+        // Progress tracking
+        function updateProgress() {
+            const totalQuestions = 18;
+            let answered = 0;
+            
+            // Check text inputs and textareas
+            document.querySelectorAll('input[type="text"], textarea').forEach(input => {
+                if (input.value.trim() !== '') answered++;
+            });
+            
+            // Check radio buttons (questions 1-3)
+            for (let i = 1; i <= 3; i++) {
+                if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
+            }
+            
+            // Check checkboxes (questions 7-8)
+            if (document.querySelector('input[name="q7"]:checked')) answered++;
+            if (document.querySelector('input[name="q8"]:checked')) answered++;
+            
+            const percentage = (answered / totalQuestions) * 100;
+            document.getElementById('progress').style.width = percentage + '%';
+        }
+        
+        document.querySelectorAll('input, textarea').forEach(element => {
+            element.addEventListener('input', updateProgress);
+            element.addEventListener('change', updateProgress);
+        });
+        
+        // Check for complex structures in responses
+        function checkComplexStructures(text) {
+            const structures = {
+                'siClause': /si\s+(?:[\w\s]+)\s+(?:fuera|estuviera|tuviera|hubiera|pudiera)/gi,
+                'seConstruction': /se\s+(?:puede|debe|debería|observa|nota)\s+/gi,
+                'subjunctive': /(?:es\s+importante|es\s+necesario|es\s+fundamental|es\s+probable|es\s+posible|ojalá|quizás|tal\s+vez)\s+que\s+[\w\s]+(?:e|a|)/gi,
+                'relativePronouns': /(?:que|quien|quienes|el\s+cual|la\s+cual|los\s+cuales|las\s+cuales|cuya|cuyo|cuyos|cuyas)/gi,
+                'complexConjunctions': /(?:aunque|mientras\s+que|sin\s+embargo|no\s+obstante|por\s+lo\s+tanto|además)/gi
+            };
+            
+            let foundStructures = [];
+            for (const [key, pattern] of Object.entries(structures)) {
+                if (text.match(pattern)) {
+                    foundStructures.push(key);
+                }
+            }
+            
+            return foundStructures;
+        }
+        
+        function checkAnswers() {
+            let score = 0;
+            const total = 18;
+            let detailedResults = [];
+            let feedback = [];
+            
+            // Q1
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const result1 = document.getElementById('result1');
+            if (q1 && q1.value === 'verdadero') {
+                result1.textContent = '✓ ¡Correcto! España lidera la media europea con 38.4% de mujeres en puestos directivos';
+                result1.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 1, correct: true, answer: 'Verdadero'});
+            } else {
+                result1.textContent = '✗ Falso. La respuesta es Verdadero. España supera la media europea (34%) con 38.4% de mujeres en puestos directivos.';
+                result1.className = 'result partial show';
+                detailedResults.push({q: 1, correct: false, answer: q1 ? q1.value : 'No respondido', correctAnswer: 'Verdadero'});
+            }
+            
+            // Q2
+            const q2 = document.querySelector('input[name="q2"]:checked');
+            const result2 = document.getElementById('result2');
+            if (q2 && q2.value === 'verdadero') {
+                result2.textContent = '✓ ¡Correcto! La reforma de 2025 amplía el permiso a 19 semanas para cada progenitor';
+                result2.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 2, correct: true, answer: 'Verdadero'});
+            } else {
+                result2.textContent = '✗ Falso. La respuesta es Verdadero. La reforma de 2025 establece 19 semanas de permiso para cada progenitor.';
+                result2.className = 'result partial show';
+                detailedResults.push({q: 2, correct: false, answer: q2 ? q2.value : 'No respondido', correctAnswer: 'Verdadero'});
+            }
+            
+            // Q3
+            const q3 = document.querySelector('input[name="q3"]:checked');
+            const result3 = document.getElementById('result3');
+            if (q3 && q3.value === 'verdadero') {
+                result3.textContent = '✓ ¡Correcto! El turismo representa aproximadamente un tercio del crecimiento económico español post-COVID';
+                result3.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 3, correct: true, answer: 'Verdadero'});
+            } else {
+                result3.textContent = '✗ Falso. La respuesta es Verdadero. El sector turístico fue clave en la recuperación económica post-COVID.';
+                result3.className = 'result partial show';
+                detailedResults.push({q: 3, correct: false, answer: q3 ? q3.value : 'No respondido', correctAnswer: 'Verdadero'});
+            }
+            
+            // Q4
+            const q4 = document.getElementById('q4').value.trim().toLowerCase();
+            const result4 = document.getElementById('result4');
+            if (q4.includes('techo')) {
+                result4.textContent = '✓ ¡Correcto! Techo de cristal';
+                result4.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 4, correct: true, answer: q4});
+            } else {
+                result4.textContent = '✗ La respuesta correcta es: techo de cristal';
+                result4.className = 'result partial show';
+                detailedResults.push({q: 4, correct: false, answer: q4 || 'No respondido', correctAnswer: 'techo de cristal'});
+            }
+            
+            // Q5
+            const q5 = document.getElementById('q5').value.trim().toLowerCase();
+            const result5 = document.getElementById('result5');
+            if (q5.includes('contratos')) {
+                result5.textContent = '✓ ¡Correcto! Contratos basura';
+                result5.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 5, correct: true, answer: q5});
+            } else {
+                result5.textContent = '✗ La respuesta correcta es: contratos basura';
+                result5.className = 'result partial show';
+                detailedResults.push({q: 5, correct: false, answer: q5 || 'No respondido', correctAnswer: 'contratos basura'});
+            }
+            
+            // Q6
+            const q6 = document.getElementById('q6').value.trim().toLowerCase();
+            const result6 = document.getElementById('result6');
+            if (q6.includes('fuga')) {
+                result6.textContent = '✓ ¡Correcto! Fuga de cerebros';
+                result6.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 6, correct: true, answer: q6});
+            } else {
+                result6.textContent = '✗ La respuesta correcta es: fuga de cerebros';
+                result6.className = 'result partial show';
+                detailedResults.push({q: 6, correct: false, answer: q6 || 'No respondido', correctAnswer: 'fuga de cerebros'});
+            }
+            
+            // Q7
+            const q7Checked = document.querySelectorAll('input[name="q7"]:checked');
+            const result7 = document.getElementById('result7');
+            let q7Correct = true;
+            let q7CorrectAnswers = [];
+            
+            q7Checked.forEach(checkbox => {
+                if (checkbox.value === 'c') {
+                    q7Correct = false;
+                } else {
+                    q7CorrectAnswers.push(checkbox.value);
+                }
+            });
+            
+            if (q7Checked.length === 3 && q7Correct) {
+                result7.textContent = '✓ ¡Correcto! A, B y D son correctas (Hostelería, Transporte y Tecnología)';
+                result7.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 7, correct: true, answer: 'A, B, D'});
+            } else if (q7Checked.length > 0 && q7Correct) {
+                result7.textContent = `⚠ Parcialmente correcto (${q7Checked.length}/3). Las respuestas A, B y D son correctas.`;
+                result7.className = 'result partial show';
+                score += q7Checked.length * 0.33;
+                detailedResults.push({q: 7, correct: false, answer: `${q7Checked.length}/3`, correctAnswer: 'A, B, D'});
+            } else {
+                result7.textContent = '✗ Las respuestas A, B y D son correctas (Hostelería, Transporte y Tecnología)';
+                result7.className = 'result partial show';
+                detailedResults.push({q: 7, correct: false, answer: 'No respondido o incorrecto', correctAnswer: 'A, B, D'});
+            }
+            
+            // Q8
+            const q8Checked = document.querySelectorAll('input[name="q8"]:checked');
+            const result8 = document.getElementById('result8');
+            let q8Correct = true;
+            let q8CorrectAnswers = [];
+            
+            q8Checked.forEach(checkbox => {
+                if (checkbox.value === 'a' || checkbox.value === 'd') {
+                    q8Correct = false;
+                } else {
+                    q8CorrectAnswers.push(checkbox.value);
+                }
+            });
+            
+            if (q8Checked.length === 2 && q8Correct) {
+                result8.textContent = '✓ ¡Correcto! B y C son correctas';
+                result8.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 8, correct: true, answer: 'B, C'});
+            } else if (q8Checked.length > 0 && q8Correct) {
+                result8.textContent = `⚠ Parcialmente correcto (${q8Checked.length}/2). Las respuestas B y C son correctas.`;
+                result8.className = 'result partial show';
+                score += q8Checked.length * 0.5;
+                detailedResults.push({q: 8, correct: false, answer: `${q8Checked.length}/2`, correctAnswer: 'B, C'});
+            } else {
+                result8.textContent = '✗ Las respuestas B y C son correctas (Larga pausa para comer y Menos horas de sueño)';
+                result8.className = 'result partial show';
+                detailedResults.push({q: 8, correct: false, answer: 'No respondido o incorrecto', correctAnswer: 'B, C'});
+            }
+            
+            // Q9
+            const q9 = document.getElementById('q9').value.trim().toLowerCase();
+            const result9 = document.getElementById('result9');
+            if (q9.includes('brecha') && q9.includes('salarial') && q9.includes('género')) {
+                result9.textContent = '✓ ¡Correcto! Brecha salarial de género';
+                result9.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 9, correct: true, answer: q9});
+            } else {
+                result9.textContent = '✗ La respuesta correcta es: brecha salarial de género';
+                result9.className = 'result partial show';
+                detailedResults.push({q: 9, correct: false, answer: q9 || 'No respondido', correctAnswer: 'brecha salarial de género'});
+            }
+            
+            // Q10
+            const q10 = document.getElementById('q10').value.trim().toLowerCase();
+            const result10 = document.getElementById('result10');
+            if (q10.includes('contrato') && q10.includes('temporal')) {
+                result10.textContent = '✓ ¡Correcto! Contrato temporal';
+                result10.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 10, correct: true, answer: q10});
+            } else {
+                result10.textContent = '✗ La respuesta correcta es: contrato temporal';
+                result10.className = 'result partial show';
+                detailedResults.push({q: 10, correct: false, answer: q10 || 'No respondido', correctAnswer: 'contrato temporal'});
+            }
+            
+            // Q11
+            const q11 = document.getElementById('q11').value.trim().toLowerCase();
+            const result11 = document.getElementById('result11');
+            if (q11.includes('equilibrio') || (q11.includes('balance') && q11.includes('vida'))) {
+                result11.textContent = '✓ ¡Correcto! Equilibrio entre la vida laboral y personal';
+                result11.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 11, correct: true, answer: q11});
+            } else {
+                result11.textContent = '✗ La respuesta correcta es: equilibrio entre la vida laboral y personal';
+                result11.className = 'result partial show';
+                detailedResults.push({q: 11, correct: false, answer: q11 || 'No respondido', correctAnswer: 'equilibrio entre la vida laboral y personal'});
+            }
+            
+            // Q12
+            const q12 = document.getElementById('q12').value.trim().toLowerCase();
+            const result12 = document.getElementById('result12');
+            if (q12.includes('intensive') || q12.includes('continuous')) {
+                result12.textContent = '✓ ¡Correcto! Intensive/Continuous working day';
+                result12.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 12, correct: true, answer: q12});
+            } else {
+                result12.textContent = '✗ La respuesta correcta es: intensive/continuous working day';
+                result12.className = 'result partial show';
+                detailedResults.push({q: 12, correct: false, answer: q12 || 'No respondido', correctAnswer: 'intensive/continuous working day'});
+            }
+            
+            // Q13 - Matching
+            const q13a = document.getElementById('q13a').value.trim();
+            const q13b = document.getElementById('q13b').value.trim();
+            const q13c = document.getElementById('q13c').value.trim();
+            const q13d = document.getElementById('q13d').value.trim();
+            const result13 = document.getElementById('result13');
+            
+            let matchScore = 0;
+            if (q13a === '2') matchScore++;
+            if (q13b === '4') matchScore++;
+            if (q13c === '1') matchScore++;
+            if (q13d === '3') matchScore++;
+            
+            if (matchScore === 4) {
+                result13.textContent = '✓ ¡Correcto! Todas las asociaciones son correctas';
+                result13.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 13, correct: true, answer: 'Todo correcto'});
+            } else {
+                result13.textContent = `⚠ ${matchScore}/4 correcto. Respuestas: A=2, B=4, C=1, D=3`;
+                result13.className = 'result partial show';
+                score += matchScore * 0.25;
+                detailedResults.push({q: 13, correct: false, answer: `${matchScore}/4`, correctAnswer: 'A=2, B=4, C=1, D=3'});
+            }
+            
+            // Q14-18 - Extended responses
+            for (let i = 14; i <= 18; i++) {
+                const answer = document.getElementById(`q${i}`).value.trim();
+                const resultElement = document.getElementById(`result${i}`);
+                
+                if (answer.length > 100) {
+                    // Check for complex structures
+                    const structures = checkComplexStructures(answer);
+                    
+                    if (structures.length >= 3) {
+                        resultElement.textContent = '✓ Respuesta bien desarrollada con estructuras complejas';
+                        resultElement.className = 'result correct show';
+                        score++;
+                        feedback.push(`Pregunta ${i}: Excelente uso de estructuras complejas (${structures.join(', ')})`);
+                    } else if (structures.length >= 1) {
+                        resultElement.textContent = '✓ Respuesta adecuada, pero podría incluir más estructuras complejas';
+                        resultElement.className = 'result partial show';
+                        score += 0.5;
+                        feedback.push(`Pregunta ${i}: Uso limitado de estructuras complejas (${structures.join(', ')})`);
+                    } else {
+                        resultElement.textContent = '⚠ Respuesta desarrollada, pero necesita más estructuras complejas para maximizar AO3';
+                        resultElement.className = 'result partial show';
+                        score += 0.25;
+                        feedback.push(`Pregunta ${i}: Falta uso de estructuras complejas`);
+                    }
+                    
+                    detailedResults.push({
+                        q: i,
+                        correct: structures.length >= 3,
+                        structures: structures,
+                        length: answer.length
+                    });
+                } else {
+                    resultElement.textContent = '✗ Respuesta demasiado breve. Desarrolla más tu respuesta.';
+                    resultElement.className = 'result partial show';
+                    detailedResults.push({
+                        q: i,
+                        correct: false,
+                        structures: [],
+                        length: answer.length
+                    });
+                    feedback.push(`Pregunta ${i}: Respuesta demasiado breve (${answer.length} caracteres)`);
+                }
+            }
+            
+            // Show final score
+            const percentage = ((score / total) * 100).toFixed(1);
+            const finalScore = document.getElementById('finalScore');
+            const scoreText = document.getElementById('scoreText');
+            const feedbackElement = document.getElementById('feedback');
+            
+            scoreText.textContent = `${score.toFixed(1)}/${total} (${percentage}%)`;
+            
+            // Generate feedback
+            let feedbackHTML = '<div style="text-align: left; margin-top: 20px;">';
+            feedbackHTML += '<h3>Retroalimentación Detallada:</h3><ul>';
+            feedback.forEach(item => {
+                feedbackHTML += `<li>${item}</li>`;
+            });
+            
+            // Add general recommendations
+            feedbackHTML += '</ul><h3>Recomendaciones Generales:</h3><ul>';
+            
+            if (percentage >= 80) {
+                feedbackHTML += '<li>¡Excelente trabajo! Dominas bien el contenido sobre el mundo laboral español.</li>';
+            } else if (percentage >= 60) {
+                feedbackHTML += '<li>Buen trabajo. Enfócate en incluir más estructuras complejas y datos específicos.</li>';
+            } else {
+                feedbackHTML += '<li>Necesitas practicar más el contenido sobre el mercado laboral español.</li>';
+            }
+            
+            feedbackHTML += `
+                <li>Practica el uso de datos estadísticos actualizados (2023-2025)</li>
+                <li>Incorpora información sobre la reforma de permisos parentales de 2025</li>
+                <li>Utiliza términos específicos como "techo de cristal", "contratos basura", "fuga de cerebros"</li>
+                <li>Menciona sectores clave como turismo, hostelería y tecnología</li>
+                <li>Incluye comparaciones con la media europea cuando sea relevante</li>
+            </ul></div>`;
+            
+            feedbackElement.innerHTML = feedbackHTML;
+            finalScore.style.display = 'block';
+            
+            // Store results for download
+            window.testResults = {
+                score: score.toFixed(1),
+                total: total,
+                percentage: percentage,
+                timeTaken: Math.floor(timeTaken / 60) + ':' + (timeTaken % 60).toString().padStart(2, '0'),
+                date: new Date().toLocaleDateString('es-ES'),
+                details: detailedResults,
+                feedback: feedback
+            };
+            
+            // Scroll to results
+            finalScore.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        function downloadResults() {
+            const results = window.testResults;
+            let content = `RESULTADOS - Práctica A-Level Spanish: El Mundo Laboral en España
+====================================================================
+
+Fecha: ${results.date}
+Tiempo empleado: ${results.timeTaken}
+Puntuación: ${results.score}/${results.total} (${results.percentage}%)
+
+RETROALIMENTACIÓN DETALLADA:
+--------------------------------------------------------------------
+
+`;
+
+            results.feedback.forEach((item) => {
+                content += `${item}\n`;
+            });
+
+            content += `
+====================================================================
+RECOMENDACIONES PARA MEJORAR AO3 Y AO4:
+
+`;
+
+            if (results.percentage >= 80) {
+                content += `¡Excelente trabajo! Dominas bien el contenido sobre el mundo laboral español.\n`;
+            } else if (results.percentage >= 60) {
+                content += `Buen trabajo. Enfócate en incluir más estructuras complejas y datos específicos.\n`;
+            } else {
+                content += `Necesitas practicar más el contenido sobre el mercado laboral español.\n`;
+            }
+
+            content += `
+DATOS CLAVE ACTUALIZADOS (2023-2025) PARA INCLUIR EN TUS RESPUESTAS:
+
+EMPLEO FEMENINO:
+- 38.4% de mujeres en puestos directivos (supera media UE del 34%)
+- Tasa de empleo femenino: 46% (por debajo de media UE)
+- Tasa de desempleo femenino: 13.89%
+- 88.9% de mujeres empleadas en el sector servicios
+
+PERMISOS PARENTALES (REFORMA 2025 - ACTUALIZADO):
+- 19 semanas para cada progenitor (antes 16 semanas)
+- 6 semanas obligatorias tras el nacimiento
+- 11 semanas flexibles durante el primer año
+- 2 semanas adicionales hasta los 8 años del menor
+- Familias monoparentales: 32 semanas en total
+- 100% de la base reguladora
+- Entró en vigor: 31 de julio de 2025
+
+EMPLEO JUVENIL:
+- 40% de graduados trabajan en empleos no acordes a su cualificación
+- Tasa de desempleo juvenil: 28% (de las más altas de Europa)
+- 19% de desempleo entre graduados universitarios
+- 33% abandona educación después de la enseñanza obligatoria
+
+SECTORES EN CRECIMIENTO:
+- Turismo: 1/3 del crecimiento económico post-COVID
+- Hostelería: 8% de crecimiento
+- Transporte y logística: 8% de crecimiento
+- Tecnología y comunicaciones: crecimiento significativo
+
+VOCABULARIO CLAVE:
+- Techo de cristal
+- Brecha salarial de género
+- Contratos basura/temporales
+- Fuga de cerebros
+- Jornada intensiva
+- Conciliación laboral-familiar
+- Permisos parentales
+
+`;
+
+            // Create download
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Resultados_Mundo_Laboral_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

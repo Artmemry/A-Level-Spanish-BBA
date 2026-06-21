@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A-Level Spanish: Inmigración y Economía</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; color: #1a202c; }
+
+  header {
+    background: linear-gradient(135deg, #c0392b, #8e44ad);
+    color: white; padding: 24px 32px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+  header h1 { font-size: 1.5rem; font-weight: 700; }
+  header p { font-size: 0.85rem; opacity: 0.85; margin-top: 4px; }
+  .badge { display: inline-block; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); border-radius: 20px; padding: 3px 12px; font-size: 0.75rem; margin-top: 8px; }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 28px 20px 120px; }
+
+  .tab-bar { display: flex; gap: 6px; margin-bottom: 0; flex-wrap: wrap; }
+  .tab-btn { padding: 10px 18px; border: none; border-radius: 10px 10px 0 0; font-size: 0.85rem; font-weight: 700; cursor: pointer; background: #dde3ec; color: #555; transition: background 0.2s, color 0.2s; border-bottom: 3px solid transparent; }
+  .tab-btn.active { background: white; color: #c0392b; border-bottom: 3px solid #c0392b; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .section-card { background: white; border-radius: 0 14px 14px 14px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); padding: 28px; margin-bottom: 28px; }
+  .section-title { font-size: 1.1rem; font-weight: 700; color: #c0392b; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .section-subtitle { font-size: 0.8rem; color: #666; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 2px solid #f0f4f8; }
+
+  .source-text { background: #fdfaf6; border-left: 4px solid #c0392b; border-radius: 0 10px 10px 0; padding: 20px 22px; font-size: 0.93rem; line-height: 1.8; color: #2d3748; }
+
+  .boom-intro { font-size: 0.92rem; line-height: 1.7; color: #2d3748; margin-bottom: 20px; }
+  .boom-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-bottom: 22px; }
+  .boom-table th { padding: 12px 14px; text-align: left; font-weight: 700; }
+  .boom-table th:nth-child(1) { background: #4a5568; color: white; border-radius: 8px 0 0 0; }
+  .boom-table th:nth-child(2) { background: #c0392b; color: white; }
+  .boom-table th:nth-child(3) { background: #8e44ad; color: white; border-radius: 0 8px 0 0; }
+  .boom-table td { padding: 11px 14px; border-bottom: 1px solid #e2e8f0; vertical-align: top; line-height: 1.5; }
+  .boom-table tr:last-child td { border-bottom: none; }
+  .boom-table tr:nth-child(even) td { background: #f9f9ff; }
+
+  .bum-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 22px; }
+  .bum-card { border-radius: 12px; padding: 18px 20px; }
+  .bum-card.one { background: linear-gradient(135deg,#fdecea,#fff); border: 2px solid #f5b7b1; }
+  .bum-card.two { background: linear-gradient(135deg,#f3e8ff,#fff); border: 2px solid #d7bde2; }
+  .bum-card h3 { font-size: 0.92rem; font-weight: 800; margin-bottom: 10px; }
+  .bum-card.one h3 { color: #c0392b; }
+  .bum-card.two h3 { color: #8e44ad; }
+  .bum-card ul { padding-left: 16px; font-size: 0.85rem; line-height: 1.8; color: #2d3748; }
+
+  .q-block { margin-bottom: 20px; }
+  .q-label { font-size: 0.78rem; font-weight: 700; color: #8e44ad; margin-bottom: 4px; letter-spacing: 0.5px; }
+  .q-text { font-size: 0.92rem; margin-bottom: 8px; font-weight: 600; color: #2d3748; }
+  textarea, input[type=text] { width: 100%; border: 2px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; font-size: 0.9rem; font-family: inherit; transition: border-color 0.2s; resize: vertical; background: #fafafa; }
+  textarea:focus, input[type=text]:focus { outline: none; border-color: #8e44ad; background: #fff; }
+  textarea { min-height: 70px; }
+
+  .gap-sentence { font-size: 0.93rem; line-height: 2.5; margin-bottom: 4px; }
+  .gap-input { width: 160px; display: inline-block; border: none; border-bottom: 2.5px solid #c0392b; background: transparent; font-size: 0.93rem; font-family: inherit; padding: 2px 4px; color: #2d3748; vertical-align: middle; }
+  .gap-input:focus { outline: none; border-bottom-color: #8e44ad; }
+  .word-bank { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; padding: 14px; background: #f7f3ff; border-radius: 10px; }
+  .word-chip { background: #8e44ad; color: white; border-radius: 20px; padding: 5px 14px; font-size: 0.82rem; font-weight: 600; cursor: pointer; user-select: all; transition: background 0.15s, transform 0.1s; }
+  .word-chip:hover { background: #6c3483; transform: scale(1.06); }
+  .word-chip.copied { background: #27ae60; }
+  .word-bank-hint { font-size: 0.72rem; color: #888; margin-bottom: 8px; font-style: italic; }
+
+  .vocab-match-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .vocab-es { background: #fff3cd; border: 1px solid #ffd166; border-radius: 8px; padding: 9px 14px; font-size: 0.88rem; min-width: 220px; font-weight: 600; }
+  select.vocab-select { flex: 1; border: 2px solid #e2e8f0; border-radius: 8px; padding: 9px 10px; font-size: 0.87rem; font-family: inherit; background: #fafafa; cursor: pointer; transition: border-color 0.2s; }
+  select.vocab-select:focus { outline: none; border-color: #8e44ad; }
+
+  .compare-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center; margin-bottom: 12px; }
+  .compare-fact { font-size: 0.88rem; padding: 10px 13px; border-radius: 8px; border: 2px solid #e2e8f0; background: #fafafa; }
+  .compare-select { border: 2px solid #e2e8f0; border-radius: 8px; padding: 10px; font-size: 0.87rem; font-family: inherit; background: #fafafa; width: 100%; cursor: pointer; }
+  .compare-select:focus { outline: none; border-color: #8e44ad; }
+  .vs-badge { font-size: 0.7rem; font-weight: 800; color: #aaa; text-align: center; }
+
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+  .btn { border: none; border-radius: 8px; padding: 11px 22px; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: transform 0.1s, box-shadow 0.1s; }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+  .btn:active { transform: translateY(0); }
+  .btn-check { background: #c0392b; color: white; }
+  .btn-reset { background: #e2e8f0; color: #4a5568; }
+  .btn-download { background: linear-gradient(135deg,#2ecc71,#27ae60); color: white; }
+
+  .feedback-bar { margin-top: 14px; padding: 12px 16px; border-radius: 8px; font-size: 0.88rem; font-weight: 600; display: none; }
+  .fb-correct { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+  .fb-wrong   { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+  .fb-partial { background: #fff3cd; color: #856404; border: 1px solid #ffd166; }
+  .answer-reveal { font-size: 0.82rem; margin-top: 6px; color: #27ae60; font-style: italic; display: none; }
+
+  .score-box { background: linear-gradient(135deg,#8e44ad,#c0392b); color: white; border-radius: 12px; padding: 20px 24px; text-align: center; margin-top: 10px; display: none; }
+  .score-big { font-size: 2.8rem; font-weight: 900; }
+  .score-label { font-size: 0.9rem; opacity: 0.85; }
+
+  .accent-kb { position: fixed; bottom: 24px; right: 24px; background: white; border-radius: 14px; box-shadow: 0 6px 24px rgba(0,0,0,0.18); padding: 12px 14px; z-index: 999; border: 1px solid #e2e8f0; }
+  .accent-kb-title { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.8px; color: #999; margin-bottom: 8px; text-align: center; }
+  .accent-btns { display: flex; gap: 6px; }
+  .acc-btn { background: linear-gradient(135deg,#c0392b,#8e44ad); color: white; border: none; border-radius: 7px; width: 36px; height: 36px; font-size: 1.05rem; font-weight: 700; cursor: pointer; transition: transform 0.1s, opacity 0.1s; }
+  .acc-btn:hover { transform: scale(1.12); }
+  .acc-btn:active { transform: scale(0.95); opacity: 0.8; }
+  .accent-note { font-size: 0.65rem; color: #aaa; margin-top: 7px; text-align: center; }
+
+  .rae-note { background: #f0f9ff; border-left: 4px solid #3498db; border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 0.85rem; color: #2d3748; line-height: 1.6; margin-bottom: 18px; }
+
+  @media(max-width:600px){
+    .bum-cards { grid-template-columns: 1fr; }
+    .vocab-match-row { flex-direction: column; align-items: stretch; }
+    .vocab-es { min-width: unset; }
+    .compare-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🇪🇸 La inmigración y la economía española</h1>
+  <p>A-Level Spanish Edexcel | Paper 3 – Task 1 Practice</p>
+  <span class="badge">B2 Level · Temas contemporáneos</span>
+</header>
+
+<div class="container">
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="openTab('tab-text',this)">📄 Texto</button>
+    <button class="tab-btn" onclick="openTab('tab-bums',this)">📊 Los dos bums</button>
+    <button class="tab-btn" onclick="openTab('tab-comp',this)">✏️ Comprensión</button>
+    <button class="tab-btn" onclick="openTab('tab-gap',this)">🔡 Huecos</button>
+    <button class="tab-btn" onclick="openTab('tab-vocab',this)">🔗 Vocabulario</button>
+    <button class="tab-btn" onclick="openTab('tab-compare',this)">⚖️ Comparar bums</button>
+  </div>
+
+  <!-- TAB 1: SOURCE TEXT -->
+  <div class="tab-panel active" id="tab-text">
+    <div class="section-card">
+      <div class="section-title">📄 Texto fuente</div>
+      <div class="section-subtitle">Lee el siguiente texto adaptado antes de completar los ejercicios. (Nivel B2 · ~150 palabras)</div>
+      <div class="rae-note">
+        📖 <strong>Nota lingüística:</strong> El artículo original de <em>El País</em> utiliza la palabra <strong>"bum"</strong> — la forma hispanizada y recomendada por la RAE del anglicismo <em>boom</em>. La RAE prefiere esta ortografía porque refleja la pronunciación real en español, siguiendo la correspondencia entre grafía y sonido propia del sistema ortográfico español.
+      </div>
+      <div class="source-text">
+        España vive en la actualidad un <strong>segundo <em>bum</em></strong> de la inmigración que está transformando profundamente su economía y su demografía. Actualmente, el veinte por ciento de los casi cincuenta millones de habitantes del país ha nacido en el extranjero, una proporción alcanzada en un tiempo extraordinariamente breve en comparación con otros países europeos. Según las proyecciones, en 2050 los nacidos en España seremos menos de treinta y cinco millones. Por ello, se calcula que alrededor del cuarenta por ciento de la población activa será de origen inmigrante.
+        <br><br>
+        La aportación económica de los inmigrantes es innegable: entre 2019 y 2025, dos de cada tres nuevos empleos fueron ocupados por personas nacidas fuera de España. Sin embargo, la integración laboral dista de ser perfecta. El ochenta por ciento de los asalariados extranjeros percibe un salario inferior a la media nacional.
+        <br><br>
+        Otro desafío importante es la <em>sobrecualificación</em>: muchos inmigrantes trabajan en empleos por debajo de su nivel formativo. No obstante, las segundas generaciones muestran una movilidad ascendente respecto a sus padres, aunque sin llegar todavía a una plena equiparación con la población autóctona.
+        <br><br>
+        Ante esta realidad, los expertos coinciden en que situar la integración plena de los inmigrantes en el centro de la agenda pública es no solo una cuestión de justicia social, sino también una condición imprescindible para la viabilidad económica del país en las próximas décadas.
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: THE TWO BUMS -->
+  <div class="tab-panel" id="tab-bums">
+    <div class="section-card">
+      <div class="section-title">📊 Los dos bums migratorios en España</div>
+      <div class="section-subtitle">Lee y estudia este contenido de fondo antes de hacer el ejercicio de comparación.</div>
+
+      <p class="boom-intro">El artículo habla de un <strong>"segundo bum"</strong>. Para entenderlo bien, hay que conocer el primero. España ha experimentado dos grandes oleadas migratorias en los últimos treinta años, cada una con sus propias causas, protagonistas y consecuencias.</p>
+
+      <div class="bum-cards">
+        <div class="bum-card one">
+          <h3>🔴 Primer bum (c. 1995–2008)</h3>
+          <ul>
+            <li>La población extranjera pasó de <strong>~1 millón</strong> (1996) a más de <strong>5 millones</strong> (2008)</li>
+            <li>Entre 2002 y 2008 llegaron casi <strong>5 millones de inmigrantes</strong>; el pico fue 2007 con 960.000 llegadas en un solo año</li>
+            <li>Impulsado por el <strong>bum de la construcción</strong> y la burbuja inmobiliaria</li>
+            <li>Principales orígenes: <strong>Rumanía, Ecuador, Marruecos</strong></li>
+            <li>Perfil mayoritariamente <strong>poco cualificado</strong>; solo ~17% con estudios universitarios</li>
+            <li>Sectores clave: <strong>construcción, hostelería, servicio doméstico, agricultura</strong></li>
+            <li>Frenado bruscamente por la <strong>crisis financiera de 2008</strong></li>
+          </ul>
+        </div>
+        <div class="bum-card two">
+          <h3>🟣 Segundo bum (c. 2015–presente)</h3>
+          <ul>
+            <li>En 2022–2023 España registró de nuevo <strong>500.000–600.000 inmigrantes netos anuales</strong></li>
+            <li>Dos de cada tres empleos creados entre 2019 y 2025 fueron ocupados por <strong>nacidos fuera de España</strong></li>
+            <li>Impulsado por la <strong>recuperación post-pandemia</strong> y el envejecimiento demográfico</li>
+            <li>Principales orígenes: <strong>Colombia, Venezuela, Marruecos</strong></li>
+            <li>Perfil más cualificado: <strong>~30% con estudios universitarios</strong></li>
+            <li>Sectores clave: cuidados, hostelería, transporte, <strong>servicios de mayor valor añadido</strong></li>
+            <li>Reto principal: <strong>integración laboral plena</strong> y reconocimiento de cualificaciones</li>
+          </ul>
+        </div>
+      </div>
+
+      <table class="boom-table">
+        <thead>
+          <tr>
+            <th>Aspecto</th>
+            <th>🔴 Primer bum (1995–2008)</th>
+            <th>🟣 Segundo bum (2015–hoy)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Motor económico</strong></td><td>Burbuja inmobiliaria y construcción</td><td>Recuperación post-covid, declive demográfico</td></tr>
+          <tr><td><strong>Principales orígenes</strong></td><td>Rumanía, Ecuador, Marruecos</td><td>Colombia, Venezuela, Marruecos</td></tr>
+          <tr><td><strong>Nivel educativo</strong></td><td>~17% con estudios universitarios</td><td>~30% con estudios universitarios</td></tr>
+          <tr><td><strong>Volumen</strong></td><td>Pico: ~960.000 llegadas en 2007</td><td>500.000–600.000 netos anuales (2022–23)</td></tr>
+          <tr><td><strong>Final / freno</strong></td><td>Crisis financiera de 2008</td><td>Aún en curso; carácter estructural</td></tr>
+          <tr><td><strong>Reto principal</strong></td><td>Absorción rápida en empleos de baja cualificación</td><td>Integración plena y reconocimiento de titulaciones</td></tr>
+        </tbody>
+      </table>
+
+      <div class="rae-note">
+        <strong>🎓 Nota para el examen (Paper 3):</strong> Ser capaz de contrastar los dos bums demuestra comprensión profunda del tema. Frases útiles: <em>a diferencia del primer bum…</em> / <em>mientras que en la primera oleada…, en la segunda…</em> / <em>ambos períodos comparten… sin embargo se distinguen en…</em>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: COMPREHENSION -->
+  <div class="tab-panel" id="tab-comp">
+    <div class="section-card" id="sec-comp">
+      <div class="section-title">✏️ Sección 1 – Comprensión lectora</div>
+      <div class="section-subtitle">Responde en español a las siguientes preguntas sobre el texto fuente. (6 preguntas)</div>
+
+      <div class="q-block">
+        <div class="q-label">PREGUNTA 1</div>
+        <div class="q-text">¿Qué porcentaje de la población española actual ha nacido en el extranjero?</div>
+        <textarea class="comp-ans" data-key="El veinte por ciento (20%) de la población española actual ha nacido en el extranjero." placeholder="Escribe tu respuesta aquí..."></textarea>
+        <div class="answer-reveal"></div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">PREGUNTA 2</div>
+        <div class="q-text">¿Cómo se compara la velocidad del proceso migratorio en España con la de otros países europeos?</div>
+        <textarea class="comp-ans" data-key="España alcanzó esa proporción en un tiempo extraordinariamente breve / mucho más rápido que otros países europeos." placeholder="Escribe tu respuesta aquí..."></textarea>
+        <div class="answer-reveal"></div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">PREGUNTA 3</div>
+        <div class="q-text">¿Qué dato concreto demuestra la contribución de los inmigrantes al empleo entre 2019 y 2025?</div>
+        <textarea class="comp-ans" data-key="Dos de cada tres nuevos empleos fueron ocupados por personas nacidas fuera de España." placeholder="Escribe tu respuesta aquí..."></textarea>
+        <div class="answer-reveal"></div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">PREGUNTA 4</div>
+        <div class="q-text">¿Qué problema laboral afecta especialmente a los inmigrantes cualificados?</div>
+        <textarea class="comp-ans" data-key="La sobrecualificación: trabajan en empleos por debajo de su nivel formativo." placeholder="Escribe tu respuesta aquí..."></textarea>
+        <div class="answer-reveal"></div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">PREGUNTA 5</div>
+        <div class="q-text">¿Qué tendencia se observa en las segundas generaciones de inmigrantes?</div>
+        <textarea class="comp-ans" data-key="Muestran una movilidad ascendente respecto a sus padres, aunque sin llegar a una plena equiparación con la población autóctona." placeholder="Escribe tu respuesta aquí..."></textarea>
+        <div class="answer-reveal"></div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">PREGUNTA 6</div>
+        <div class="q-text">Según los expertos, ¿por qué es esencial integrar plenamente a los inmigrantes?</div>
+        <textarea class="comp-ans" data-key="Porque es una condición imprescindible para la viabilidad económica del país en las próximas décadas, además de una cuestión de justicia social." placeholder="Escribe tu respuesta aquí..."></textarea>
+        <div class="answer-reveal"></div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-check" onclick="checkComp()">Comprobar respuestas</button>
+        <button class="btn btn-reset" onclick="resetComp()">Reiniciar</button>
+      </div>
+      <div id="comp-feedback" class="feedback-bar"></div>
+    </div>
+  </div>
+
+  <!-- TAB 4: GAP FILL -->
+  <div class="tab-panel" id="tab-gap">
+    <div class="section-card" id="sec-gap">
+      <div class="section-title">🔡 Sección 2 – Rellena los espacios en blanco</div>
+      <div class="section-subtitle">Elige la palabra correcta del banco de palabras para completar cada frase.</div>
+      <div class="word-bank-hint">💡 Haz clic en una palabra para copiarla al portapapeles</div>
+      <div class="word-bank">
+        <span class="word-chip" onclick="copyWord(this)">autóctona</span><span class="word-chip" onclick="copyWord(this)">sobrecualificación</span><span class="word-chip" onclick="copyWord(this)">demográfica</span><span class="word-chip" onclick="copyWord(this)">integración</span><span class="word-chip" onclick="copyWord(this)">asalariados</span><span class="word-chip" onclick="copyWord(this)">urbanas</span><span class="word-chip" onclick="copyWord(this)">ascendente</span><span class="word-chip" onclick="copyWord(this)">desempleo</span>
+      </div>
+      <div class="gap-sentence">1. La <input class="gap-input" data-ans="integración" placeholder="___________"> plena de los inmigrantes es fundamental para la economía española.</div>
+      <div class="gap-sentence">2. La recesión <input class="gap-input" data-ans="demográfica" placeholder="___________"> interna provocará que la población nativa disminuya considerablemente.</div>
+      <div class="gap-sentence">3. El ochenta por ciento de los <input class="gap-input" data-ans="asalariados" placeholder="___________"> extranjeros cobra menos que la media nacional.</div>
+      <div class="gap-sentence">4. La <input class="gap-input" data-ans="sobrecualificación" placeholder="___________"> es un problema estructural que persiste incluso entre personas con doble nacionalidad.</div>
+      <div class="gap-sentence">5. Los inmigrantes presentan tasas de <input class="gap-input" data-ans="desempleo" placeholder="___________"> más elevadas que la población nativa al llegar al país.</div>
+      <div class="gap-sentence">6. El ochenta y cuatro por ciento de los extranjeros vive en zonas <input class="gap-input" data-ans="urbanas" placeholder="___________">.</div>
+      <div class="gap-sentence">7. Las segundas generaciones muestran una movilidad <input class="gap-input" data-ans="ascendente" placeholder="___________"> respecto a sus progenitores.</div>
+      <div class="gap-sentence">8. Las segundas generaciones no logran una plena equiparación con la población <input class="gap-input" data-ans="autóctona" placeholder="___________">.</div>
+      <div class="btn-row">
+        <button class="btn btn-check" onclick="checkGap()">Comprobar respuestas</button>
+        <button class="btn btn-reset" onclick="resetGap()">Reiniciar</button>
+      </div>
+      <div id="gap-feedback" class="feedback-bar"></div>
+      <div id="gap-score" class="score-box"></div>
+    </div>
+  </div>
+
+  <!-- TAB 5: VOCAB -->
+  <div class="tab-panel" id="tab-vocab">
+    <div class="section-card" id="sec-vocab">
+      <div class="section-title">🔗 Sección 3 – Empareja el vocabulario</div>
+      <div class="section-subtitle">Une cada término en español con su equivalente en inglés.</div>
+      <div id="vocab-rows">
+        <div class="vocab-match-row"><div class="vocab-es">la viabilidad económica</div><select class="vocab-select" data-ans="economic viability"><option value="">-- Selecciona --</option><option>economic viability</option><option>overqualification</option><option>upward mobility</option><option>demographic decline</option><option>labour market segmentation</option><option>native population</option><option>active population / workforce</option><option>wage gap</option></select></div>
+        <div class="vocab-match-row"><div class="vocab-es">la sobrecualificación</div><select class="vocab-select" data-ans="overqualification"><option value="">-- Selecciona --</option><option>economic viability</option><option>overqualification</option><option>upward mobility</option><option>demographic decline</option><option>labour market segmentation</option><option>native population</option><option>active population / workforce</option><option>wage gap</option></select></div>
+        <div class="vocab-match-row"><div class="vocab-es">la movilidad ascendente</div><select class="vocab-select" data-ans="upward mobility"><option value="">-- Selecciona --</option><option>economic viability</option><option>overqualification</option><option>upward mobility</option><option>demographic decline</option><option>labour market segmentation</option><option>native population</option><option>active population / workforce</option><option>wage gap</option></select></div>
+        <div class="vocab-match-row"><div class="vocab-es">la recesión demográfica</div><select class="vocab-select" data-ans="demographic decline"><option value="">-- Selecciona --</option><option>economic viability</option><option>overqualification</option><option>upward mobility</option><option>demographic decline</option><option>labour market segmentation</option><option>native population</option><option>active population / workforce</option><option>wage gap</option></select></div>
+        <div class="vocab-match-row"><div class="vocab-es">la segmentación del mercado laboral</div><select class="vocab-select" data-ans="labour market segmentation"><option value="">-- Selecciona --</option><option>economic viability</option><option>overqualification</option><option>upward mobility</option><option>demographic decline</option><option>labour market segmentation</option><option>native population</option><option>active population / workforce</option><option>wage gap</option></select></div>
+        <div class="vocab-match-row"><div class="vocab-es">la población autóctona</div><select class="vocab-select" data-ans="native population"><option value="">-- Selecciona --</option><option>economic viability</option><option>overqualification</option><option>upward mobility</option><option>demographic decline</option><option>labour market segmentation</option><option>native population</option><option>active population / workforce</option><option>wage gap</option></select></div>
+        <div class="vocab-match-row"><div class="vocab-es">la población activa</div><select class="vocab-select" data-ans="active population / workforce"><option value="">-- Selecciona --</option><option>economic viability</option><option>overqualification</option><option>upward mobility</option><option>demographic decline</option><option>labour market segmentation</option><option>native population</option><option>active population / workforce</option><option>wage gap</option></select></div>
+        <div class="vocab-match-row"><div class="vocab-es">la brecha salarial</div><select class="vocab-select" data-ans="wage gap"><option value="">-- Selecciona --</option><option>economic viability</option><option>overqualification</option><option>upward mobility</option><option>demographic decline</option><option>labour market segmentation</option><option>native population</option><option>active population / workforce</option><option>wage gap</option></select></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-check" onclick="checkVocab()">Comprobar respuestas</button>
+        <button class="btn btn-reset" onclick="resetVocab()">Reiniciar</button>
+      </div>
+      <div id="vocab-feedback" class="feedback-bar"></div>
+      <div id="vocab-score" class="score-box"></div>
+    </div>
+  </div>
+
+  <!-- TAB 6: COMPARE BUMS -->
+  <div class="tab-panel" id="tab-compare">
+    <div class="section-card" id="sec-compare">
+      <div class="section-title">⚖️ Sección 4 – Compara los dos bums</div>
+      <div class="section-subtitle">Para cada dato, indica si corresponde al primer bum 🔴 (1995–2008) o al segundo bum 🟣 (2015–hoy). Consulta la pestaña "Los dos bums" si lo necesitas.</div>
+
+      <div id="compare-qs">
+        <div class="compare-row">
+          <div class="compare-fact">"El pico de llegadas fue de casi un millón de personas en un solo año."</div>
+          <div class="vs-badge">¿Qué bum?</div>
+          <select class="compare-select" data-ans="primer"><option value="">-- Selecciona --</option><option value="primer">🔴 Primer bum (1995–2008)</option><option value="segundo">🟣 Segundo bum (2015–hoy)</option></select>
+        </div>
+        <div class="compare-row">
+          <div class="compare-fact">"Colombia y Venezuela son los principales países de origen."</div>
+          <div class="vs-badge">¿Qué bum?</div>
+          <select class="compare-select" data-ans="segundo"><option value="">-- Selecciona --</option><option value="primer">🔴 Primer bum (1995–2008)</option><option value="segundo">🟣 Segundo bum (2015–hoy)</option></select>
+        </div>
+        <div class="compare-row">
+          <div class="compare-fact">"La burbuja inmobiliaria creó una enorme demanda de trabajadores en la construcción."</div>
+          <div class="vs-badge">¿Qué bum?</div>
+          <select class="compare-select" data-ans="primer"><option value="">-- Selecciona --</option><option value="primer">🔴 Primer bum (1995–2008)</option><option value="segundo">🟣 Segundo bum (2015–hoy)</option></select>
+        </div>
+        <div class="compare-row">
+          <div class="compare-fact">"El 30% de los inmigrantes tiene estudios universitarios."</div>
+          <div class="vs-badge">¿Qué bum?</div>
+          <select class="compare-select" data-ans="segundo"><option value="">-- Selecciona --</option><option value="primer">🔴 Primer bum (1995–2008)</option><option value="segundo">🟣 Segundo bum (2015–hoy)</option></select>
+        </div>
+        <div class="compare-row">
+          <div class="compare-fact">"La crisis financiera frenó bruscamente la llegada de inmigrantes."</div>
+          <div class="vs-badge">¿Qué bum?</div>
+          <select class="compare-select" data-ans="primer"><option value="">-- Selecciona --</option><option value="primer">🔴 Primer bum (1995–2008)</option><option value="segundo">🟣 Segundo bum (2015–hoy)</option></select>
+        </div>
+        <div class="compare-row">
+          <div class="compare-fact">"El envejecimiento de la población y el declive demográfico son los principales motores."</div>
+          <div class="vs-badge">¿Qué bum?</div>
+          <select class="compare-select" data-ans="segundo"><option value="">-- Selecciona --</option><option value="primer">🔴 Primer bum (1995–2008)</option><option value="segundo">🟣 Segundo bum (2015–hoy)</option></select>
+        </div>
+        <div class="compare-row">
+          <div class="compare-fact">"Rumanía y Ecuador se encontraban entre los principales países de origen."</div>
+          <div class="vs-badge">¿Qué bum?</div>
+          <select class="compare-select" data-ans="primer"><option value="">-- Selecciona --</option><option value="primer">🔴 Primer bum (1995–2008)</option><option value="segundo">🟣 Segundo bum (2015–hoy)</option></select>
+        </div>
+        <div class="compare-row">
+          <div class="compare-fact">"El reto principal es la integración plena y el reconocimiento de cualificaciones."</div>
+          <div class="vs-badge">¿Qué bum?</div>
+          <select class="compare-select" data-ans="segundo"><option value="">-- Selecciona --</option><option value="primer">🔴 Primer bum (1995–2008)</option><option value="segundo">🟣 Segundo bum (2015–hoy)</option></select>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-check" onclick="checkCompare()">Comprobar respuestas</button>
+        <button class="btn btn-reset" onclick="resetCompare()">Reiniciar</button>
+      </div>
+      <div id="compare-feedback" class="feedback-bar"></div>
+      <div id="compare-score" class="score-box"></div>
+    </div>
+
+    <div class="section-card" style="text-align:center;">
+      <div class="section-title" style="justify-content:center;">⬇️ Descarga los ejercicios</div>
+      <p style="font-size:0.88rem;color:#555;margin-bottom:16px;">Descarga una copia en formato .txt para uso fuera de línea o para tu profesor.</p>
+      <button class="btn btn-download" onclick="downloadBlob()">📥 Descargar ejercicios (.txt)</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- FLOATING ACCENT KEYBOARD -->
+<div class="accent-kb">
+  <div class="accent-kb-title">🎹 Acentos</div>
+  <div class="accent-btns">
+    <button class="acc-btn" onclick="insertAccent('á')">á</button>
+    <button class="acc-btn" onclick="insertAccent('é')">é</button>
+    <button class="acc-btn" onclick="insertAccent('í')">í</button>
+    <button class="acc-btn" onclick="insertAccent('ó')">ó</button>
+    <button class="acc-btn" onclick="insertAccent('ú')">ú</button>
+  </div>
+  <div class="accent-note">Haz clic en el campo primero</div>
+</div>
+
+<script>
+function copyWord(el) {
+  const word = el.textContent;
+  navigator.clipboard.writeText(word).then(() => {
+    el.classList.add('copied');
+    const orig = el.textContent;
+    el.textContent = '✓ copiado';
+    setTimeout(() => { el.textContent = orig; el.classList.remove('copied'); }, 1000);
+  });
+}
+
+function openTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+let lastFocused = null;
+document.addEventListener('focusin', e => {
+  if (e.target.matches('textarea, input[type=text], .gap-input')) lastFocused = e.target;
+});
+function insertAccent(ch) {
+  const el = lastFocused; if (!el) return;
+  const s = el.selectionStart, e2 = el.selectionEnd;
+  el.value = el.value.slice(0,s) + ch + el.value.slice(e2);
+  el.selectionStart = el.selectionEnd = s + 1;
+  el.focus();
+}
+
+function checkComp() {
+  const blocks = document.querySelectorAll('#sec-comp .q-block'); let filled = 0;
+  blocks.forEach(b => {
+    const ta = b.querySelector('textarea'), rev = b.querySelector('.answer-reveal');
+    if (ta.value.trim().length > 10) { filled++; rev.textContent = '✅ Respuesta modelo: ' + ta.dataset.key; rev.style.display = 'block'; ta.style.borderColor = '#27ae60'; }
+    else { ta.style.borderColor = '#c0392b'; }
+  });
+  const fb = document.getElementById('comp-feedback'); fb.style.display = 'block';
+  if (filled === 6) { fb.className='feedback-bar fb-correct'; fb.textContent='✅ ¡Bien hecho! Compara tus respuestas con los modelos indicados.'; }
+  else if (filled > 0) { fb.className='feedback-bar fb-partial'; fb.textContent=`⚠️ Has respondido ${filled} de 6 preguntas.`; }
+  else { fb.className='feedback-bar fb-wrong'; fb.textContent='❌ Por favor, escribe una respuesta antes de comprobar.'; }
+}
+function resetComp() {
+  document.querySelectorAll('#sec-comp textarea').forEach(t => { t.value=''; t.style.borderColor=''; });
+  document.querySelectorAll('#sec-comp .answer-reveal').forEach(r => r.style.display='none');
+  document.getElementById('comp-feedback').style.display='none';
+}
+
+function checkGap() {
+  const inputs = document.querySelectorAll('.gap-input'); let correct = 0;
+  inputs.forEach(inp => {
+    const ans = inp.value.trim().toLowerCase(), key = inp.dataset.ans.toLowerCase();
+    if (ans === key) { inp.style.borderBottomColor='#27ae60'; inp.style.color='#27ae60'; correct++; }
+    else { inp.style.borderBottomColor='#c0392b'; inp.style.color='#c0392b'; }
+  });
+  const fb=document.getElementById('gap-feedback'), sc=document.getElementById('gap-score');
+  fb.style.display='block'; sc.style.display='block';
+  sc.innerHTML=`<div class="score-big">${correct}/${inputs.length}</div><div class="score-label">respuestas correctas</div>`;
+  fb.className = correct===inputs.length ? 'feedback-bar fb-correct' : 'feedback-bar fb-partial';
+  fb.textContent = correct===inputs.length ? '🎉 ¡Perfecto! Todos los espacios son correctos.' : `✏️ ${correct} de ${inputs.length} correctas. Las incorrectas están en rojo.`;
+}
+function resetGap() {
+  document.querySelectorAll('.gap-input').forEach(i => { i.value=''; i.style.borderBottomColor=''; i.style.color=''; });
+  document.getElementById('gap-feedback').style.display='none';
+  document.getElementById('gap-score').style.display='none';
+}
+
+function checkVocab() {
+  const rows=document.querySelectorAll('.vocab-match-row'); let correct=0;
+  rows.forEach(r => {
+    const sel=r.querySelector('select');
+    if (sel.value===sel.dataset.ans) { sel.style.borderColor='#27ae60'; correct++; }
+    else { sel.style.borderColor='#c0392b'; }
+  });
+  const fb=document.getElementById('vocab-feedback'), sc=document.getElementById('vocab-score');
+  fb.style.display='block'; sc.style.display='block';
+  sc.innerHTML=`<div class="score-big">${correct}/${rows.length}</div><div class="score-label">emparejamientos correctos</div>`;
+  fb.className = correct===rows.length ? 'feedback-bar fb-correct' : 'feedback-bar fb-partial';
+  fb.textContent = correct===rows.length ? '🎉 ¡Enhorabuena! Todos correctos.' : `📖 ${correct} de ${rows.length} correctos.`;
+}
+function resetVocab() {
+  document.querySelectorAll('.vocab-select').forEach(s => { s.value=''; s.style.borderColor=''; });
+  document.getElementById('vocab-feedback').style.display='none';
+  document.getElementById('vocab-score').style.display='none';
+}
+
+function checkCompare() {
+  const sels=document.querySelectorAll('.compare-select'); let correct=0;
+  sels.forEach(s => {
+    if (s.value===s.dataset.ans) { s.style.borderColor='#27ae60'; correct++; }
+    else { s.style.borderColor='#c0392b'; }
+  });
+  const fb=document.getElementById('compare-feedback'), sc=document.getElementById('compare-score');
+  fb.style.display='block'; sc.style.display='block';
+  sc.innerHTML=`<div class="score-big">${correct}/${sels.length}</div><div class="score-label">respuestas correctas</div>`;
+  fb.className = correct===sels.length ? 'feedback-bar fb-correct' : 'feedback-bar fb-partial';
+  fb.textContent = correct===sels.length ? '🎉 ¡Excelente! Distingues perfectamente los dos bums.' : `⚖️ ${correct} de ${sels.length} correctas. Revisa la pestaña "Los dos bums" para repasar.`;
+}
+function resetCompare() {
+  document.querySelectorAll('.compare-select').forEach(s => { s.value=''; s.style.borderColor=''; });
+  document.getElementById('compare-feedback').style.display='none';
+  document.getElementById('compare-score').style.display='none';
+}
+
+function downloadBlob() {
+  const content = `A-LEVEL SPANISH – PAPER 3 TASK 1 PRACTICE
+Inmigración y Economía Española (B2) | Los dos bums migratorios
+Edexcel | Febrero 2026
+============================================================
+
+NOTA LINGÜÍSTICA
+-----------------
+Este recurso utiliza la ortografía "bum" (no "boom"), que es la forma
+hispanizada y recomendada por la RAE. La RAE prefiere esta grafía porque
+refleja la pronunciación real en español, siguiendo la correspondencia
+entre grafía y sonido propia del sistema ortográfico español.
+
+TEXTO FUENTE (B2, ~150 palabras)
+----------------------------------
+España vive en la actualidad un segundo bum de la inmigración que está
+transformando profundamente su economía y su demografía. Actualmente, el
+veinte por ciento de los casi cincuenta millones de habitantes del país ha
+nacido en el extranjero, una proporción alcanzada en un tiempo
+extraordinariamente breve en comparación con otros países europeos. Según
+las proyecciones, en 2050 los nacidos en España seremos menos de treinta y
+cinco millones. Por ello, se calcula que alrededor del cuarenta por ciento
+de la población activa será de origen inmigrante.
+
+La aportación económica de los inmigrantes es innegable: entre 2019 y 2025,
+dos de cada tres nuevos empleos fueron ocupados por personas nacidas fuera
+de España. Sin embargo, la integración laboral dista de ser perfecta. El
+ochenta por ciento de los asalariados extranjeros percibe un salario
+inferior a la media nacional.
+
+Otro desafío importante es la sobrecualificación: muchos inmigrantes
+trabajan en empleos por debajo de su nivel formativo. No obstante, las
+segundas generaciones muestran una movilidad ascendente respecto a sus
+padres, aunque sin llegar todavía a una plena equiparación con la población
+autóctona.
+
+Ante esta realidad, los expertos coinciden en que situar la integración
+plena de los inmigrantes en el centro de la agenda pública es no solo una
+cuestión de justicia social, sino también una condición imprescindible para
+la viabilidad económica del país en las próximas décadas.
+
+============================================================
+LOS DOS BUMS – INFORMACIÓN DE FONDO
+--------------------------------------
+PRIMER BUM (c. 1995–2008):
+- Población extranjera: de ~1 millón (1996) a más de 5 millones (2008)
+- Pico de 960.000 llegadas en 2007
+- Motor: burbuja inmobiliaria y construcción
+- Principales orígenes: Rumanía, Ecuador, Marruecos
+- Nivel educativo: ~17% con estudios universitarios
+- Frenado por la crisis financiera de 2008
+
+SEGUNDO BUM (c. 2015–hoy):
+- 500.000–600.000 inmigrantes netos anuales (2022–23)
+- 2 de cada 3 empleos creados (2019–2025) ocupados por nacidos fuera de España
+- Motor: recuperación post-covid, declive demográfico
+- Principales orígenes: Colombia, Venezuela, Marruecos
+- Nivel educativo: ~30% con estudios universitarios
+- Reto principal: integración plena y reconocimiento de titulaciones
+
+============================================================
+SECCIÓN 1 – COMPRENSIÓN (Respuestas modelo)
+1. El veinte por ciento (20%) ha nacido en el extranjero.
+2. España lo alcanzó en un tiempo extraordinariamente breve.
+3. Dos de cada tres nuevos empleos fueron ocupados por nacidos fuera de España.
+4. La sobrecualificación: trabajan por debajo de su nivel formativo.
+5. Movilidad ascendente, aunque sin plena equiparación con la población autóctona.
+6. Es una condición imprescindible para la viabilidad económica, y una cuestión de justicia social.
+
+SECCIÓN 2 – HUECOS (Respuestas)
+1.integración 2.demográfica 3.asalariados 4.sobrecualificación
+5.desempleo 6.urbanas 7.ascendente 8.autóctona
+
+SECCIÓN 3 – VOCABULARIO (Respuestas)
+la viabilidad económica → economic viability
+la sobrecualificación → overqualification
+la movilidad ascendente → upward mobility
+la recesión demográfica → demographic decline
+la segmentación del mercado laboral → labour market segmentation
+la población autóctona → native population
+la población activa → active population / workforce
+la brecha salarial → wage gap
+
+SECCIÓN 4 – COMPARAR LOS DOS BUMS (Respuestas)
+1. Primer bum – pico de casi un millón en un año (2007)
+2. Segundo bum – Colombia y Venezuela como principales orígenes
+3. Primer bum – burbuja inmobiliaria y construcción
+4. Segundo bum – 30% con estudios universitarios
+5. Primer bum – frenado por la crisis de 2008
+6. Segundo bum – envejecimiento y declive demográfico
+7. Primer bum – Rumanía y Ecuador
+8. Segundo bum – integración y reconocimiento de cualificaciones
+
+============================================================
+Fuente: "El segundo bum de la inmigración española", El País, febrero 2026.
+Datos: INE, Fedea, The Conversation España.
+Adaptado para uso educativo – A-Level Spanish Edexcel Paper 3.
+`;
+  const blob=new Blob([content],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='spanish_immigration_exercises.txt';
+  a.click(); URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprensión: El Ecoturismo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #27ae60;
+            margin-bottom: 20px;
+            font-size: 32px;
+            text-align: center;
+        }
+
+        .text-section {
+            background: #e8f8f5;
+            padding: 25px;
+            border-left: 5px solid #27ae60;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            line-height: 1.8;
+        }
+
+        .text-section h2 {
+            color: #27ae60;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .section {
+            margin: 30px 0;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid #27ae60;
+        }
+
+        .section h3 {
+            color: #27ae60;
+            margin-bottom: 20px;
+            font-size: 22px;
+            border-bottom: 2px solid #27ae60;
+            padding-bottom: 10px;
+        }
+
+        .question {
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #27ae60;
+        }
+
+        .question p {
+            margin-bottom: 12px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .mcq-option {
+            display: block;
+            margin: 8px 0;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+            border: 2px solid #ddd;
+        }
+
+        .mcq-option:hover {
+            background: #e8f8f5;
+            border-color: #27ae60;
+        }
+
+        .mcq-option input {
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 15px;
+            width: 200px;
+            transition: all 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #27ae60;
+            background: #e8f8f5;
+        }
+
+        .gap-fill-input {
+            width: 150px;
+            margin: 0 5px;
+        }
+
+        .correct {
+            background-color: #aaddaa !important;
+            border-color: #27ae60 !important;
+        }
+
+        .incorrect {
+            background-color: #ffaaaa !important;
+            border-color: #e74c3c !important;
+        }
+
+        .answer-key {
+            color: #27ae60;
+            font-weight: bold;
+            margin-left: 10px;
+            display: none;
+        }
+
+        .answer-key.show {
+            display: inline;
+        }
+
+        .buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #229954;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        #results {
+            margin-top: 20px;
+            padding: 20px;
+            background: #d5f4e6;
+            border-radius: 8px;
+            font-weight: bold;
+            display: none;
+            text-align: center;
+            border: 2px solid #27ae60;
+        }
+
+        .synonym-search {
+            background: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        .word-highlight {
+            background: yellow;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        /* Virtual Keyboard */
+        #virtualKeyboard {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid #27ae60;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .kb-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #27ae60;
+        }
+
+        .kb-title {
+            font-size: 11px;
+            font-weight: bold;
+            color: #27ae60;
+        }
+
+        .kb-toggle {
+            background: none;
+            border: none;
+            color: #27ae60;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 0 5px;
+        }
+
+        .kb-buttons {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+
+        .kb-btn {
+            background: #e8f8f5;
+            border: 1px solid #27ae60;
+            padding: 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.2s;
+            min-width: 28px;
+            text-align: center;
+        }
+
+        .kb-btn:hover {
+            background: #27ae60;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .kb-btn:active {
+            transform: scale(0.95);
+        }
+
+        .kb-content.minimized {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            input[type="text"] {
+                width: 100%;
+                margin: 5px 0;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            #virtualKeyboard {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+            }
+
+            .kb-buttons {
+                grid-template-columns: repeat(7, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Ejercicio de Comprensión: El Ecoturismo</h1>
+
+        <div class="text-section">
+            <h2>Texto Original</h2>
+            <p><strong>El ecoturismo</strong></p>
+            <p>El ecoturismo es un viaje responsable a áreas naturales que conservan el ambiente y mejoran el bienestar de la población local. De este modo, hablar de ecoturismo es hablar de un turismo responsable con el medio ambiente y la sociedad local que vive en dicho entorno. Es decir, que a diferencia de lo que se pueda pensar en principio, ecoturismo no es cualquier forma de turismo que tenga relación con la naturaleza, sino que además de estar relacionado con ello, dicha relación debe establecerse siempre desde el respeto y desde una perspectiva ética. De esta forma, si tomamos como ejemplo un viaje que se haga a la montaña podremos estar hablando de turismo ecológico dado que es un entorno natural pero lo que realmente diferenciará que nuestro viaje sea un ejemplo de ecoturismo o no, será la relación que establezcamos con la montaña. Y no solo, el lugar elegido.</p>
+        </div>
+
+        <!-- SECTION 1: MCQ -->
+        <div class="section">
+            <h3>Parte 1: Preguntas de Opción Múltiple (MCQ)</h3>
+
+            <div class="question">
+                <p>1. ¿Qué es el ecoturismo según el texto?</p>
+                <label class="mcq-option">
+                    <input type="radio" name="q1" value="a">
+                    a) Cualquier viaje a la naturaleza
+                </label>
+                <label class="mcq-option">
+                    <input type="radio" name="q1" value="b">
+                    b) Un viaje responsable a áreas naturales que conserva el ambiente
+                </label>
+                <label class="mcq-option">
+                    <input type="radio" name="q1" value="c">
+                    c) Turismo de aventura en la montaña
+                </label>
+                <label class="mcq-option">
+                    <input type="radio" name="q1" value="d">
+                    d) Visitas a parques temáticos ecológicos
+                </label>
+                <span class="answer-key" id="answer-q1">✓ Respuesta correcta: b</span>
+            </div>
+
+            <div class="question">
+                <p>2. El ecoturismo debe mejorar:</p>
+                <label class="mcq-option">
+                    <input type="radio" name="q2" value="a">
+                    a) Solo el medio ambiente
+                </label>
+                <label class="mcq-option">
+                    <input type="radio" name="q2" value="b">
+                    b) El bienestar de la población local
+                </label>
+                <label class="mcq-option">
+                    <input type="radio" name="q2" value="c">
+                    c) Las ganancias de las empresas turísticas
+                </label>
+                <label class="mcq-option">
+                    <input type="radio" name="q2" value="d">
+                    d) La infraestructura urbana
+                </label>
+                <span class="answer-key" id="answer-q2">✓ Respuesta correcta: b</span>
+            </div>
+
+            <div class="question">
+                <p>3. ¿Desde qué perspectivas debe establecerse la relación con la naturaleza en el ecoturismo?</p>
+                <label class="mcq-option">
+                    <input type="radio" name="q3" value="a">
+                    a) Económica y comercial
+                </label>
+                <label class="mcq-option">
+                    <input type="radio" name="q3" value="b">
+                    b) Respeto y ética
+                </label>
+                <label class="mcq-option">
+                    <input type="radio" name="q3" value="c">
+                    c) Diversión y entretenimiento
+                </label>
+                <label class="mcq-option">
+                    <input type="radio" name="q3" value="d">
+                    d) Científica y educativa
+                </label>
+                <span class="answer-key" id="answer-q3">✓ Respuesta correcta: b</span>
+            </div>
+
+            <div class="question">
+                <p>4. Según el texto, ¿qué determina si un viaje a la montaña es ecoturismo?</p>
+                <label class="mcq-option">
+                    <input type="radio" name="q4" value="a">
+                    a) El lugar elegido únicamente
+                </label>
+                <label class="mcq-option">
+                    <input type="radio" name="q4" value="b">
+                    b) La relación que establezcamos con la montaña
+                </label>
+                <label class="mcq-option">
+                    <input type="radio" name="q4" value="c">
+                    c) El precio del viaje
+                </label>
+                <label class="mcq-option">
+                    <input type="radio" name="q4" value="d">
+                    d) La duración del viaje
+                </label>
+                <span class="answer-key" id="answer-q4">✓ Respuesta correcta: b</span>
+            </div>
+        </div>
+
+        <!-- SECTION 2: Short Answers -->
+        <div class="section">
+            <h3>Parte 2: Preguntas de Respuesta Corta</h3>
+
+            <div class="question">
+                <p>5. ¿Qué dos elementos debe conservar el ecoturismo? (2 palabras clave)</p>
+                <input type="text" id="short1" placeholder="Tu respuesta">
+                <span class="answer-key" id="answer-short1">✓ Respuesta: ambiente/medio ambiente y bienestar (de la población local)</span>
+            </div>
+
+            <div class="question">
+                <p>6. ¿Con qué debe ser responsable el ecoturismo? (menciona dos aspectos)</p>
+                <input type="text" id="short2" placeholder="Tu respuesta">
+                <span class="answer-key" id="answer-short2">✓ Respuesta: medio ambiente y sociedad local</span>
+            </div>
+
+            <div class="question">
+                <p>7. Según el texto, ¿el ecoturismo es cualquier forma de turismo relacionado con la naturaleza? (Sí/No y explica brevemente)</p>
+                <input type="text" id="short3" placeholder="Tu respuesta" style="width: 400px;">
+                <span class="answer-key" id="answer-short3">✓ Respuesta: No, debe establecerse desde el respeto y una perspectiva ética</span>
+            </div>
+        </div>
+
+        <!-- SECTION 3: Gap Fill -->
+        <div class="section">
+            <h3>Parte 3: Completa los Espacios (Gap Fill)</h3>
+
+            <div class="question">
+                <p>8. Completa el texto con las palabras correctas:</p>
+                <p style="line-height: 2;">
+                    El ecoturismo es un viaje <input type="text" class="gap-fill-input" id="gap1" data-answer="responsable"> 
+                    a áreas naturales que conservan el <input type="text" class="gap-fill-input" id="gap2" data-answer="ambiente"> 
+                    y mejoran el <input type="text" class="gap-fill-input" id="gap3" data-answer="bienestar"> 
+                    de la población <input type="text" class="gap-fill-input" id="gap4" data-answer="local">.
+                </p>
+                <span class="answer-key" id="answer-gap">✓ Respuestas: responsable, ambiente, bienestar, local</span>
+            </div>
+
+            <div class="question">
+                <p>9. Completa la frase:</p>
+                <p style="line-height: 2;">
+                    La relación con la naturaleza debe establecerse siempre desde el 
+                    <input type="text" class="gap-fill-input" id="gap5" data-answer="respeto"> 
+                    y desde una perspectiva <input type="text" class="gap-fill-input" id="gap6" data-answer="ética">.
+                </p>
+                <span class="answer-key" id="answer-gap2">✓ Respuestas: respeto, ética</span>
+            </div>
+        </div>
+
+        <!-- SECTION 4: Synonym Search -->
+        <div class="section">
+            <h3>Parte 4: Búsqueda de Sinónimos</h3>
+
+            <div class="synonym-search">
+                <p><strong>Instrucciones:</strong> Encuentra en el texto palabras que signifiquen lo mismo o similar a:</p>
+            </div>
+
+            <div class="question">
+                <p>10. Sinónimo de "protegen" o "mantienen" →</p>
+                <input type="text" id="syn1" placeholder="Tu respuesta">
+                <span class="answer-key" id="answer-syn1">✓ Respuesta: conservan</span>
+            </div>
+
+            <div class="question">
+                <p>11. Sinónimo de "ambiente" o "contexto natural" →</p>
+                <input type="text" id="syn2" placeholder="Tu respuesta">
+                <span class="answer-key" id="answer-syn2">✓ Respuesta: entorno</span>
+            </div>
+
+            <div class="question">
+                <p>12. Sinónimo de "moral" (relacionado con valores) →</p>
+                <input type="text" id="syn3" placeholder="Tu respuesta">
+                <span class="answer-key" id="answer-syn3">✓ Respuesta: ética</span>
+            </div>
+
+            <div class="question">
+                <p>13. Sinónimo de "ámbito" o "zona" →</p>
+                <input type="text" id="syn4" placeholder="Tu respuesta">
+                <span class="answer-key" id="answer-syn4">✓ Respuesta: área</span>
+            </div>
+
+            <div class="question">
+                <p>14. Sinónimo de "seleccionado" o "escogido" →</p>
+                <input type="text" id="syn5" placeholder="Tu respuesta">
+                <span class="answer-key" id="answer-syn5">✓ Respuesta: elegido</span>
+            </div>
+        </div>
+
+        <!-- SECTION 5: Grammar - Direct vs Indirect Object Pronouns -->
+        <div class="section">
+            <h3>Parte 5: Gramática - Pronombres de Objeto Directo vs Indirecto</h3>
+
+            <div class="synonym-search" style="border-left-color: #3498db;">
+                <p><strong>📘 Recuerda:</strong></p>
+                <p><strong>Objeto Directo (OD):</strong> lo, la, los, las - responde a "¿qué?" o "¿a quién?"</p>
+                <p><strong>Objeto Indirecto (OI):</strong> me, te, le, nos, os, les - responde a "¿a quién?" o "¿para quién?"</p>
+                <p><em>Ejemplo: Yo compro el libro (OD) para María (OI) → Yo <strong>se lo</strong> compro</em></p>
+            </div>
+
+            <div class="question">
+                <p>15. Carlos lee <u>un artículo sobre ecoturismo</u>. → Carlos <input type="text" class="gap-fill-input" id="gram1" data-answer="lo" style="width: 60px;"> lee.</p>
+                <span class="answer-key" id="answer-gram1">✓ Respuesta: lo (objeto directo)</span>
+            </div>
+
+            <div class="question">
+                <p>16. María explica el concepto <u>a los estudiantes</u>. → María <input type="text" class="gap-fill-input" id="gram2" data-answer="les" style="width: 60px;"> explica el concepto.</p>
+                <span class="answer-key" id="answer-gram2">✓ Respuesta: les (objeto indirecto)</span>
+            </div>
+
+            <div class="question">
+                <p>17. El guía muestra <u>las áreas naturales</u> <u>a los turistas</u>. → El guía <input type="text" class="gap-fill-input" id="gram3" data-answer="se las" style="width: 80px;"> muestra.</p>
+                <span class="answer-key" id="answer-gram3">✓ Respuesta: se las (les + las = se las)</span>
+            </div>
+
+            <div class="question">
+                <p>18. Nosotros enviamos <u>información</u> <u>a ti</u>. → Nosotros <input type="text" class="gap-fill-input" id="gram4" data-answer="te la" style="width: 80px;"> enviamos.</p>
+                <span class="answer-key" id="answer-gram4">✓ Respuesta: te la (te + la)</span>
+            </div>
+
+            <div class="question">
+                <p>19. Los ecoturistas respetan <u>el ambiente</u>. → Los ecoturistas <input type="text" class="gap-fill-input" id="gram5" data-answer="lo" style="width: 60px;"> respetan.</p>
+                <span class="answer-key" id="answer-gram5">✓ Respuesta: lo (objeto directo)</span>
+            </div>
+
+            <div class="question">
+                <p>20. El programa mejora <u>el bienestar</u> <u>a la población local</u>. → El programa <input type="text" class="gap-fill-input" id="gram6" data-answer="se lo" style="width: 80px;"> mejora.</p>
+                <span class="answer-key" id="answer-gram6">✓ Respuesta: se lo (le + lo = se lo)</span>
+            </div>
+        </div>
+
+        <div id="results"></div>
+
+        <div id="results"></div>
+
+        <div class="buttons">
+            <button onclick="checkAllAnswers()">✅ Verificar Todas las Respuestas</button>
+            <button onclick="showAnswers()">👁️ Mostrar Respuestas Correctas</button>
+            <button onclick="resetExercise()">🔄 Reiniciar Ejercicio</button>
+            <button onclick="downloadResults()">📥 Descargar Resultados</button>
+        </div>
+    </div>
+
+    <!-- Floating Minimalist Virtual Keyboard -->
+    <div id="virtualKeyboard">
+        <div class="kb-header">
+            <span class="kb-title">Teclado</span>
+            <button class="kb-toggle" onclick="toggleKeyboard()">−</button>
+        </div>
+        <div class="kb-content" id="kbContent">
+            <div class="kb-buttons">
+                <button class="kb-btn" onclick="insertChar('ñ')">ñ</button>
+                <button class="kb-btn" onclick="insertChar('á')">á</button>
+                <button class="kb-btn" onclick="insertChar('é')">é</button>
+                <button class="kb-btn" onclick="insertChar('í')">í</button>
+                <button class="kb-btn" onclick="insertChar('ó')">ó</button>
+                <button class="kb-btn" onclick="insertChar('ú')">ú</button>
+                <button class="kb-btn" onclick="insertChar('ü')">ü</button>
+                <button class="kb-btn" onclick="insertChar('Ñ')">Ñ</button>
+                <button class="kb-btn" onclick="insertChar('Á')">Á</button>
+                <button class="kb-btn" onclick="insertChar('É')">É</button>
+                <button class="kb-btn" onclick="insertChar('Í')">Í</button>
+                <button class="kb-btn" onclick="insertChar('Ó')">Ó</button>
+                <button class="kb-btn" onclick="insertChar('Ú')">Ú</button>
+                <button class="kb-btn" onclick="insertChar('Ü')">Ü</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentInput = null;
+        const correctAnswers = {
+            mcq: {
+                q1: 'b',
+                q2: 'b',
+                q3: 'b',
+                q4: 'b'
+            },
+            gaps: {
+                gap1: 'responsable',
+                gap2: 'ambiente',
+                gap3: 'bienestar',
+                gap4: 'local',
+                gap5: 'respeto',
+                gap6: 'ética'
+            },
+            synonyms: {
+                syn1: 'conservan',
+                syn2: 'entorno',
+                syn3: 'ética',
+                syn4: 'área',
+                syn5: 'elegido'
+            },
+            grammar: {
+                gram1: 'lo',
+                gram2: 'les',
+                gram3: 'se las',
+                gram4: 'te la',
+                gram5: 'lo',
+                gram6: 'se lo'
+            }
+        };
+
+        function checkAllAnswers() {
+            let totalCorrect = 0;
+            let totalQuestions = 20;
+
+            // Check MCQ
+            for (let i = 1; i <= 4; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                const options = document.querySelectorAll(`input[name="q${i}"]`);
+                
+                options.forEach(option => {
+                    option.parentElement.classList.remove('correct', 'incorrect');
+                });
+
+                if (selected) {
+                    if (selected.value === correctAnswers.mcq[`q${i}`]) {
+                        selected.parentElement.classList.add('correct');
+                        totalCorrect++;
+                    } else {
+                        selected.parentElement.classList.add('incorrect');
+                    }
+                }
+            }
+
+            // Check Gap Fill
+            Object.keys(correctAnswers.gaps).forEach(gapId => {
+                const input = document.getElementById(gapId);
+                const userAnswer = input.value.toLowerCase().trim();
+                const correctAnswer = correctAnswers.gaps[gapId].toLowerCase();
+
+                if (userAnswer === correctAnswer) {
+                    input.classList.remove('incorrect');
+                    input.classList.add('correct');
+                    totalCorrect++;
+                } else {
+                    input.classList.remove('correct');
+                    input.classList.add('incorrect');
+                }
+            });
+
+            // Check Synonyms (more flexible)
+            Object.keys(correctAnswers.synonyms).forEach(synId => {
+                const input = document.getElementById(synId);
+                const userAnswer = input.value.toLowerCase().trim();
+                const correctAnswer = correctAnswers.synonyms[synId].toLowerCase();
+
+                if (userAnswer === correctAnswer || userAnswer.includes(correctAnswer) || correctAnswer.includes(userAnswer)) {
+                    input.classList.remove('incorrect');
+                    input.classList.add('correct');
+                    totalCorrect++;
+                } else {
+                    input.classList.remove('correct');
+                    input.classList.add('incorrect');
+                }
+            });
+
+            // Check Grammar exercises
+            Object.keys(correctAnswers.grammar).forEach(gramId => {
+                const input = document.getElementById(gramId);
+                const userAnswer = input.value.toLowerCase().trim();
+                const correctAnswer = correctAnswers.grammar[gramId].toLowerCase();
+
+                if (userAnswer === correctAnswer) {
+                    input.classList.remove('incorrect');
+                    input.classList.add('correct');
+                    totalCorrect++;
+                } else {
+                    input.classList.remove('correct');
+                    input.classList.add('incorrect');
+                }
+            });
+
+            // Note: Short answers need manual review
+            const shortAnswerNote = " (Preguntas 5-7 requieren revisión manual)";
+
+            const percentage = Math.round((totalCorrect / totalQuestions) * 100);
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.style.display = 'block';
+            resultsDiv.innerHTML = `
+                <strong>Resultado: ${totalCorrect} de ${totalQuestions} respuestas correctas verificadas (${percentage}%)</strong>
+                <br><small>${shortAnswerNote}</small>
+            `;
+        }
+
+        function showAnswers() {
+            document.querySelectorAll('.answer-key').forEach(key => {
+                key.classList.add('show');
+            });
+        }
+
+        function resetExercise() {
+            // Reset MCQ
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.checked = false;
+                radio.parentElement.classList.remove('correct', 'incorrect');
+            });
+
+            // Reset text inputs
+            document.querySelectorAll('input[type="text"]').forEach(input => {
+                input.value = '';
+                input.classList.remove('correct', 'incorrect');
+            });
+
+            // Hide answer keys
+            document.querySelectorAll('.answer-key').forEach(key => {
+                key.classList.remove('show');
+            });
+
+            document.getElementById('results').style.display = 'none';
+        }
+
+        function downloadResults() {
+            let content = 'EJERCICIO DE COMPRENSIÓN: EL ECOTURISMO\n';
+            content += '='.repeat(60) + '\n\n';
+
+            // MCQ Results
+            content += 'PARTE 1: PREGUNTAS DE OPCIÓN MÚLTIPLE\n';
+            content += '-'.repeat(60) + '\n';
+            for (let i = 1; i <= 4; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                content += `Pregunta ${i}: ${selected ? selected.value : '(sin respuesta)'}\n`;
+                content += `Respuesta correcta: ${correctAnswers.mcq[`q${i}`]}\n`;
+                content += `Estado: ${selected && selected.value === correctAnswers.mcq[`q${i}`] ? '✓ CORRECTO' : '✗ INCORRECTO'}\n\n`;
+            }
+
+            // Short Answers
+            content += '\nPARTE 2: PREGUNTAS DE RESPUESTA CORTA\n';
+            content += '-'.repeat(60) + '\n';
+            for (let i = 1; i <= 3; i++) {
+                const input = document.getElementById(`short${i}`);
+                content += `Pregunta ${4 + i}: ${input.value || '(sin respuesta)'}\n`;
+                content += `(Requiere revisión manual)\n\n`;
+            }
+
+            // Gap Fill
+            content += '\nPARTE 3: COMPLETA LOS ESPACIOS\n';
+            content += '-'.repeat(60) + '\n';
+            let gapNum = 8;
+            Object.keys(correctAnswers.gaps).forEach(gapId => {
+                const input = document.getElementById(gapId);
+                const isCorrect = input.value.toLowerCase().trim() === correctAnswers.gaps[gapId].toLowerCase();
+                content += `${gapId}: ${input.value || '(sin respuesta)'}\n`;
+                content += `Respuesta correcta: ${correctAnswers.gaps[gapId]}\n`;
+                content += `Estado: ${isCorrect ? '✓ CORRECTO' : '✗ INCORRECTO'}\n\n`;
+            });
+
+            // Synonyms
+            content += '\nPARTE 4: BÚSQUEDA DE SINÓNIMOS\n';
+            content += '-'.repeat(60) + '\n';
+            let synNum = 10;
+            Object.keys(correctAnswers.synonyms).forEach(synId => {
+                const input = document.getElementById(synId);
+                content += `Pregunta ${synNum++}: ${input.value || '(sin respuesta)'}\n`;
+                content += `Respuesta esperada: ${correctAnswers.synonyms[synId]}\n\n`;
+            });
+
+            // Grammar
+            content += '\nPARTE 5: GRAMÁTICA - PRONOMBRES\n';
+            content += '-'.repeat(60) + '\n';
+            let gramNum = 15;
+            Object.keys(correctAnswers.grammar).forEach(gramId => {
+                const input = document.getElementById(gramId);
+                const isCorrect = input.value.toLowerCase().trim() === correctAnswers.grammar[gramId].toLowerCase();
+                content += `Pregunta ${gramNum++}: ${input.value || '(sin respuesta)'}\n`;
+                content += `Respuesta correcta: ${correctAnswers.grammar[gramId]}\n`;
+                content += `Estado: ${isCorrect ? '✓ CORRECTO' : '✗ INCORRECTO'}\n\n`;
+            });
+
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ecoturismo_resultados.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

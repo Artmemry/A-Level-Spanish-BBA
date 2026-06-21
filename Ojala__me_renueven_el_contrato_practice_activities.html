@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica: El Mundo Laboral Español</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            color: #3498db;
+            margin: 25px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        h3 {
+            color: #2980b9;
+            margin: 20px 0 10px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .vocabulary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .vocab-item {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .spanish {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .english {
+            color: #7f8c8d;
+        }
+        
+        .hidden {
+            color: #3498db;
+            font-style: italic;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .vocab-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .exercise {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .question {
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .secondary-btn {
+            background-color: #95a5a6;
+        }
+        
+        .secondary-btn:hover {
+            background-color: #7f8c8d;
+        }
+        
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .flashcards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .card {
+            width: 200px;
+            height: 120px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .card-front {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .card-back {
+            background-color: #f1c40f;
+            color: #333;
+            transform: rotateY(180deg);
+        }
+        
+        .exam-practice {
+            background-color: #e8f4f8;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        
+        .statement {
+            background-color: white;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            margin: 15px 0;
+        }
+        
+        .notes-area {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        
+        .translation-exercise {
+            background-color: #fff9e6;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .highlight {
+            background-color: #fff9e6;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        .word-bank {
+            background-color: #e8f4f8;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .word-bank h4 {
+            margin-bottom: 10px;
+            color: #2980b9;
+        }
+        
+        .word-bank-words {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .word-bank-word {
+            background-color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid #3498db;
+            cursor: pointer;
+        }
+        
+        .word-bank-word:hover {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .comprehension-text {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            line-height: 1.8;
+        }
+        
+        @media (max-width: 768px) {
+            .vocabulary-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flashcards {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Práctica: El Mundo Laboral Español</h1>
+            <p>Ejercicios interactivos basados en la lección "Ojalá me renueven el contrato"</p>
+        </header>
+        
+        <div class="section">
+            <h2>Vocabulario Clave</h2>
+            <div class="vocab-controls">
+                <button onclick="toggleLanguage('spanish')" class="secondary-btn">Ocultar/Mostrar Español</button>
+                <button onclick="toggleLanguage('english')" class="secondary-btn">Ocultar/Mostrar Inglés</button>
+                <button onclick="showAll()" class="secondary-btn">Mostrar Todo</button>
+            </div>
+            <div class="vocabulary-grid" id="vocabularyList">
+                <!-- Vocabulary will be populated by JavaScript -->
+            </div>
+            
+            <h3>Tarjetas de Memoria</h3>
+            <div class="flashcards" id="flashcardsContainer">
+                <!-- Flashcards will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Ejercicio de Completar</h2>
+            <div class="exercise">
+                <p class="question">Completa el siguiente texto con las palabras adecuadas:</p>
+                
+                <div class="word-bank">
+                    <h4>Banco de Palabras:</h4>
+                    <div class="word-bank-words" id="wordBank">
+                        <!-- Word bank will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="comprehension-text">
+                    <p>El Programa de Garantía Juvenil es un proyecto a nivel <input type="text" id="q1"> que tiene como objetivo reducir el paro <input type="text" id="q2">. Consiste en que jóvenes del municipio que <input type="text" id="q3"> mayores de 16 años y menores de 29 puedan recibir ayuda para <input type="text" id="q4"> del desempleo.</p>
+                    <p>Es un <input type="text" id="q5"> que se ofrece en toda España. En Cataluña por ejemplo, el Gobierno de la Generalitat ofrece, en un <input type="text" id="q6"> de cuatro meses, una oferta de trabajo, prácticas o formación a aquellas personas jóvenes que <input type="text" id="q7"> los requisitos.</p>
+                    <p>Estos requisitos incluyen tener <input type="text" id="q8"> española y no haber trabajado en los 30 días anteriores de la fecha de solicitud. También no pueden haber recibido ni <input type="text" id="q9"> formativas ni educativas antes de la presentación de la solicitud.</p>
+                </div>
+                
+                <button onclick="checkFillInTheBlanks()">Comprobar Respuestas</button>
+                <div id="fillResult" class="result"></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Traducción de Términos</h2>
+            <div class="exercise">
+                <p class="question">Traduce las siguientes palabras y frases del español al inglés:</p>
+                <div id="translationExercises">
+                    <!-- Translation exercises will be populated by JavaScript -->
+                </div>
+                <button onclick="checkTranslations()">Comprobar Respuestas</button>
+                <div id="translationResult" class="result"></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Verdadero o Falso</h2>
+            <div class="exercise">
+                <p class="question">Lee el texto y luego indica si las siguientes afirmaciones son verdaderas (V) o falsas (F):</p>
+                
+                <div class="comprehension-text">
+                    <p><strong>Texto de comprensión:</strong></p>
+                    <p>Es cierto que España no ofrece un buen panorama laboral para los jóvenes. Hay demasiados titulados universitarios, la formación profesional no es de gran calidad y no se ajusta a las necesidades de las empresas, y las pymes (empresas predominantes en nuestro país) no se pueden permitir formar a sus empleados.</p>
+                    <p>En teoría los gobiernos se ocupan del problema, aunque a veces no de la mejor manera: con políticas basadas en subvenciones o con contratos precarios (temporales, a tiempo parcial, de prácticas, o hasta no remunerados).</p>
+                    <p>Los jóvenes tienen más oportunidades laborales en los servicios ligados al comercio, la hostelería y la restauración, o en la sanidad y la educación privada, aunque muchos universitarios ocupan puestos de trabajo por debajo de su formación.</p>
+                    <p>Los contratos temporales no favorecen el progreso dentro de la empresa ni permiten a los más jóvenes adquirir la experiencia necesaria. Para mejorar sus salidas laborales, los jóvenes necesitan complementar su formación académica con competencias tan importantes como saber desenvolverse en un entorno multicultural, dominar el inglés o manejar con soltura herramientas informáticas.</p>
+                </div>
+                
+                <div id="trueFalseExercises">
+                    <!-- True/False exercises will be populated by JavaScript -->
+                </div>
+                <button onclick="checkTrueFalse()">Comprobar Respuestas</button>
+                <div id="trueFalseResult" class="result"></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Emparejamiento</h2>
+            <div class="exercise">
+                <p class="question">Empareja cada pregunta con su respuesta correspondiente:</p>
+                <div id="matchingExercises">
+                    <!-- Matching exercises will be populated by JavaScript -->
+                </div>
+                <button onclick="checkMatching()">Comprobar Respuestas</button>
+                <div id="matchingResult" class="result"></div>
+            </div>
+        </div>
+        
+        <div class="exam-practice">
+            <h2>Práctica de Examen</h2>
+            <p>Prepara tu respuesta para uno de los siguientes temas de examen:</p>
+            
+            <div class="statement">
+                <h3>Opción A:</h3>
+                <p>"En España los jóvenes licenciados encuentran trabajo fácilmente."</p>
+                <p><strong>Debes considerar:</strong></p>
+                <ul>
+                    <li>Tu opinión sobre la facilidad de encontrar trabajo entre los licenciados españoles.</li>
+                    <li>Las causas del panorama laboral actual en España con referencia a los jóvenes.</li>
+                </ul>
+                <textarea class="notes-area" placeholder="Tus notas para la Opción A..."></textarea>
+            </div>
+            
+            <div class="statement">
+                <h3>Opción B:</h3>
+                <p>"En España las únicas ofertas de trabajo son contratos basura."</p>
+                <p><strong>Debes considerar:</strong></p>
+                <ul>
+                    <li>Tu opinión sobre los contratos ofrecidos a muchos españoles.</li>
+                    <li>Las diferentes oportunidades laborales para los obreros en España.</li>
+                </ul>
+                <textarea class="notes-area" placeholder="Tus notas para la Opción B..."></textarea>
+            </div>
+            
+            <div class="translation-exercise">
+                <h3>Traducción de Texto</h3>
+                <p>Traduce al español el siguiente texto:</p>
+                <p class="highlight">"Young people and work. Around 30% of young people in our country go to university. Statistics show that having a university degree is a pathway to obtaining higher positions in companies and better salaries. Those young people who don't go to university generally end up working in the agriculture, host management or building sectors."</p>
+                <textarea class="notes-area" placeholder="Tu traducción aquí..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Vocabulary data
+        const vocabulary = [
+            { spanish: "un contrato basura", english: "a junk contract; a zero-hours contract; a poorly paid contract" },
+            { spanish: "estar en paro; estar desempleado/a", english: "to be unemployed; to be out of work" },
+            { spanish: "el paro; el desempleo", english: "unemployment" },
+            { spanish: "un/una nini", english: "a young person not in education, employment or training; a NEET" },
+            { spanish: "un titulado universitario; una titulada universitaria", english: "a university graduate; a person with a degree" },
+            { spanish: "las salidas laborales; las oportunidades laborales", english: "job opportunities; career prospects" },
+            { spanish: "un contrato temporal", english: "a temporary contract" },
+            { spanish: "un contrato a tiempo parcial", english: "a part-time contract" },
+            { spanish: "un contrato no remunerado", english: "an unpaid contract" },
+            { spanish: "una baja por maternidad", english: "maternity leave" },
+            { spanish: "están desesperados/as", english: "they are desperate" },
+            { spanish: "están encantados/as", english: "they are thrilled; they are delighted" },
+            { spanish: "la formación profesional; la formación académica", english: "vocational training; academic education" },
+            { spanish: "las pymes", english: "small and medium-sized enterprises; SMEs" },
+            { spanish: "las subvenciones", english: "subsidies; grants; financial aid" },
+            { spanish: "ajustarse a las necesidades", english: "to adapt to needs; to fit the requirements" },
+            { spanish: "la hostelería; la restauración", english: "catering and hotel management; restaurants" },
+            { spanish: "ocupar un puesto", english: "to occupy a position" },
+            { spanish: "por debajo de su formación", english: "below one's qualifications" },
+            { spanish: "sobrecalificado", english: "overqualified" },
+            { spanish: "adquirir experiencia; ganar experiencia", english: "to gain experience; to acquire experience" },
+            { spanish: "dominar el inglés", english: "to master English; to be fluent in English" },
+            { spanish: "desenvolverse", english: "to cope; to handle oneself" },
+            { spanish: "manejar con soltura", english: "to handle with ease; to be proficient" },
+            { spanish: "un contrato de prácticas", english: "a work placement contract; an internship contract" },
+            { spanish: "cubrir una baja", english: "to cover for someone on leave; to do cover" },
+            { spanish: "una vacante", english: "a vacancy; a job opening" },
+            { spanish: "conseguir el primer empleo", english: "to obtain the first job; to get one's first job" },
+            { spanish: "mandar el currículum", english: "to send your CV; to send your résumé" },
+            { spanish: "hacer contactos", english: "to network; to make contacts" },
+            { spanish: "la competencia feroz; la competitividad feroz", english: "fierce competition" },
+            { spanish: "un préstamo", english: "a loan" },
+            { spanish: "considerarse afortunado/a", english: "to consider oneself lucky; to consider oneself fortunate" },
+            { spanish: "mudarse a otros países", english: "to move to other countries; to relocate to other countries" },
+            { spanish: "la fuga de cerebros", english: "brain drain" },
+            { spanish: "el panorama laboral", english: "the employment landscape; the job market situation" },
+            { spanish: "trabajar para el sector público", english: "to work for the public sector" }
+        ];
+
+        // Fill in the blanks answers
+        const fillAnswers = {
+            q1: "europeo",
+            q2: "juvenil",
+            q3: "sean",
+            q4: "salir",
+            q5: "programa",
+            q6: "plazo",
+            q7: "cumplan",
+            q8: "nacionalidad",
+            q9: "acciones"
+        };
+
+        // Word bank for fill in the blanks
+        const wordBankWords = [
+            "acciones", "sean", "plazo", "europeo", "nacionalidad", 
+            "iniciativa", "tengan", "programa", "cumplan", "ayuda", 
+            "juvenil", "salir"
+        ];
+
+        // Translation exercises
+        const translationExercises = [
+            { spanish: "nini", answer: "NEET" },
+            { spanish: "el paro", answer: "unemployment" },
+            { spanish: "un contrato basura", answer: "a junk contract" },
+            { spanish: "una generación", answer: "a generation" },
+            { spanish: "becario/a", answer: "intern" },
+            { spanish: "curro", answer: "work/job" },
+            { spanish: "empresario", answer: "businessperson" },
+            { spanish: "puestos de trabajo", answer: "job positions" }
+        ];
+
+        // True/False exercises
+        const trueFalseExercises = [
+            { statement: "Hay muchas salidas laborales para los jóvenes españoles desempleados.", answer: false },
+            { statement: "Las empresas no tienen confianza en la calidad de la formación profesional.", answer: true },
+            { statement: "Los gobiernos se ocupan del problema de manera ineficaz.", answer: true },
+            { statement: "Casi no hay trabajo en los servicios relacionados con la salud de la gente.", answer: false },
+            { statement: "Los jóvenes con títulos universitarios tienen las mejores posibilidades para conseguir un empleo.", answer: false },
+            { statement: "Mediante un contrato temporal un joven puede ganar la experiencia necesaria para progresar profesionalmente.", answer: false },
+            { statement: "Para mejorar sus salidas laborales los jóvenes necesitan más experiencia de otras culturas.", answer: true },
+            { statement: "La formación que reciben los jóvenes les permite manejar mejor el español.", answer: false }
+        ];
+
+        // Matching exercises
+        const matchingExercises = {
+            questions: [
+                "¿Cuál es el mayor problema que tienen los jóvenes hoy en día?",
+                "¿Qué formación necesito para trabajar en un hotel?",
+                "¿Dónde está la sede de SEAT?",
+                "¿Cuánto le ofreció el empleo?",
+                "¿Cuántos jóvenes españoles no tienen empleo?",
+                "¿Por qué hoy me ofrecen un contrato?",
+                "¿Cuándo te entrevistaron para el puesto?",
+                "¿Cómo puedo mejorar mis salidas laborales?"
+            ],
+            answers: [
+                "Conseguir un puesto permanente.",
+                "La hostelería.",
+                "Cerca de Barcelona.",
+                "Por lo menos un 25%.",
+                "No tienes una formación adecuada.",
+                "El 26 de marzo.",
+                "Dominando el inglés.",
+                "El director de la empresa."
+            ],
+            correctPairs: {
+                0: 0, // Pregunta 1 -> Respuesta A
+                1: 1, // Pregunta 2 -> Respuesta B
+                2: 2, // Pregunta 3 -> Respuesta C
+                3: 7, // Pregunta 4 -> Respuesta H
+                4: 3, // Pregunta 5 -> Respuesta D
+                5: 4, // Pregunta 6 -> Respuesta E
+                6: 5, // Pregunta 7 -> Respuesta F
+                7: 6  // Pregunta 8 -> Respuesta G
+            }
+        };
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            populateVocabulary();
+            createFlashcards();
+            populateWordBank();
+            populateTranslationExercises();
+            populateTrueFalseExercises();
+            populateMatchingExercises();
+        });
+
+        // Populate vocabulary list
+        function populateVocabulary() {
+            const vocabularyList = document.getElementById('vocabularyList');
+            vocabulary.forEach(item => {
+                const vocabItem = document.createElement('div');
+                vocabItem.className = 'vocab-item';
+                vocabItem.innerHTML = `
+                    <span class="spanish">${item.spanish}</span>
+                    <span class="english">${item.english}</span>
+                `;
+                vocabularyList.appendChild(vocabItem);
+            });
+        }
+
+        // Create flashcards
+        function createFlashcards() {
+            const flashcardsContainer = document.getElementById('flashcardsContainer');
+            
+            // Use a subset of vocabulary for flashcards
+            const flashcardVocabulary = vocabulary.slice(0, 12);
+            
+            flashcardVocabulary.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-inner">
+                        <div class="card-front">
+                            ${item.spanish}
+                        </div>
+                        <div class="card-back">
+                            ${item.english}
+                        </div>
+                    </div>
+                `;
+                
+                card.addEventListener('click', function() {
+                    this.classList.toggle('flipped');
+                });
+                
+                flashcardsContainer.appendChild(card);
+            });
+        }
+
+        // Populate word bank
+        function populateWordBank() {
+            const wordBankContainer = document.getElementById('wordBank');
+            
+            // Shuffle the words for the word bank
+            const shuffledWords = [...wordBankWords].sort(() => Math.random() - 0.5);
+            
+            shuffledWords.forEach(word => {
+                const wordElement = document.createElement('div');
+                wordElement.className = 'word-bank-word';
+                wordElement.textContent = word;
+                wordElement.addEventListener('click', function() {
+                    // Find the first empty input or let user decide where to place it
+                    const inputs = document.querySelectorAll('.comprehension-text input');
+                    for (let input of inputs) {
+                        if (!input.value) {
+                            input.value = word;
+                            break;
+                        }
+                    }
+                });
+                wordBankContainer.appendChild(wordElement);
+            });
+        }
+
+        // Populate translation exercises
+        function populateTranslationExercises() {
+            const translationContainer = document.getElementById('translationExercises');
+            
+            translationExercises.forEach((exercise, index) => {
+                const exerciseDiv = document.createElement('div');
+                exerciseDiv.className = 'question';
+                exerciseDiv.innerHTML = `
+                    <p>${exercise.spanish}: <input type="text" id="translation${index}"></p>
+                `;
+                translationContainer.appendChild(exerciseDiv);
+            });
+        }
+
+        // Populate true/false exercises
+        function populateTrueFalseExercises() {
+            const trueFalseContainer = document.getElementById('trueFalseExercises');
+            
+            trueFalseExercises.forEach((exercise, index) => {
+                const exerciseDiv = document.createElement('div');
+                exerciseDiv.className = 'question';
+                exerciseDiv.innerHTML = `
+                    <p>${exercise.statement}</p>
+                    <input type="radio" id="true${index}" name="tf${index}" value="true">
+                    <label for="true${index}">Verdadero</label>
+                    <input type="radio" id="false${index}" name="tf${index}" value="false">
+                    <label for="false${index}">Falso</label>
+                `;
+                trueFalseContainer.appendChild(exerciseDiv);
+            });
+        }
+
+        // Populate matching exercises
+        function populateMatchingExercises() {
+            const matchingContainer = document.getElementById('matchingExercises');
+            
+            // Create two columns
+            const columnsDiv = document.createElement('div');
+            columnsDiv.style.display = 'flex';
+            columnsDiv.style.justifyContent = 'space-between';
+            columnsDiv.style.flexWrap = 'wrap';
+            
+            // Questions column
+            const questionsColumn = document.createElement('div');
+            questionsColumn.style.flex = '1';
+            questionsColumn.style.minWidth = '300px';
+            questionsColumn.style.marginRight = '20px';
+            
+            const questionsTitle = document.createElement('h3');
+            questionsTitle.textContent = 'Preguntas';
+            questionsColumn.appendChild(questionsTitle);
+            
+            matchingExercises.questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.innerHTML = `
+                    <p>${String.fromCharCode(65 + index)}. ${question}</p>
+                `;
+                questionsColumn.appendChild(questionDiv);
+            });
+            
+            // Answers column
+            const answersColumn = document.createElement('div');
+            answersColumn.style.flex = '1';
+            answersColumn.style.minWidth = '300px';
+            
+            const answersTitle = document.createElement('h3');
+            answersTitle.textContent = 'Respuestas';
+            answersColumn.appendChild(answersTitle);
+            
+            // Create dropdowns for matching
+            matchingExercises.questions.forEach((question, index) => {
+                const matchDiv = document.createElement('div');
+                matchDiv.className = 'question';
+                matchDiv.innerHTML = `
+                    <p>${String.fromCharCode(65 + index)}. 
+                    <select id="match${index}">
+                        <option value="">Selecciona una respuesta</option>
+                        ${matchingExercises.answers.map((answer, i) => 
+                            `<option value="${i}">${String.fromCharCode(65 + i)}. ${answer}</option>`
+                        ).join('')}
+                    </select>
+                    </p>
+                `;
+                answersColumn.appendChild(matchDiv);
+            });
+            
+            columnsDiv.appendChild(questionsColumn);
+            columnsDiv.appendChild(answersColumn);
+            matchingContainer.appendChild(columnsDiv);
+        }
+
+        // Toggle language visibility
+        function toggleLanguage(language) {
+            const vocabItems = document.querySelectorAll('.vocab-item');
+            vocabItems.forEach(item => {
+                const spanish = item.querySelector('.spanish');
+                const english = item.querySelector('.english');
+                
+                if (language === 'spanish') {
+                    if (spanish.classList.contains('hidden')) {
+                        spanish.classList.remove('hidden');
+                    } else {
+                        spanish.classList.add('hidden');
+                        spanish.textContent = '[Haga clic para mostrar]';
+                        spanish.addEventListener('click', function() {
+                            this.classList.remove('hidden');
+                            this.textContent = vocabulary[Array.from(vocabItems).indexOf(item)].spanish;
+                        });
+                    }
+                } else if (language === 'english') {
+                    if (english.classList.contains('hidden')) {
+                        english.classList.remove('hidden');
+                    } else {
+                        english.classList.add('hidden');
+                        english.textContent = '[Click to show]';
+                        english.addEventListener('click', function() {
+                            this.classList.remove('hidden');
+                            this.textContent = vocabulary[Array.from(vocabItems).indexOf(item)].english;
+                        });
+                    }
+                }
+            });
+        }
+
+        // Show all vocabulary
+        function showAll() {
+            const vocabItems = document.querySelectorAll('.vocab-item');
+            vocabItems.forEach((item, index) => {
+                const spanish = item.querySelector('.spanish');
+                const english = item.querySelector('.english');
+                
+                spanish.classList.remove('hidden');
+                spanish.textContent = vocabulary[index].spanish;
+                
+                english.classList.remove('hidden');
+                english.textContent = vocabulary[index].english;
+            });
+        }
+
+        // Check fill in the blanks answers
+        function checkFillInTheBlanks() {
+            let correctCount = 0;
+            const totalQuestions = Object.keys(fillAnswers).length;
+            
+            for (const [key, value] of Object.entries(fillAnswers)) {
+                const userAnswer = document.getElementById(key).value.trim().toLowerCase();
+                if (userAnswer === value) {
+                    correctCount++;
+                }
+            }
+            
+            const resultDiv = document.getElementById('fillResult');
+            resultDiv.textContent = `Has acertado ${correctCount} de ${totalQuestions} respuestas.`;
+            resultDiv.className = correctCount === totalQuestions ? 'result correct' : 'result incorrect';
+            resultDiv.style.display = 'block';
+        }
+
+        // Check translation exercises
+        function checkTranslations() {
+            let correctCount = 0;
+            const totalQuestions = translationExercises.length;
+            
+            translationExercises.forEach((exercise, index) => {
+                const userAnswer = document.getElementById(`translation${index}`).value.trim().toLowerCase();
+                const correctAnswer = exercise.answer.toLowerCase();
+                
+                // Check if the user's answer contains the key part of the correct answer
+                if (userAnswer.includes(correctAnswer) || correctAnswer.includes(userAnswer)) {
+                    correctCount++;
+                }
+            });
+            
+            const resultDiv = document.getElementById('translationResult');
+            resultDiv.textContent = `Has acertado ${correctCount} de ${totalQuestions} traducciones.`;
+            resultDiv.className = correctCount === totalQuestions ? 'result correct' : 'result incorrect';
+            resultDiv.style.display = 'block';
+        }
+
+        // Check true/false exercises
+        function checkTrueFalse() {
+            let correctCount = 0;
+            const totalQuestions = trueFalseExercises.length;
+            
+            trueFalseExercises.forEach((exercise, index) => {
+                const selectedOption = document.querySelector(`input[name="tf${index}"]:checked`);
+                if (selectedOption && selectedOption.value === exercise.answer.toString()) {
+                    correctCount++;
+                }
+            });
+            
+            const resultDiv = document.getElementById('trueFalseResult');
+            resultDiv.textContent = `Has acertado ${correctCount} de ${totalQuestions} preguntas.`;
+            resultDiv.className = correctCount === totalQuestions ? 'result correct' : 'result incorrect';
+            resultDiv.style.display = 'block';
+        }
+
+        // Check matching exercises
+        function checkMatching() {
+            let correctCount = 0;
+            const totalQuestions = Object.keys(matchingExercises.correctPairs).length;
+            
+            for (let i = 0; i < totalQuestions; i++) {
+                const userSelection = document.getElementById(`match${i}`).value;
+                if (userSelection === matchingExercises.correctPairs[i].toString()) {
+                    correctCount++;
+                }
+            }
+            
+            const resultDiv = document.getElementById('matchingResult');
+            resultDiv.textContent = `Has acertado ${correctCount} de ${totalQuestions} emparejamientos.`;
+            resultDiv.className = correctCount === totalQuestions ? 'result correct' : 'result incorrect';
+            resultDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

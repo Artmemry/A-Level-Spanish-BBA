@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volver — Práctica de citas (A-Level Spanish)</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 8rem;
+    background: #faf6ee;
+    color: #2a2a2a;
+    line-height: 1.55;
+  }
+  header { margin-bottom: 1.5rem; border-bottom: 2px solid #8b1a1a; padding-bottom: 1rem; }
+  h1 { font-size: 1.9rem; color: #8b1a1a; margin: 0 0 0.3rem; }
+  .subtitle { color: #777; font-style: italic; margin: 0; }
+  .intro {
+    background: #fff;
+    padding: 1rem 1.3rem;
+    border-left: 4px solid #c9302c;
+    margin: 1.5rem 0 2rem;
+    border-radius: 4px;
+    font-size: 0.97rem;
+  }
+  .intro strong { color: #8b1a1a; }
+  .theme {
+    background: #fff;
+    padding: 1.1rem 1.4rem;
+    margin-bottom: 1rem;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .theme h2 {
+    font-size: 1.05rem;
+    margin: 0 0 0.3rem;
+    color: #8b1a1a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .theme-prompt {
+    color: #555;
+    font-style: italic;
+    margin: 0 0 0.7rem;
+    font-size: 0.92rem;
+  }
+  .hint-toggle {
+    background: transparent;
+    color: #8b1a1a;
+    border: 1px solid #8b1a1a;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.78rem;
+    border-radius: 3px;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+    font-weight: normal;
+  }
+  .hint-toggle:hover { background: #8b1a1a; color: #fff; }
+  .hint {
+    display: none;
+    background: #fff8e7;
+    border-left: 3px solid #d4a437;
+    padding: 0.6rem 0.9rem;
+    margin: 0.5rem 0 0.7rem;
+    font-size: 0.88rem;
+    color: #5a4a1a;
+    border-radius: 3px;
+  }
+  .hint.show { display: block; }
+  .hint ul { margin: 0.2rem 0; padding-left: 1.3rem; }
+  .hint li { margin-bottom: 0.2rem; }
+  textarea {
+    width: 100%;
+    min-height: 110px;
+    padding: 0.7rem;
+    font-family: Georgia, serif;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+    background: #fefcf8;
+    color: #2a2a2a;
+  }
+  textarea:focus {
+    outline: none;
+    border-color: #c9302c;
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(201,48,44,0.15);
+  }
+  .controls {
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+  button.action {
+    background: #8b1a1a;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.4rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  button.action:hover { background: #a52828; }
+  button.action.secondary { background: #666; }
+  button.action.secondary:hover { background: #888; }
+
+  /* Floating accent keyboard */
+  #keyboard {
+    position: fixed;
+    right: 1.2rem;
+    bottom: 1.2rem;
+    background: #2a2a2a;
+    border-radius: 10px;
+    padding: 0.4rem;
+    display: flex;
+    gap: 0.3rem;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+    z-index: 1000;
+    user-select: none;
+    align-items: center;
+  }
+  #keyboard .drag-handle {
+    color: #888;
+    cursor: grab;
+    padding: 0 0.4rem;
+    font-size: 1rem;
+    line-height: 1;
+  }
+  #keyboard .drag-handle:active { cursor: grabbing; }
+  #keyboard button.key {
+    background: #444;
+    color: #fff;
+    width: 44px;
+    height: 44px;
+    font-size: 1.4rem;
+    padding: 0;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-family: Georgia, serif;
+    transition: background 0.1s;
+  }
+  #keyboard button.key:hover { background: #c9302c; }
+  #keyboard button.key:active { background: #8b1a1a; transform: scale(0.95); }
+
+  #saved-indicator {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: #2d6a2d;
+    color: #fff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 999;
+  }
+  #saved-indicator.show { opacity: 1; }
+
+  @media (max-width: 600px) {
+    body { padding: 1rem 0.8rem 7rem; }
+    h1 { font-size: 1.5rem; }
+    #keyboard { right: 0.4rem; bottom: 0.4rem; padding: 0.3rem; }
+    #keyboard button.key { width: 38px; height: 38px; font-size: 1.15rem; }
+    .theme h2 { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Volver — Práctica de citas</h1>
+  <p class="subtitle">Pedro Almodóvar (2006) · A-Level Spanish · Edexcel / AQA</p>
+</header>
+
+<div class="intro">
+  Escribe las citas, frases y momentos clave que recuerdes para cada tema. Usa el <strong>teclado flotante</strong> (abajo a la derecha) para los acentos. Tu trabajo se guarda automáticamente en el navegador. Cuando termines, pulsa <strong>Descargar mis citas</strong> para guardar un archivo de texto.
+</div>
+
+<!-- THEMES -->
+<div class="theme">
+  <h2><span>1 · La muerte</span><button class="hint-toggle" onclick="toggleHint(this)">💡 Pista</button></h2>
+  <p class="theme-prompt">Paco, la madre, los rituales, la escena final.</p>
+  <div class="hint">
+    <ul>
+      <li>Escena inicial: las mujeres limpian sus propias tumbas en vida.</li>
+      <li>Asesinato de Paco — Paula clava el cuchillo; la sangre roja.</li>
+      <li>La supuesta muerte de Irene en el incendio.</li>
+      <li>Muerte de Tía Paula.</li>
+      <li>Cita: "Se compran primero su terrenico y lo cuidan en vida."</li>
+    </ul>
+  </div>
+  <textarea data-theme="muerte" placeholder="Escribe aquí las citas y momentos clave…"></textarea>
+</div>
+
+<div class="theme">
+  <h2><span>2 · Contraste pueblo / ciudad</span><button class="hint-toggle" onclick="toggleHint(this)">💡 Pista</button></h2>
+  <p class="theme-prompt">Madrid frente al pueblo manchego.</p>
+  <div class="hint">
+    <ul>
+      <li>Bloques de pisos de Madrid vs casas blancas del pueblo.</li>
+      <li>El viento de levante en el cementerio — "Aquí vuelve a la gente loca."</li>
+      <li>La carretera como conexión / separación.</li>
+      <li>Raimunda mantiene el acento y las tradiciones manchegas en Madrid.</li>
+    </ul>
+  </div>
+  <textarea data-theme="pueblo-ciudad" placeholder="Escribe aquí las citas y momentos clave…"></textarea>
+</div>
+
+<div class="theme">
+  <h2><span>3 · Elementos visuales</span><button class="hint-toggle" onclick="toggleHint(this)">💡 Pista</button></h2>
+  <p class="theme-prompt">Color (rojo), símbolos, encuadre, plano cenital.</p>
+  <div class="hint">
+    <ul>
+      <li>Rojo recurrente: vestido de Raimunda, paredes de la cocina, sangre, tomates.</li>
+      <li>Plano cenital de Raimunda limpiando el cuchillo — escote enmarcado.</li>
+      <li>Plano picado del cadáver de Paco en el suelo.</li>
+      <li>El reflejo en el espejo cuando Irene aparece por primera vez.</li>
+      <li>El maletero del coche que transporta el congelador.</li>
+    </ul>
+  </div>
+  <textarea data-theme="visuales" placeholder="Escribe aquí las citas y momentos clave…"></textarea>
+</div>
+
+<div class="theme">
+  <h2><span>4 · El papel negativo de los hombres</span><button class="hint-toggle" onclick="toggleHint(this)">💡 Pista</button></h2>
+  <p class="theme-prompt">Paco, el padre, los maridos ausentes.</p>
+  <div class="hint">
+    <ul>
+      <li>Paco intenta violar a Paula — desencadena el asesinato.</li>
+      <li>El padre de Raimunda: incesto, embarazo, Paula es su hija.</li>
+      <li>Los maridos están ausentes, muertos o son depredadores.</li>
+      <li>La presencia masculina como amenaza o como hueco.</li>
+    </ul>
+  </div>
+  <textarea data-theme="hombres" placeholder="Escribe aquí las citas y momentos clave…"></textarea>
+</div>
+
+<div class="theme">
+  <h2><span>5 · Secretos y mentiras</span><button class="hint-toggle" onclick="toggleHint(this)">💡 Pista</button></h2>
+  <p class="theme-prompt">La verdad sobre Paula, Irene, el incendio.</p>
+  <div class="hint">
+    <ul>
+      <li>Paula es hija del padre de Raimunda, no de Paco.</li>
+      <li>Irene mató a su marido y a su amante en el incendio.</li>
+      <li>Raimunda esconde el cadáver de Paco en el congelador.</li>
+      <li>Irene se esconde bajo la cama, en el armario.</li>
+      <li>"He vuelto para pedirte perdón."</li>
+    </ul>
+  </div>
+  <textarea data-theme="secretos" placeholder="Escribe aquí las citas y momentos clave…"></textarea>
+</div>
+
+<div class="theme">
+  <h2><span>6 · Relación madre-hija</span><button class="hint-toggle" onclick="toggleHint(this)">💡 Pista</button></h2>
+  <p class="theme-prompt">Raimunda/Paula, Raimunda/Irene, ciclos generacionales.</p>
+  <div class="hint">
+    <ul>
+      <li>Tres generaciones: Irene → Raimunda → Paula.</li>
+      <li>Raimunda protege a Paula como Irene no pudo protegerla a ella.</li>
+      <li>Ruptura del ciclo de silencio.</li>
+      <li>El abrazo final entre Raimunda e Irene.</li>
+      <li>"Mamá, ¿cómo es posible?"</li>
+    </ul>
+  </div>
+  <textarea data-theme="madre-hija" placeholder="Escribe aquí las citas y momentos clave…"></textarea>
+</div>
+
+<div class="theme">
+  <h2><span>7 · Carácter y evolución de Raimunda</span><button class="hint-toggle" onclick="toggleHint(this)">💡 Pista</button></h2>
+  <p class="theme-prompt">Protagonista, motivaciones, transformación.</p>
+  <div class="hint">
+    <ul>
+      <li>Fuerte, práctica, protectora; transforma el trauma en acción.</li>
+      <li>Pasa del silencio (con Paco) a la confrontación (con Irene).</li>
+      <li>Improvisa el restaurante — capacidad de supervivencia.</li>
+      <li>Canta "Volver" — momento de catarsis ante su madre oculta.</li>
+      <li>Penélope Cruz: figura inspirada en la madre de Almodóvar y en Anna Magnani.</li>
+    </ul>
+  </div>
+  <textarea data-theme="raimunda" placeholder="Escribe aquí las citas y momentos clave…"></textarea>
+</div>
+
+<div class="theme">
+  <h2><span>8 · Solidaridad femenina</span><button class="hint-toggle" onclick="toggleHint(this)">💡 Pista</button></h2>
+  <p class="theme-prompt">Comunidad, vecindad, red de mujeres.</p>
+  <div class="hint">
+    <ul>
+      <li>Agustina cuida de Tía Paula sin pedir nada.</li>
+      <li>Las vecinas ayudan en el restaurante improvisado.</li>
+      <li>Sole acoge a Irene en su peluquería.</li>
+      <li>Ausencia / inutilidad masculina contrasta con red femenina.</li>
+    </ul>
+  </div>
+  <textarea data-theme="solidaridad" placeholder="Escribe aquí las citas y momentos clave…"></textarea>
+</div>
+
+<div class="theme">
+  <h2><span>9 · Resiliencia femenina</span><button class="hint-toggle" onclick="toggleHint(this)">💡 Pista</button></h2>
+  <p class="theme-prompt">Superación de la adversidad.</p>
+  <div class="hint">
+    <ul>
+      <li>Raimunda sobrevive al incesto, al asesinato, al ocultamiento.</li>
+      <li>Agustina enfrenta el cáncer con dignidad.</li>
+      <li>Irene "vuelve" simbólicamente para reparar.</li>
+      <li>Las mujeres como motores narrativos, no víctimas pasivas.</li>
+    </ul>
+  </div>
+  <textarea data-theme="resiliencia" placeholder="Escribe aquí las citas y momentos clave…"></textarea>
+</div>
+
+<div class="theme">
+  <h2><span>10 · Perdón y reconciliación</span><button class="hint-toggle" onclick="toggleHint(this)">💡 Pista</button></h2>
+  <p class="theme-prompt">El regreso de Irene, la redención.</p>
+  <div class="hint">
+    <ul>
+      <li>Irene cuida a Agustina como acto de redención.</li>
+      <li>Raimunda acepta a Irene tras la confesión final.</li>
+      <li>"He vuelto para pedirte perdón."</li>
+      <li>El perdón mutuo cierra el ciclo abierto en la infancia.</li>
+    </ul>
+  </div>
+  <textarea data-theme="perdon" placeholder="Escribe aquí las citas y momentos clave…"></textarea>
+</div>
+
+<div class="theme">
+  <h2><span>11 · Tradiciones y supersticiones</span><button class="hint-toggle" onclick="toggleHint(this)">💡 Pista</button></h2>
+  <p class="theme-prompt">El pueblo manchego, los aparecidos, los ritos.</p>
+  <div class="hint">
+    <ul>
+      <li>La Mancha como tierra de fantasmas y aparecidos.</li>
+      <li>"En mi pueblo, la gente vuelve."</li>
+      <li>Limpieza de tumbas, ritos funerarios.</li>
+      <li>El viento de levante "vuelve loca a la gente".</li>
+      <li>Almodóvar evoca las tradiciones de su infancia en Calzada de Calatrava.</li>
+    </ul>
+  </div>
+  <textarea data-theme="tradiciones" placeholder="Escribe aquí las citas y momentos clave…"></textarea>
+</div>
+
+<div class="theme">
+  <h2><span>12 · Música y atmósfera</span><button class="hint-toggle" onclick="toggleHint(this)">💡 Pista</button></h2>
+  <p class="theme-prompt">La canción "Volver", el tango, la banda sonora.</p>
+  <div class="hint">
+    <ul>
+      <li>"Volver" — tango de Carlos Gardel, cantado por Estrella Morente, mimado por Penélope Cruz.</li>
+      <li>"Tengo miedo del encuentro / con el pasado que vuelve…"</li>
+      <li>La música funciona como confesión que Irene escucha desde el coche.</li>
+      <li>Banda sonora de Alberto Iglesias — tonos melodramáticos.</li>
+      <li>Letra anticipa la trama: el pasado que regresa.</li>
+    </ul>
+  </div>
+  <textarea data-theme="musica" placeholder="Escribe aquí las citas y momentos clave…"></textarea>
+</div>
+
+<div class="theme">
+  <h2><span>13 · La feminidad como tema central</span><button class="hint-toggle" onclick="toggleHint(this)">💡 Pista</button></h2>
+  <p class="theme-prompt">El papel de la mujer, el cuerpo femenino.</p>
+  <div class="hint">
+    <ul>
+      <li>Reparto casi exclusivamente femenino.</li>
+      <li>Cuerpo de Raimunda enmarcado por la cámara — debate sobre la mirada masculina.</li>
+      <li>Espacios femeninos: cocina, peluquería, cementerio.</li>
+      <li>Almodóvar como cineasta "de mujeres" — homenaje a su madre.</li>
+    </ul>
+  </div>
+  <textarea data-theme="feminidad" placeholder="Escribe aquí las citas y momentos clave…"></textarea>
+</div>
+
+<div class="theme">
+  <h2><span>14 · La influencia del pasado en el presente</span><button class="hint-toggle" onclick="toggleHint(this)">💡 Pista</button></h2>
+  <p class="theme-prompt">El trauma, la memoria, los ciclos.</p>
+  <div class="hint">
+    <ul>
+      <li>El incendio del pasado vuelve en el presente.</li>
+      <li>El incesto se repite como amenaza (Paco con Paula).</li>
+      <li>La canción "Volver" como tesis: el pasado siempre vuelve.</li>
+      <li>Las casas vacías del pueblo guardan secretos.</li>
+    </ul>
+  </div>
+  <textarea data-theme="pasado" placeholder="Escribe aquí las citas y momentos clave…"></textarea>
+</div>
+
+<div class="theme">
+  <h2><span>15 · Géneros cinematográficos</span><button class="hint-toggle" onclick="toggleHint(this)">💡 Pista</button></h2>
+  <p class="theme-prompt">Melodrama, suspenso, humor, comedia negra.</p>
+  <div class="hint">
+    <ul>
+      <li>Melodrama clásico — la madre que regresa, el secreto familiar.</li>
+      <li>Suspenso — el congelador, el equipo de rodaje a punto de entrar.</li>
+      <li>Comedia negra — escena del cadáver detrás del sofá.</li>
+      <li>Homenajes: Visconti, Sirk, neorrealismo italiano.</li>
+    </ul>
+  </div>
+  <textarea data-theme="generos" placeholder="Escribe aquí las citas y momentos clave…"></textarea>
+</div>
+
+<div class="theme">
+  <h2><span>16 · Gastronomía / escenas culinarias</span><button class="hint-toggle" onclick="toggleHint(this)">💡 Pista</button></h2>
+  <p class="theme-prompt">La comida como ritual y como negocio.</p>
+  <div class="hint">
+    <ul>
+      <li>El restaurante improvisado para el equipo de rodaje.</li>
+      <li>Morcillas, gazpacho, tortilla — cocina manchega.</li>
+      <li>Comer / cocinar como acto de cuidado femenino.</li>
+      <li>El congelador del restaurante esconde el cadáver — comida y muerte.</li>
+    </ul>
+  </div>
+  <textarea data-theme="gastronomia" placeholder="Escribe aquí las citas y momentos clave…"></textarea>
+</div>
+
+<div class="theme">
+  <h2><span>17 · La imagen de España</span><button class="hint-toggle" onclick="toggleHint(this)">💡 Pista</button></h2>
+  <p class="theme-prompt">Visión positiva o negativa.</p>
+  <div class="hint">
+    <ul>
+      <li>España rural (La Mancha) vs urbana (Madrid).</li>
+      <li>España de la tradición y la superstición frente a la modernidad.</li>
+      <li>Crítica al machismo y al silencio cómplice de los abusos.</li>
+      <li>Celebración de la cultura popular, el color, la música.</li>
+    </ul>
+  </div>
+  <textarea data-theme="espana" placeholder="Escribe aquí las citas y momentos clave…"></textarea>
+</div>
+
+<div class="theme">
+  <h2><span>18 · Nuevos comienzos</span><button class="hint-toggle" onclick="toggleHint(this)">💡 Pista</button></h2>
+  <p class="theme-prompt">El restaurante, la peluquería, la vuelta a empezar.</p>
+  <div class="hint">
+    <ul>
+      <li>Raimunda monta el restaurante de la nada.</li>
+      <li>Sole convierte su piso en peluquería clandestina.</li>
+      <li>Irene "renace" tras la falsa muerte.</li>
+      <li>El final abierto: Raimunda volverá al pueblo a cuidar a su madre.</li>
+    </ul>
+  </div>
+  <textarea data-theme="comienzos" placeholder="Escribe aquí las citas y momentos clave…"></textarea>
+</div>
+
+<div class="theme">
+  <h2><span>19 · Cultura manchega y memoria colectiva</span><button class="hint-toggle" onclick="toggleHint(this)">💡 Pista</button></h2>
+  <p class="theme-prompt">La Mancha, los aparecidos, lo rural.</p>
+  <div class="hint">
+    <ul>
+      <li>Calzada de Calatrava — pueblo natal de Almodóvar.</li>
+      <li>Creencia en los aparecidos: los muertos vuelven.</li>
+      <li>El viento de levante, los molinos, el paisaje árido.</li>
+      <li>Almodóvar recupera la voz de las mujeres de su infancia.</li>
+    </ul>
+  </div>
+  <textarea data-theme="manchega" placeholder="Escribe aquí las citas y momentos clave…"></textarea>
+</div>
+
+<div class="controls">
+  <button class="action" onclick="downloadWork()">⬇ Descargar mis citas</button>
+  <button class="action secondary" onclick="clearAll()">🗑 Borrar todo</button>
+</div>
+
+<!-- Floating accent keyboard -->
+<div id="keyboard" aria-label="Teclado de acentos">
+  <span class="drag-handle" title="Arrastrar para mover">⋮⋮</span>
+  <button class="key" data-char="á" type="button">á</button>
+  <button class="key" data-char="é" type="button">é</button>
+  <button class="key" data-char="í" type="button">í</button>
+  <button class="key" data-char="ó" type="button">ó</button>
+  <button class="key" data-char="ú" type="button">ú</button>
+</div>
+
+<div id="saved-indicator">✓ Guardado</div>
+
+<script>
+let lastFocused = null;
+let saveTimer = null;
+
+// Track last focused textarea + restore + autosave
+document.querySelectorAll('textarea').forEach(ta => {
+  const key = 'volver-' + ta.dataset.theme;
+  try {
+    const saved = localStorage.getItem(key);
+    if (saved) ta.value = saved;
+  } catch (e) { /* localStorage not available */ }
+
+  ta.addEventListener('focus', () => { lastFocused = ta; });
+  ta.addEventListener('input', () => {
+    try {
+      localStorage.setItem(key, ta.value);
+      showSaved();
+    } catch (e) { /* ignore */ }
+  });
+});
+
+function showSaved() {
+  const ind = document.getElementById('saved-indicator');
+  ind.classList.add('show');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => ind.classList.remove('show'), 800);
+}
+
+// Insert accent at cursor
+document.querySelectorAll('#keyboard button.key').forEach(btn => {
+  const insert = (e) => {
+    e.preventDefault();
+    if (!lastFocused) return;
+    const char = btn.dataset.char;
+    const start = lastFocused.selectionStart;
+    const end = lastFocused.selectionEnd;
+    lastFocused.value = lastFocused.value.slice(0, start) + char + lastFocused.value.slice(end);
+    lastFocused.selectionStart = lastFocused.selectionEnd = start + 1;
+    lastFocused.focus();
+    lastFocused.dispatchEvent(new Event('input'));
+  };
+  btn.addEventListener('mousedown', insert);
+  btn.addEventListener('touchstart', insert, { passive: false });
+});
+
+// Toggle hints
+function toggleHint(btn) {
+  const hint = btn.parentElement.parentElement.querySelector('.hint');
+  hint.classList.toggle('show');
+  btn.textContent = hint.classList.contains('show') ? '✕ Ocultar' : '💡 Pista';
+}
+
+// Make keyboard draggable (mouse + touch)
+(function() {
+  const kb = document.getElementById('keyboard');
+  const handle = kb.querySelector('.drag-handle');
+  let drag = false, offX = 0, offY = 0;
+
+  const start = (clientX, clientY) => {
+    drag = true;
+    const rect = kb.getBoundingClientRect();
+    offX = clientX - rect.left;
+    offY = clientY - rect.top;
+    kb.style.right = 'auto';
+    kb.style.bottom = 'auto';
+    kb.style.left = rect.left + 'px';
+    kb.style.top = rect.top + 'px';
+  };
+  const move = (clientX, clientY) => {
+    if (!drag) return;
+    const maxX = window.innerWidth - kb.offsetWidth;
+    const maxY = window.innerHeight - kb.offsetHeight;
+    kb.style.left = Math.max(0, Math.min(maxX, clientX - offX)) + 'px';
+    kb.style.top = Math.max(0, Math.min(maxY, clientY - offY)) + 'px';
+  };
+  const end = () => { drag = false; };
+
+  handle.addEventListener('mousedown', e => { start(e.clientX, e.clientY); e.preventDefault(); });
+  document.addEventListener('mousemove', e => move(e.clientX, e.clientY));
+  document.addEventListener('mouseup', end);
+
+  handle.addEventListener('touchstart', e => {
+    const t = e.touches[0]; start(t.clientX, t.clientY); e.preventDefault();
+  }, { passive: false });
+  document.addEventListener('touchmove', e => {
+    if (!drag) return;
+    const t = e.touches[0]; move(t.clientX, t.clientY); e.preventDefault();
+  }, { passive: false });
+  document.addEventListener('touchend', end);
+})();
+
+// Download as blob
+function downloadWork() {
+  const date = new Date().toLocaleString('es-ES');
+  let content = 'VOLVER — PRÁCTICA DE CITAS\n';
+  content += 'Pedro Almodóvar (2006) · A-Level Spanish\n';
+  content += 'Generado: ' + date + '\n';
+  content += '═'.repeat(60) + '\n\n';
+
+  let written = 0;
+  document.querySelectorAll('.theme').forEach(theme => {
+    const title = theme.querySelector('h2 span').textContent.trim();
+    const prompt = theme.querySelector('.theme-prompt').textContent.trim();
+    const text = theme.querySelector('textarea').value.trim();
+    if (text) {
+      content += title + '\n';
+      content += prompt + '\n';
+      content += '─'.repeat(50) + '\n';
+      content += text + '\n\n';
+      written++;
+    }
+  });
+
+  if (written === 0) {
+    alert('Aún no has escrito nada. Empieza por algún tema.');
+    return;
+  }
+
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'volver-citas-' + new Date().toISOString().slice(0,10) + '.txt';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function clearAll() {
+  if (!confirm('¿Borrar todas tus citas? Esta acción no se puede deshacer.')) return;
+  document.querySelectorAll('textarea').forEach(ta => {
+    ta.value = '';
+    try { localStorage.removeItem('volver-' + ta.dataset.theme); } catch (e) {}
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lorca - Ejercicios</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .keyboard-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #f0a500;
+            color: #1a1a2e;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(240, 165, 0, 0.4);
+            z-index: 999;
+            transition: all 0.3s;
+        }
+
+        .keyboard-toggle:hover { transform: scale(1.05); }
+
+        #accentKeyboard {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: rgba(240, 165, 0, 0.95);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+        }
+
+        #accentKeyboard.show { display: block; }
+
+        .accent-btn {
+            background: #1a1a2e;
+            color: #f0a500;
+            border: none;
+            padding: 8px 12px;
+            margin: 3px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .accent-btn:hover {
+            background: #f0a500;
+            color: #1a1a2e;
+            transform: scale(1.1);
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #f0a500;
+            margin-bottom: 10px;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #c0c0c0;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .download-section {
+            margin-bottom: 20px;
+            text-align: center;
+            background: rgba(156, 39, 176, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #9C27B0;
+        }
+
+        #studentName {
+            width: 300px;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(240,165,0,0.5);
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-size: 1em;
+            margin-right: 10px;
+        }
+
+        #studentName::placeholder { color: #a0a0a0; }
+
+        .download-btn {
+            background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(156, 39, 176, 0.4);
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(135deg, #7B1FA2 0%, #6A1B9A 100%);
+            transform: scale(1.05);
+        }
+        
+        .exercise-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+        
+        .exercise-btn {
+            background: rgba(240, 165, 0, 0.2);
+            border: 2px solid #f0a500;
+            color: #f0a500;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        
+        .exercise-btn:hover {
+            background: #f0a500;
+            color: #1a1a2e;
+            transform: translateY(-2px);
+        }
+        
+        .exercise-btn.active {
+            background: #f0a500;
+            color: #1a1a2e;
+        }
+        
+        .exercise-section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .exercise-section.active { display: block; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .question {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #f0a500;
+        }
+        
+        .question-text {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(240, 165, 0, 0.3);
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-size: 1em;
+            margin-bottom: 10px;
+            transition: border 0.3s;
+        }
+        
+        input[type="text"]:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #f0a500;
+        }
+        
+        textarea {
+            min-height: 100px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        select { cursor: pointer; }
+        option { background: #1a1a2e; color: #e0e0e0; }
+        
+        .check-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            margin-right: 10px;
+            margin-top: 5px;
+        }
+        
+        .check-btn:hover {
+            background: #45a049;
+            transform: scale(1.05);
+        }
+        
+        .answer {
+            display: none;
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid #4CAF50;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 8px;
+            color: #a5d6a7;
+        }
+        
+        .answer.show {
+            display: block;
+            animation: slideDown 0.3s;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; }
+            to { opacity: 1; max-height: 1000px; }
+        }
+        
+        .note {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-style: italic;
+            color: #ffe082;
+        }
+
+        .text-passage {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            border-left: 4px solid #6495ED;
+        }
+
+        .blank {
+            display: inline-block;
+            min-width: 80px;
+            padding: 2px 8px;
+            margin: 0 3px;
+            border-bottom: 2px solid #f0a500;
+            background: rgba(240, 165, 0, 0.1);
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .vocab-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #f0a500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Federico García Lorca y su obra</h1>
+        <p class="subtitle">Ejercicios sobre el autor y La Casa de Bernarda Alba</p>
+        
+        <div class="download-section">
+            <h3 style="color: #9C27B0; margin-bottom: 15px;">💾 Guardar Tu Trabajo</h3>
+            <p style="color: #c0c0c0; margin-bottom: 15px; font-size: 0.9em;">Introduce tu nombre y descarga tus respuestas</p>
+            <input type="text" id="studentName" placeholder="Escribe tu nombre completo aquí">
+            <button class="download-btn" onclick="downloadWork()">📥 DESCARGAR TRABAJO</button>
+        </div>
+
+        <div class="exercise-selector">
+            <button class="exercise-btn active" onclick="showExercise(1)">Ejercicio 1</button>
+            <button class="exercise-btn" onclick="showExercise(2)">Ejercicio 2</button>
+            <button class="exercise-btn" onclick="showExercise(3)">Ejercicio 3</button>
+            <button class="exercise-btn" onclick="showExercise(5)">Ejercicio 5</button>
+            <button class="exercise-btn" onclick="showExercise(6)">Ejercicio 6</button>
+        </div>
+
+        <button class="keyboard-toggle" onclick="toggleKeyboard()">Ñ á é í ó ú</button>
+        <div id="accentKeyboard">
+            <div style="text-align: center; margin-bottom: 10px; color: #1a1a2e; font-weight: bold;">Acentos</div>
+            <button class="accent-btn" onclick="insertChar('á')">á</button>
+            <button class="accent-btn" onclick="insertChar('é')">é</button>
+            <button class="accent-btn" onclick="insertChar('í')">í</button>
+            <button class="accent-btn" onclick="insertChar('ó')">ó</button>
+            <button class="accent-btn" onclick="insertChar('ú')">ú</button>
+            <button class="accent-btn" onclick="insertChar('ñ')">ñ</button>
+            <br>
+            <button class="accent-btn" onclick="insertChar('Á')">Á</button>
+            <button class="accent-btn" onclick="insertChar('É')">É</button>
+            <button class="accent-btn" onclick="insertChar('Í')">Í</button>
+            <button class="accent-btn" onclick="insertChar('Ó')">Ó</button>
+            <button class="accent-btn" onclick="insertChar('Ú')">Ú</button>
+            <button class="accent-btn" onclick="insertChar('Ñ')">Ñ</button>
+            <br>
+            <button class="accent-btn" onclick="insertChar('¿')">¿</button>
+            <button class="accent-btn" onclick="insertChar('¡')">¡</button>
+            <button class="accent-btn" onclick="insertChar('ü')">ü</button>
+            <button class="accent-btn" onclick="insertChar('Ü')">Ü</button>
+        </div>
+
+        <div id="ex1" class="exercise-section active">
+            <h2 style="color: #f0a500; margin-bottom: 20px;">Ejercicio 1: La vida de Lorca</h2>
+            <p style="color: #c0c0c0; margin-bottom: 20px;">Completa los huecos con la forma correcta del verbo:</p>
+            
+            <div class="text-passage">
+                <p>Federico García Lorca <input type="text" class="blank" id="v1" placeholder="(1)"> (nacer) en Fuente Vaqueros, en Granada, el 5 de junio de 1898 y <input type="text" class="blank" id="v2" placeholder="(2)"> (ser) asesinado en 1936. Su padre <input type="text" class="blank" id="v3" placeholder="(3)"> (tener) tierras y su madre <input type="text" class="blank" id="v4" placeholder="(4)"> (ser) profesora.</p>
+                
+                <p>Tras <input type="text" class="blank" id="v5" placeholder="(5)"> (terminar) la educación secundaria, Lorca <input type="text" class="blank" id="v6" placeholder="(6)"> (ir) a la Universidad de Granada, donde <input type="text" class="blank" id="v7" placeholder="(7)"> (estudiar) Derecho, Literatura y Composición.</p>
+                
+                <p>Lorca <input type="text" class="blank" id="v8" placeholder="(8)"> (viajar) por el norte de España en 1916 y 1917, y <input type="text" class="blank" id="v9" placeholder="(9)"> (publicar) un libro en 1918 llamado Impresiones y Paisajes. Un año más tarde, Lorca <input type="text" class="blank" id="v10" placeholder="(10)"> (mudarse) a la Residencia de Estudiantes en Madrid, donde <input type="text" class="blank" id="v11" placeholder="(11)"> (conocer) a distintos intelectuales, tales como Luis Buñuel y Salvador Dalí.</p>
+                
+                <p>El primer libro de poemas de Lorca <input type="text" class="blank" id="v12" placeholder="(12)"> (ser) publicado en 1921, y <input type="text" class="blank" id="v13" placeholder="(13)"> (constar) de poemas que <input type="text" class="blank" id="v14" placeholder="(14)"> (tratar) distintos temas, como la religión y la naturaleza. Sin embargo, el libro de poemas más famoso de Lorca no <input type="text" class="blank" id="v15" placeholder="(15)"> (ver) la luz hasta 1928, y <input type="text" class="blank" id="v16" placeholder="(16)"> (llamarse) Romancero Gitano. Esta publicación le <input type="text" class="blank" id="v17" placeholder="(17)"> (dar) fama a Lorca como poeta.</p>
+                
+                <p>En 1929, Lorca <input type="text" class="blank" id="v18" placeholder="(18)"> (ir) a Nueva York, donde <input type="text" class="blank" id="v19" placeholder="(19)"> (cursar) estudios en la Universidad de Columbia. Las experiencias de su estancia y los sentimientos <input type="text" class="blank" id="v20" placeholder="(20)"> (vivir) allí <input type="text" class="blank" id="v21" placeholder="(21)"> (ser) plasmados en su obra Poeta en Nueva York, que no <input type="text" class="blank" id="v22" placeholder="(22)"> (llegar) a publicarse hasta 1942.</p>
+                
+                <p>Lorca <input type="text" class="blank" id="v23" placeholder="(23)"> (regresar) a España en 1930 cuando <input type="text" class="blank" id="v24" placeholder="(24)"> (instaurarse) la Segunda República Española. En 1931, Lorca <input type="text" class="blank" id="v25" placeholder="(25)"> (comenzar) a trabajar como director de La Barraca, una compañía de teatro <input type="text" class="blank" id="v26" placeholder="(26)"> (encargar) de <input type="text" class="blank" id="v27" placeholder="(27)"> (representar) obras en zonas rurales de España. <input type="text" class="blank" id="v28" placeholder="(28)"> (Ser) durante sus viajes con esta compañía cuando Lorca <input type="text" class="blank" id="v29" placeholder="(29)"> (escribir) sus obras más conocidas, la trilogía de Drama de mujeres en los pueblos de España, <input type="text" class="blank" id="v30" placeholder="(30)"> (formar) por Bodas de sangre, Yerma, y La casa de Bernarda Alba. Las tres obras <input type="text" class="blank" id="v31" placeholder="(31)"> (explorar) el tema del papel de la mujer en la sociedad y la estructura de las clases sociales.</p>
+                
+                <p>Lorca <input type="text" class="blank" id="v32" placeholder="(32)"> (terminar) de escribir La casa de Bernarda Alba poco antes de su asesinato. Hoy en día, su asesinato <input type="text" class="blank" id="v33" placeholder="(33)"> (considerarse) una consecuencia directa de las ideas políticas del autor, aunque hay bastante controversia en cuanto los detalles de su muerte.</p>
+            </div>
+            
+            <button class="check-btn" onclick="checkExercise1()">Verificar respuestas</button>
+            <button class="check-btn" onclick="toggleAnswer('ans1')" style="background: #2196F3;">Ver todas las respuestas</button>
+            
+            <div id="ans1" class="answer">
+                <strong>Respuestas:</strong><br>
+                1.nació 2.fue 3.tenía 4.era 5.terminar 6.fue 7.estudió 8.viajó 9.publicó 10.se mudó 11.conoció 12.fue 13.constaba 14.trataban 15.vio 16.se llamó/se llamaba 17.dio 18.fue 19.cursó 20.vividos 21.fueron 22.llegó 23.regresó 24.se instauró 25.comenzó 26.encargada 27.representar 28.Fue 29.escribió 30.formada 31.exploraban 32.terminó 33.se considera
+            </div>
+        </div>
+
+        <div id="ex2" class="exercise-section">
+            <h2 style="color: #f0a500; margin-bottom: 20px;">Ejercicio 2: Corrección de errores</h2>
+            <p style="color: #c0c0c0; margin-bottom: 20px;">Lee el texto y corrige las palabras en <strong>negrita</strong> solo si es necesario. Si la palabra es correcta, escribe "correcto":</p>
+            
+            <div class="text-passage" style="margin-bottom: 30px;">
+                <p>Lorca terminó de <strong style="color: #FFD700;">escribiendo</strong> La Casa de Bernarda Alba casi dos meses antes de su asesinato. <strong style="color: #FFD700;">Estuvo</strong> la tercera parte de una trilogía llamada Drama de mujeres en los pueblos de España, aunque al contrario <strong style="color: #FFD700;">que</strong> las otras dos obras, esta última era un drama y no alcanzaba el nivel de dolor ni de intensidad de la tragedia.</p>
+
+                <p>Los tiempos revueltos en los que vivió Lorca marcaron fuertemente <strong style="color: #FFD700;">las</strong> temas de sus obras, en donde hizo eco de sus preocupaciones, tanto sociales como políticas. Fuera de España <strong style="color: #FFD700;">había</strong> habido una guerra mundial durante sus años de adolescencia y las dictaduras como la italiana y la portuguesa parecían aflorar <strong style="color: #FFD700;">para</strong> Europa. Dentro de España había también una cierta tensión política. La Segunda República se instauró en 1931, aunque aún había seguidores del antiguo régimen y las tensiones entre republicanos y nacionalistas crecían <strong style="color: #FFD700;">como</strong> se aproximaba la muerte de Lorca. Se podría decir que La Casa de Bernarda Alba es una obra que representa una España dividida, de opresores y oprimidos, de dominadores y dominados, donde había una cierta inseguridad social y un sentimiento incómodo de miedo a lo que <strong style="color: #FFD700;">se veía</strong> venir.</p>
+
+                <p>Además de lo político, también se puede ver en su obra una preocupación por <strong style="color: #FFD700;">la</strong> sistema de clases sociales, por la segregación dentro de una misma sociedad y por los más débiles, como ejemplifica a través <strong style="color: #FFD700;">de la</strong> personaje de la mendiga. En cuanto al papel de la mujer, encontramos una preocupación por su debilidad y por la falta de libertades, <strong style="color: #FFD7700;">la que</strong> está en línea con las ideas sociales y políticas de Lorca.</p>
+
+                <p>Represión, libertad, clases sociales y el papel de la mujer no son solamente temas que encontramos en La Casa de Bernarda Alba, sino también en el contexto social y político en el que Lorca la <strong style="color: #FFD700;">ha escrito</strong>.</p>
+
+                <p>Además de las influencias sociales y políticas que encontramos en Lorca, notamos también grandes influencias culturales de su tierra natal. Las preocupaciones políticas y sociales del autor se presentan <strong style="color: #FFD700;">envueltos</strong> en una atmósfera típicamente andaluza. Las casas blancas tradicionales, el calor duro del verano, las expresiones populares, todo se mezcla con los temas principales para ofrecer a la audiencia un drama de carácter popular altamente influenciado <strong style="color: #FFD700;">para</strong> el folclore de la región.</p>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">1. escribiendo</div>
+                <input type="text" id="e1" placeholder="Escribe la corrección o 'correcto'">
+                <button class="check-btn" onclick="toggleAnswer('ea1')">Verificar</button>
+                <div id="ea1" class="answer"><strong>Respuesta:</strong> escribir</div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">2. Estuvo</div>
+                <input type="text" id="e2" placeholder="Escribe la corrección o 'correcto'">
+                <button class="check-btn" onclick="toggleAnswer('ea2')">Verificar</button>
+                <div id="ea2" class="answer"><strong>Respuesta:</strong> Era</div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">3. que (al contrario que las otras dos obras)</div>
+                <input type="text" id="e3" placeholder="Escribe la corrección o 'correcto'">
+                <button class="check-btn" onclick="toggleAnswer('ea3')">Verificar</button>
+                <div id="ea3" class="answer"><strong>Respuesta:</strong> de</div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">4. las (marcaron fuertemente las temas)</div>
+                <input type="text" id="e4" placeholder="Escribe la corrección o 'correcto'">
+                <button class="check-btn" onclick="toggleAnswer('ea4')">Verificar</button>
+                <div id="ea4" class="answer"><strong>Respuesta:</strong> los</div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">5. había (Fuera de España había habido)</div>
+                <input type="text" id="e5" placeholder="Escribe la corrección o 'correcto'">
+                <button class="check-btn" onclick="toggleAnswer('ea5')">Verificar</button>
+                <div id="ea5" class="answer"><strong>Respuesta:</strong> correcto</div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">6. para (parecían aflorar para Europa)</div>
+                <input type="text" id="e6" placeholder="Escribe la corrección o 'correcto'">
+                <button class="check-btn" onclick="toggleAnswer('ea6')">Verificar</button>
+                <div id="ea6" class="answer"><strong>Respuesta:</strong> por</div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">7. como (las tensiones... crecían como se aproximaba)</div>
+                <input type="text" id="e7" placeholder="Escribe la corrección o 'correcto'">
+                <button class="check-btn" onclick="toggleAnswer('ea7')">Verificar</button>
+                <div id="ea7" class="answer"><strong>Respuesta:</strong> conforme</div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">8. se veía (miedo a lo que se veía venir)</div>
+                <input type="text" id="e8" placeholder="Escribe la corrección o 'correcto'">
+                <button class="check-btn" onclick="toggleAnswer('ea8')">Verificar</button>
+                <div id="ea8" class="answer"><strong>Respuesta:</strong> correcto</div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">9. la (una preocupación por la sistema)</div>
+                <input type="text" id="e9" placeholder="Escribe la corrección o 'correcto'">
+                <button class="check-btn" onclick="toggleAnswer('ea9')">Verificar</button>
+                <div id="ea9" class="answer"><strong>Respuesta:</strong> el</div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">10. de la (a través de la personaje)</div>
+                <input type="text" id="e10" placeholder="Escribe la corrección o 'correcto'">
+                <button class="check-btn" onclick="toggleAnswer('ea10')">Verificar</button>
+                <div id="ea10" class="answer"><strong>Respuesta:</strong> del</div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">11. la que (por la falta de libertades, la que está en línea)</div>
+                <input type="text" id="e11" placeholder="Escribe la corrección o 'correcto'">
+                <button class="check-btn" onclick="toggleAnswer('ea11')">Verificar</button>
+                <div id="ea11" class="answer"><strong>Respuesta:</strong> lo que</div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">12. ha escrito (en el que Lorca la ha escrito)</div>
+                <input type="text" id="e12" placeholder="Escribe la corrección o 'correcto'">
+                <button class="check-btn" onclick="toggleAnswer('ea12')">Verificar</button>
+                <div id="ea12" class="answer"><strong>Respuesta:</strong> escribió</div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">13. envueltos (se presentan envueltos en una atmósfera)</div>
+                <input type="text" id="e13" placeholder="Escribe la corrección o 'correcto'">
+                <button class="check-btn" onclick="toggleAnswer('ea13')">Verificar</button>
+                <div id="ea13" class="answer"><strong>Respuesta:</strong> envueltas</div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">14. para (altamente influenciado para el folclore)</div>
+                <input type="text" id="e14" placeholder="Escribe la corrección o 'correcto'">
+                <button class="check-btn" onclick="toggleAnswer('ea14')">Verificar</button>
+                <div id="ea14" class="answer"><strong>Respuesta:</strong> por</div>
+            </div>
+        </div>
+
+        <div id="ex3" class="exercise-section">
+            <h2 style="color: #f0a500; margin-bottom: 20px;">Ejercicio 3: Vocabulario teatral</h2>
+            <p style="color: #c0c0c0; margin-bottom: 20px;">Empareja cada término con su definición:</p>
+            
+            <div class="question">
+                <div class="question-text">1. atuendo</div>
+                <select id="m1">
+                    <option value="">-- Selecciona --</option>
+                    <option value="a">a. notas escritas para explicar lo que hace cada personaje</option>
+                    <option value="b">b. el escenario en el que se desarrolla la obra</option>
+                    <option value="c">c. ropa que llevan los personajes</option>
+                    <option value="d">d. algo con un lenguaje demasiado complicado</option>
+                    <option value="e">e. algo con mucho movimiento</option>
+                    <option value="f">f. género literario que cuenta una historia y que suele ser largo</option>
+                    <option value="g">g. las distintas personas que aparecen en una obra</option>
+                    <option value="h">h. emoción de la obra</option>
+                    <option value="i">i. género literario diseñado para representar una historia</option>
+                </select>
+            </div>
+
+            <div class="question">
+                <div class="question-text">2. emotividad</div>
+                <select id="m2">
+                    <option value="">-- Selecciona --</option>
+                    <option value="a">a. notas escritas</option>
+                    <option value="b">b. el escenario</option>
+                    <option value="c">c. ropa</option>
+                    <option value="d">d. lenguaje complicado</option>
+                    <option value="e">e. mucho movimiento</option>
+                    <option value="f">f. novela</option>
+                    <option value="g">g. personas en obra</option>
+                    <option value="h">h. emoción de la obra</option>
+                    <option value="i">i. teatro</option>
+                </select>
+            </div>
+
+            <div class="question">
+                <div class="question-text">3. decorado</div>
+                <select id="m3">
+                    <option value="">-- Selecciona --</option>
+                    <option value="a">a. notas</option>
+                    <option value="b">b. el escenario en el que se desarrolla la obra</option>
+                    <option value="c">c. ropa</option>
+                    <option value="d">d. lenguaje complicado</option>
+                    <option value="e">e. movimiento</option>
+                    <option value="f">f. novela</option>
+                    <option value="g">g. personas</option>
+                    <option value="h">h. emoción</option>
+                    <option value="i">i. teatro</option>
+                </select>
+            </div>
+
+            <div class="question">
+                <div class="question-text">4. personajes</div>
+                <select id="m4">
+                    <option value="">-- Selecciona --</option>
+                    <option value="a">a. notas</option>
+                    <option value="b">b. escenario</option>
+                    <option value="c">c. ropa</option>
+                    <option value="d">d. lenguaje complicado</option>
+                    <option value="e">e. movimiento</option>
+                    <option value="f">f. novela</option>
+                    <option value="g">g. las distintas personas que aparecen en una obra</option>
+                    <option value="h">h. emoción</option>
+                    <option value="i">i. teatro</option>
+                </select>
+            </div>
+
+            <div class="question">
+                <div class="question-text">5. acotaciones</div>
+                <select id="m5">
+                    <option value="">-- Selecciona --</option>
+                    <option value="a">a. notas escritas para explicar lo que hace cada personaje</option>
+                    <option value="b">b. escenario</option>
+                    <option value="c">c. ropa</option>
+                    <option value="d">d. lenguaje complicado</option>
+                    <option value="e">e. movimiento</option>
+                    <option value="f">f. novela</option>
+                    <option value="g">g. personas</option>
+                    <option value="h">h. emoción</option>
+                    <option value="i">i. teatro</option>
+                </select>
+            </div>
+
+            <div class="question">
+                <div class="question-text">6. obras de teatro</div>
+                <select id="m6">
+                    <option value="">-- Selecciona --</option>
+                    <option value="a">a. notas</option>
+                    <option value="b">b. escenario</option>
+                    <option value="c">c. ropa</option>
+                    <option value="d">d. lenguaje complicado</option>
+                    <option value="e">e. movimiento</option>
+                    <option value="f">f. novela</option>
+                    <option value="g">g. personas</option>
+                    <option value="h">h. emoción</option>
+                    <option value="i">i. género literario diseñado para representar una historia</option>
+                </select>
+            </div>
+
+            <div class="question">
+                <div class="question-text">7. dinámico</div>
+                <select id="m7">
+                    <option value="">-- Selecciona --</option>
+                    <option value="a">a. notas</option>
+                    <option value="b">b. escenario</option>
+                    <option value="c">c. ropa</option>
+                    <option value="d">d. lenguaje complicado</option>
+                    <option value="e">e. algo con mucho movimiento</option>
+                    <option value="f">f. novela</option>
+                    <option value="g">g. personas</option>
+                    <option value="h">h. emoción</option>
+                    <option value="i">i. teatro</option>
+                </select>
+            </div>
+
+            <div class="question">
+                <div class="question-text">8. novela</div>
+                <select id="m8">
+                    <option value="">-- Selecciona --</option>
+                    <option value="a">a. notas</option>
+                    <option value="b">b. escenario</option>
+                    <option value="c">c. ropa</option>
+                    <option value="d">d. lenguaje complicado</option>
+                    <option value="e">e. movimiento</option>
+                    <option value="f">f. género literario que cuenta una historia y que suele ser largo</option>
+                    <option value="g">g. personas</option>
+                    <option value="h">h. emoción</option>
+                    <option value="i">i. teatro</option>
+                </select>
+            </div>
+
+            <div class="question">
+                <div class="question-text">9. pomposo</div>
+                <select id="m9">
+                    <option value="">-- Selecciona --</option>
+                    <option value="a">a. notas</option>
+                    <option value="b">b. escenario</option>
+                    <option value="c">c. ropa</option>
+                    <option value="d">d. algo con un lenguaje demasiado complicado</option>
+                    <option value="e">e. movimiento</option>
+                    <option value="f">f. novela</option>
+                    <option value="g">g. personas</option>
+                    <option value="h">h. emoción</option>
+                    <option value="i">i. teatro</option>
+                </select>
+            </div>
+
+            <button class="check-btn" onclick="checkMatching()">Verificar respuestas</button>
+            <button class="check-btn" onclick="toggleAnswer('ans3')" style="background: #2196F3;">Ver respuestas</button>
+            
+            <div id="ans3" class="answer">
+                <strong>Respuestas:</strong> 1-c, 2-h, 3-b, 4-g, 5-a, 6-i, 7-e, 8-f, 9-d
+            </div>
+        </div>
+
+        <div id="ex5" class="exercise-section">
+            <h2 style="color: #f0a500; margin-bottom: 20px;">Ejercicio 5: Las clases sociales</h2>
+            <p style="color: #c0c0c0; margin-bottom: 20px;">Completa el texto con la opción adecuada (verás si aciertas al instante):</p>
+            
+            <div class="text-passage">
+                <p>Las 
+                <select id="c1" class="blank">
+                    <option value="">?</option><option value="a">diferente</option><option value="b">diferencias</option><option value="c">diferencia</option>
+                </select> 
+                sociales entre 
+                <select id="c2" class="blank">
+                    <option value="">?</option><option value="a">lo</option><option value="b">distintas</option><option value="c">distinto</option>
+                </select> 
+                clases están muy 
+                <select id="c3" class="blank">
+                    <option value="">?</option><option value="a">distintas</option><option value="b">presente</option><option value="c">presentes</option>
+                </select> 
+                en esta obra de teatro. En 
+                <select id="c4" class="blank">
+                    <option value="">?</option><option value="a">lo</option><option value="b">el</option><option value="c">la</option>
+                </select> 
+                parte inferior de 
+                <select id="c5" class="blank">
+                    <option value="">?</option><option value="a">lo</option><option value="b">el</option><option value="c">la</option>
+                </select> 
+                pirámide social tenemos a la mendiga, que se encuentra 
+                <select id="c6" class="blank">
+                    <option value="">?</option><option value="a">al</option><option value="b">en</option><option value="c">por</option>
+                </select> 
+                debajo de la criada de Bernarda.</p>
+
+                <p>Esto se ve por la manera en la que cada una de ellas le habla a la otra: la mendiga es educada con la criada, mientras que esta compara a la mendiga con los animales, al igual que hace Bernarda 
+                <select id="c7" class="blank">
+                    <option value="">?</option><option value="a">por</option><option value="b">al</option><option value="c">con</option>
+                </select> 
+                los pobres.</p>
+
+                <p>La mendiga y la criada no tienen nombres 
+                <select id="c8" class="blank">
+                    <option value="">?</option><option value="a">propias</option><option value="b">propios</option><option value="c">propia</option>
+                </select> 
+                en la obra, lo que se podría identificar como una manera de 
+                <select id="c9" class="blank">
+                    <option value="">?</option><option value="a">intensificando</option><option value="b">intensificado</option><option value="c">intensificar</option>
+                </select> 
+                su falta de poder en la estructura social. La Poncia es 
+                <select id="c10" class="blank">
+                    <option value="">?</option><option value="a">la</option><option value="b">un</option><option value="c">el</option>
+                </select> 
+                personaje más bajo de la escala social que tiene nombre en la obra.</p>
+
+                <p>Si seguimos 
+                <select id="c11" class="blank">
+                    <option value="">?</option><option value="a">lo</option><option value="b">subido</option><option value="c">subiendo</option>
+                </select> 
+                en la escala social, nos encontramos con las mujeres del pueblo. Están más arriba que Poncia en la escala social al no 
+                <select id="c12" class="blank">
+                    <option value="">?</option><option value="a">subiendo</option><option value="b">trabajado</option><option value="c">trabajar</option>
+                </select> 
+                a sueldo en una casa, pero parece que tienen una posición más baja que las hijas de Bernarda.</p>
+
+                <p>De Pepe no se habla mucho, pero si Bernarda aprueba el matrimonio de este con su hija Angustias, podemos 
+                <select id="c13" class="blank">
+                    <option value="">?</option><option value="a">intensificando</option><option value="b">asumido</option><option value="c">asumir</option>
+                </select> 
+                que es de un nivel social similar 
+                <select id="c14" class="blank">
+                    <option value="">?</option><option value="a">a</option><option value="b">a la</option><option value="c">al</option>
+                </select> 
+                de las hijas de Bernarda.</p>
+
+                <p>Por último, tendríamos a Bernarda en la parte más alta de la pirámide social, 
+                <select id="c15" class="blank">
+                    <option value="">?</option><option value="a">siendo</option><option value="b">sido</option><option value="c">ser</option>
+                </select> 
+                la que controla su casa y sus dominios, y 
+                <select id="c16" class="blank">
+                    <option value="">?</option><option value="a">siendo</option><option value="b">tenido</option><option value="c">teniendo</option>
+                </select> 
+                poder sobre sus trabajadores y sobre sus hijas.</p>
+            </div>
+
+            <button class="check-btn" onclick="checkMultiple()">Verificar respuestas</button>
+            <button class="check-btn" onclick="toggleAnswer('ans5')" style="background: #2196F3;">Ver respuestas</button>
+            
+            <div id="ans5" class="answer">
+                <strong>Respuestas:</strong> 1-b, 2-b, 3-c, 4-c, 5-c, 6-c, 7-c, 8-b, 9-c, 10-c, 11-c, 12-c, 13-c, 14-c, 15-a, 16-c
+            </div>
+        </div>
+
+        <div id="ex6" class="exercise-section">
+            <h2 style="color: #f0a500; margin-bottom: 20px;">Ejercicio 6: Traducciones al español</h2>
+            
+            <div class="question">
+                <div class="question-text">1. I would dare to say that The House of Bernarda Alba is the main masterpiece written by Lorca.</div>
+                <textarea id="tr1" placeholder="Escribe tu traducción..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('tra1')" style="background: #FF9800;">💡 Pista</button>
+                <button class="check-btn" onclick="toggleAnswer('ta1')">Verificar</button>
+                <div id="tra1" class="answer" style="background: rgba(255, 152, 0, 0.2); border-color: #FF9800; color: #ffb74d;">
+                    <strong>Pista:</strong> "atreverse a", "obra maestra"
+                </div>
+                <div id="ta1" class="answer">
+                    Me atrevería a decir que La Casa de Bernarda Alba es la principal obra maestra escrita por Lorca.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">2. It is believed that Lorca's theatre deals with social and political problems of his time.</div>
+                <textarea id="tr2" placeholder="Escribe tu traducción..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('tra2')" style="background: #FF9800;">💡 Pista</button>
+                <button class="check-btn" onclick="toggleAnswer('ta2')">Verificar</button>
+                <div id="tra2" class="answer" style="background: rgba(255, 152, 0, 0.2); border-color: #FF9800; color: #ffb74d;">
+                    <strong>Pista:</strong> "se cree que", "tratar"
+                </div>
+                <div id="ta2" class="answer">
+                    Se cree que el teatro de Lorca trata problemas sociales y políticos de su tiempo.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">3. The play is about a tyrannical mother who is obsessed not only with controlling everything that happens in her house, but also with the reputation of her family.</div>
+                <textarea id="tr3" placeholder="Escribe tu traducción..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('tra3')" style="background: #FF9800;">💡 Pista</button>
+                <button class="check-btn" onclick="toggleAnswer('ta3')">Verificar</button>
+                <div id="tra3" class="answer" style="background: rgba(255, 152, 0, 0.2); border-color: #FF9800; color: #ffb74d;">
+                    <strong>Pista:</strong> "tratar de", "no solamente... sino también"
+                </div>
+                <div id="ta3" class="answer">
+                    La obra trata de una madre tiránica que está obsesionada no solamente con controlar todo lo que pasa en su casa, sino también con la reputación de su familia.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">4. It is important that we understand the message of the book if we want to understand Lorca's ideals.</div>
+                <textarea id="tr4" placeholder="Escribe tu traducción..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('tra4')" style="background: #FF9800;">💡 Pista</button>
+                <button class="check-btn" onclick="toggleAnswer('ta4')">Verificar</button>
+                <div id="tra4" class="answer" style="background: rgba(255, 152, 0, 0.2); border-color: #FF9800; color: #ffb74d;">
+                    <strong>Pista:</strong> "es importante que" + subjuntivo
+                </div>
+                <div id="ta4" class="answer">
+                    Es importante que comprendamos el mensaje del libro si queremos comprender los ideales de Lorca.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">5. The author really manages to surprise the audience, who has to use every little clue to understand what's happening at all times.</div>
+                <textarea id="tr5" placeholder="Escribe tu traducción..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('tra5')" style="background: #FF9800;">💡 Pista</button>
+                <button class="check-btn" onclick="toggleAnswer('ta5')">Verificar</button>
+                <div id="tra5" class="answer" style="background: rgba(255, 152, 0, 0.2); border-color: #FF9800; color: #ffb74d;">
+                    <strong>Pista:</strong> "conseguir", "en todo momento"
+                </div>
+                <div id="ta5" class="answer">
+                    El autor realmente consigue sorprender a la audiencia, quien tiene que usar cada pequeña pista para comprender lo que está pasando en todo momento.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">6. When my friend María read the book she said: 'That book is so boring!' I don't think she understood it at all.</div>
+                <textarea id="tr6" placeholder="Escribe tu traducción..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('tra6')" style="background: #FF9800;">💡 Pista</button>
+                <button class="check-btn" onclick="toggleAnswer('ta6')">Verificar</button>
+                <div id="tra6" class="answer" style="background: rgba(255, 152, 0, 0.2); border-color: #FF9800; color: #ffb74d;">
+                    <strong>Pista:</strong> "no creo que" + subjuntivo, "en absoluto"
+                </div>
+                <div id="ta6" class="answer">
+                    Cuando mi amiga María leyó el libro dijo: «¡Ese libro es tan aburrido!». No creo que lo comprendiese en absoluto.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">7. In spite of the different opinions that most critics have, everyone agrees on the fact that Adela represents freedom and vitality and that Bernarda represents oppression.</div>
+                <textarea id="tr7" placeholder="Escribe tu traducción..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('tra7')" style="background: #FF9800;">💡 Pista</button>
+                <button class="check-btn" onclick="toggleAnswer('ta7')">Verificar</button>
+                <div id="tra7" class="answer" style="background: rgba(255, 152, 0, 0.2); border-color: #FF9800; color: #ffb74d;">
+                    <strong>Pista:</strong> "a pesar de", "estar de acuerdo con"
+                </div>
+                <div id="ta7" class="answer">
+                    A pesar de las opiniones diferentes que la mayoría de críticos tienen, todo el mundo está de acuerdo con el hecho de que Adela representa libertad y vitalidad y que Bernarda representa opresión.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">8. Social classes and social hierarchy are present throughout the play.</div>
+                <textarea id="tr8" placeholder="Escribe tu traducción..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('tra8')" style="background: #FF9800;">💡 Pista</button>
+                <button class="check-btn" onclick="toggleAnswer('ta8')">Verificar</button>
+                <div id="tra8" class="answer" style="background: rgba(255, 152, 0, 0.2); border-color: #FF9800; color: #ffb74d;">
+                    <strong>Pista:</strong> "a lo largo de"
+                </div>
+                <div id="ta8" class="answer">
+                    Las clases sociales y la jerarquía social están presentes a lo largo de toda la obra de teatro.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">9. Symbolism is one of the main literary devices that the playwright uses, such as using Bernarda's walking stick to represent her blindness and power.</div>
+                <textarea id="tr9" placeholder="Escribe tu traducción..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('tra9')" style="background: #FF9800;">💡 Pista</button>
+                <button class="check-btn" onclick="toggleAnswer('ta9')">Verificar</button>
+                <div id="tra9" class="answer" style="background: rgba(255, 152, 0, 0.2); border-color: #FF9800; color: #ffb74d;">
+                    <strong>Pista:</strong> "recursos literarios", "dramaturgo", "bastón"
+                </div>
+                <div id="ta9" class="answer">
+                    El simbolismo es uno de los principales recursos literarios que el dramaturgo usa, como usar el bastón de Bernarda para representar su ceguera y su poder.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">10. It is necessary to remember that in spite of Pepe's importance in the play he never appears in it.</div>
+                <textarea id="tr10" placeholder="Escribe tu traducción..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('tra10')" style="background: #FF9800;">💡 Pista</button>
+                <button class="check-btn" onclick="toggleAnswer('ta10')">Verificar</button>
+                <div id="tra10" class="answer" style="background: rgba(255, 152, 0, 0.2); border-color: #FF9800; color: #ffb74d;">
+                    <strong>Pista:</strong> "es necesario" + infinitivo, "a pesar de"
+                </div>
+                <div id="ta10" class="answer">
+                    Es necesario recordar que a pesar de la importancia de Pepe en la obra él nunca aparece en ella.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let lastFocusedInput = null;
+
+        document.addEventListener('focusin', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                lastFocusedInput = e.target;
+            }
+        });
+
+        function toggleKeyboard() {
+            document.getElementById('accentKeyboard').classList.toggle('show');
+        }
+
+        function insertChar(char) {
+            if (lastFocusedInput) {
+                const start = lastFocusedInput.selectionStart;
+                const end = lastFocusedInput.selectionEnd;
+                const text = lastFocusedInput.value;
+                lastFocusedInput.value = text.substring(0, start) + char + text.substring(end);
+                lastFocusedInput.selectionStart = lastFocusedInput.selectionEnd = start + 1;
+                lastFocusedInput.focus();
+            }
+        }
+
+        function showExercise(num) {
+            document.querySelectorAll('.exercise-section').forEach(ex => ex.classList.remove('active'));
+            document.querySelectorAll('.exercise-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('ex' + num).classList.add('active');
+            event.target.classList.add('active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function toggleAnswer(id) {
+            document.getElementById(id).classList.toggle('show');
+        }
+
+        function checkExercise1() {
+            const answers = {
+                'v1':'nació','v2':'fue','v3':'tenía','v4':'era','v5':'terminar',
+                'v6':'fue','v7':'estudió','v8':'viajó','v9':'publicó','v10':'se mudó',
+                'v11':'conoció','v12':'fue','v13':'constaba','v14':'trataban','v15':'vio',
+                'v16':'se llamó','v17':'dio','v18':'fue','v19':'cursó','v20':'vividos',
+                'v21':'fueron','v22':'llegó','v23':'regresó','v24':'se instauró','v25':'comenzó',
+                'v26':'encargada','v27':'representar','v28':'Fue','v29':'escribió','v30':'formada',
+                'v31':'exploraban','v32':'terminó','v33':'se considera'
+            };
+            let correct = 0;
+            for (let key in answers) {
+                const input = document.getElementById(key);
+                const val = input.value.trim().toLowerCase();
+                const ans = answers[key].toLowerCase();
+                if (val === ans || (key === 'v16' && val === 'se llamaba')) {
+                    input.style.borderColor = '#4CAF50';
+                    input.style.background = 'rgba(76, 175, 80, 0.2)';
+                    correct++;
+                } else if (val !== '') {
+                    input.style.borderColor = '#f44336';
+                    input.style.background = 'rgba(244, 67, 54, 0.2)';
+                }
+            }
+            alert('Has completado ' + correct + '/33 verbos correctamente.');
+        }
+
+        function checkMatching() {
+            const answers = {'m1':'c','m2':'h','m3':'b','m4':'g','m5':'a','m6':'i','m7':'e','m8':'f','m9':'d'};
+            let correct = 0;
+            for (let key in answers) {
+                const select = document.getElementById(key);
+                if (select.value === answers[key]) {
+                    select.style.borderColor = '#4CAF50';
+                    select.style.background = 'rgba(76, 175, 80, 0.2)';
+                    correct++;
+                } else if (select.value !== '') {
+                    select.style.borderColor = '#f44336';
+                    select.style.background = 'rgba(244, 67, 54, 0.2)';
+                }
+            }
+            alert('Has emparejado ' + correct + '/9 términos correctamente.');
+        }
+
+        /* ✅ updated instant feedback for Exercise 5 */
+        const answers5 = {'c1':'b','c2':'b','c3':'c','c4':'c','c5':'c','c6':'c','c7':'c','c8':'b',
+            'c9':'c','c10':'c','c11':'c','c12':'c','c13':'c','c14':'c','c15':'a','c16':'c'};
+
+        // live checking
+        Object.keys(answers5).forEach(id => {
+            const sel = document.getElementById(id);
+            if (sel) {
+                sel.addEventListener('change', () => {
+                    if (sel.value === answers5[id]) {
+                        sel.style.borderColor = '#4CAF50';
+                        sel.style.background = 'rgba(76, 175, 80, 0.2)';
+                    } else {
+                        sel.style.borderColor = '#f44336';
+                        sel.style.background = 'rgba(244, 67, 54, 0.2)';
+                    }
+                });
+            }
+        });
+
+        // Verificar summary
+        function checkMultiple() {
+            let correct = 0;
+            for (let k in answers5) {
+                const s = document.getElementById(k);
+                if (s.value === answers5[k]) correct++;
+            }
+            alert('Has completado ' + correct + '/16 respuestas correctamente.');
+        }
+
+        function downloadWork() {
+            const studentName = document.getElementById('studentName').value.trim();
+            if (!studentName) {
+                alert('Por favor, introduce tu nombre antes de descargar.');
+                return;
+            }
+
+            let content = 'LORCA Y SU OBRA - EJERCICIOS\n';
+            content += '========================================\n';
+            content += 'Estudiante: ' + studentName + '\n';
+            content += 'Fecha: ' + new Date().toLocaleString('es-ES') + '\n';
+            content += '========================================\n\n';
+
+            content += 'EJERCICIO 1: LA VIDA DE LORCA\n==================================================\n\n';
+            for (let i = 1; i <= 33; i++) {
+                const val = document.getElementById('v' + i)?.value || '[No contestada]';
+                content += i + '. ' + val + '\n';
+            }
+
+            content += '\n\nEJERCICIO 2: CORRECCION DE ERRORES\n==================================================\n\n';
+            for (let i = 1; i <= 14; i++) {
+                const val = document.getElementById('e' + i)?.value || '[No contestada]';
+                content += i + '. ' + val + '\n';
+            }
+
+            content += '\n\nEJERCICIO 3: VOCABULARIO\n==================================================\n\n';
+            for (let i = 1; i <= 9; i++) {
+                const val = document.getElementById('m' + i)?.value || '[No seleccionada]';
+                content += i + '. ' + val + '\n';
+            }
+
+            content += '\n\nEJERCICIO 5: CLASES SOCIALES\n==================================================\n\n';
+            for (let i = 1; i <= 16; i++) {
+                const val = document.getElementById('c' + i)?.value || '[No seleccionada]';
+                content += i + '. ' + val + '\n';
+            }
+
+            content += '\n\nEJERCICIO 6: TRADUCCIONES\n==================================================\n\n';
+            for (let i = 1; i <= 10; i++) {
+                const val = document.getElementById('tr' + i)?.value || '[No contestada]';
+                content += i + '. ' + val + '\n\n';
+            }
+
+            let totalFields = 0, completedFields = 0;
+            document.querySelectorAll('input[type="text"], textarea, select').forEach(field => {
+                if (field.id !== 'studentName') {
+                    totalFields++;
+                    if (field.value.trim()) completedFields++;
+                }
+            });
+            const rate = Math.round((completedFields / totalFields) * 100);
+
+            content += '\n==================================================\n';
+            content += 'ESTADISTICAS\n';
+            content += '==================================================\n';
+            content += 'Completitud: ' + rate + '%\n';
+            content += 'Campos: ' + completedFields + '/' + totalFields + '\n';
+
+            const blob = new Blob([content], {type: 'text/plain;charset=utf-8'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Lorca_Ejercicios_' + studentName.replace(/\s+/g, '_') + '_' + new Date().toISOString().split('T')[0] + '.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            alert('✓ Trabajo descargado!\n\nCompletitud: ' + rate + '%\nCampos: ' + completedFields + '/' + totalFields);
+        }
+    </script>
+</body>
+</html>

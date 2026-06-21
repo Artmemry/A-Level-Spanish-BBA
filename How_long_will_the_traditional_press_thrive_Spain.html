@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La prensa – Deberes interactivos</title>
+<style>
+  :root{--red:#b91c1c;--lred:#fff1f2;--green:#16a34a;--dark:#1e293b;--mid:#64748b;--yellow:#d97706}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',sans-serif;background:#fdf2f2;color:var(--dark);min-height:100vh}
+  header{background:linear-gradient(135deg,#7f1d1d,#b91c1c);color:#fff;padding:2rem;text-align:center}
+  header h1{font-size:1.6rem;margin-bottom:.4rem}
+  header p{opacity:.85;font-size:.95rem}
+  .badge{display:inline-block;background:rgba(255,255,255,.2);border-radius:20px;padding:.2rem .8rem;font-size:.8rem;margin:.3rem .2rem}
+  #nameSection{background:#fff;max-width:500px;margin:2rem auto;border-radius:12px;padding:2rem;box-shadow:0 2px 12px rgba(0,0,0,.08);text-align:center}
+  #nameSection h2{margin-bottom:1rem;color:var(--red)}
+  #nameInput{width:100%;padding:.7rem 1rem;border:2px solid #fca5a5;border-radius:8px;font-size:1rem;margin-bottom:1rem}
+  #nameInput:focus{outline:none;border-color:var(--red)}
+  .btn{background:var(--red);color:#fff;border:none;padding:.7rem 1.6rem;border-radius:8px;font-size:1rem;cursor:pointer;transition:.2s}
+  .btn:hover{background:#991b1b}
+  .btn-green{background:var(--green)}
+  .btn-green:hover{background:#15803d}
+  .btn-outline{background:#fff;color:var(--red);border:2px solid var(--red)}
+  .btn-outline:hover{background:var(--lred)}
+  #main{display:none;max-width:860px;margin:0 auto;padding:1rem 1rem 5rem}
+  .section{background:#fff;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+  .section h2{color:var(--red);font-size:1.15rem;margin-bottom:.3rem;display:flex;align-items:center;gap:.5rem}
+  .section .subtitle{color:var(--mid);font-size:.85rem;margin-bottom:1rem}
+  .sn{background:var(--red);color:#fff;border-radius:50%;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+  /* Reading */
+  .reading-box{background:linear-gradient(135deg,#fff8f8,#fff1f2);border:1.5px solid #fca5a5;border-radius:10px;padding:1.2rem 1.4rem;margin-bottom:1.2rem;line-height:1.8;font-size:.96rem}
+  .reading-box h3{color:var(--red);font-size:1rem;margin-bottom:.7rem;border-bottom:1.5px solid #fca5a5;padding-bottom:.5rem}
+  .kw{color:#991b1b;font-weight:700}
+  .stat{color:var(--red);font-weight:700}
+  .source-tag{font-size:.75rem;color:var(--mid);margin-top:.7rem;text-align:right;font-style:italic}
+  /* MCQ */
+  .q-block{margin-bottom:1.2rem}
+  .q-text{font-weight:600;margin-bottom:.5rem;line-height:1.4}
+  .options label{display:flex;align-items:flex-start;gap:.5rem;padding:.45rem .6rem;margin:.2rem 0;border-radius:6px;cursor:pointer;border:1.5px solid #e2e8f0;transition:.15s}
+  .options label:hover{background:var(--lred);border-color:#fca5a5}
+  .options input{margin-top:.15rem;flex-shrink:0}
+  .correct{background:#dcfce7!important;border-color:var(--green)!important}
+  .wrong{background:#fee2e2!important;border-color:var(--red)!important}
+  .feedback{font-size:.85rem;margin-top:.4rem;padding:.4rem .7rem;border-radius:6px}
+  .feedback.ok{background:#dcfce7;color:#166534}
+  .feedback.bad{background:#fee2e2;color:#991b1b}
+  /* Gap fill */
+  .gap-sentence{line-height:2.5;margin-bottom:.6rem;font-size:.97rem}
+  .gap{display:inline-block;min-width:100px;border:none;border-bottom:2px solid var(--red);background:transparent;font-size:.97rem;font-family:inherit;padding:.1rem .3rem;color:var(--dark);outline:none;transition:.2s}
+  .gap:focus{border-bottom-color:#d97706;background:#fffbeb}
+  .gap.correct-input{border-bottom-color:var(--green);background:#dcfce7}
+  .gap.wrong-input{border-bottom-color:var(--red);background:#fee2e2}
+  /* Vrai/Faux */
+  .vf-row{margin-bottom:1rem;padding:.8rem;border:1.5px solid #e2e8f0;border-radius:8px}
+  .vf-stmt{font-weight:600;margin-bottom:.5rem}
+  .vf-btns{display:flex;gap:.5rem;margin-bottom:.4rem}
+  .vf-btn{padding:.35rem 1rem;border-radius:6px;border:1.5px solid #cbd5e1;cursor:pointer;font-size:.9rem;background:#fff;transition:.15s}
+  .vf-btn.sv{background:#dcfce7;border-color:var(--green);font-weight:700}
+  .vf-btn.sf{background:#fee2e2;border-color:var(--red);font-weight:700}
+  .vf-just{width:100%;padding:.4rem .7rem;border:1.5px solid #cbd5e1;border-radius:6px;font-size:.88rem;margin-top:.3rem}
+  .vf-just:focus{outline:none;border-color:var(--red)}
+  /* Vocab/match rows */
+  .syn-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem;flex-wrap:wrap}
+  .syn-word{font-weight:700;width:210px;flex-shrink:0;color:var(--red)}
+  .syn-select{flex:1;padding:.4rem;border:1.5px solid #cbd5e1;border-radius:6px;font-size:.9rem}
+  .syn-select:focus{outline:none;border-color:var(--red)}
+  /* Subjunctive */
+  .subj-row{margin-bottom:.9rem;padding:.7rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.94rem;line-height:1.7}
+  .subj-input{width:100%;padding:.45rem .7rem;border:1.5px solid #fca5a5;border-radius:6px;font-size:.92rem;margin-top:.4rem}
+  .subj-input:focus{outline:none;border-color:var(--red)}
+  /* Inline select */
+  .ts{padding:.3rem .5rem;border:1.5px solid #fca5a5;border-radius:6px;font-size:.88rem;font-family:inherit;background:var(--lred);cursor:pointer}
+  .ts:focus{outline:none;border-color:var(--red)}
+  .ts.correct-input{border-color:var(--green);background:#dcfce7}
+  .ts.wrong-input{border-color:var(--red);background:#fee2e2}
+  /* Neg input */
+  .neg-input{width:100%;padding:.5rem .8rem;border:1.5px solid #fca5a5;border-radius:6px;font-size:.93rem;margin-top:.4rem}
+  .neg-input:focus{outline:none;border-color:var(--red)}
+  /* Score bar */
+  #scoreBar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid #fca5a5;padding:.7rem 1.2rem;display:none;align-items:center;justify-content:space-between;gap:.8rem;z-index:90;box-shadow:0 -4px 12px rgba(0,0,0,.08)}
+  #scoreText{font-weight:700;font-size:1rem;color:var(--red)}
+  .btn-row{display:flex;gap:.5rem;flex-wrap:wrap}
+  /* Accent keyboard */
+  #accentKb{position:fixed;bottom:66px;right:16px;background:#1e293b;border-radius:12px;padding:.6rem .7rem;display:none;flex-direction:column;align-items:center;gap:.4rem;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+  .kb-row{display:flex;gap:.4rem}
+  .kb-btn{background:#334155;color:#fff;border:none;border-radius:6px;width:40px;height:40px;font-size:1.15rem;cursor:pointer;transition:.15s}
+  .kb-btn:hover{background:#b91c1c}
+  #kbToggle{position:fixed;bottom:62px;right:16px;background:var(--red);color:#fff;border:none;border-radius:50%;width:46px;height:46px;font-size:1.2rem;cursor:pointer;z-index:101;box-shadow:0 2px 10px rgba(0,0,0,.25);display:none}
+  /* Progress */
+  .progress-wrap{background:#e2e8f0;border-radius:99px;height:8px;margin-bottom:1.2rem;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,#b91c1c,#f87171);border-radius:99px;transition:.5s}
+  @media(max-width:600px){.syn-word{min-width:130px}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📰 La prensa ha muerto… ¿viva la prensa?</h1>
+  <p>Deberes interactivos – Prepárate para la clase</p>
+  <div>
+    <span class="badge">A-Level Spanish</span>
+    <span class="badge">Edexcel AS/A2</span>
+    <span class="badge">5.2 – El futuro de la prensa</span>
+  </div>
+</header>
+
+<div id="nameSection">
+  <h2>👋 ¡Bienvenido/a!</h2>
+  <p style="margin-bottom:1rem;color:var(--mid)">Introduce tu nombre y apellido para empezar. Tus resultados se podrán descargar al final.</p>
+  <input type="text" id="nameInput" placeholder="Nombre y apellido…">
+  <br>
+  <button class="btn" onclick="startActivities()">Empezar las actividades →</button>
+</div>
+
+<div id="main">
+  <div class="progress-wrap"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+  <!-- READING TEXT -->
+  <div class="section">
+    <h2><span class="sn">📖</span> Texto de referencia – Lee con atención</h2>
+    <p class="subtitle">Utiliza este texto para contestar las preguntas de comprensión. Los datos están actualizados a 2024–2025.</p>
+    <div class="reading-box">
+      <h3>¿Una nueva edad de oro de los periódicos? La prensa española en la era digital</h3>
+      <p>La revolución tecnológica ha transformado por completo los medios de comunicación en España. Gracias a la llegada de los <span class="kw">dispositivos móviles</span>, las tabletas y los teléfonos inteligentes, la información es accesible desde cualquier lugar y a cualquier hora. Sin embargo, esta transformación ha traído tanto oportunidades como grandes desafíos para la prensa tradicional.</p>
+      <br>
+      <p>A lo largo de los últimos veinte años, los <span class="kw">ingresos publicitarios</span> de la prensa impresa han sufrido un declive sostenido. Lo que antes era la principal fuente de financiación de los periódicos ha pasado a manos de las grandes plataformas digitales como <span class="kw">Google y Meta</span>, que hoy dominan el mercado publicitario. La televisión, por su parte, mantiene su posición como el medio más rentable, con alrededor de <span class="stat">1.700 millones de euros</span> anuales en publicidad, frente a los poco más de <span class="stat">300 millones</span> que recibe la prensa impresa.</p>
+      <br>
+      <p>Frente a este panorama, las <span class="kw">suscripciones digitales</span> se han convertido en la gran apuesta del sector. España superó el <span class="stat">millón de suscriptores digitales</span> de prensa a mediados de la década de 2020, con <em>El País</em> a la cabeza con más de <span class="stat">350.000 suscripciones</span>. Aun así, las principales cabeceras españolas adoptaron este modelo más tarde que sus homólogas europeas, lo que ha ralentizado su transición.</p>
+      <br>
+      <p>En cuanto a los hábitos de consumo, los españoles dedican más de <span class="stat">ocho horas diarias</span> a los medios, de las cuales más de <span class="stat">cinco transcurren en internet</span>. Los lectores de prensa digital ya superan a los de prensa impresa, sobre todo entre los <span class="kw">menores de 45 años</span>, que apenas leen periódicos en papel, ni siquiera cuando se los regalan. La <span class="kw">prensa rosa</span>, antes muy popular, también ha perdido terreno: muchas revistas del corazón han desaparecido, aunque siguen atrayendo a ciertos sectores de la población.</p>
+      <br>
+      <p>El futuro de la prensa depende de que los periódicos se adapten: ofrecer contenidos de alto valor, desarrollar nuevos formatos digitales y reconquistar la confianza del lector son retos fundamentales para que la <span class="kw">prensa siga existiendo</span> en la era digital.</p>
+      <div class="source-tag">Fuentes: Reuters Institute Digital News Report 2024; Statista España 2024–2025; IESE Media &amp; Entertainment</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: MCQ -->
+  <div class="section">
+    <h2><span class="sn">1</span> Comprensión – Preguntas de opción múltiple</h2>
+    <p class="subtitle">Basado en el texto anterior. ¡Vuelve a leerlo antes de contestar!</p>
+    <div id="mcqContainer"></div>
+    <button class="btn" onclick="checkMCQ()">Comprobar ✓</button>
+  </div>
+
+  <!-- SECTION 2: Verdadero/Falso -->
+  <div class="section">
+    <h2><span class="sn">2</span> ¿Verdadero o Falso? ¡Justifica!</h2>
+    <p class="subtitle">Marca Verdadero o Falso y escribe una justificación breve en español.</p>
+    <div id="vfContainer"></div>
+    <button class="btn" onclick="checkVF()">Comprobar ✓</button>
+  </div>
+
+  <!-- SECTION 3: Gap fill -->
+  <div class="section">
+    <h2><span class="sn">3</span> Rellena los espacios</h2>
+    <p class="subtitle">Completa el texto con las palabras del recuadro. ¡Cuidado, sobran dos palabras!</p>
+    <div style="background:var(--lred);border-radius:8px;padding:.7rem 1rem;margin-bottom:1rem;font-size:.88rem">
+      <strong>Banco de palabras:</strong> dispositivos · además · aumenta · medios · traído · pierdan · televisión · cuentos · ganen · disponible · suscripciones · gratuitas
+    </div>
+    <div id="gapContainer"></div>
+    <button class="btn" style="margin-top:.8rem" onclick="checkGaps()">Comprobar ✓</button>
+  </div>
+
+  <!-- SECTION 4: Vocab EN→ES -->
+  <div class="section">
+    <h2><span class="sn">4</span> Vocabulario – Inglés → Español</h2>
+    <p class="subtitle">Relaciona cada término inglés con su traducción española correcta.</p>
+    <div id="vocabContainer"></div>
+    <button class="btn" style="margin-top:.8rem" onclick="checkVocab()">Comprobar ✓</button>
+  </div>
+
+  <!-- SECTION 5: Subjunctive -->
+  <div class="section">
+    <h2><span class="sn">5</span> Gramática – El presente de subjuntivo</h2>
+    <p class="subtitle">Rellena los espacios con la forma correcta del verbo entre paréntesis. Recuerda: se usa el subjuntivo después de <em>para que, sin que, cuando</em> (futuro), <em>antes de que, en cuanto</em> (futuro).</p>
+    <div id="subjContainer"></div>
+    <button class="btn" style="margin-top:.8rem" onclick="checkSubj()">Comprobar ✓</button>
+  </div>
+
+  <!-- SECTION 6: Tense choice -->
+  <div class="section">
+    <h2><span class="sn">6</span> Gramática – Elige la forma verbal correcta</h2>
+    <p class="subtitle">Elige entre las opciones la forma verbal más adecuada según el contexto.</p>
+    <div id="tenseContainer"></div>
+    <button class="btn" style="margin-top:.8rem" onclick="checkTenses()">Comprobar ✓</button>
+  </div>
+
+  <!-- SECTION 7: Translation ES→EN -->
+  <div class="section">
+    <h2><span class="sn">7</span> Traducción – Español → inglés</h2>
+    <p class="subtitle">Traduce estas frases del texto al inglés. Usa tus propias palabras.</p>
+    <div id="transESENContainer"></div>
+    <button class="btn" style="margin-top:.8rem" onclick="checkTransESEN()">Comprobar ✓</button>
+  </div>
+
+  <!-- SECTION 8: Translation EN→ES -->
+  <div class="section">
+    <h2><span class="sn">8</span> Traducción – Inglés → español</h2>
+    <p class="subtitle">Traduce las frases al español. Los índices entre corchetes te orientan. Atención al subjuntivo.</p>
+    <div id="transENESContainer"></div>
+    <button class="btn" style="margin-top:.8rem" onclick="checkTransENES()">Comprobar ✓</button>
+  </div>
+
+</div>
+
+<!-- Score bar -->
+<div id="scoreBar">
+  <span id="scoreText">Puntuación: 0/0</span>
+  <div class="btn-row">
+    <button class="btn btn-outline" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆ Revisar</button>
+    <button class="btn btn-green" onclick="downloadResults()">📥 Descargar mis resultados</button>
+  </div>
+</div>
+
+<!-- Accent keyboard -->
+<button id="kbToggle" onclick="toggleKb()" title="Acentos">á</button>
+<div id="accentKb">
+  <div style="color:#94a3b8;font-size:.7rem;margin-bottom:.2rem">ACENTOS</div>
+  <div class="kb-row">
+    <button class="kb-btn" onclick="ins('á')">á</button>
+    <button class="kb-btn" onclick="ins('é')">é</button>
+    <button class="kb-btn" onclick="ins('í')">í</button>
+    <button class="kb-btn" onclick="ins('ó')">ó</button>
+    <button class="kb-btn" onclick="ins('ú')">ú</button>
+  </div>
+  <div class="kb-row">
+    <button class="kb-btn" onclick="ins('ñ')">ñ</button>
+    <button class="kb-btn" onclick="ins('ü')">ü</button>
+    <button class="kb-btn" onclick="ins('¿')">¿</button>
+    <button class="kb-btn" onclick="ins('¡')">¡</button>
+  </div>
+  <div style="color:#475569;font-size:.68rem;margin-top:.2rem">haz clic en una casilla primero</div>
+</div>
+
+<script>
+let studentName='', lastFocused=null, scores={};
+
+document.addEventListener('focusin', e=>{
+  const t=e.target;
+  if((t.tagName==='INPUT'&&t.type==='text')||t.tagName==='TEXTAREA') lastFocused=t;
+});
+function toggleKb(){
+  const kb=document.getElementById('accentKb');
+  kb.style.display=kb.style.display!=='flex'?'flex':'none';
+}
+function ins(ch){
+  if(!lastFocused) return;
+  const el=lastFocused, s=el.selectionStart, e2=el.selectionEnd;
+  el.value=el.value.slice(0,s)+ch+el.value.slice(e2);
+  el.selectionStart=el.selectionEnd=s+1; el.focus();
+}
+
+// ── DATA ─────────────────────────────────────────────────────────────────────
+
+const mcqData=[
+  {q:"¿Cuánto cayeron los ingresos publicitarios de la prensa impresa en España en 2024?",
+   opts:["Un 2,1 %","Un 5,3 %","Un 10 %","Un 0,2 %"],
+   ans:0, expl:"Los ingresos publicitarios de la prensa impresa cayeron un 2,1 % hasta los 340 millones de euros."},
+  {q:"¿Cuántos suscriptores digitales tenía la prensa española en 2024?",
+   opts:["350.000","500.000","1,1 millones","2 millones"],
+   ans:2, expl:"En 2024, España contaba con 1,1 millones de suscriptores digitales."},
+  {q:"¿Qué periódico lideraba las suscripciones digitales en España?",
+   opts:["El Mundo","La Vanguardia","ABC","El País"],
+   ans:3, expl:"El País lideraba con 350.000 suscripciones digitales."},
+  {q:"¿Cuántas horas al día pasan los españoles en internet, de media?",
+   opts:["Menos de dos horas","Unas tres horas","Más de cinco horas","Más de ocho horas"],
+   ans:2, expl:"Los españoles pasan más de cinco horas al día en internet."},
+  {q:"¿Qué porcentaje de los españoles de 35-44 años lee periódicos digitales?",
+   opts:["Más del 20 %","Más del 40 %","Más del 60 %","Más del 80 %"],
+   ans:1, expl:"Más del 40 % de los españoles de entre 35 y 44 años leen periódicos digitales."},
+  {q:"¿Cuándo empezaron las principales cabeceras españolas sus estrategias de suscripción digital?",
+   opts:["En torno a 2010","En torno a 2015","En torno a 2019","En torno a 2022"],
+   ans:2, expl:"Las principales cabeceras españolas empezaron sus estrategias de suscripción digital en torno a 2019."},
+  {q:"¿Qué medio de comunicación generó más ingresos publicitarios en España en 2024?",
+   opts:["La radio","La prensa impresa","Internet","La televisión"],
+   ans:3, expl:"La televisión se mantiene como el medio más rentable, con 1.700 millones de euros en publicidad."},
+  {q:"¿Quiénes son los lectores que apenas leen periódicos, según el texto?",
+   opts:["Los mayores de 65 años","Los menores de 45 años","Las amas de casa","Los jubilados"],
+   ans:1, expl:"Los jóvenes menores de 45 años apenas leen periódicos, ni siquiera cuando se los regalan."}
+];
+
+const vfData=[
+  {stmt:"Los ingresos publicitarios de la prensa impresa aumentaron en 2024.",ans:false,just:"Cayeron un 2,1 % hasta los 340 millones de euros."},
+  {stmt:"El País tiene más suscriptores digitales que El Mundo y La Vanguardia juntos.",ans:true,just:"El País tiene 350.000 frente a 123.000 (El Mundo) y 107.000 (La Vanguardia), es decir, 230.000 en total."},
+  {stmt:"España fue uno de los primeros países europeos en lanzar suscripciones digitales.",ans:false,just:"Las principales cabeceras empezaron en torno a 2019, más tarde que otros países europeos."},
+  {stmt:"Los españoles pasan más tiempo en internet que viendo la televisión.",ans:true,just:"Dedican más de cinco horas diarias a internet frente a unas tres horas viendo la televisión."},
+  {stmt:"La publicidad en revistas decreció en 2024.",ans:false,just:"Los ingresos publicitarios de las revistas crecieron un 2,2 % hasta los 126 millones de euros."},
+  {stmt:"Las plataformas digitales como Google perjudican a la prensa convencional.",ans:true,just:"Las grandes plataformas digitales como Google y Meta dominan el mercado publicitario, alejando los ingresos de la prensa convencional."},
+  {stmt:"Más de la mitad de los jóvenes españoles menores de 45 años leen periódicos a diario.",ans:false,just:"Los jóvenes menores de 45 años apenas leen periódicos, ni siquiera cuando se los regalan."},
+  {stmt:"Según el texto, la clave del futuro de la prensa es ofrecer contenidos de alto valor.",ans:true,just:"El texto dice: 'ofrecer contenidos de alto valor, desarrollar nuevos formatos digitales y reconquistar la confianza del lector son retos fundamentales'."}
+];
+
+const gapData=[
+  {before:"Gracias a los medios electrónicos como la ",ans:"televisión",after:" y a la llegada de Internet, los"},
+  {before:"",ans:"medios",after:" de comunicación siguen teniendo enorme influencia."},
+  {before:"La revolución tecnológica ha ",ans:"traído",after:" muchos problemas para la prensa impresa."},
+  {before:"",ans:"Además",after:", no debemos olvidar la pérdida de los ingresos publicitarios convencionales."},
+  {before:"Gracias a la irrupción de los ",ans:"dispositivos",after:" móviles, podemos leer los periódicos en casa a cualquier hora."},
+  {before:"Así se ",ans:"aumenta",after:" enormemente el número de lectores"},
+  {before:"sin que los que viajan o los que viven en otros países ",ans:"pierdan",after:" su acceso a las noticias."},
+  {before:"Las ",ans:"suscripciones",after:" digitales han crecido de manera significativa en los últimos años."},
+];
+
+const vocabData=[
+  {en:"the press / media",opts:["el boletín informativo","la prensa","la portada","la difusión"],ans:"la prensa"},
+  {en:"a search engine",opts:["un servidor","un sitio web","un buscador","un dispositivo"],ans:"un buscador"},
+  {en:"freedom of expression",opts:["la censura","la redacción","la libertad de expresión","la difusión"],ans:"la libertad de expression"},
+  {en:"a photojournalist",opts:["el reportero","el editor","el fotoperiodista","el redactor"],ans:"el fotoperiodista"},
+  {en:"gutter press / tabloids",opts:["la prensa rosa","la prensa amarilla","la portada","el telediario"],ans:"la prensa amarilla"},
+  {en:"a news bulletin",opts:["el diario","el informe","el boletín informativo","el telediario"],ans:"el boletín informativo"},
+  {en:"to browse / surf the web",opts:["conectarse a la red","navegar por la Web","publicar en línea","estar al día"],ans:"navegar por la Web"},
+  {en:"a press conference",opts:["la retransmisión en directo","la rueda de prensa","la redacción","el estreno"],ans:"la rueda de prensa"},
+  {en:"a celebrity / gossip magazine",opts:["la prensa amarilla","el suplemento","la revista de corazón","el quiosco"],ans:"la revista de corazón"},
+  {en:"to keep up with the news",opts:["navegar por la Web","publicar","estar al día","enriquecer"],ans:"estar al día"},
+];
+
+// fix vocab answer with accent
+vocabData[2].ans="la libertad de expresión";
+
+const subjData=[
+  {before:"Paco va a comprar el periódico para que su padre ",verb:"poder",after:" leer la sección de deportes.",trigger:"para que",ans:"pueda",hint:"para que → subjuntivo"},
+  {before:"Cuando ",verb:"salir",after:" la nueva tableta, será aún más fácil leer las noticias.",trigger:"cuando + futuro",ans:"salga",hint:"cuando + acción futura → subjuntivo"},
+  {before:"Cada día, cuando Jorge ",verb:"salir",after:" de la oficina, busca el periódico.",trigger:"cuando + presente habitual",ans:"sale",hint:"cuando + hábito presente → indicativo"},
+  {before:"En cuanto ",verb:"publicarse",after:" en línea la noticia del concierto, venderán las entradas.",trigger:"en cuanto + futuro",ans:"se publique",hint:"en cuanto + acción futura → subjuntivo"},
+  {before:"Hoy en día, cualquier noticia es accesible sin que el lector ",verb:"tener",after:" que comprar un periódico.",trigger:"sin que",ans:"tenga",hint:"sin que → siempre subjuntivo"},
+  {before:"Habla con tus amigos antes de que ellos ",verb:"buscar",after:" más información sobre el evento en Internet.",trigger:"antes de que",ans:"busquen",hint:"antes de que → siempre subjuntivo"},
+  {before:"Me parece que los diarios convencionales no ",verb:"tener",after:" mucho futuro.",trigger:"opinión afirmativa",ans:"tienen",hint:"Me parece que + opinión afirmativa → indicativo"},
+  {before:"Todo esto para que los periódicos sigan ",verb:"existir",after:".",trigger:"para que",ans:"existiendo",hint:"sigan + gerundio (no requiere subjuntivo tras sigan)"},
+];
+
+const tenseData=[
+  {before:"La gente ",opts:["lee","leyó","leerá"],ans:"lee",after:" algo más la prensa digital hoy en día.",expl:"Presente de indicativo: hecho habitual actual."},
+  {before:"Antes, los periódicos impresos ",opts:["vendían","venden","venderán"],ans:"vendían",after:" cuatro millones de ejemplares al día.",expl:"Imperfecto: situación habitual en el pasado."},
+  {before:"En 2019, El País ",opts:["lanzó","lanza","lanzará"],ans:"lanzó",after:" su estrategia de suscripción digital.",expl:"Pretérito indefinido: acción concreta y terminada en el pasado."},
+  {before:"Las suscripciones digitales ",opts:["han crecido","crecían","crecerán"],ans:"han crecido",after:" de manera significativa en los últimos años.",expl:"Pretérito perfecto: acción reciente con relevancia en el presente."},
+  {before:"Si los periódicos no se adaptan, ",opts:["desaparecerán","desaparecieron","desaparecen"],ans:"desaparecerán",after:" en pocos años.",expl:"Futuro: consecuencia de una condición hipotética."},
+  {before:"Cuando Raquel era joven, siempre ",opts:["compraba","compró","comprará"],ans:"compraba",after:" el periódico en el quiosco.",expl:"Imperfecto: acción habitual en el pasado."},
+  {before:"Los periodistas ",opts:["llevan","llevaron","llevarán"],ans:"llevan",after:" años advirtiendo sobre la crisis de la prensa.",expl:"Presente con 'llevan + tiempo': acción que empezó en el pasado y continúa."},
+  {before:"Antes de que llegara Internet, la prensa impresa ",opts:["había dominado","domina","dominará"],ans:"había dominado",after:" durante siglos.",expl:"Pluscuamperfecto: acción anterior a otra acción pasada."},
+];
+
+const transESENData=[
+  {es:"La información es accesible desde cualquier lugar, en cualquier momento.",ans:"Information is accessible from anywhere, at any time.",hint:""},
+  {es:"Las grandes plataformas digitales dominan el mercado publicitario, alejando los ingresos de la prensa convencional.",ans:"The major digital platforms dominate the advertising market, drawing revenue away from the conventional press.",hint:""},
+  {es:"Sin que los lectores pierdan su acceso a lo que pasa en el mundo.",ans:"Without readers losing their access to what is happening in the world.",hint:"sin que + subjuntivo"},
+  {es:"Todo esto para que los periódicos sigan existiendo en la era digital.",ans:"All of this so that newspapers continue to exist in the digital age.",hint:"para que + subjuntivo"},
+  {es:"Los jóvenes menores de 45 años apenas leen periódicos, ni siquiera cuando se los regalan.",ans:"Young people under 45 barely read newspapers, not even when they are given them for free.",hint:""},
+];
+
+const transENESData=[
+  {en:"When you buy that magazine, show it to me.",partial:"Cuando ___ esa revista, ___ .",hints:"¿Qué tiempo usas después de 'cuando' con sentido de futuro? El verbo 'mostrar' aquí es un mandato directo — ¿cómo se forma el imperativo con pronombre?",ans:"Cuando compres esa revista, enséñamela."},
+  {en:"Before she goes to Madrid, they will read El País.",partial:"Antes de que ella ___ a Madrid, ___ El País.",hints:"'Antes de que' exige siempre un modo especial — ¿cuál? El segundo verbo expresa una acción futura simple.",ans:"Antes de que ella vaya a Madrid, leerán El País."},
+  {en:"She always takes her tablet so that her father can see the news.",partial:"Siempre lleva su tableta para que su padre ___ ver las noticias.",hints:"'Para que' introduce una finalidad — ¿qué modo verbal requiere? Piensa en la forma de 'poder' para él/ella.",ans:"Siempre lleva su tableta para que su padre pueda ver las noticias."},
+  {en:"We usually read the magazine without our parents knowing.",partial:"Normalmente leemos la revista sin que nuestros padres lo ___.",hints:"'Sin que' siempre requiere el mismo modo que 'para que'. El verbo es 'saber' — conjúgalo para ellos.",ans:"Normalmente leemos la revista sin que nuestros padres lo sepan."},
+  {en:"Emiliano will download the RTVE app as soon as he gets home.",partial:"Emiliano ___ la aplicación de RTVE en cuanto ___ a casa.",hints:"El primer verbo expresa una acción futura simple (descargar). Después de 'en cuanto' con sentido de futuro, ¿indicativo o subjuntivo? El verbo es 'llegar'.",ans:"Emiliano descargará la aplicación de RTVE en cuanto llegue a casa."},
+];
+
+// ── BUILD ─────────────────────────────────────────────────────────────────────
+
+function startActivities(){
+  studentName=document.getElementById('nameInput').value.trim();
+  if(!studentName){alert('¡Por favor, introduce tu nombre!');return;}
+  document.getElementById('nameSection').style.display='none';
+  document.getElementById('main').style.display='block';
+  document.getElementById('scoreBar').style.display='flex';
+  document.getElementById('kbToggle').style.display='block';
+  buildMCQ(); buildVF(); buildGaps(); buildVocab(); buildSubj(); buildTenses(); buildTransESEN(); buildTransENES();
+}
+
+function buildMCQ(){
+  const c=document.getElementById('mcqContainer');
+  mcqData.forEach((q,i)=>{
+    const d=document.createElement('div'); d.className='q-block';
+    d.innerHTML=`<div class="q-text">${i+1}. ${q.q}</div><div class="options" id="opts${i}">`
+      +q.opts.map((o,j)=>`<label id="lbl${i}_${j}"><input type="radio" name="mcq${i}" value="${j}"> ${o}</label>`).join('')
+      +`</div><div class="feedback" id="fb${i}" style="display:none"></div>`;
+    c.appendChild(d);
+  });
+}
+
+const vfSel={};
+function buildVF(){
+  const c=document.getElementById('vfContainer');
+  vfData.forEach((v,i)=>{
+    const d=document.createElement('div'); d.className='vf-row';
+    d.innerHTML=`<div class="vf-stmt">${i+1}. ${v.stmt}</div>
+      <div class="vf-btns">
+        <button class="vf-btn" id="vfV${i}" onclick="selVF(${i},'v')">✅ Verdadero</button>
+        <button class="vf-btn" id="vfF${i}" onclick="selVF(${i},'f')">❌ Falso</button>
+      </div>
+      <input type="text" class="vf-just" id="vfJ${i}" placeholder="Justificación en español…">
+      <div id="vfFb${i}" class="feedback" style="display:none"></div>`;
+    c.appendChild(d);
+  });
+}
+function selVF(i,v){
+  vfSel[i]=v;
+  document.getElementById(`vfV${i}`).className='vf-btn'+(v==='v'?' sv':'');
+  document.getElementById(`vfF${i}`).className='vf-btn'+(v==='f'?' sf':'');
+}
+
+function buildGaps(){
+  const c=document.getElementById('gapContainer');
+  let html='<p class="gap-sentence">';
+  gapData.forEach((g,i)=>{
+    html+=g.before+`<input type="text" class="gap" id="gap${i}" placeholder="…" autocomplete="off">`+g.after+' ';
+  });
+  c.innerHTML=html+'</p>';
+}
+
+function buildVocab(){
+  const c=document.getElementById('vocabContainer');
+  vocabData.forEach((v,i)=>{
+    const d=document.createElement('div'); d.className='syn-row';
+    const sh=[...v.opts].sort(()=>Math.random()-.5);
+    d.innerHTML=`<span class="syn-word" style="color:var(--dark);font-weight:normal">${v.en}</span>
+      <select class="syn-select" id="voc${i}"><option value="">-- elegir --</option>
+      ${sh.map(o=>`<option value="${o}">${o}</option>`).join('')}</select>
+      <span id="vocFb${i}" style="font-size:1.1rem"></span>`;
+    c.appendChild(d);
+  });
+}
+
+function buildSubj(){
+  const c=document.getElementById('subjContainer');
+  subjData.forEach((s,i)=>{
+    const d=document.createElement('div'); d.className='subj-row';
+    d.innerHTML=`<strong>${i+1}.</strong> ${s.before}<em>(${s.verb})</em>${s.after}
+      <div style="font-size:.8rem;color:var(--mid);margin:.3rem 0">🔑 Pista: <strong>${s.hint}</strong></div>
+      <input type="text" class="subj-input" id="subj${i}" placeholder="Escribe la forma correcta del verbo…" autocomplete="off">
+      <div id="subjFb${i}" class="feedback" style="display:none;margin-top:.3rem"></div>`;
+    c.appendChild(d);
+  });
+}
+
+function buildTenses(){
+  const c=document.getElementById('tenseContainer');
+  tenseData.forEach((t,i)=>{
+    const d=document.createElement('div'); d.className='subj-row';
+    const sel=`<select class="ts" id="ts${i}"><option value="">…</option>
+      ${t.opts.map(o=>`<option value="${o}">${o}</option>`).join('')}</select>`;
+    d.innerHTML=`<strong>${i+1}.</strong> ${t.before}${sel}${t.after}
+      <div id="tsFb${i}" class="feedback" style="display:none;margin-top:.4rem"></div>`;
+    c.appendChild(d);
+  });
+}
+
+function buildTransESEN(){
+  const c=document.getElementById('transESENContainer');
+  transESENData.forEach((t,i)=>{
+    const d=document.createElement('div'); d.style.marginBottom='1rem';
+    d.innerHTML=`<div style="margin-bottom:.3rem"><strong>${i+1}.</strong> 🇪🇸 <em>${t.es}</em>${t.hint?` <span style="font-size:.8rem;color:var(--mid)">[${t.hint}]</span>`:''}</div>
+      <input type="text" class="neg-input" id="esen${i}" placeholder="Traducción al inglés…" autocomplete="off">
+      <div id="esenFb${i}" class="feedback" style="display:none;margin-top:.3rem"></div>`;
+    c.appendChild(d);
+  });
+}
+
+function buildTransENES(){
+  const c=document.getElementById('transENESContainer');
+  transENESData.forEach((t,i)=>{
+    const d=document.createElement('div'); d.style.marginBottom='1rem';
+    d.innerHTML=`<div style="margin-bottom:.3rem"><strong>${i+1}.</strong> 🇬🇧 <em>${t.en}</em></div>
+      <div style="font-size:.82rem;color:var(--mid);margin-bottom:.3rem">Índices: <strong>${t.hints}</strong></div>
+      <div style="font-size:.87rem;color:var(--mid);margin-bottom:.3rem">${t.partial}</div>
+      <input type="text" class="neg-input" id="enes${i}" placeholder="Escribe la traducción completa…" autocomplete="off">
+      <div id="enesFb${i}" class="feedback" style="display:none;margin-top:.3rem"></div>`;
+    c.appendChild(d);
+  });
+}
+
+// ── CHECK ─────────────────────────────────────────────────────────────────────
+function norm(s){return s.toLowerCase().trim().replace(/[''´`]/g,"'").replace(/\s+/g,' ');}
+
+function checkMCQ(){
+  let ok=0;
+  mcqData.forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="mcq${i}"]:checked`);
+    const fb=document.getElementById(`fb${i}`);
+    for(let j=0;j<q.opts.length;j++) document.getElementById(`lbl${i}_${j}`).classList.remove('correct','wrong');
+    if(!sel){fb.style.display='block';fb.className='feedback bad';fb.textContent='⚠️ Sin respuesta.';return;}
+    const v=parseInt(sel.value);
+    if(v===q.ans){document.getElementById(`lbl${i}_${v}`).classList.add('correct');fb.style.display='block';fb.className='feedback ok';fb.innerHTML=`✅ ¡Correcto! ${q.expl}`;ok++;}
+    else{document.getElementById(`lbl${i}_${v}`).classList.add('wrong');document.getElementById(`lbl${i}_${q.ans}`).classList.add('correct');fb.style.display='block';fb.className='feedback bad';fb.innerHTML=`❌ Respuesta correcta: <strong>${q.opts[q.ans]}</strong>. ${q.expl}`;}
+  });
+  scores.mcq={got:ok,total:mcqData.length}; updateScore();
+}
+
+function checkVF(){
+  let ok=0;
+  vfData.forEach((v,i)=>{
+    const sel=vfSel[i]; const fb=document.getElementById(`vfFb${i}`);
+    if(!sel){fb.style.display='block';fb.className='feedback bad';fb.textContent='⚠️ Elige Verdadero o Falso.';return;}
+    const correct=(sel==='v')===v.ans;
+    fb.style.display='block';
+    if(correct){fb.className='feedback ok';fb.innerHTML=`✅ ¡Correcto! Justificación sugerida: <em>${v.just}</em>`;ok++;}
+    else{fb.className='feedback bad';fb.innerHTML=`❌ Es ${v.ans?'Verdadero':'Falso'}. Justificación: <em>${v.just}</em>`;}
+  });
+  scores.vf={got:ok,total:vfData.length}; updateScore();
+}
+
+function checkGaps(){
+  let ok=0;
+  gapData.forEach((g,i)=>{
+    const el=document.getElementById(`gap${i}`);
+    el.classList.remove('correct-input','wrong-input');
+    if(norm(el.value)===norm(g.ans)){el.classList.add('correct-input');ok++;}
+    else{el.classList.add('wrong-input');el.title=`Respuesta: ${g.ans}`;}
+  });
+  scores.gaps={got:ok,total:gapData.length}; updateScore();
+  alert(`Rellena los espacios: ${ok}/${gapData.length}. Pasa el ratón por las casillas rojas para ver la respuesta correcta.`);
+}
+
+function checkVocab(){
+  let ok=0;
+  vocabData.forEach((v,i)=>{
+    const val=document.getElementById(`voc${i}`).value;
+    const fb=document.getElementById(`vocFb${i}`);
+    if(val===v.ans){fb.textContent='✅';ok++;}
+    else{fb.innerHTML=`❌ <small style="color:var(--red)">${v.ans}</small>`;}
+  });
+  scores.vocab={got:ok,total:vocabData.length}; updateScore();
+}
+
+function checkSubj(){
+  let ok=0;
+  subjData.forEach((s,i)=>{
+    const val=document.getElementById(`subj${i}`).value.trim();
+    const fb=document.getElementById(`subjFb${i}`);
+    fb.style.display='block';
+    if(norm(val)===norm(s.ans)){fb.className='feedback ok';fb.textContent='✅ ¡Perfecto!';ok++;}
+    else{fb.className='feedback bad';fb.innerHTML=`❌ Forma correcta: <strong>${s.ans}</strong>`;}
+  });
+  scores.subj={got:ok,total:subjData.length}; updateScore();
+}
+
+function checkTenses(){
+  let ok=0;
+  tenseData.forEach((t,i)=>{
+    const val=document.getElementById(`ts${i}`).value;
+    const el=document.getElementById(`ts${i}`);
+    const fb=document.getElementById(`tsFb${i}`);
+    el.classList.remove('correct-input','wrong-input');
+    fb.style.display='block';
+    if(val===t.ans){el.classList.add('correct-input');fb.className='feedback ok';fb.innerHTML=`✅ ¡Correcto! ${t.expl}`;ok++;}
+    else{el.classList.add('wrong-input');fb.className='feedback bad';fb.innerHTML=`❌ Respuesta: <strong>${t.ans}</strong>. ${t.expl}`;}
+  });
+  scores.tenses={got:ok,total:tenseData.length}; updateScore();
+}
+
+function checkTransESEN(){
+  let ok=0;
+  transESENData.forEach((t,i)=>{
+    const val=document.getElementById(`esen${i}`).value.trim();
+    const fb=document.getElementById(`esenFb${i}`);
+    fb.style.display='block';
+    // flexible check: accept if ≥70% words match
+    const wA=norm(val).split(' '), wC=norm(t.ans).split(' ');
+    const matches=wA.filter(w=>wC.includes(w)).length;
+    if(matches/wC.length>=0.7){fb.className='feedback ok';fb.innerHTML=`✅ ¡Muy bien! Respuesta sugerida: <em>${t.ans}</em>`;ok++;}
+    else{fb.className='feedback bad';fb.innerHTML=`❌ Respuesta sugerida: <em>${t.ans}</em>`;}
+  });
+  scores.esen={got:ok,total:transESENData.length}; updateScore();
+}
+
+function checkTransENES(){
+  let ok=0;
+  transENESData.forEach((t,i)=>{
+    const val=document.getElementById(`enes${i}`).value.trim();
+    const fb=document.getElementById(`enesFb${i}`);
+    fb.style.display='block';
+    if(norm(val)===norm(t.ans)){fb.className='feedback ok';fb.textContent='✅ ¡Excelente!';ok++;}
+    else{fb.className='feedback bad';fb.innerHTML=`❌ Respuesta sugerida: <em>${t.ans}</em>`;}
+  });
+  scores.enes={got:ok,total:transENESData.length}; updateScore();
+}
+
+function updateScore(){
+  let got=0, total=0;
+  Object.values(scores).forEach(s=>{got+=s.got;total+=s.total;});
+  document.getElementById('scoreText').textContent=`${studentName} – Puntuación: ${got}/${total}`;
+  document.getElementById('progressFill').style.width=(total>0?Math.round(got/total*100):0)+'%';
+}
+
+function downloadResults(){
+  const now=new Date().toLocaleString('es-ES');
+  const labels={mcq:'Comprensión MCQ',vf:'Verdadero/Falso',gaps:'Rellena los espacios',vocab:'Vocabulario',subj:'Subjuntivo',tenses:'Formas verbales',esen:'Traducción ES→EN',enes:'Traducción EN→ES'};
+  let got=0, total=0;
+  let lines=[`DEBERES – La prensa ha muerto… ¿viva la prensa?`,`Alumno/a: ${studentName}`,`Fecha: ${now}`,``,`=== PUNTUACIÓN ===`];
+  Object.entries(scores).forEach(([k,v])=>{lines.push(`${labels[k]||k}: ${v.got}/${v.total}`);got+=v.got;total+=v.total;});
+  lines.push(``,`TOTAL: ${got}/${total} (${total>0?Math.round(got/total*100):0}%)`,``,`=== DETALLES ===`,``,`-- MCQ --`);
+  mcqData.forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="mcq${i}"]:checked`);
+    lines.push(`${i+1}. ${q.q}`);
+    lines.push(`   Tu respuesta: ${sel?q.opts[parseInt(sel.value)]:'(sin respuesta)'} | Correcta: ${q.opts[q.ans]}`);
+  });
+  lines.push(``,`-- Subjuntivo --`);
+  subjData.forEach((s,i)=>{
+    lines.push(`${i+1}. ${s.before}[${s.verb}]${s.after}`);
+    lines.push(`   Tu respuesta: ${document.getElementById(`subj${i}`)?.value||''} | Correcta: ${s.ans}`);
+  });
+  lines.push(``,`-- Traducción EN→ES --`);
+  transENESData.forEach((t,i)=>{
+    lines.push(`${i+1}. ${t.en}`);
+    lines.push(`   Tu respuesta: ${document.getElementById(`enes${i}`)?.value||''}`);
+    lines.push(`   Respuesta correcta: ${t.ans}`);
+  });
+  const blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`deberes_prensa_${studentName.replace(/\s+/g,'_')}.txt`;
+  a.click();
+}
+</script>
+</body>
+</html>

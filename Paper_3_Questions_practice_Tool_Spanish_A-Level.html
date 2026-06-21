@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spanish A-Level · Speaking Exam Trainer</title>
+<style>
+  :root {
+    --red:   #C60B1E;
+    --yellow:#F1BF00;
+    --blue:  #1a3a6b;
+    --light: #f5f5f5;
+    --card-bg: #fff;
+    --shadow: 0 4px 18px rgba(0,0,0,0.13);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--light);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, var(--red) 0%, #8b0000 100%);
+    color: #fff;
+    padding: 18px 24px 14px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+  }
+  .flag {
+    width: 56px; height: 38px;
+    display: flex; flex-direction: column;
+    border-radius: 4px; overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  }
+  .flag-red   { background: var(--red);    flex: 1; }
+  .flag-yellow{ background: var(--yellow); flex: 1.6; }
+  header h1 { font-size: 1.35rem; font-weight: 700; line-height: 1.2; }
+  header p  { font-size: 0.82rem; opacity: .85; margin-top: 2px; }
+
+  /* ── SCREENS ── */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* SCREEN 1 — Name entry */
+  #screen1 {
+    flex-direction: column;
+    align-items: center; justify-content: center;
+    min-height: calc(100vh - 80px);
+    padding: 24px;
+  }
+  #screen1.active { display: flex; }
+  .welcome-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 40px 36px;
+    box-shadow: var(--shadow);
+    max-width: 460px; width: 100%;
+    text-align: center;
+  }
+  .welcome-card h2 { font-size: 1.5rem; color: var(--red); margin-bottom: 8px; }
+  .welcome-card p  { color: #555; margin-bottom: 24px; font-size: 0.95rem; }
+  .welcome-card input {
+    width: 100%; padding: 13px 16px;
+    border: 2px solid #ddd; border-radius: 10px;
+    font-size: 1rem; margin-bottom: 18px;
+    transition: border-color .2s;
+  }
+  .welcome-card input:focus { outline: none; border-color: var(--red); }
+  .btn-primary {
+    background: var(--red); color: #fff;
+    border: none; border-radius: 10px;
+    padding: 13px 32px; font-size: 1rem; font-weight: 600;
+    cursor: pointer; transition: background .2s, transform .1s;
+    width: 100%;
+  }
+  .btn-primary:hover { background: #9e0918; transform: translateY(-1px); }
+
+  /* SCREEN 2 — Theme grid */
+  #screen2 { padding: 24px; }
+  #screen2.active { display: block; }
+  #screen2 h2 { color: var(--red); margin-bottom: 6px; font-size: 1.2rem; }
+  #screen2 .subtitle { color: #666; font-size: 0.88rem; margin-bottom: 20px; }
+  .theme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+  }
+  .theme-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform .15s, box-shadow .15s;
+    border-left: 5px solid transparent;
+    position: relative;
+  }
+  .theme-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.16); }
+  .theme-card.blue { border-left-color: var(--blue); }
+  .theme-card.red  { border-left-color: var(--red); }
+  .theme-code {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .theme-card.blue .theme-code { color: var(--blue); }
+  .theme-card.red  .theme-code { color: var(--red); }
+  .theme-title { font-size: 0.97rem; font-weight: 600; color: #222; line-height: 1.35; }
+  .theme-count {
+    position: absolute; top: 14px; right: 14px;
+    background: #eee; border-radius: 20px;
+    padding: 2px 9px; font-size: 0.72rem; color: #666;
+  }
+
+  /* SCREEN 3 — Card display */
+  #screen3 { padding: 24px; max-width: 820px; margin: 0 auto; }
+  #screen3.active { display: block; }
+  .nav-bar {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 20px; flex-wrap: wrap;
+  }
+  .btn-sec {
+    background: #fff; color: #333;
+    border: 2px solid #ddd; border-radius: 9px;
+    padding: 8px 16px; font-size: 0.88rem; font-weight: 600;
+    cursor: pointer; transition: border-color .2s, background .2s;
+  }
+  .btn-sec:hover { border-color: var(--red); background: #fff5f5; }
+  .btn-regen {
+    background: var(--red); color: #fff;
+    border: 2px solid var(--red); border-radius: 9px;
+    padding: 8px 18px; font-size: 0.88rem; font-weight: 600;
+    cursor: pointer; transition: background .2s;
+  }
+  .btn-regen:hover { background: #9e0918; }
+  .counter-badge {
+    margin-left: auto;
+    background: var(--yellow); color: #333;
+    border-radius: 20px; padding: 4px 14px;
+    font-size: 0.82rem; font-weight: 700;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 13px 20px 11px;
+    font-size: 0.78rem; font-weight: 700;
+    letter-spacing: .07em; text-transform: uppercase;
+    color: #fff;
+  }
+  .card-header.student  { background: var(--blue); }
+  .card-header.examiner { background: var(--red); }
+  .card-body { padding: 20px 22px; }
+
+  /* Student card */
+  .theme-label {
+    font-size: 0.78rem; font-weight: 700;
+    letter-spacing: .06em; text-transform: uppercase;
+    color: #888; margin-bottom: 10px;
+  }
+  .declaration {
+    font-size: 1.15rem; font-weight: 600;
+    color: #111; line-height: 1.5;
+    margin-bottom: 16px;
+    border-left: 4px solid var(--yellow);
+    padding-left: 14px;
+  }
+  .consider-title {
+    font-size: 0.82rem; font-weight: 700;
+    color: var(--red); text-transform: uppercase;
+    letter-spacing: .05em; margin-bottom: 10px;
+  }
+  .consider-list { list-style: none; padding: 0; }
+  .consider-list li {
+    padding: 7px 0 7px 22px;
+    position: relative; color: #333; font-size: 0.93rem;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .consider-list li:last-child { border-bottom: none; }
+  .consider-list li::before {
+    content: '→';
+    position: absolute; left: 0;
+    color: var(--yellow); font-weight: 700;
+  }
+
+  /* Examiner card */
+  .q-block { margin-bottom: 18px; }
+  .q-block:last-child { margin-bottom: 0; }
+  .q-label {
+    font-size: 0.72rem; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase;
+    color: var(--red); margin-bottom: 6px;
+  }
+  .q-text {
+    font-size: 1rem; color: #222; line-height: 1.5;
+    font-style: italic;
+  }
+
+  /* Prep time chip */
+  .prep-chip {
+    display: inline-block;
+    background: #fff3cd; color: #856404;
+    border: 1px solid #ffc107;
+    border-radius: 20px; padding: 4px 14px;
+    font-size: 0.78rem; font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  /* Responsive */
+  @media (max-width: 540px) {
+    header h1 { font-size: 1.1rem; }
+    .welcome-card { padding: 28px 20px; }
+    #screen3 { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="flag">
+    <div class="flag-red"></div>
+    <div class="flag-yellow"></div>
+    <div class="flag-red"></div>
+  </div>
+  <div>
+    <h1>Spanish A-Level · Speaking Exam Trainer</h1>
+    <p>Edexcel — Generador aleatorio de preguntas del examinador</p>
+  </div>
+</header>
+
+<!-- ── SCREEN 1 ── -->
+<div id="screen1" class="screen active">
+  <div class="welcome-card">
+    <h2>¡Bienvenido/a!</h2>
+    <p>Introduce tu nombre para empezar a practicar las preguntas del examen oral.</p>
+    <input type="text" id="studentName" placeholder="Tu nombre" />
+    <button class="btn-primary" onclick="goToThemes()">Comenzar →</button>
+  </div>
+</div>
+
+<!-- ── SCREEN 2 ── -->
+<div id="screen2" class="screen">
+  <h2 id="greetingMsg"></h2>
+  <p class="subtitle">Selecciona una unidad temática para generar una tarjeta aleatoria.</p>
+  <div class="theme-grid" id="themeGrid"></div>
+</div>
+
+<!-- ── SCREEN 3 ── -->
+<div id="screen3" class="screen">
+  <div class="nav-bar">
+    <button class="btn-sec"   onclick="goHome()">🏠 Inicio</button>
+    <button class="btn-sec"   onclick="goToThemes()">← Cambiar de tema</button>
+    <button class="btn-regen" onclick="regenerate()">🔀 Regenerar (mismo tema)</button>
+    <span class="counter-badge" id="counterBadge">Tarjeta 1 / 1</span>
+  </div>
+
+  <!-- Student card -->
+  <div class="card">
+    <div class="card-header student">Tarjeta del estudiante — Declaración</div>
+    <div class="card-body">
+      <span class="prep-chip">⏱ 5 minutos de preparación</span>
+      <div class="theme-label" id="themeLabel"></div>
+      <div class="declaration" id="declaration"></div>
+      <div id="considerBlock" style="display:none">
+        <div class="consider-title">Debes considerar:</div>
+        <ul class="consider-list" id="considerList"></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Examiner card -->
+  <div class="card">
+    <div class="card-header examiner">Preguntas obligatorias del examinador</div>
+    <div class="card-body">
+      <div class="q-block">
+        <div class="q-label">Pregunta 1</div>
+        <div class="q-text" id="q1text"></div>
+      </div>
+      <div class="q-block">
+        <div class="q-label">Pregunta 2</div>
+        <div class="q-text" id="q2text"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+const THEMES = [
+  {
+    code: "SP1", title: "El cambio en la estructura familiar", color: "blue",
+    sets: [
+      {
+        decl: "El papel de los abuelos en las familias españolas sigue siendo muy importante",
+        consider: [],
+        q1: "¿Cuál ha sido el papel tradicional de los abuelos en la familia española?",
+        q2: "Los cambios en la familia, ¿cómo han afectado el papel de los abuelos españoles?"
+      },
+      {
+        decl: "El matrimonio es cada vez más popular en España",
+        consider: [],
+        q1: "Los españoles valoran mucho el matrimonio hoy. ¿Estás de acuerdo?",
+        q2: "¿Crees que la mayoría de los españoles acepta todo tipo de matrimonio hoy? ¿Por qué (no)?"
+      },
+      {
+        decl: "Los padres españoles son demasiado permisivos con sus hijos",
+        consider: [],
+        q1: "En tu opinión, ¿los jóvenes españoles de hoy tienen demasiada libertad? ¿Por qué (no)?",
+        q2: "¿Cuáles son las dificultades con las que se enfrentan los jóvenes españoles de hoy?"
+      },
+      {
+        decl: "En España hay una brecha generacional cada vez más grande dentro de las familias",
+        consider: [],
+        q1: "En tu opinión, ¿cuáles son las causas de la brecha generacional en las familias españolas?",
+        q2: "¿Qué impacto tiene esta brecha generacional en la sociedad española actual?"
+      }
+    ]
+  },
+  {
+    code: "SP2", title: "El mundo laboral", color: "blue",
+    sets: [
+      {
+        decl: "La mujer en España ha conseguido igualdad de oportunidades en el mundo laboral",
+        consider: [],
+        q1: "¿Hasta qué punto tienen las mujeres igualdad en el mundo laboral?",
+        q2: "¿Cuáles han sido los cambios en la ley que han facilitado el compaginar la vida familiar y el trabajo?"
+      },
+      {
+        decl: "En España no es fácil compaginar la vida familiar y el trabajo",
+        consider: [],
+        q1: "¿Los hombres y las mujeres españoles desempeñan un papel igualitario en cuanto al trabajo doméstico?",
+        q2: "¿Cuál es la actitud actual de los españoles hacia la baja maternal y la paternal?"
+      },
+      {
+        decl: "Ya no se puede decir que los españoles sólo trabajan para vivir bien",
+        consider: [],
+        q1: "¿Qué opinas de la actitud de los españoles hacia el trabajo?",
+        q2: "¿Cuáles son las características de la vida laboral en España?"
+      },
+      {
+        decl: "El mercado laboral español es cada vez más estable gracias a la economía nacional",
+        consider: [],
+        q1: "¿Crees que el mercado laboral español empieza a estabilizarse?",
+        q2: "¿Cuáles son los sectores del mercado laboral español que han experimentado más crecimiento económico en los últimos años?"
+      },
+      {
+        decl: "En España los jóvenes licenciados encuentran trabajo fácilmente",
+        consider: [],
+        q1: "¿Crees que es fácil para los españoles con títulos universitarios encontrar trabajo adecuado?",
+        q2: "¿Cómo es la situación actual laboral para los jóvenes en España?"
+      },
+      {
+        decl: "En España las únicas ofertas de trabajo son contratos basura",
+        consider: [],
+        q1: "En tu opinión, ¿cómo son los contratos que se ofrecen en España hoy en día?",
+        q2: "¿Cuáles son las diferentes oportunidades laborales para los obreros en España?"
+      }
+    ]
+  },
+  {
+    code: "SP3", title: "El impacto turístico en España", color: "blue",
+    sets: [
+      {
+        decl: "El ecoturismo se ha establecido como modelo turístico muy importante para España",
+        consider: [],
+        q1: "¿Crees que la oferta turística en España es suficientemente variada? ¿Por qué?",
+        q2: "En tu opinión, ¿qué importancia tiene el ecoturismo para España?"
+      },
+      {
+        decl: "España es un destino turístico de masas principalmente para vacaciones de sol y playa",
+        consider: [],
+        q1: "Las playas españolas son el principal atractivo para los turistas. ¿Qué opinas?",
+        q2: "¿Cuáles han sido los peores efectos del turismo de sol y playa en España?"
+      },
+      {
+        decl: "El principal problema del turismo en España es la concentración de turistas en ciertos lugares",
+        consider: [],
+        q1: "¿Es un gran problema para España la concentración de turismo?",
+        q2: "¿Qué está haciendo el Gobierno español para promover la diversificación del turismo en el país?"
+      },
+      {
+        decl: "La industria turística en España se ha desarrollado sin prestar atención al impacto medioambiental",
+        consider: [],
+        q1: "¿Se hace lo suficiente en España para proteger la naturaleza del impacto del desarrollo turístico?",
+        q2: "¿Puedes dar algunos ejemplos del impacto medioambiental del turismo en España?"
+      },
+      {
+        decl: "El turismo de ciudades está causando grandes problemas en las ciudades españolas",
+        consider: [
+          "Tu opinión sobre la declaración",
+          "Las razones principales por las que ahora van tantos turistas a las ciudades"
+        ],
+        q1: "¿Estás de acuerdo con esta afirmación?",
+        q2: "¿Por qué van tantos turistas a las ciudades ahora?"
+      },
+      {
+        decl: "El turismo cultural atrae a un tipo de turista más respetuoso",
+        consider: [],
+        q1: "¿Quiénes son los turistas que hacen turismo cultural?",
+        q2: "¿Qué importancia tiene el turismo cultural para España?"
+      },
+      {
+        decl: "¿Crees que el turismo de sol y playa en España puede causar más daños que beneficios?",
+        consider: [],
+        q1: "¿Crees que el turismo de sol y playa en España puede causar más daños que beneficios?",
+        q2: "¿Cuáles son los principales beneficios del turismo de sol y playa para España?"
+      },
+      {
+        decl: "Hay demasiados turistas en las grandes ciudades, el litoral y las islas",
+        consider: [],
+        q1: "Hay demasiados turistas en las grandes ciudades, el litoral y las islas. ¿Qué opinas?",
+        q2: "El turismo puede ser un instrumento para reducir los desequilibrios territoriales. ¿Estás de acuerdo, sí o no?"
+      },
+      {
+        decl: "¿Cómo ha afectado la Covid-19 al turismo hacia España?",
+        consider: [],
+        q1: "¿Cómo ha afectado la Covid-19 al turismo hacia España?",
+        q2: "¿Cuál ha sido la recuperación del sector turístico en España tras la pandemia?"
+      }
+    ]
+  },
+  {
+    code: "SP4", title: "La música", color: "blue",
+    sets: [
+      {
+        decl: "A los jóvenes hispanos les interesan más las canciones extranjeras que las hispanas",
+        consider: [],
+        q1: "¿Por qué crees que la música en lengua extranjera es tan popular en los países hispanohablantes?",
+        q2: "¿Qué importancia tiene la música hispana en la sociedad?"
+      },
+      {
+        decl: "Los artistas populares hispanos prefieren cantar en inglés",
+        consider: [],
+        q1: "Háblame del éxito de algún artista hispano y su elección de idioma.",
+        q2: "En tu opinión, ¿por qué cantan en inglés algunos artistas hispanos?"
+      },
+      {
+        decl: "La letra de algunas canciones populares hispanas es polémica",
+        consider: [],
+        q1: "¿Es polémica la letra de algunas canciones populares hispanas? ¿Por qué (no)?",
+        q2: "¿Cuáles son las características de la música hispana más popular entre los jóvenes hispanos hoy en día?"
+      },
+      {
+        decl: "La música hispana nace de una mezcla de estilos e influencias",
+        consider: [],
+        q1: "¿Cuál es el origen de la música hispana que conoces?",
+        q2: "Explícame la popularidad de un estilo de música hispana que has estudiado."
+      },
+      {
+        decl: "Los cantantes hispanos usan su música para concienciar a sus seguidores de cuestiones sociales",
+        consider: [],
+        q1: "¿Cuál es el mensaje político o social del artista o grupo que has estudiado?",
+        q2: "Explícame el impacto de este artista o grupo y su música."
+      },
+      {
+        decl: "La música de los países hispanohablantes está fuertemente conectada con su país de origen",
+        consider: [],
+        q1: "¿Cuáles son las características principales de un género de música hispana que hayas estudiado?",
+        q2: "¿Qué importancia tiene esa música para el país donde se originó?"
+      },
+      {
+        decl: "La música tradicional en el mundo hispanohablante ha evolucionado a través de los años",
+        consider: [],
+        q1: "La música tradicional no es la misma hoy que antes. ¿Estás de acuerdo? ¿Por qué (no)?",
+        q2: "En tu opinión, ¿qué papel juega actualmente esa música en la sociedad hispanohablante?"
+      }
+    ]
+  },
+  {
+    code: "SP5", title: "Los medios de comunicación", color: "blue",
+    sets: [
+      {
+        decl: "Las telenovelas hispanas son muy melodramáticas, pero poco duraderas",
+        consider: [],
+        q1: "¿Hasta qué punto son exageradas las telenovelas hispanas?",
+        q2: "¿Cuáles son las características de alguna(s) telenovela(s) que conozcas?"
+      },
+      {
+        decl: "Internet ha tenido un impacto enorme en la vida política del mundo hispanohablante",
+        consider: [],
+        q1: "¿Internet tiene mucho impacto político en toda la población hispana?",
+        q2: "¿Me puedes dar algún ejemplo de la influencia política de Internet en el mundo hispano?"
+      },
+      {
+        decl: "Internet es el medio de comunicación más popular hoy en la sociedad hispana",
+        consider: [],
+        q1: "¿Es Internet el medio de comunicación más popular en algún país hispanohablante que tú conozcas? ¿Por qué (no)?",
+        q2: "¿Cuáles son los otros medios más usados en los países hispanos? Y, ¿para qué se usan?"
+      },
+      {
+        decl: "Internet ha mejorado la vida de los hispanos",
+        consider: [],
+        q1: "¿Se ha mejorado la vida de los hispanos gracias a Internet?",
+        q2: "¿Cuál es el impacto negativo de Internet en la vida social de los hispanohablantes?"
+      },
+      {
+        decl: "La televisión en los países hispanohablantes está demasiado influenciada por programas extranjeros",
+        consider: [],
+        q1: "¿Qué influencia tienen los programas extranjeros en el mundo hispanohablante?",
+        q2: "¿Por qué es tan popular el programa de televisión de origen hispano que conoces?"
+      },
+      {
+        decl: "Los hábitos televisivos no han cambiado en los países hispanos",
+        consider: [],
+        q1: "¿Qué tipos de programas son los más populares en el mundo hispano? ¿Y por qué?",
+        q2: "¿Cuál es el impacto de la televisión en la vida diaria de los hispanos?"
+      },
+      {
+        decl: "¿Cómo han desarrollado los medios de comunicación en el mundo hispanohablante?",
+        consider: [],
+        q1: "¿Cómo han desarrollado los medios de comunicación en el mundo hispanohablante?",
+        q2: "¿Qué impacto han tenido estos cambios en la sociedad hispana?"
+      },
+      {
+        decl: "En el mundo hispanohablante, el uso de Internet es cada vez más popular",
+        consider: [],
+        q1: "¿Por qué crees que el uso de internet ha influido en la sociedad hispana?",
+        q2: "¿Cuáles son los efectos de Internet para la sociedad hispana?"
+      },
+      {
+        decl: "La oferta televisiva es muy innovadora en el mundo hispano",
+        consider: [],
+        q1: "¿Qué opinas de la oferta televisiva en el mundo hispanohablante?",
+        q2: "¿Cómo explicas la popularidad de un programa de televisión hispana que conozcas?"
+      },
+      {
+        decl: "Los hispanos guardan los mismos hábitos televisivos de siempre",
+        consider: [],
+        q1: "¿Crees que los hábitos televisivos han cambiado mucho en la sociedad hispana?",
+        q2: "¿Cómo suelen ver sus programas o series favoritos los hispanos hoy en día?"
+      },
+      {
+        decl: "La televisión es el medio de comunicación más poderoso en la sociedad hispana de hoy",
+        consider: [],
+        q1: "¿Hasta qué punto influye la televisión en la sociedad hispanohablante?",
+        q2: "¿Puedes dar un ejemplo de un tipo de programa de televisión que tiene un gran impacto en la sociedad hispana?"
+      },
+      {
+        decl: "Las redes sociales afectan a muchos aspectos de la sociedad hispana",
+        consider: [],
+        q1: "¿Las redes sociales han tenido un impacto sobre la política, p.ej. en España? Si sí, ¿cómo?",
+        q2: "¿Ayudan las redes a que la política sea más participativa?"
+      },
+      {
+        decl: "La prensa escrita sigue siendo indispensable en los países hispanos",
+        consider: [],
+        q1: "¿Por qué sobreviven los periódicos impresos hispanos?",
+        q2: "¿Cuáles son los periódicos o revistas populares en el país hispano que tú conoces?"
+      },
+      {
+        decl: "La prensa digital ha transformado los medios de comunicación en el mundo hispano",
+        consider: [],
+        q1: "¿Crees que la prensa digital ha afectado a la cultura tradicional de la sociedad hispanohablante?",
+        q2: "¿Cuáles son las ventajas de la prensa digital para los países hispanos?"
+      },
+      {
+        decl: "Las telenovelas hispanas siempre tratan los mismos temas: la familia, el matrimonio y el amor",
+        consider: [],
+        q1: "¿Crees que las telenovelas siempre tratan los mismos temas?",
+        q2: "¿Por qué es popular la telenovela hispana que conoces?"
+      }
+    ]
+  },
+  {
+    code: "SP6", title: "Fiestas y tradiciones", color: "blue",
+    sets: [
+      {
+        decl: "Ciertas fiestas mantienen viva la religión en el mundo hispanohablante",
+        consider: [],
+        q1: "¿Qué papel juega la religión en el festival hispano que conoces?",
+        q2: "¿Crees que las fiestas son importantes en la sociedad hispana? ¿Por qué (no)?"
+      },
+      {
+        decl: "Las fiestas y tradiciones hispanas representan una parte esencial de la identidad cultural de una región",
+        consider: [],
+        q1: "¿Cuáles son los principales aspectos culturales de una fiesta hispana que conoces?",
+        q2: "¿Crees que las fiestas son relevantes en la sociedad hispanohablante actual? ¿Por qué (no)?"
+      },
+      {
+        decl: "A pesar de algunos inconvenientes, las celebraciones nacionales y regionales tienen la ventaja de unir a la gente",
+        consider: [],
+        q1: "¿Qué importancia tiene el festival hispano que conoces?",
+        q2: "¿Cuáles son los aspectos negativos de alguna fiesta hispana?"
+      },
+      {
+        decl: "Las fiestas y tradiciones hispanas requieren una inversión económica enorme",
+        consider: [],
+        q1: "¿Cuál es el coste social en la celebración de la fiesta hispana que has estudiado?",
+        q2: "¿Cuáles son los beneficios que aporta esa fiesta a la comunidad local?"
+      },
+      {
+        decl: "Todos los festivales hispanos tienen su origen en celebraciones religiosas",
+        consider: [],
+        q1: "¿Qué importancia tiene la religión en los festivales hispanos?",
+        q2: "Aparte de la religión, ¿qué función tiene la celebración de los festivales hispanos?"
+      },
+      {
+        decl: "Gracias a sus fiestas tradicionales, la cultura hispana se mantiene viva",
+        consider: [],
+        q1: "¿Son importantes las fiestas tradicionales para mantener viva la cultura? ¿Por qué (no)?",
+        q2: "¿Qué se aprende sobre un país hispano estudiando sus fiestas tradicionales?"
+      },
+      {
+        decl: "En tu opinión, ¿hasta qué punto se deben celebrar las diferencias culturales de las comunidades autónomas de España?",
+        consider: [],
+        q1: "¿Hasta qué punto se deben celebrar las diferencias culturales de las comunidades autónomas de España?",
+        q2: "¿Cómo pueden las comunidades autónomas preservar su identidad cultural?"
+      },
+      {
+        decl: "¿Crees que los hispanos todavía valoran todas las fiestas tradicionales? ¿Por qué (no)?",
+        consider: [],
+        q1: "¿Crees que los hispanos todavía valoran todas las fiestas tradicionales? ¿Por qué (no)?",
+        q2: "¿Cuáles son las causas de la popularidad de una fiesta tradicional hispana que hayas estudiado?"
+      },
+      {
+        decl: "La popularidad de las fiestas hispanas no religiosas crece año tras año",
+        consider: [],
+        q1: "¿Son cada vez más populares las fiestas hispanas no religiosas? ¿Por qué (no)?",
+        q2: "¿Cuál es el origen de alguna fiesta no religiosa que conozcas?"
+      }
+    ]
+  },
+  {
+    code: "SP7", title: "El impacto positivo de la inmigración", color: "blue",
+    sets: [
+      {
+        decl: "Los inmigrantes aportan más flexibilidad al mercado laboral en España",
+        consider: [],
+        q1: "¿Estás de acuerdo con que los inmigrantes son más flexibles en cuanto a sus condiciones laborales? ¿Por qué (no)?",
+        q2: "¿Cómo han contribuido los inmigrantes al mercado laboral español?"
+      },
+      {
+        decl: "La cultura española actual es una mezcla de las culturas indígenas y las de los inmigrantes",
+        consider: [],
+        q1: "¿Estás de acuerdo con que la cultura española proviene de una mezcla de orígenes?",
+        q2: "¿Qué influencia han tenido los inmigrantes en un aspecto de la cultura española actual?"
+      },
+      {
+        decl: "La inmigración ha cambiado por completo el mercado laboral en España",
+        consider: [],
+        q1: "¿Estás de acuerdo con que la inmigración ha cambiado el mercado laboral? ¿Por qué (no)?",
+        q2: "¿Qué papel han tenido los inmigrantes en el crecimiento económico español?"
+      },
+      {
+        decl: "Los inmigrantes aportan más a la sociedad que lo que reciben del gobierno español",
+        consider: [],
+        q1: "¿Estás de acuerdo con la declaración? ¿Por qué (no)?",
+        q2: "¿Qué aportan los inmigrantes a la economía española?"
+      },
+      {
+        decl: "La inmigración enriquece la cultura española",
+        consider: [],
+        q1: "¿Cuáles son los orígenes de los inmigrantes que vienen a España?",
+        q2: "¿Qué contribución cultural han hecho los inmigrantes en España?"
+      }
+    ]
+  },
+  {
+    code: "SP8", title: "Los desafíos de la inmigración", color: "red",
+    sets: [
+      {
+        decl: "La marginación de los inmigrantes sólo existe en algunas partes del país",
+        consider: [],
+        q1: "¿Crees que los inmigrantes se ven más marginados en ciertas partes de España?",
+        q2: "¿Cuáles son las razones de la marginación de inmigrantes en España?"
+      },
+      {
+        decl: "La integración de los inmigrantes sigue siendo un desafío enorme para España",
+        consider: [],
+        q1: "¿Crees que la integración de los inmigrantes sigue siendo un problema para España? ¿Por qué (no)?",
+        q2: "¿Cómo es la situación en cuanto a la integración de los inmigrantes en España?"
+      }
+    ]
+  },
+  {
+    code: "SP9", title: "La reacción social y pública", color: "red",
+    sets: [
+      {
+        decl: "La reacción social a la inmigración en España es positiva",
+        consider: [],
+        q1: "¿Qué opinas de la reacción social a la inmigración en España?",
+        q2: "¿Puedes citar algunas opiniones públicas sobre la inmigración en España?"
+      },
+      {
+        decl: "La popularidad de partidos de ultraderecha refleja actitudes cada vez menos favorables hacia la inmigración en España",
+        consider: [],
+        q1: "¿Cuál es el impacto de ciertos partidos políticos sobre la opinión pública?",
+        q2: "¿Cuál es el enfoque sobre la inmigración de algún partido político en España?"
+      }
+    ]
+  },
+  {
+    code: "SP10", title: "La Guerra Civil, 1936–1939", color: "red",
+    sets: [
+      {
+        decl: "El éxito del bando nacional dependió del apoyo de la Iglesia católica",
+        consider: [],
+        q1: "¿Por qué crees que la Iglesia católica decidió apoyar al bando nacional?",
+        q2: "¿Quiénes eran los partidarios del bando republicano? ¿Y por qué?"
+      },
+      {
+        decl: "La Guerra Civil comenzó por culpa de la violencia política de la derecha y de la izquierda",
+        consider: [],
+        q1: "¿Cómo contribuyeron los asesinatos políticos a que estallara la Guerra Civil?",
+        q2: "¿Por qué ocurrió el golpe de Estado?"
+      },
+      {
+        decl: "La Guerra Civil creó divisiones políticas y sociales irreparables",
+        consider: [],
+        q1: "¿Crees que la Guerra Civil creó divisiones en España?",
+        q2: "¿Qué apoyo extranjero recibieron los dos bandos?"
+      }
+    ]
+  },
+  {
+    code: "SP11", title: "La dictadura franquista, 1939–1975", color: "red",
+    sets: [
+      {
+        decl: "La dictadura franquista puso fin a la modernización del país",
+        consider: [],
+        q1: "¿Crees que la dictadura puso fin a la modernización del país?",
+        q2: "¿Cómo cambió la vida cotidiana para los españoles durante la dictadura?"
+      },
+      {
+        decl: "El pueblo español vivía bajo un miedo constante durante la dictadura",
+        consider: [],
+        q1: "¿Crees que todos los españoles tenían mucho miedo del régimen franquista?",
+        q2: "¿Qué medidas usaba el régimen para oprimir a la sociedad durante la dictadura?"
+      },
+      {
+        decl: "El régimen franquista intentó dominar todos los aspectos de la vida política española",
+        consider: [],
+        q1: "¿Existía alguna libertad política bajo la dictadura franquista? ¿Por qué (no)?",
+        q2: "En tu opinión, ¿por qué se opuso Franco a la ideología de izquierdas?"
+      }
+    ]
+  },
+  {
+    code: "SP12", title: "La transición a la democracia, 1975–1982", color: "red",
+    sets: [
+      {
+        decl: "La transición fue un proceso complejo y de gran incertidumbre",
+        consider: [],
+        q1: "En tu opinión, ¿por qué fue tan complejo el proceso a la democracia?",
+        q2: "¿Qué hizo el Rey Juan Carlos para facilitar el camino a la democracia?"
+      },
+      {
+        decl: "El Rey Juan Carlos tuvo razón en delegar ciertos poderes a las comunidades autónomas",
+        consider: [],
+        q1: "¿Crees que el Rey Juan Carlos tuvo razón en delegar ciertos poderes a las comunidades autónomas?",
+        q2: "¿Cuáles fueron algunos de los derechos que recibieron las comunidades autónomas durante la transición?"
+      },
+      {
+        decl: "Adolfo Suárez fue la figura clave en la transición a la democracia",
+        consider: [],
+        q1: "¿Por qué crees que Adolfo Suárez fue una figura clave en la transición?",
+        q2: "¿Qué medidas tomó para democratizar el país?"
+      },
+      {
+        decl: "El golpe de Estado de 1981 ocurrió sólo porque el Ejército no podía aceptar el Gobierno democrático",
+        consider: [],
+        q1: "¿Por qué crees que ocurrió el golpe de Estado del 23-F?",
+        q2: "¿Qué otros factores influyeron en el intento de golpe?"
+      }
+    ]
+  }
+];
+
+// ── STATE ─────────────────────────────────────────────────────────────────
+let studentName   = "";
+let currentTheme  = null;
+let usedIndices   = [];
+
+// ── HELPERS ───────────────────────────────────────────────────────────────
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function goHome() {
+  currentTheme = null;
+  usedIndices  = [];
+  show('screen1');
+}
+
+function goToThemes() {
+  if (!studentName) {
+    const n = document.getElementById('studentName').value.trim();
+    if (!n) { document.getElementById('studentName').focus(); return; }
+    studentName = n;
+  }
+  document.getElementById('greetingMsg').textContent =
+    "Hola, " + studentName + " — ¿qué unidad vas a practicar hoy?";
+  renderGrid();
+  show('screen2');
+}
+
+function renderGrid() {
+  const grid = document.getElementById('themeGrid');
+  grid.innerHTML = '';
+  THEMES.forEach((t, i) => {
+    const card = document.createElement('div');
+    card.className = 'theme-card ' + t.color;
+    card.onclick = () => selectTheme(i);
+    card.innerHTML = `
+      <div class="theme-code">${t.code}</div>
+      <div class="theme-title">${t.title}</div>
+      <span class="theme-count">${t.sets.length} tarjetas</span>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function selectTheme(idx) {
+  currentTheme = idx;
+  usedIndices  = [];
+  showCard();
+  show('screen3');
+}
+
+function regenerate() {
+  showCard();
+}
+
+function showCard() {
+  const theme = THEMES[currentTheme];
+  const n     = theme.sets.length;
+
+  // Reset cycle when all seen
+  if (usedIndices.length >= n) usedIndices = [];
+
+  // Pick a random unused index
+  const available = [...Array(n).keys()].filter(i => !usedIndices.includes(i));
+  const pick = available[Math.floor(Math.random() * available.length)];
+  usedIndices.push(pick);
+
+  const s = theme.sets[pick];
+
+  // Theme label
+  document.getElementById('themeLabel').textContent =
+    theme.code + " — " + theme.title;
+
+  // Declaration
+  document.getElementById('declaration').textContent = s.decl;
+
+  // Consider bullets
+  const block = document.getElementById('considerBlock');
+  const list  = document.getElementById('considerList');
+  if (s.consider && s.consider.length > 0) {
+    list.innerHTML = s.consider.map(c => `<li>${c}</li>`).join('');
+    block.style.display = 'block';
+  } else {
+    block.style.display = 'none';
+  }
+
+  // Questions
+  document.getElementById('q1text').textContent = s.q1;
+  document.getElementById('q2text').textContent = s.q2;
+
+  // Counter
+  document.getElementById('counterBadge').textContent =
+    "Tarjeta " + usedIndices.length + " / " + n;
+}
+
+// Enter key on name field
+document.getElementById('studentName').addEventListener('keydown', e => {
+  if (e.key === 'Enter') goToThemes();
+});
+</script>
+</body>
+</html>

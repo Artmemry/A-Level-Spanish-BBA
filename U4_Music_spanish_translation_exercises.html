@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A-Level Spanish Translation Exercises - Unit 4: Music</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #d32f2f, #f57c00);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            color: #d32f2f;
+            margin: 25px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #eaecef;
+        }
+        
+        .exercise-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .exercise-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .spanish-text, .english-text {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-left: 4px solid #f57c00;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        
+        .translation-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #e1e4e8;
+            border-radius: 8px;
+            background-color: #fafbfc;
+            transition: all 0.3s ease;
+        }
+        
+        .translation-section.active {
+            border-color: #f57c00;
+            background-color: #fff3e0;
+            box-shadow: 0 0 0 2px rgba(245, 124, 0, 0.2);
+        }
+        
+        .translation-section.correct {
+            background-color: #e8f5e9;
+            border-color: #4caf50;
+        }
+        
+        .translation-section.incorrect {
+            background-color: #ffebee;
+            border-color: #f44336;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .section-number {
+            background-color: #f57c00;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .sentence {
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: #2c3e50;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            border: 1px solid #d1d5da;
+            border-radius: 6px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #f57c00;
+            box-shadow: 0 0 0 3px rgba(245, 124, 0, 0.2);
+        }
+        
+        .check-btn {
+            background-color: #f57c00;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .check-btn:hover {
+            background-color: #e64a19;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            display: none;
+            font-weight: 500;
+        }
+        
+        .feedback.correct {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .feedback.incorrect {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        .mark-scheme {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            display: none;
+            border-left: 4px solid #6c757d;
+        }
+        
+        .mark-scheme h4 {
+            margin-top: 0;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .accepted {
+            color: #28a745;
+            margin-bottom: 8px;
+        }
+        
+        .rejected {
+            color: #dc3545;
+            margin-bottom: 8px;
+        }
+        
+        .toggle-btn {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        .toggle-btn:hover {
+            background-color: #5a6268;
+        }
+        
+        .section-score {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .score-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #d32f2f, #f57c00);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        
+        .download-btn {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: linear-gradient(135deg, #388e3c, #66bb6a);
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #2e7d32, #4caf50);
+        }
+        
+        #accent-keyboard {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            padding: 15px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border: 1px solid #e1e4e8;
+            max-width: 300px;
+        }
+        
+        .keyboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eaecef;
+        }
+        
+        .keyboard-title {
+            font-weight: 600;
+            color: #d32f2f;
+            font-size: 0.9rem;
+        }
+        
+        .close-keyboard {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+        
+        .accent-buttons {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+        
+        .accent-btn {
+            padding: 8px 5px;
+            background-color: #f8f9fa;
+            border: 1px solid #d1d5da;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+        
+        .accent-btn:hover {
+            background-color: #ffe0b2;
+            transform: translateY(-2px);
+        }
+        
+        .accent-btn:active {
+            background-color: #ffcc80;
+            transform: translateY(0);
+        }
+        
+        .keyboard-instructions {
+            font-size: 0.75rem;
+            color: #6c757d;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .show-keyboard-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #f57c00, #d32f2f);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .show-keyboard-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        @media (max-width: 768px) {
+            #accent-keyboard {
+                max-width: 280px;
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .accent-buttons {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .score-display, .download-btn {
+                position: static;
+                margin-bottom: 20px;
+                display: inline-block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>A-Level Spanish Translation Exercises</h1>
+        <p>Unit 4: Music - Edexcel A-Level</p>
+    </header>
+    
+    <div class="score-display">
+        Total Score: <span id="total-score">0</span>/100
+    </div>
+    
+    <button class="download-btn" onclick="downloadResults()">📥 Download Results</button>
+    
+    <button class="show-keyboard-btn" id="show-keyboard-btn">ñ</button>
+    
+    <div id="accent-keyboard" style="display: none;">
+        <div class="keyboard-header">
+            <div class="keyboard-title">Spanish Accents</div>
+            <button class="close-keyboard" id="close-keyboard">×</button>
+        </div>
+        <div class="accent-buttons">
+            <button class="accent-btn" data-accent="á">á</button>
+            <button class="accent-btn" data-accent="é">é</button>
+            <button class="accent-btn" data-accent="í">í</button>
+            <button class="accent-btn" data-accent="ó">ó</button>
+            <button class="accent-btn" data-accent="ú">ú</button>
+            <button class="accent-btn" data-accent="ñ">ñ</button>
+            <button class="accent-btn" data-accent="ü">ü</button>
+            <button class="accent-btn" data-accent="Á">Á</button>
+            <button class="accent-btn" data-accent="É">É</button>
+            <button class="accent-btn" data-accent="Í">Í</button>
+            <button class="accent-btn" data-accent="Ó">Ó</button>
+            <button class="accent-btn" data-accent="Ú">Ú</button>
+            <button class="accent-btn" data-accent="Ñ">Ñ</button>
+            <button class="accent-btn" data-accent="Ü">Ü</button>
+            <button class="accent-btn" data-accent="¿">¿</button>
+            <button class="accent-btn" data-accent="¡">¡</button>
+        </div>
+        <div class="keyboard-instructions">
+            Click an accent, then click in a text area to insert
+        </div>
+    </div>
+
+    <!-- EXERCISE 1: Translation into English -->
+    <div class="exercise-container" id="exercise-1">
+        <h2>Exercise 1: Translation into English - El éxito de El canto del loco</h2>
+        
+        <div class="spanish-text">
+            <h3>Spanish Text (10 marks):</h3>
+            <p>Este fin de semana el grupo El canto del loco actuará en la plaza de toros de Las Ventas. El Canto del loco se convirtió en el símbolo de la vanguardia madrileña, y en el tiempo que lleva actuando ha batido todos los récords de ventas. Empezará su gira en julio y tocará unos treinta conciertos en diferentes provincias españolas. A los componentes del grupo les gusta presentar una imagen informal y que muestre que no les interesa la fama.</p>
+        </div>
+        
+        <div id="translation-sections-1"></div>
+    </div>
+
+    <!-- EXERCISE 2: Translation into Spanish - Easy -->
+    <div class="exercise-container" id="exercise-2">
+        <h2>Exercise 2: Translation into Spanish (Easy) - Flamenco Music</h2>
+        
+        <div class="english-text">
+            <h3>English Text (20 marks):</h3>
+            <p>Flamenco is considered the most representative and typical genre of music and dance in Spain, and many foreigners think of flamenco when they are asked about their idea of Spain. Its origins go back centuries, and it is undeniable that the rhythm and sounds have been influenced by Arabic music. Many people are passionate about flamenco artists such as Paco de Lucía, but flamenco continues to be a music genre that not everyone in Spain can understand.</p>
+        </div>
+        
+        <div id="translation-sections-2"></div>
+    </div>
+
+    <!-- EXERCISE 3: Translation into Spanish - Medium -->
+    <div class="exercise-container" id="exercise-3">
+        <h2>Exercise 3: Translation into Spanish (Medium) - Dancing in the Hispanic World</h2>
+        
+        <div class="english-text">
+            <h3>English Text (30 marks):</h3>
+            <p>Both in Spain and in Latin America, for centuries dancing has been a representation of the culture and the identity of its inhabitants. From the lascivious and sensual tango in Argentina, to the sounds of the bagpipes in northern Spain, music and dancing seem to be intrinsically linked to everyday life in Hispanic countries. Many people are interested in visiting cities in Spain at festival time in order to be able to admire not only the dancers' ability, but also the spectacular dancing costumes. Some regional dances, such as salsa in Cuba, have become the emblem of the country.</p>
+        </div>
+        
+        <div id="translation-sections-3"></div>
+    </div>
+
+    <!-- EXERCISE 4: Translation into Spanish - Hard -->
+    <div class="exercise-container" id="exercise-4">
+        <h2>Exercise 4: Translation into Spanish (Hard) - Modern Idols</h2>
+        
+        <div class="english-text">
+            <h3>English Text (40 marks):</h3>
+            <p>These days, for many teenagers, young people and even adults, singers and bands have become role models to imitate and admire. Although many maintain that music will never be the same since the arrival of programmes like X-Factor or The Voice, others argue that not only will there always be talent but this talent will be a source of admiration and respect. Never have celebrities had such a multitude of followers who watch, analyse and judge their every move. It is unquestionable that some of these celebrities have become real legends, but critics wonder whether being able to sing a song should be reason enough for their success. Future generations will decide whether their fame was deserved and will last forever.</p>
+        </div>
+        
+        <div id="translation-sections-4"></div>
+    </div>
+
+    <script>
+        // Global variable to track active textarea
+        let activeTextarea = null;
+
+        // Mark schemes data
+        const markSchemes = {
+            text1: [
+                { spanish: "Este fin de semana el grupo El canto del loco", mainTranslation: "This weekend the band El canto del Loco", accepted: ["This weekend the group El canto del Loco"], rejected: ["the group"], notes: "Reject: the group" },
+                { spanish: "actuará en la plaza de toros de Las Ventas.", mainTranslation: "will be singing in Las Ventas bullring.", accepted: ["will sing in Las Ventas bullring.", "will perform in Las Ventas bullring."], rejected: ["will act"], notes: "Reject: will act" },
+                { spanish: "El Canto del loco se convirtió en el símbolo de la vanguardia madrileña,", mainTranslation: "El Canto del Loco became the symbol of Madrid's avant-garde,", accepted: [], rejected: [], notes: "" },
+                { spanish: "y en el tiempo que lleva actuando", mainTranslation: "and in the time they have been performing", accepted: [], rejected: [], notes: "" },
+                { spanish: "ha batido todos los récords de ventas.", mainTranslation: "they have beaten all sales records.", accepted: ["have broken all sales records."], rejected: [], notes: "" },
+                { spanish: "Empezará su gira en julio", mainTranslation: "They will start their tour in July", accepted: ["It will start its tour in July"], rejected: [], notes: "" },
+                { spanish: "y tocará unos treinta conciertos", mainTranslation: "and they will play about 30 concerts", accepted: ["and will play around thirty concerts"], rejected: [], notes: "" },
+                { spanish: "en diferentes provincias españolas.", mainTranslation: "in different Spanish cities.", accepted: [], rejected: ["provinces"], notes: "Reject: provinces" },
+                { spanish: "A los componentes del grupo les gusta presentar una imagen informal", mainTranslation: "The members of the band like to present an informal image", accepted: ["The band members like to present an informal image"], rejected: ["components"], notes: "Reject: components" },
+                { spanish: "y que muestre que no les interesa la fama.", mainTranslation: "which shows that they are not interested in fame.", accepted: ["that shows that fame does not interest them."], rejected: [], notes: "" }
+            ],
+            text2: [
+                { english: "Flamenco is considered", mainTranslation: "El flamenco se considera", accepted: ["El flamenco está considerado"], rejected: [], notes: "" },
+                { english: "the most representative", mainTranslation: "el más representativo", accepted: [], rejected: [], notes: "" },
+                { english: "and typical", mainTranslation: "y más típico", accepted: ["y típico"], rejected: [], notes: "" },
+                { english: "genre of music and dance in Spain,", mainTranslation: "género de música y baile en España,", accepted: ["género de música y danza en España,"], rejected: [], notes: "" },
+                { english: "and many foreigners", mainTranslation: "y muchos extranjeros", accepted: [], rejected: [], notes: "" },
+                { english: "think of flamenco", mainTranslation: "piensan en el flamenco", accepted: [], rejected: ["piensan del"], notes: "" },
+                { english: "when they are asked", mainTranslation: "cuando se les pregunta", accepted: ["cuando les preguntan"], rejected: [], notes: "" },
+                { english: "about their idea of Spain.", mainTranslation: "sobre su idea de España.", accepted: [], rejected: [], notes: "" },
+                { english: "Its origins go back centuries,", mainTranslation: "Su origen se remonta a siglos", accepted: [], rejected: [], notes: "" },
+                { english: "and it is undeniable that", mainTranslation: "y es incuestionable que", accepted: ["y es innegable que"], rejected: [], notes: "" },
+                { english: "the rhythm and sounds", mainTranslation: "el ritmo y los sonidos", accepted: [], rejected: [], notes: "" },
+                { english: "have been influenced", mainTranslation: "han sido influenciados", accepted: ["hayan sido influenciados"], rejected: [], notes: "" },
+                { english: "by Arabic music.", mainTranslation: "por la música árabe.", accepted: ["por la música mora."], rejected: [], notes: "" },
+                { english: "Many people", mainTranslation: "A mucha gente", accepted: ["A muchas personas"], rejected: [], notes: "" },
+                { english: "are passionate about", mainTranslation: "le apasionan", accepted: ["les apasionan"], rejected: [], notes: "" },
+                { english: "flamenco artists", mainTranslation: "los artistas flamencos", accepted: ["los artistas de flamenco"], rejected: [], notes: "" },
+                { english: "such as Paco de Lucía,", mainTranslation: "tales como Paco de Lucía,", accepted: ["como Paco de Lucía,"], rejected: [], notes: "" },
+                { english: "but flamenco continues to be", mainTranslation: "pero el flamenco continúa siendo", accepted: [], rejected: [], notes: "" },
+                { english: "a music genre", mainTranslation: "un género musical", accepted: [], rejected: [], notes: "" },
+                { english: "that not everyone in Spain can understand.", mainTranslation: "que no todo el mundo en España puede comprender.", accepted: ["que no todos en España pueden"], rejected: [], notes: "" }
+            ],
+            text3: [
+                { english: "Both in Spain and in Latin America,", mainTranslation: "Tanto en España como en Latinoamérica", accepted: [], rejected: ["Ambos"], notes: "" },
+                { english: "for centuries", mainTranslation: "durante siglos", accepted: [], rejected: [], notes: "" },
+                { english: "dancing", mainTranslation: "el baile", accepted: ["la danza"], rejected: [], notes: "" },
+                { english: "has been", mainTranslation: "ha sido", accepted: [], rejected: [], notes: "" },
+                { english: "a representation of", mainTranslation: "una representación de", accepted: [], rejected: [], notes: "" },
+                { english: "the culture and the identity", mainTranslation: "la cultura y la identidad", accepted: [], rejected: [], notes: "" },
+                { english: "of its inhabitants.", mainTranslation: "de sus habitantes.", accepted: [], rejected: [], notes: "" },
+                { english: "From the lascivious", mainTranslation: "Desde el lascivo", accepted: ["Del lascivo"], rejected: [], notes: "" },
+                { english: "and sensual tango in Argentina,", mainTranslation: "y sensual tango en Argentina", accepted: [], rejected: [], notes: "" },
+                { english: "to the sounds of", mainTranslation: "a los sonidos de", accepted: [], rejected: [], notes: "" },
+                { english: "bagpipes", mainTranslation: "las gaitas", accepted: [], rejected: [], notes: "" },
+                { english: "in northern Spain,", mainTranslation: "en el norte de España,", accepted: [], rejected: [], notes: "" },
+                { english: "music and dancing", mainTranslation: "la música y el baile", accepted: ["la música y la danza"], rejected: [], notes: "" },
+                { english: "seem to be", mainTranslation: "parecen estar", accepted: [], rejected: ["ser"], notes: "" },
+                { english: "intrinsically linked", mainTranslation: "ligados intrínsecamente", accepted: ["unidos intrínsecamente"], rejected: [], notes: "" },
+                { english: "to everyday life", mainTranslation: "a la vida diaria", accepted: [], rejected: [], notes: "" },
+                { english: "in Hispanic countries.", mainTranslation: "en los países hispanos.", accepted: [], rejected: [], notes: "" },
+                { english: "Many people", mainTranslation: "A muchas personas", accepted: ["A mucha gente le interesa"], rejected: [], notes: "" },
+                { english: "are interested in", mainTranslation: "les interesa", accepted: [], rejected: [], notes: "" },
+                { english: "visiting cities in Spain", mainTranslation: "visitar ciudades en España", accepted: [], rejected: [], notes: "" },
+                { english: "at festival time", mainTranslation: "durante la feria", accepted: [], rejected: ["festival"], notes: "" },
+                { english: "in order to be able to", mainTranslation: "para poder", accepted: ["para que puedan"], rejected: [], notes: "" },
+                { english: "admire not only", mainTranslation: "admirar no sólo", accepted: [], rejected: [], notes: "" },
+                { english: "the dancers' ability,", mainTranslation: "la habilidad de los bailadores", accepted: [], rejected: [], notes: "" },
+                { english: "but also", mainTranslation: "sino también", accepted: [], rejected: [], notes: "" },
+                { english: "the spectacular dancing costumes.", mainTranslation: "los trajes de baile espectaculares.", accepted: ["trajes de bailar"], rejected: [], notes: "" },
+                { english: "Some regional dances,", mainTranslation: "Algunos bailes regionales,", accepted: [], rejected: [], notes: "" },
+                { english: "such as salsa in Cuba,", mainTranslation: "tales como la salsa en Cuba", accepted: [], rejected: [], notes: "" },
+                { english: "have become", mainTranslation: "se han convertido en", accepted: [], rejected: [], notes: "" },
+                { english: "the emblem for the country.", mainTranslation: "el emblema del país.", accepted: [], rejected: [], notes: "" }
+            ],
+            text4: [
+                { english: "These days", mainTranslation: "Estos días", accepted: ["Hoy en día", "En la actualidad"], rejected: [], notes: "" },
+                { english: "for many teenagers, young people", mainTranslation: "para muchos adolescentes, jóvenes", accepted: [], rejected: [], notes: "" },
+                { english: "and even adults,", mainTranslation: "e incluso adultos,", accepted: [], rejected: [], notes: "" },
+                { english: "singers and bands", mainTranslation: "los cantantes y los grupos", accepted: ["los cantantes y las bandas"], rejected: [], notes: "" },
+                { english: "have become", mainTranslation: "se han convertido en", accepted: ["se han vuelto"], rejected: [], notes: "" },
+                { english: "role models", mainTranslation: "modelos a", accepted: ["modelos que"], rejected: [], notes: "" },
+                { english: "to imitate and admire.", mainTranslation: "imitar y admirar.", accepted: [], rejected: [], notes: "" },
+                { english: "Although many", mainTranslation: "Aunque muchos", accepted: [], rejected: [], notes: "" },
+                { english: "maintain", mainTranslation: "mantienen", accepted: ["mantengan"], rejected: [], notes: "" },
+                { english: "that music", mainTranslation: "que la música", accepted: [], rejected: [], notes: "" },
+                { english: "will never be the same", mainTranslation: "nunca será igual", accepted: [], rejected: [], notes: "" },
+                { english: "since the arrival of programmes", mainTranslation: "desde la llegada de programas", accepted: [], rejected: [], notes: "" },
+                { english: "like X Factor or The Voice,", mainTranslation: "como X Factor o La Voz", accepted: [], rejected: [], notes: "" },
+                { english: "others argue that", mainTranslation: "otros alegan que", accepted: [], rejected: [], notes: "" },
+                { english: "not only", mainTranslation: "no sólo", accepted: [], rejected: [], notes: "" },
+                { english: "will there always be talent", mainTranslation: "siempre habrá talento", accepted: [], rejected: [], notes: "" },
+                { english: "but", mainTranslation: "sino que", accepted: [], rejected: [], notes: "" },
+                { english: "this talent will be", mainTranslation: "este talento será", accepted: [], rejected: [], notes: "" },
+                { english: "a source of admiration and respect.", mainTranslation: "una fuente de admiración y respeto.", accepted: [], rejected: [], notes: "" },
+                { english: "Never have", mainTranslation: "Nunca han tenido", accepted: [], rejected: [], notes: "" },
+                { english: "celebrities had", mainTranslation: "las celebridades", accepted: [], rejected: [], notes: "" },
+                { english: "such a multitude of followers", mainTranslation: "tal multitud de seguidores", accepted: ["una multitud tal de seguidores"], rejected: [], notes: "" },
+                { english: "who watch", mainTranslation: "que observan,", accepted: [], rejected: [], notes: "" },
+                { english: "analyse and judge", mainTranslation: "analizan y juzgan", accepted: [], rejected: [], notes: "" },
+                { english: "their every move.", mainTranslation: "todos sus movimientos.", accepted: [], rejected: [], notes: "" },
+                { english: "It is unquestionable that", mainTranslation: "Es incuestionable que", accepted: ["Es innegable que"], rejected: [], notes: "" },
+                { english: "some of these celebrities", mainTranslation: "algunas de estas celebridades", accepted: [], rejected: [], notes: "" },
+                { english: "have become", mainTranslation: "se han convertido en", accepted: ["se han vuelto"], rejected: [], notes: "" },
+                { english: "real legends,", mainTranslation: "verdaderas leyendas,", accepted: [], rejected: [], notes: "" },
+                { english: "but critics wonder whether", mainTranslation: "pero los críticos se preguntan si", accepted: [], rejected: [], notes: "" },
+                { english: "being able to", mainTranslation: "ser capaz de", accepted: ["poder"], rejected: [], notes: "" },
+                { english: "sing a song", mainTranslation: "cantar una canción", accepted: [], rejected: [], notes: "" },
+                { english: "should be reason enough", mainTranslation: "debería ser razón suficiente", accepted: [], rejected: [], notes: "" },
+                { english: "for their success.", mainTranslation: "para su éxito.", accepted: [], rejected: [], notes: "" },
+                { english: "Future generations", mainTranslation: "Las generaciones futuras", accepted: [], rejected: [], notes: "" },
+                { english: "will decide", mainTranslation: "decidirán", accepted: [], rejected: [], notes: "" },
+                { english: "whether their fame", mainTranslation: "si su fama", accepted: [], rejected: [], notes: "" },
+                { english: "was deserved", mainTranslation: "era merecida", accepted: ["fue merecida"], rejected: [], notes: "" },
+                { english: "and will last", mainTranslation: "y durará", accepted: [], rejected: [], notes: "" },
+                { english: "forever", mainTranslation: "para siempre.", accepted: [], rejected: [], notes: "" }
+            ]
+        };
+
+        // Initialize exercises on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeExercise('text1', 'translation-sections-1', 'spanish');
+            initializeExercise('text2', 'translation-sections-2', 'english');
+            initializeExercise('text3', 'translation-sections-3', 'english');
+            initializeExercise('text4', 'translation-sections-4', 'english');
+            
+            setupAccentKeyboard();
+            setupActiveSectionTracking();
+        });
+
+        function initializeExercise(textId, containerId, sourceLanguage) {
+            const sectionsContainer = document.getElementById(containerId);
+            const markScheme = markSchemes[textId];
+            
+            markScheme.forEach((item, index) => {
+                const section = document.createElement('div');
+                section.className = 'translation-section';
+                section.id = textId + '-section-' + (index + 1);
+                
+                const sourceText = sourceLanguage === 'spanish' ? item.spanish : item.english;
+                
+                section.innerHTML = '<div class="section-header">' +
+                    '<div class="section-number">' + (index + 1) + '</div>' +
+                    '<div class="section-score">0/1</div>' +
+                    '</div>' +
+                    '<div class="sentence">' + sourceText + '</div>' +
+                    '<textarea id="' + textId + '-translation-' + (index + 1) + '" placeholder="Enter your translation here..."></textarea>' +
+                    '<button class="check-btn" onclick="checkTranslation(\'' + textId + '\', ' + index + ')">Check Translation</button>' +
+                    '<div id="' + textId + '-feedback-' + (index + 1) + '" class="feedback"></div>' +
+                    '<button class="toggle-btn" onclick="toggleMarkScheme(\'' + textId + '\', ' + index + ')">Show Mark Scheme</button>' +
+                    '<div id="' + textId + '-mark-scheme-' + (index + 1) + '" class="mark-scheme">' +
+                    '<h4>Mark Scheme</h4>' +
+                    '<p><strong>Main Translation:</strong> ' + item.mainTranslation + '</p>' +
+                    (item.accepted.length > 0 ? '<p class="accepted"><strong>Also Accepted:</strong> ' + item.accepted.join('; ') + '</p>' : '') +
+                    (item.rejected.length > 0 ? '<p class="rejected"><strong>Rejected:</strong> ' + item.rejected.join('; ') + '</p>' : '') +
+                    (item.notes ? '<p><strong>Notes:</strong> ' + item.notes + '</p>' : '') +
+                    '</div>';
+                
+                sectionsContainer.appendChild(section);
+            });
+        }
+
+        function checkTranslation(textId, index) {
+            const userTranslation = document.getElementById(textId + '-translation-' + (index + 1)).value.trim();
+            const feedbackElement = document.getElementById(textId + '-feedback-' + (index + 1));
+            const sectionElement = document.getElementById(textId + '-section-' + (index + 1));
+            const sectionScoreElement = sectionElement.querySelector('.section-score');
+            
+            if (!userTranslation) {
+                feedbackElement.textContent = "Please enter a translation before checking.";
+                feedbackElement.className = "feedback incorrect";
+                feedbackElement.style.display = "block";
+                sectionScoreElement.textContent = "0/1";
+                sectionElement.classList.remove("correct", "incorrect");
+                sectionElement.classList.add("incorrect");
+                updateTotalScore();
+                return;
+            }
+            
+            const item = markSchemes[textId][index];
+            let isCorrect = false;
+            
+            if (normalizeText(userTranslation) === normalizeText(item.mainTranslation)) {
+                isCorrect = true;
+            }
+            
+            if (!isCorrect) {
+                for (let i = 0; i < item.accepted.length; i++) {
+                    if (normalizeText(userTranslation) === normalizeText(item.accepted[i])) {
+                        isCorrect = true;
+                        break;
+                    }
+                }
+            }
+            
+            if (isCorrect) {
+                feedbackElement.textContent = "✓ Correct! Your translation matches the mark scheme.";
+                feedbackElement.className = "feedback correct";
+                sectionScoreElement.textContent = "1/1";
+                sectionElement.classList.remove("correct", "incorrect");
+                sectionElement.classList.add("correct");
+            } else {
+                feedbackElement.textContent = "✗ Your translation doesn't match the accepted options. Check the mark scheme for guidance.";
+                feedbackElement.className = "feedback incorrect";
+                sectionScoreElement.textContent = "0/1";
+                sectionElement.classList.remove("correct", "incorrect");
+                sectionElement.classList.add("incorrect");
+            }
+            
+            feedbackElement.style.display = "block";
+            updateTotalScore();
+        }
+        
+        function normalizeText(text) {
+            return text
+                .toLowerCase()
+                .replace(/\s+/g, ' ')
+                .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()¿¡]/g, '')
+                .trim();
+        }
+        
+        function toggleMarkScheme(textId, index) {
+            const markSchemeElement = document.getElementById(textId + '-mark-scheme-' + (index + 1));
+            const button = markSchemeElement.previousElementSibling;
+            
+            if (markSchemeElement.style.display === "block") {
+                markSchemeElement.style.display = "none";
+                button.textContent = "Show Mark Scheme";
+            } else {
+                markSchemeElement.style.display = "block";
+                button.textContent = "Hide Mark Scheme";
+            }
+        }
+        
+        function updateTotalScore() {
+            let totalScore = 0;
+            const sections = document.querySelectorAll('.translation-section');
+            
+            sections.forEach(function(section) {
+                const scoreText = section.querySelector('.section-score').textContent;
+                if (scoreText === "1/1") {
+                    totalScore++;
+                }
+            });
+            
+            document.getElementById('total-score').textContent = totalScore;
+        }
+        
+        function downloadResults() {
+            const timestamp = new Date().toLocaleString();
+            let results = 'A-LEVEL SPANISH TRANSLATION EXERCISES - UNIT 4: MUSIC\n';
+            results += 'Edexcel A-Level - Results Export\n';
+            results += 'Date: ' + timestamp + '\n';
+            results += '======================================================================\n\n';
+            
+            const exercises = [
+                { id: 'text1', title: 'Exercise 1: Translation into English - El éxito de El canto del loco', maxMarks: 10 },
+                { id: 'text2', title: 'Exercise 2: Translation into Spanish (Easy) - Flamenco Music', maxMarks: 20 },
+                { id: 'text3', title: 'Exercise 3: Translation into Spanish (Medium) - Dancing in the Hispanic World', maxMarks: 30 },
+                { id: 'text4', title: 'Exercise 4: Translation into Spanish (Hard) - Modern Idols', maxMarks: 40 }
+            ];
+            
+            let totalScore = 0;
+            
+            exercises.forEach(function(exercise) {
+                results += exercise.title + '\n';
+                results += '----------------------------------------------------------------------\n';
+                
+                let exerciseScore = 0;
+                const markScheme = markSchemes[exercise.id];
+                
+                markScheme.forEach(function(item, index) {
+                    const userTranslation = document.getElementById(exercise.id + '-translation-' + (index + 1)).value.trim();
+                    const sectionScore = document.getElementById(exercise.id + '-section-' + (index + 1)).querySelector('.section-score').textContent;
+                    const isCorrect = sectionScore === "1/1";
+                    
+                    if (isCorrect) exerciseScore++;
+                    
+                    const sourceText = exercise.id === 'text1' ? item.spanish : item.english;
+                    results += '\nSection ' + (index + 1) + ': ' + (isCorrect ? '✓' : '✗') + ' (' + sectionScore + ')\n';
+                    results += 'Source: ' + sourceText + '\n';
+                    results += 'Your answer: ' + (userTranslation || '(No answer provided)') + '\n';
+                    results += 'Correct answer: ' + item.mainTranslation + '\n';
+                    
+                    if (item.accepted.length > 0) {
+                        results += 'Also accepted: ' + item.accepted.join('; ') + '\n';
+                    }
+                });
+                
+                results += '\n' + exercise.title + ' Score: ' + exerciseScore + '/' + exercise.maxMarks + '\n';
+                results += '======================================================================\n\n';
+                
+                totalScore += exerciseScore;
+            });
+            
+            results += '\nFINAL TOTAL SCORE: ' + totalScore + '/100\n';
+            results += 'Percentage: ' + ((totalScore / 100) * 100).toFixed(1) + '%\n\n';
+            
+            if (totalScore >= 90) {
+                results += 'Grade: A* - Outstanding performance!\n';
+            } else if (totalScore >= 80) {
+                results += 'Grade: A - Excellent work!\n';
+            } else if (totalScore >= 70) {
+                results += 'Grade: B - Very good!\n';
+            } else if (totalScore >= 60) {
+                results += 'Grade: C - Good effort!\n';
+            } else if (totalScore >= 50) {
+                results += 'Grade: D - Pass\n';
+            } else {
+                results += 'Grade: E/U - Keep practicing!\n';
+            }
+            
+            const blob = new Blob([results], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Spanish_Translation_Results_' + new Date().toISOString().slice(0,10) + '.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+        
+        function setupAccentKeyboard() {
+            const showKeyboardBtn = document.getElementById('show-keyboard-btn');
+            const closeKeyboardBtn = document.getElementById('close-keyboard');
+            const accentKeyboard = document.getElementById('accent-keyboard');
+            const accentButtons = document.querySelectorAll('.accent-btn');
+            
+            document.querySelectorAll('textarea').forEach(function(textarea) {
+                textarea.addEventListener('focus', function() {
+                    activeTextarea = this;
+                });
+            });
+            
+            showKeyboardBtn.addEventListener('click', function() {
+                accentKeyboard.style.display = 'block';
+                showKeyboardBtn.style.display = 'none';
+            });
+            
+            closeKeyboardBtn.addEventListener('click', function() {
+                accentKeyboard.style.display = 'none';
+                showKeyboardBtn.style.display = 'flex';
+            });
+            
+            accentButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const accent = this.getAttribute('data-accent');
+                    insertAccent(accent);
+                });
+            });
+            
+            function insertAccent(accent) {
+                if (activeTextarea) {
+                    const start = activeTextarea.selectionStart;
+                    const end = activeTextarea.selectionEnd;
+                    const text = activeTextarea.value;
+                    activeTextarea.value = text.substring(0, start) + accent + text.substring(end);
+                    activeTextarea.selectionStart = activeTextarea.selectionEnd = start + accent.length;
+                    activeTextarea.focus();
+                } else {
+                    const firstTextarea = document.querySelector('textarea');
+                    if (firstTextarea) {
+                        firstTextarea.focus();
+                        activeTextarea = firstTextarea;
+                        insertAccent(accent);
+                    }
+                }
+            }
+        }
+        
+        function setupActiveSectionTracking() {
+            const translationSections = document.querySelectorAll('.translation-section');
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        translationSections.forEach(function(section) {
+                            section.classList.remove('active');
+                        });
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, {
+                rootMargin: '-50% 0px -50% 0px',
+                threshold: 0
+            });
+            
+            translationSections.forEach(function(section) {
+                observer.observe(section);
+            });
+        }
+    </script>
+</body>
+</html>

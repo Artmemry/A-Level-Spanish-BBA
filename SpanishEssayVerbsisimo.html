@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spanish-English Verb Quiz (Full Pairs, Written Input)</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f7f7f7; margin: 0; padding: 0; }
+        #quizContainer { background: #fff; padding: 24px; border-radius: 8px; max-width: 700px; margin: 40px auto; box-shadow: 0 0 10px #ccc; }
+        h1 { text-align: center; }
+        .question { font-weight: bold; margin-top: 20px; }
+        .feedback { margin-top: 10px; font-weight: bold; }
+        #summary { background: #e0ffe0; padding: 15px; border-radius: 8px; margin-top: 20px; display: none; }
+        #downloadBtn, #printBtn, #restartBtn { margin: 10px 5px; padding: 10px 15px; border: none; border-radius: 5px; background: #007bff; color: #fff; cursor: pointer; }
+        #downloadBtn:hover, #printBtn:hover, #restartBtn:hover { background: #0056b3; }
+        #progress { margin-bottom: 10px; }
+        #counter { font-size: 1.1em; margin-bottom: 10px; }
+        input[type="text"] { font-size: 1em; padding: 6px; width: 90%; }
+        #answerBtn { margin-top: 10px; }
+    </style>
+    <!-- jsPDF CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<div id="quizContainer">
+    <h1>Spanish-English Verb Quiz</h1>
+    <div id="progress"></div>
+    <div id="counter"></div>
+    <div id="questionArea"></div>
+    <div class="feedback" id="feedback"></div>
+    <button id="nextBtn" style="display:none;">Next</button>
+    <div id="summary"></div>
+    <button id="downloadBtn" style="display:none;">Download PDF</button>
+    <button id="printBtn" style="display:none;">Print</button>
+    <button id="restartBtn" style="display:none;">Restart Quiz</button>
+</div>
+
+<script>
+// Paste your pairs here as [spanish, english]
+const verbPairs = [
+["muestra","shows"],["representa","represents"],["destaca","highlights"],["subraya","underlines"],
+["simboliza","symbolises"],["revela","reveals"],["enfatiza","emphasises"],["critica","criticises"],
+["refleja","reflects"],["denuncia","denounces"],["ilustra","illustrates"],["describe","describes"],
+["explora","explores"],["desarrolla","develops"],["utiliza","uses"],["emplea","employs"],
+["retrata","portrays"],["sugiere","suggests"],["crea","creates"],["evoca","evokes"],
+["cuestiona","questions"],["manipula","manipulates"],["narra","narrates"],["presenta","presents"],
+["transmite","conveys"],["genera","generates"],["provoca","provokes"],["pone de manifiesto","brings to light"],
+["hace hincapié en","places emphasis on"],["pone en evidencia","exposes / makes evident"],["muestra cómo","shows how"],
+["demuestra que","demonstrates"],["se observa","one observes"],["se puede ver","one can see"],
+["podemos ver","we can see"],["vemos","we see"],["llama la atención sobre","draws attention to"],
+["Almodóvar muestra que","Almodóvar shows that"],["Lorca critica","Lorca criticises"],["se nota","it is noted"],
+["se destaca","it stands out"],["se enfatiza","it is emphasised"],["el autor destaca","the author highlights"],
+["el director presenta","the director presents"],["el personaje simboliza","the character symbolises"],
+["los personajes representan","the characters represent"],["tienen","they have"],["sufren","they suffer"],
+["experimentan","they experience"],["actúan","they act"],["se comportan","they behave"],
+["se rebelan","they rebel"],["oprimen","they oppress"],["muestran","they show"],["expresan","they express"],
+["revelan","they reveal"],["adoptan","they adopt"],["esconden","they hide"],["se enfrentan","they confront"],
+["viven","they live"],["mueren","they die"],["luchan","they struggle"],["reflejan","they reflect"],
+["manipulan","they manipulate"],["intentan","they try"],["cometen","they commit"],["destacan","they highlight"],
+["provocan","they provoke"],["simbolizan","they symbolise"],["exploran","they explore"],["justifican","they justify"],
+["afectan","they affect"],["condicionan","they influence"],["cuestionan","they question"],["buscan","they seek"],
+["controlan","they control"],["representan una crítica","they represent a criticism"],["desafían","they challenge"],
+["usan","they use"],["intentan huir","they try to escape"],["viven bajo presión","they live under pressure"],
+["están atrapados","they are trapped"],["son víctimas","they are victims"],["se muestra cómo","it is shown how"],
+["se revela que","it is revealed that"],["se plantea la idea de","the idea is raised that"],["se utiliza para","it is used to"],
+["se retrata a","... is portrayed"],["si bien","although"],["aunque","although"],["para que","so that (followed by subjunctive)"],
+["es posible que","it is possible that"],["es importante que","it is important that"],["es probable que","it is likely that"],
+["dudo que","I doubt that (subjunctive)"],["no creo que","I don’t believe that"],["cabe destacar que","it’s worth highlighting that"],
+["hay que destacar","we must highlight"],["es evidente que","it is evident that"],["se nota que","it is noticeable that"],
+["no se puede negar que","it cannot be denied that"],["se puede interpretar como","it can be interpreted as"],
+["el ambiente sugiere que","the atmosphere suggests that"],["la cámara enfoca","the camera focuses on"],
+["el uso del color indica","the use of colour indicates"],["el simbolismo refuerza","the symbolism reinforces"],
+["esto refleja","this reflects"],["esto demuestra","this shows"],["esto sugiere","this suggests"],
+["esto implica","this implies"],["esto conlleva","this leads to"],["esto revela","this reveals"],
+["esto destaca","this highlights"],["esto simboliza","this symbolises"],["se percibe","is perceived"],
+["se evidencia","is made evident"],["lo que indica que","which indicates that"],["lo que implica que","which implies that"],
+["lo que demuestra que","which shows that"],["lo que sugiere que","which suggests that"],["se refleja","is reflected"],
+["se manifiesta","is manifested"],["contribuye a","contributes to"],["da lugar a","gives rise to"],
+["pone en duda","questions (puts in doubt)"],["hace referencia a","refers to"],["tiene como objetivo","aims to"],
+["se centra en","focuses on"],["gira en torno a","revolves around"]
+];
+
+// Generate both directions
+let allQuestions = [];
+verbPairs.forEach(([spanish, english]) => {
+    allQuestions.push({
+        direction: "toEnglish",
+        prompt: spanish,
+        answer: english,
+        question: `What is the English for "<b>${spanish}</b>"?`
+    });
+    allQuestions.push({
+        direction: "toSpanish",
+        prompt: english,
+        answer: spanish,
+        question: `What is the Spanish for "<b>${english}</b>"?`
+    });
+});
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+// Quiz state
+let questions = [];
+let current = 0;
+let score = 0;
+let wrongAnswers = [];
+
+function displayQuestion() {
+    document.getElementById('feedback').textContent = '';
+    document.getElementById('nextBtn').style.display = 'none';
+    document.getElementById('summary').style.display = 'none';
+    document.getElementById('downloadBtn').style.display = 'none';
+    document.getElementById('printBtn').style.display = 'none';
+    document.getElementById('restartBtn').style.display = 'none';
+
+    if (current >= questions.length) {
+        showSummary();
+        return;
+    }
+    document.getElementById('progress').textContent = `Question ${current + 1} of ${questions.length}`;
+    document.getElementById('counter').textContent = `Score: ${score} / ${questions.length}`;
+
+    const q = questions[current];
+
+    let html = `<div class="question">${q.question}</div>
+        <input type="text" id="userInput" autocomplete="off" autofocus onkeydown="if(event.key==='Enter'){document.getElementById('answerBtn').click();}">
+        <br>
+        <button id="answerBtn" onclick="checkAnswer()">Check Answer</button>`;
+    document.getElementById('questionArea').innerHTML = html;
+
+    setTimeout(() => { document.getElementById('userInput').focus(); }, 100);
+}
+
+window.checkAnswer = function() {
+    const q = questions[current];
+    const userAnswer = document.getElementById('userInput').value.trim().toLowerCase();
+    const correctAnswer = q.answer.trim().toLowerCase();
+    const feedback = document.getElementById('feedback');
+    // Accept minor variations (ignore trailing dots, spaces, case)
+    function normalize(str) {
+        return str.replace(/[.]/g, '').replace(/\s+/g, ' ').trim().toLowerCase();
+    }
+    if (normalize(userAnswer) === normalize(correctAnswer)) {
+        feedback.textContent = "✅ Correct!";
+        score++;
+    } else {
+        feedback.innerHTML = `❌ Incorrect. The correct answer is: <b>${q.answer}</b>.`;
+        wrongAnswers.push({
+            question: q.question,
+            yourAnswer: document.getElementById('userInput').value,
+            correct: q.answer
+        });
+    }
+    document.getElementById('nextBtn').style.display = 'inline-block';
+    document.getElementById('answerBtn').disabled = true;
+    document.getElementById('userInput').disabled = true;
+};
+
+document.getElementById('nextBtn').onclick = function() {
+    current++;
+    displayQuestion();
+};
+
+function showSummary() {
+    let summary = `<h2>Quiz Complete!</h2>
+    <p>Your score: <strong>${score} / ${questions.length}</strong></p>`;
+    if (wrongAnswers.length > 0) {
+        summary += `<p>Review the questions you missed:</p><ul>`;
+        wrongAnswers.forEach(item => {
+            summary += `<li>${item.question}<br>
+            <span style="color:red">Your answer: ${item.yourAnswer || "<em>No answer</em>"}</span><br>
+            <span style="color:green">Correct: ${item.correct}</span></li>`;
+        });
+        summary += `</ul>`;
+    } else {
+        summary += `<p>Excellent! You got everything right.</p>`;
+    }
+    document.getElementById('summary').innerHTML = summary;
+    document.getElementById('summary').style.display = 'block';
+    document.getElementById('downloadBtn').style.display = 'inline-block';
+    document.getElementById('printBtn').style.display = 'inline-block';
+    document.getElementById('restartBtn').style.display = 'inline-block';
+    document.getElementById('questionArea').innerHTML = '';
+    document.getElementById('progress').textContent = '';
+    document.getElementById('counter').textContent = '';
+    document.getElementById('feedback').textContent = '';
+    document.getElementById('nextBtn').style.display = 'none';
+}
+
+// Download PDF
+document.getElementById('downloadBtn').onclick = function() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    let y = 10;
+    doc.setFontSize(16);
+    doc.text("Spanish-English Verb Quiz Results", 10, y);
+    y += 10;
+    doc.setFontSize(12);
+    doc.text(`Score: ${score} / ${questions.length}`, 10, y);
+    y += 10;
+    if (wrongAnswers.length > 0) {
+        doc.text("Review the questions you missed:", 10, y);
+        y += 10;
+        wrongAnswers.forEach(item => {
+            doc.text(doc.splitTextToSize(item.question.replace(/<[^>]*>?/gm, ''), 180), 10, y);
+            y += 8;
+            doc.text("Your answer: " + (item.yourAnswer || "No answer"), 12, y);
+            y += 8;
+            doc.text("Correct: " + item.correct, 12, y);
+            y += 10;
+        });
+    } else {
+        doc.text("Excellent! You got everything right.", 10, y);
+    }
+    doc.save("spanish_verb_quiz_results.pdf");
+};
+
+// Print
+document.getElementById('printBtn').onclick = function() {
+    let printContents = document.getElementById('summary').innerHTML;
+    let win = window.open('', '', 'height=700,width=700');
+    win.document.write('<html><head><title>Quiz Results</title></head><body>');
+    win.document.write(printContents);
+    win.document.write('</body></html>');
+    win.document.close();
+    win.print();
+};
+
+// Restart
+document.getElementById('restartBtn').onclick = function() {
+    startQuiz();
+};
+
+// Initialize quiz
+function startQuiz() {
+    score = 0;
+    current = 0;
+    wrongAnswers = [];
+    questions = allQuestions.slice();
+    shuffle(questions);
+    displayQuestion();
+}
+startQuiz();
+</script>
+</body>
+</html>
