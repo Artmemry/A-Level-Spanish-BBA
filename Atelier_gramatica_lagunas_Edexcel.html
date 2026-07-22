@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taller de Gramática: Lagunas Edexcel — A-Level Spanish</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 120px}
+  .wrap{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:28px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+  .name-row input{padding:9px 12px;font-size:1em;border:2px solid var(--accent);border-radius:6px;width:280px;font-family:inherit}
+  .item{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:8px}
+  .item input[type=text],.item textarea{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px}
+  .item textarea{min-height:90px;resize:vertical}
+  .opts label{display:block;padding:7px 10px;margin:5px 0;border:1.5px solid var(--line);border-radius:5px;cursor:pointer}
+  .opts label:hover{background:#f2f7fa}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  .fb{display:none;margin-top:8px;padding:9px 12px;border-radius:6px;font-size:.95em}
+  .fb.ok{display:block;background:#e9f5ee;border-left:4px solid var(--ok);color:var(--ok)}
+  .fb.almost{display:block;background:#fff8ec;border-left:4px solid var(--warn);color:var(--warn)}
+  .fb.bad{display:block;background:#fbeeee;border-left:4px solid var(--bad);color:var(--bad)}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px;margin:26px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:11px 20px;font-size:1em;font-family:inherit;
+       border-radius:6px;cursor:pointer;margin:6px 6px 6px 0}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.dl{background:var(--ok)}
+  .btn.second{background:#5a6a78}
+  .score-banner{display:none;margin:18px 0;padding:14px;border-radius:8px;background:#f2f7fa;
+       border:2px solid var(--accent);font-size:1.15em;font-weight:bold;color:var(--accent)}
+  .glossaire{background:#f8fafc;border:1px solid var(--line);border-radius:6px;padding:12px 16px;margin:12px 0}
+  .glossaire dt{font-weight:bold;color:var(--accent)}
+  .glossaire dd{margin:0 0 8px 0;color:#3a4a58}
+  .texto{background:#f2f7fa;border:1px solid var(--line);border-radius:6px;padding:14px 18px;margin:10px 0 16px;font-style:italic}
+  .texto p{margin:0 0 8px}
+  .verso{font-style:italic;color:var(--accent2)}
+  /* ---------- Floating accent pad ---------- */
+  #accentPad{position:fixed;bottom:18px;right:18px;background:#fff;border:2px solid var(--accent);
+       border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.25);padding:10px;z-index:1000;
+       display:flex;flex-wrap:wrap;gap:5px;max-width:340px;user-select:none}
+  #accentPad .drag{width:100%;cursor:move;font-size:.8em;color:#5a6a78;text-align:center;padding-bottom:4px}
+  #accentPad button{font-size:1.05em;font-family:inherit;min-width:34px;padding:6px 4px;border:1px solid var(--line);
+       border-radius:5px;background:#f2f7fa;cursor:pointer}
+  #accentPad button:hover{background:var(--accent);color:#fff}
+  #accentPad .maj{font-size:.8em;background:#e6e9ec}
+  #padToggle{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--accent);color:#fff;
+       border:none;border-radius:50px;padding:12px 18px;font-size:1em;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  @media print{#accentPad,#padToggle{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Taller de Gramática: Lagunas Edexcel</h1>
+    <p class="meta">A-Level Spanish (Edexcel) · Los cuatro temas: sociedad, cultura, inmigración, franquismo · Duración recomendada: 60 min</p>
+  </header>
+
+  <div class="name-row">
+    <label for="studentName"><strong>Tu nombre:</strong></label>
+    <input type="text" id="studentName" placeholder="Nombre APELLIDO" maxlength="60">
+  </div>
+
+  <div class="consigne"><strong>Instrucciones:</strong> Este taller cubre seis puntos de gramática que suelen quedar poco practicados en el curso: el imperfecto de subjuntivo en condicionales, la voz pasiva y su elusión con «se», los pronombres relativos, los comparativos/superlativos irregulares, los tiempos compuestos (futuro perfecto y condicional perfecto) y ser/estar con adjetivos de doble sentido. Lee cada recuadro de teoría antes de completar los huecos. Los ejemplos están tomados de los cuatro temas de Edexcel y de las obras Volver y La casa de Bernarda Alba. Pulsa «Comprobar» al final y descarga tus resultados.</div>
+
+  <h2>1. El imperfecto de subjuntivo y las oraciones condicionales (tipo 2 y tipo 3) <span class="pts">(6 puntos)</span></h2>
+  <div class="consigne">Repasa la formación y el uso antes de completar los huecos. Contextos: La casa de Bernarda Alba, la Guerra Civil, la inmigración.</div>
+  <div class="glossaire">
+<dl>
+<dt>Condicional tipo 2 (hipótesis presente/futura, poco probable)</dt>
+<dd><strong>Si</strong> + imperfecto de subjuntivo (-ra/-se), + condicional simple: <em>«Si <strong>tuviera</strong> más dinero, <strong>viajaría</strong> a Argentina.»</em></dd>
+<dt>Condicional tipo 3 (hipótesis irreal sobre el pasado)</dt>
+<dd><strong>Si</strong> + pluscuamperfecto de subjuntivo (hubiera/hubiese + participio), + condicional perfecto (habría + participio): <em>«Si lo <strong>hubiera sabido</strong>, <strong>habría actuado</strong> de otra manera.»</em></dd>
+<dt>Formas irregulares frecuentes (raíz del pretérito)</dt>
+<dd>tener→tuv-, saber→sup-, hacer→hic-, poder→pud-, querer→quis-, decir→dij-, ser/ir→fu-, estar→estuv-.</dd>
+</dl>
+</div>
+  <div class="item" data-type="text" data-a="ZnVlcmF8ZnVlc2U=" data-exp="Q29uZGljaW9uYWwgdGlwbyAyOiBoaXDDs3Rlc2lzIHByZXNlbnRlIHBvY28gcHJvYmFibGUg4oaSIGltcGVyZmVjdG8gZGUgc3VianVudGl2byBkZSDCq3NlcsK7IChmdWVyYS9mdWVzZSkgKyBjb25kaWNpb25hbCBzaW1wbGUgKHNlcsOtYW4pLg==">
+    <p class="q">1. Si Bernarda (ser) ______ menos autoritaria, sus hijas serían más felices.</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Verbo irregular «ser» en imperfecto de subjuntivo: comparte raíz con «ir».</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="dHV2aWVyYW58dHV2aWVzZW4=" data-exp="Q29uZGljaW9uYWwgdGlwbyAyOiBsYSByYcOteiBpcnJlZ3VsYXIgZGUgwqt0ZW5lcsK7IGVuIGVsIHByZXTDqXJpdG8gKHR1di0pIHNlIHVzYSB0YW1iacOpbiBlbiBlbCBpbXBlcmZlY3RvIGRlIHN1Ymp1bnRpdm8u">
+    <p class="q">2. Si los inmigrantes (tener) ______ más oportunidades laborales, la integración sería mucho más rápida.</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Piensa en el pretérito de «tener»: tuve, tuviste, tuvo… y añade la terminación de subjuntivo.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="aHViaWVyYSBmcmFjYXNhZG98aHViaWVzZSBmcmFjYXNhZG8=" data-exp="Q29uZGljaW9uYWwgdGlwbyAzOiBoaXDDs3Rlc2lzIGlycmVhbCBzb2JyZSBlbCBwYXNhZG8g4oaSIHBsdXNjdWFtcGVyZmVjdG8gZGUgc3VianVudGl2byAoaHViaWVyYS9odWJpZXNlICsgcGFydGljaXBpbykgZW4gbGEgY2zDoXVzdWxhIGNvbiDCq3Npwrsu">
+    <p class="q">3. Si el golpe de estado de 1936 (fracasar) ______ por completo, la Guerra Civil probablemente no habría estallado.</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Verbo regular en -ar: participio «fracasado», precedido de «hubiera» o «hubiese».</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="aHViaWVyYSBzYWJpZG98aHViaWVzZSBzYWJpZG8=" data-exp="Q29uZGljaW9uYWwgdGlwbyAzOiBwbHVzY3VhbXBlcmZlY3RvIGRlIHN1Ymp1bnRpdm8gZGVsIHZlcmJvIGlycmVndWxhciDCq3NhYmVywrsgKHJhw616IHN1cC0pICsgY29uZGljaW9uYWwgcGVyZmVjdG8gZW4gbGEgb3JhY2nDs24gcHJpbmNpcGFsLg==">
+    <p class="q">4. Si Adela (saber) ______ que Pepe el Romano no era sincero, no se habría enamorado tan ciegamente.</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Raíz irregular de «saber» en el pretérito: sup-. Añade «-iera» o «-iese».</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="Mg==" data-exp="RWwgdXNvIGRlbCBwbHVzY3VhbXBlcmZlY3RvIGRlIHN1Ymp1bnRpdm8gKMKraHViaWVyYSBlc3R1ZGlhZG/CuykgeSBkZWwgY29uZGljaW9uYWwgcGVyZmVjdG8gKMKraGFicsOtYSBhcHJvYmFkb8K7KSBpbmRpY2EgdW5hIGhpcMOzdGVzaXMgc29icmUgdW4gaGVjaG8gcGFzYWRvIHF1ZSB5YSBubyBzZSBwdWVkZSBjYW1iaWFyOiB0aXBvIDMu">
+    <p class="q">5. ¿Qué tipo de condicional es «Si hubiera estudiado más, habría aprobado el examen»?</p>
+    <div class="opts">
+      <label><input type="radio" name="s1q5" value="0"> A) Tipo 1 (posible y probable)</label>
+      <label><input type="radio" name="s1q5" value="1"> B) Tipo 2 (hipótesis presente, poco probable)</label>
+      <label><input type="radio" name="s1q5" value="2"> C) Tipo 3 (hipótesis irreal sobre el pasado)</label>
+      <label><input type="radio" name="s1q5" value="3"> D) No es una oración condicional</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Fíjate en los tiempos verbales: ambos se refieren a un pasado ya cerrado, no al presente ni al futuro.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="c2kgaHViaWVyYSBzYWJpZG8sIG1lIGhhYnJpYSBpZG8gYW50ZXN8c2kgaHViaWVzZSBzYWJpZG8sIG1lIGhhYnJpYSBpZG8gYW50ZXN8c2kgaHViaWVyYSBzYWJpZG8gbWUgaGFicmlhIGlkbyBhbnRlc3xzaSBodWJpZXNlIHNhYmlkbyBtZSBoYWJyaWEgaWRvIGFudGVzfHNpIGh1YmllcmEgc2FiaWRvLCBtZSBoYWJyw61hIGlkbyBhbnRlc3xzaSBodWJpZXNlIHNhYmlkbywgbWUgaGFicsOtYSBpZG8gYW50ZXN8c2kgaHViaWVyYSBzYWJpZG8gbWUgaGFicsOtYSBpZG8gYW50ZXN8c2kgaHViaWVzZSBzYWJpZG8gbWUgaGFicsOtYSBpZG8gYW50ZXM=" data-exp="wqtTaSBodWJpZXJhL2h1Ymllc2Ugc2FiaWRvwrsgKHBsdXNjdWFtcGVyZmVjdG8gZGUgc3VianVudGl2bykgKyDCq21lIGhhYnLDrWEgaWRvIGFudGVzwrsgKGNvbmRpY2lvbmFsIHBlcmZlY3RvKTogZXN0cnVjdHVyYSB0w61waWNhIGRlbCBjb25kaWNpb25hbCB0aXBvIDMu">
+    <p class="q">6. Traduce: «If I had known, I would have left earlier.»</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Recuerda: pluscuamperfecto de subjuntivo en la cláusula con «si», condicional perfecto en la principal.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <h2>2. La voz pasiva y su elusión con «se» <span class="pts">(6 puntos)</span></h2>
+  <div class="consigne">El español evita la pasiva inglesa siempre que puede. Practica la diferencia entre la pasiva perifrástica, el «se» pasivo y el «se» impersonal.</div>
+  <div class="glossaire">
+<dl>
+<dt>Pasiva perifrástica (ser + participio)</dt>
+<dd>Se usa sobre todo en registro formal/escrito, especialmente cuando el agente se expresa con «por»: <em>«La casa <strong>fue construida por</strong> el arquitecto.»</em></dd>
+<dt>«Se» pasivo (mucho más frecuente en español hablado y escrito)</dt>
+<dd>El sujeto gramatical es la cosa, y el verbo concuerda con ella en número: <em>«<strong>Se construyó</strong> la casa» / «<strong>Se construyeron</strong> muchas casas.»</em> — no se expresa agente.</dd>
+<dt>«Se» impersonal</dt>
+<dd>Verbo siempre en singular, sin sujeto claro, equivalente a «uno», «uno vive», «la gente»: <em>«<strong>Se vive</strong> bien aquí.» «<strong>Se dice</strong> que…»</em></dd>
+</dl>
+</div>
+  <div class="item" data-type="text" data-a="c2UgcmVwcmVzZW50YQ==" data-exp="wqtTZcK7IHBhc2l2bzogZWwgc3VqZXRvIGdyYW1hdGljYWwgZXMgwqtsYSBvcHJlc2nDs27Cuywgc2luZ3VsYXIsIGFzw60gcXVlIGVsIHZlcmJvIHZhIGVuIHNpbmd1bGFyOiDCq3NlIHJlcHJlc2VudGHCuy4=">
+    <p class="q">7. En la obra de Lorca, ______ (representar-se) la opresión de la mujer en la España rural.</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>El sujeto de la frase es «la opresión» (singular) — el verbo debe concordar con él.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="c2UgcHJvaGliaWFufHNlIHByb2hpYsOtYW4=" data-exp="wqtTZcK7IHBhc2l2byBjb24gc3VqZXRvIHBsdXJhbCAowqttdWNoYXMgbGliZXJ0YWRlcyBjaXZpbGVzwrspIGV4aWdlIGVsIHZlcmJvIGVuIHBsdXJhbDogwqtzZSBwcm9oaWLDrWFuwrsgKGltcGVyZmVjdG8sIHBvciB0cmF0YXJzZSBkZSB1bmEgc2l0dWFjacOzbiBoYWJpdHVhbCB5IHByb2xvbmdhZGEpLg==">
+    <p class="q">8. Durante el franquismo, ______ (prohibir-se) muchas libertades civiles.</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Cuidado: el sujeto «muchas libertades civiles» es plural, así que el verbo también debe serlo — error muy frecuente.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="Q3VhbmRvIGVsIGFnZW50ZSBzZSBleHByZXNhIGV4cGzDrWNpdGFtZW50ZSBjb24gwqtwb3LCuywgZWwgZXNwYcOxb2wgcHJlZmllcmUgbGEgcGFzaXZhIHBlcmlmcsOhc3RpY2EgKHNlciArIHBhcnRpY2lwaW8pIGVuIGx1Z2FyIGRlbCDCq3NlwrsgcGFzaXZvLg==">
+    <p class="q">9. «El edificio ___ por los republicanos en 1937.» (agente expresado con «por»)</p>
+    <div class="opts">
+      <label><input type="radio" name="s2q3" value="0"> A) fue destruido</label>
+      <label><input type="radio" name="s2q3" value="1"> B) se destruyó</label>
+      <label><input type="radio" name="s2q3" value="2"> C) destruyó</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Fíjate en «por los republicanos»: ese complemento agente favorece la pasiva con «ser», no el «se».</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="c2UgY29tZQ==" data-exp="wqtTZcK7IGltcGVyc29uYWw6IG5vIGhheSB1biBzdWpldG8gY29uY3JldG8gKMKrbGEgZ2VudGUgY29tZcK7KSwgZWwgdmVyYm8gdmEgc2llbXByZSBlbiBzaW5ndWxhci4=">
+    <p class="q">10. En España, normalmente ______ (comer-se) bastante tarde, después de las dos de la tarde.</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>No hay un sujeto claro — es una generalización sobre la costumbre, típica del «se» impersonal.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="c2UgaGFibGEgbXVjaG8gZXNwYW5vbCBlbiBsYXRpbm9hbWVyaWNhfHNlIGhhYmxhIG11Y2hvIGVzcGHDsW9sIGVuIGxhdGlub2Ftw6lyaWNh" data-exp="RWwgwqtzZcK7IHBhc2l2byBlbGltaW5hIGVsIHN1amV0byBnZW7DqXJpY28gwqtsYSBnZW50ZcK7IHkgbG8gY29udmllcnRlIGVuIMKrc2UgaGFibGHigKbCuywgZXN0cnVjdHVyYSBtdWNobyBtw6FzIG5hdHVyYWwgZW4gZXNwYcOxb2wgcXVlIGxhIHBhc2l2YSBjb24gwqtzZXLCuy4=">
+    <p class="q">11. Reescribe con «se» pasivo, evitando el agente genérico: «La gente habla mucho español en Latinoamérica.» → ______</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Elimina «la gente» y antepón «se» al verbo, manteniendo el resto de la frase.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="c2UgaGFibGEgZXNwYW5vbCBlbiBtdWNob3MgcGFpc2VzfHNlIGhhYmxhIGVzcGHDsW9sIGVuIG11Y2hvcyBwYcOtc2Vz" data-exp="RWwgaW5nbMOpcyB1c2EgbGEgdm96IHBhc2l2YSAowqtpcyBzcG9rZW7Cuyk7IGVsIGVzcGHDsW9sIHByZWZpZXJlIGV2aXRhcmxhIGNvbiBlbCDCq3NlwrsgcGFzaXZvOiDCq3NlIGhhYmxhIGVzcGHDsW9s4oCmwrsu">
+    <p class="q">12. Traduce: «Spanish is spoken in many countries.»</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>No traduzcas literalmente la pasiva inglesa — usa «se» + verbo en presente.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <h2>3. Pronombres relativos: que / quien / cuyo / el cual <span class="pts">(6 puntos)</span></h2>
+  <div class="consigne">Estos relativos son una de las lagunas más comunes en el examen escrito de Edexcel. Presta especial atención a la concordancia de «cuyo».</div>
+  <div class="glossaire">
+<dl>
+<dt>que</dt><dd>el más frecuente; para personas o cosas, con o sin antecedente explícito, en registro neutro.</dd>
+<dt>quien/quienes</dt><dd>solo para personas; obligatorio tras preposición cuando el antecedente es una persona: <em>«la mujer <strong>a quien</strong> conocí».</em></dd>
+<dt>cuyo/cuya/cuyos/cuyas</dt><dd>relativo posesivo («whose»); concuerda en género y número con el sustantivo que <strong>posee</strong> algo, no con el poseedor: <em>«la mujer <strong>cuyo</strong> hijo emigró» (concuerda con «hijo», no con «mujer»).</em></dd>
+<dt>el cual / la cual / los cuales / las cuales</dt><dd>registro más formal, sobre todo tras preposiciones largas o para evitar ambigüedad; concuerda con el antecedente.</dd>
+</dl>
+</div>
+  <div class="item" data-type="text" data-a="cXVl" data-exp="wqtRdWXCuyBlcyBlbCByZWxhdGl2byBuZXV0cm8gcG9yIGRlZmVjdG8sIHbDoWxpZG8gYXF1w60gcGFyYSBpbnRyb2R1Y2lyIGluZm9ybWFjacOzbiBhZGljaW9uYWwgc29icmUgQmVybmFyZGEu">
+    <p class="q">13. Bernarda, ______ (que) domina a sus hijas con mano de hierro, representa la opresión del franquismo.</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Es el relativo más común y no exige preposición ni concordancia especial.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="cXVpZW4=" data-exp="VHJhcyBwcmVwb3NpY2nDs24gKMKrYcK7KSwgY3VhbmRvIGVsIGFudGVjZWRlbnRlIGVzIHVuYSBwZXJzb25hLCBlbCBlc3Bhw7FvbCBleGlnZSDCq3F1aWVuwrsgKG5vIMKrcXVlwrspLg==">
+    <p class="q">14. Fue Pepe el Romano a ______ Adela amaba en secreto.</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Antecedente de persona + preposición delante = quien/quienes.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="Y3V5bw==" data-exp="wqtDdXlvwrsgY29uY3VlcmRhIGNvbiDCq21hcmlkb8K7IChtYXNjdWxpbm8gc2luZ3VsYXIpLCBlbCBzdXN0YW50aXZvIHBvc2XDrWRvIOKAlCBubyBjb24gwqtSYWltdW5kYcK7LCBsYSBwb3NlZWRvcmEu">
+    <p class="q">15. Raimunda, ______ marido ha muerto en un accidente, debe esconder el cuerpo de su hermana.</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Pregúntate: ¿de qué género y número es la palabra que sigue inmediatamente a «cuyo/cuya»?</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="Y3V5YQ==" data-exp="wqtDdXlhwrsgY29uY3VlcmRhIGNvbiDCq3NpdHVhY2nDs27CuyAoZmVtZW5pbm8gc2luZ3VsYXIpLCBlbCBzdXN0YW50aXZvIHBvc2XDrWRvLCBubyBjb24gwqtsb3MgaW5taWdyYW50ZXPCuy4=">
+    <p class="q">16. Los inmigrantes, ______ situación legal es a menudo precaria, sufren discriminación laboral.</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>«Situación» es femenino singular — el relativo posesivo debe concordar con esa palabra.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="VHJhcyBwcmVwb3NpY2lvbmVzIGNvbW8gwqtwb3LCuywgwqtwYXJhwrssIMKrc2luwrssIGVsIHJlZ2lzdHJvIGZvcm1hbCBwcmVmaWVyZSDCq2VsIGN1YWwvbGEgY3VhbMK7IGN1YW5kbyBlbCBhbnRlY2VkZW50ZSBlcyB1bmEgY29zYSwgc29icmUgdG9kbyBwYXJhIGV2aXRhciBhbWJpZ8O8ZWRhZC4=">
+    <p class="q">17. «El pueblo por ______ pasaba el río era muy pobre.» (registro formal, tras preposición)</p>
+    <div class="opts">
+      <label><input type="radio" name="s3q5" value="0"> A) que</label>
+      <label><input type="radio" name="s3q5" value="1"> B) el cual</label>
+      <label><input type="radio" name="s3q5" value="2"> C) cuyo</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Antecedente de cosa + preposición + registro formal → el cual/la cual/los cuales/las cuales.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="bGEgbXVqZXIgY3V5YXMgaGlqYXMgZnVlcm9uIGVuY2FyY2VsYWRhc3xsYSBtdWplciBjdXlhcyBoaWphcyBmdWVyb24gZW5jZXJyYWRhcw==" data-exp="wqtDdXlhc8K7IGNvbmN1ZXJkYSBjb24gwqtoaWphc8K7IChmZW1lbmlubyBwbHVyYWwpLCBlbCBlbGVtZW50byBwb3Nlw61kbywgbm8gY29uIMKrbGEgbXVqZXLCuy4=">
+    <p class="q">18. Traduce: «the woman whose daughters were imprisoned»</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>El posesivo relativo debe concordar con «hijas», no con «la mujer».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <h2>4. Comparativos y superlativos: irregulares y el sufijo -ísimo <span class="pts">(6 puntos)</span></h2>
+  <div class="consigne">Domina los comparativos irregulares (mejor/peor/mayor/menor) y los cambios ortográficos del superlativo absoluto.</div>
+  <div class="glossaire">
+<dl>
+<dt>Comparativos regulares</dt><dd>más/menos + adjetivo + que; tan + adjetivo + como.</dd>
+<dt>Comparativos irregulares</dt><dd>bueno→<strong>mejor</strong>; malo→<strong>peor</strong>; grande (edad/importancia)→<strong>mayor</strong> (grande (tamaño)→más grande); pequeño (edad)→<strong>menor</strong> (pequeño (tamaño)→más pequeño).</dd>
+<dt>Superlativo absoluto -ísimo</dt><dd>fácil→facilísimo; rico→riquísimo (c→qu); largo→larguísimo (g→gu); feliz→felicísimo (z→c). Cambios ortográficos delante de -ísimo.</dd>
+</dl>
+</div>
+  <div class="item" data-type="text" data-a="bWF5b3I=" data-exp="wqtNYXlvcsK7IGVzIGVsIGNvbXBhcmF0aXZvIGlycmVndWxhciBkZSDCq2dyYW5kZcK7IHJlZmVyaWRvIGEgbGEgZWRhZDogQW5ndXN0aWFzIGVzIGxhIGhpamEgZGUgbcOhcyBlZGFkLg==">
+    <p class="q">19. Angustias es ______ que sus hermanas (comparativo irregular de «grande» referido a la edad — NO uses «más»).</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Se refiere a la edad, no al tamaño físico — usa la forma irregular, no «más grande».</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="bWVub3I=" data-exp="wqtNZW5vcsK7IGVzIGVsIGNvbXBhcmF0aXZvL3N1cGVybGF0aXZvIGlycmVndWxhciBkZSDCq3BlcXVlw7FvwrsgcmVmZXJpZG8gYSBsYSBlZGFkOiBBZGVsYSBlcyBsYSBoaWphIG3DoXMgam92ZW4u">
+    <p class="q">20. Adela es la ______ de las hijas de Bernarda (superlativo irregular de «pequeño» referido a la edad — la más joven).</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>De nuevo se trata de edad, no de tamaño físico.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="cGVvcg==" data-exp="wqtQZW9ywrsgZXMgZWwgY29tcGFyYXRpdm8gaXJyZWd1bGFyIGRlIMKrbWFsb8K7OyBudW5jYSBzZSBkaWNlIMKrbcOhcyBtYWxvwrsgZW4gZXN0ZSB0aXBvIGRlIGNvbXBhcmFjacOzbiBjdWFsaXRhdGl2YS4=">
+    <p class="q">21. Para muchos historiadores, la represión de la posguerra fue ______ que la de la propia guerra (comparativo irregular de «malo» — NO uses «más»).</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Es el comparativo irregular de «malo» — evita «más malo».</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="bGFyZ3Vpc2ltYXxsYXJndcOtc2ltYQ==" data-exp="U3VwZXJsYXRpdm8gYWJzb2x1dG8gZGUgwqtsYXJnb8K7OiBsYSDCq2fCuyBzZSBjb252aWVydGUgZW4gwqtndcK7IGRlbGFudGUgZGUgwqstw61zaW1vwrsgcGFyYSBjb25zZXJ2YXIgZWwgc29uaWRvIC9nLy4=">
+    <p class="q">22. Esta ruta de senderismo es muy larga; de hecho, es ______ (larguísima).</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Cambio ortográfico: g → gu delante de -ísimo (como en «pagar» → «pague»).</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="cmlxdWlzaW1hfHJpcXXDrXNpbWE=" data-exp="U3VwZXJsYXRpdm8gYWJzb2x1dG8gZGUgwqtyaWNvwrs6IGxhIMKrY8K7IHNlIGNvbnZpZXJ0ZSBlbiDCq3F1wrsgZGVsYW50ZSBkZSDCqy3DrXNpbW/CuyBwYXJhIG1hbnRlbmVyIGVsIHNvbmlkbyAvay8u">
+    <p class="q">23. La paella de la abuela es muy rica; está ______ (riquísima).</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Cambio ortográfico: c → qu delante de -ísimo (como en «buscar» → «busqué»).</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="Q3VhbmRvIHNlIGNvbXBhcmEgbGEgZWRhZCBkZSBwZXJzb25hcywgZWwgZXNwYcOxb2wgdXNhIGVsIGNvbXBhcmF0aXZvIGlycmVndWxhciDCq21heW9ywrssIG5vIMKrbcOhcyBncmFuZGXCuyAocXVlIHNlIHJlc2VydmEgcGFyYSBlbCB0YW1hw7FvIGbDrXNpY28pLg==">
+    <p class="q">24. «El coche de mi padre es más grande que el mío, pero mi hermano ______ que yo (en edad).»</p>
+    <div class="opts">
+      <label><input type="radio" name="s4q6" value="0"> A) es más grande</label>
+      <label><input type="radio" name="s4q6" value="1"> B) es mayor</label>
+      <label><input type="radio" name="s4q6" value="2"> C) es más viejo</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>La frase habla de edad entre hermanos, no de tamaño — elige la forma irregular apropiada.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <h2>5. El futuro perfecto y el condicional perfecto <span class="pts">(6 puntos)</span></h2>
+  <div class="consigne">Dos tiempos compuestos que suelen confundirse: uno mira hacia un punto futuro, el otro hacia una hipótesis sobre el pasado.</div>
+  <div class="glossaire">
+<dt>Futuro perfecto</dt>
+<dd>habré/habrás/habrá/habremos/habréis/habrán + participio → acción que estará terminada antes de un momento futuro, o conjetura sobre el pasado reciente: <em>«Para 2030, la situación <strong>habrá cambiado</strong>.» «Ya son las diez; <strong>habrá llegado</strong> ya.»</em></dd>
+<dt>Condicional perfecto</dt>
+<dd>habría/habrías/habría/habríamos/habríais/habrían + participio → lo que habría ocurrido en el pasado bajo otra condición (típico de la cláusula principal del condicional tipo 3): <em>«Sin ayuda, no lo <strong>habría conseguido</strong>.»</em></dd>
+</dl>
+</div>
+  <div class="item" data-type="text" data-a="aGFicmEgYXVtZW50YWRvfGhhYnLDoSBhdW1lbnRhZG8=" data-exp="RnV0dXJvIHBlcmZlY3RvOiBhY2Npw7NuIHF1ZSBlc3RhcsOhIGNvbXBsZXRhZGEgYW50ZXMgZGUgdW4gcHVudG8gZW4gZWwgZnV0dXJvIChlbCBhw7FvIDIwMzApLg==">
+    <p class="q">25. Para el año 2030, la inmigración en España ______ (aumentar) considerablemente, según los expertos.</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>«Habrá» + participio: acción terminada antes de una fecha futura.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="aGFicmEgbGxlZ2Fkb3xoYWJyw6EgbGxlZ2Fkbw==" data-exp="RnV0dXJvIHBlcmZlY3RvIGNvbiB2YWxvciBkZSBjb25qZXR1cmEgc29icmUgZWwgcGFzYWRvIHJlY2llbnRlOiBzZSBzdXBvbmUgcXVlIGxhIGFjY2nDs24geWEgc2UgaGEgY29tcGxldGFkby4=">
+    <p class="q">26. Ya son las diez de la noche; Raimunda ______ (llegar) a Madrid.</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>No es una predicción sobre el futuro, sino una suposición sobre algo que probablemente ya ha ocurrido.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="aGFicmlhIHBvZGlkb3xoYWJyw61hIHBvZGlkbw==" data-exp="Q29uZGljaW9uYWwgcGVyZmVjdG86IGxvIHF1ZSBoYWJyw61hIChvIG5vIGhhYnLDrWEpIHN1Y2VkaWRvIGVuIGVsIHBhc2FkbyBiYWpvIHVuYSBjb25kaWNpw7NuIGRpc3RpbnRhIChhcXXDrSwgc2luIGxhIGF5dWRhIGRlIGxhcyB2ZWNpbmFzKS4=">
+    <p class="q">27. Sin la ayuda de sus vecinas, Raimunda no ______ (poder) resolver el problema.</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Verbo irregular «poder» en condicional perfecto: habría + podido.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="aGFicmlhIGFjdHVhZG98aGFicsOtYSBhY3R1YWRv" data-exp="Q29uZGljaW9uYWwgcGVyZmVjdG8gZW4gbGEgb3JhY2nDs24gcHJpbmNpcGFsIGRlIHVuIGNvbmRpY2lvbmFsIHRpcG8gMzogZXhwcmVzYSBlbCByZXN1bHRhZG8gaGlwb3TDqXRpY28gZGUgdW5hIGNvbmRpY2nDs24gcGFzYWRhIG5vIGN1bXBsaWRhLg==">
+    <p class="q">28. Bernarda ______ (actuar) de otra manera si hubiera comprendido mejor a sus hijas.</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Es la consecuencia hipotética en el pasado — condicional perfecto, verbo regular en -ar.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="U2UgdHJhdGEgZGUgdW5hIGFjY2nDs24gcXVlIGVzdGFyw6EgdGVybWluYWRhIGFudGVzIGRlIHVuIHB1bnRvIGZ1dHVybyBjb25jcmV0byAoMjAyNSk6IGZ1dHVybyBwZXJmZWN0bywgbm8gY29uZGljaW9uYWwgcGVyZmVjdG8gbmkgZnV0dXJvIHNpbXBsZS4=">
+    <p class="q">29. «By 2025 the government ___ the new immigration law.» (conjetura sobre una acción que estará ya completada)</p>
+    <div class="opts">
+      <label><input type="radio" name="s5q5" value="0"> A) habrá aprobado</label>
+      <label><input type="radio" name="s5q5" value="1"> B) habría aprobado</label>
+      <label><input type="radio" name="s5q5" value="2"> C) aprobará</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Fíjate en «by 2025»: indica que la acción estará completada para esa fecha, no una hipótesis sobre el pasado.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="aGFicmlhbiBlbWlncmFkbyBzaSBsYSBjcmlzaXMgZWNvbm9taWNhIGh1YmllcmEgY29udGludWFkb3xoYWJyaWFuIGVtaWdyYWRvIHNpIGxhIGNyaXNpcyBlY29ub21pY2EgaHViaWVzZSBjb250aW51YWRvfGhhYnLDrWFuIGVtaWdyYWRvIHNpIGxhIGNyaXNpcyBlY29uw7NtaWNhIGh1YmllcmEgY29udGludWFkb3xoYWJyw61hbiBlbWlncmFkbyBzaSBsYSBjcmlzaXMgZWNvbsOzbWljYSBodWJpZXNlIGNvbnRpbnVhZG8=" data-exp="Q29uZGljaW9uYWwgdGlwbyAzIGNvbXBsZXRvOiBjb25kaWNpb25hbCBwZXJmZWN0byAowqtoYWJyw61hbiBlbWlncmFkb8K7KSArIHBsdXNjdWFtcGVyZmVjdG8gZGUgc3VianVudGl2byBlbiBsYSBjbMOhdXN1bGEgY29uIMKrc2nCuyAowqtodWJpZXJhL2h1Ymllc2UgY29udGludWFkb8K7KS4=">
+    <p class="q">30. Traduce: «They would have emigrated if the economic crisis had continued.»</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Recuerda el orden: condicional perfecto en la principal, pluscuamperfecto de subjuntivo tras «si».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <h2>6. Ser vs. estar con adjetivos que cambian de significado <span class="pts">(6 puntos)</span></h2>
+  <div class="consigne">Estos pares de adjetivos son una fuente clásica de errores al nivel C1. Aprende el matiz de significado, no solo la regla general.</div>
+  <div class="glossaire">
+<dl>
+<dt>ser listo/a</dt><dd>ser inteligente, astuto — <strong>estar</strong> listo/a: estar preparado.</dd>
+<dt>ser aburrido/a</dt><dd>ser una persona/cosa que aburre (característica) — <strong>estar</strong> aburrido/a: sentir aburrimiento en ese momento.</dd>
+<dt>ser rico/a</dt><dd>tener mucho dinero — <strong>estar</strong> rico/a: estar sabroso (comida).</dd>
+<dt>ser malo/a</dt><dd>tener mala calidad o mal carácter — <strong>estar</strong> malo/a: estar enfermo, o (comida) estar en mal estado.</dd>
+<dt>ser seguro/a</dt><dd>ser un lugar/cosa sin peligro — <strong>estar</strong> seguro/a: tener certeza de algo.</dd>
+</dl>
+</div>
+  <div class="item" data-type="text" data-a="ZXM=" data-exp="wqtTZXIgYWJ1cnJpZG/CuyBkZXNjcmliZSB1bmEgY2FyYWN0ZXLDrXN0aWNhIHBlcm1hbmVudGUgKGxhIHZpZGEgYWxsw60gZXMsIHBvciBuYXR1cmFsZXphLCBtb27Ds3RvbmEpLCBubyB1biBlc3RhZG8gbW9tZW50w6FuZW8u">
+    <p class="q">31. La Poncia piensa que la vida en casa de Bernarda ______ (ser) muy aburrida — no pasa nunca nada.</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Es una característica inherente de esa vida, no una sensación pasajera de una persona.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="ZXN0YW58ZXN0w6Fu" data-exp="wqtFc3RhciBhYnVycmlkb8K7IGV4cHJlc2EgZWwgZXN0YWRvIG8gc2Vuc2FjacOzbiBtb21lbnTDoW5lYSBkZSBhYnVycmltaWVudG8gcXVlIHNpZW50ZW4gbGFzIGhpamFzIGVuIGVzZSBtb21lbnRvLg==">
+    <p class="q">32. Después de tantas horas encerradas en casa, las hijas ______ (estar) aburridas.</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Aquí se describe cómo se sienten en un momento concreto, no una característica permanente.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="ZXM=" data-exp="wqtTZXIgbGlzdG/CuyBzaWduaWZpY2Egc2VyIGludGVsaWdlbnRlIG8gYXN0dXRvIOKAlCB1bmEgY3VhbGlkYWQgZGUgY2Fyw6FjdGVyIGRlIEFkZWxhLg==">
+    <p class="q">33. Adela ______ (ser) muy lista: siempre encuentra la manera de escaparse un momento.</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Se describe una cualidad de inteligencia/astucia, no si algo está terminado o preparado.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="ZXN0YW58ZXN0w6Fu" data-exp="wqtFc3RhciBsaXN0b8K7IHNpZ25pZmljYSBlc3RhciBwcmVwYXJhZG8vdGVybWluYWRvIOKAlCBhcXXDrSBzZSBwcmVndW50YSBzaSBsb3MgZG9jdW1lbnRvcyBlc3TDoW4geWEgY29tcGxldGFkb3Mu">
+    <p class="q">34. ¿______ (estar) listos ya los documentos de la solicitud de asilo?</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Se pregunta por el estado de preparación de unos documentos, no por su inteligencia.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqtFc3RhciByaWNvwrsgc2UgdXNhIHBhcmEgZGVzY3JpYmlyIGVsIHNhYm9yIGFncmFkYWJsZSBkZSB1bmEgY29taWRhOyDCq3NlciByaWNvwrsgc2lnbmlmaWNhcsOtYSBxdWUgbGEgY29taWRhIGVzIGVjb27Ds21pY2FtZW50ZSBhZGluZXJhZGEsIGxvIGN1YWwgbm8gdGllbmUgc2VudGlkbyBhcXXDrS4=">
+    <p class="q">35. «La comida de la abuela siempre ___ muy rica.»</p>
+    <div class="opts">
+      <label><input type="radio" name="s6q5" value="0"> A) es</label>
+      <label><input type="radio" name="s6q5" value="1"> B) está</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Se habla del sabor de la comida, un estado sensorial — no de riqueza económica.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="ZXN0b3kgYWJ1cnJpZG8gZW4gZXN0YSBjbGFzZXxlc3RveSBhYnVycmlkYSBlbiBlc3RhIGNsYXNl" data-exp="U2UgdHJhdGEgZGUgdW5hIHNlbnNhY2nDs24gbW9tZW50w6FuZWEgZGVsIGhhYmxhbnRlLCBubyBkZSB1bmEgY2FyYWN0ZXLDrXN0aWNhIHBlcm1hbmVudGUgZGUgc3UgcGVyc29uYWxpZGFkLCBhc8OtIHF1ZSBzZSB1c2Egwqtlc3RhciBhYnVycmlkby9hwrsu">
+    <p class="q">36. Traduce: «I am bored in this class.»</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>¿Es una sensación pasajera o una característica de personalidad? Elige ser/estar en consecuencia.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <button class="btn" onclick="checkAll()">✔ Comprobar mis respuestas</button>
+  <button class="btn second" onclick="resetAll()">↺ Empezar de nuevo</button>
+  <div class="score-banner" id="scoreBanner"></div>
+
+  <div class="stretch">
+    <h2>Desafío A* — Traducción exigente</h2>
+    <div class="consigne">Traduce las tres frases siguientes al español. Cada una exige combinar <strong>tres</strong> estructuras trabajadas en este taller: el pluscuamperfecto de subjuntivo (condicional tipo 3), la elusión de la pasiva con «se», y el condicional perfecto. Después de comprobar tu respuesta, compara con el modelo que aparece en la retroalimentación.</div>
+  <div class="item" data-type="text" data-a="c2kgZnJhbmNvIGh1YmllcmEgbXVlcnRvIGFudGVzIGxhIGRlbW9jcmFjaWEgZXNwYW5vbGEgc2UgaGFicmlhIGVzdGFibGVjaWRvIGFudGVzfHNpIGZyYW5jbyBodWJpZXNlIG11ZXJ0byBhbnRlcyBsYSBkZW1vY3JhY2lhIGVzcGFub2xhIHNlIGhhYnJpYSBlc3RhYmxlY2lkbyBhbnRlc3xzaSBmcmFuY28gaHViaWVyYSBtdWVydG8gYW50ZXMsIGxhIGRlbW9jcmFjaWEgZXNwYcOxb2xhIHNlIGhhYnLDrWEgZXN0YWJsZWNpZG8gYW50ZXN8c2kgZnJhbmNvIGh1Ymllc2UgbXVlcnRvIGFudGVzLCBsYSBkZW1vY3JhY2lhIGVzcGHDsW9sYSBzZSBoYWJyw61hIGVzdGFibGVjaWRvIGFudGVz" data-exp="TW9kZWxvOiDCq1NpIEZyYW5jbyBodWJpZXJhIG11ZXJ0byBhbnRlcywgbGEgZGVtb2NyYWNpYSBlc3Bhw7FvbGEgc2UgaGFicsOtYSBlc3RhYmxlY2lkbyBhbnRlcy7CuyDigJQgcGx1c2N1YW1wZXJmZWN0byBkZSBzdWJqdW50aXZvIChodWJpZXJhIG11ZXJ0bykgKyBjb25kaWNpb25hbCBwZXJmZWN0byBjb24gwqtzZcK7IHBhc2l2byAoc2UgaGFicsOtYSBlc3RhYmxlY2lkbyku">
+    <p class="q">37. «If Franco had died earlier, Spanish democracy would have been established sooner.»</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Estructura: Si + pluscuamperfecto de subjuntivo, + condicional perfecto (usa «se» para evitar la pasiva con «ser»).</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="c2kgc2UgaHViaWVyYW4gaW52ZXJ0aWRvIG1hcyByZWN1cnNvcyBsYSBzaXR1YWNpb24gZGUgbG9zIGlubWlncmFudGVzIGhhYnJpYSBtZWpvcmFkb3xzaSBzZSBodWJpZXNlbiBpbnZlcnRpZG8gbWFzIHJlY3Vyc29zIGxhIHNpdHVhY2lvbiBkZSBsb3MgaW5taWdyYW50ZXMgaGFicmlhIG1lam9yYWRvfHNpIHNlIGh1YmllcmFuIGludmVydGlkbyBtw6FzIHJlY3Vyc29zLCBsYSBzaXR1YWNpw7NuIGRlIGxvcyBpbm1pZ3JhbnRlcyBoYWJyw61hIG1lam9yYWRvfHNpIHNlIGh1Ymllc2VuIGludmVydGlkbyBtw6FzIHJlY3Vyc29zLCBsYSBzaXR1YWNpw7NuIGRlIGxvcyBpbm1pZ3JhbnRlcyBoYWJyw61hIG1lam9yYWRv" data-exp="TW9kZWxvOiDCq1NpIHNlIGh1YmllcmFuIGludmVydGlkbyBtw6FzIHJlY3Vyc29zLCBsYSBzaXR1YWNpw7NuIGRlIGxvcyBpbm1pZ3JhbnRlcyBoYWJyw61hIG1lam9yYWRvLsK7IOKAlCBlbCDCq3NlwrsgcGFzaXZvIGFwYXJlY2UgeWEgZGVudHJvIGRlIGxhIHByb3BpYSBjbMOhdXN1bGEgY29uIMKrc2nCuyAoc2UgaHViaWVyYW4gaW52ZXJ0aWRvKSwgc2VndWlkbyBkZWwgY29uZGljaW9uYWwgcGVyZmVjdG8u">
+    <p class="q">38. «If more resources had been invested, the immigrants' situation would have improved.»</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Aquí la pasiva evitada con «se» va dentro de la cláusula con «si»: «si se hubieran/hubiesen invertido…».</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="c2kgYmVybmFyZGEgaHViaWVyYSBzaWRvIG1lbm9zIGVzdHJpY3RhIHF1aXphcyBubyBzZSBoYWJyaWEgcHJvZHVjaWRvIHVuYSB0cmFnZWRpYXxzaSBiZXJuYXJkYSBodWJpZXNlIHNpZG8gbWVub3MgZXN0cmljdGEgcXVpemFzIG5vIHNlIGhhYnJpYSBwcm9kdWNpZG8gdW5hIHRyYWdlZGlhfHNpIGJlcm5hcmRhIGh1YmllcmEgc2lkbyBtZW5vcyBlc3RyaWN0YSwgcXVpesOhcyBubyBzZSBoYWJyw61hIHByb2R1Y2lkbyB1bmEgdHJhZ2VkaWF8c2kgYmVybmFyZGEgaHViaWVzZSBzaWRvIG1lbm9zIGVzdHJpY3RhLCBxdWl6w6FzIG5vIHNlIGhhYnLDrWEgcHJvZHVjaWRvIHVuYSB0cmFnZWRpYXxzaSBiZXJuYXJkYSBodWJpZXJhIHNpZG8gbWVub3MgZXN0cmljdGEsIHRhbCB2ZXogbm8gc2UgaGFicmlhIHByb2R1Y2lkbyB1bmEgdHJhZ2VkaWE=" data-exp="TW9kZWxvOiDCq1NpIEJlcm5hcmRhIGh1YmllcmEgc2lkbyBtZW5vcyBlc3RyaWN0YSwgcXVpesOhcyBubyBzZSBoYWJyw61hIHByb2R1Y2lkbyB1bmEgdHJhZ2VkaWEuwrsg4oCUIHBsdXNjdWFtcGVyZmVjdG8gZGUgc3VianVudGl2byArIGNvbmRpY2lvbmFsIHBlcmZlY3RvIGNvbiDCq3NlwrsgcGFzaXZvIChzZSBoYWJyw61hIHByb2R1Y2lkbykgZW4gbHVnYXIgZGUgwqt1bmEgdHJhZ2VkaWEgaGFicsOtYSBzaWRvIHByb2R1Y2lkYcK7Lg==">
+    <p class="q">39. «If Bernarda had been less strict, perhaps a tragedy would not have occurred.»</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Evita la pasiva con «ser»: usa «se habría producido» en vez de «habría sido producida».</div></details>
+    <div class="fb"></div>
+  </div>
+  </div>
+
+  <button class="btn dl" onclick="downloadResults()">📥 Descargar mis resultados</button>
+</div>
+
+<button id="padToggle" onclick="togglePad()">á ñ ¿ — Acentos</button>
+<div id="accentPad" style="display:none">
+  <div class="drag">⋮⋮ mover</div>
+</div>
+
+<script>
+/* ================= HOUSE ENGINE — do not weaken ================= */
+function d(b){try{return decodeURIComponent(escape(atob(b)))}catch(e){return""}}
+function e64(s){return btoa(unescape(encodeURIComponent(s)))}
+
+function norm(s){return (s||"").toLowerCase().replace(/[’']/g,"'").replace(/\s+/g," ").trim()}
+function deacc(s){return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"")}
+
+function judge(val, accepted){
+  const v=norm(val);
+  if(accepted.some(a=>norm(a)===v)) return "ok";
+  if(accepted.some(a=>deacc(a)===deacc(val))) return "accents";
+  return "bad";
+}
+
+let results=[];
+
+function checkAll(){
+  results=[]; let score=0, max=0;
+  document.querySelectorAll(".item").forEach((it,idx)=>{
+    const type=it.dataset.type, fb=it.querySelector(".fb");
+    const label=(it.querySelector(".q")?it.querySelector(".q").textContent.trim():("Desafío "+(idx+1))).slice(0,90);
+    if(type==="mcq"){
+      max++;
+      const sel=it.querySelector("input[type=radio]:checked");
+      const correct=d(it.dataset.a), exp=d(it.dataset.exp||"");
+      if(!sel){fb.className="fb bad";fb.textContent="⚠ Responde a la pregunta.";results.push({label,given:"—",ok:false});return}
+      if(sel.value===correct){score++;fb.className="fb ok";fb.textContent="✔ Correcto. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:true});}
+      else{fb.className="fb bad";fb.textContent="✘ Incorrecto. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:false});}
+    }
+    if(type==="text"){
+      max++;
+      const inp=it.querySelector("input,textarea");
+      const accepted=d(it.dataset.a).split("|"), exp=d(it.dataset.exp||"");
+      const r=judge(inp.value,accepted);
+      if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correcto. "+exp;}
+      else if(r==="accents"){fb.className="fb almost";fb.textContent="≈ ¡Casi! Revisa los acentos: "+accepted[0]+". "+exp;}
+      else{fb.className="fb bad";fb.textContent="✘ Respuesta esperada: "+accepted[0]+". "+exp;}
+      results.push({label,given:inp.value||"—",ok:r==="ok"});
+    }
+    if(type==="free"){
+      const ta=it.querySelector("textarea"), min=parseInt(it.dataset.min||"40");
+      const words=(ta.value.trim().match(/\S+/g)||[]).length;
+      if(words===0){fb.className="fb";fb.textContent="";}
+      else if(words<min){fb.className="fb almost";fb.textContent="≈ "+words+" palabras — intenta llegar a "+min+". Desarrolla con un conector (sin embargo, no obstante…).";}
+      else{fb.className="fb ok";fb.textContent="✔ "+words+" palabras. Compara ahora con el modelo y mejora una frase.";}
+      results.push({label,given:ta.value||"—",ok:words>=min});
+    }
+  });
+  const b=document.getElementById("scoreBanner");
+  b.style.display="block";
+  const pct=max?Math.round(100*score/max):0;
+  b.textContent="Puntuación: "+score+" / "+max+" ("+pct+" %) — "+(pct>=80?"¡Excelente!":pct>=60?"Bien — corrige los puntos señalados.":"Relee las pistas e inténtalo otra vez.");
+  window._score={score,max};
+}
+
+function resetAll(){
+  document.querySelectorAll(".item input[type=text], .item textarea").forEach(i=>i.value="");
+  document.querySelectorAll(".item input[type=radio]").forEach(r=>r.checked=false);
+  document.querySelectorAll(".fb").forEach(f=>{f.className="fb";f.textContent=""});
+  document.getElementById("scoreBanner").style.display="none";
+  results=[];window._score=null;window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function downloadResults(){
+  const name=document.getElementById("studentName").value.trim();
+  if(!name){alert("Escribe primero tu nombre al principio de la página.");document.getElementById("studentName").focus();return}
+  if(!window._score){alert("Pulsa primero «Comprobar mis respuestas».");return}
+  let txt="RESULTADOS — "+document.title+"\n";
+  txt+="Alumno/a: "+name+"\nFecha: "+new Date().toLocaleString("es-ES")+"\n";
+  txt+="Puntuación: "+window._score.score+" / "+window._score.max+"\n";
+  txt+="".padEnd(60,"=")+"\n\n";
+  results.forEach((r,i)=>{txt+=(i+1)+". "+r.label+"\n   Respuesta: "+r.given+"\n   "+(r.ok?"✔ correcto":"✘ repasar")+"\n\n";});
+  const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(document.title.split("—")[0].trim()||"resultados").replace(/\s+/g,"_")+"_"+name.replace(/\s+/g,"_")+".txt";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+}
+
+/* ---------- Accent pad ---------- */
+const CHARS=["á","é","í","ó","ú","ü","ñ","¿","¡","«","»","Á","É","Í","Ó","Ú","Ñ"];
+let lastField=null;
+document.addEventListener("focusin",e=>{
+  if(e.target.matches("input[type=text],textarea") && e.target.id!=="studentName") lastField=e.target;
+  if(e.target.id==="studentName") lastField=e.target;
+});
+const pad=document.getElementById("accentPad");
+CHARS.forEach(c=>{
+  const b=document.createElement("button");
+  b.textContent=c; if(c===c.toUpperCase()&&c.toLowerCase()!==c) b.className="maj";
+  b.addEventListener("mousedown",ev=>{
+    ev.preventDefault();
+    if(!lastField) return;
+    const s=lastField.selectionStart??lastField.value.length, t=lastField.selectionEnd??s;
+    lastField.value=lastField.value.slice(0,s)+c+lastField.value.slice(t);
+    lastField.selectionStart=lastField.selectionEnd=s+c.length;
+    lastField.focus();
+  });
+  pad.appendChild(b);
+});
+function togglePad(){
+  const show=pad.style.display==="none";
+  pad.style.display=show?"flex":"none";
+  document.getElementById("padToggle").style.display=show?"none":"block";
+  if(show){
+    if(!pad.querySelector(".closer")){
+      const x=document.createElement("button");x.textContent="✕";x.className="closer";
+      x.addEventListener("mousedown",ev=>{ev.preventDefault();togglePad()});pad.appendChild(x);
+    }
+  }
+}
+(function(){
+  const h=pad.querySelector(".drag");let sx,sy,ox,oy,drag=false;
+  h.addEventListener("mousedown",e=>{drag=true;sx=e.clientX;sy=e.clientY;const r=pad.getBoundingClientRect();ox=r.left;oy=r.top;
+    pad.style.right="auto";pad.style.bottom="auto";e.preventDefault()});
+  document.addEventListener("mousemove",e=>{if(!drag)return;pad.style.left=(ox+e.clientX-sx)+"px";pad.style.top=(oy+e.clientY-sy)+"px"});
+  document.addEventListener("mouseup",()=>drag=false);
+})();
+
+</script>
+</body>
+</html>

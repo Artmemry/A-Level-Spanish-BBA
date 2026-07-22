@@ -1,205 +1,525 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Práctica del Pretérito</title>
-    <style>
-        .exercise {margin: 20px; padding: 20px; border: 1px solid #ccc; background: white;}
-        .question {margin: 15px 0;}
-        input {width: 250px; padding: 5px; margin-left: 10px; font-size: 16px;}
-        .correct {background: #e6ffe6; border: 2px solid green;}
-        .incorrect {background: #ffe6e6; border: 2px solid red;}
-        .accent-buttons {margin: 10px 0;}
-        .accent-btn {cursor: pointer; padding: 8px 12px; margin: 3px; background: #f0f0f0; border: 1px solid #ccc;}
-        .score {font-weight: bold; margin-top: 10px; font-size: 18px;}
-        h2 {color: #2c3e50;}
-        body {background: #f8f9fa; padding: 20px;}
-        .print-btn {background: #28a745; margin-left: 10px;}
-        
-        @media print {
-            .accent-buttons, button, input { display: none; }
-            .print-version p {margin: 10px 0; font-size: 14pt;}
-            .correct-print {color: green; content: " ✓";}
-            .incorrect-print {color: red; content: " ✗";}
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Práctica del Pretérito Indefinido — A-Level Spanish</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 120px}
+  .wrap{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:28px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+  .name-row input{padding:9px 12px;font-size:1em;border:2px solid var(--accent);border-radius:6px;width:280px;font-family:inherit}
+  .item{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:8px}
+  .item input[type=text],.item textarea{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px}
+  .item textarea{min-height:90px;resize:vertical}
+  .opts label{display:block;padding:7px 10px;margin:5px 0;border:1.5px solid var(--line);border-radius:5px;cursor:pointer}
+  .opts label:hover{background:#f2f7fa}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  .fb{display:none;margin-top:8px;padding:9px 12px;border-radius:6px;font-size:.95em}
+  .fb.ok{display:block;background:#e9f5ee;border-left:4px solid var(--ok);color:var(--ok)}
+  .fb.almost{display:block;background:#fff8ec;border-left:4px solid var(--warn);color:var(--warn)}
+  .fb.bad{display:block;background:#fbeeee;border-left:4px solid var(--bad);color:var(--bad)}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px;margin:26px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:11px 20px;font-size:1em;font-family:inherit;
+       border-radius:6px;cursor:pointer;margin:6px 6px 6px 0}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.dl{background:var(--ok)}
+  .btn.second{background:#5a6a78}
+  .score-banner{display:none;margin:18px 0;padding:14px;border-radius:8px;background:#f2f7fa;
+       border:2px solid var(--accent);font-size:1.15em;font-weight:bold;color:var(--accent)}
+  /* ---------- Floating accent pad ---------- */
+  #accentPad{position:fixed;bottom:18px;right:18px;background:#fff;border:2px solid var(--accent);
+       border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.25);padding:10px;z-index:1000;
+       display:flex;flex-wrap:wrap;gap:5px;max-width:340px;user-select:none}
+  #accentPad .drag{width:100%;cursor:move;font-size:.8em;color:#5a6a78;text-align:center;padding-bottom:4px}
+  #accentPad button{font-size:1.05em;font-family:inherit;min-width:34px;padding:6px 4px;border:1px solid var(--line);
+       border-radius:5px;background:#f2f7fa;cursor:pointer}
+  #accentPad button:hover{background:var(--accent);color:#fff}
+  #accentPad .maj{font-size:.8em;background:#e6e9ec}
+  #padToggle{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--accent);color:#fff;
+       border:none;border-radius:50px;padding:12px 18px;font-size:1em;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  @media print{#accentPad,#padToggle{display:none}}
+</style>
 </head>
 <body>
+<div class="wrap">
+  <header>
+    <h1>Práctica del Pretérito Indefinido</h1>
+    <p class="meta">A-Level Spanish (Edexcel) · Gramática · Duración recomendada: 40 min</p>
+  </header>
 
-<div class="exercise">
-    <h2>PARTE I - Complete con el verbo indicado en el pretérito</h2>
-    <div class="accent-buttons">
-        <button class="accent-btn" onclick="insertChar('á')">á</button>
-        <button class="accent-btn" onclick="insertChar('é')">é</button>
-        <button class="accent-btn" onclick="insertchar('í')">í</button>
-        <button class="accent-btn" onclick="insertchar('ó')">ó</button>
-        <button class="accent-btn" onclick="insertchar('ú')">ú</button>
-        <button class="accent-btn" onclick="insertchar('ñ')">ñ</button>
+  <div class="name-row">
+    <label for="studentName"><strong>Tu nombre:</strong></label>
+    <input type="text" id="studentName" placeholder="Nombre APELLIDO" maxlength="60">
+  </div>
+
+  <div class="consigne"><strong>Instrucciones:</strong> Completa cada frase con la forma correcta del
+  pretérito indefinido, o elige la opción correcta. Usa el teclado de acentos si lo necesitas.
+  Al terminar, pulsa «Comprobar» y descarga tus resultados.</div>
+
+  <!-- ============ EJERCICIO 1 ============ -->
+  <h2>Ejercicio 1 · Verbos regulares y cambios ortográficos <span class="pts">(8 puntos)</span></h2>
+  <div class="consigne">Escribe la forma correcta del pretérito indefinido. Presta atención a los cambios
+  ortográficos delante de -é (verbos en -car, -gar, -zar).</div>
+
+  <div class="item" data-type="text" data-a="dmlhamFtb3M=" data-exp="wqtWaWFqYW1vc8K7IGVzIGxhIGZvcm1hIGRlIG5vc290cm9zIGRlbCBwcmV0w6lyaXRvIGRlIHVuIHZlcmJvIHJlZ3VsYXIgZW4gLWFyLiBPam86IGVuIG5vc290cm9zLCAtYXIgeSAtaXIgY29pbmNpZGVuIGNvbiBlbCBwcmVzZW50ZTsgc29sbyBlbCBjb250ZXh0byB0ZW1wb3JhbCBkaXN0aW5ndWUgZWwgdGllbXBvLg==">
+    <p class="q">1. El verano pasado, mi familia y yo (viajar) ______ a Andalucía.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Sujeto «mi familia y yo» = nosotros. Los verbos en -ar regulares añaden -amos en la 1.ª persona del plural.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="Y29tacOz" data-exp="wqtDb21pw7PCuyA9IGNvbS0gKyAtacOzICgzLsKqIHBlcnNvbmEgc2luZ3VsYXIgZGUgdW4gdmVyYm8gLWVyIHJlZ3VsYXIpLg==">
+    <p class="q">2. Ana (comer) ______ paella por primera vez en Valencia.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>3.ª persona singular (Ana = ella). Los verbos -er/-ir regulares terminan en -ió.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZXNjcmliaXN0ZQ==" data-exp="wqtFc2NyaWJpc3RlwrsgPSBlc2NyaWItICsgLWlzdGUgKDIuwqogcGVyc29uYSBzaW5ndWxhciwgdmVyYm9zIC1lci8taXIpLg==">
+    <p class="q">3. ¿(Escribir – tú) ______ la redacción anoche?</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Terminación -iste para tú en los verbos -er/-ir.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGxlZ3XDqQ==" data-exp="wqtMbGVndcOpwrsgKG5vIMKrbGxlZ8OpwrspOiBsYSBnIG5lY2VzaXRhIHVuYSB1IHBhcmEgc29uYXIgL2cvIGRlbGFudGUgZGUgZS4gTWlzbW8gcGF0csOzbiBxdWUganVnYXLihpJqdWd1w6ksIHBhZ2Fy4oaScGFndcOpLg==">
+    <p class="q">4. Anoche (llegar – yo) ______ tarde a casa porque perdí el autobús.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Los verbos en -gar cambian g→gu delante de -é para conservar el sonido /g/.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="YnVzcXXDqQ==" data-exp="wqtCdXNxdcOpwrs6IGxhIGMgc2UgY29udmllcnRlIGVuIHF1IHBhcmEgbWFudGVuZXIgZWwgc29uaWRvIC9rLyBkZWxhbnRlIGRlIGUuIElndWFsIHF1ZSBzYWNhcuKGknNhcXXDqSwgdG9jYXLihpJ0b3F1w6ku">
+    <p class="q">5. El sábado (buscar – yo) ______ información sobre la Guerra Civil para mi trabajo de historia.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Los verbos en -car cambian c→qu delante de -é.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZW1wZWPDqQ==" data-exp="wqtFbXBlY8OpwrsgKG5vIMKrZW1wZXrDqcK7KTogbGEgeiBzZSBjb252aWVydGUgZW4gYyBkZWxhbnRlIGRlIGUuIElndWFsIHF1ZSBjcnV6YXLihpJjcnVjw6ksIGNvbWVuemFy4oaSY29tZW5jw6ku">
+    <p class="q">6. (Empezar – yo) ______ a leer <em>La casa de Bernarda Alba</em> la semana pasada.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Los verbos en -zar cambian z→c delante de -é.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="anVnYW1vcw==" data-exp="wqtKdWdhbW9zwrsg4oCUIGVuIG5vc290cm9zIG5vIGhheSBjYW1iaW8gb3J0b2dyw6FmaWNvIHBvcnF1ZSBubyBoYXkgLcOpOyBlbCBjYW1iaW8gZ+KGkmd1IHNvbG8gb2N1cnJlIGRlbGFudGUgZGUgZSAoMS7CqiBwZXJzb25hIHNpbmd1bGFyOiBqdWd1w6kpLg==">
+    <p class="q">7. Mis amigos y yo (jugar) ______ al fútbol en el parque el domingo.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Sujeto nosotros: aquí no hay cambio ortográfico porque no va delante de -é.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="c2FxdcOp" data-exp="wqtTYXF1w6nCuzogY+KGknF1IGRlbGFudGUgZGUgZSwgaWd1YWwgcXVlIGJ1c2NhcuKGkmJ1c3F1w6ku">
+    <p class="q">8. (Sacar – yo) ______ muy buenas notas en el examen de español.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>-car → qu delante de -é.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EJERCICIO 2 ============ -->
+  <h2>Ejercicio 2 · Pretéritos fuertes (raíz irregular) <span class="pts">(8 puntos)</span></h2>
+  <div class="consigne">Estos verbos tienen una raíz irregular en el pretérito y terminaciones
+  sin tilde (-e, -iste, -o, -imos, -isteis, -ieron/-eron).</div>
+
+  <div class="item" data-type="text" data-a="dHV2ZQ==" data-exp="wqtUdXZlwrs6IHJhw616IGlycmVndWxhciB0dXYtICsgdGVybWluYWNpw7NuIC1lLiBOdW5jYSBsbGV2YSB0aWxkZSBlbiBsb3MgcHJldMOpcml0b3MgZnVlcnRlcy4=">
+    <p class="q">9. Ayer (tener – yo) ______ una entrevista de trabajo muy importante.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>tener → raíz tuv-, terminación -e (sin tilde).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZXN0dXZpZXJvbg==" data-exp="wqtFc3R1dmllcm9uwrs6IHJhw616IGVzdHV2LSArIC1pZXJvbiAoMy7CqiBwZXJzb25hIGRlbCBwbHVyYWwgZGUgbG9zIHByZXTDqXJpdG9zIGZ1ZXJ0ZXMpLg==">
+    <p class="q">10. El año pasado, mis abuelos (estar) ______ en Argentina durante seis meses.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>estar → raíz estuv-, terminación -ieron para ellos.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="cHVkaW1vcw==" data-exp="wqtQdWRpbW9zwrs6IHJhw616IGlycmVndWxhciBwdWQtICsgLWltb3Mu">
+    <p class="q">11. Al final, (poder – nosotros) ______ terminar el proyecto sobre la inmigración a tiempo.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>poder → raíz pud-, terminación -imos.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="cHVzbw==" data-exp="wqtQdXNvwrs6IHJhw616IHB1cy0gKyAtby4gTm8gbG8gY29uZnVuZGFzIGNvbiDCq3Bhc8OzwrsgKHBhc2FyKS4=">
+    <p class="q">12. El profesor (poner) ______ un fragmento de <em>Volver</em> para analizar el uso del pretérito.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>poner → raíz pus-, terminación -o (sin tilde) para él/ella.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="aGljaW1vcw==" data-exp="wqtIaWNpbW9zwrs6IHJhw616IGhpYy0gKyAtaW1vcy4gT2pvIGNvbiDCq2hpem/CuyAow6lsL2VsbGEpLCBkb25kZSBsYSBjIGNhbWJpYSBhIHogcGFyYSBjb25zZXJ2YXIgZWwgc29uaWRvLg==">
+    <p class="q">13. Nosotros (hacer) ______ los deberes de gramática antes de cenar.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>hacer → raíz hic-, terminación -imos.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="dmluaWVyb24=" data-exp="wqtWaW5pZXJvbsK7OiByYcOteiBpcnJlZ3VsYXIgdmluLSArIC1pZXJvbi4=">
+    <p class="q">14. Mis primos (venir) ______ a visitarnos durante las vacaciones de verano.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>venir → raíz vin-, terminación -ieron.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZGlqbw==" data-exp="wqtEaWpvwrs6IHJhw616IGRpai0gKyAtby4gRW4gbGEgMy7CqiBwZXJzb25hIGRlbCBwbHVyYWwgc2Vyw61hIMKrZGlqZXJvbsK7IChzaW4gaSksIG5vIMKrZGlqaWVyb27Cuy4=">
+    <p class="q">15. Ella no (decir) ______ la verdad sobre lo que pasó aquella noche.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>decir → raíz dij-, terminación -o. Los verbos con raíz en -j pierden la i de -ieron.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="dHJhamVyb24=" data-exp="wqtUcmFqZXJvbsK7OiByYcOteiB0cmFqLSArIC1lcm9uLiBMb3MgdmVyYm9zIGNvbiByYcOteiB0ZXJtaW5hZGEgZW4gaiAoZGVjaXIsIHRyYWVyLCBjb25kdWNpcikgdXNhbiAtZXJvbiwgbm8gLWllcm9uLg==">
+    <p class="q">16. Los actores (traer) ______ sus propios guiones al rodaje.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>traer → raíz traj-, terminación -eron (sin i, igual que decir).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EJERCICIO 3 ============ -->
+  <h2>Ejercicio 3 · Pretéritos fuertes: elige la forma correcta <span class="pts">(4 puntos)</span></h2>
+  <div class="consigne">Selecciona la opción correcta.</div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqtTdXBvwrsgZXMgbGEgZm9ybWEgY29ycmVjdGEgKHJhw616IHN1cC0gKyAtbykuIMKrU2Fiw61hwrsgZXMgaW1wZXJmZWN0bywgbm8gcHJldMOpcml0by4=">
+    <p class="q">17. Cuando (saber) la noticia, se quedó boquiabierta.</p>
+    <div class="opts">
+      <label><input type="radio" name="e3q17" value="0"> A) sabió</label>
+      <label><input type="radio" name="e3q17" value="1"> B) supo</label>
+      <label><input type="radio" name="e3q17" value="2"> C) sabía</label>
     </div>
-    <div id="part1"></div>
-    <div class="score">
-        Puntuación: <span id="score1">0</span>/30
-        <button class="print-btn" onclick="printResults()">Imprimir Resultados</button>
+    <details class="aide"><summary>Pista</summary><div>saber → raíz sup- en el pretérito.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqtRdWlzb8K7IChyYcOteiBxdWlzLSArIC1vKS4gwqtRdWVyacOzwrsgbm8gZXhpc3RlOyDCq3F1ZXLDrWHCuyBlcyBpbXBlcmZlY3RvLg==">
+    <p class="q">18. Él no (querer) hacerlo, pero al final aceptó.</p>
+    <div class="opts">
+      <label><input type="radio" name="e3q18" value="0"> A) quiso</label>
+      <label><input type="radio" name="e3q18" value="1"> B) querió</label>
+      <label><input type="radio" name="e3q18" value="2"> C) quería</label>
     </div>
+    <details class="aide"><summary>Pista</summary><div>querer → raíz quis- en el pretérito.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqtBbmR1dmltb3PCuyAocmHDrXogaXJyZWd1bGFyIGFuZHV2LSArIC1pbW9zKS4gwqtBbmRhbW9zwrsgc2Vyw61hIGxhIGZvcm1hIHJlZ3VsYXIsIGluY29ycmVjdGEgYXF1w607IMKrYW5kaW1vc8K7IG5vIGV4aXN0ZS4=">
+    <p class="q">19. Nosotros (andar) ______ por el casco antiguo toda la tarde.</p>
+    <div class="opts">
+      <label><input type="radio" name="e3q19" value="0"> A) andamos</label>
+      <label><input type="radio" name="e3q19" value="1"> B) anduvimos</label>
+      <label><input type="radio" name="e3q19" value="2"> C) andimos</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>andar → raíz anduv- en el pretérito (no es regular).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqtUcmFkdWplcm9uwrsgKHJhw616IHRyYWR1ai0gKyAtZXJvbikuIMKrVHJhZHVjaWVyb27CuyBzZXLDrWEgbGEgZm9ybWEgcmVndWxhciBpbmNvcnJlY3RhOyDCq3RyYWR1amllcm9uwrsgYcOxYWRlIHVuYSBpIHF1ZSBubyBleGlzdGUgdHJhcyBqLg==">
+    <p class="q">20. Los estudiantes (traducir) ______ el poema al español.</p>
+    <div class="opts">
+      <label><input type="radio" name="e3q20" value="0"> A) tradujeron</label>
+      <label><input type="radio" name="e3q20" value="1"> B) traducieron</label>
+      <label><input type="radio" name="e3q20" value="2"> C) tradujieron</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>traducir → raíz traduj- (como conducir → conduj-), terminación -eron sin i.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EJERCICIO 4 ============ -->
+  <h2>Ejercicio 4 · Ser/ir y dar/ver <span class="pts">(6 puntos)</span></h2>
+  <div class="consigne">Escribe la forma correcta. Recuerda: ser e ir comparten las mismas formas en el pretérito.</div>
+
+  <div class="item" data-type="text" data-a="ZnVl" data-exp="wqtGdWXCuyDigJQgc2VyIGUgaXIgY29tcGFydGVuIGxhcyBtaXNtYXMgZm9ybWFzIGVuIGVsIHByZXTDqXJpdG87IGVsIGNvbnRleHRvICh1bmEgdmFsb3JhY2nDs24pIGluZGljYSBxdWUgZXMgwqtzZXLCuy4=">
+    <p class="q">21. El viaje a Sevilla (ser) ______ increíble.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>ser en pretérito = fui, fuiste, fue, fuimos, fuisteis, fueron (idéntico a ir).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZnVlcm9u" data-exp="wqtGdWVyb27CuyDigJQgYXF1w60gwqtpcsK7IGV4cHJlc2EgbW92aW1pZW50bywgYXVucXVlIGxhIGZvcm1hIHNlYSBpZMOpbnRpY2EgYSBsYSBkZSDCq3NlcsK7Lg==">
+    <p class="q">22. Mis padres (ir) ______ al cine el viernes pasado.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>ir en pretérito = fui, fuiste, fue, fuimos, fuisteis, fueron.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZnVp" data-exp="wqtGdWnCuyAoaXIpLCAxLsKqIHBlcnNvbmEgZGVsIHNpbmd1bGFyLg==">
+    <p class="q">23. (Ir – yo) ______ a la biblioteca para investigar sobre Lorca.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>1.ª persona singular = fui.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZGk=" data-exp="wqtEacK7IOKAlCBkYXIgZXMgaXJyZWd1bGFyIHBvcnF1ZSwgYXVucXVlIGVzIHVuIHZlcmJvIGVuIC1hciwgdXNhIGxhcyB0ZXJtaW5hY2lvbmVzIGRlIC1lci8taXIgKGRpLCBkaXN0ZSwgZGlv4oCmKS4=">
+    <p class="q">24. Le (dar – yo) ______ las gracias al profesor por su ayuda.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>dar en pretérito toma terminaciones de -er/-ir sin tilde: di, diste, dio, dimos, disteis, dieron.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="dmlzdGU=" data-exp="wqtWaXN0ZcK7IOKAlCB2ZXIgcGllcmRlIGxhIGUgZGUgbGEgcmHDrXogeSBubyBsbGV2YSB0aWxkZSBlbiBuaW5ndW5hIHBlcnNvbmEgKHZpLCBubyB2w60pLg==">
+    <p class="q">25. ¿(Ver – tú) ______ la última película de Almodóvar?</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>ver en pretérito no lleva tilde: vi, viste, vio, vimos, visteis, vieron.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqtGdWXCuyDigJQgMy7CqiBwZXJzb25hIHNpbmd1bGFyIGRlbCBwcmV0w6lyaXRvIGRlIHNlcjsgwqtlcmHCuyBzZXLDrWEgaW1wZXJmZWN0bywgbm8gbG8gcXVlIHNlIHBpZGUgYXF1w60u">
+    <p class="q">26. Aquel verano (ser) ______ el más caluroso de la década.</p>
+    <div class="opts">
+      <label><input type="radio" name="e4q26" value="0"> A) fue</label>
+      <label><input type="radio" name="e4q26" value="1"> B) fuimos</label>
+      <label><input type="radio" name="e4q26" value="2"> C) era</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Sujeto «aquel verano» = él/ella (3.ª persona singular).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EJERCICIO 5 ============ -->
+  <h2>Ejercicio 5 · Cambios en la raíz de los verbos en -ir (3.ª persona) <span class="pts">(6 puntos)</span></h2>
+  <div class="consigne">Estos verbos en -ir cambian una vocal de la raíz solo en él/ella y ellos/ellas del pretérito.</div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqtQaWRpw7PCuyDigJQgcGVkaXIgY2FtYmlhIGXihpJpIHNvbG8gZW4gbGFzIHBlcnNvbmFzIMOpbC9lbGxhIHkgZWxsb3MvZWxsYXMgZGVsIHByZXTDqXJpdG8gKHBpZGnDsywgcGlkaWVyb24pLCBudW5jYSBlbiB5by90w7ovbm9zb3Ryb3Mu">
+    <p class="q">27. En la novela, el protagonista (pedir) ______ perdón a su madre.</p>
+    <div class="opts">
+      <label><input type="radio" name="e5q27" value="0"> A) pidió</label>
+      <label><input type="radio" name="e5q27" value="1"> B) pedió</label>
+      <label><input type="radio" name="e5q27" value="2"> C) pido</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Los verbos en -ir que cambian e→i en presente (pedir, servir, seguir…) también cambian e→i en 3.ª persona del pretérito.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqtEdXJtacOzwrsg4oCUIGRvcm1pciBjYW1iaWEgb+KGknUgc29sbyBlbiDDqWwvZWxsYSB5IGVsbG9zL2VsbGFzIGRlbCBwcmV0w6lyaXRvIChkdXJtacOzLCBkdXJtaWVyb24pLg==">
+    <p class="q">28. Bernarda (dormir) ______ mal aquella noche, angustiada por sus hijas.</p>
+    <div class="opts">
+      <label><input type="radio" name="e5q28" value="0"> A) durmió</label>
+      <label><input type="radio" name="e5q28" value="1"> B) dormió</label>
+      <label><input type="radio" name="e5q28" value="2"> C) duerme</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>dormir cambia o→u en la 3.ª persona del pretérito (como morir).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqtTaW50aWVyb27CuyDigJQgc2VudGlyIGNhbWJpYSBl4oaSaSBlbiDDqWwvZWxsYSB5IGVsbG9zL2VsbGFzIGRlbCBwcmV0w6lyaXRvLg==">
+    <p class="q">29. Los personajes (sentir) ______ una profunda tristeza al final de la obra.</p>
+    <div class="opts">
+      <label><input type="radio" name="e5q29" value="0"> A) sintieron</label>
+      <label><input type="radio" name="e5q29" value="1"> B) sentieron</label>
+      <label><input type="radio" name="e5q29" value="2"> C) sienten</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>sentir cambia e→i en la 3.ª persona (como preferir, mentir).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqtNdXJpw7PCuyDigJQgbW9yaXIgY2FtYmlhIG/ihpJ1IHNvbG8gZW4gw6lsL2VsbGEgeSBlbGxvcy9lbGxhcyBkZWwgcHJldMOpcml0by4=">
+    <p class="q">30. Adela (morir) ______ al final de <em>La casa de Bernarda Alba</em>.</p>
+    <div class="opts">
+      <label><input type="radio" name="e5q30" value="0"> A) murió</label>
+      <label><input type="radio" name="e5q30" value="1"> B) morió</label>
+      <label><input type="radio" name="e5q30" value="2"> C) muere</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>morir cambia o→u en la 3.ª persona, igual que dormir.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqtTaWd1acOzwrsg4oCUIHNlZ3VpciBjYW1iaWEgZeKGkmkgZW4gw6lsL2VsbGE7IGxhIHUgc2UgbWFudGllbmUgZW4gbGEgZ3JhZsOtYSBwYXJhIGNvbnNlcnZhciBlbCBzb25pZG8gL2cvIChzaWd1acOzLCBubyBzaWdpw7MpLg==">
+    <p class="q">31. Raimunda (seguir) ______ escondiendo el secreto durante toda la película.</p>
+    <div class="opts">
+      <label><input type="radio" name="e5q31" value="0"> A) siguió</label>
+      <label><input type="radio" name="e5q31" value="1"> B) seguió</label>
+      <label><input type="radio" name="e5q31" value="2"> C) sigue</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>seguir cambia e→i en la 3.ª persona; la u se mantiene en la grafía para conservar el sonido /g/.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqtTaXJ2aWVyb27CuyDigJQgc2VydmlyIGNhbWJpYSBl4oaSaSBzb2xvIGVuIMOpbC9lbGxhIHkgZWxsb3MvZWxsYXMu">
+    <p class="q">32. Los camareros (servir) ______ la cena a las nueve.</p>
+    <div class="opts">
+      <label><input type="radio" name="e5q32" value="0"> A) sirvieron</label>
+      <label><input type="radio" name="e5q32" value="1"> B) servieron</label>
+      <label><input type="radio" name="e5q32" value="2"> C) sirven</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>servir cambia e→i solo en él/ella y ellos/ellas.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <button class="btn" onclick="checkAll()">✔ Comprobar mis respuestas</button>
+  <button class="btn second" onclick="resetAll()">↺ Empezar de nuevo</button>
+  <div class="score-banner" id="scoreBanner"></div>
+
+  <!-- ============ DESAFÍO A* (stretch) ============ -->
+  <div class="stretch">
+    <h2>Desafío A* — Para ir más lejos</h2>
+    <div class="consigne">Escribe una narración breve (mínimo 60 palabras) sobre un día especial de tu
+    pasado (un viaje, una fiesta familiar, un examen importante…). Usa <strong>al menos seis
+    pretéritos distintos</strong>, incluyendo al menos un pretérito fuerte (tener, estar, poder, hacer,
+    venir, decir, traer…) y un cambio de raíz en -ir (pedir, dormir, sentir, morir, seguir, servir…),
+    y al menos un conector temporal (de repente, al final, después, aquella tarde…).</div>
+    <p><em>Amorces:</em> «Aquel día…», «De repente…», «Al final…»</p>
+    <div class="item" data-type="free" data-min="60">
+      <textarea placeholder="Escribe aquí tu narración (60 palabras mínimo)…"></textarea>
+      <div class="fb"></div>
+    </div>
+    <details class="aide"><summary>Ver un modelo de respuesta (después de escribir el tuyo)</summary>
+      <div id="modelAnswer">Modelo: Aquel sábado de julio, mi familia y yo fuimos a la boda de mi prima en Sevilla. Llegamos tarde porque el tren se retrasó, así que corrimos hasta la iglesia. Durante la ceremonia, mi prima lloró de emoción y todos aplaudimos cuando los novios se besaron. Después, en el banquete, comimos gambas y bailamos sevillanas hasta la medianoche. De repente, empezó a llover, pero nadie quiso irse: seguimos bailando bajo un toldo. Al final, volvimos a casa agotados pero felices, y supe que jamás olvidaría aquel día.</div></details>
+  </div>
+
+  <button class="btn dl" onclick="downloadResults()">📥 Descargar mis resultados</button>
+</div>
+
+<!-- ============ FLOATING ACCENT PAD ============ -->
+<button id="padToggle" onclick="togglePad()">á ñ ¿ — Acentos</button>
+<div id="accentPad" style="display:none">
+  <div class="drag">⋮⋮ mover</div>
 </div>
 
 <script>
-let currentFocusedInput = null;
+/* ================= HOUSE ENGINE — do not weaken ================= */
+/* Answers are base64-encoded (UTF-8 safe) so they never sit in plain text next to the inputs. */
+function d(b){try{return decodeURIComponent(escape(atob(b)))}catch(e){return""}}
+function e64(s){return btoa(unescape(encodeURIComponent(s)))} /* helper for authoring */
 
-const exercises = {
-    part1: [
-        {q: "1. Yo (hablar) ", a: "hablé"},
-        {q: "2. Yo (comer) ", a: "comí"},
-        {q: "3. Yo (vivir) ", a: "viví"},
-        {q: "4. Yo (hacer) ", a: "hice"},
-        {q: "5. Yo (dar) ", a: "di"},
-        {q: "6. Yo (ver) ", a: "vi"},
-        {q: "7. Yo (poner) ", a: "puse"},
-        {q: "8. Yo (saber) ", a: "supe"},
-        {q: "9. Yo (traer) ", a: "traje"},
-        {q: "10. Yo (decir) ", a: "dije"},
-        {q: "11. Tú (bailar) ", a: "bailaste"},
-        {q: "12. Tú (beber) ", a: "bebiste"},
-        {q: "13. Tú (escribir) ", a: "escribiste"},
-        {q: "14. Tú (dormir) ", a: "dormiste"},
-        {q: "15. Tú (venir) ", a: "viniste"},
-        {q: "16. Él (trabajar) ", a: "trabajó"},
-        {q: "17. Ella (correr) ", a: "corrió"},
-        {q: "18. Usted (abrir) ", a: "abrió"},
-        {q: "19. Él (pedir) ", a: "pidió"},
-        {q: "20. Ella (morir) ", a: "murió"},
-        {q: "21. Nosotros (cantar) ", a: "cantamos"},
-        {q: "22. Nosotros (aprender) ", a: "aprendimos"},
-        {q: "23. Nosotros (salir) ", a: "salimos"},
-        {q: "24. Nosotros (volver) ", a: "volvimos"},
-        {q: "25. Nosotros (leer) ", a: "leímos"},
-        {q: "26. Ellos (estudiar) ", a: "estudiaron"},
-        {q: "27. Ellas (vender) ", a: "vendieron"},
-        {q: "28. Ustedes (recibir) ", a: "recibieron"},
-        {q: "29. Ellos (conducir) ", a: "condujeron"},
-        {q: "30. Ellas (servir) ", a: "sirvieron"}
-    ]
-};
+function norm(s){return (s||"").toLowerCase().replace(/['']/g,"'").replace(/\s+/g," ").trim()}
+function deacc(s){return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"")}
 
-function createExercises() {
-    const container = document.getElementById('part1');
-    exercises.part1.forEach((item, index) => {
-        const div = document.createElement('div');
-        div.className = 'question';
-        div.innerHTML = `
-            ${item.q}
-            <input type="text"
-                   data-answer="${item.a}"
-                   onfocus="trackFocus(this)"
-                   onkeydown="checkAnswer(event, this, 'part1')">
-        `;
-        container.appendChild(div);
-    });
+/* tolerant text check: returns "ok" | "accents" | "bad" ; accepted = array */
+function judge(val, accepted){
+  const v=norm(val);
+  if(accepted.some(a=>norm(a)===v)) return "ok";
+  if(accepted.some(a=>deacc(a)===deacc(val))) return "accents";
+  return "bad";
 }
 
-function trackFocus(input) {
-    currentFocusedInput = input;
-}
+let results=[]; /* {label, given, ok, expected} */
 
-function insertChar(char) {
-    if (currentFocusedInput) {
-        const start = currentFocusedInput.selectionStart;
-        const end = currentFocusedInput.selectionEnd;
-        currentFocusedInput.value = 
-            currentFocusedInput.value.slice(0, start) +
-            char +
-            currentFocusedInput.value.slice(end);
-        currentFocusedInput.selectionStart = currentFocusedInput.selectionEnd = start + 1;
-        currentFocusedInput.focus();
+function checkAll(){
+  results=[]; let score=0, max=0;
+  document.querySelectorAll(".item").forEach((it,idx)=>{
+    const type=it.dataset.type, fb=it.querySelector(".fb");
+    const label=(it.querySelector(".q")?it.querySelector(".q").textContent.trim():("Desafío "+(idx+1))).slice(0,90);
+    if(type==="mcq"){
+      max++;
+      const sel=it.querySelector("input[type=radio]:checked");
+      const correct=d(it.dataset.a), exp=d(it.dataset.exp||"");
+      if(!sel){fb.className="fb bad";fb.textContent="⚠ Responde a la pregunta.";results.push({label,given:"—",ok:false});return}
+      if(sel.value===correct){score++;fb.className="fb ok";fb.textContent="✔ Correcto. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:true});}
+      else{fb.className="fb bad";fb.textContent="✘ Incorrecto. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:false});}
     }
-}
-
-function checkAnswer(event, input, part) {
-    if (event.key === 'Enter') {
-        const userAnswer = normalize(input.value);
-        const correctAnswer = normalize(input.dataset.answer);
-        
-        input.classList.remove('correct', 'incorrect');
-        input.classList.add(userAnswer === correctAnswer ? 'correct' : 'incorrect');
-        
-        updateScore(part);
-        if (userAnswer === correctAnswer) {
-            focusNextInput(input);
-        }
+    if(type==="text"){
+      max++;
+      const inp=it.querySelector("input,textarea");
+      const accepted=d(it.dataset.a).split("|"), exp=d(it.dataset.exp||"");
+      const r=judge(inp.value,accepted);
+      if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correcto. "+exp;}
+      else if(r==="accents"){fb.className="fb almost";fb.textContent="≈ ¡Casi! Revisa los acentos: "+accepted[0]+". "+exp;}
+      else{fb.className="fb bad";fb.textContent="✘ Respuesta esperada: "+accepted[0]+". "+exp;}
+      results.push({label,given:inp.value||"—",ok:r==="ok"});
     }
-}
-
-function normalize(str) {
-    return str.toLowerCase()
-        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^a-z]/g, '');
-}
-
-function updateScore(part) {
-    const inputs = document.querySelectorAll(`#${part} input`);
-    let score = 0;
-    
-    inputs.forEach(input => {
-        if (normalize(input.value) === normalize(input.dataset.answer)) {
-            score++;
-        }
-    });
-    
-    document.getElementById(`score${part.slice(-1)}`).textContent = score;
-}
-
-function focusNextInput(currentInput) {
-    const allInputs = Array.from(document.querySelectorAll('input'));
-    const currentIndex = allInputs.indexOf(currentInput);
-    if (currentIndex < allInputs.length - 1) {
-        allInputs[currentIndex + 1].focus();
+    if(type==="free"){
+      const ta=it.querySelector("textarea"), min=parseInt(it.dataset.min||"40");
+      const words=(ta.value.trim().match(/\S+/g)||[]).length;
+      if(words===0){fb.className="fb";fb.textContent="";}
+      else if(words<min){fb.className="fb almost";fb.textContent="≈ "+words+" palabras — intenta llegar a "+min+". Desarrolla con un conector (sin embargo, no obstante…).";}
+      else{fb.className="fb ok";fb.textContent="✔ "+words+" palabras. Compara ahora con el modelo y mejora una frase.";}
+      results.push({label,given:ta.value||"—",ok:words>=min});
     }
+  });
+  const b=document.getElementById("scoreBanner");
+  b.style.display="block";
+  const pct=max?Math.round(100*score/max):0;
+  b.textContent="Puntuación: "+score+" / "+max+" ("+pct+" %) — "+(pct>=80?"¡Excelente!":pct>=60?"Bien — corrige los puntos señalados.":"Relee las pistas e inténtalo otra vez.");
+  window._score={score,max};
 }
 
-function printResults() {
-    const printContent = `
-        <h2>Resultados del Pretérito</h2>
-        ${Array.from(document.querySelectorAll('#part1 .question')).map((question, index) => {
-            const input = question.querySelector('input');
-            const correct = input.classList.contains('correct');
-            return `
-                <p>
-                    ${exercises.part1[index].q} 
-                    <strong>Tu respuesta:</strong> ${input.value || "---"}<br>
-                    <strong>Correcta:</strong> ${exercises.part1[index].a}<br>
-                    <span class="${correct ? 'correct-print' : 'incorrect-print'}">
-                        ${correct ? '✓ Correcto' : '✗ Incorrecto'}
-                    </span>
-                </p>
-            `;
-        }).join('')}
-        <h3>Puntuación Final: ${document.getElementById('score1').textContent}/30</h3>
-    `;
-
-    const printWindow = window.open('', '_blank');
-    printWindow.document.write(`
-        <html>
-            <head>
-                <title>Resultados Pretérito</title>
-                <style>
-                    body { font-family: Arial; padding: 20px; }
-                    h2 { color: #2c3e50; }
-                    p { border-bottom: 1px solid #eee; padding: 10px; }
-                    strong { color: #666; display: inline-block; width: 120px; }
-                    .correct-print { color: green; }
-                    .incorrect-print { color: red; }
-                </style>
-            </head>
-            <body class="print-version">${printContent}</body>
-        </html>
-    `);
-    printWindow.document.close();
-    printWindow.print();
+function resetAll(){
+  document.querySelectorAll(".item input[type=text], .item textarea").forEach(i=>i.value="");
+  document.querySelectorAll(".item input[type=radio]").forEach(r=>r.checked=false);
+  document.querySelectorAll(".fb").forEach(f=>{f.className="fb";f.textContent=""});
+  document.getElementById("scoreBanner").style.display="none";
+  results=[];window._score=null;window.scrollTo({top:0,behavior:"smooth"});
 }
 
-// Initialize
-createExercises();
-document.querySelector('input')?.focus();
+function downloadResults(){
+  const name=document.getElementById("studentName").value.trim();
+  if(!name){alert("Escribe primero tu nombre al principio de la página.");document.getElementById("studentName").focus();return}
+  if(!window._score){alert("Pulsa primero «Comprobar mis respuestas».");return}
+  let txt="RESULTADOS — "+document.title+"\n";
+  txt+="Alumno/a: "+name+"\nFecha: "+new Date().toLocaleString("es-ES")+"\n";
+  txt+="Puntuación: "+window._score.score+" / "+window._score.max+"\n";
+  txt+="".padEnd(60,"=")+"\n\n";
+  results.forEach((r,i)=>{txt+=(i+1)+". "+r.label+"\n   Respuesta: "+r.given+"\n   "+(r.ok?"✔ correcto":"✘ repasar")+"\n\n";});
+  const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(document.title.split("—")[0].trim()||"resultados").replace(/\s+/g,"_")+"_"+name.replace(/\s+/g,"_")+".txt";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+}
+
+/* ---------- Accent pad ---------- */
+const CHARS=["á","é","í","ó","ú","ü","ñ","¿","¡","«","»","Á","É","Í","Ó","Ú","Ñ"];
+let lastField=null;
+document.addEventListener("focusin",e=>{
+  if(e.target.matches("input[type=text],textarea") && e.target.id!=="studentName") lastField=e.target;
+  if(e.target.id==="studentName") lastField=e.target;
+});
+const pad=document.getElementById("accentPad");
+CHARS.forEach(c=>{
+  const b=document.createElement("button");
+  b.textContent=c; if(c===c.toUpperCase()&&c.toLowerCase()!==c) b.className="maj";
+  b.addEventListener("mousedown",ev=>{
+    ev.preventDefault(); /* keep focus in the field */
+    if(!lastField) return;
+    const s=lastField.selectionStart??lastField.value.length, t=lastField.selectionEnd??s;
+    lastField.value=lastField.value.slice(0,s)+c+lastField.value.slice(t);
+    lastField.selectionStart=lastField.selectionEnd=s+c.length;
+    lastField.focus();
+  });
+  pad.appendChild(b);
+});
+function togglePad(){
+  const show=pad.style.display==="none";
+  pad.style.display=show?"flex":"none";
+  document.getElementById("padToggle").style.display=show?"none":"block";
+  if(show){ /* add close button once */
+    if(!pad.querySelector(".closer")){
+      const x=document.createElement("button");x.textContent="✕";x.className="closer";
+      x.addEventListener("mousedown",ev=>{ev.preventDefault();togglePad()});pad.appendChild(x);
+    }
+  }
+}
+/* drag the pad */
+(function(){
+  const h=pad.querySelector(".drag");let sx,sy,ox,oy,drag=false;
+  h.addEventListener("mousedown",e=>{drag=true;sx=e.clientX;sy=e.clientY;const r=pad.getBoundingClientRect();ox=r.left;oy=r.top;
+    pad.style.right="auto";pad.style.bottom="auto";e.preventDefault()});
+  document.addEventListener("mousemove",e=>{if(!drag)return;pad.style.left=(ox+e.clientX-sx)+"px";pad.style.top=(oy+e.clientY-sy)+"px"});
+  document.addEventListener("mouseup",()=>drag=false);
+})();
 </script>
 </body>
 </html>

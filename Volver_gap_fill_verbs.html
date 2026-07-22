@@ -1,83 +1,404 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Volver – Spanish Essay Practice</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 2em; max-width: 800px; margin: auto; }
-    input { width: 150px; margin: 0.2em; }
-    .correct { background-color: #c8e6c9; }
-    .incorrect { background-color: #ffcdd2; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volver — Rellena el verbo: pretérito, imperfecto, subjuntivo y perfecto</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 120px}
+  .wrap{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:28px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+  .name-row input{padding:9px 12px;font-size:1em;border:2px solid var(--accent);border-radius:6px;width:280px;font-family:inherit}
+  .item{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:8px}
+  .item input[type=text],.item textarea{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px}
+  .item textarea{min-height:90px;resize:vertical}
+  .opts label{display:block;padding:7px 10px;margin:5px 0;border:1.5px solid var(--line);border-radius:5px;cursor:pointer}
+  .opts label:hover{background:#f2f7fa}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  .fb{display:none;margin-top:8px;padding:9px 12px;border-radius:6px;font-size:.95em}
+  .fb.ok{display:block;background:#e9f5ee;border-left:4px solid var(--ok);color:var(--ok)}
+  .fb.almost{display:block;background:#fff8ec;border-left:4px solid var(--warn);color:var(--warn)}
+  .fb.bad{display:block;background:#fbeeee;border-left:4px solid var(--bad);color:var(--bad)}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px;margin:26px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:11px 20px;font-size:1em;font-family:inherit;
+       border-radius:6px;cursor:pointer;margin:6px 6px 6px 0}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.dl{background:var(--ok)}
+  .btn.second{background:#5a6a78}
+  .score-banner{display:none;margin:18px 0;padding:14px;border-radius:8px;background:#f2f7fa;
+       border:2px solid var(--accent);font-size:1.15em;font-weight:bold;color:var(--accent)}
+  /* ---------- Floating accent pad ---------- */
+  #accentPad{position:fixed;bottom:18px;right:18px;background:#fff;border:2px solid var(--accent);
+       border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.25);padding:10px;z-index:1000;
+       display:flex;flex-wrap:wrap;gap:5px;max-width:340px;user-select:none}
+  #accentPad .drag{width:100%;cursor:move;font-size:.8em;color:#5a6a78;text-align:center;padding-bottom:4px}
+  #accentPad button{font-size:1.05em;font-family:inherit;min-width:34px;padding:6px 4px;border:1px solid var(--line);
+       border-radius:5px;background:#f2f7fa;cursor:pointer}
+  #accentPad button:hover{background:var(--accent);color:#fff}
+  #accentPad .maj{font-size:.8em;background:#e6e9ec}
+  #padToggle{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--accent);color:#fff;
+       border:none;border-radius:50px;padding:12px 18px;font-size:1em;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  @media print{#accentPad,#padToggle{display:none}}
+</style>
 </head>
 <body>
-  <h1>Práctica de redacción: <em>Volver</em> (35 frases)</h1>
-  <p>Escribe la palabra correcta en cada hueco. Recibirás retroalimentación inmediata.</p>
-  <form id="gapFillForm">
-    <div id="questions"></div>
-    <button type="submit">Comprobar respuestas</button>
-  </form>
-  <script>
-    const questions = [
-      { sentence: "Raimunda ___ (afrontar) muchas dificultades en su vida.", answer: "afronta" },
-      { sentence: "Paula ___ (matar) a Paco en defensa propia.", answer: "mata" },
-      { sentence: "Las mujeres ___ (apoyarse) entre sí para sobrevivir.", answer: "se apoyan" },
-      { sentence: "Sole ___ (esconder) a su madre en la peluquería.", answer: "esconde" },
-      { sentence: "El director ___ (mostrar) la fuerza femenina a través del guion.", answer: "muestra" },
-      { sentence: "Es posible que Irene ___ (volver) para pedir perdón.", answer: "vuelva" },
-      { sentence: "Aunque Raimunda ___ (tener) miedo, actúa con determinación.", answer: "tenga" },
-      { sentence: "Paula no ___ (saber) cómo reaccionar al principio.", answer: "sabe" },
-      { sentence: "Raimunda y Paula ___ (superar) su trauma juntas.", answer: "superan" },
-      { sentence: "La película ___ (representar) la sororidad.", answer: "representa" },
-      { sentence: "Raimunda ___ (proteger) a su hija ante todo.", answer: "protege" },
-      { sentence: "Sole y Raimunda son mujeres muy ___ (fuerte).", answer: "fuertes" },
-      { sentence: "Irene actúa como un símbolo de la ___ (redención).", answer: "redención" },
-      { sentence: "La cámara ___ (enfocar) muchas veces los rostros de las mujeres.", answer: "enfoca" },
-      { sentence: "El barrio ___ (reflejar) la vida difícil de las protagonistas.", answer: "refleja" },
-      { sentence: "La historia ___ (ser) realista y emotiva.", answer: "es" },
-      { sentence: "La relación entre madre e hija ___ (evolucionar) con el tiempo.", answer: "evoluciona" },
-      { sentence: "Raimunda no ___ (querer) que su hija sufra.", answer: "quiere" },
-      { sentence: "Irene ___ (desaparecer) después del incendio.", answer: "desaparece" },
-      { sentence: "El abuso no ___ (definir) a las protagonistas.", answer: "define" },
-      { sentence: "La película ___ (explorar) temas de violencia y perdón.", answer: "explora" },
-      { sentence: "Sole ___ (descubrir) que su madre está viva.", answer: "descubre" },
-      { sentence: "Aunque Paula ___ (ser) joven, es valiente.", answer: "sea" },
-      { sentence: "Raimunda no le ___ (decir) la verdad a su hermana al principio.", answer: "dice" },
-      { sentence: "El espectador ___ (entender) el sufrimiento de las mujeres.", answer: "entiende" },
-      { sentence: "La película ___ (criticar) el machismo tradicional.", answer: "critica" },
-      { sentence: "El trauma del pasado ___ (estar) presente en sus vidas.", answer: "está" },
-      { sentence: "La historia ___ (mostrar) la importancia de la familia.", answer: "muestra" },
-      { sentence: "Los hombres en la película ___ (representar) el peligro.", answer: "representan" },
-      { sentence: "Las mujeres ___ (resistir) las injusticias.", answer: "resisten" },
-      { sentence: "No es justo que Raimunda ___ (sufrir) tanto.", answer: "sufra" },
-      { sentence: "Paula ___ (confesar) lo ocurrido con Paco.", answer: "confiesa" },
-      { sentence: "Irene ___ (buscar) la reconciliación con sus hijas.", answer: "busca" },
-      { sentence: "Sole ___ (aceptar) la ayuda de su madre.", answer: "acepta" },
-      { sentence: "La casa ___ (tener) un papel simbólico en la historia.", answer: "tiene" }
-    ];
+<div class="wrap">
+  <header>
+    <h1>Volver: rellena el verbo</h1>
+    <p class="meta">A-Level Spanish (Edexcel) · <em>Volver</em> (Almodóvar) · Pretérito, imperfecto, subjuntivo y pretérito perfecto · Duración recomendada: 40 min</p>
+  </header>
 
-    const container = document.getElementById('questions');
+  <div class="name-row">
+    <label for="studentName"><strong>Tu nombre:</strong></label>
+    <input type="text" id="studentName" placeholder="Nombre APELLIDO" maxlength="60">
+  </div>
 
-    questions.forEach((q, i) => {
-      const div = document.createElement('div');
-      div.innerHTML = `
-        <label>${i + 1}. ${q.sentence.replace("___", `<input id="q${i}" data-answer="${q.answer}" type="text">`)}</label>
-      `;
-      container.appendChild(div);
-    });
+  <div class="consigne"><strong>Instrucciones:</strong> Completa cada frase sobre el argumento de <em>Volver</em> con
+  la forma correcta del verbo entre paréntesis, en el tiempo indicado por la sección. Pulsa «Comprobar» y, al final,
+  descarga tus resultados.</div>
 
-    document.getElementById('gapFillForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      questions.forEach((q, i) => {
-        const input = document.getElementById('q' + i);
-        const userAnswer = input.value.trim().toLowerCase();
-        if (userAnswer === q.answer) {
-          input.className = 'correct';
-        } else {
-          input.className = 'incorrect';
-        }
-      });
-    });
-  </script>
+  <!-- ============ SECCIÓN 1 : Pretérito ============ -->
+  <h2>Sección 1 · Pretérito — acciones puntuales de la trama <span class="pts">(6 puntos)</span></h2>
+  <div class="consigne">El pretérito narra hechos concretos y completados que hacen avanzar la historia.</div>
+
+  <div class="item" data-type="text" data-a="bWF0w7M=" data-exp="TWF0w7MgKHByZXTDqXJpdG8pOiBhY2Npw7NuIHB1bnR1YWwgeSBjb21wbGV0YWRhIOKAlCBQYXVsYSBhcHXDsWFsYSBhIFBhY28gdW5hIHNvbGEgdmV6LCBlbiB1biBtb21lbnRvIGNvbmNyZXRvIGRlIGxhIHRyYW1hLg==">
+    <p class="q">1. Paula <strong>___</strong> (matar) a Paco para defenderse de su agresión.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Acción única y puntual → pretérito.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="cHJvdm9jw7M=" data-exp="UHJvdm9jw7MgKHByZXTDqXJpdG8pOiBlbCBpbmNlbmRpbyBlcyB1biBzdWNlc28gY29uY3JldG8gZGVsIHBhc2FkbyBkZSBJcmVuZSwgY29uIHByaW5jaXBpbyB5IGZpbiBjbGFyb3Mu">
+    <p class="q">2. Irene <strong>___</strong> (provocar) el incendio que mató a su marido y a la amante de este.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Suceso único con principio y fin → pretérito.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZGVzY3VicmnDsw==" data-exp="RGVzY3VicmnDsyAocHJldMOpcml0byk6IGVsIGhhbGxhemdvIGRlIElyZW5lIGVzY29uZGlkYSBlbiBlbCBtYWxldGVybyBlcyB1biBtb21lbnRvIMO6bmljbyB5IHNvcnByZXNpdm8u">
+    <p class="q">3. Sole <strong>___</strong> (descubrir) a su madre escondida en el maletero del coche.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Momento único y sorpresivo → pretérito.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZXNjb25kacOz" data-exp="RXNjb25kacOzIChwcmV0w6lyaXRvKTogUmFpbXVuZGEgcmVhbGl6YSBlc3RhIGFjY2nDs24gdW5hIHZleiwgZGUgZm9ybWEgcHVudHVhbCwgdHJhcyBsYSBtdWVydGUgZGUgUGFjby4=">
+    <p class="q">4. Raimunda <strong>___</strong> (esconder) el cuerpo de Paco en el congelador del restaurante vecino.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Acción concreta realizada una sola vez → pretérito.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZGVzYXBhcmVjacOz" data-exp="RGVzYXBhcmVjacOzIChwcmV0w6lyaXRvKTogbGEgZGVzYXBhcmljacOzbiBkZSBsYSBtYWRyZSBkZSBBZ3VzdGluYSBlcyB1biBzdWNlc28gcHVudHVhbCBkZWwgcGFzYWRvIGRlbCBwdWVibG8u">
+    <p class="q">5. La madre de Agustina <strong>___</strong> (desaparecer) misteriosamente años atrás.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Suceso puntual y sin explicación clara → pretérito.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="b3JnYW5pesOz" data-exp="T3JnYW5pesOzIChwcmV0w6lyaXRvKTogUmFpbXVuZGEgdG9tYSBlc3RhIGRlY2lzacOzbiBkZSBmb3JtYSBwdW50dWFsLCBhcHJvdmVjaGFuZG8gbGEgYXVzZW5jaWEgZGVsIHZlY2lubyBkdWXDsW8gZGVsIHJlc3RhdXJhbnRlLg==">
+    <p class="q">6. Raimunda <strong>___</strong> (organizar) una comida para un equipo de rodaje usando el restaurante de un vecino ausente.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Decisión puntual que da inicio a un nuevo negocio → pretérito.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ SECCIÓN 2 : Imperfecto ============ -->
+  <h2>Sección 2 · Imperfecto — contexto y descripción <span class="pts">(5 puntos)</span></h2>
+  <div class="consigne">El imperfecto describe el contexto, los estados y las acciones habituales, sin marcar su final.</div>
+
+  <div class="item" data-type="text" data-a="c2Fiw61h" data-exp="U2Fiw61hIChpbXBlcmZlY3RvKTogZGVzY3JpYmUgdW4gZXN0YWRvIGRlIGNvbm9jaW1pZW50byAobyBkZXNjb25vY2ltaWVudG8pIHByb2xvbmdhZG8gZW4gZWwgcGFzYWRvLCBzaW4gbMOtbWl0ZSB0ZW1wb3JhbCBtYXJjYWRvLg==">
+    <p class="q">7. De joven, Raimunda no <strong>___</strong> (saber) que Paula era hija de su propio padre.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Estado mental prolongado, sin final marcado → imperfecto.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="dml2w61hbg==" data-exp="Vml2w61hbiAoaW1wZXJmZWN0byk6IGRlc2NyaWJlIHVuYSBzaXR1YWNpw7NuIGhhYml0dWFsIHkgcHJvbG9uZ2FkYSwgZWwgY29udGV4dG8gZGUgZm9uZG8gYW50ZXMgZGVsIGluY2VuZGlvLg==">
+    <p class="q">8. Irene y su marido <strong>___</strong> (vivir) en el mismo pueblo de La Mancha desde hacía años.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Situación habitual de fondo → imperfecto.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="c29wbGFiYQ==" data-exp="U29wbGFiYSAoaW1wZXJmZWN0byk6IGRlc2NyaWJlIHVuYSBhY2Npw7NuIGhhYml0dWFsIHkgcmVjdXJyZW50ZSwgdMOtcGljYSBkZSBsYSBkZXNjcmlwY2nDs24gZGVsIGNvbnRleHRvIGVuIExhIE1hbmNoYS4=">
+    <p class="q">9. El viento solano <strong>___</strong> (soplar) con frecuencia en la región, según la tradición.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Acción habitual y repetida → imperfecto.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="dHJhYmFqYWJh" data-exp="VHJhYmFqYWJhIChpbXBlcmZlY3RvKTogZGVzY3JpYmUgdW5hIG9jdXBhY2nDs24gaGFiaXR1YWwgZGUgU29sZSwgc2luIGluZGljYXIgY3XDoW5kbyBlbXBlesOzIG8gdGVybWluw7Mu">
+    <p class="q">10. Sole <strong>___</strong> (trabajar) como peluquera clandestina en su propio piso.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Ocupación habitual → imperfecto.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="dmlzaXRhYmFu" data-exp="VmlzaXRhYmFuIChpbXBlcmZlY3RvKTogYWNjacOzbiByZXBldGlkYSB5IGhhYml0dWFsIGRlIGxhcyBoZXJtYW5hcywgdMOtcGljYSBkZSBsYSBjb3N0dW1icmUgbWFuY2hlZ2EgZGUgY3VpZGFyIGxhcyB0dW1iYXMu">
+    <p class="q">11. Raimunda y su hermana <strong>___</strong> (visitar) el cementerio cada cierto tiempo para cuidar las tumbas.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Acción repetida en el tiempo → imperfecto.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ SECCIÓN 3 : Subjuntivo ============ -->
+  <h2>Sección 3 · Subjuntivo — desencadenantes clave <span class="pts">(5 puntos)</span></h2>
+  <div class="consigne">Recuerda los desencadenantes: <em>es posible que, aunque</em> (+ incertidumbre), <em>no querer que,
+  para que, es fundamental que</em>.</div>
+
+  <div class="item" data-type="text" data-a="dnVlbHZh" data-exp="VnVlbHZhIChwcmVzZW50ZSBkZSBzdWJqdW50aXZvKTogwqtlcyBwb3NpYmxlIHF1ZcK7IGV4cHJlc2EgdW5hIHBvc2liaWxpZGFkLCBubyB1biBoZWNobyBjZXJ0ZXJvLCB5IGV4aWdlIHN1Ymp1bnRpdm8u">
+    <p class="q">12. Es posible que Irene <strong>___</strong> (volver) para pedir perdón a sus hijas.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«Es posible que» + subjuntivo.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="dGVuZ2E=" data-exp="VGVuZ2EgKHByZXNlbnRlIGRlIHN1Ymp1bnRpdm8pOiDCq2F1bnF1ZcK7ICsgc3VianVudGl2byBwcmVzZW50YSBlbCBtaWVkbyBkZSBQYXVsYSBjb24gbWF0aXogY29uY2VzaXZvLCBubyBjb21vIHVuIGhlY2hvIG5ldXRyby4=">
+    <p class="q">13. Aunque Paula <strong>___</strong> (tener) miedo, decide contarle la verdad a su madre.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«Aunque» + subjuntivo (matiz concesivo).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="c3VmcmE=" data-exp="U3VmcmEgKHByZXNlbnRlIGRlIHN1Ymp1bnRpdm8pOiDCq25vIHF1ZXJlciBxdWXCuyBleHByZXNhIHVuIGRlc2VvL3ZvbHVudGFkIHNvYnJlIGxhIGFjY2nDs24gZGUgb3RyYSBwZXJzb25hLCBsbyBjdWFsIGV4aWdlIHN1Ymp1bnRpdm8u">
+    <p class="q">14. Raimunda no quiere que Paula <strong>___</strong> (sufrir) las consecuencias de lo ocurrido con Paco.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Verbo de voluntad + que + subjuntivo.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="c2UgYXN1c3Rl" data-exp="U2UgYXN1c3RlIChwcmVzZW50ZSBkZSBzdWJqdW50aXZvLCB2ZXJibyByZWZsZXhpdm8pOiDCq3BhcmEgcXVlwrsgaW50cm9kdWNlIGxhIGZpbmFsaWRhZCBkZSBsYSBhY2Npw7NuIGRlIElyZW5lIHkgc2llbXByZSBleGlnZSBzdWJqdW50aXZvLg==">
+    <p class="q">15. Para que Sole no <strong>___</strong> (asustarse), Irene decide revelarle la verdad poco a poco.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«Para que» + subjuntivo. No olvides el pronombre reflexivo «se».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="cGVyZG9uZW4=" data-exp="UGVyZG9uZW4gKHByZXNlbnRlIGRlIHN1Ymp1bnRpdm8pOiDCq2VzIGZ1bmRhbWVudGFsIHF1ZcK7IGVzIHVuYSBleHByZXNpw7NuIGRlIG5lY2VzaWRhZC92YWxvcmFjacOzbiBxdWUgZXhpZ2Ugc3VianVudGl2by4=">
+    <p class="q">16. Es fundamental que las dos hermanas <strong>___</strong> (perdonar) a su madre para cerrar el ciclo del pasado.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«Es fundamental que» + subjuntivo.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ SECCIÓN 4 : Pretérito perfecto ============ -->
+  <h2>Sección 4 · Pretérito perfecto — el pasado que conecta con el presente <span class="pts">(5 puntos)</span></h2>
+  <div class="consigne">El pretérito perfecto (haber + participio) conecta una acción pasada con el presente: experiencias
+  de vida, acciones recientes o valoraciones actuales sobre la película.</div>
+
+  <div class="item" data-type="text" data-a="aGEgb2N1bHRhZG8=" data-exp="SGEgb2N1bHRhZG8gKHByZXTDqXJpdG8gcGVyZmVjdG8pOiBlbCBzZWNyZXRvIGRlIElyZW5lLCBpbmljaWFkbyBlbiBlbCBwYXNhZG8sIHNpZ3VlIHRlbmllbmRvIGVmZWN0byBlbiBlbCBwcmVzZW50ZSBkZSBsYSBuYXJyYWNpw7NuLg==">
+    <p class="q">17. Irene <strong>___</strong> (ocultar) su verdadera identidad durante años.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Haber (presente) + participio: acción pasada con efecto en el presente.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="aGEgY2FsaWZpY2Fkbw==" data-exp="SGEgY2FsaWZpY2FkbyAocHJldMOpcml0byBwZXJmZWN0byk6IHNlIHJlZmllcmUgYSB1bmEgdmFsb3JhY2nDs24gY3LDrXRpY2EgcmVjaWVudGUgeSB2aWdlbnRlIGVuIGVsIHByZXNlbnRlLCB0w61waWNhIGRlbCBsZW5ndWFqZSBkZSByZXNlw7FhcyBjaW5lbWF0b2dyw6FmaWNhcy4=">
+    <p class="q">18. La crítica <strong>___</strong> (calificar) <em>Volver</em> como una de las mejores películas de Almodóvar.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Valoración reciente y vigente en el presente → pretérito perfecto.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="aGEgaGFibGFkbw==" data-exp="SGEgaGFibGFkbyAocHJldMOpcml0byBwZXJmZWN0byk6IMKrbnVuY2HCuyBjb25lY3RhIHVuYSBleHBlcmllbmNpYSBkZSB2aWRhIHBhc2FkYSBjb24gZWwgcHJlc2VudGUgZGUgUmFpbXVuZGEsIHBhdHLDs24gdMOtcGljbyBkZWwgcHJldMOpcml0byBwZXJmZWN0by4=">
+    <p class="q">19. Raimunda nunca <strong>___</strong> (hablar) abiertamente del abuso que sufrió de joven.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«Nunca» + pretérito perfecto: experiencia de vida no realizada hasta el presente.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="aGFuIGFwcmVuZGlkbw==" data-exp="SGFuIGFwcmVuZGlkbyAocHJldMOpcml0byBwZXJmZWN0byk6IGRlc2NyaWJlIHVuIHByb2Nlc28gcXVlIGNvbWllbnphIGVuIGVsIHBhc2FkbyB5IHNpZ3VlIHZpZ2VudGUgZW4gbGEgdmlkYSBhY3R1YWwgZGUgbGFzIGhlcm1hbmFzLg==">
+    <p class="q">20. Las dos hermanas <strong>___</strong> (aprender) a convivir con los secretos familiares.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Proceso iniciado en el pasado y vigente hoy → pretérito perfecto.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="aGEgbWFudGVuaWRv" data-exp="SGEgbWFudGVuaWRvIChwcmV0w6lyaXRvIHBlcmZlY3RvKTogZGVzY3JpYmUgdW5hIHJlbGFjacOzbiBxdWUgZW1wZXrDsyBlbiBlbCBwYXNhZG8geSBjb250aW7DumEgZW4gZWwgcHJlc2VudGUgZW50cmUgQWd1c3RpbmEgZSBJcmVuZS4=">
+    <p class="q">21. Agustina siempre <strong>___</strong> (mantener) una relación cercana con Irene, su vecina.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Relación iniciada en el pasado y aún vigente → pretérito perfecto.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <button class="btn" onclick="checkAll()">✔ Comprobar mis respuestas</button>
+  <button class="btn second" onclick="resetAll()">↺ Empezar de nuevo</button>
+  <div class="score-banner" id="scoreBanner"></div>
+
+  <!-- ============ DESAFÍO A* (stretch) ============ -->
+  <div class="stretch">
+    <h2>Desafío A* — Para ir más lejos</h2>
+    <div class="consigne">Tarea exigente (C1): reescribe el resumen del argumento de <em>Volver</em> con tus propias
+    palabras (<strong>80 palabras mínimo</strong>), rellenando mentalmente los verbos que faltarían en un resumen como
+    este. Usa <strong>al menos un pretérito, un imperfecto, un subjuntivo y un pretérito perfecto</strong>.</div>
+    <p><em>Amorces:</em> «Raimunda vivía…», «Cuando Paula mató a Paco…», «Es posible que Irene…», «Desde entonces,
+    Raimunda ha…»</p>
+    <div class="item" data-type="free" data-min="80">
+      <textarea placeholder="Escribe aquí tu resumen del argumento (80 palabras mínimo, con los cuatro tiempos indicados)…"></textarea>
+      <div class="fb"></div>
+    </div>
+    <details class="aide"><summary>Ver un modelo de respuesta (después de escribir el tuyo)</summary>
+      <div id="modelAnswer">Modelo: Raimunda vivía en Madrid con su hija Paula cuando su pasado en La Mancha volvió a
+      resurgir. Una noche, Paula mató a Paco al defenderse de su agresión, y Raimunda decidió esconder el cuerpo para
+      proteger a su hija. Mientras tanto, su madre Irene, a quien todos creían muerta desde el incendio, había vuelto
+      en secreto y se escondía en casa de Sole. Es posible que Irene quisiera esperar el momento adecuado para
+      reaparecer, pues aún no había reunido el valor necesario. Finalmente, madre e hijas se han reconciliado, y el
+      pasado silenciado durante años ha salido por fin a la luz.</div></details>
+  </div>
+
+  <button class="btn dl" onclick="downloadResults()">📥 Descargar mis resultados</button>
+</div>
+
+<!-- ============ FLOATING ACCENT PAD ============ -->
+<button id="padToggle" onclick="togglePad()">á ñ ¿ — Acentos</button>
+<div id="accentPad" style="display:none">
+  <div class="drag">⋮⋮ mover</div>
+</div>
+
+<script>
+/* ================= HOUSE ENGINE — do not weaken ================= */
+/* Answers are base64-encoded (UTF-8 safe) so they never sit in plain text next to the inputs. */
+function d(b){try{return decodeURIComponent(escape(atob(b)))}catch(e){return""}}
+function e64(s){return btoa(unescape(encodeURIComponent(s)))} /* helper for authoring */
+
+function norm(s){return (s||"").toLowerCase().replace(/['']/g,"'").replace(/\s+/g," ").trim()}
+function deacc(s){return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"")}
+
+/* tolerant text check: returns "ok" | "accents" | "bad" ; accepted = array */
+function judge(val, accepted){
+  const v=norm(val);
+  if(accepted.some(a=>norm(a)===v)) return "ok";
+  if(accepted.some(a=>deacc(a)===deacc(val))) return "accents";
+  return "bad";
+}
+
+let results=[]; /* {label, given, ok, expected} */
+
+function checkAll(){
+  results=[]; let score=0, max=0;
+  document.querySelectorAll(".item").forEach((it,idx)=>{
+    const type=it.dataset.type, fb=it.querySelector(".fb");
+    const label=(it.querySelector(".q")?it.querySelector(".q").textContent.trim():("Desafío "+(idx+1))).slice(0,90);
+    if(type==="mcq"){
+      max++;
+      const sel=it.querySelector("input[type=radio]:checked");
+      const correct=d(it.dataset.a), exp=d(it.dataset.exp||"");
+      if(!sel){fb.className="fb bad";fb.textContent="⚠ Responde a la pregunta.";results.push({label,given:"—",ok:false});return}
+      if(sel.value===correct){score++;fb.className="fb ok";fb.textContent="✔ Correcto. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:true});}
+      else{fb.className="fb bad";fb.textContent="✘ Incorrecto. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:false});}
+    }
+    if(type==="text"){
+      max++;
+      const inp=it.querySelector("input,textarea");
+      const accepted=d(it.dataset.a).split("|"), exp=d(it.dataset.exp||"");
+      const r=judge(inp.value,accepted);
+      if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correcto. "+exp;}
+      else if(r==="accents"){fb.className="fb almost";fb.textContent="≈ ¡Casi! Revisa los acentos: "+accepted[0]+". "+exp;}
+      else{fb.className="fb bad";fb.textContent="✘ Respuesta esperada: "+accepted[0]+". "+exp;}
+      results.push({label,given:inp.value||"—",ok:r==="ok"});
+    }
+    if(type==="free"){
+      const ta=it.querySelector("textarea"), min=parseInt(it.dataset.min||"40");
+      const words=(ta.value.trim().match(/\S+/g)||[]).length;
+      if(words===0){fb.className="fb";fb.textContent="";}
+      else if(words<min){fb.className="fb almost";fb.textContent="≈ "+words+" palabras — intenta llegar a "+min+". Desarrolla con un conector (sin embargo, no obstante…).";}
+      else{fb.className="fb ok";fb.textContent="✔ "+words+" palabras. Compara ahora con el modelo y mejora una frase.";}
+      results.push({label,given:ta.value||"—",ok:words>=min});
+    }
+  });
+  const b=document.getElementById("scoreBanner");
+  b.style.display="block";
+  const pct=max?Math.round(100*score/max):0;
+  b.textContent="Puntuación: "+score+" / "+max+" ("+pct+" %) — "+(pct>=80?"¡Excelente!":pct>=60?"Bien — corrige los puntos señalados.":"Relee las pistas e inténtalo otra vez.");
+  window._score={score,max};
+}
+
+function resetAll(){
+  document.querySelectorAll(".item input[type=text], .item textarea").forEach(i=>i.value="");
+  document.querySelectorAll(".item input[type=radio]").forEach(r=>r.checked=false);
+  document.querySelectorAll(".fb").forEach(f=>{f.className="fb";f.textContent=""});
+  document.getElementById("scoreBanner").style.display="none";
+  results=[];window._score=null;window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function downloadResults(){
+  const name=document.getElementById("studentName").value.trim();
+  if(!name){alert("Escribe primero tu nombre al principio de la página.");document.getElementById("studentName").focus();return}
+  if(!window._score){alert("Pulsa primero «Comprobar mis respuestas».");return}
+  let txt="RESULTADOS — "+document.title+"\n";
+  txt+="Alumno/a: "+name+"\nFecha: "+new Date().toLocaleString("es-ES")+"\n";
+  txt+="Puntuación: "+window._score.score+" / "+window._score.max+"\n";
+  txt+="".padEnd(60,"=")+"\n\n";
+  results.forEach((r,i)=>{txt+=(i+1)+". "+r.label+"\n   Respuesta: "+r.given+"\n   "+(r.ok?"✔ correcto":"✘ repasar")+"\n\n";});
+  const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(document.title.split("—")[0].trim()||"resultados").replace(/\s+/g,"_")+"_"+name.replace(/\s+/g,"_")+".txt";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+}
+
+/* ---------- Accent pad ---------- */
+const CHARS=["á","é","í","ó","ú","ü","ñ","¿","¡","«","»","Á","É","Í","Ó","Ú","Ñ"];
+let lastField=null;
+document.addEventListener("focusin",e=>{
+  if(e.target.matches("input[type=text],textarea") && e.target.id!=="studentName") lastField=e.target;
+  if(e.target.id==="studentName") lastField=e.target;
+});
+const pad=document.getElementById("accentPad");
+CHARS.forEach(c=>{
+  const b=document.createElement("button");
+  b.textContent=c; if(c===c.toUpperCase()&&c.toLowerCase()!==c) b.className="maj";
+  b.addEventListener("mousedown",ev=>{
+    ev.preventDefault(); /* keep focus in the field */
+    if(!lastField) return;
+    const s=lastField.selectionStart??lastField.value.length, t=lastField.selectionEnd??s;
+    lastField.value=lastField.value.slice(0,s)+c+lastField.value.slice(t);
+    lastField.selectionStart=lastField.selectionEnd=s+c.length;
+    lastField.focus();
+  });
+  pad.appendChild(b);
+});
+function togglePad(){
+  const show=pad.style.display==="none";
+  pad.style.display=show?"flex":"none";
+  document.getElementById("padToggle").style.display=show?"none":"block";
+  if(show){ /* add close button once */
+    if(!pad.querySelector(".closer")){
+      const x=document.createElement("button");x.textContent="✕";x.className="closer";
+      x.addEventListener("mousedown",ev=>{ev.preventDefault();togglePad()});pad.appendChild(x);
+    }
+  }
+}
+/* drag the pad */
+(function(){
+  const h=pad.querySelector(".drag");let sx,sy,ox,oy,drag=false;
+  h.addEventListener("mousedown",e=>{drag=true;sx=e.clientX;sy=e.clientY;const r=pad.getBoundingClientRect();ox=r.left;oy=r.top;
+    pad.style.right="auto";pad.style.bottom="auto";e.preventDefault()});
+  document.addEventListener("mousemove",e=>{if(!drag)return;pad.style.left=(ox+e.clientX-sx)+"px";pad.style.top=(oy+e.clientY-sy)+"px"});
+  document.addEventListener("mouseup",()=>drag=false);
+})();
+</script>
 </body>
 </html>

@@ -1,620 +1,452 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Volver - Pedro Almodóvar: Ejercicios A-Level</title>
-    <style>
-        body {
-            font-family: 'Georgia', serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background: linear-gradient(135deg, #2c1810 0%, #8b4513 100%);
-            color: #fff;
-            line-height: 1.6;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 30px;
-            background: rgba(139, 69, 19, 0.3);
-            border-radius: 15px;
-            border: 2px solid #d2691e;
-        }
-        
-        .header h1 {
-            color: #ffd700;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-        
-        .header p {
-            font-size: 1.2em;
-            color: #f0e68c;
-            font-style: italic;
-        }
-        
-        .section {
-            margin-bottom: 40px;
-            padding: 25px;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 10px;
-            border-left: 5px solid #ff6b35;
-        }
-        
-        .section h2 {
-            color: #ff6b35;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #ff6b35;
-            padding-bottom: 10px;
-        }
-        
-        .sentence {
-            margin-bottom: 25px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-        
-        .sentence:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-        
-        .original {
-            font-size: 1.1em;
-            margin-bottom: 15px;
-            line-height: 1.7;
-            color: #f5f5f5;
-        }
-        
-        .english {
-            font-style: italic;
-            color: #f0e68c;
-            margin-bottom: 10px;
-            padding: 8px;
-            background: rgba(0,0,0,0.2);
-            border-left: 3px solid #ffd700;
-        }
-        
-        .original strong {
-            background: #ff6b35;
-            color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-        }
-        
-        input[type="text"] {
-            width: 200px;
-            padding: 10px;
-            border: 2px solid #ff6b35;
-            border-radius: 5px;
-            font-size: 16px;
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
-            margin-right: 10px;
-        }
-        
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #ffd700;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-        }
-        
-        .check-btn {
-            background: linear-gradient(45deg, #ff6b35, #ff8c42);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-        
-        .check-btn:hover {
-            background: linear-gradient(45deg, #ff8c42, #ffa500);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        
-        .feedback {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 5px;
-            font-weight: bold;
-            min-height: 20px;
-        }
-        
-        .correct {
-            background: #2d5a27;
-            color: #90ee90;
-            border: 1px solid #90ee90;
-        }
-        
-        .incorrect {
-            background: #5a2727;
-            color: #ff6b6b;
-            border: 1px solid #ff6b6b;
-        }
-        
-        .instructions {
-            background: rgba(255, 215, 0, 0.1);
-            border: 2px solid #ffd700;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 30px;
-            color: #ffd700;
-        }
-        
-        .counter {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 15px;
-            border-radius: 10px;
-            border: 2px solid #ff6b35;
-            color: #fff;
-            font-weight: bold;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La gramática a través de Volver — A-Level Spanish</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 120px}
+  .wrap{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:28px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+  .name-row input{padding:9px 12px;font-size:1em;border:2px solid var(--accent);border-radius:6px;width:280px;font-family:inherit}
+  .item{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:8px}
+  .item input[type=text],.item textarea{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px}
+  .item textarea{min-height:90px;resize:vertical}
+  .opts label{display:block;padding:7px 10px;margin:5px 0;border:1.5px solid var(--line);border-radius:5px;cursor:pointer}
+  .opts label:hover{background:#f2f7fa}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  .fb{display:none;margin-top:8px;padding:9px 12px;border-radius:6px;font-size:.95em}
+  .fb.ok{display:block;background:#e9f5ee;border-left:4px solid var(--ok);color:var(--ok)}
+  .fb.almost{display:block;background:#fff8ec;border-left:4px solid var(--warn);color:var(--warn)}
+  .fb.bad{display:block;background:#fbeeee;border-left:4px solid var(--bad);color:var(--bad)}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px;margin:26px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:11px 20px;font-size:1em;font-family:inherit;
+       border-radius:6px;cursor:pointer;margin:6px 6px 6px 0}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.dl{background:var(--ok)}
+  .btn.second{background:#5a6a78}
+  .score-banner{display:none;margin:18px 0;padding:14px;border-radius:8px;background:#f2f7fa;
+       border:2px solid var(--accent);font-size:1.15em;font-weight:bold;color:var(--accent)}
+  /* ---------- Floating accent pad ---------- */
+  #accentPad{position:fixed;bottom:18px;right:18px;background:#fff;border:2px solid var(--accent);
+       border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.25);padding:10px;z-index:1000;
+       display:flex;flex-wrap:wrap;gap:5px;max-width:340px;user-select:none}
+  #accentPad .drag{width:100%;cursor:move;font-size:.8em;color:#5a6a78;text-align:center;padding-bottom:4px}
+  #accentPad button{font-size:1.05em;font-family:inherit;min-width:34px;padding:6px 4px;border:1px solid var(--line);
+       border-radius:5px;background:#f2f7fa;cursor:pointer}
+  #accentPad button:hover{background:var(--accent);color:#fff}
+  #accentPad .maj{font-size:.8em;background:#e6e9ec}
+  #padToggle{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--accent);color:#fff;
+       border:none;border-radius:50px;padding:12px 18px;font-size:1em;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  @media print{#accentPad,#padToggle{display:none}}
+</style>
 </head>
 <body>
-    <div class="header">
-        <h1>Volver - Pedro Almodóvar</h1>
-        <p>Ejercicios de A-Level Spanish - Edexcel AO3: Range and Accuracy of Language</p>
+<div class="wrap">
+  <header>
+    <h1>La gramática a través de <em>Volver</em></h1>
+    <p class="meta">A-Level Spanish (Edexcel) · <em>Volver</em> (Almodóvar) · Subjuntivo, pronombres relativos, ser/estar, pretérito/imperfecto y conectores · Duración recomendada: 45 min</p>
+  </header>
+
+  <div class="name-row">
+    <label for="studentName"><strong>Tu nombre:</strong></label>
+    <input type="text" id="studentName" placeholder="Nombre APELLIDO" maxlength="60">
+  </div>
+
+  <div class="consigne"><strong>Instrucciones:</strong> Completa cada ejercicio de gramática usando el contenido de la
+  película <em>Volver</em> de Pedro Almodóvar (Raimunda, Sole, Irene, Paula, Agustina, Paco). Escribe la forma correcta
+  del verbo o el pronombre pedido, o elige la opción correcta. Pulsa «Comprobar» y, al final, descarga tus resultados.</div>
+
+  <!-- ============ EJERCICIO 1 : El subjuntivo ============ -->
+  <h2>Ejercicio 1 · El subjuntivo: los desencadenantes clave <span class="pts">(5 puntos)</span></h2>
+  <div class="consigne">El subjuntivo aparece tras ciertas expresiones: <em>es importante que, para que, aunque</em>
+  (+ incertidumbre), <em>cuando</em> (+ referencia futura). Completa con la forma correcta del verbo entre paréntesis
+  o elige la opción correcta.</div>
+
+  <div class="item" data-type="text" data-a="cHJvdGVqYQ==" data-exp="wqtFcyBpbXBvcnRhbnRlIHF1ZcK7ICsgc3VianVudGl2bzogZXhwcmVzYSBsYSBuZWNlc2lkYWQgZGUgcXVlIGFsZ28gb2N1cnJhLiBSYWltdW5kYSBvY3VsdGEgbGEgdmVyZGFkIGEgUGF1bGEgcHJlY2lzYW1lbnRlIHBhcmEgcHJvdGVnZXJsYS4=">
+    <p class="q">1. Es importante que Raimunda <strong>___</strong> (proteger) a Paula de la verdad sobre la muerte de Paco.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«Es importante que» es una expresión de necesidad/opinión que siempre exige subjuntivo.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="Y3VlbnRl" data-exp="wqtDdWFuZG/CuyArIHN1Ymp1bnRpdm8gKHJlZmVyZW5jaWEgZnV0dXJhKTogZW4gZWwgbW9tZW50byBuYXJyYXRpdm8gYWx1ZGlkbywgbGEgYWNjacOzbiBkZSBjb250YXIgbGEgdmVyZGFkIHRvZGF2w61hIG5vIGhhIG9jdXJyaWRvLg==">
+    <p class="q">2. Cuando Irene por fin le <strong>___</strong> (contar) la verdad a Raimunda, esta comprenderá por qué su madre desapareció durante años.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«Cuando» + subjuntivo se usa para hablar de una acción futura, todavía no realizada.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="Q29uIMKrYXVucXVlwrsgKyBzdWJqdW50aXZvICh0ZW5nYSkgc2UgcmVzYWx0YSBsYSBhY3RpdHVkIGRlIFJhaW11bmRhIHBlc2UgYSBzdSBtaWVkbywgcHJlc2VudMOhbmRvbG8gY29tbyBhbGdvIHNlY3VuZGFyaW87IGNvbiBpbmRpY2F0aXZvICh0aWVuZSkgc29sbyBzZSBjb25zdGF0YXLDrWEgZWwgaGVjaG8sIHNpbiBlc2UgbWF0aXogY29uY2VzaXZvLg==">
+    <p class="q">3. Aunque Raimunda ___ mucho miedo al pasado, decide enfrentarse a él y cuidar de su madre.</p>
+    <div class="opts">
+      <label><input type="radio" name="d_ex1_q3" value="0"> A) tiene</label>
+      <label><input type="radio" name="d_ex1_q3" value="1"> B) tenga</label>
+      <label><input type="radio" name="d_ex1_q3" value="2"> C) tuvo</label>
     </div>
-    
-    <div class="counter">
-        <div>Correctas: <span id="correct-count">0</span>/43</div>
-        <div>Progreso: <span id="progress">0%</span></div>
+    <details class="aide"><summary>Pista</summary><div>«Aunque» + subjuntivo indica que la información se presenta con matiz concesivo, no como un hecho neutro.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZGVzY3VicmE=" data-exp="wqtQYXJhIHF1ZcK7IHNpZW1wcmUgdmEgc2VndWlkbyBkZSBzdWJqdW50aXZvIHBvcnF1ZSBpbnRyb2R1Y2UgbGEgZmluYWxpZGFkIGRlIGxhIGFjY2nDs24gZGUgSXJlbmU6IGVzY29uZGVyIHN1IHJlZ3Jlc28u">
+    <p class="q">4. Irene se hace pasar por fantasma para que Sole no <strong>___</strong> (descubrir) la verdad demasiado pronto.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«Para que» + subjuntivo expresa la finalidad de una acción.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TGFzIGV4cHJlc2lvbmVzIGRlIHNlbnRpbWllbnRvIG8gdmFsb3JhY2nDs24gKGVzIHVuYSBsw6FzdGltYSBxdWUsIGVzIHVuYSBwZW5hIHF1ZeKApikgZXhpZ2VuIHNpZW1wcmUgc3VianVudGl2bzogdGVuZ2Eu">
+    <p class="q">5. ¿Cuál de estas frases sobre Agustina usa correctamente el subjuntivo?</p>
+    <div class="opts">
+      <label><input type="radio" name="d_ex1_q5" value="0"> A) Es una lástima que Agustina tiene cáncer.</label>
+      <label><input type="radio" name="d_ex1_q5" value="1"> B) Es una lástima que Agustina tenga cáncer.</label>
+      <label><input type="radio" name="d_ex1_q5" value="2"> C) Es una lástima que Agustina tendrá cáncer.</label>
     </div>
-    
-    <div class="instructions">
-        <h3>📚 Instrucciones:</h3>
-        <p>Completa las frases sobre "Volver" con la forma correcta del verbo, pronombre relativo o conector avanzado. Estas frases están diseñadas para demostrar un rango avanzado de lenguaje apropiado para A-Level Spanish.</p>
+    <details class="aide"><summary>Pista</summary><div>Busca la expresión de sentimiento/valoración al principio de la frase.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EJERCICIO 2 : Pronombres relativos ============ -->
+  <h2>Ejercicio 2 · Pronombres relativos: que / quien / cuyo / el cual <span class="pts">(5 puntos)</span></h2>
+  <div class="consigne">Los pronombres relativos evitan la repetición y añaden información sobre personajes y temas.
+  Recuerda: <em>cuyo/cuya/cuyos/cuyas</em> concuerda con el sustantivo que sigue (lo poseído), no con el poseedor.</div>
+
+  <div class="item" data-type="text" data-a="Y3V5bw==" data-exp="Q3V5byByZWdyZXNvID0gZWwgcmVncmVzbyBkZSBJcmVuZS4gwqtDdXlvwrsgY29uY3VlcmRhIGVuIGfDqW5lcm8geSBuw7ptZXJvIGNvbiBlbCBzdXN0YW50aXZvIHBvc2XDrWRvIChyZWdyZXNvLCBtYXNjdWxpbm8gc2luZ3VsYXIpLCBubyBjb24gZWwgcG9zZWVkb3IgKElyZW5lKS4=">
+    <p class="q">6. Irene, <strong>___</strong> regreso sorprende a toda la familia, finge ser un fantasma al principio.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Mira la palabra que sigue al hueco: «regreso» es masculino singular.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="cXVpZW58bGEgcXVl" data-exp="Q29uIHByZXBvc2ljacOzbiAoYSkgKyBwZXJzb25hLCBlbCBlc3Bhw7FvbCBwcmVmaWVyZSDCq2EgcXVpZW7CuyBvIMKrYSBsYSBxdWXCuzogYSBxdWllbiBJcmVuZSBjdWlkYSBkdXJhbnRlIHN1IGVuZmVybWVkYWQu">
+    <p class="q">7. Agustina, a <strong>___</strong> Irene cuida durante su enfermedad, vive sola en el pueblo manchego.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Tras una preposición y referido a una persona, usa «quien» o «la que».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="cXVlfHF1aWVu" data-exp="wqtRdWXCuyBlcyBlbCByZWxhdGl2byBtw6FzIGZyZWN1ZW50ZSB5IGZ1bmNpb25hIHRhbnRvIHBhcmEgcGVyc29uYXMgY29tbyBwYXJhIGNvc2FzIGN1YW5kbyBubyBoYXkgcHJlcG9zaWNpw7NuIGRlbGFudGUu">
+    <p class="q">8. Paco, <strong>___</strong> intenta abusar de Paula, muere apuñalado por la propia Paula en defensa propia.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Sin preposición delante, la opción más natural y común es una sola palabra muy corta.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="Y3VhbA==" data-exp="wqtEZWwgY3VhbMK7ICg9IGRlbCBxdWUpIGVzIGhhYml0dWFsIGNvbiBwcmVwb3NpY2lvbmVzIGNvbXB1ZXN0YXMgeSBlbiByZWdpc3RybyBmb3JtYWw7IGludHJvZHVjZSBsYSBleHBsaWNhY2nDs24gc29icmUgZWwgdmllbnRvIHNvbGFuby4=">
+    <p class="q">9. El viento solano, del <strong>___</strong> hablan los habitantes de La Mancha, se asocia tradicionalmente con la locura.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Tras preposiciones compuestas (del, en el, por el…) se prefiere la forma «el cual/la cual» en registro formal.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="Q3V5YXMgdHJhZGljaW9uZXMgPSBsYXMgdHJhZGljaW9uZXMgZGUgTGEgTWFuY2hhLiDCq0N1eWFzwrsgY29uY3VlcmRhIGNvbiDCq3RyYWRpY2lvbmVzwrsgKGZlbWVuaW5vIHBsdXJhbCksIG5vIGNvbiDCq0xhIE1hbmNoYcK7Lg==">
+    <p class="q">10. «La Mancha, ___ tradiciones inspiran gran parte de la película, es la tierra natal de Almodóvar.» ¿Qué pronombre completa la frase?</p>
+    <div class="opts">
+      <label><input type="radio" name="d_ex2_q10" value="0"> A) que</label>
+      <label><input type="radio" name="d_ex2_q10" value="1"> B) cuyas</label>
+      <label><input type="radio" name="d_ex2_q10" value="2"> C) quien</label>
     </div>
+    <details class="aide"><summary>Pista</summary><div>Busca el sustantivo que sigue al hueco: ¿es masculino o femenino, singular o plural?</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <!-- SUBJUNCTIVES SECTION (14 sentences) -->
-    <div class="section">
-        <h2>🎭 Subjuntivos - Advanced Subjunctive Constructions</h2>
-        
-        <div class="sentence" data-answer="revele">
-            <div class="english">It's essential that the symbolism of the mirrors reveals the psychological complexity of the female characters.</div>
-            <div class="original">Es imprescindible que el simbolismo de los espejos <strong>___</strong> (revelar) la complejidad psicológica de los personajes femeninos.</div>
-            <input type="text" name="q1" placeholder="Escribe el verbo..." data-inf="revelar" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
+  <!-- ============ EJERCICIO 3 : Ser y estar ============ -->
+  <h2>Ejercicio 3 · Ser y estar <span class="pts">(5 puntos)</span></h2>
+  <div class="consigne"><em>Ser</em> se usa para características permanentes, identidad y origen; <em>estar</em> para
+  estados, ubicación y resultados de una acción — incluso resultados permanentes, como en el caso de «muerto».</div>
 
-        <div class="sentence" data-answer="establezca">
-            <div class="english">Almodóvar makes sure that each flashback establishes a deep emotional connection with the viewer.</div>
-            <div class="original">Almodóvar logra que cada flashback <strong>___</strong> (establecer) una conexión emocional profunda con el espectador.</div>
-            <input type="text" name="q2" placeholder="Escribe el verbo..." data-inf="establecer" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
+  <div class="item" data-type="text" data-a="ZXM=" data-exp="U2VyICsgYWRqZXRpdm8gZGUgY3VhbGlkYWQgcGVybWFuZW50ZSBkZXNjcmliZSBsYSBwZXJzb25hbGlkYWQgZXNlbmNpYWwgZGUgUmFpbXVuZGEu">
+    <p class="q">11. Raimunda <strong>___</strong> (ser) una mujer trabajadora y decidida que saca adelante a su familia.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Característica esencial de la personalidad → ser.</div></details>
+    <div class="fb"></div>
+  </div>
 
-        <div class="sentence" data-answer="hubiera">
-            <div class="english">Raimunda acts as if she had never experienced the trauma of sexual abuse in her youth.</div>
-            <div class="original">Raimunda actúa como si nunca <strong>___</strong> (haber) experimentado el trauma del abuso sexual en su juventud.</div>
-            <input type="text" name="q3" placeholder="Escribe el verbo..." data-inf="haber" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
+  <div class="item" data-type="text" data-a="ZXN0w6E=" data-exp="RXN0YXIgKyBhZGpldGl2byBkZXNjcmliZSB1biBlc3RhZG8gZW1vY2lvbmFsIHBhc2FqZXJvLCBubyB1bmEgY2FyYWN0ZXLDrXN0aWNhIGZpamEgZGUgU29sZS4=">
+    <p class="q">12. Cuando Irene reaparece, Sole <strong>___</strong> (estar) asustada porque cree que es un fantasma.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Un estado emocional temporal → estar.</div></details>
+    <div class="fb"></div>
+  </div>
 
-        <div class="sentence" data-answer="mantenga">
-            <div class="english">In Volver it's fundamental that the narrative maintains a balance between unrealistic situations and dramatic credibility.</div>
-            <div class="original">En Volver es fundamental que la narrativa <strong>___</strong> (mantener) un equilibrio entre situaciones irrealismo y la credibilidad dramática.</div>
-            <input type="text" name="q4" placeholder="Escribe el verbo..." data-inf="mantener" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="experimenten">
-            <div class="english">The director intends for the viewers to experience an emotional catharsis through maternal forgiveness.</div>
-            <div class="original">El director pretende que los espectadores <strong>___</strong> (experimentar) una catarsis emocional a través del perdón maternal.</div>
-            <input type="text" name="q5" placeholder="Escribe el verbo..." data-inf="experimentar" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="rompa">
-            <div class="english">It's remarkable that the theme of patricide breaks the conventions of traditional Spanish melodrama.</div>
-            <div class="original">Es notable que la temática del patricidio <strong>___</strong> (romper) las convenciones del melodrama tradicional español.</div>
-            <input type="text" name="q6" placeholder="Escribe el verbo..." data-inf="romper" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="sean">
-            <div class="english">I doubt that the cinematographic techniques are enough to convey the intensity of female grief.</div>
-            <div class="original">Dudo que las técnicas cinematográficas <strong>___</strong> (haber) suficientes para transmitir la intensidad del duelo femenino.</div>
-            <input type="text" name="q7" placeholder="Escribe el verbo..." data-inf="ser" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="muestre">
-            <div class="english">Almodóvar uses the color red to show symbolically the latent passion and violence.</div>
-            <div class="original">Almodóvar emplea el color rojo para que <strong>___</strong> (mostrar) simbólicamente la pasión y violencia latente.</div>
-            <input type="text" name="q8" placeholder="Escribe el verbo..." data-inf="mostrar" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="sea">
-            <div class="english">It's not likely that a genuine reconciliation is possible without explicit recognition of the traumatic past.</div>
-            <div class="original">No es probable que una reconciliación auténtica <strong>___</strong> (ser) posible sin un reconocimiento explícito del pasado traumático.</div>
-            <input type="text" name="q9" placeholder="Escribe el verbo..." data-inf="ser" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="comprendan">
-            <div class="english">It's crucial that the critics understand the deconstruction of femininity stereotypes that the film performs.</div>
-            <div class="original">Es crucial que los críticos <strong>___</strong> (comprender) la deconstrucción de estereotipos de feminidad que realiza el filme.</div>
-            <input type="text" name="q10" placeholder="Escribe el verbo..." data-inf="comprender" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="permita">
-            <div class="english">The narrative structure is designed to allow multiple interpretations of the ending.</div>
-            <div class="original">La estructura narrativa es diseñada para que <strong>___</strong> (permitir) múltiples interpretaciones del final.</div>
-            <input type="text" name="q11" placeholder="Escribe el verbo..." data-inf="permitir" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="constituya">
-            <div class="english">It's indisputable that the cemetery constitutes a liminal space between life and death in Almodóvar's worldview.</div>
-            <div class="original">Es indiscutible que el cementerio <strong>___</strong> (constituir) un espacio liminal entre vida y muerte en la cosmovisión almodovariana.</div>
-            <input type="text" name="q12" placeholder="Escribe el verbo..." data-inf="constituir" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="hubiera">
-            <div class="english">Paula reacts as if her grandmother had never died, showing the normalization of the supernatural.</div>
-            <div class="original">Paula reacciona como si su abuela nunca <strong>___</strong> (haber) muerto, evidenciando la normalización de lo sobrenatural.</div>
-            <input type="text" name="q13" placeholder="Escribe el verbo..." data-inf="haber" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="articulen">
-            <div class="english">Almodóvar aims for the performances to articulate a subtle critique of contemporary Spanish patriarchy.</div>
-            <div class="original">Almodóvar busca que las actuaciones <strong>___</strong> (articular) una crítica sutil al patriarcado español contemporáneo.</div>
-            <input type="text" name="q14" placeholder="Escribe el verbo..." data-inf="articular" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqtFc3RhciBtdWVydG/CuyBlcyB1bmEgZXhjZXBjacOzbiBmaWphIGRlbCBlc3Bhw7FvbDogZXN0YXIgKyBtdWVydG8vdml2byBkZXNjcmliZSBlbCByZXN1bHRhZG8gZGUgdW5hIGFjY2nDs24sIGF1bnF1ZSBlc2UgcmVzdWx0YWRvIHNlYSBpcnJldmVyc2libGUu">
+    <p class="q">13. «Paco ___ muerto después de que Paula lo apuñala.» ¿Ser o estar?</p>
+    <div class="opts">
+      <label><input type="radio" name="d_ex3_q13" value="0"> A) es</label>
+      <label><input type="radio" name="d_ex3_q13" value="1"> B) está</label>
     </div>
+    <details class="aide"><summary>Pista</summary><div>El adjetivo «muerto» siempre se usa con estar en español, aunque el resultado sea permanente.</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <!-- RELATIVE PRONOUNS SECTION (15 sentences) -->
-    <div class="section">
-        <h2>🔗 Pronombres Relativos - Advanced Relative Constructions</h2>
-        
-        <div class="sentence" data-answer="cuyo">
-            <div class="english">Irene represents the maternal figure whose (cuyo or cya?) return breaks the barriers of mortality.</div>
-            <div class="original">Irene representa la figura materna <strong>___</strong> regreso rompe las barreras de la mortalidad. </div>
-            <input type="text" name="q15" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
+  <div class="item" data-type="text" data-a="ZXN0w6E=" data-exp="RXN0YXIgZGVzY3JpYmUgYXF1w60gZWwgZXN0YWRvIChsaW1waW8pIHJlc3VsdGFudGUgZGVsIGN1aWRhZG8gaGFiaXR1YWwgZGUgbGFzIHR1bWJhcyBlbiBMYSBNYW5jaGEu">
+    <p class="q">14. El cementerio del pueblo <strong>___</strong> (estar) siempre impecablemente limpio, según la tradición manchega.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Estado resultante de una costumbre → estar.</div></details>
+    <div class="fb"></div>
+  </div>
 
-        <div class="sentence" data-answer="cuyas">
-            <div class="english">The women of La Mancha, whose (cuyos or cues?) ancestral traditions remain alive, embody the resistance of regional culture.</div>
-            <div class="original">Las mujeres de La Mancha, <strong>___</strong> tradiciones ancestrales siguen vivas, encarnan la resistencia de la cultura regional que a veces tiene origines antiquísimos</div>
-            <input type="text" name="q16" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
+  <div class="item" data-type="text" data-a="ZXM=" data-exp="U2VyICsgYWRqZXRpdm8gZGVzY3JpYmUgbGEgbmF0dXJhbGV6YSBlc2VuY2lhbCB5IGRlZmluaXRvcmlhIGRlIGxhIHJlbGFjacOzbiBtYWRyZS1oaWphIGVuIGxhIHBlbMOtY3VsYSwgbm8gdW4gZXN0YWRvIHBhc2FqZXJvLg==">
+    <p class="q">15. La relación entre Raimunda y su madre <strong>___</strong> (ser) complicada a causa de los secretos del pasado.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Característica definitoria de la relación → ser.</div></details>
+    <div class="fb"></div>
+  </div>
 
-        <div class="sentence" data-answer="quienes, los cuales">
-            <div class="english">The male characters, against whom the feminist criticism is directed, remain marginalised.</div>
-            <div class="original">Los personajes masculinos, contra <strong>___</strong> se dirige la crítica feminista, permanecen marginalizados narrativamente.</div>
-            <input type="text" name="q17" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
+  <!-- ============ EJERCICIO 4 : Pretérito e imperfecto ============ -->
+  <h2>Ejercicio 4 · Pretérito e imperfecto: narrando la trama <span class="pts">(5 puntos)</span></h2>
+  <div class="consigne">El imperfecto describe el contexto, las acciones habituales o en desarrollo; el pretérito narra
+  las acciones puntuales y completadas que hacen avanzar la trama.</div>
 
-        <div class="sentence" data-answer="que, lo que">
-            <div class="english">The restaurant functions as a new start, which facilitates the development of new plots.</div>
-            <div class="original">El restaurante funciona como un nuevo comienzo, <strong>___</strong> facilita el desarrollo de tramas nuevas.</div>
-            <input type="text" name="q18" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
+  <div class="item" data-type="text" data-a="dml2w61h" data-exp="Vml2w61hIChpbXBlcmZlY3RvKSBkZXNjcmliZSBsYSBzaXR1YWNpw7NuIGRlIGZvbmRvIG1pZW50cmFzIHNlIGRlc2Fycm9sbGFiYSBsYSB0cmFtYSBwcmluY2lwYWwsIHNpbiBsw61taXRlcyB0ZW1wb3JhbGVzIHByZWNpc29zLg==">
+    <p class="q">16. Mientras Raimunda <strong>___</strong> (vivir, imperfecto) en Madrid, no sabía que su madre seguía viva en el pueblo.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Acción de fondo, sin límite temporal claro → imperfecto.</div></details>
+    <div class="fb"></div>
+  </div>
 
-        <div class="sentence" data-answer="cuanto, lo que, todo lo que">
-            <div class="english">Raimunda preserves what her mother taught her about female survival and dignity.</div>
-            <div class="original">Raimunda preserva <strong>___</strong> le enseñó su madre sobre supervivencia y dignidad femenina.</div>
-            <input type="text" name="q19" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
+  <div class="item" data-type="text" data-a="bWF0w7M=" data-exp="TWF0w7MgKHByZXTDqXJpdG8pIG5hcnJhIGVsIGhlY2hvIGNvbmNyZXRvIHkgw7puaWNvIHF1ZSBkZXNlbmNhZGVuYSBlbCByZXN0byBkZSBsYSB0cmFtYTogbGEgbXVlcnRlIGRlIFBhY28u">
+    <p class="q">17. Una noche, Paula <strong>___</strong> (matar, pretérito) a Paco para defenderse de su agresión.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Acción puntual y completada que cambia el rumbo de la historia → pretérito.</div></details>
+    <div class="fb"></div>
+  </div>
 
-        <div class="sentence" data-answer="que, el coal">
-            <div class="english">The wind, which represents a source of madness in the local stories, is mentioned often.</div>
-            <div class="original">El viento, <strong>___</strong> representa una fuente de locura, viene mencionado a menudo.</div>
-            <input type="text" name="q20" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
+  <div class="item" data-type="text" data-a="ZmluZ8OtYQ==" data-exp="RmluZ8OtYSAoaW1wZXJmZWN0bykgZGVzY3JpYmUgdW5hIHNpdHVhY2nDs24gbWFudGVuaWRhIGR1cmFudGUgdW4gcGVyaW9kbyBkZSB0aWVtcG8sIG5vIHVuIMO6bmljbyBtb21lbnRvIHB1bnR1YWwu">
+    <p class="q">18. Irene <strong>___</strong> (fingir, imperfecto) ser un fantasma para no asustar a sus hijas de golpe con su regreso.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Acción prolongada/mantenida en el tiempo → imperfecto.</div></details>
+    <div class="fb"></div>
+  </div>
 
-        <div class="sentence" data-answer="las que, las cuales">
-            <div class="english">The folk songs, without which cultural identity would be less present, characterise the sound universe of the film.</div>
-            <div class="original">Las canciones populares, sin <strong>___</strong> la identidad cultural sería menos presente, caracteriza el universo sonoro del largometraje.</div>
-            <input type="text" name="q21" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
+  <div class="item" data-type="text" data-a="ZGVzdHJ1ecOz" data-exp="RGVzdHJ1ecOzIChwcmV0w6lyaXRvKSBtYXJjYSB1biBzdWNlc28gY29uY3JldG8geSBhbnRlcmlvciBlbiBlbCBwYXNhZG8gZGUgbGEgZmFtaWxpYSwgY29uIHByaW5jaXBpbyB5IGZpbiBjbGFyb3Mu">
+    <p class="q">19. El incendio <strong>___</strong> (destruir, pretérito) la casa de los padres de Raimunda muchos años atrás.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Acontecimiento puntual con principio y fin claros → pretérito.</div></details>
+    <div class="fb"></div>
+  </div>
 
-        <div class="sentence" data-answer="quien, que, la cual">
-            <div class="english">Agustina, who suffers from cancer, symbolises human vulnerability before nature.</div>
-            <div class="original">Agustina, <strong>___</strong> tiene cáncer, simboliza la vulnerabilidad humana ante la naturaleza.</div>
-            <input type="text" name="q22" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cuya">
-            <div class="english">The cinematography, whose colour palette evokes specific emotions, builds complex psychological atmospheres.</div>
-            <div class="original">La cinematografía, <strong>___</strong> paleta cromática evoca emociones específicas, construye atmósferas psicológicas complejas.</div>
-            <input type="text" name="q23" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cuanto, lo que, todo lo que">
-            <div class="english">Maternal forgiveness encompasses what seemed unforgivable in the context of traditional morality.</div>
-            <div class="original">El perdón maternal abarca <strong>___</strong> parecía imperdonable en el contexto de la moralidad tradicional.</div>
-            <input type="text" name="q24" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cuyas">
-            <div class="english">The lead actresses, whose performances go beyond naturalism, create universal women types.</div>
-            <div class="original">Las actrices principales, <strong>___</strong> interpretaciones trascienden el naturalismo, crean arquetipos universales.</div>
-            <input type="text" name="q26" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="quienes, los cuales">
-            <div class="english">The viewers, for whom supernatural things are familiar, intuitively understand the plot</div>
-            <div class="original">Los espectadores, para <strong>___</strong> el lo sobrenatural resulta familiar, comprenden intuitivamente la historia.</div>
-            <input type="text" name="q27" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cuyo">
-            <div class="english">The town of La Mancha, whose geographical isolation preserves traditions, functions as a collective character.</div>
-            <div class="original">El pueblo manchego, <strong>___</strong> aislamiento geográfico preserva tradiciones, funciona como personaje colectivo.</div>
-            <input type="text" name="q28" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="RGVzY3VicmnDsyAocHJldMOpcml0bykgbmFycmEgZWwgaW5zdGFudGUgcHVudHVhbCB5IHNvcnByZXNpdm8gZGVsIGhhbGxhemdvOyBlbCBpbXBlcmZlY3RvIHN1Z2VyaXLDrWEgdW5hIGFjY2nDs24gaGFiaXR1YWwgbyByZXBldGlkYSwgbG8gY3VhbCBubyB0aWVuZSBzZW50aWRvIGFxdcOtLg==">
+    <p class="q">20. «Cuando Sole ___ a su madre escondida en el maletero del coche, se quedó completamente atónita.» ¿Pretérito o imperfecto?</p>
+    <div class="opts">
+      <label><input type="radio" name="d_ex4_q20" value="0"> A) descubría</label>
+      <label><input type="radio" name="d_ex4_q20" value="1"> B) descubrió</label>
     </div>
+    <details class="aide"><summary>Pista</summary><div>Es un momento único y sorpresivo, no una situación habitual → pretérito.</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <!-- ADVANCED CONNECTORS SECTION (14 sentences) -->
-    <div class="section">
-        <h2>🌉 Conectores Avanzados - Sophisticated Discourse Markers</h2>
-        
-      <div class="sentence" data-answer="En consecuencia, Por lo tanto, Así que">
-    <div class="english">Female solidarity constitutes the central thematic core; consequently, all secondary relationships revolve around it.</div>
-    <div class="original">La sororidad/solidaridad femenina constituye el núcleo temático central; <strong>___</strong>, todas las relaciones secundarias orbitan en torno a ella.</div>
-    <input type="text" name="q31" placeholder="Escribe el conector..." />
-    <button type="button" class="check-btn">Comprobar</button>
-    <div class="feedback"></div>
-</div>
+  <!-- ============ EJERCICIO 5 : Conectores para el ensayo ============ -->
+  <h2>Ejercicio 5 · Conectores para el ensayo <span class="pts">(3 puntos)</span></h2>
+  <div class="consigne">En un ensayo de A-Level sobre <em>Volver</em> conviene variar los conectores para argumentar
+  con precisión: consecuencia, contraste y adición no son intercambiables.</div>
 
-<div class="sentence" data-answer="Por el contrario, Al contrario, En cambio">
-    <div class="english">Men don't dominate the narrative as in previous films; on the contrary, their presence is almost testimonial.</div>
-    <div class="original">Los hombres no dominan la narrativa como en films anteriores; <strong>___</strong>, su presencia resulta casi testimonial.</div>
-    <input type="text" name="q32" placeholder="Escribe el conector..." />
-    <button type="button" class="check-btn">Comprobar</button>
-    <div class="feedback"></div>
-</div>
-
-<div class="sentence" data-answer="Asimismo, También, Igualmente">
-    <div class="english">Mourning is ritualised through community ceremonies; likewise, death is shared and loses individual drama.</div>
-    <div class="original">El luto se ritualiza mediante ceremonias comunitarias; <strong>___</strong>, la muerte se comparte y pierde dramatismo individual.</div>
-    <input type="text" name="q33" placeholder="Escribe el conector..." />
-    <button type="button" class="check-btn">Comprobar</button>
-    <div class="feedback"></div>
-</div>
-
-<div class="sentence" data-answer="Ahora bien, Sin embargo, No obstante">
-    <div class="english">The supernatural part of the film's atmosphere; however, it is appears always psychologically credible.</div>
-    <div class="original">Lo sobrenatural es es parte de la atmósfera fílmica; <strong>___</strong>, siempre parece credible de un punto de vista psychologico .</div>
-    <input type="text" name="q34" placeholder="Escribe el conector..." />
-    <button type="button" class="check-btn">Comprobar</button>
-    <div class="feedback"></div>
-</div>
-
-<div class="sentence" data-answer="En efecto, De hecho, Es más">
-    <div class="english">Motherhood goes beyond biological limits; indeed, it becomes a social and spiritual institution.</div>
-    <div class="original">La maternidad trasciende los límites biológicos; <strong>___</strong>, se convierte en institución social y espiritual.</div>
-    <input type="text" name="q35" placeholder="Escribe el conector..." />
-    <button type="button" class="check-btn">Comprobar</button>
-    <div class="feedback"></div>
-</div>
-
-<div class="sentence" data-answer="Sin embargo, No obstante, Pero">
-    <div class="english">Revenge could justify the violence; however, Almodóvar stresses compassion over retribution.</div>
-    <div class="original">La venganza podría justificar la violencia; <strong>___</strong>, Almodóvar privilegia la compasión sobre la retribución.</div>
-    <input type="text" name="q36" placeholder="Escribe el conector..." />
-    <button type="button" class="check-btn">Comprobar</button>
-    <div class="feedback"></div>
-</div>
-
-<div class="sentence" data-answer="Por tanto, Por eso, Así que">
-    <div class="english">The visual aesthetics reinforces underlying meanings; therefore, each chromatic element has narrative intentionality.</div>
-    <div class="original">La estética visual refuerza significados subyacentes; <strong>___</strong>, cada elemento cromático posee intencionalidad narrativa.</div>
-    <input type="text" name="q37" placeholder="Escribe el conector..." />
-    <button type="button" class="check-btn">Comprobar</button>
-    <div class="feedback"></div>
-</div>
-
-<div class="sentence" data-answer="Mientras que, Por un lado, Aunque">
-    <div class="english">While tradition imposes silence about family traumas, the new generations seek emotional transparency. This is one thing the film and Spanish society have in common. </div>
-    <div class="original"><strong>___</strong> la tradición impone silencio sobre traumas familiares, las nuevas generaciones buscan transparencia emocional. Esto es una cosa que la película y la sociedad española tienen en común.</div>
-    <input type="text" name="q38" placeholder="Escribe el conector..." />
-    <button type="button" class="check-btn">Comprobar</button>
-    <div class="feedback"></div>
-</div>
-
-<div class="sentence" data-answer="En cambio, Al contrario, Por el contrario">
-    <div class="english">Conventional melodramas punish moral transgression; in contrast, Volver celebrates female autonomy.</div>
-    <div class="original">Los melodramas convencionales castigan la transgresión moral; <strong>___</strong>, Volver celebra la autonomía femenina.</div>
-    <input type="text" name="q39" placeholder="Escribe el conector..." />
-    <button type="button" class="check-btn">Comprobar</button>
-    <div class="feedback"></div>
-</div>
-
-<div class="sentence" data-answer="De hecho, En efecto, Además">
-    <div class="english">The film transcends commercial entertainment; in fact, it constitutes an artistic statement about Spanish identity.</div>
-    <div class="original">La película trasciende el entretenimiento comercial; <strong>___</strong>, constituye una declaración artística sobre identidad española.</div>
-    <input type="text" name="q40" placeholder="Escribe el conector..." />
-    <button type="button" class="check-btn">Comprobar</button>
-    <div class="feedback"></div>
-</div>
-
-<div class="sentence" data-answer="Así pues, Por lo tanto, Entonces">
-    <div class="english">Each female character represents different archetypes; thus, a complete mosaic of femininities is constructed.</div>
-    <div class="original">Cada personaje femenino representa arquetipos distintos; <strong>___</strong>, se construye un mosaico completo de feminidades.</div>
-    <input type="text" name="q41" placeholder="Escribe el conector..." />
-    <button type="button" class="check-btn">Comprobar</button>
-    <div class="feedback"></div>
-</div>
-
-<div class="sentence" data-answer="No obstante, Sin embargo, Pero">
-    <div class="english">The social criticism remains implicit; nevertheless, its impact is more lasting than explicit denunciations.</div>
-    <div class="original">La crítica social permanece implícita; <strong>___</strong>, su impacto resulta más duradero que las denuncias explícitas.</div>
-    <input type="text" name="q42" placeholder="Escribe el conector..." />
-    <button type="button" class="check-btn">Comprobar</button>
-    <div class="feedback"></div>
-</div>
-
-<div class="sentence" data-answer="En definitiva, En conclusión, Finalmente">
-    <div class="english">Ultimately, Volver represents a return to Almodóvar's roots in La Mancha.</div>
-    <div class="original"><strong>___</strong>, Volver representa una vuelta de Almodóvar a sus raíces en La Mancha</div>
-    <input type="text" name="q43" placeholder="Escribe el conector..." />
-    <button type="button" class="check-btn">Comprobar</button>
-    <div class="feedback"></div>
-</div>
+  <div class="item" data-type="mcq" data-a="Mg==" data-exp="wqtQb3IgY29uc2lndWllbnRlwrsgaW50cm9kdWNlIGxhIGNvbnNlY3VlbmNpYSBsw7NnaWNhIGRlbCBhc2VzaW5hdG86IGxhIG5lY2VzaWRhZCBkZSBvY3VsdGFyc2UuIMKrU2luIGVtYmFyZ2/CuyBtYXJjYXLDrWEgY29udHJhc3RlIHkgwqthZGVtw6Fzwrsgc29sbyBhw7FhZGlyw61hIGluZm9ybWFjacOzbiwgc2luIHJlbGFjacOzbiBjYXVzYWwu">
+    <p class="q">21. «Irene mató a su marido por infidelidad; ___, decidió ocultarse durante años para no ser descubierta.» Elige el conector de consecuencia.</p>
+    <div class="opts">
+      <label><input type="radio" name="d_ex5_q21" value="0"> A) sin embargo</label>
+      <label><input type="radio" name="d_ex5_q21" value="1"> B) además</label>
+      <label><input type="radio" name="d_ex5_q21" value="2"> C) por consiguiente</label>
     </div>
+    <details class="aide"><summary>Pista</summary><div>Busca el conector que exprese una consecuencia lógica, no un contraste ni una simple adición.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqtBbCBjb250cmFyaW/CuyBtYXJjYSBlbCBjb250cmFzdGUgZXhwbMOtY2l0byBlbnRyZSBubyBqdXpnYXIgeSByZXRyYXRhciBjb24gY29tcGFzacOzbi4gwqtBc2ltaXNtb8K7IGHDsWFkaXLDrWEgeSDCq3BvciBsbyB0YW50b8K7IGluZGljYXLDrWEgY29uc2VjdWVuY2lhLg==">
+    <p class="q">22. «Almodóvar no juzga a sus personajes; ___, los retrata con compasión.» Elige el conector de contraste.</p>
+    <div class="opts">
+      <label><input type="radio" name="d_ex5_q22" value="0"> A) al contrario</label>
+      <label><input type="radio" name="d_ex5_q22" value="1"> B) asimismo</label>
+      <label><input type="radio" name="d_ex5_q22" value="2"> C) por lo tanto</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Busca la idea opuesta a «juzgar»: mostrar compasión es lo contrario.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="YWRlbcOhc3xhc2ltaXNtb3x0YW1iacOpbg==" data-exp="QWRlbcOhcy9hc2ltaXNtby90YW1iacOpbiBhw7FhZGVuIHVuYSBzZWd1bmRhIGlkZWEgdGVtw6F0aWNhIHNpbiBjb250cmFkZWNpciBsYSBwcmltZXJhOyBzb24gY29uZWN0b3JlcyBkZSBhZGljacOzbi4=">
+    <p class="q">23. «La solidaridad femenina es un tema central en <em>Volver</em>; <strong>___</strong>, la muerte se trata sin dramatismo excesivo.» Escribe un conector de adición válido.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Busca un conector que añada una idea nueva sin contrastarla.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <button class="btn" onclick="checkAll()">✔ Comprobar mis respuestas</button>
+  <button class="btn second" onclick="resetAll()">↺ Empezar de nuevo</button>
+  <div class="score-banner" id="scoreBanner"></div>
+
+  <!-- ============ DESAFÍO A* (stretch) ============ -->
+  <div class="stretch">
+    <h2>Desafío A* — Para ir más lejos</h2>
+    <div class="consigne">Tarea exigente (C1): escribe un análisis de <strong>70 palabras mínimo</strong> sobre el tema
+    de los secretos del pasado en <em>Volver</em>, usando al menos un subjuntivo y un pronombre relativo
+    (que, quien, cuyo o el cual). Apóyate en las amorces siguientes.</div>
+    <p><em>Amorces:</em> «Es innegable que…», «Lo que resulta más llamativo es…», «Irene, cuyo regreso…»,
+    «Para que la reconciliación sea posible, es necesario que…»</p>
+    <div class="item" data-type="free" data-min="70">
+      <textarea placeholder="Escribe aquí tu análisis (70 palabras mínimo)…"></textarea>
+      <div class="fb"></div>
+    </div>
+    <details class="aide"><summary>Ver un modelo de respuesta (después de escribir el tuyo)</summary>
+      <div id="modelAnswer">Modelo: Es innegable que el pasado atraviesa toda la trama de <em>Volver</em>. Irene, cuyo
+      regreso desestabiliza el equilibrio familiar, oculta durante años un secreto devastador: el asesinato de su
+      marido tras descubrir su infidelidad con la madre de Agustina, la vecina cuya propia madre desapareció
+      misteriosamente. Es fundamental que Raimunda, quien también carga con el trauma del abuso paterno, comprenda
+      finalmente la verdad para que la reconciliación entre madre e hija sea posible. Así, Almodóvar sugiere que solo
+      cuando las mujeres se atrevan a romper el silencio podrá cerrarse el ciclo del dolor heredado.</div></details>
+  </div>
+
+  <button class="btn dl" onclick="downloadResults()">📥 Descargar mis resultados</button>
+</div>
+
+<!-- ============ FLOATING ACCENT PAD ============ -->
+<button id="padToggle" onclick="togglePad()">á ñ ¿ — Acentos</button>
+<div id="accentPad" style="display:none">
+  <div class="drag">⋮⋮ mover</div>
+</div>
+
 <script>
-    let correctCount = 0;
-    const totalQuestions = 43;
-    
-    // Normalize text for comparison
-    function normalizeText(text) {
-        return text.toLowerCase().trim()
-                  .replace(/á/g, 'a').replace(/é/g, 'e').replace(/í/g, 'i')
-                  .replace(/ó/g, 'o').replace(/ú/g, 'u').replace(/ñ/g, 'n');
+/* ================= HOUSE ENGINE — do not weaken ================= */
+/* Answers are base64-encoded (UTF-8 safe) so they never sit in plain text next to the inputs. */
+function d(b){try{return decodeURIComponent(escape(atob(b)))}catch(e){return""}}
+function e64(s){return btoa(unescape(encodeURIComponent(s)))} /* helper for authoring */
+
+function norm(s){return (s||"").toLowerCase().replace(/['']/g,"'").replace(/\s+/g," ").trim()}
+function deacc(s){return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"")}
+
+/* tolerant text check: returns "ok" | "accents" | "bad" ; accepted = array */
+function judge(val, accepted){
+  const v=norm(val);
+  if(accepted.some(a=>norm(a)===v)) return "ok";
+  if(accepted.some(a=>deacc(a)===deacc(val))) return "accents";
+  return "bad";
+}
+
+let results=[]; /* {label, given, ok, expected} */
+
+function checkAll(){
+  results=[]; let score=0, max=0;
+  document.querySelectorAll(".item").forEach((it,idx)=>{
+    const type=it.dataset.type, fb=it.querySelector(".fb");
+    const label=(it.querySelector(".q")?it.querySelector(".q").textContent.trim():("Desafío "+(idx+1))).slice(0,90);
+    if(type==="mcq"){
+      max++;
+      const sel=it.querySelector("input[type=radio]:checked");
+      const correct=d(it.dataset.a), exp=d(it.dataset.exp||"");
+      if(!sel){fb.className="fb bad";fb.textContent="⚠ Responde a la pregunta.";results.push({label,given:"—",ok:false});return}
+      if(sel.value===correct){score++;fb.className="fb ok";fb.textContent="✔ Correcto. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:true});}
+      else{fb.className="fb bad";fb.textContent="✘ Incorrecto. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:false});}
     }
-    
-    // Check if answer is correct (allowing for accent variations and multiple options)
-    function isCorrect(userAnswer, correctAnswers) {
-        const normalizedUser = normalizeText(userAnswer);
-        const possibleAnswers = correctAnswers.split(',').map(a => normalizeText(a.trim()));
-        return possibleAnswers.includes(normalizedUser);
+    if(type==="text"){
+      max++;
+      const inp=it.querySelector("input,textarea");
+      const accepted=d(it.dataset.a).split("|"), exp=d(it.dataset.exp||"");
+      const r=judge(inp.value,accepted);
+      if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correcto. "+exp;}
+      else if(r==="accents"){fb.className="fb almost";fb.textContent="≈ ¡Casi! Revisa los acentos: "+accepted[0]+". "+exp;}
+      else{fb.className="fb bad";fb.textContent="✘ Respuesta esperada: "+accepted[0]+". "+exp;}
+      results.push({label,given:inp.value||"—",ok:r==="ok"});
     }
-    
-    // Update progress counter
-    function updateProgress() {
-        document.getElementById('correct-count').textContent = correctCount;
-        document.getElementById('progress').textContent = Math.round((correctCount / totalQuestions) * 100) + '%';
+    if(type==="free"){
+      const ta=it.querySelector("textarea"), min=parseInt(it.dataset.min||"40");
+      const words=(ta.value.trim().match(/\S+/g)||[]).length;
+      if(words===0){fb.className="fb";fb.textContent="";}
+      else if(words<min){fb.className="fb almost";fb.textContent="≈ "+words+" palabras — intenta llegar a "+min+". Desarrolla con un conector (sin embargo, no obstante…).";}
+      else{fb.className="fb ok";fb.textContent="✔ "+words+" palabras. Compara ahora con el modelo y mejora una frase.";}
+      results.push({label,given:ta.value||"—",ok:words>=min});
     }
-    
-    // Add event listeners to all check buttons
-    document.querySelectorAll('.check-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const sentence = this.closest('.sentence');
-            const input = sentence.querySelector('input[type="text"]');
-            const feedback = sentence.querySelector('.feedback');
-            const correctAnswers = sentence.getAttribute('data-answer');
-            const userAnswer = input.value.trim();
-            
-            if (userAnswer === '') {
-                feedback.textContent = 'Por favor, escribe una respuesta.';
-                feedback.className = 'feedback incorrect';
-                return;
-            }
-            
-            if (isCorrect(userAnswer, correctAnswers)) {
-                feedback.textContent = '¡Correcto! Excelente dominio del español avanzado.';
-                feedback.className = 'feedback correct';
-                input.style.borderColor = '#90ee90';
-                this.disabled = true;
-                this.textContent = '✓ Correcto';
-                this.style.background = '#2d5a27';
-                
-                if (!sentence.classList.contains('completed')) {
-                    correctCount++;
-                    sentence.classList.add('completed');
-                    updateProgress();
-                }
-            } else {
-                const correctOptions = correctAnswers.split(',').map(a => a.trim());
-                feedback.innerHTML = `Incorrecto. Las respuestas correctas son: <strong>"${correctOptions.join('", "')}"</strong>. Revisa las reglas gramaticales correspondientes.`;
-                feedback.className = 'feedback incorrect';
-                input.style.borderColor = '#ff6b6b';
-            }
-        });
-    });
-    
-    // Allow Enter key to check answers
-    document.querySelectorAll('input[type="text"]').forEach(input => {
-        input.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                const button = this.parentElement.querySelector('.check-btn');
-                if (!button.disabled) {
-                    button.click();
-                }
-            }
-        });
-        
-        // Reset styling when user starts typing again
-        input.addEventListener('input', function() {
-            this.style.borderColor = '#ff6b35';
-            const sentence = this.closest('.sentence');
-            const feedback = sentence.querySelector('.feedback');
-            if (feedback.classList.contains('incorrect')) {
-                feedback.textContent = '';
-                feedback.className = 'feedback';
-            }
-        });
-    });
-    
-    // Congratulations message when all completed
-    function checkCompletion() {
-        if (correctCount === totalQuestions) {
-            setTimeout(() => {
-                alert('¡Enhorabuena! Has completado todos los ejercicios con éxito. Tu dominio del español avanzado es excelente para A-Level. ¡Perfecto para conseguir 20 puntos en AO3!');
-            }, 500);
-        }
+  });
+  const b=document.getElementById("scoreBanner");
+  b.style.display="block";
+  const pct=max?Math.round(100*score/max):0;
+  b.textContent="Puntuación: "+score+" / "+max+" ("+pct+" %) — "+(pct>=80?"¡Excelente!":pct>=60?"Bien — corrige los puntos señalados.":"Relee las pistas e inténtalo otra vez.");
+  window._score={score,max};
+}
+
+function resetAll(){
+  document.querySelectorAll(".item input[type=text], .item textarea").forEach(i=>i.value="");
+  document.querySelectorAll(".item input[type=radio]").forEach(r=>r.checked=false);
+  document.querySelectorAll(".fb").forEach(f=>{f.className="fb";f.textContent=""});
+  document.getElementById("scoreBanner").style.display="none";
+  results=[];window._score=null;window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function downloadResults(){
+  const name=document.getElementById("studentName").value.trim();
+  if(!name){alert("Escribe primero tu nombre al principio de la página.");document.getElementById("studentName").focus();return}
+  if(!window._score){alert("Pulsa primero «Comprobar mis respuestas».");return}
+  let txt="RESULTADOS — "+document.title+"\n";
+  txt+="Alumno/a: "+name+"\nFecha: "+new Date().toLocaleString("es-ES")+"\n";
+  txt+="Puntuación: "+window._score.score+" / "+window._score.max+"\n";
+  txt+="".padEnd(60,"=")+"\n\n";
+  results.forEach((r,i)=>{txt+=(i+1)+". "+r.label+"\n   Respuesta: "+r.given+"\n   "+(r.ok?"✔ correcto":"✘ repasar")+"\n\n";});
+  const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(document.title.split("—")[0].trim()||"resultados").replace(/\s+/g,"_")+"_"+name.replace(/\s+/g,"_")+".txt";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+}
+
+/* ---------- Accent pad ---------- */
+const CHARS=["á","é","í","ó","ú","ü","ñ","¿","¡","«","»","Á","É","Í","Ó","Ú","Ñ"];
+let lastField=null;
+document.addEventListener("focusin",e=>{
+  if(e.target.matches("input[type=text],textarea") && e.target.id!=="studentName") lastField=e.target;
+  if(e.target.id==="studentName") lastField=e.target;
+});
+const pad=document.getElementById("accentPad");
+CHARS.forEach(c=>{
+  const b=document.createElement("button");
+  b.textContent=c; if(c===c.toUpperCase()&&c.toLowerCase()!==c) b.className="maj";
+  b.addEventListener("mousedown",ev=>{
+    ev.preventDefault(); /* keep focus in the field */
+    if(!lastField) return;
+    const s=lastField.selectionStart??lastField.value.length, t=lastField.selectionEnd??s;
+    lastField.value=lastField.value.slice(0,s)+c+lastField.value.slice(t);
+    lastField.selectionStart=lastField.selectionEnd=s+c.length;
+    lastField.focus();
+  });
+  pad.appendChild(b);
+});
+function togglePad(){
+  const show=pad.style.display==="none";
+  pad.style.display=show?"flex":"none";
+  document.getElementById("padToggle").style.display=show?"none":"block";
+  if(show){ /* add close button once */
+    if(!pad.querySelector(".closer")){
+      const x=document.createElement("button");x.textContent="✕";x.className="closer";
+      x.addEventListener("mousedown",ev=>{ev.preventDefault();togglePad()});pad.appendChild(x);
     }
-    
-    // Initialize progress display
-    updateProgress();
+  }
+}
+/* drag the pad */
+(function(){
+  const h=pad.querySelector(".drag");let sx,sy,ox,oy,drag=false;
+  h.addEventListener("mousedown",e=>{drag=true;sx=e.clientX;sy=e.clientY;const r=pad.getBoundingClientRect();ox=r.left;oy=r.top;
+    pad.style.right="auto";pad.style.bottom="auto";e.preventDefault()});
+  document.addEventListener("mousemove",e=>{if(!drag)return;pad.style.left=(ox+e.clientX-sx)+"px";pad.style.top=(oy+e.clientY-sy)+"px"});
+  document.addEventListener("mouseup",()=>drag=false);
+})();
 </script>
 </body>
 </html>

@@ -1,317 +1,431 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz: Sinónimos de "película" (Español A-Level)</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            max-width: 750px;
-            margin: 2em auto;
-            padding: 20px;
-            background: #f8f9fa;
-            color: #333;
-            line-height: 1.6;
-            box-sizing: border-box; /* Ensures padding doesn't affect width */
-        }
-        .container {
-            background: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #d32f2f; /* Deep red */
-            border-bottom: 2px solid #ffb300; /* Amber */
-            padding-bottom: 10px;
-            text-align: center;
-            font-size: 2em;
-        }
-        p {
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        strong {
-            color: #c62828; /* Stronger red */
-        }
-        .hint-container {
-            background: #ffe0b2; /* Light orange */
-            padding: 15px;
-            border-radius: 5px;
-            margin: 20px 0;
-            border-left: 5px solid #fb8c00; /* Darker orange */
-        }
-        .hint-section, .english-hint, .etymology {
-            margin-bottom: 8px;
-        }
-        .hint-section strong { color: #d32f2f; }
-        .english-hint strong { color: #5e35b1; } /* Dark purple */
-        .etymology strong { color: #2e7d32; } /* Dark green */
-
-        #answer {
-            width: 100%;
-            padding: 12px;
-            font-size: 1.1em;
-            border: 2px solid #ef9a9a; /* Light red */
-            border-radius: 5px;
-            margin: 15px 0;
-            box-sizing: border-box;
-        }
-        button {
-            background: #d32f2f; /* Deep red */
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            margin-right: 10px;
-            transition: background 0.3s ease;
-        }
-        button:hover {
-            background: #e53935; /* Slightly lighter red */
-        }
-        button:active {
-            background: #c62828; /* Even deeper red */
-        }
-        #feedback {
-            font-weight: bold;
-            margin: 15px 0;
-            min-height: 25px;
-            font-size: 1.1em;
-        }
-        .correct {
-            color: #388e3c; /* Dark green */
-        }
-        .incorrect {
-            color: #d32f2f; /* Deep red */
-        }
-        #explanation {
-            background: #e8f5e9; /* Very light green */
-            padding: 15px;
-            border-radius: 5px;
-            border-left: 4px solid #66bb6a; /* Medium green */
-            font-style: italic;
-            color: #424242;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evita repetir «la película» — Registro y vocabulario de análisis (Volver)</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 120px}
+  .wrap{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:28px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+  .name-row input{padding:9px 12px;font-size:1em;border:2px solid var(--accent);border-radius:6px;width:280px;font-family:inherit}
+  .item{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:8px}
+  .item input[type=text],.item textarea{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px}
+  .item textarea{min-height:90px;resize:vertical}
+  .opts label{display:block;padding:7px 10px;margin:5px 0;border:1.5px solid var(--line);border-radius:5px;cursor:pointer}
+  .opts label:hover{background:#f2f7fa}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  .fb{display:none;margin-top:8px;padding:9px 12px;border-radius:6px;font-size:.95em}
+  .fb.ok{display:block;background:#e9f5ee;border-left:4px solid var(--ok);color:var(--ok)}
+  .fb.almost{display:block;background:#fff8ec;border-left:4px solid var(--warn);color:var(--warn)}
+  .fb.bad{display:block;background:#fbeeee;border-left:4px solid var(--bad);color:var(--bad)}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px;margin:26px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:11px 20px;font-size:1em;font-family:inherit;
+       border-radius:6px;cursor:pointer;margin:6px 6px 6px 0}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.dl{background:var(--ok)}
+  .btn.second{background:#5a6a78}
+  .score-banner{display:none;margin:18px 0;padding:14px;border-radius:8px;background:#f2f7fa;
+       border:2px solid var(--accent);font-size:1.15em;font-weight:bold;color:var(--accent)}
+  /* ---------- Floating accent pad ---------- */
+  #accentPad{position:fixed;bottom:18px;right:18px;background:#fff;border:2px solid var(--accent);
+       border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.25);padding:10px;z-index:1000;
+       display:flex;flex-wrap:wrap;gap:5px;max-width:340px;user-select:none}
+  #accentPad .drag{width:100%;cursor:move;font-size:.8em;color:#5a6a78;text-align:center;padding-bottom:4px}
+  #accentPad button{font-size:1.05em;font-family:inherit;min-width:34px;padding:6px 4px;border:1px solid var(--line);
+       border-radius:5px;background:#f2f7fa;cursor:pointer}
+  #accentPad button:hover{background:var(--accent);color:#fff}
+  #accentPad .maj{font-size:.8em;background:#e6e9ec}
+  #padToggle{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--accent);color:#fff;
+       border:none;border-radius:50px;padding:12px 18px;font-size:1em;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  @media print{#accentPad,#padToggle{display:none}}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>Entrenamiento de Sinónimos: "La Película"</h1>
-        <p><strong>Nivel A-Level Español:</strong> Mejora tu vocabulario para variar la expresión.</p>
-        <p>Lee las pistas y escribe un sinónimo para "película" en español.</p>
-        
-        <div class="hint-container">
-            <div class="hint-section">
-                <strong>Pista en español:</strong> <span id="hint_es"></span>
-            </div>
-            <div class="english-hint">
-                <strong>English Clue:</strong> <span id="hint_en"></span>
-            </div>
-            <div class="etymology">
-                <strong>Origen de la palabra:</strong> <span id="hint_etym"></span>
-            </div>
-        </div>
-        
-        <input type="text" id="answer" placeholder="Escribe el sinónimo en español..." autocomplete="off" autocapitalize="off">
-        
-        <div>
-            <button onclick="checkAnswer()">Comprobar</button>
-            <button onclick="showSolution()">Mostrar Solución</button>
-            <button onclick="newQuestion()">Nueva Palabra</button>
-        </div>
-        
-        <div id="feedback"></div>
-        <div id="explanation"></div>
+<div class="wrap">
+  <header>
+    <h1>Evita repetir «la película»</h1>
+    <p class="meta">A-Level Spanish (Edexcel) · <em>Volver</em> (Almodóvar) · Registro y vocabulario de análisis fílmico · Duración recomendada: 40 min</p>
+  </header>
+
+  <div class="name-row">
+    <label for="studentName"><strong>Tu nombre:</strong></label>
+    <input type="text" id="studentName" placeholder="Nombre APELLIDO" maxlength="60">
+  </div>
+
+  <div class="consigne"><strong>Instrucciones:</strong> En un ensayo de A-Level, repetir «la película» constantemente
+  empobrece el estilo. Practica sinónimos (el filme, el largometraje, la cinta, la obra, esta producción de Almodóvar)
+  y verbos de análisis (retratar, plasmar, denunciar, simbolizar, encarnar, reflejar) aplicados a <em>Volver</em>.
+  Pulsa «Comprobar» y, al final, descarga tus resultados.</div>
+
+  <!-- ============ EJERCICIO 1 : Sinónimos de "la película" ============ -->
+  <h2>Ejercicio 1 · Sinónimos de «la película» <span class="pts">(6 puntos)</span></h2>
+  <div class="consigne">Elige la opción correcta para variar el vocabulario en cada contexto.</div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqtFbCBmaWxtZcK7IGVzIHVuIHNpbsOzbmltbyBmb3JtYWwgeSBtdXkgdXNhZG8gZW4gZWwgcmVnaXN0cm8gYWNhZMOpbWljbzsgwqtsYSB0ZWxlwrsgeSDCq2VsIGFjdG9ywrsgbm8gc29uIHNpbsOzbmltb3MgZGUgcGVsw61jdWxhLg==">
+    <p class="q">1. En un ensayo académico sobre <em>Volver</em>, es preferible evitar repetir «la película» y usar, por ejemplo, ___.</p>
+    <div class="opts">
+      <label><input type="radio" name="e_ex1_q1" value="0"> A) el filme</label>
+      <label><input type="radio" name="e_ex1_q1" value="1"> B) la tele</label>
+      <label><input type="radio" name="e_ex1_q1" value="2"> C) el actor</label>
     </div>
+    <details class="aide"><summary>Pista</summary><div>Busca la palabra que también significa «película» en registro formal.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqtFc3RhIHByb2R1Y2Npw7NuwrsgZnVuY2lvbmEgY29tbyBzaW7Ds25pbW8gZm9ybWFsIGRlIMKrcGVsw61jdWxhwrssIMO6dGlsIHBhcmEgcmVmZXJpcnNlIGEgbGEgYXV0b3LDrWEgZGUgQWxtb2TDs3ZhciBzaW4gcmVwZXRpciBsYSBwYWxhYnJhLg==">
+    <p class="q">2. «Volver» es ___ de Pedro Almodóvar, estrenada en 2006 y ambientada en La Mancha.</p>
+    <div class="opts">
+      <label><input type="radio" name="e_ex1_q2" value="0"> A) esta producción</label>
+      <label><input type="radio" name="e_ex1_q2" value="1"> B) esta canción</label>
+      <label><input type="radio" name="e_ex1_q2" value="2"> C) este personaje</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Piensa en una palabra que se refiera al resultado de todo un proceso de rodaje.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="VW4gbGFyZ29tZXRyYWplIGR1cmEgaGFiaXR1YWxtZW50ZSBtw6FzIGRlIDYwIG1pbnV0b3M7IHVuIGNvcnRvbWV0cmFqZSBlcyBtdWNobyBtw6FzIGJyZXZlLiBMYSBkaWZlcmVuY2lhIGNsYXZlIGVzIGxhIGR1cmFjacOzbiwgbm8gZWwgY29sb3IgbmkgZWwgaWRpb21hLg==">
+    <p class="q">3. Un largometraje como <em>Volver</em> se diferencia de un cortometraje principalmente por ___.</p>
+    <div class="opts">
+      <label><input type="radio" name="e_ex1_q3" value="0"> A) su duración</label>
+      <label><input type="radio" name="e_ex1_q3" value="1"> B) su color</label>
+      <label><input type="radio" name="e_ex1_q3" value="2"> C) su idioma</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>«Largo» y «corto» son la clave del término.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqtMYSBjaW50YcK7IGVzIHVuIHNpbsOzbmltbyBmb3JtYWwgKHkgYWxnbyBub3N0w6FsZ2ljbywgZGVsIHNvcG9ydGUgZsOtc2ljbyBkZSBjZWx1bG9pZGUpIGFwcm9waWFkbyBwYXJhIHVuIGVuc2F5bzsgwqtlbCBwZWxpY3Vsw7NuwrsgeSDCq2xhIHBlbGnCuyBzb24gY29sb3F1aWFsZXMsIGluYWRlY3VhZG9zIGVuIHVuIGV4YW1lbiBBLUxldmVsLg==">
+    <p class="q">4. ¿Cuál de estas palabras es el sinónimo más adecuado de «película» para abrir un párrafo de ensayo formal?</p>
+    <div class="opts">
+      <label><input type="radio" name="e_ex1_q4" value="0"> A) la cinta</label>
+      <label><input type="radio" name="e_ex1_q4" value="1"> B) el peliculón</label>
+      <label><input type="radio" name="e_ex1_q4" value="2"> C) la peli</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Elimina las opciones coloquiales o con sufijo aumentativo.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqtMYSBvYnJhIGNpbmVtYXRvZ3LDoWZpY2HCuyBkZXN0YWNhIGVsIHZhbG9yIGFydMOtc3RpY28gZGUgVm9sdmVyIHkgZnVuY2lvbmEgY29tbyBzaW7Ds25pbW8gZWxldmFkbyBkZSDCq3BlbMOtY3VsYcK7Lg==">
+    <p class="q">5. «___ de Almodóvar sobre la maternidad y los secretos familiares se titula <em>Volver</em>.» ¿Qué expresión completa mejor la frase como sinónimo de «película»?</p>
+    <div class="opts">
+      <label><input type="radio" name="e_ex1_q5" value="0"> A) El actor principal</label>
+      <label><input type="radio" name="e_ex1_q5" value="1"> B) La obra cinematográfica</label>
+      <label><input type="radio" name="e_ex1_q5" value="2"> C) El guionista</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Busca una expresión de dos palabras que subraye el valor artístico de la creación.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqtGaWxtZcK7IGVzIGxhIGFkYXB0YWNpw7NuIGhpc3Bhbml6YWRhIGRlbCBhbmdsaWNpc21vIMKrZmlsbcK7OyBhbWJhcyBmb3JtYXMgc29uIGFjZXB0YWRhcywgcGVybyDCq2ZpbG1lwrsgc2lndWUgbGEgb3J0b2dyYWbDrWEgZXNwYcOxb2xhLg==">
+    <p class="q">6. ¿Cuál es la grafía hispanizada (adaptada a la ortografía española) del anglicismo «film»?</p>
+    <div class="opts">
+      <label><input type="radio" name="e_ex1_q6" value="0"> A) film</label>
+      <label><input type="radio" name="e_ex1_q6" value="1"> B) filme</label>
+      <label><input type="radio" name="e_ex1_q6" value="2"> C) filmo</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Piensa en cómo el español suele añadir una vocal final a los préstamos del inglés.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EJERCICIO 2 : Verbos de análisis ============ -->
+  <h2>Ejercicio 2 · Verbos de análisis fílmico <span class="pts">(6 puntos)</span></h2>
+  <div class="consigne">Conjuga en presente el verbo entre paréntesis para completar cada frase de análisis sobre <em>Volver</em>.</div>
+
+  <div class="item" data-type="text" data-a="cmV0cmF0YQ==" data-exp="wqtSZXRyYXRhcsK7IHNpZ25pZmljYSByZXByZXNlbnRhciBmaWVsbWVudGUgYWxnbywgY29tbyBzaSBmdWVyYSB1biByZXRyYXRvOiBBbG1vZMOzdmFyIHJldHJhdGEgbGEgc29saWRhcmlkYWQgZmVtZW5pbmEgYSB0cmF2w6lzIGRlIHN1cyBwZXJzb25hamVzLg==">
+    <p class="q">7. Almodóvar <strong>___</strong> (retratar) la solidaridad femenina a través de los personajes de Raimunda, Sole e Irene.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Verbo relacionado con «retrato»: representar con fidelidad.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="cGxhc21h" data-exp="wqtQbGFzbWFywrsgc2lnbmlmaWNhIGRhciBmb3JtYSB2aXNpYmxlL2NvbmNyZXRhIGEgdW5hIGlkZWEgbyBzZW5zYWNpw7NuOiBlbCBkaXJlY3RvciBwbGFzbWEgZWwgcGFpc2FqZSBkZSBMYSBNYW5jaGEgZW4gbGEgZm90b2dyYWbDrWEu">
+    <p class="q">8. El director <strong>___</strong> (plasmar) el paisaje de La Mancha con una fotografía cálida y luminosa.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Verbo que significa «dar forma concreta y visible» a algo.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZGVudW5jaWE=" data-exp="wqtEZW51bmNpYXLCuyBpbXBsaWNhIHNlw7FhbGFyIGNyw610aWNhbWVudGUgdW5hIGluanVzdGljaWEgc29jaWFsOiBsYSBjaW50YSBkZW51bmNpYSBlbCBzaWxlbmNpbyB0cmFkaWNpb25hbCBlbiB0b3JubyBhbCBhYnVzbyBzZXh1YWwgZGVudHJvIGRlIGxhIGZhbWlsaWEu">
+    <p class="q">9. La cinta <strong>___</strong> (denunciar) el silencio tradicional en torno al abuso sexual dentro de la familia.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Verbo asociado a señalar públicamente una injusticia.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="c2ltYm9saXph" data-exp="wqtTaW1ib2xpemFywrsgaW5kaWNhIHF1ZSB1biBlbGVtZW50byByZXByZXNlbnRhIHVuYSBpZGVhIGFic3RyYWN0YTogZWwgdmllbnRvIHNvbGFubyBzaW1ib2xpemEgbGEgbG9jdXJhIHkgbGFzIGZ1ZXJ6YXMgaXJyYWNpb25hbGVzIGRlbCBwYXNhZG8u">
+    <p class="q">10. El viento solano <strong>___</strong> (simbolizar) la locura y las fuerzas irracionales del pasado.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Verbo relacionado con «símbolo».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZW5jYXJuYQ==" data-exp="wqtFbmNhcm5hcsK7IHNpZ25pZmljYSBwZXJzb25pZmljYXIgbyBkYXIgY3VlcnBvIGEgdW5hIGlkZWE6IElyZW5lIGVuY2FybmEgZWwgcmVncmVzbyBkZWwgcGFzYWRvIHJlcHJpbWlkbyB5IGxhIHBvc2liaWxpZGFkIGRlIGxhIHJlZGVuY2nDs24u">
+    <p class="q">11. Irene <strong>___</strong> (encarnar) el regreso del pasado reprimido y la posibilidad de la redención.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Verbo relacionado con «carne»: dar cuerpo a una idea abstracta.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="cmVmbGVqYQ==" data-exp="wqtSZWZsZWphcsK7IHNpZ25pZmljYSBtb3N0cmFyIGNvbW8gZW4gdW4gZXNwZWpvOiBsYSBlc2NlbmEgZGVsIGNlbWVudGVyaW8gcmVmbGVqYSBsYSByZWxhY2nDs24gbmF0dXJhbCBxdWUgZWwgcHVlYmxvIG1hbmNoZWdvIG1hbnRpZW5lIGNvbiBsYSBtdWVydGUu">
+    <p class="q">12. La escena del cementerio <strong>___</strong> (reflejar) la relación natural que el pueblo manchego mantiene con la muerte.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Verbo relacionado con «reflejo», como en un espejo.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EJERCICIO 3 : Mejora de registro ============ -->
+  <h2>Ejercicio 3 · Mejora tu registro: sustituye «película» <span class="pts">(4 puntos)</span></h2>
+  <div class="consigne">Reescribe mentalmente cada frase sin la palabra «película» y escribe solo el sinónimo formal que usarías
+  (con su artículo). Hay varias respuestas válidas.</div>
+
+  <div class="item" data-type="text" data-a="ZWwgZmlsbWV8ZmlsbWV8bGEgY2ludGF8Y2ludGF8ZWwgbGFyZ29tZXRyYWplfGxhcmdvbWV0cmFqZXxsYSBvYnJhfG9icmF8ZXN0YSBwcm9kdWNjacOzbnxwcm9kdWNjacOzbnxlc3RhIG9icmE=" data-exp="Q3VhbHF1aWVyYSBkZSBlc3RvcyBzaW7Ds25pbW9zIGZvcm1hbGVzIGV2aXRhIGxhIHJlcGV0aWNpw7NuIGRlIMKrcGVsw61jdWxhwrs6IGVsIGZpbG1lLCBsYSBjaW50YSwgZWwgbGFyZ29tZXRyYWplLCBsYSBvYnJhLCBlc3RhIHByb2R1Y2Npw7NuLg==">
+    <p class="q">13. «<em>Volver</em> es una película que trata el tema de la maternidad.» Sustituye «una película» por un sinónimo formal (con artículo).</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Cualquiera de los sinónimos vistos en el Ejercicio 1 es válido aquí.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZWwgZmlsbWV8ZmlsbWV8bGEgY2ludGF8Y2ludGF8ZWwgbGFyZ29tZXRyYWplfGxhcmdvbWV0cmFqZXxlc3RhIHByb2R1Y2Npw7NufHByb2R1Y2Npw7Nu" data-exp="wqtFbCBmaWxtZcK7LCDCq2xhIGNpbnRhwrssIMKrZWwgbGFyZ29tZXRyYWplwrsgbyDCq2VzdGEgcHJvZHVjY2nDs27CuyBzdXN0aXR1eWVuIGFkZWN1YWRhbWVudGUgYSDCq2xhIHBlbMOtY3VsYcK7IGFsIHJlZmVyaXJzZSBhIHN1IGVzdHJlbm8u">
+    <p class="q">14. «La película se estrenó en 2006 en el Festival de Cannes.» Sustituye «La película» por un sinónimo formal.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Recuerda mantener el artículo correcto según el género del sinónimo elegido.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZWwgZmlsbWV8ZmlsbWV8bGEgY2ludGF8Y2ludGF8ZWwgbGFyZ29tZXRyYWplfGxhcmdvbWV0cmFqZXxsYSBwcm9kdWNjacOzbnxwcm9kdWNjacOzbg==" data-exp="QWwgaGFibGFyIGRlIHVuYSBjcsOtdGljYSBzb2NpYWwsIMKrZWwgZmlsbWXCuywgwqtsYSBjaW50YcK7LCDCq2VsIGxhcmdvbWV0cmFqZcK7IG8gwqtsYSBwcm9kdWNjacOzbsK7IGV2aXRhbiBsYSByZXBldGljacOzbiBtYW50ZW5pZW5kbyB1biByZWdpc3RybyBhY2Fkw6ltaWNvLg==">
+    <p class="q">15. «Muchos críticos consideran que esta película ofrece una visión honesta de la posguerra rural española.» Sustituye «esta película» por un sinónimo formal.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Evita repetir la palabra que ya aparece varias veces en tu ensayo.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZWwgZmlsbWV8ZmlsbWV8bGEgY2ludGF8Y2ludGF8ZXN0YSBwcm9kdWNjacOzbnxwcm9kdWNjacOzbnxlbCBsYXJnb21ldHJhamV8bGFyZ29tZXRyYWpl" data-exp="RXN0b3Mgc2luw7NuaW1vcyBwZXJtaXRlbiBpbnRyb2R1Y2lyIHVuYSBudWV2YSBmcmFzZSBzaW4gcmVwZXRpciDCq3BlbMOtY3VsYcK7LCBhbGdvIGVzcGVjaWFsbWVudGUgdmFsb3JhZG8gZW4gZWwgQU8zIGRlIEVkZXhjZWwgKFJhbmdlIG9mIExhbmd1YWdlKS4=">
+    <p class="q">16. «En esta película, el color rojo tiene una fuerte carga simbólica.» Sustituye «esta película» por un sinónimo formal.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Piensa en el vocabulario que mejora tu nota de AO3 (rango de lenguaje).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EJERCICIO 4 : Aplicación combinada ============ -->
+  <h2>Ejercicio 4 · Aplicación combinada <span class="pts">(4 puntos)</span></h2>
+  <div class="consigne">Combina sinónimos y verbos de análisis en frases completas sobre <em>Volver</em>.</div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TGEgc2VndW5kYSBmcmFzZSB1c2EgdW4gc2luw7NuaW1vIGZvcm1hbCAowqtlbCBmaWxtZcK7KSB5IHVuIHZlcmJvIGRlIGFuw6FsaXNpcyBwcmVjaXNvICjCq3BsYXNtYcK7KSwgYWRlbcOhcyBkZSBjb250ZW5pZG8gZXNwZWPDrWZpY28gc29icmUgbGEgdHJhZGljacOzbiBtYW5jaGVnYSDigJQgbXVjaG8gbcOhcyBhcHJvcGlhZG8gcGFyYSB1biBlbnNheW8gQS1MZXZlbCBxdWUgbGEgZnJhc2UgY29sb3F1aWFsIHkgdmFnYS4=">
+    <p class="q">17. Elige la frase con mejor registro académico sobre el tema de la muerte en <em>Volver</em>.</p>
+    <div class="opts">
+      <label><input type="radio" name="e_ex4_q17" value="0"> A) La peli habla de la muerte y ya está.</label>
+      <label><input type="radio" name="e_ex4_q17" value="1"> B) El filme plasma la muerte de manera cotidiana y desdramatizada, propia de la tradición manchega.</label>
+      <label><input type="radio" name="e_ex4_q17" value="2"> C) La película tiene un tema que es la muerte.</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Busca la frase con vocabulario más preciso y variado, sin repetir «película».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="c2ltYm9saXph" data-exp="U2ltYm9saXphIChwcmVzZW50ZSBkZSBpbmRpY2F0aXZvKTogQWxtb2TDs3ZhciBzaW1ib2xpemEgZWwgY2ljbG8gdmlkYS1tdWVydGUgbWVkaWFudGUgbGEgYW1iaWfDvGVkYWQgZGVsIGZhbnRhc21hIGRlIElyZW5lLg==">
+    <p class="q">18. Completa: «Almodóvar <strong>___</strong> (simbolizar) el ciclo vida-muerte a través de la figura del fantasma de Irene.»</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Mismo verbo que en el Ejercicio 2, conjugado en presente.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZGVudW5jaWE=" data-exp="RGVudW5jaWEgKHByZXNlbnRlIGRlIGluZGljYXRpdm8pOiBlbCBsYXJnb21ldHJhamUgZGVudW5jaWEgZWwgbWFjaGlzbW8gdHJhZGljaW9uYWwgZGUgZm9ybWEgc3V0aWwgcGVybyBjb25zdGFudGUu">
+    <p class="q">19. Completa: «La crítica social sobre el machismo que <strong>___</strong> (denunciar) el largometraje resulta sutil pero constante.»</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Mismo verbo que en el Ejercicio 2, conjugado en presente.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqtFbmNhcm5hwrsgZXMgZWwgdmVyYm8gZGUgYW7DoWxpc2lzIG3DoXMgcHJlY2lzbzogUmFpbXVuZGEgbm8gwqtlc8K7IHNpbXBsZW1lbnRlIG5pIMKrdGllbmXCuyB1biByYXNnbywgc2lubyBxdWUgcGVyc29uaWZpY2EvZGEgY3VlcnBvIGEgdW4gdGlwbyBkZSBtdWplciB0cmFiYWphZG9yYSB5IHByb3RlY3RvcmEu">
+    <p class="q">20. «Raimunda ___ a la mujer trabajadora que sostiene a su familia pese a la adversidad.» ¿Qué verbo de análisis completa mejor la frase?</p>
+    <div class="opts">
+      <label><input type="radio" name="e_ex4_q20" value="0"> A) encarna</label>
+      <label><input type="radio" name="e_ex4_q20" value="1"> B) es</label>
+      <label><input type="radio" name="e_ex4_q20" value="2"> C) tiene</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Busca el verbo de análisis (no «ser» ni «tener») visto en el Ejercicio 2.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <button class="btn" onclick="checkAll()">✔ Comprobar mis respuestas</button>
+  <button class="btn second" onclick="resetAll()">↺ Empezar de nuevo</button>
+  <div class="score-banner" id="scoreBanner"></div>
+
+  <!-- ============ DESAFÍO A* (stretch) ============ -->
+  <div class="stretch">
+    <h2>Desafío A* — Para ir más lejos</h2>
+    <div class="consigne">Tarea exigente (C1): escribe un párrafo de <strong>70 palabras mínimo</strong> sobre uno de
+    los temas de <em>Volver</em> (la muerte, la maternidad, la solidaridad femenina o los secretos del pasado),
+    usando <strong>al menos cuatro alternativas distintas</strong> a la palabra «película» (por ejemplo: el filme,
+    el largometraje, la cinta, la obra, esta producción de Almodóvar) y al menos dos verbos de análisis (retratar,
+    plasmar, denunciar, simbolizar, encarnar, reflejar).</div>
+    <p><em>Amorces:</em> «Esta producción de Almodóvar retrata…», «El filme plasma…», «A lo largo del largometraje…»,
+    «Esta cinta denuncia…»</p>
+    <div class="item" data-type="free" data-min="70">
+      <textarea placeholder="Escribe aquí tu párrafo (70 palabras mínimo, cuatro sinónimos de «película»)…"></textarea>
+      <div class="fb"></div>
+    </div>
+    <details class="aide"><summary>Ver un modelo de respuesta (después de escribir el tuyo)</summary>
+      <div id="modelAnswer">Modelo: Esta producción de Almodóvar retrata la solidaridad femenina como un mecanismo de
+      supervivencia frente a la adversidad. Desde el principio, el largometraje plasma la vida cotidiana de Raimunda,
+      Sole e Irene, tres generaciones unidas por secretos silenciados durante décadas. La cinta denuncia
+      implícitamente el machismo que obligó a estas mujeres a callar el abuso y la violencia doméstica. Finalmente,
+      esta obra simboliza, a través del regreso de Irene, la posibilidad de sanar heridas familiares cuando el
+      silencio se rompe y la verdad sale por fin a la luz.</div></details>
+  </div>
+
+  <button class="btn dl" onclick="downloadResults()">📥 Descargar mis resultados</button>
+</div>
+
+<!-- ============ FLOATING ACCENT PAD ============ -->
+<button id="padToggle" onclick="togglePad()">á ñ ¿ — Acentos</button>
+<div id="accentPad" style="display:none">
+  <div class="drag">⋮⋮ mover</div>
+</div>
 
 <script>
-const synonyms = [
-    {
-        answers: ["largometraje", "el largometraje"],
-        display: "largometraje",
-        hint_es: "Un tipo de película de larga duración, como las que ves en el cine.",
-        hint_en: "Feature film (a long-form movie, typically over an hour).",
-        hint_etym: "From 'largo' (long) + 'metraje' (footage, from French 'métrage').",
-        explanation: "Es el término técnico para una película con una duración estándar, generalmente más de 60 minutos. Es un sustantivo masculino: **el largometraje**."
-    },
-    {
-        answers: ["cortometraje", "el cortometraje"],
-        display: "cortometraje",
-        hint_es: "Una producción cinematográfica de corta duración, a menudo experimental.",
-        hint_en: "Short film (a brief movie, usually under 30 minutes).",
-        hint_etym: "From 'corto' (short) + 'metraje' (footage).",
-        explanation: "Un **cortometraje** (m.) es una película de duración reducida, comúnmente utilizada por directores emergentes o para explorar temas específicos en poco tiempo. Se usa con el artículo **el**."
-    },
-    {
-        answers: ["cinta", "la cinta"],
-        display: "cinta",
-        hint_es: "Puede referirse al rollo de material donde se grababa el film, o a la película en sí.",
-        hint_en: "Tape, ribbon, or sometimes colloquially 'film' (referring to the physical reel).",
-        hint_etym: "From Latin 'cincta' (girded, bound), referring to a band or strip.",
-        explanation: "Originalmente, **la cinta** (f.) era el soporte físico del celuloide. Hoy en día, se usa a menudo como sinónimo informal de película, especialmente en contextos más antiguos o nostálgicos. Siempre con el artículo **la**."
-    },
-    {
-        answers: ["obra cinematografica", "obra", "la obra cinematografica", "la obra"],
-        display: "obra cinematográfica",
-        hint_es: "Expresión más formal que subraya el valor artístico de una creación fílmica.",
-        hint_en: "Cinematographic work / work (emphasizes artistic value).",
-        hint_etym: "From Latin 'opera' (work, effort) and Greek 'kinema' (movement).",
-        explanation: "Una **obra cinematográfica** (f.) es un término más elevado y formal para referirse a una película, resaltando su calidad artística y su lugar como creación cultural. Usa el artículo **la**."
-    },
-    {
-        answers: ["produccion", "la produccion"],
-        display: "producción",
-        hint_es: "Se refiere tanto al proceso de crear una película como al resultado final.",
-        hint_en: "Production (the act of making a film, or the finished product).",
-        hint_etym: "From Latin 'productio' (a bringing forth).",
-        explanation: "Una **producción** (f.) es el resultado de un proyecto cinematográfico. También se usa para hablar de la industria o el proceso de hacer películas (e.g., 'una gran producción de Hollywood'). Requiere el artículo **la**."
-    },
-    {
-        answers: ["film", "filme", "el film", "el filme"],
-        display: "film / filme",
-        hint_es: "Un anglicismo muy común y aceptado para 'película'.",
-        hint_en: "Film (direct loanword from English).",
-        hint_etym: "Directly from English 'film', originally from Old English 'filmen' (membrane). 'Filme' is a Hispanicized spelling.",
-        explanation: "**Film** (m.) o **filme** (m.) son anglicismos muy extendidos y aceptados en español, aunque 'película' es la palabra nativa. Son masculinos, por lo que usan el artículo **el**."
-    },
-    {
-        answers: ["largometraje de animacion", "largometraje de animación", "el largometraje de animacion", "el largometraje de animación"],
-        display: "largometraje de animación",
-        hint_es: "Un tipo de largometraje hecho con dibujos o imágenes generadas por ordenador.",
-        hint_en: "Animated feature film.",
-        hint_etym: "Combines 'largo' (long), 'metraje' (footage), and 'animación' (animation).",
-        explanation: "Un **largometraje de animación** (m.) es una película de larga duración creada mediante técnicas de animación (dibujos, CGI, stop-motion, etc.), como las películas de Disney o Pixar. Se usa con el artículo **el**."
-    },
-    {
-        answers: ["documental", "el documental"],
-        display: "documental",
-        hint_es: "Una película que presenta hechos o información real, no ficción.",
-        hint_en: "Documentary (a non-fiction film).",
-        hint_etym: "From Latin 'documentum' (lesson, example).",
-        explanation: "Un **documental** (m.) es un género cinematográfico que explora la realidad, eventos históricos o temas sociales, sin elementos de ficción. Siempre usa el artículo **el**."
-    },
-    {
-        answers: ["exito", "el exito"],
-        display: "éxito",
-        hint_es: "Se usa para describir una película que ha sido muy popular o aclamada.",
-        hint_en: "Success (a hit film).",
-        hint_etym: "From Latin 'exitus' (a going out, outcome).",
-        explanation: "Cuando una película es muy popular o consigue buena recaudación y crítica, se dice que es un **éxito** (m.). 'Esta película fue un gran éxito de taquilla'. Se usa con el artículo **el**."
-    },
-    {
-        answers: ["fracaso", "el fracaso"],
-        display: "fracaso",
-        hint_es: "Lo opuesto a un 'éxito'; una película que no ha funcionado bien.",
-        hint_en: "Failure, flop (a film that did not do well).",
-        hint_etym: "From Italian 'fracassare' (to smash), meaning a breaking or collapse.",
-        explanation: "Un **fracaso** (m.) es una película que no ha sido bien recibida por el público o la crítica, o que no ha generado ganancias. Es el antónimo de 'éxito'. Se usa con el artículo **el**."
-    },
-    {
-        answers: ["taquillazo", "el taquillazo"],
-        display: "taquillazo",
-        hint_es: "Un film que ha recaudado mucho dinero en la venta de entradas.",
-        hint_en: "Blockbuster (a box-office hit).",
-        hint_etym: "From 'taquilla' (box office) + '-azo' (augmentative suffix).",
-        explanation: "Un **taquillazo** (m.) es un término muy coloquial para una película que ha sido un rotundo éxito comercial, con grandes ingresos en taquilla. También se puede decir 'éxito de taquilla'. Siempre con **el**."
-    },
-    {
-        answers: ["churro", "bodrio", "el churro", "el bodrio"],
-        display: "churro / bodrio",
-        hint_es: "Dos palabras muy coloquiales para referirse a una película de muy mala calidad.",
-        hint_en: "Two informal terms for a very bad film ('churro' is also a fried dough snack!).",
-        hint_etym: "'Churro' is from the food; 'bodrio' (slop) comes from Arabic 'butrí' (soup with leftover meat).",
-        explanation: "**Churro** (m.) y **bodrio** (m.) son términos muy informales y pejorativos para una película horrible. Úsalos solo en contextos muy coloquiales. Ambos son masculinos y usan **el**."
-    },
-    {
-        answers: ["metraje", "el metraje"],
-        display: "metraje",
-        hint_es: "Se refiere a la longitud total de una película o a las imágenes filmadas.",
-        hint_en: "Footage (the total length of film, or recorded material).",
-        hint_etym: "From French 'métrage' (measurement in meters).",
-        explanation: "**Metraje** (m.) se usa para hablar de la duración o las imágenes grabadas de una película. Por ejemplo, 'el metraje de este documental es de 90 minutos'. Siempre usa el artículo **el**."
-    },
-    {
-        answers: ["largometrajes", "los largometrajes"],
-        display: "largometrajes",
-        hint_es: "El plural de 'largometraje'.",
-        hint_en: "Feature films (plural).",
-        hint_etym: "Plural of 'largometraje'.",
-        explanation: "Es importante recordar el plural de 'largometraje' para hablar de varias películas de larga duración. Se usa con el artículo **los**."
-    },
-    {
-        answers: ["realizacion", "la realizacion"],
-        display: "realización",
-        hint_es: "El proceso de llevar a cabo una película, desde la idea hasta el producto final.",
-        hint_en: "Realization / filmmaking (the process of making a film).",
-        hint_etym: "From Latin 'realizare' (to make real).",
-        explanation: "La **realización** (f.) de una película se refiere a todo el trabajo creativo y técnico involucrado en su creación. También puede referirse a la obra de un director: 'la última realización de Almodóvar'. Se usa con el artículo **la**."
+/* ================= HOUSE ENGINE — do not weaken ================= */
+/* Answers are base64-encoded (UTF-8 safe) so they never sit in plain text next to the inputs. */
+function d(b){try{return decodeURIComponent(escape(atob(b)))}catch(e){return""}}
+function e64(s){return btoa(unescape(encodeURIComponent(s)))} /* helper for authoring */
+
+function norm(s){return (s||"").toLowerCase().replace(/['']/g,"'").replace(/\s+/g," ").trim()}
+function deacc(s){return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"")}
+
+/* tolerant text check: returns "ok" | "accents" | "bad" ; accepted = array */
+function judge(val, accepted){
+  const v=norm(val);
+  if(accepted.some(a=>norm(a)===v)) return "ok";
+  if(accepted.some(a=>deacc(a)===deacc(val))) return "accents";
+  return "bad";
+}
+
+let results=[]; /* {label, given, ok, expected} */
+
+function checkAll(){
+  results=[]; let score=0, max=0;
+  document.querySelectorAll(".item").forEach((it,idx)=>{
+    const type=it.dataset.type, fb=it.querySelector(".fb");
+    const label=(it.querySelector(".q")?it.querySelector(".q").textContent.trim():("Desafío "+(idx+1))).slice(0,90);
+    if(type==="mcq"){
+      max++;
+      const sel=it.querySelector("input[type=radio]:checked");
+      const correct=d(it.dataset.a), exp=d(it.dataset.exp||"");
+      if(!sel){fb.className="fb bad";fb.textContent="⚠ Responde a la pregunta.";results.push({label,given:"—",ok:false});return}
+      if(sel.value===correct){score++;fb.className="fb ok";fb.textContent="✔ Correcto. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:true});}
+      else{fb.className="fb bad";fb.textContent="✘ Incorrecto. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:false});}
     }
-];
-
-// Normalization function: remove accents, unify dashes, trim, lowercase
-function normalize(str) {
-    return str
-        .toLowerCase()
-        .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Remove accents
-        .replace(/ñ/g, "n") // Handle ñ by converting to 'n' for normalization
-        .replace(/[^a-z0-9\s]/g, "") // Remove most punctuation, keep spaces
-        .replace(/\s+/g, " ") // Collapse multiple spaces
-        .trim();
-}
-
-let current = {};
-
-function newQuestion() {
-    document.getElementById('answer').value = '';
-    document.getElementById('feedback').innerText = '';
-    document.getElementById('feedback').className = '';
-    document.getElementById('explanation').innerHTML = '';
-    
-    current = synonyms[Math.floor(Math.random() * synonyms.length)];
-    
-    document.getElementById('hint_es').innerText = current.hint_es;
-    document.getElementById('hint_en').innerText = current.hint_en;
-    document.getElementById('hint_etym').innerText = current.hint_etym;
-    
-    document.getElementById('answer').focus();
-}
-
-function checkAnswer() {
-    let user = normalize(document.getElementById('answer').value);
-    let correct = current.answers.map(normalize);
-    let feedbackEl = document.getElementById('feedback');
-    let explanationEl = document.getElementById('explanation');
-
-    if (correct.includes(user)) {
-        feedbackEl.innerHTML = "✅ <strong>¡Correcto!</strong> ¡Lo has conseguido!";
-        feedbackEl.className = 'correct';
-        explanationEl.innerHTML = `<strong>${current.display}</strong>: ${current.explanation}`;
-    } else {
-        feedbackEl.innerHTML = "❌ <strong>Inténtalo de nuevo</strong>. Usa las pistas.";
-        feedbackEl.className = 'incorrect';
-        explanationEl.innerHTML = '';
+    if(type==="text"){
+      max++;
+      const inp=it.querySelector("input,textarea");
+      const accepted=d(it.dataset.a).split("|"), exp=d(it.dataset.exp||"");
+      const r=judge(inp.value,accepted);
+      if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correcto. "+exp;}
+      else if(r==="accents"){fb.className="fb almost";fb.textContent="≈ ¡Casi! Revisa los acentos: "+accepted[0]+". "+exp;}
+      else{fb.className="fb bad";fb.textContent="✘ Respuesta esperada: "+accepted[0]+". "+exp;}
+      results.push({label,given:inp.value||"—",ok:r==="ok"});
     }
+    if(type==="free"){
+      const ta=it.querySelector("textarea"), min=parseInt(it.dataset.min||"40");
+      const words=(ta.value.trim().match(/\S+/g)||[]).length;
+      if(words===0){fb.className="fb";fb.textContent="";}
+      else if(words<min){fb.className="fb almost";fb.textContent="≈ "+words+" palabras — intenta llegar a "+min+". Desarrolla con un conector (sin embargo, no obstante…).";}
+      else{fb.className="fb ok";fb.textContent="✔ "+words+" palabras. Compara ahora con el modelo y mejora una frase.";}
+      results.push({label,given:ta.value||"—",ok:words>=min});
+    }
+  });
+  const b=document.getElementById("scoreBanner");
+  b.style.display="block";
+  const pct=max?Math.round(100*score/max):0;
+  b.textContent="Puntuación: "+score+" / "+max+" ("+pct+" %) — "+(pct>=80?"¡Excelente!":pct>=60?"Bien — corrige los puntos señalados.":"Relee las pistas e inténtalo otra vez.");
+  window._score={score,max};
 }
 
-function showSolution() {
-    let feedbackEl = document.getElementById('feedback');
-    let explanationEl = document.getElementById('explanation');
-    
-    feedbackEl.innerHTML = `🔍 <strong>Solución</strong>: ${current.display}`;
-    feedbackEl.className = '';
-    explanationEl.innerHTML = `<strong>Uso</strong>: ${current.explanation}`;
+function resetAll(){
+  document.querySelectorAll(".item input[type=text], .item textarea").forEach(i=>i.value="");
+  document.querySelectorAll(".item input[type=radio]").forEach(r=>r.checked=false);
+  document.querySelectorAll(".fb").forEach(f=>{f.className="fb";f.textContent=""});
+  document.getElementById("scoreBanner").style.display="none";
+  results=[];window._score=null;window.scrollTo({top:0,behavior:"smooth"});
 }
 
-// Initialisation
-window.onload = function() {
-    newQuestion();
-    document.getElementById('answer').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') checkAnswer();
-    });
-};
+function downloadResults(){
+  const name=document.getElementById("studentName").value.trim();
+  if(!name){alert("Escribe primero tu nombre al principio de la página.");document.getElementById("studentName").focus();return}
+  if(!window._score){alert("Pulsa primero «Comprobar mis respuestas».");return}
+  let txt="RESULTADOS — "+document.title+"\n";
+  txt+="Alumno/a: "+name+"\nFecha: "+new Date().toLocaleString("es-ES")+"\n";
+  txt+="Puntuación: "+window._score.score+" / "+window._score.max+"\n";
+  txt+="".padEnd(60,"=")+"\n\n";
+  results.forEach((r,i)=>{txt+=(i+1)+". "+r.label+"\n   Respuesta: "+r.given+"\n   "+(r.ok?"✔ correcto":"✘ repasar")+"\n\n";});
+  const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(document.title.split("—")[0].trim()||"resultados").replace(/\s+/g,"_")+"_"+name.replace(/\s+/g,"_")+".txt";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+}
+
+/* ---------- Accent pad ---------- */
+const CHARS=["á","é","í","ó","ú","ü","ñ","¿","¡","«","»","Á","É","Í","Ó","Ú","Ñ"];
+let lastField=null;
+document.addEventListener("focusin",e=>{
+  if(e.target.matches("input[type=text],textarea") && e.target.id!=="studentName") lastField=e.target;
+  if(e.target.id==="studentName") lastField=e.target;
+});
+const pad=document.getElementById("accentPad");
+CHARS.forEach(c=>{
+  const b=document.createElement("button");
+  b.textContent=c; if(c===c.toUpperCase()&&c.toLowerCase()!==c) b.className="maj";
+  b.addEventListener("mousedown",ev=>{
+    ev.preventDefault(); /* keep focus in the field */
+    if(!lastField) return;
+    const s=lastField.selectionStart??lastField.value.length, t=lastField.selectionEnd??s;
+    lastField.value=lastField.value.slice(0,s)+c+lastField.value.slice(t);
+    lastField.selectionStart=lastField.selectionEnd=s+c.length;
+    lastField.focus();
+  });
+  pad.appendChild(b);
+});
+function togglePad(){
+  const show=pad.style.display==="none";
+  pad.style.display=show?"flex":"none";
+  document.getElementById("padToggle").style.display=show?"none":"block";
+  if(show){ /* add close button once */
+    if(!pad.querySelector(".closer")){
+      const x=document.createElement("button");x.textContent="✕";x.className="closer";
+      x.addEventListener("mousedown",ev=>{ev.preventDefault();togglePad()});pad.appendChild(x);
+    }
+  }
+}
+/* drag the pad */
+(function(){
+  const h=pad.querySelector(".drag");let sx,sy,ox,oy,drag=false;
+  h.addEventListener("mousedown",e=>{drag=true;sx=e.clientX;sy=e.clientY;const r=pad.getBoundingClientRect();ox=r.left;oy=r.top;
+    pad.style.right="auto";pad.style.bottom="auto";e.preventDefault()});
+  document.addEventListener("mousemove",e=>{if(!drag)return;pad.style.left=(ox+e.clientX-sx)+"px";pad.style.top=(oy+e.clientY-sy)+"px"});
+  document.addEventListener("mouseup",()=>drag=false);
+})();
 </script>
 </body>
 </html>

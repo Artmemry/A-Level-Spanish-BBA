@@ -1,201 +1,472 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Práctica interactiva: "cuando" para hablar del futuro</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 30px; }
-    h1 { color: #2c3e50; }
-    .instructions { background: #f9f9f9; border-left: 4px solid #2980b9; padding: 10px; margin-bottom: 20px; }
-    .activity { margin-bottom: 30px; }
-    input[type="text"] { width: 140px; padding: 3px; margin: 2px 0; }
-    select { padding: 3px; }
-    .feedback { margin-left: 10px; font-weight: bold; min-width: 20px; display: inline-block; }
-    .correct { color: green; }
-    .incorrect { color: red; }
-    textarea { width: 100%; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>«Cuando» + subjuntivo — el futuro en español — A-Level Spanish</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 120px}
+  .wrap{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:28px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+  .name-row input{padding:9px 12px;font-size:1em;border:2px solid var(--accent);border-radius:6px;width:280px;font-family:inherit}
+  .item{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:8px}
+  .item input[type=text],.item textarea{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px}
+  .item textarea{min-height:90px;resize:vertical}
+  .opts label{display:block;padding:7px 10px;margin:5px 0;border:1.5px solid var(--line);border-radius:5px;cursor:pointer}
+  .opts label:hover{background:#f2f7fa}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  .fb{display:none;margin-top:8px;padding:9px 12px;border-radius:6px;font-size:.95em}
+  .fb.ok{display:block;background:#e9f5ee;border-left:4px solid var(--ok);color:var(--ok)}
+  .fb.almost{display:block;background:#fff8ec;border-left:4px solid var(--warn);color:var(--warn)}
+  .fb.bad{display:block;background:#fbeeee;border-left:4px solid var(--bad);color:var(--bad)}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px;margin:26px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:11px 20px;font-size:1em;font-family:inherit;
+       border-radius:6px;cursor:pointer;margin:6px 6px 6px 0}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.dl{background:var(--ok)}
+  .btn.second{background:#5a6a78}
+  .score-banner{display:none;margin:18px 0;padding:14px;border-radius:8px;background:#f2f7fa;
+       border:2px solid var(--accent);font-size:1.15em;font-weight:bold;color:var(--accent)}
+  .rulebox{background:#f2f7fa;border:1.5px solid var(--accent);border-radius:8px;padding:14px 18px;margin:10px 0 20px}
+  .rulebox table{width:100%;border-collapse:collapse;margin-top:8px}
+  .rulebox td,.rulebox th{border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.95em}
+  .rulebox th{background:#e2edf2;color:var(--accent)}
+  .rulebox .warn-row{background:#fff8ec}
+  /* ---------- Floating accent pad ---------- */
+  #accentPad{position:fixed;bottom:18px;right:18px;background:#fff;border:2px solid var(--accent);
+       border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.25);padding:10px;z-index:1000;
+       display:flex;flex-wrap:wrap;gap:5px;max-width:340px;user-select:none}
+  #accentPad .drag{width:100%;cursor:move;font-size:.8em;color:#5a6a78;text-align:center;padding-bottom:4px}
+  #accentPad button{font-size:1.05em;font-family:inherit;min-width:34px;padding:6px 4px;border:1px solid var(--line);
+       border-radius:5px;background:#f2f7fa;cursor:pointer}
+  #accentPad button:hover{background:var(--accent);color:#fff}
+  #accentPad .maj{font-size:.8em;background:#e6e9ec}
+  #padToggle{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--accent);color:#fff;
+       border:none;border-radius:50px;padding:12px 18px;font-size:1em;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  @media print{#accentPad,#padToggle{display:none}}
+</style>
 </head>
 <body>
-  <h1>Práctica interactiva: "cuando" para hablar del futuro</h1>
-  <div class="instructions">
-    <p>
-      <strong>Recuerda:</strong> Cuando hablas del futuro con <b>cuando</b>, la forma del verbo cambia.<br>
-      Usa <b>cuando sea mayor</b> o <b>cuando termine...</b> + futuro (ir a + infinitivo o futuro simple).<br>
-      <em>Ejemplo:</em> Cuando sea mayor, <b>seré</b> médico.<br>
-      <em>Nota:</em> No necesitas escribir tildes (acentos). La corrección es instantánea y flexible.
-    </p>
+<div class="wrap">
+  <header>
+    <h1>«Cuando» + subjuntivo: hablar del futuro en español</h1>
+    <p class="meta">A-Level Spanish (Edexcel) · Gramática esencial C1 · Duración recomendada: 35 min</p>
+  </header>
+
+  <div class="name-row">
+    <label for="studentName"><strong>Tu nombre:</strong></label>
+    <input type="text" id="studentName" placeholder="Nombre APELLIDO" maxlength="60">
   </div>
 
-  <form id="worksheet" autocomplete="off" onsubmit="return false;">
-    <div class="activity">
-      <label>1. Elige la opción correcta para completar la frase:</label>
-      <ol>
-        <li>
-          Cuando termine mis exámenes,
-          <select id="q11" onchange="checkSelect(11)">
-            <option value="">--elige--</option>
-            <option>iré</option>
-            <option>ire</option>
-            <option>voy</option>
-            <option>fui</option>
-          </select> al cine. <span id="f11" class="feedback"></span>
-        </li>
-        <li>
-          Cuando sea mayor,
-          <select id="q12" onchange="checkSelect(12)">
-            <option value="">--elige--</option>
-            <option>tendré</option>
-            <option>tendre</option>
-            <option>tengo</option>
-            <option>tenía</option>
-            <option>tenia</option>
-          </select> una familia. <span id="f12" class="feedback"></span>
-        </li>
-        <li>
-          Cuando termine la universidad,
-          <select id="q13" onchange="checkSelect(13)">
-            <option value="">--elige--</option>
-            <option>buscaré</option>
-            <option>buscare</option>
-            <option>busco</option>
-            <option>busqué</option>
-            <option>busque</option>
-          </select> un piso. <span id="f13" class="feedback"></span>
-        </li>
-        <li>
-          Cuando sea mayor,
-          <select id="q14" onchange="checkSelect(14)">
-            <option value="">--elige--</option>
-            <option>viajaré</option>
-            <option>viajare</option>
-            <option>viajo</option>
-            <option>viajé</option>
-            <option>viaje</option>
-          </select> mucho. <span id="f14" class="feedback"></span>
-        </li>
-        <li>
-          Cuando termine mis estudios,
-          <select id="q15" onchange="checkSelect(15)">
-            <option value="">--elige--</option>
-            <option>me relajaré</option>
-            <option>me relajare</option>
-            <option>me relajo</option>
-            <option>me relajé</option>
-            <option>me relaje</option>
-          </select>. <span id="f15" class="feedback"></span>
-        </li>
-      </ol>
-    </div>
+  <div class="consigne"><strong>Instrucciones:</strong> Lee primero el recuadro de gramática. Después completa
+  cada ejercicio y pulsa «Comprobar». Al final, descarga tus resultados y sube el archivo a Teams/SharePoint.</div>
 
-    <div class="activity">
-      <label>2. Completa las frases con el verbo correcto en futuro (yo):</label>
-      <ol>
-        <li>Cuando sea mayor, <input type="text" id="q1" oninput="checkInput(1)"> (viajar) por el mundo. <span id="f1" class="feedback"></span></li>
-        <li>Cuando termine mis exámenes, <input type="text" id="q2" oninput="checkInput(2)"> (descansar) mucho. <span id="f2" class="feedback"></span></li>
-        <li>Cuando termine la universidad, <input type="text" id="q3" oninput="checkInput(3)"> (buscar) trabajo. <span id="f3" class="feedback"></span></li>
-        <li>Cuando sea mayor, <input type="text" id="q4" oninput="checkInput(4)"> (tener) mi propia casa. <span id="f4" class="feedback"></span></li>
-        <li>Cuando termine mis estudios, <input type="text" id="q5" oninput="checkInput(5)"> (celebrar) con mis amigos. <span id="f5" class="feedback"></span></li>
-        <li>Cuando termine mis exámenes, <input type="text" id="q6" oninput="checkInput(6)"> (comer) pizza. <span id="f6" class="feedback"></span></li>
-        <li>Cuando sea mayor, <input type="text" id="q7" oninput="checkInput(7)"> (vivir) en otro país. <span id="f7" class="feedback"></span></li>
-        <li>Cuando termine la universidad, <input type="text" id="q8" oninput="checkInput(8)"> (empezar) a trabajar. <span id="f8" class="feedback"></span></li>
-        <li>Cuando termine mis estudios, <input type="text" id="q9" oninput="checkInput(9)"> (viajar) por Europa. <span id="f9" class="feedback"></span></li>
-        <li>Cuando sea mayor, <input type="text" id="q10" oninput="checkInput(10)"> (aprender) a conducir. <span id="f10" class="feedback"></span></li>
-      </ol>
-    </div>
-  </form>
-
-  <div class="activity">
-    <label>3. Escribe frases completas usando "cuando sea mayor" o "cuando termine..." y el futuro:</label>
-    <ul>
-      <li>ser famoso</li>
-      <li>salir con mis amigos</li>
-      <li>comprar un coche</li>
-      <li>adoptar un perro</li>
-      <li>ahorrar dinero</li>
-      <li>me mudar a otra ciudad</li>
-      <li>hacer voluntariado</li>
-      <li>relajarme</li>
-      <li>aprender otro idioma</li>
-      <li>conocer nuevas culturas</li>
-    </ul>
-    <p>Ejemplo: Cuando sea mayor, sere famoso.</p>
-    <textarea rows="8" cols="80" placeholder="Escribe tus frases aquí..."></textarea>
+  <div class="rulebox">
+    <strong>La regla clave (uno de los errores más comunes en el examen):</strong>
+    <p style="margin-top:6px">Cuando la conjunción temporal introduce una acción que <strong>todavía no ha ocurrido</strong>
+    (referencia al futuro), el verbo va en <strong>presente de subjuntivo</strong> — nunca en futuro simple, aunque la
+    frase hable del futuro.</p>
+    <p style="margin-top:6px"><em>Cuando <strong>sea</strong> mayor, seré médica.</em> (NO: «cuando seré mayor»)<br>
+    <em>Te llamaré en cuanto <strong>llegue</strong> a casa.</em></p>
+    <table>
+      <tr><th>Referencia temporal</th><th>Modo/tiempo</th><th>Ejemplo</th></tr>
+      <tr><td>Futuro (no realizado)</td><td>Subjuntivo presente</td><td>Cuando <strong>termine</strong> mis estudios, viajaré.</td></tr>
+      <tr><td>Habitual / verdad general</td><td>Indicativo presente</td><td>Cuando <strong>tengo</strong> tiempo, leo.</td></tr>
+      <tr><td>Habitual en el pasado</td><td>Indicativo imperfecto</td><td>Cuando <strong>era</strong> joven, jugaba al fútbol.</td></tr>
+      <tr><td>Hecho puntual pasado</td><td>Indicativo pretérito</td><td>Cuando <strong>llegó</strong>, empezó a llover.</td></tr>
+    </table>
+    <p style="margin-top:10px">La misma regla se aplica a otras conjunciones temporales cuando se refieren al futuro:
+    <strong>en cuanto, tan pronto como, hasta que, mientras</strong> (+ subjuntivo si la acción es futura; + indicativo
+    si es habitual o pasada).</p>
+    <p class="warn-row" style="margin-top:8px;padding:8px;border-radius:6px"><strong>Excepción importante:</strong>
+    <strong>antes de que</strong> lleva <u>siempre</u> subjuntivo — pasado, presente o futuro — porque la acción
+    introducida nunca ha «sucedido» en el momento de referencia. <em>Se fue antes de que yo llegara.</em></p>
   </div>
 
-  <script>
-    // Remove accents for comparison
-    function removeAccents(str) {
-      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  <!-- ============ EJERCICIO 1: MCQ discriminación indicativo/subjuntivo ============ -->
+  <h2>Ejercicio 1 · Indicativo o subjuntivo — elige la forma correcta <span class="pts">(11 puntos)</span></h2>
+  <div class="consigne">Lee bien el contexto (¿es una acción futura, habitual o ya pasada?) y elige la opción correcta.</div>
+
+  <div class="item" data-type="mcq" data-a="Mg==" data-exp="wqtUZXJtaW5hciBsYSBjYXJyZXJhwrsgZXMgdW5hIGFjY2nDs24gZnV0dXJhLCB0b2RhdsOtYSBubyByZWFsaXphZGE6IGN1YW5kbyArIHN1Ymp1bnRpdm8gcHJlc2VudGUu">
+    <p class="q">1. Cuando ______ (terminar) la carrera, buscaré un trabajo en Madrid.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q1" value="0"> A) termino</label>
+      <label><input type="radio" name="e1q1" value="1"> B) terminaré</label>
+      <label><input type="radio" name="e1q1" value="2"> C) termine</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Todavía no ha terminado la carrera: es una acción futura no realizada. ¿Qué modo exige eso tras «cuando»?</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqtDdWFuZG8gZXJhIG5pw7FvwrsgZGVzY3JpYmUgdW5hIGV0YXBhIHBhc2FkYSBoYWJpdHVhbDogY3VhbmRvICsgaW1wZXJmZWN0byBkZSBpbmRpY2F0aXZvIChubyBzdWJqdW50aXZvKS4=">
+    <p class="q">2. Cuando ______ (ser) niño, vivía en Sevilla.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q2" value="0"> A) sea</label>
+      <label><input type="radio" name="e1q2" value="1"> B) era</label>
+      <label><input type="radio" name="e1q2" value="2"> C) fui</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>«Vivía» (imperfecto) señala una etapa habitual del pasado, no un hecho futuro. No hace falta subjuntivo aquí.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqtOb3JtYWxtZW50ZcK7IHNlw7FhbGEgdW5hIGFjY2nDs24gaGFiaXR1YWwgeSByZXBldGlkYSBlbiBlbCBwcmVzZW50ZTogY3VhbmRvICsgcHJlc2VudGUgZGUgaW5kaWNhdGl2by4=">
+    <p class="q">3. Normalmente, cuando ______ (llegar) a casa, mis padres ya están cenando.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q3" value="0"> A) llegue</label>
+      <label><input type="radio" name="e1q3" value="1"> B) llego</label>
+      <label><input type="radio" name="e1q3" value="2"> C) llegaré</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>«Normalmente» = costumbre habitual en el presente, no un evento futuro concreto.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="Mg==" data-exp="wqtFbiBjdWFudG/CuyArIGFjY2nDs24gZnV0dXJhIG5vIHJlYWxpemFkYSA9IHN1Ymp1bnRpdm8gcHJlc2VudGUsIGlndWFsIHF1ZSBjb24gY3VhbmRvLg==">
+    <p class="q">4. En cuanto ______ (recibir) los resultados de los exámenes, te avisaré.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q4" value="0"> A) recibo</label>
+      <label><input type="radio" name="e1q4" value="1"> B) recibiré</label>
+      <label><input type="radio" name="e1q4" value="2"> C) reciba</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>«En cuanto» funciona como «cuando»: acción futura no realizada → subjuntivo presente.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqtBeWVywrsgbWFyY2EgdW4gaGVjaG8gcHVudHVhbCB5YSBvY3VycmlkbzogZW4gY3VhbnRvICsgcHJldMOpcml0byBpbmRlZmluaWRvIGRlIGluZGljYXRpdm8u">
+    <p class="q">5. Ayer, en cuanto ______ (salir) de casa, empezó a llover.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q5" value="0"> A) salga</label>
+      <label><input type="radio" name="e1q5" value="1"> B) salí</label>
+      <label><input type="radio" name="e1q5" value="2"> C) saldré</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>«Ayer» = hecho concreto y completado en el pasado. El indicativo pretérito narra hechos así.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="Mg==" data-exp="wqtIYXN0YSBxdWXCuyArIGFjY2nDs24gZnV0dXJhIHRvZGF2w61hIG5vIGN1bXBsaWRhIChhaG9ycmFyIGVsIGRpbmVybykgPSBzdWJqdW50aXZvIHByZXNlbnRlLg==">
+    <p class="q">6. No podré comprar el piso hasta que ______ (ahorrar) suficiente dinero.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q6" value="0"> A) ahorro</label>
+      <label><input type="radio" name="e1q6" value="1"> B) ahorraré</label>
+      <label><input type="radio" name="e1q6" value="2"> C) ahorre</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>El ahorro aún no se ha completado: acción futura tras «hasta que».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqtTaWVtcHJlwrsgaW5kaWNhIHVuYSBydXRpbmEgaGFiaXR1YWw6IGhhc3RhIHF1ZSArIHByZXNlbnRlIGRlIGluZGljYXRpdm8u">
+    <p class="q">7. Siempre estudio hasta que ______ (cerrar) la biblioteca.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q7" value="0"> A) cierre</label>
+      <label><input type="radio" name="e1q7" value="1"> B) cierra</label>
+      <label><input type="radio" name="e1q7" value="2"> C) cerrará</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>«Siempre» = rutina habitual y repetida, no un evento futuro puntual.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="Mg==" data-exp="wqtBbnRlcyBkZSBxdWXCuyBleGlnZSBTSUVNUFJFIHN1Ymp1bnRpdm8sIHNpbiBpbXBvcnRhciBzaSBsYSByZWZlcmVuY2lhIGVzIGZ1dHVyYSwgcHJlc2VudGUgbyBwYXNhZGEu">
+    <p class="q">8. Voy a preparar la cena antes de que ______ (volver) mis padres.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q8" value="0"> A) vuelven</label>
+      <label><input type="radio" name="e1q8" value="1"> B) volverán</label>
+      <label><input type="radio" name="e1q8" value="2"> C) vuelvan</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>«Antes de que» es la gran excepción: SIEMPRE subjuntivo, en cualquier tiempo.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="Mg==" data-exp="wqtBbnRlcyBkZSBxdWXCuyBleGlnZSBzaWVtcHJlIHN1Ymp1bnRpdm87IGFxdcOtIGFkZW3DoXMgbGEgYWNjacOzbiAoZW1wZXphciBsYXMgdmFjYWNpb25lcykgZXMgZnV0dXJhLg==">
+    <p class="q">9. Vamos a terminar el proyecto antes de que ______ (empezar) las vacaciones.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q9" value="0"> A) empieza</label>
+      <label><input type="radio" name="e1q9" value="1"> B) empezará</label>
+      <label><input type="radio" name="e1q9" value="2"> C) empiece</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Otra vez «antes de que»: la regla no cambia, siempre subjuntivo.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqtNaWVudHJhc8K7ICsgaW1wZXJmZWN0byBkZSBpbmRpY2F0aXZvIGRlc2NyaWJlIGRvcyBhY2Npb25lcyBwYXJhbGVsYXMgZW4gZWwgcGFzYWRvICh2aXbDrSBhbGzDrSBZIGFwcmVuZMOtIGNhdGFsw6FuKS4=">
+    <p class="q">10. Mientras ______ (vivir) en Barcelona, aprendí mucho catalán.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q10" value="0"> A) viva</label>
+      <label><input type="radio" name="e1q10" value="1"> B) vivía</label>
+      <label><input type="radio" name="e1q10" value="2"> C) viví</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Dos acciones paralelas ya terminadas en el pasado: «mientras» + imperfecto de indicativo.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="Mg==" data-exp="wqtFbiBjdWFudG/CuyArIGFjY2nDs24gZnV0dXJhIGluY2llcnRhIChyZWNpYmlyIG5vdGljaWFzKSA9IHN1Ymp1bnRpdm8gcHJlc2VudGUu">
+    <p class="q">11. Te escribiré en cuanto ______ (tener) noticias.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q11" value="0"> A) tengo</label>
+      <label><input type="radio" name="e1q11" value="1"> B) tendré</label>
+      <label><input type="radio" name="e1q11" value="2"> C) tenga</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>No sabemos cuándo llegarán las noticias: acción futura incierta → subjuntivo presente.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EJERCICIO 2: conjugación tapeada ============ -->
+  <h2>Ejercicio 2 · Escribe la forma correcta del verbo <span class="pts">(11 puntos)</span></h2>
+  <div class="consigne">Conjuga el verbo entre paréntesis en el tiempo y modo correctos (subjuntivo presente o
+  indicativo, según el contexto). Escribe solo la forma verbal.</div>
+
+  <div class="item" data-type="text" data-a="dGVuZ2E=" data-exp="QWNjacOzbiBmdXR1cmEgbm8gY3VtcGxpZGEgKGN1bXBsaXIgMTggYcOxb3MpOiBjdWFuZG8gKyBzdWJqdW50aXZvIHByZXNlbnRlIMKrdGVuZ2HCuy4=">
+    <p class="q">12. Cuando (yo) ______ (tener) 18 años, podré votar.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Todavía no tiene 18 años: futuro no realizado tras «cuando».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="anVnYWJh" data-exp="UmVjdWVyZG8gZGUgaW5mYW5jaWEsIGFjY2nDs24gaGFiaXR1YWwgcmVwZXRpZGEgZW4gZWwgcGFzYWRvOiBpbXBlcmZlY3RvIGRlIGluZGljYXRpdm8gwqtqdWdhYmHCuy4=">
+    <p class="q">13. Cuando era pequeño, siempre ______ (jugar) en el parque.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Recuerdo habitual de infancia: imperfecto de indicativo, no subjuntivo.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="c2FsZ2Fz" data-exp="T3JkZW4gZGlyaWdpZGEgYSB1bmEgYWNjacOzbiBmdXR1cmEgY29uIMKrZW4gY3VhbnRvwrs6IHN1Ymp1bnRpdm8gcHJlc2VudGUgwqtzYWxnYXPCuyAodMO6KS4=">
+    <p class="q">14. Llámame en cuanto (tú) ______ (salir) del trabajo.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Todavía no ha salido: «en cuanto» + subjuntivo presente, 2ª persona.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="cHVlZGE=" data-exp="wqtUYW4gcHJvbnRvIGNvbW/CuyArIGFjY2nDs24gZnV0dXJhIGluY2llcnRhID0gc3VianVudGl2byBwcmVzZW50ZSDCq3B1ZWRhwrsgKHlvKS4=">
+    <p class="q">15. No te preocupes: te ayudaré tan pronto como (yo) ______ (poder).</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«Tan pronto como» funciona igual que «en cuanto» ante un futuro incierto.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="dHJhYmFqYWJhbg==" data-exp="QWNjacOzbiBwYXJhbGVsYSBoYWJpdHVhbCBlbiBlbCBwYXNhZG8gY29uIMKrbWllbnRyYXPCuzogaW1wZXJmZWN0byBkZSBpbmRpY2F0aXZvIMKrdHJhYmFqYWJhbsK7Lg==">
+    <p class="q">16. Mientras mis padres ______ (trabajar), yo cuidaba de mi hermano pequeño.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Dos acciones paralelas y habituales en el pasado: imperfecto de indicativo.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGxlZ3Vl" data-exp="QWNjacOzbiBmdXR1cmEgdG9kYXbDrWEgbm8gcmVhbGl6YWRhIGNvbiDCq2hhc3RhIHF1ZcK7OiBzdWJqdW50aXZvIHByZXNlbnRlIMKrbGxlZ3Vlwrsu">
+    <p class="q">17. Esperaremos aquí hasta que ______ (llegar) el autobús.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>El autobús todavía no ha llegado: futuro no cumplido tras «hasta que».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="c2UgYWN1ZXN0ZW58YWN1ZXN0ZW4=" data-exp="wqtBbnRlcyBkZSBxdWXCuyBleGlnZSBzaWVtcHJlIHN1Ymp1bnRpdm8sIGluY2x1c28gZW4gcnV0aW5hcyBoYWJpdHVhbGVzOiDCq3NlIGFjdWVzdGVuwrsu">
+    <p class="q">18. Siempre lavo los platos antes de que ______ (acostarse) mis hijos.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«Antes de que» exige subjuntivo aunque sea una rutina habitual. No olvides el pronombre reflexivo «se».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="aGFjZQ==" data-exp="VmVyZGFkIGhhYml0dWFsL2dlbmVyYWwgY29uIMKrY3VhbmRvwrs6IHByZXNlbnRlIGRlIGluZGljYXRpdm8gwqtoYWNlwrsgKG5vIHN1Ymp1bnRpdm8pLg==">
+    <p class="q">19. Cuando ______ (hacer) buen tiempo, solemos ir a la playa.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«Solemos» = costumbre habitual y general: indicativo presente, no subjuntivo.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="dGVybWluZQ==" data-exp="wqtFbiBjdWFudG/CuyArIGFjY2nDs24gZnV0dXJhOiBzdWJqdW50aXZvIHByZXNlbnRlIMKrdGVybWluZcK7Lg==">
+    <p class="q">20. En cuanto ______ (terminar) la reunión, os enviaré el informe.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>La reunión todavía no ha terminado: subjuntivo presente tras «en cuanto».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="c2VwYQ==" data-exp="wqtUYW4gcHJvbnRvIGNvbW/CuyArIGFjY2nDs24gZnV0dXJhIGluY2llcnRhOiBzdWJqdW50aXZvIHByZXNlbnRlIMKrc2VwYcK7ICh5byku">
+    <p class="q">21. Tan pronto como (yo) ______ (saber) los resultados, os llamaré.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Resultado incierto y futuro: «tan pronto como» + subjuntivo presente.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="c2Vh" data-exp="wqtDdWFuZG/CuyArIGFjY2nDs24gZnV0dXJhIChzZXIgbWF5b3IsIHRvZGF2w61hIG5vIGN1bXBsaWRhKSA9IHN1Ymp1bnRpdm8gcHJlc2VudGUgwqtzZWHCuy4=">
+    <p class="q">22. Cuando (yo) ______ (ser) mayor, quiero ser médica.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«Ser mayor» todavía no ha ocurrido: subjuntivo presente «sea».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <button class="btn" onclick="checkAll()">✔ Comprobar mis respuestas</button>
+  <button class="btn second" onclick="resetAll()">↺ Empezar de nuevo</button>
+  <div class="score-banner" id="scoreBanner"></div>
+
+  <!-- ============ DESAFÍO A* (stretch) ============ -->
+  <div class="stretch">
+    <h2>Desafío A* — Para ir más lejos</h2>
+    <div class="consigne">Tarea exigente (C1): redacta un párrafo (mínimo 80 palabras) sobre tus planes de futuro
+    —estudios, carrera profesional o vida personal— utilizando <strong>al menos tres conjunciones temporales
+    distintas</strong> (cuando, en cuanto, tan pronto como, hasta que, antes de que, mientras) seguidas del modo
+    correcto. Varía también los tiempos del verbo principal (futuro simple, «ir a» + infinitivo, o el imperativo).</div>
+    <p><em>Amorces:</em> «Cuando termine mis estudios de Bachillerato…», «En cuanto reciba los resultados…»,
+    «No pienso relajarme hasta que…», «Antes de que empiece la universidad…»</p>
+    <div class="item" data-type="free" data-min="80">
+      <textarea placeholder="Redacta aquí tu párrafo (80 palabras mínimo)…"></textarea>
+      <div class="fb"></div>
+    </div>
+    <details class="aide"><summary>Ver un modelo de respuesta (después de escribir el tuyo)</summary>
+      <div id="modelAnswer">Modelo: «Cuando termine mis exámenes de A-Level, me tomaré un año sabático antes de que
+      empiece la universidad. Tan pronto como reciba las notas, empezaré a buscar alojamiento en Madrid, mientras
+      trabajo a tiempo parcial para ahorrar dinero. No pienso relajarme del todo hasta que haya conseguido una plaza
+      en la carrera de Traducción, así que, en cuanto se abran las solicitudes, las enviaré todas sin dudarlo. Cuando
+      por fin sea estudiante universitaria, espero vivir nuevas experiencias y conocer a gente de todo el mundo.»</div></details>
+  </div>
+
+  <button class="btn dl" onclick="downloadResults()">📥 Descargar mis resultados</button>
+</div>
+
+<!-- ============ FLOATING ACCENT PAD ============ -->
+<button id="padToggle" onclick="togglePad()">á ñ ¿ — Acentos</button>
+<div id="accentPad" style="display:none">
+  <div class="drag">⋮⋮ mover</div>
+</div>
+
+<script>
+/* ================= HOUSE ENGINE — do not weaken ================= */
+/* Answers are base64-encoded (UTF-8 safe) so they never sit in plain text next to the inputs. */
+function d(b){try{return decodeURIComponent(escape(atob(b)))}catch(e){return""}}
+function e64(s){return btoa(unescape(encodeURIComponent(s)))} /* helper for authoring */
+
+function norm(s){return (s||"").toLowerCase().replace(/['']/g,"'").replace(/\s+/g," ").trim()}
+function deacc(s){return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"")}
+
+/* tolerant text check: returns "ok" | "accents" | "bad" ; accepted = array */
+function judge(val, accepted){
+  const v=norm(val);
+  if(accepted.some(a=>norm(a)===v)) return "ok";
+  if(accepted.some(a=>deacc(a)===deacc(val))) return "accents";
+  return "bad";
+}
+
+let results=[]; /* {label, given, ok, expected} */
+
+function checkAll(){
+  results=[]; let score=0, max=0;
+  document.querySelectorAll(".item").forEach((it,idx)=>{
+    const type=it.dataset.type, fb=it.querySelector(".fb");
+    const label=(it.querySelector(".q")?it.querySelector(".q").textContent.trim():("Desafío "+(idx+1))).slice(0,90);
+    if(type==="mcq"){
+      max++;
+      const sel=it.querySelector("input[type=radio]:checked");
+      const correct=d(it.dataset.a), exp=d(it.dataset.exp||"");
+      if(!sel){fb.className="fb bad";fb.textContent="⚠ Responde a la pregunta.";results.push({label,given:"—",ok:false});return}
+      if(sel.value===correct){score++;fb.className="fb ok";fb.textContent="✔ Correcto. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:true});}
+      else{fb.className="fb bad";fb.textContent="✘ Incorrecto. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:false});}
     }
-
-    // Acceptable answers (without accents)
-    const answers = [
-      ["viajare", "voy a viajar"],
-      ["descansare", "voy a descansar"],
-      ["buscare", "voy a buscar"],
-      ["tendre", "voy a tener"],
-      ["celebrare", "voy a celebrar"],
-      ["comere", "voy a comer"],
-      ["vivire", "voy a vivir"],
-      ["empezare", "voy a empezar"],
-      ["viajare", "voy a viajar"],
-      ["aprendere", "voy a aprender"]
-    ];
-
-    // Multiple choice correct answers (with and without accents)
-    const mcAnswers = [
-      ["ire", "iré"],
-      ["tendre", "tendré"],
-      ["buscare", "buscaré"],
-      ["viajare", "viajaré"],
-      ["me relajare", "me relajaré"]
-    ];
-
-    function normalize(str) {
-      return removeAccents(str.trim().toLowerCase().replace(/\s+/g, " "));
+    if(type==="text"){
+      max++;
+      const inp=it.querySelector("input,textarea");
+      const accepted=d(it.dataset.a).split("|"), exp=d(it.dataset.exp||"");
+      const r=judge(inp.value,accepted);
+      if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correcto. "+exp;}
+      else if(r==="accents"){fb.className="fb almost";fb.textContent="≈ ¡Casi! Revisa los acentos: "+accepted[0]+". "+exp;}
+      else{fb.className="fb bad";fb.textContent="✘ Respuesta esperada: "+accepted[0]+". "+exp;}
+      results.push({label,given:inp.value||"—",ok:r==="ok"});
     }
-
-    // For MCQ: accept with or without accents
-    function checkSelect(num) {
-      const user = normalize(document.getElementById("q" + num).value);
-      const corrects = mcAnswers[num - 11].map(normalize);
-      const feedback = document.getElementById("f" + num);
-      if (!user) {
-        feedback.textContent = "";
-      } else if (corrects.includes(user)) {
-        feedback.textContent = "¡Correcto!";
-        feedback.className = "feedback correct";
-      } else {
-        feedback.textContent = "Inténtalo otra vez";
-        feedback.className = "feedback incorrect";
-      }
+    if(type==="free"){
+      const ta=it.querySelector("textarea"), min=parseInt(it.dataset.min||"40");
+      const words=(ta.value.trim().match(/\S+/g)||[]).length;
+      if(words===0){fb.className="fb";fb.textContent="";}
+      else if(words<min){fb.className="fb almost";fb.textContent="≈ "+words+" palabras — intenta llegar a "+min+". Desarrolla con un conector (sin embargo, no obstante…).";}
+      else{fb.className="fb ok";fb.textContent="✔ "+words+" palabras. Compara ahora con el modelo y mejora una frase.";}
+      results.push({label,given:ta.value||"—",ok:words>=min});
     }
+  });
+  const b=document.getElementById("scoreBanner");
+  b.style.display="block";
+  const pct=max?Math.round(100*score/max):0;
+  b.textContent="Puntuación: "+score+" / "+max+" ("+pct+" %) — "+(pct>=80?"¡Excelente!":pct>=60?"Bien — corrige los puntos señalados.":"Relee las pistas e inténtalo otra vez.");
+  window._score={score,max};
+}
 
-    // For fill-in-the-blank: only check when answer is long enough
-    function checkInput(num) {
-      const userRaw = document.getElementById("q" + num).value;
-      const user = normalize(userRaw);
-      const corrects = answers[num - 1].map(normalize);
-      const feedback = document.getElementById("f" + num);
+function resetAll(){
+  document.querySelectorAll(".item input[type=text], .item textarea").forEach(i=>i.value="");
+  document.querySelectorAll(".item input[type=radio]").forEach(r=>r.checked=false);
+  document.querySelectorAll(".fb").forEach(f=>{f.className="fb";f.textContent=""});
+  document.getElementById("scoreBanner").style.display="none";
+  results=[];window._score=null;window.scrollTo({top:0,behavior:"smooth"});
+}
 
-      // Determine minimum length to check (for single word or "voy a ...")
-      let minLength = Math.min(...corrects.map(ans => ans.length));
-      // For "voy a ..." allow checking as soon as user types "voy a ...", which is at least 8 chars
-      if (user.startsWith("voy a ")) minLength = 7;
+function downloadResults(){
+  const name=document.getElementById("studentName").value.trim();
+  if(!name){alert("Escribe primero tu nombre al principio de la página.");document.getElementById("studentName").focus();return}
+  if(!window._score){alert("Pulsa primero «Comprobar mis respuestas».");return}
+  let txt="RESULTADOS — "+document.title+"\n";
+  txt+="Alumno/a: "+name+"\nFecha: "+new Date().toLocaleString("es-ES")+"\n";
+  txt+="Puntuación: "+window._score.score+" / "+window._score.max+"\n";
+  txt+="".padEnd(60,"=")+"\n\n";
+  results.forEach((r,i)=>{txt+=(i+1)+". "+r.label+"\n   Respuesta: "+r.given+"\n   "+(r.ok?"✔ correcto":"✘ repasar")+"\n\n";});
+  const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(document.title.split("—")[0].trim()||"resultados").replace(/\s+/g,"_")+"_"+name.replace(/\s+/g,"_")+".txt";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+}
 
-      if (!user) {
-        feedback.textContent = "";
-      } else if (user.length < minLength) {
-        feedback.textContent = ""; // Don't show error yet
-      } else if (corrects.includes(user)) {
-        feedback.textContent = "¡Correcto!";
-        feedback.className = "feedback correct";
-      } else {
-        feedback.textContent = "Inténtalo otra vez";
-        feedback.className = "feedback incorrect";
-      }
+/* ---------- Accent pad ---------- */
+const CHARS=["á","é","í","ó","ú","ü","ñ","¿","¡","«","»","Á","É","Í","Ó","Ú","Ñ"];
+let lastField=null;
+document.addEventListener("focusin",e=>{
+  if(e.target.matches("input[type=text],textarea") && e.target.id!=="studentName") lastField=e.target;
+  if(e.target.id==="studentName") lastField=e.target;
+});
+const pad=document.getElementById("accentPad");
+CHARS.forEach(c=>{
+  const b=document.createElement("button");
+  b.textContent=c; if(c===c.toUpperCase()&&c.toLowerCase()!==c) b.className="maj";
+  b.addEventListener("mousedown",ev=>{
+    ev.preventDefault(); /* keep focus in the field */
+    if(!lastField) return;
+    const s=lastField.selectionStart??lastField.value.length, t=lastField.selectionEnd??s;
+    lastField.value=lastField.value.slice(0,s)+c+lastField.value.slice(t);
+    lastField.selectionStart=lastField.selectionEnd=s+c.length;
+    lastField.focus();
+  });
+  pad.appendChild(b);
+});
+function togglePad(){
+  const show=pad.style.display==="none";
+  pad.style.display=show?"flex":"none";
+  document.getElementById("padToggle").style.display=show?"none":"block";
+  if(show){ /* add close button once */
+    if(!pad.querySelector(".closer")){
+      const x=document.createElement("button");x.textContent="✕";x.className="closer";
+      x.addEventListener("mousedown",ev=>{ev.preventDefault();togglePad()});pad.appendChild(x);
     }
-  </script>
+  }
+}
+/* drag the pad */
+(function(){
+  const h=pad.querySelector(".drag");let sx,sy,ox,oy,drag=false;
+  h.addEventListener("mousedown",e=>{drag=true;sx=e.clientX;sy=e.clientY;const r=pad.getBoundingClientRect();ox=r.left;oy=r.top;
+    pad.style.right="auto";pad.style.bottom="auto";e.preventDefault()});
+  document.addEventListener("mousemove",e=>{if(!drag)return;pad.style.left=(ox+e.clientX-sx)+"px";pad.style.top=(oy+e.clientY-sy)+"px"});
+  document.addEventListener("mouseup",()=>drag=false);
+})();
+</script>
 </body>
 </html>

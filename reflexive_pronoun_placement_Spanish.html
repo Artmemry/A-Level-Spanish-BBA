@@ -1,104 +1,455 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Spanish Quiz: Reflexive Pronoun Placement</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 700px; margin: 2em auto; }
-        .prompt { background: #f8f9fa; padding: 1em; border-radius: 8px; margin-bottom: 1em; }
-        #feedback { margin-top: 1em; font-weight: bold; }
-        .correct { color: #388e3c; }
-        .incorrect { color: #c62828; }
-        .example { color: #1565c0; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colocación de Pronombres Reflexivos y de Objeto — A-Level Spanish</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 120px}
+  .wrap{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:28px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+  .name-row input{padding:9px 12px;font-size:1em;border:2px solid var(--accent);border-radius:6px;width:280px;font-family:inherit}
+  .item{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:8px}
+  .item input[type=text],.item textarea{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px}
+  .item textarea{min-height:90px;resize:vertical}
+  .opts label{display:block;padding:7px 10px;margin:5px 0;border:1.5px solid var(--line);border-radius:5px;cursor:pointer}
+  .opts label:hover{background:#f2f7fa}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  .fb{display:none;margin-top:8px;padding:9px 12px;border-radius:6px;font-size:.95em}
+  .fb.ok{display:block;background:#e9f5ee;border-left:4px solid var(--ok);color:var(--ok)}
+  .fb.almost{display:block;background:#fff8ec;border-left:4px solid var(--warn);color:var(--warn)}
+  .fb.bad{display:block;background:#fbeeee;border-left:4px solid var(--bad);color:var(--bad)}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px;margin:26px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:11px 20px;font-size:1em;font-family:inherit;
+       border-radius:6px;cursor:pointer;margin:6px 6px 6px 0}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.dl{background:var(--ok)}
+  .btn.second{background:#5a6a78}
+  .score-banner{display:none;margin:18px 0;padding:14px;border-radius:8px;background:#f2f7fa;
+       border:2px solid var(--accent);font-size:1.15em;font-weight:bold;color:var(--accent)}
+  .rule{background:#f2f7fa;border:1px solid var(--line);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:.95em}
+  ol.rules{margin:6px 0 6px 22px}
+  /* ---------- Floating accent pad ---------- */
+  #accentPad{position:fixed;bottom:18px;right:18px;background:#fff;border:2px solid var(--accent);
+       border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.25);padding:10px;z-index:1000;
+       display:flex;flex-wrap:wrap;gap:5px;max-width:340px;user-select:none}
+  #accentPad .drag{width:100%;cursor:move;font-size:.8em;color:#5a6a78;text-align:center;padding-bottom:4px}
+  #accentPad button{font-size:1.05em;font-family:inherit;min-width:34px;padding:6px 4px;border:1px solid var(--line);
+       border-radius:5px;background:#f2f7fa;cursor:pointer}
+  #accentPad button:hover{background:var(--accent);color:#fff}
+  #accentPad .maj{font-size:.8em;background:#e6e9ec}
+  #padToggle{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--accent);color:#fff;
+       border:none;border-radius:50px;padding:12px 18px;font-size:1em;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  @media print{#accentPad,#padToggle{display:none}}
+</style>
 </head>
 <body>
-    <h1>Practice: Where does the reflexive pronoun go?</h1>
-    <p>Type the <strong>full correct sentence</strong> using the right place for the reflexive pronoun.<br>
-    If there are two correct ways, either is accepted.</p>
-    <div class="prompt" id="prompt"></div>
-    <input type="text" id="answer" autocomplete="off" placeholder="Type the full sentence">
-    <button onclick="checkAnswer()">Check</button>
-    <div id="feedback"></div>
-    <div id="explanation"></div>
+<div class="wrap">
+  <header>
+    <h1>Colocación de Pronombres Reflexivos y de Objeto</h1>
+    <p class="meta">A-Level Spanish (Edexcel) · Gramática · Duración recomendada: 40 min</p>
+  </header>
+
+  <div class="name-row">
+    <label for="studentName"><strong>Tu nombre:</strong></label>
+    <input type="text" id="studentName" placeholder="Nombre APELLIDO" maxlength="60">
+  </div>
+
+  <div class="consigne"><strong>Instrucciones:</strong> Completa cada frase colocando el pronombre en
+  el lugar correcto, o elige la opción correcta. Usa el teclado de acentos si lo necesitas.
+  Al terminar, pulsa «Comprobar» y descarga tus resultados.</div>
+
+  <div class="rule"><strong>Reglas clave:</strong>
+  <ol class="rules">
+    <li>Con un solo verbo conjugado, el pronombre va <strong>delante</strong>: <em>me levanto</em>.</li>
+    <li>Con verbo conjugado + infinitivo/gerundio, hay <strong>dos posiciones</strong> posibles: <em>me quiero duchar</em> / <em>quiero ducharme</em>.</li>
+    <li>Con el imperativo <strong>afirmativo</strong>, el pronombre se <strong>pega</strong> al final: <em>¡Siéntate!</em>. Con el imperativo <strong>negativo</strong>, va <strong>delante</strong>: <em>¡No te sientes!</em>.</li>
+    <li>Al pegar el pronombre a un infinitivo, gerundio o imperativo, la palabra suele necesitar una <strong>tilde</strong> para conservar el golpe de voz original (dándoselo, explicándoselo, levántate).</li>
+    <li>Con dos pronombres, el indirecto <strong>le/les</strong> se convierte en <strong>se</strong> delante de un pronombre directo (lo, la, los, las): <em>se lo</em>, nunca <em>le lo</em>.</li>
+  </ol></div>
+
+  <!-- ============ EJERCICIO 1 ============ -->
+  <h2>Ejercicio 1 · Un solo verbo conjugado <span class="pts">(4 puntos)</span></h2>
+  <div class="consigne">Escribe la forma correcta con el pronombre en su lugar.</div>
+
+  <div class="item" data-type="text" data-a="bWUgbGV2YW50bw==" data-exp="RWwgcHJvbm9tYnJlIHJlZmxleGl2byB2YSBzaWVtcHJlIGFudGVzIGRlbCB2ZXJibyBjb25qdWdhZG8gY3VhbmRvIGhheSB1biBzb2xvIHZlcmJvOiDCq21lIGxldmFudG/Cuy4=">
+    <p class="q">1. Yo (levantarse) ______ a las siete todos los días.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Un solo verbo conjugado → pronombre delante.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="c2UgZHVjaGE=" data-exp="VW4gc29sbyB2ZXJibyBjb25qdWdhZG8g4oaSIGVsIHByb25vbWJyZSB2YSBkZWxhbnRlOiDCq3NlIGR1Y2hhwrsu">
+    <p class="q">2. Ella (ducharse) ______ antes de desayunar.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>3.ª persona singular: se + verbo.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bm9zIGFjb3N0YW1vcw==" data-exp="VW4gc29sbyB2ZXJibyBjb25qdWdhZG8gKG5vc290cm9zKSDihpIgZWwgcHJvbm9tYnJlIHZhIGRlbGFudGU6IMKrbm9zIGFjb3N0YW1vc8K7Lg==">
+    <p class="q">3. Nosotros (acostarse) ______ tarde los fines de semana.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Nosotros: nos + verbo.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="dGUgZGVzcGllcnRhcw==" data-exp="VW4gc29sbyB2ZXJibyBjb25qdWdhZG8gKHTDuikg4oaSIGVsIHByb25vbWJyZSB2YSBkZWxhbnRlOiDCq3RlIGRlc3BpZXJ0YXPCuy4=">
+    <p class="q">4. ¿A qué hora (despertarse – tú) ______?</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Tú: te + verbo (con cambio e→ie: despiertas).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EJERCICIO 2 ============ -->
+  <h2>Ejercicio 2 · Verbo conjugado + infinitivo <span class="pts">(4 puntos)</span></h2>
+  <div class="consigne">Reescribe usando los verbos indicados. Las dos posiciones del pronombre son
+  correctas (sepáralas con «|» si escribes las dos, o escribe solo una).</div>
+
+  <div class="item" data-type="text" data-a="bWUgcXVpZXJvIGR1Y2hhcnxxdWllcm8gZHVjaGFybWU=" data-exp="Q29uIHZlcmJvIGNvbmp1Z2FkbyArIGluZmluaXRpdm8sIGVsIHByb25vbWJyZSBwdWVkZSBpciBkZWxhbnRlIGRlbCB2ZXJibyBjb25qdWdhZG8gKMKrbWUgcXVpZXJvIGR1Y2hhcsK7KSBvIHBlZ2FkbyBhbCBpbmZpbml0aXZvICjCq3F1aWVybyBkdWNoYXJtZcK7KS4gQW1iYXMgc29uIGNvcnJlY3Rhcy4=">
+    <p class="q">5. (yo) querer + ducharse + antes de salir → escribe la frase completa.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«me quiero duchar» o «quiero ducharme», ambas correctas.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="c2UgdmFuIGEgbGV2YW50YXJ8dmFuIGEgbGV2YW50YXJzZQ==" data-exp="Q29uIMKraXIgYcK7ICsgaW5maW5pdGl2bywgZWwgcHJvbm9tYnJlIHZhIGRlbGFudGUgZGUgwqtpcsK7IG8gcGVnYWRvIGFsIGluZmluaXRpdm86IMKrc2UgdmFuIGEgbGV2YW50YXLCuyAvIMKrdmFuIGEgbGV2YW50YXJzZcK7Lg==">
+    <p class="q">6. (mis hermanos) ir a + levantarse + temprano mañana → escribe la frase completa.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«se van a levantar» o «van a levantarse».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="cHVlZGVzIGF5dWRhcm1lfG1lIHB1ZWRlcyBheXVkYXI=" data-exp="Q29uIHZlcmJvIGNvbmp1Z2FkbyArIGluZmluaXRpdm8sIGVsIHByb25vbWJyZSBkZSBvYmpldG8gKG5vIHJlZmxleGl2byBhcXXDrSkgc2lndWUgbGEgbWlzbWEgcmVnbGEgZGUgZG9ibGUgcG9zaWNpw7NuOiDCq3B1ZWRlcyBheXVkYXJtZcK7IC8gwqttZSBwdWVkZXMgYXl1ZGFywrsu">
+    <p class="q">7. (tú, pregunta) poder + ayudarme + con esto → escribe la frase completa.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«puedes ayudarme» o «me puedes ayudar».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bm8gc2UgcXVpZXJlIHF1aXRhcnxubyBxdWllcmUgcXVpdGFyc2U=" data-exp="TGEgbmVnYWNpw7NuIMKrbm/CuyB2YSBzaWVtcHJlIGRlbGFudGUgZGUgdG9kbyBlbCBncnVwbyB2ZXJiYWw7IGVsIHByb25vbWJyZSBjb25zZXJ2YSBzdSBkb2JsZSBwb3NpY2nDs24gaGFiaXR1YWwu">
+    <p class="q">8. (ella) no + querer + quitarse + el abrigo → escribe la frase completa.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«no» va delante de todo el grupo verbal.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EJERCICIO 3 ============ -->
+  <h2>Ejercicio 3 · Verbo conjugado + gerundio <span class="pts">(4 puntos)</span></h2>
+  <div class="consigne">Reescribe usando los verbos indicados. Recuerda la tilde al pegar el pronombre al gerundio.</div>
+
+  <div class="item" data-type="text" data-a="c2UgZXN0w6EgbGF2YW5kb3xlc3TDoSBsYXbDoW5kb3Nl" data-exp="Q29uIMKrZXN0YXLCuyArIGdlcnVuZGlvLCBlbCBwcm9ub21icmUgdmEgZGVsYW50ZSBkZSDCq2VzdGFywrsgbyBwZWdhZG8gYWwgZ2VydW5kaW8uIEFsIHBlZ2FybG8sIGVsIGdlcnVuZGlvIG5lY2VzaXRhIHRpbGRlOiDCq2xhdsOhbmRvc2XCuyAocGFyYSBjb25zZXJ2YXIgZWwgZ29scGUgZGUgdm96IG9yaWdpbmFsIGVuIGxhIHNlZ3VuZGEgc8OtbGFiYSku">
+    <p class="q">9. (ella) estar + lavarse + las manos ahora mismo → escribe la frase completa.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«se está lavando» o «está lavándose» (con tilde).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="c2Ugc2lndWUgcXVlamFuZG98c2lndWUgcXVlasOhbmRvc2U=" data-exp="wqtTZWd1aXLCuyArIGdlcnVuZGlvIGZ1bmNpb25hIGlndWFsIHF1ZSDCq2VzdGFywrsgKyBnZXJ1bmRpbzogZG9ibGUgcG9zaWNpw7NuLCBjb24gdGlsZGUgb2JsaWdhdG9yaWEgYWwgcGVnYXIgZWwgcHJvbm9tYnJlICjCq3F1ZWrDoW5kb3NlwrspLg==">
+    <p class="q">10. (él) seguir + quejarse + constantemente → escribe la frase completa.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«se sigue quejando» o «sigue quejándose» (con tilde).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bm9zIGVzdMOhYmFtb3MgcHJvYmFuZG98ZXN0w6FiYW1vcyBwcm9iw6FuZG9ub3M=" data-exp="wqtFc3RhcsK7IGVuIGltcGVyZmVjdG8gKyBnZXJ1bmRpbzogZG9ibGUgcG9zaWNpw7NuLiBBbCBwZWdhciBlbCBwcm9ub21icmUgYWwgZ2VydW5kaW8gZGUgZG9zIHPDrWxhYmFzIG3DoXMgZWwgcHJvbm9tYnJlLCBzZSBhw7FhZGUgdGlsZGU6IMKrcHJvYsOhbmRvbm9zwrsu">
+    <p class="q">11. (nosotros) estar (imperfecto) + probarse + los trajes cuando llegaste → escribe la frase completa.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«nos estábamos probando» o «estábamos probándonos» (con tilde).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="c2UgbG8gZXN0b3kgZXhwbGljYW5kb3xlc3RveSBleHBsaWPDoW5kb3NlbG8=" data-exp="RG9ibGUgcHJvbm9tYnJlOiBsZSAoaW5kaXJlY3RvKSArIGxvIChkaXJlY3RvKSDihpIgc2UgbG8gKGxlIG51bmNhIHZhIGRlbGFudGUgZGUgbG8vbGEvbG9zL2xhcykuIEFsIHBlZ2FybG8gYWwgZ2VydW5kaW8sIGxsZXZhIHRpbGRlOiDCq2V4cGxpY8OhbmRvc2Vsb8K7Lg==">
+    <p class="q">12. (yo) estar + explicarle + el ejercicio a mi compañero (combina le + lo = se lo) → escribe la frase completa.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«se lo estoy explicando» o «estoy explicándoselo» (con tilde).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EJERCICIO 4 ============ -->
+  <h2>Ejercicio 4 · Imperativo afirmativo <span class="pts">(4 puntos)</span></h2>
+  <div class="consigne">Escribe la forma del imperativo afirmativo con el pronombre pegado (¡ojo con las tildes!).</div>
+
+  <div class="item" data-type="text" data-a="bGV2w6FudGF0ZQ==" data-exp="SW1wZXJhdGl2byBhZmlybWF0aXZvICh0w7opIGRlIGxldmFudGFyc2U6IGxldmFudGEgKyB0ZSA9IGxldsOhbnRhdGUuIEFsIHBlZ2FyIGVsIHByb25vbWJyZSwgbGEgcGFsYWJyYSBnYW5hIHVuYSBzw61sYWJhIHkgbmVjZXNpdGEgdGlsZGUgcGFyYSBtYW50ZW5lciBlbCBnb2xwZSBkZSB2b3ogb3JpZ2luYWwgZW4gwqtsZS1WQU4tdGHCuy4=">
+    <p class="q">13. ¡(Levantarse – tú) ______ ya!</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>levanta + te → necesita tilde: levántate.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="c2nDqW50ZXNl" data-exp="SW1wZXJhdGl2byBhZmlybWF0aXZvICh1c3RlZCkgZGUgc2VudGFyc2U6IGxhIGZvcm1hIHZlcmJhbCBlcyDCq3NpZW50ZcK7IChzdWJqdW50aXZvLCBjb24gZWwgY2FtYmlvIGXihpJpZSBkZSBzZW50YXIpICsgc2UgPSBzacOpbnRlc2UsIGNvbiB0aWxkZSBwb3IgbGEgbWlzbWEgcmF6w7NuIHF1ZSBsZXbDoW50YXRlLg==">
+    <p class="q">14. ¡(Sentarse – usted) ______, por favor!</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>El imperativo de usted usa la forma del subjuntivo: siente + se.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="dsOhbW9ub3M=" data-exp="SW1wZXJhdGl2byBhZmlybWF0aXZvIChub3NvdHJvcykgZGUgaXJzZTogbGEgZm9ybWEgZXNwZXJhZGEgwqt2YXnDoW1vbm9zwrsgcGllcmRlIGxhIC1zIGZpbmFsIHBvciBleGNlcGNpw7NuIGhpc3TDs3JpY2E6IHbDoW1vbm9zLiBFcyB1bmEgZGUgbGFzIHBvY2FzIGV4Y2VwY2lvbmVzIHF1ZSBoYXkgcXVlIG1lbW9yaXphci4=">
+    <p class="q">15. ¡(Irse – nosotros) ______ de aquí!</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Excepción: «vayámonos» pierde la -s → vámonos.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="Y2FsbGFvcw==" data-exp="SW1wZXJhdGl2byBhZmlybWF0aXZvICh2b3NvdHJvcykgZGUgY2FsbGFyc2U6IHNlIGZvcm1hIGNvbiBlbCBpbmZpbml0aXZvIHNpbiBsYSAtciBmaW5hbCAoY2FsbGFkKSArIG9zLCB5IGxhIC1kIGRlc2FwYXJlY2UgYW50ZSAtb3M6IGNhbGxhZCArIG9zID0gY2FsbGFvcy4gKMOabmljYSBleGNlcGNpw7NuOiBpcnNlIOKGkiBpZG9zKS4=">
+    <p class="q">16. ¡(Callarse – vosotros) ______!</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>callad + os → la -d desaparece: callaos.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EJERCICIO 5 ============ -->
+  <h2>Ejercicio 5 · Imperativo negativo <span class="pts">(3 puntos)</span></h2>
+  <div class="consigne">En el imperativo negativo, el pronombre va siempre delante y el verbo va en subjuntivo.</div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="RW4gZWwgaW1wZXJhdGl2byBuZWdhdGl2bywgZWwgcHJvbm9tYnJlIHZhIHNpZW1wcmUgZGVsYW50ZSBkZWwgdmVyYm8sIHF1ZSB0b21hIGxhIGZvcm1hIGRlbCBzdWJqdW50aXZvOiDCq25vIHRlIGxldmFudGVzwrsgKG51bmNhIMKrbm8gbGV2w6FudGF0ZcK7KS4=">
+    <p class="q">17. No ______ tan tarde. (levantarse – tú, negativo)</p>
+    <div class="opts">
+      <label><input type="radio" name="e5q17" value="0"> A) te levantes</label>
+      <label><input type="radio" name="e5q17" value="1"> B) levántate</label>
+      <label><input type="radio" name="e5q17" value="2"> C) te levanta</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Negativo = pronombre delante + subjuntivo.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="SW1wZXJhdGl2byBuZWdhdGl2byAodXN0ZWQpOiBlbCBwcm9ub21icmUgdmEgZGVsYW50ZSB5IGVsIHZlcmJvIHZhIGVuIHN1Ymp1bnRpdm86IMKrbm8gc2Ugc2llbnRlwrsgKG51bmNhIMKrbm8gc2nDqW50ZXNlwrspLg==">
+    <p class="q">18. No ______ ahora, señora. (sentarse – usted, negativo)</p>
+    <div class="opts">
+      <label><input type="radio" name="e5q18" value="0"> A) se siente</label>
+      <label><input type="radio" name="e5q18" value="1"> B) siéntese</label>
+      <label><input type="radio" name="e5q18" value="2"> C) se sienta</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Negativo (usted) = se + siente (subjuntivo).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="SW1wZXJhdGl2byBuZWdhdGl2byAodm9zb3Ryb3MpOiBlbCBwcm9ub21icmUgdmEgZGVsYW50ZSB5IGVsIHZlcmJvIHZhIGVuIHN1Ymp1bnRpdm86IMKrbm8gb3MgcXVlZMOpaXPCuyAobnVuY2EgwqtubyBxdWVkYW9zwrspLg==">
+    <p class="q">19. No os ______ ahí. (quedarse – vosotros, negativo)</p>
+    <div class="opts">
+      <label><input type="radio" name="e5q19" value="0"> A) quedéis</label>
+      <label><input type="radio" name="e5q19" value="1"> B) quedaos</label>
+      <label><input type="radio" name="e5q19" value="2"> C) quedáis</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Negativo (vosotros) = os + quedéis (subjuntivo).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EJERCICIO 6 ============ -->
+  <h2>Ejercicio 6 · Doble pronombre: se lo / se la <span class="pts">(4 puntos)</span></h2>
+  <div class="consigne">Sustituye los complementos por pronombres. Recuerda: le/les + lo/la/los/las → se lo/se la/se los/se las.</div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="RG9ibGUgcHJvbm9tYnJlOiBsZSAoYSBNYXLDrWEpICsgbG8gKGVsIGxpYnJvKSDihpIgc2UgbG8sIHBvcnF1ZSBsZS9sZXMgc2UgY29udmllcnRlIGVuIHNlIGRlbGFudGUgZGUgbG8vbGEvbG9zL2xhcy4=">
+    <p class="q">20. Le doy el libro a María. → ______ doy.</p>
+    <div class="opts">
+      <label><input type="radio" name="e6q20" value="0"> A) Se lo</label>
+      <label><input type="radio" name="e6q20" value="1"> B) Le lo</label>
+      <label><input type="radio" name="e6q20" value="2"> C) Lo le</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>«le lo» no existe en español: le → se.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="c2UgbG9z" data-exp="bGVzIChhIG1pcyBwYWRyZXMpICsgbG9zIChsb3MgcmVnYWxvcykg4oaSIHNlIGxvcy4gRWwgaW5kaXJlY3RvIHNpZW1wcmUgc2UgY29udmllcnRlIGVuIMKrc2XCuyBkZWxhbnRlIGRlIHVuIHByb25vbWJyZSBkaXJlY3RvIHF1ZSBlbXBpZXphIHBvciBsLS4=">
+    <p class="q">21. Compro los regalos a mis padres. → ______ compro.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>les (a mis padres) + los (los regalos) → se los.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="bGUgKGEgbG9zIGFsdW1ub3MpICsgbGEgKGxhIHJlZ2xhKSDihpIgc2UgbGEsIHBvciBsYSBtaXNtYSByZWdsYTogbGUvbGVzICsgbG8vbGEvbG9zL2xhcyA9IHNlIGxvL3NlIGxhL3NlIGxvcy9zZSBsYXMu">
+    <p class="q">22. Ella le explica la regla a los alumnos. → Ella ______ explica.</p>
+    <div class="opts">
+      <label><input type="radio" name="e6q22" value="0"> A) se la</label>
+      <label><input type="radio" name="e6q22" value="1"> B) le la</label>
+      <label><input type="radio" name="e6q22" value="2"> C) la le</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>le + la → se la.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZMOhcnNlbG8=" data-exp="UHJvbm9tYnJlIGRvYmxlIHBlZ2FkbyBhbCBpbmZpbml0aXZvOiBkYXIgKyBzZSArIGxvID0gZGFyc2VsbywgcGVybyBhbCBhw7FhZGlyIGRvcyBzw61sYWJhcyBsYSBwYWxhYnJhIG5lY2VzaXRhIHRpbGRlIHBhcmEgY29uc2VydmFyIGVsIGdvbHBlIGRlIHZveiBvcmlnaW5hbCBlbiDCq2RhcsK7OiBkw6Fyc2Vsby4=">
+    <p class="q">23. Voy a dar el dinero a mi hermano. → Reescribe con pronombres: «Voy a ______» (dar + le + lo, con el pronombre unido al infinitivo).</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>dar + se + lo, pegado al infinitivo → necesita tilde: dárselo.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <button class="btn" onclick="checkAll()">✔ Comprobar mis respuestas</button>
+  <button class="btn second" onclick="resetAll()">↺ Empezar de nuevo</button>
+  <div class="score-banner" id="scoreBanner"></div>
+
+  <!-- ============ DESAFÍO A* (stretch) ============ -->
+  <div class="stretch">
+    <h2>Desafío A* — Para ir más lejos</h2>
+    <div class="consigne">Reescribe las siguientes cinco frases cambiando la posición del pronombre
+    (o pronombres) a la otra posición gramaticalmente correcta, sin cambiar el significado. Recuerda
+    añadir o quitar la tilde cuando sea necesario. Escribe las cinco frases reescritas (mínimo 40
+    palabras en total):</div>
+    <p>1. Nos vamos a duchar antes de la fiesta.<br>
+    2. Está explicándomelo con mucha paciencia.<br>
+    3. Voy a levantarme temprano mañana.<br>
+    4. Sigue quejándose de todo.<br>
+    5. Quiero dártelo antes de que te vayas.</p>
+    <div class="item" data-type="free" data-min="40">
+      <textarea placeholder="Escribe aquí tus cinco frases reescritas (40 palabras mínimo)…"></textarea>
+      <div class="fb"></div>
+    </div>
+    <details class="aide"><summary>Ver un modelo de respuesta (después de escribir el tuyo)</summary>
+      <div id="modelAnswer">Modelo de reescritura: 1) Vamos a ducharnos antes de la fiesta. 2) Me lo está explicando con mucha paciencia. 3) Me voy a levantar temprano mañana. 4) Se sigue quejando de todo. 5) Te lo quiero dar antes de que te vayas.</div></details>
+  </div>
+
+  <button class="btn dl" onclick="downloadResults()">📥 Descargar mis resultados</button>
+</div>
+
+<!-- ============ FLOATING ACCENT PAD ============ -->
+<button id="padToggle" onclick="togglePad()">á ñ ¿ — Acentos</button>
+<div id="accentPad" style="display:none">
+  <div class="drag">⋮⋮ mover</div>
+</div>
+
 <script>
-const questions = [
-    {
-        prompt: "I get up. (levantarse)",
-        correct: ["me levanto"],
-        explanation: 'With one verb, the reflexive goes before: <span class="example">Me levanto.</span>'
-    },
-    {
-        prompt: "We are going to get up. (levantarse)",
-        correct: ["nos vamos a levantar", "vamos a levantarnos"],
-        explanation: 'With two verbs (ir + infinitive), both are correct: <span class="example">Nos vamos a levantar.</span> or <span class="example">Vamos a levantarnos.</span>'
-    },
-    {
-        prompt: "Get up! (command, tú, levantarse)",
-        correct: ["levántate", "levantate"],
-        explanation: 'With an affirmative command, the reflexive goes after and together: <span class="example">¡Levántate!</span>'
-    },
-    {
-        prompt: "She showers. (ducharse)",
-        correct: ["se ducha"],
-        explanation: 'With one verb, the reflexive goes before: <span class="example">Se ducha.</span>'
-    },
-    {
-        prompt: "I want to shower. (ducharse)",
-        correct: ["me quiero duchar", "quiero ducharme"],
-        explanation: 'With two verbs, both are correct: <span class="example">Me quiero duchar.</span> or <span class="example">Quiero ducharme.</span>'
-    },
-    {
-        prompt: "Sit down! (command, vosotros, sentarse)",
-        correct: ["sentaos", "sentáos"],
-        explanation: 'With affirmative vosotros command, the reflexive goes after: <span class="example">¡Sentaos!</span>'
+/* ================= HOUSE ENGINE — do not weaken ================= */
+/* Answers are base64-encoded (UTF-8 safe) so they never sit in plain text next to the inputs. */
+function d(b){try{return decodeURIComponent(escape(atob(b)))}catch(e){return""}}
+function e64(s){return btoa(unescape(encodeURIComponent(s)))} /* helper for authoring */
+
+function norm(s){return (s||"").toLowerCase().replace(/['']/g,"'").replace(/\s+/g," ").trim()}
+function deacc(s){return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"")}
+
+/* tolerant text check: returns "ok" | "accents" | "bad" ; accepted = array */
+function judge(val, accepted){
+  const v=norm(val);
+  if(accepted.some(a=>norm(a)===v)) return "ok";
+  if(accepted.some(a=>deacc(a)===deacc(val))) return "accents";
+  return "bad";
+}
+
+let results=[]; /* {label, given, ok, expected} */
+
+function checkAll(){
+  results=[]; let score=0, max=0;
+  document.querySelectorAll(".item").forEach((it,idx)=>{
+    const type=it.dataset.type, fb=it.querySelector(".fb");
+    const label=(it.querySelector(".q")?it.querySelector(".q").textContent.trim():("Desafío "+(idx+1))).slice(0,90);
+    if(type==="mcq"){
+      max++;
+      const sel=it.querySelector("input[type=radio]:checked");
+      const correct=d(it.dataset.a), exp=d(it.dataset.exp||"");
+      if(!sel){fb.className="fb bad";fb.textContent="⚠ Responde a la pregunta.";results.push({label,given:"—",ok:false});return}
+      if(sel.value===correct){score++;fb.className="fb ok";fb.textContent="✔ Correcto. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:true});}
+      else{fb.className="fb bad";fb.textContent="✘ Incorrecto. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:false});}
     }
-];
-
-function normalize(str) {
-    return str
-        .toLowerCase()
-        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-        .replace(/’/g, "'")
-        .replace(/[^a-záéíóúüñ0-9\s\-]/g, "")
-        .replace(/\s+/g, " ")
-        .trim();
-}
-
-let current = {};
-
-function newQuestion() {
-    current = questions[Math.floor(Math.random() * questions.length)];
-    document.getElementById('prompt').innerText = current.prompt;
-    document.getElementById('answer').value = "";
-    document.getElementById('feedback').innerText = "";
-    document.getElementById('explanation').innerText = "";
-    document.getElementById('answer').focus();
-}
-
-function checkAnswer() {
-    const user = normalize(document.getElementById('answer').value);
-    const correct = current.correct.map(normalize);
-    const feedback = document.getElementById('feedback');
-    const explanation = document.getElementById('explanation');
-    if (correct.includes(user)) {
-        feedback.innerText = "✅ Correct!";
-        feedback.className = "correct";
-        explanation.innerHTML = current.explanation;
-    } else {
-        feedback.innerText = "❌ Try again.";
-        feedback.className = "incorrect";
-        explanation.innerHTML = "";
+    if(type==="text"){
+      max++;
+      const inp=it.querySelector("input,textarea");
+      const accepted=d(it.dataset.a).split("|"), exp=d(it.dataset.exp||"");
+      const r=judge(inp.value,accepted);
+      if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correcto. "+exp;}
+      else if(r==="accents"){fb.className="fb almost";fb.textContent="≈ ¡Casi! Revisa los acentos: "+accepted[0]+". "+exp;}
+      else{fb.className="fb bad";fb.textContent="✘ Respuesta esperada: "+accepted[0]+". "+exp;}
+      results.push({label,given:inp.value||"—",ok:r==="ok"});
     }
+    if(type==="free"){
+      const ta=it.querySelector("textarea"), min=parseInt(it.dataset.min||"40");
+      const words=(ta.value.trim().match(/\S+/g)||[]).length;
+      if(words===0){fb.className="fb";fb.textContent="";}
+      else if(words<min){fb.className="fb almost";fb.textContent="≈ "+words+" palabras — intenta llegar a "+min+". Desarrolla con un conector (sin embargo, no obstante…).";}
+      else{fb.className="fb ok";fb.textContent="✔ "+words+" palabras. Compara ahora con el modelo y mejora una frase.";}
+      results.push({label,given:ta.value||"—",ok:words>=min});
+    }
+  });
+  const b=document.getElementById("scoreBanner");
+  b.style.display="block";
+  const pct=max?Math.round(100*score/max):0;
+  b.textContent="Puntuación: "+score+" / "+max+" ("+pct+" %) — "+(pct>=80?"¡Excelente!":pct>=60?"Bien — corrige los puntos señalados.":"Relee las pistas e inténtalo otra vez.");
+  window._score={score,max};
 }
 
-window.onload = function() {
-    newQuestion();
-    document.getElementById('answer').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') checkAnswer();
-    });
-};
+function resetAll(){
+  document.querySelectorAll(".item input[type=text], .item textarea").forEach(i=>i.value="");
+  document.querySelectorAll(".item input[type=radio]").forEach(r=>r.checked=false);
+  document.querySelectorAll(".fb").forEach(f=>{f.className="fb";f.textContent=""});
+  document.getElementById("scoreBanner").style.display="none";
+  results=[];window._score=null;window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function downloadResults(){
+  const name=document.getElementById("studentName").value.trim();
+  if(!name){alert("Escribe primero tu nombre al principio de la página.");document.getElementById("studentName").focus();return}
+  if(!window._score){alert("Pulsa primero «Comprobar mis respuestas».");return}
+  let txt="RESULTADOS — "+document.title+"\n";
+  txt+="Alumno/a: "+name+"\nFecha: "+new Date().toLocaleString("es-ES")+"\n";
+  txt+="Puntuación: "+window._score.score+" / "+window._score.max+"\n";
+  txt+="".padEnd(60,"=")+"\n\n";
+  results.forEach((r,i)=>{txt+=(i+1)+". "+r.label+"\n   Respuesta: "+r.given+"\n   "+(r.ok?"✔ correcto":"✘ repasar")+"\n\n";});
+  const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(document.title.split("—")[0].trim()||"resultados").replace(/\s+/g,"_")+"_"+name.replace(/\s+/g,"_")+".txt";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+}
+
+/* ---------- Accent pad ---------- */
+const CHARS=["á","é","í","ó","ú","ü","ñ","¿","¡","«","»","Á","É","Í","Ó","Ú","Ñ"];
+let lastField=null;
+document.addEventListener("focusin",e=>{
+  if(e.target.matches("input[type=text],textarea") && e.target.id!=="studentName") lastField=e.target;
+  if(e.target.id==="studentName") lastField=e.target;
+});
+const pad=document.getElementById("accentPad");
+CHARS.forEach(c=>{
+  const b=document.createElement("button");
+  b.textContent=c; if(c===c.toUpperCase()&&c.toLowerCase()!==c) b.className="maj";
+  b.addEventListener("mousedown",ev=>{
+    ev.preventDefault(); /* keep focus in the field */
+    if(!lastField) return;
+    const s=lastField.selectionStart??lastField.value.length, t=lastField.selectionEnd??s;
+    lastField.value=lastField.value.slice(0,s)+c+lastField.value.slice(t);
+    lastField.selectionStart=lastField.selectionEnd=s+c.length;
+    lastField.focus();
+  });
+  pad.appendChild(b);
+});
+function togglePad(){
+  const show=pad.style.display==="none";
+  pad.style.display=show?"flex":"none";
+  document.getElementById("padToggle").style.display=show?"none":"block";
+  if(show){ /* add close button once */
+    if(!pad.querySelector(".closer")){
+      const x=document.createElement("button");x.textContent="✕";x.className="closer";
+      x.addEventListener("mousedown",ev=>{ev.preventDefault();togglePad()});pad.appendChild(x);
+    }
+  }
+}
+/* drag the pad */
+(function(){
+  const h=pad.querySelector(".drag");let sx,sy,ox,oy,drag=false;
+  h.addEventListener("mousedown",e=>{drag=true;sx=e.clientX;sy=e.clientY;const r=pad.getBoundingClientRect();ox=r.left;oy=r.top;
+    pad.style.right="auto";pad.style.bottom="auto";e.preventDefault()});
+  document.addEventListener("mousemove",e=>{if(!drag)return;pad.style.left=(ox+e.clientX-sx)+"px";pad.style.top=(oy+e.clientY-sy)+"px"});
+  document.addEventListener("mouseup",()=>drag=false);
+})();
 </script>
-<button onclick="newQuestion()">Next</button>
 </body>
 </html>

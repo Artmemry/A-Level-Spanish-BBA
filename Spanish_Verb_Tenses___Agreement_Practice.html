@@ -1,179 +1,490 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Spanish Verb & Agreement Practice</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; max-width: 800px; background: #f7f7f7; }
-        .question { margin-bottom: 15px; padding: 10px; background: #fff; border-radius: 5px; }
-        .result { margin-top: 30px; border-top: 2px solid #ccc; padding-top: 20px; background: white; }
-        .hidden { display: none; }
-        input[type="text"] { width: 300px; padding: 5px; margin-left: 10px; }
-        .correct { border: 2px solid green; background: #eaffea; }
-        .incorrect { border: 2px solid red; background: #ffeaea; }
-        .feedback { display: inline-block; margin-left: 10px; font-weight: bold; }
-        button { padding: 10px 15px; font-size: 16px; margin-top: 20px; background: #007bff; color: white; border: none; border-radius: 5px; }
-        button:hover { background: #0056b3; }
-        label { display: inline-block; width: 220px; }
-        .progress { text-align: center; font-size: 1.2em; margin-bottom: 20px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tiempos verbales y concordancia en contexto — A-Level Spanish</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 120px}
+  .wrap{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:28px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+  .name-row input{padding:9px 12px;font-size:1em;border:2px solid var(--accent);border-radius:6px;width:280px;font-family:inherit}
+  .item{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:8px}
+  .item input[type=text],.item textarea{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px}
+  .item textarea{min-height:90px;resize:vertical}
+  .opts label{display:block;padding:7px 10px;margin:5px 0;border:1.5px solid var(--line);border-radius:5px;cursor:pointer}
+  .opts label:hover{background:#f2f7fa}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  .fb{display:none;margin-top:8px;padding:9px 12px;border-radius:6px;font-size:.95em}
+  .fb.ok{display:block;background:#e9f5ee;border-left:4px solid var(--ok);color:var(--ok)}
+  .fb.almost{display:block;background:#fff8ec;border-left:4px solid var(--warn);color:var(--warn)}
+  .fb.bad{display:block;background:#fbeeee;border-left:4px solid var(--bad);color:var(--bad)}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px;margin:26px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:11px 20px;font-size:1em;font-family:inherit;
+       border-radius:6px;cursor:pointer;margin:6px 6px 6px 0}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.dl{background:var(--ok)}
+  .btn.second{background:#5a6a78}
+  .score-banner{display:none;margin:18px 0;padding:14px;border-radius:8px;background:#f2f7fa;
+       border:2px solid var(--accent);font-size:1.15em;font-weight:bold;color:var(--accent)}
+  .rulebox{background:#f2f7fa;border:1.5px solid var(--accent);border-radius:8px;padding:14px 18px;margin:10px 0 20px}
+  .rulebox table{width:100%;border-collapse:collapse;margin-top:8px}
+  .rulebox td,.rulebox th{border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92em}
+  .rulebox th{background:#e2edf2;color:var(--accent)}
+  /* ---------- Floating accent pad ---------- */
+  #accentPad{position:fixed;bottom:18px;right:18px;background:#fff;border:2px solid var(--accent);
+       border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.25);padding:10px;z-index:1000;
+       display:flex;flex-wrap:wrap;gap:5px;max-width:340px;user-select:none}
+  #accentPad .drag{width:100%;cursor:move;font-size:.8em;color:#5a6a78;text-align:center;padding-bottom:4px}
+  #accentPad button{font-size:1.05em;font-family:inherit;min-width:34px;padding:6px 4px;border:1px solid var(--line);
+       border-radius:5px;background:#f2f7fa;cursor:pointer}
+  #accentPad button:hover{background:var(--accent);color:#fff}
+  #accentPad .maj{font-size:.8em;background:#e6e9ec}
+  #padToggle{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--accent);color:#fff;
+       border:none;border-radius:50px;padding:12px 18px;font-size:1em;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  @media print{#accentPad,#padToggle{display:none}}
+</style>
 </head>
 <body>
+<div class="wrap">
+  <header>
+    <h1>Tiempos verbales y concordancia — en contexto</h1>
+    <p class="meta">A-Level Spanish (Edexcel) · Redacción y gramática C1 · Temas AQA/Edexcel + <em>Volver</em> y
+    <em>La casa de Bernarda Alba</em> · Duración recomendada: 40 min</p>
+  </header>
 
-<h1>Spanish Verb Tenses & Agreement Practice</h1>
-<p>Translate the phrase or conjugate the verb correctly in Spanish. Press Enter to check. Edit and retry until correct!</p>
-<div class="progress" id="progress">Loading questions...</div>
-<div id="quiz"></div>
-<button onclick="submitAnswers()">Final Submit</button>
-<button onclick="resetQuiz()">Try Again</button>
+  <div class="name-row">
+    <label for="studentName"><strong>Tu nombre:</strong></label>
+    <input type="text" id="studentName" placeholder="Nombre APELLIDO" maxlength="60">
+  </div>
 
-<div id="result" class="result hidden">
-    <h2>Results</h2>
-    <p id="score"></p>
-    <h3>Incorrect Answers</h3>
-    <ul id="errors"></ul>
-    <button onclick="window.print()">Print / Save as PDF</button>
+  <div class="consigne"><strong>Instrucciones:</strong> Todas las frases están sacadas de contextos reales de
+  A-Level: el medio ambiente, la inmigración, la tecnología, y las obras <em>Volver</em> y <em>La casa de Bernarda
+  Alba</em>. Elige o escribe la forma verbal correcta, prestando atención al tiempo, al modo (indicativo/subjuntivo)
+  y a la concordancia sujeto-verbo o sustantivo-adjetivo. Pulsa «Comprobar» y descarga tus resultados al final.</div>
+
+  <div class="rulebox">
+    <strong>Recordatorio rápido — para redactar un buen ensayo necesitas variar y acertar:</strong>
+    <table>
+      <tr><th>Tiempo/modo</th><th>Uso típico</th></tr>
+      <tr><td>Presente de indicativo</td><td>hechos habituales, verdades generales</td></tr>
+      <tr><td>Pretérito indefinido</td><td>hechos puntuales y terminados en el pasado</td></tr>
+      <tr><td>Imperfecto de indicativo</td><td>descripciones, costumbres pasadas, estados de fondo</td></tr>
+      <tr><td>Futuro simple</td><td>predicciones, consecuencia de «si + presente»</td></tr>
+      <tr><td>Condicional</td><td>hipótesis irreal («si + imperfecto de subjuntivo, + condicional»)</td></tr>
+      <tr><td>Subjuntivo presente</td><td>tras verbos de duda, deseo, emoción o influencia («es probable que…», «quiero que…»)</td></tr>
+      <tr><td>Pretérito perfecto compuesto</td><td>pasado reciente o periodo aún no cerrado («esta semana», «¿alguna vez…?»)</td></tr>
+    </table>
+    <p style="margin-top:8px">No olvides la <strong>concordancia</strong>: el verbo concuerda en persona y número
+    con el sujeto; el adjetivo concuerda en género y número con el sustantivo.</p>
+  </div>
+
+  <!-- ============ EJERCICIO 1: MCQ tiempo/modo ============ -->
+  <h2>Ejercicio 1 · Elige el tiempo o modo correcto <span class="pts">(12 puntos)</span></h2>
+  <div class="consigne">Lee el contexto completo antes de elegir: ¿es un hecho habitual, puntual, hipotético o una
+  opinión/emoción?</div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqtTaSArIHByZXNlbnRlIGRlIGluZGljYXRpdm8sICsgZnV0dXJvwrsgZXMgbGEgZXN0cnVjdHVyYSBkZWwgcHJpbWVyIGNvbmRpY2lvbmFsIChzaXR1YWNpw7NuIHJlYWwgeSBwb3NpYmxlKTogwqt0b21hbW9zwrsu">
+    <p class="q">1. Si no ______ (tomar) medidas urgentes, el planeta seguirá calentándose.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q1" value="0"> A) tomamos</label>
+      <label><input type="radio" name="e1q1" value="1"> B) tomaremos</label>
+      <label><input type="radio" name="e1q1" value="2"> C) tomáramos</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Primer condicional: «si» + presente de indicativo, consecuencia en futuro. La condición misma va en presente.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqtTYWLDrWHCuyBkZXNjcmliZSB1biBlc3RhZG8gbWVudGFsIGRlIGZvbmRvIChubyBzYWJlciBxdcOpIGhhY2VyKSBlbiBlbCBtb21lbnRvIGRlbCBwYXNhZG86IGltcGVyZmVjdG8sIG5vIHByZXTDqXJpdG8u">
+    <p class="q">2. Cuando Raimunda descubrió el cadáver, no ______ (saber) qué hacer.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q2" value="0"> A) supo</label>
+      <label><input type="radio" name="e1q2" value="1"> B) sabía</label>
+      <label><input type="radio" name="e1q2" value="2"> C) sabrá</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Un estado mental que ya existía cuando ocurrió el hecho puntual (descubrió) va en imperfecto.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqtFeGlnaXIgcXVlwrsgZXMgdW4gdmVyYm8gZGUgaW5mbHVlbmNpYS92b2x1bnRhZDogZXhpZ2Ugc3VianVudGl2byBwcmVzZW50ZSBlbiBsYSBzdWJvcmRpbmFkYSwgwqtndWFyZGVuwrsu">
+    <p class="q">3. Bernarda exige que sus hijas ______ (guardar) luto durante ocho años.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q3" value="0"> A) guardan</label>
+      <label><input type="radio" name="e1q3" value="1"> B) guarden</label>
+      <label><input type="radio" name="e1q3" value="2"> C) guardarán</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>«Exigir que» impone la voluntad de Bernarda sobre otro sujeto: subjuntivo presente.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqtFcyBwcm9iYWJsZSBxdWXCuyBleHByZXNhIGR1ZGEvcHJvYmFiaWxpZGFkOiBleGlnZSBzdWJqdW50aXZvIHByZXNlbnRlLCDCq3RlbmdhbsK7Lg==">
+    <p class="q">4. Es probable que las redes sociales ______ (tener) un impacto negativo en la autoestima de los jóvenes.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q4" value="0"> A) tienen</label>
+      <label><input type="radio" name="e1q4" value="1"> B) tengan</label>
+      <label><input type="radio" name="e1q4" value="2"> C) tendrán</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>«Es probable que» expresa duda: siempre subjuntivo en español.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="U3VqZXRvIHBsdXJhbCDCq211Y2hvcyBpbm1pZ3JhbnRlc8K7IGV4aWdlIHZlcmJvIGVuIDPCqiBwZXJzb25hIGRlbCBwbHVyYWw6IMKrbGxlZ2FuwrsgKGNvbmNvcmRhbmNpYSBzdWpldG8tdmVyYm8pLg==">
+    <p class="q">5. Muchos inmigrantes ______ (llegar) cada año a España buscando mejores oportunidades.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q5" value="0"> A) llega</label>
+      <label><input type="radio" name="e1q5" value="1"> B) llegan</label>
+      <label><input type="radio" name="e1q5" value="2"> C) llegamos</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Concordancia: el sujeto «muchos inmigrantes» es plural, 3ª persona.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqtTaSArIHByZXNlbnRlLCArIGZ1dHVyb8K7IChwcmltZXIgY29uZGljaW9uYWwpOiBsYSBjb25zZWN1ZW5jaWEgdmEgZW4gZnV0dXJvIHNpbXBsZSwgwqtkZXNhcGFyZWNlcsOhbsK7Lg==">
+    <p class="q">6. Si seguimos contaminando los océanos, muchas especies marinas ______ (desaparecer).</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q6" value="0"> A) desaparecen</label>
+      <label><input type="radio" name="e1q6" value="1"> B) desaparecerán</label>
+      <label><input type="radio" name="e1q6" value="2"> C) desaparecieran</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Otra vez el primer condicional: «si + presente», consecuencia en futuro simple.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="Mg==" data-exp="wqtTaSArIGltcGVyZmVjdG8gZGUgc3VianVudGl2byAoaW52aXJ0aWVyYSksICsgY29uZGljaW9uYWzCuyBlcyBlbCBzZWd1bmRvIGNvbmRpY2lvbmFsIChoaXDDs3Rlc2lzIGlycmVhbCk6IMKrcmVkdWNpcsOtYcK7Lg==">
+    <p class="q">7. Si el gobierno invirtiera más en energías renovables, ______ (reducir) la contaminación.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q7" value="0"> A) reduce</label>
+      <label><input type="radio" name="e1q7" value="1"> B) reducirá</label>
+      <label><input type="radio" name="e1q7" value="2"> C) reduciría</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>«Invirtiera» (imperfecto de subjuntivo) es la señal del segundo condicional: hipótesis poco probable → condicional.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="Mg==" data-exp="wqtFc3RhIHNlbWFuYcK7IGVzIHVuIHBlcmlvZG8gZGUgdGllbXBvIHRvZGF2w61hIG5vIGNlcnJhZG86IHNlIHVzYSBlbCBwcmV0w6lyaXRvIHBlcmZlY3RvIGNvbXB1ZXN0bywgwqtoYW4gcHVibGljYWRvwrsu">
+    <p class="q">8. Esta semana, los científicos ______ (publicar) un nuevo informe sobre el calentamiento global.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q8" value="0"> A) publican</label>
+      <label><input type="radio" name="e1q8" value="1"> B) publicaron</label>
+      <label><input type="radio" name="e1q8" value="2"> C) han publicado</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>«Esta semana» todavía no ha terminado: en español peninsular se usa el pretérito perfecto compuesto.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqtObyBzb3BvcnRhIHF1ZcK7IGV4cHJlc2EgZW1vY2nDs24vcmVjaGF6bzogZXhpZ2Ugc3VianVudGl2byBwcmVzZW50ZSwgwqtlbmNpZXJyZcK7Lg==">
+    <p class="q">9. Adela se rebela contra su madre porque no soporta que la ______ (encerrar) en casa.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q9" value="0"> A) encierra</label>
+      <label><input type="radio" name="e1q9" value="1"> B) encierre</label>
+      <label><input type="radio" name="e1q9" value="2"> C) encerrará</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>«No soportar que» expresa rechazo/emoción: subjuntivo presente («encerrar» cambia e→ie).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="QWNjacOzbiBoYWJpdHVhbCB5IHJlcGV0aWRhIGVuIGVsIHBhc2FkbyAoY8OzbW8gc2UgY29tdW5pY2FiYSBsYSBnZW50ZSBhbnRlcyk6IGltcGVyZmVjdG8gZGUgaW5kaWNhdGl2bywgwqtjb211bmljYWJhwrsu">
+    <p class="q">10. Antes de que existieran las redes sociales, la gente se ______ (comunicar) principalmente por carta o teléfono.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q10" value="0"> A) comunicó</label>
+      <label><input type="radio" name="e1q10" value="1"> B) comunicaba</label>
+      <label><input type="radio" name="e1q10" value="2"> C) comunicará</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>Describe una costumbre habitual y prolongada del pasado, no un hecho puntual: imperfecto.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqtFbCBhw7FvIHBhc2Fkb8K7IHNlw7FhbGEgdW4gaGVjaG8gcHVudHVhbCB5IHRlcm1pbmFkbzogcHJldMOpcml0byBpbmRlZmluaWRvLCDCq2NlbGVicmFyb27Cuy4=">
+    <p class="q">11. El año pasado, mis abuelos ______ (celebrar) sus bodas de oro con toda la familia.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q11" value="0"> A) celebran</label>
+      <label><input type="radio" name="e1q11" value="1"> B) celebraron</label>
+      <label><input type="radio" name="e1q11" value="2"> C) celebrarán</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>«El año pasado» marca un momento concreto y cerrado: pretérito indefinido.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqtFcyB1bmEgbMOhc3RpbWEgcXVlwrsgZXhwcmVzYSBzZW50aW1pZW50bzogZXhpZ2Ugc3VianVudGl2byBwcmVzZW50ZTsgwqtzZW50aXLCuyBjYW1iaWEgZeKGkmllLCDCq3NpZW50YcK7Lg==">
+    <p class="q">12. Es una lástima que Martirio ______ (sentir) tanta envidia de su hermana.</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q12" value="0"> A) siente</label>
+      <label><input type="radio" name="e1q12" value="1"> B) sienta</label>
+      <label><input type="radio" name="e1q12" value="2"> C) sentirá</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>«Es una lástima que» expresa sentimiento/juicio de valor: subjuntivo presente.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EJERCICIO 2: escribir la forma correcta ============ -->
+  <h2>Ejercicio 2 · Escribe la forma correcta (verbo o adjetivo) <span class="pts">(12 puntos)</span></h2>
+  <div class="consigne">Escribe solo la palabra o expresión que falta, con la concordancia y el tiempo/modo correctos.</div>
+
+  <div class="item" data-type="text" data-a="c29u" data-exp="U3VqZXRvIHBsdXJhbCDCq1JhaW11bmRhIHkgU29sZcK7ICsgcHJlc2VudGUgZGUgwqtzZXLCuzogM8KqIHBlcnNvbmEgcGx1cmFsIMKrc29uwrsu">
+    <p class="q">13. Raimunda y Sole ______ (ser) hermanas que viven en un barrio humilde de Madrid.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Sujeto plural + presente de «ser», 3ª persona plural.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZnJ1c3RyYWRhcw==" data-exp="wqtMYXMgaGlqYXPCuyBlcyBmZW1lbmlubyBwbHVyYWw6IGVsIGFkamV0aXZvIGRlYmUgY29uY29yZGFyIGVuIGfDqW5lcm8geSBuw7ptZXJvLCDCq2ZydXN0cmFkYXPCuy4=">
+    <p class="q">14. Las hijas de Bernarda están agotadas y ______ (frustrado) por la vida encerrada que llevan.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Concordancia de género y número: sujeto femenino plural → adjetivo femenino plural.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZXN0YW58ZXN0w6Fu" data-exp="wqtMb3Mgb2PDqWFub3PCuyAobWFzYy4gcGx1cmFsKSArIMKrZXN0YXLCuyBlbiBwcmVzZW50ZTogY29uY29yZGFuY2lhIHN1amV0by12ZXJibywgwqtlc3TDoW7Cuy4=">
+    <p class="q">15. Los océanos ______ (estar) cada vez más contaminados por el plástico.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Verdad general y actual sobre el estado de los océanos: presente de indicativo.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="aGF5YQ==" data-exp="wqtPamFsw6HCuyBzaWVtcHJlIGV4aWdlIHN1Ymp1bnRpdm8gcHJlc2VudGU6IGZvcm1hIGlycmVndWxhciBkZSDCq2hhYmVywrssIMKraGF5YcK7Lg==">
+    <p class="q">16. Ojalá ______ (haber) más políticas de integración para los refugiados.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«Ojalá» siempre lleva subjuntivo. La forma impersonal de «haber» en subjuntivo presente es irregular.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bXVyaW98bXVyacOz" data-exp="SGVjaG8gcHVudHVhbCB5IHlhIHRlcm1pbmFkbyBlbiBlbCBwYXNhZG8gKGNvbnRhZG8gY29tbyBoaXN0b3JpYSk6IHByZXTDqXJpdG8gaW5kZWZpbmlkbywgwqttdXJpw7PCuy4=">
+    <p class="q">17. La madre de Raimunda ______ (morir) en un incendio, según le contaron a Raimunda.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Hecho puntual y terminado, narrado como parte de la trama: pretérito indefinido (o→u en la raíz).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZXJh" data-exp="RXN0YWRvL2N1YWxpZGFkIGRlIGZvbmRvIGFudGVzIGRlIHVuIGV2ZW50byBwYXNhZG86IGltcGVyZmVjdG8gZGUgaW5kaWNhdGl2bywgwqtlcmHCuy4=">
+    <p class="q">18. Antes de la muerte de su marido, Bernarda ya ______ (ser) muy autoritaria.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Descripción de una característica de fondo, no un hecho puntual: imperfecto.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="Y2FtYmlhcmF8Y2FtYmlhcsOh" data-exp="UHJlZGljY2nDs24gc29icmUgdW4gY2FtYmlvIHZlbmlkZXJvOiBmdXR1cm8gc2ltcGxlLCDCq2NhbWJpYXLDocK7Lg==">
+    <p class="q">19. En el futuro, la inteligencia artificial ______ (cambiar) por completo la forma en que trabajamos.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Predicción sobre el futuro: futuro simple.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZGVzY29uZWN0YXJpYXxkZXNjb25lY3RhcsOtYQ==" data-exp="wqtTaSB0dXZpZXJhwrsgKGltcGVyZmVjdG8gZGUgc3VianVudGl2bykgZXhpZ2UgY29uZGljaW9uYWwgZW4gbGEgY29uc2VjdWVuY2lhOiDCq2Rlc2NvbmVjdGFyw61hwrsu">
+    <p class="q">20. Si tuviera más tiempo libre, (yo) ______ (desconectar) de las redes sociales más a menudo.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Hipótesis irreal/improbable en presente: segundo condicional → condicional simple.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="aGFzIGxlaWRvfGhhcyBsZcOtZG8=" data-exp="UHJlZ3VudGEgc29icmUgZXhwZXJpZW5jaWEgY29uIHJlbGV2YW5jaWEgZW4gZWwgcHJlc2VudGU6IHByZXTDqXJpdG8gcGVyZmVjdG8gY29tcHVlc3RvLCDCq2hhcyBsZcOtZG/Cuy4=">
+    <p class="q">21. ¿(Tú) ______ (leer) <em>La casa de Bernarda Alba</em> de García Lorca?</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Pregunta sobre experiencia de vida sin momento concreto: pretérito perfecto compuesto («has» + participio).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZmFtaWxpYXJlcw==" data-exp="wqtMYXMgdHJhZGljaW9uZXPCuyAoZmVtLiBwbHVyYWwpIGV4aWdlIHF1ZSBlbCBhZGpldGl2byDCq2ZhbWlsaWFywrsgdG9tZSBsYSBmb3JtYSBwbHVyYWwsIMKrZmFtaWxpYXJlc8K7Lg==">
+    <p class="q">22. Las tradiciones ______ (familiar) siguen siendo importantes en muchas culturas hispanas.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«Familiar» solo cambia en número, no en género: aquí necesita la forma plural.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="cHVlZGVu" data-exp="U3VqZXRvIGNvbXB1ZXN0byDCq25pIEJlcm5hcmRhIG5pIHN1cyBoaWphc8K7IGZ1bmNpb25hIGNvbW8gcGx1cmFsOiDCq3B1ZWRlbsK7IChwb2RlciwgaXJyZWd1bGFyIG/ihpJ1ZSku">
+    <p class="q">23. Ni Bernarda ni sus hijas ______ (poder) escapar de la opresión del luto.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>Un sujeto compuesto con «ni… ni…» concuerda en plural. «Poder» cambia o→ue.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZGVzYXBhcmV6Y2E=" data-exp="wqtUZW1lIHF1ZcK7IGV4cHJlc2EgZW1vY2nDs24vdGVtb3I6IGV4aWdlIHN1Ymp1bnRpdm8gcHJlc2VudGU7IMKrZGVzYXBhcmVjZXLCuyBlcyBpcnJlZ3VsYXIgZW4geW8gKC16Yy0pLCDCq2Rlc2FwYXJlemNhwrsu">
+    <p class="q">24. Sole teme que su madre fantasma ______ (desaparecer) de nuevo.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Pista</summary><div>«Temer que» expresa emoción/miedo: subjuntivo presente. Ojo con la raíz irregular en la forma «yo/él» (-zc-).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <button class="btn" onclick="checkAll()">✔ Comprobar mis respuestas</button>
+  <button class="btn second" onclick="resetAll()">↺ Empezar de nuevo</button>
+  <div class="score-banner" id="scoreBanner"></div>
+
+  <!-- ============ DESAFÍO A* (stretch) ============ -->
+  <div class="stretch">
+    <h2>Desafío A* — Para ir más lejos</h2>
+    <div class="consigne">Tarea exigente (C1): redacta un párrafo argumentativo (mínimo 90 palabras) sobre uno de
+    estos temas: el impacto de las redes sociales en los jóvenes, la crisis medioambiental, o el papel de la mujer
+    en <em>La casa de Bernarda Alba</em> o <em>Volver</em>. Debes emplear <strong>al menos cuatro tiempos/modos
+    verbales distintos</strong> (por ejemplo: presente, pretérito, imperfecto, futuro, condicional, subjuntivo
+    presente o pretérito perfecto compuesto) y cuidar la concordancia en todo momento.</div>
+    <p><em>Amorces:</em> «Hoy en día, es innegable que…», «Antes de la llegada de internet, la gente…»,
+    «Si los gobiernos actuaran con más decisión…», «Es fundamental que…»</p>
+    <div class="item" data-type="free" data-min="90">
+      <textarea placeholder="Redacta aquí tu párrafo (90 palabras mínimo, con al menos cuatro tiempos/modos verbales)…"></textarea>
+      <div class="fb"></div>
+    </div>
+    <details class="aide"><summary>Ver un modelo de respuesta (después de escribir el tuyo)</summary>
+      <div id="modelAnswer">Modelo: «Hoy en día, es innegable que las redes sociales <strong>desempeñan</strong>
+      [presente] un papel central en la vida de los jóvenes. Hace apenas veinte años, la gente <strong>se
+      comunicaba</strong> [imperfecto] sobre todo por teléfono fijo o carta, y nadie <strong>habría imaginado</strong>
+      [condicional compuesto] el impacto que tendría internet. El año pasado, varios estudios <strong>demostraron</strong>
+      [pretérito] una relación directa entre el uso excesivo de estas plataformas y el aumento de la ansiedad. Es
+      urgente que los gobiernos <strong>regulen</strong> [subjuntivo presente] mejor estos espacios; si no lo
+      <strong>hacen</strong> [presente, condición real], las próximas generaciones <strong>sufrirán</strong>
+      [futuro] aún más las consecuencias.»</div></details>
+  </div>
+
+  <button class="btn dl" onclick="downloadResults()">📥 Descargar mis resultados</button>
+</div>
+
+<!-- ============ FLOATING ACCENT PAD ============ -->
+<button id="padToggle" onclick="togglePad()">á ñ ¿ — Acentos</button>
+<div id="accentPad" style="display:none">
+  <div class="drag">⋮⋮ mover</div>
 </div>
 
 <script>
-    const pairs = [
-        // Verb conjugation & agreement examples
-        ["he speaks", "habla"],
-        ["we spoke", "hablamos"],
-        ["they had eaten", "habian comido"],
-        ["you (formal) will write", "escribira"],
-        ["she is reading", "esta leyendo"],
-        ["we are going to leave", "vamos a salir"],
-        ["they would go", "irian"],
-        ["if I had", "si tuviera"],
-        ["it is important that you come", "es importante que vengas"],
-        ["she has seen", "ha visto"],
-        ["they had gone", "habian ido"],
-        ["we will have arrived", "habremos llegado"],
-        ["it was necessary that he studied", "era necesario que estudiara"],
-        ["they speak", "hablan"],
-        ["you (plural) would have come", "habriais venido"],
-        ["happy (feminine plural)", "felices"],
-        ["tired (masculine singular)", "cansado"],
-        ["interesting (feminine singular)", "interesante"],
-        ["small (masculine plural)", "pequenos"],
-        ["old (feminine plural)", "viejas"]
-    ];
+/* ================= HOUSE ENGINE — do not weaken ================= */
+/* Answers are base64-encoded (UTF-8 safe) so they never sit in plain text next to the inputs. */
+function d(b){try{return decodeURIComponent(escape(atob(b)))}catch(e){return""}}
+function e64(s){return btoa(unescape(encodeURIComponent(s)))} /* helper for authoring */
 
-    let allQuestions = [];
-    function generateQuestions() {
-        allQuestions = [];
-        pairs.forEach(pair => {
-            allQuestions.push({
-                prompt: pair[0],
-                answers: pair[1].split("/").map(a => normalize(a)),
-                direction: "toSpanish"
-            });
-        });
-        shuffle(allQuestions);
+function norm(s){return (s||"").toLowerCase().replace(/['']/g,"'").replace(/\s+/g," ").trim()}
+function deacc(s){return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"")}
+
+/* tolerant text check: returns "ok" | "accents" | "bad" ; accepted = array */
+function judge(val, accepted){
+  const v=norm(val);
+  if(accepted.some(a=>norm(a)===v)) return "ok";
+  if(accepted.some(a=>deacc(a)===deacc(val))) return "accents";
+  return "bad";
+}
+
+let results=[]; /* {label, given, ok, expected} */
+
+function checkAll(){
+  results=[]; let score=0, max=0;
+  document.querySelectorAll(".item").forEach((it,idx)=>{
+    const type=it.dataset.type, fb=it.querySelector(".fb");
+    const label=(it.querySelector(".q")?it.querySelector(".q").textContent.trim():("Desafío "+(idx+1))).slice(0,90);
+    if(type==="mcq"){
+      max++;
+      const sel=it.querySelector("input[type=radio]:checked");
+      const correct=d(it.dataset.a), exp=d(it.dataset.exp||"");
+      if(!sel){fb.className="fb bad";fb.textContent="⚠ Responde a la pregunta.";results.push({label,given:"—",ok:false});return}
+      if(sel.value===correct){score++;fb.className="fb ok";fb.textContent="✔ Correcto. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:true});}
+      else{fb.className="fb bad";fb.textContent="✘ Incorrecto. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:false});}
     }
-
-    function shuffle(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
+    if(type==="text"){
+      max++;
+      const inp=it.querySelector("input,textarea");
+      const accepted=d(it.dataset.a).split("|"), exp=d(it.dataset.exp||"");
+      const r=judge(inp.value,accepted);
+      if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correcto. "+exp;}
+      else if(r==="accents"){fb.className="fb almost";fb.textContent="≈ ¡Casi! Revisa los acentos: "+accepted[0]+". "+exp;}
+      else{fb.className="fb bad";fb.textContent="✘ Respuesta esperada: "+accepted[0]+". "+exp;}
+      results.push({label,given:inp.value||"—",ok:r==="ok"});
     }
-
-    function normalize(text) {
-        return text
-            .toLowerCase()
-            .replace(/[áàäâ]/g, "a")
-            .replace(/[éèêë]/g, "e")
-            .replace(/[íìïî]/g, "i")
-            .replace(/[óòöô]/g, "o")
-            .replace(/[úùüû]/g, "u")
-            .replace(/ñ/g, "n")
-            .replace(/[^a-z0-9]/gi, "")
-            .trim();
+    if(type==="free"){
+      const ta=it.querySelector("textarea"), min=parseInt(it.dataset.min||"40");
+      const words=(ta.value.trim().match(/\S+/g)||[]).length;
+      if(words===0){fb.className="fb";fb.textContent="";}
+      else if(words<min){fb.className="fb almost";fb.textContent="≈ "+words+" palabras — intenta llegar a "+min+". Desarrolla con un conector (sin embargo, no obstante…).";}
+      else{fb.className="fb ok";fb.textContent="✔ "+words+" palabras. Compara ahora con el modelo y mejora una frase.";}
+      results.push({label,given:ta.value||"—",ok:words>=min});
     }
+  });
+  const b=document.getElementById("scoreBanner");
+  b.style.display="block";
+  const pct=max?Math.round(100*score/max):0;
+  b.textContent="Puntuación: "+score+" / "+max+" ("+pct+" %) — "+(pct>=80?"¡Excelente!":pct>=60?"Bien — corrige los puntos señalados.":"Relee las pistas e inténtalo otra vez.");
+  window._score={score,max};
+}
 
-    function createQuestionElement(question, idx) {
-        const dir = "→ Spanish";
-        const div = document.createElement("div");
-        div.className = "question";
-        div.innerHTML = `
-            <label>${idx+1}. ${question.prompt} <span style="color:#888;font-size:0.9em;">${dir}</span></label>
-            <input type="text" id="q${idx}" 
-                   onkeydown="checkAnswer(event, this, ${idx})" 
-                   autocomplete="off"
-                   data-answers="${question.answers.join(',')}">
-            <span class="feedback" id="f${idx}"></span>
-        `;
-        return div;
+function resetAll(){
+  document.querySelectorAll(".item input[type=text], .item textarea").forEach(i=>i.value="");
+  document.querySelectorAll(".item input[type=radio]").forEach(r=>r.checked=false);
+  document.querySelectorAll(".fb").forEach(f=>{f.className="fb";f.textContent=""});
+  document.getElementById("scoreBanner").style.display="none";
+  results=[];window._score=null;window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function downloadResults(){
+  const name=document.getElementById("studentName").value.trim();
+  if(!name){alert("Escribe primero tu nombre al principio de la página.");document.getElementById("studentName").focus();return}
+  if(!window._score){alert("Pulsa primero «Comprobar mis respuestas».");return}
+  let txt="RESULTADOS — "+document.title+"\n";
+  txt+="Alumno/a: "+name+"\nFecha: "+new Date().toLocaleString("es-ES")+"\n";
+  txt+="Puntuación: "+window._score.score+" / "+window._score.max+"\n";
+  txt+="".padEnd(60,"=")+"\n\n";
+  results.forEach((r,i)=>{txt+=(i+1)+". "+r.label+"\n   Respuesta: "+r.given+"\n   "+(r.ok?"✔ correcto":"✘ repasar")+"\n\n";});
+  const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(document.title.split("—")[0].trim()||"resultados").replace(/\s+/g,"_")+"_"+name.replace(/\s+/g,"_")+".txt";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+}
+
+/* ---------- Accent pad ---------- */
+const CHARS=["á","é","í","ó","ú","ü","ñ","¿","¡","«","»","Á","É","Í","Ó","Ú","Ñ"];
+let lastField=null;
+document.addEventListener("focusin",e=>{
+  if(e.target.matches("input[type=text],textarea") && e.target.id!=="studentName") lastField=e.target;
+  if(e.target.id==="studentName") lastField=e.target;
+});
+const pad=document.getElementById("accentPad");
+CHARS.forEach(c=>{
+  const b=document.createElement("button");
+  b.textContent=c; if(c===c.toUpperCase()&&c.toLowerCase()!==c) b.className="maj";
+  b.addEventListener("mousedown",ev=>{
+    ev.preventDefault(); /* keep focus in the field */
+    if(!lastField) return;
+    const s=lastField.selectionStart??lastField.value.length, t=lastField.selectionEnd??s;
+    lastField.value=lastField.value.slice(0,s)+c+lastField.value.slice(t);
+    lastField.selectionStart=lastField.selectionEnd=s+c.length;
+    lastField.focus();
+  });
+  pad.appendChild(b);
+});
+function togglePad(){
+  const show=pad.style.display==="none";
+  pad.style.display=show?"flex":"none";
+  document.getElementById("padToggle").style.display=show?"none":"block";
+  if(show){ /* add close button once */
+    if(!pad.querySelector(".closer")){
+      const x=document.createElement("button");x.textContent="✕";x.className="closer";
+      x.addEventListener("mousedown",ev=>{ev.preventDefault();togglePad()});pad.appendChild(x);
     }
-
-    window.checkAnswer = function(event, input, idx) {
-        if (event.key === "Enter") {
-            const userAnswer = normalize(input.value);
-            const correctAnswers = input.dataset.answers.split(",");
-            const isCorrect = correctAnswers.includes(userAnswer);
-
-            const feedbackSpan = document.getElementById("f"+idx);
-            input.classList.remove("correct", "incorrect");
-            if (isCorrect) {
-                input.classList.add("correct");
-                feedbackSpan.textContent = "✓ Correct!";
-                feedbackSpan.style.color = "green";
-            } else {
-                input.classList.add("incorrect");
-                feedbackSpan.textContent = "✗ Try again";
-                feedbackSpan.style.color = "red";
-            }
-            const nextInput = document.getElementById("q" + (idx + 1));
-            nextInput ? nextInput.focus() : input.blur();
-        }
-    };
-
-    function submitAnswers() {
-        let correctCount = 0;
-        const errors = [];
-        allQuestions.forEach((q, idx) => {
-            const input = document.getElementById("q"+idx);
-            const userAnswer = normalize(input.value);
-            const isCorrect = input.dataset.answers.split(",").includes(userAnswer);
-            if (isCorrect) correctCount++;
-            else errors.push({
-                prompt: input.previousElementSibling.textContent,
-                correct: input.dataset.answers.replace(/,/g, " / "),
-                user: input.value
-            });
-        });
-
-        document.getElementById("score").innerHTML =
-            `<strong>Final Score:</strong> ${correctCount}/${allQuestions.length}`;
-
-        const errorList = document.getElementById("errors");
-        errorList.innerHTML = errors.map(e => `
-            <li>
-                <strong>${e.prompt}</strong><br>
-                Your answer: <em>${e.user}</em><br>
-                Possible answers: ${e.correct}
-            </li>
-        `).join("");
-
-        document.getElementById("result").classList.remove("hidden");
-    }
-
-    function resetQuiz() {
-        document.getElementById("result").classList.add("hidden");
-        generateQuestions();
-        const quizDiv = document.getElementById("quiz");
-        quizDiv.innerHTML = "";
-        allQuestions.forEach((q, idx) => {
-            quizDiv.appendChild(createQuestionElement(q, idx));
-        });
-        document.getElementById("progress").textContent = `Questions loaded: ${allQuestions.length}`;
-    }
-
-    // Initialize on load
-    generateQuestions();
-    resetQuiz();
+  }
+}
+/* drag the pad */
+(function(){
+  const h=pad.querySelector(".drag");let sx,sy,ox,oy,drag=false;
+  h.addEventListener("mousedown",e=>{drag=true;sx=e.clientX;sy=e.clientY;const r=pad.getBoundingClientRect();ox=r.left;oy=r.top;
+    pad.style.right="auto";pad.style.bottom="auto";e.preventDefault()});
+  document.addEventListener("mousemove",e=>{if(!drag)return;pad.style.left=(ox+e.clientX-sx)+"px";pad.style.top=(oy+e.clientY-sy)+"px"});
+  document.addEventListener("mouseup",()=>drag=false);
+})();
 </script>
 </body>
 </html>

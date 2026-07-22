@@ -1,1343 +1,414 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Análisis de Letras de Tango - A2-B1.6</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Georgia', 'Times New Roman', serif;
-        }
-        
-        body {
-            background-color: #f9f5f0;
-            color: #2c1810;
-            line-height: 1.7;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 25px;
-            border-bottom: 2px solid #8B0000;
-        }
-        
-        h1 {
-            color: #8B0000;
-            margin-bottom: 15px;
-            font-size: 2.8rem;
-        }
-        
-        .subtitle {
-            color: #5d4037;
-            font-size: 1.3rem;
-            font-style: italic;
-            margin-bottom: 10px;
-        }
-        
-        .activity-instructions {
-            background-color: #fff8f0;
-            border-radius: 10px;
-            padding: 25px;
-            margin-bottom: 30px;
-            border-left: 5px solid #8B0000;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        
-        .task-list {
-            margin: 20px 0;
-            padding-left: 20px;
-        }
-        
-        .task-list li {
-            margin-bottom: 15px;
-            padding-left: 10px;
-        }
-        
-        .task-list strong {
-            color: #8B0000;
-        }
-        
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-        
-        .tools-panel {
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            flex: 1;
-            min-width: 300px;
-            border-top: 5px solid #8B0000;
-        }
-        
-        .lyrics-panel {
-            flex: 2;
-            min-width: 300px;
-        }
-        
-        .song-section {
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-left: 4px solid #5d4037;
-        }
-        
-        h2 {
-            color: #8B0000;
-            margin-bottom: 15px;
-            font-size: 1.8rem;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #eee;
-        }
-        
-        h3 {
-            color: #5d4037;
-            margin-bottom: 15px;
-            font-size: 1.4rem;
-        }
-        
-        .theme-key {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 20px 0;
-        }
-        
-        .theme-item {
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
-            border: 2px solid transparent;
-        }
-        
-        .theme-item:hover {
-            transform: translateY(-2px);
-            border: 2px solid #333;
-        }
-        
-        .theme-item.active {
-            transform: scale(1.05);
-            border: 2px solid #333;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        
-        /* POETRY FORMAT - Line by line display */
-        .poem-container {
-            line-height: 1.9;
-            margin-bottom: 15px;
-            padding: 20px;
-            background-color: #faf6f2;
-            border-radius: 5px;
-            border-left: 4px solid #8B0000;
-            font-size: 1.05rem;
-        }
-        
-        .stanza {
-            margin-bottom: 1.5em;
-        }
-        
-        .poem-line {
-            display: block;
-            margin-bottom: 0.3em;
-            padding: 2px 4px;
-            transition: all 0.3s;
-            border-radius: 3px;
-        }
-        
-        .poem-line:hover {
-            background-color: rgba(139, 0, 0, 0.05);
-        }
-        
-        .highlight {
-            padding: 2px 4px;
-            border-radius: 3px;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-        
-        .highlight:hover {
-            transform: scale(1.05);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        
-        .poem-line.empty-line {
-            height: 0.8em;
-            margin: 0.8em 0;
-        }
-        
-        .translation {
-            background-color: #f0f7ff;
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 15px;
-            border-left: 4px solid #4a6fa5;
-            font-style: italic;
-            font-size: 0.95rem;
-        }
-        
-        .vocabulary-note {
-            background-color: #f0f7ff;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-            font-size: 0.9rem;
-        }
-        
-        .keyboard-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 100;
-        }
-        
-        .keyboard {
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            display: none;
-            width: 320px;
-            border: 1px solid #ddd;
-        }
-        
-        .keyboard.active {
-            display: block;
-            animation: fadeIn 0.3s;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .keyboard-btn {
-            background-color: #8B0000;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-        
-        .keyboard-btn:hover {
-            background-color: #a00000;
-            transform: scale(1.05);
-        }
-        
-        .keyboard-keys {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .key {
-            background-color: #f5f5f5;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 12px 5px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 1.1rem;
-        }
-        
-        .key:hover {
-            background-color: #e8e8e8;
-            transform: translateY(-2px);
-        }
-        
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        button {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-        }
-        
-        .btn-primary {
-            background-color: #8B0000;
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: #a00000;
-            transform: translateY(-2px);
-        }
-        
-        .btn-secondary {
-            background-color: #5d4037;
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #795548;
-            transform: translateY(-2px);
-        }
-        
-        .btn-tertiary {
-            background-color: #4a6fa5;
-            color: white;
-        }
-        
-        .btn-tertiary:hover {
-            background-color: #5a7fb5;
-            transform: translateY(-2px);
-        }
-        
-        .analysis-area {
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 30px;
-            margin-top: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-top: 5px solid #5d4037;
-        }
-        
-        textarea {
-            width: 100%;
-            height: 180px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-            margin-top: 10px;
-            resize: vertical;
-            line-height: 1.6;
-            font-family: inherit;
-        }
-        
-        .download-section {
-            background-color: #fff;
-            text-align: center;
-            margin-top: 40px;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-top: 5px solid #8B0000;
-        }
-        
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            color: #666;
-            font-size: 0.9rem;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
-        }
-        
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        
-        .comparison-table th, .comparison-table td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-        
-        .comparison-table th {
-            background-color: #f5f5f5;
-            color: #8B0000;
-        }
-        
-        .stats {
-            background-color: #f9f5f0;
-            padding: 20px;
-            border-radius: 5px;
-            margin: 20px 0;
-            border-left: 4px solid #8B0000;
-        }
-        
-        .lunfardo-note {
-            background-color: #fff0f5;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-            font-size: 0.9rem;
-        }
-        
-        .poetry-instructions {
-            background-color: #f0fff0;
-            padding: 10px 15px;
-            border-radius: 5px;
-            margin: 10px 0;
-            font-size: 0.9rem;
-            border-left: 3px solid #006400;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-            
-            .keyboard-container {
-                bottom: 10px;
-                right: 10px;
-            }
-            
-            .keyboard {
-                width: 300px;
-            }
-            
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            .controls {
-                flex-direction: column;
-            }
-            
-            button {
-                width: 100%;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Tango: Análisis de la Letra de "Volver" — A-Level Spanish</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 120px}
+  .wrap{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:28px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+  .name-row input{padding:9px 12px;font-size:1em;border:2px solid var(--accent);border-radius:6px;width:280px;font-family:inherit}
+  .item{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:8px}
+  .item input[type=text],.item textarea{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px}
+  .item textarea{min-height:90px;resize:vertical}
+  .opts label{display:block;padding:7px 10px;margin:5px 0;border:1.5px solid var(--line);border-radius:5px;cursor:pointer}
+  .opts label:hover{background:#f2f7fa}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  .fb{display:none;margin-top:8px;padding:9px 12px;border-radius:6px;font-size:.95em}
+  .fb.ok{display:block;background:#e9f5ee;border-left:4px solid var(--ok);color:var(--ok)}
+  .fb.almost{display:block;background:#fff8ec;border-left:4px solid var(--warn);color:var(--warn)}
+  .fb.bad{display:block;background:#fbeeee;border-left:4px solid var(--bad);color:var(--bad)}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px;margin:26px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:11px 20px;font-size:1em;font-family:inherit;
+       border-radius:6px;cursor:pointer;margin:6px 6px 6px 0}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.dl{background:var(--ok)}
+  .btn.second{background:#5a6a78}
+  .score-banner{display:none;margin:18px 0;padding:14px;border-radius:8px;background:#f2f7fa;
+       border:2px solid var(--accent);font-size:1.15em;font-weight:bold;color:var(--accent)}
+  .glossaire{background:#f8fafc;border:1px solid var(--line);border-radius:6px;padding:12px 16px;margin:12px 0}
+  .glossaire dt{font-weight:bold;color:var(--accent)}
+  .glossaire dd{margin:0 0 8px 0;color:#3a4a58}
+  .texto{background:#f2f7fa;border:1px solid var(--line);border-radius:6px;padding:14px 18px;margin:10px 0 16px;font-style:italic}
+  .texto p{margin:0 0 8px}
+  .verso{font-style:italic;color:var(--accent2)}
+  /* ---------- Floating accent pad ---------- */
+  #accentPad{position:fixed;bottom:18px;right:18px;background:#fff;border:2px solid var(--accent);
+       border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.25);padding:10px;z-index:1000;
+       display:flex;flex-wrap:wrap;gap:5px;max-width:340px;user-select:none}
+  #accentPad .drag{width:100%;cursor:move;font-size:.8em;color:#5a6a78;text-align:center;padding-bottom:4px}
+  #accentPad button{font-size:1.05em;font-family:inherit;min-width:34px;padding:6px 4px;border:1px solid var(--line);
+       border-radius:5px;background:#f2f7fa;cursor:pointer}
+  #accentPad button:hover{background:var(--accent);color:#fff}
+  #accentPad .maj{font-size:.8em;background:#e6e9ec}
+  #padToggle{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--accent);color:#fff;
+       border:none;border-radius:50px;padding:12px 18px;font-size:1em;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  @media print{#accentPad,#padToggle{display:none}}
+</style>
 </head>
 <body>
-    <header>
-        <h1>Análisis de Letras de Tango</h1>
-        <p class="subtitle">Actividad para estudiantes de español (niveles A2 - B1.6)</p>
-        <p>"Hacia fines del siglo, Buenos Aires era una gigantesca multitud de hombres solos..."</p>
-    </header>
-    
-    <div class="activity-instructions">
-        <h2>Actividad 6a - Instrucciones</h2>
-        <ul class="task-list">
-            <li><strong>Escucha</strong> el tango "La Cumparsita" (interpretado por Carlos Gardel)</li>
-            <li><strong>Busca</strong> la letra de "La Cumparsita" en la sección de abajo</li>
-            <li><strong>Compara</strong> la letra de "La Cumparsita" con la letra de "Volver"</li>
-            <li><strong>Identifica</strong> similitudes y diferencias entre ambas letras</li>
-            <li><strong>Encuentra</strong> los temas comunes entre las letras de "La Cumparsita" y "Volver"</li>
-            <li><strong>Destaca</strong> los temas comunes en "Volver" con diferentes colores usando las herramientas</li>
-            <li><strong>Nombra</strong> estos temas en inglés y español</li>
-            <li><strong>Extiende</strong> tu análisis incluyendo los otros dos tangos: "Mi noche triste" y "Esta noche me emborracho"</li>
-        </ul>
-        
-        <div class="poetry-instructions">
-            <p><strong>Formato poesía:</strong> Los poemas se muestran línea por línea y en estrofas para facilitar la lectura y análisis poético en español.</p>
-            <p>Para destacar palabras o frases, selecciona un tema de color y luego haz clic en las líneas del poema.</p>
-        </div>
+<div class="wrap">
+  <header>
+    <h1>El Tango: Análisis de la Letra de "Volver"</h1>
+    <p class="meta">A-Level Spanish (Edexcel) · Tema 2: Cambios culturales — la música · Duración recomendada: 40 min</p>
+  </header>
+
+  <div class="name-row">
+    <label for="studentName"><strong>Tu nombre:</strong></label>
+    <input type="text" id="studentName" placeholder="Nombre APELLIDO" maxlength="60">
+  </div>
+
+  <div class="consigne"><strong>Instrucciones:</strong> Lee el extracto de «Volver» (Carlos Gardel / Alfredo Le Pera, 1935) y completa los tres ejercicios: comprensión e imágenes, vocabulario y gramática (pretérito/imperfecto en la narración lírica). Pulsa «Comprobar» al final y descarga tus resultados.</div>
+
+  <div class="texto">
+<p><strong>"Volver" — Carlos Gardel y Alfredo Le Pera (1935)</strong></p>
+<p class="verso">Yo adivino el parpadeo<br>
+de las luces que a lo lejos<br>
+van marcando mi retorno.<br>
+Son las mismas que alumbraron,<br>
+con sus pálidos reflejos,<br>
+hondas horas de dolor.</p>
+<p class="verso">Y aunque no quise el regreso,<br>
+siempre se vuelve al primer amor.<br>
+La quieta calle donde el eco dijo:<br>
+«tuya es su vida, tuyo es su querer»,<br>
+bajo el burlón mirar de las estrellas<br>
+que con indiferencia hoy me ven volver.</p>
+<p class="verso">Volver, con la frente marchita,<br>
+las nieves del tiempo platearon mi sien.<br>
+Sentir que es un soplo la vida,<br>
+que veinte años no es nada,<br>
+que febril la mirada, errante en las sombras,<br>
+te busca y te nombra.<br>
+Vivir, con el alma aferrada<br>
+a un dulce recuerdo que lloro otra vez.</p>
+</div>
+
+  <h2>Ejercicio 1 · Comprensión e imágenes <span class="pts">(6 puntos)</span></h2>
+  <div class="consigne">Analiza el sentido de las imágenes poéticas: el paso del tiempo, la nostalgia y el regreso.</div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TGFzIGx1Y2VzIGd1w61hbiBsaXRlcmFsbWVudGUgZWwgcmVncmVzbyBkZWwgbmFycmFkb3IgYSBsYSBjaXVkYWQsIHBlcm8gZnVuY2lvbmFuIHRhbWJpw6luIGNvbW8gc8OtbWJvbG8gZGUgdW4gcmVncmVzbyBpbnRlcmlvciwgY2FyZ2FkbyBkZSBtZW1vcmlhIHkgZGUgZG9sb3IgcGFzYWRvICjCq2hvbmRhcyBob3JhcyBkZSBkb2xvcsK7KS4=">
+    <p class="q">1. ¿Qué representan «las luces que a lo lejos van marcando mi retorno»?</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q1" value="0"> A) Las luces de un escenario de tango</label>
+      <label><input type="radio" name="e1q1" value="1"> B) Señales físicas de la llegada a un lugar que también simbolizan el regreso emocional</label>
+      <label><input type="radio" name="e1q1" value="2"> C) Las luces de un tren en marcha</label>
+      <label><input type="radio" name="e1q1" value="3"> D) Una metáfora de la muerte</label>
     </div>
-    
-    <div class="container">
-        <div class="tools-panel">
-            <h2>Herramientas de Análisis</h2>
-            
-            <h3>Temas comunes en tango</h3>
-            <div class="theme-key" id="themeKey">
-                <!-- Los temas se cargarán con JavaScript -->
-            </div>
-            
-            <div class="lunfardo-note">
-                <h4>Nota sobre Lunfardo:</h4>
-                <p>El lunfardo es el slang popular de Buenos Aires, usado extensamente en tango. Incluye palabras como:</p>
-                <ul>
-                    <li><strong>Percanta</strong> = una mujer deseada</li>
-                    <li><strong>Amurar</strong> = abandonar</li>
-                    <li><strong>Cotorro/Bulín</strong> = habitación modesta</li>
-                    <li><strong>Encurdelarse</strong> = emborracharse</li>
-                </ul>
-            </div>
-            
-            <div class="controls">
-                <button id="highlightVolverBtn" class="btn-primary">Destacar temas en "Volver"</button>
-                <button id="highlightAllBtn" class="btn-tertiary">Destacar temas en TODAS las canciones</button>
-                <button id="resetBtn" class="btn-secondary">Quitar todos los destacados</button>
-            </div>
-            
-            <div class="vocabulary-note">
-                <h4>Modo de uso:</h4>
-                <p>1. Haz clic en un tema para activarlo (aparecerá resaltado)</p>
-                <p>2. Luego haz clic en palabras en las letras para destacarlas con ese color</p>
-                <p>3. O usa los botones para destacado automático</p>
-            </div>
-            
-            <div class="stats" id="themeStats">
-                <h4>Estadísticas:</h4>
-                <p>Usa el botón "Contar temas" para ver estadísticas</p>
-            </div>
-            
-            <div class="controls">
-                <button id="countThemesBtn" class="btn-tertiary">Contar temas encontrados</button>
-                <button id="showComparisonBtn" class="btn-secondary">Mostrar tabla comparativa</button>
-            </div>
-        </div>
-        
-        <div class="lyrics-panel">
-            <div class="song-section">
-                <h2>"La Cumparsita" - Gerardo Matos Rodríguez</h2>
-                <div class="poem-container" id="cumparsita">
-                    <!-- Poem will be rendered here by JavaScript -->
-                </div>
-                <div class="vocabulary-note">
-                    <p>* decí (en lugar de dije) | + una habitación modesta de soltero | ^ vos = tú (en Argentina y otros países)</p>
-                </div>
-            </div>
-            
-            <div class="song-section">
-                <h2>"Volver" - Carlos Gardel (1934)</h2>
-                <div class="poem-container" id="volver">
-                    <!-- Poem will be rendered here by JavaScript -->
-                </div>
-            </div>
-            
-            <div class="song-section">
-                <h2>"Mi noche triste" - Pascual Contursi (1917)</h2>
-                <div class="poem-container" id="minochetriste">
-                    <!-- Poem will be rendered here by JavaScript -->
-                </div>
-                <div class="vocabulary-note">
-                    <p>* amurar = abandonar | + me emborracho / habitación modesta | ^ miro, observo | * con maté (bebida típica)</p>
-                </div>
-            </div>
-            
-            <div class="song-section">
-                <h2>"Esta noche me emborracho" - Enrique Santos Discépolo (1928)</h2>
-                <div class="poem-container" id="estanochemeemborracho">
-                    <!-- Poem will be rendered here by JavaScript -->
-                </div>
-                <div class="translation">
-                    <strong>Traducción parcial:</strong> "Y pensar que hace diez años, ella fue mi locura. Que llegué hasta la traición por su hermosura... Que esto que hoy es un cascajo fue la dulce metedura donde yo perdí el honor; que chiflao por su belleza le quité el pan a la vieja, me hice ruin y pechador... Que quedé sin un amigo, que viví de mala fe, que me tuvo de rodillas, sin moral, hecho un mendigo, cuando se fue."
-                </div>
-            </div>
-        </div>
+    <details class="aide"><summary>Pista</summary><div>Piensa en dos niveles de lectura: el literal (un viaje real) y el simbólico (la vuelta al pasado).</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqtNYXJjaGl0YcK7IGV2b2NhIHVuYSBmbG9yIHF1ZSBzZSBzZWNhLCB5IMKrbGFzIG5pZXZlc+KApiBwbGF0ZWFyb24gbWkgc2llbsK7IGVzIHVuYSBtZXTDoWZvcmEgZGVsIHBlbG8gY2Fub3NvOiBhbWJhcyBpbcOhZ2VuZXMgcGVyc29uaWZpY2FuIGVsIGVudmVqZWNpbWllbnRvIGRlbCBuYXJyYWRvci4=">
+    <p class="q">2. «La frente marchita» y «las nieves del tiempo platearon mi sien» son imágenes que expresan sobre todo…</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q2" value="0"> A) la riqueza económica del narrador</label>
+      <label><input type="radio" name="e1q2" value="1"> B) el paso del tiempo y el envejecimiento</label>
+      <label><input type="radio" name="e1q2" value="2"> C) un paisaje de invierno real</label>
+      <label><input type="radio" name="e1q2" value="3"> D) la alegría del reencuentro</label>
     </div>
-    
-    <div class="analysis-area">
-        <h2>Análisis Comparativo</h2>
-        
-        <div id="comparisonTableContainer"></div>
-        
-        <h3>Escribe tu análisis:</h3>
-        <p>Conecta las canciones con las situaciones o temas de la película <em>Volver</em> de Pedro Almodóvar:</p>
-        <textarea id="analysisText" placeholder="Escribe tu análisis aquí en español o inglés..."></textarea>
-        
-        <div class="controls">
-            <button id="generateAnalysisBtn" class="btn-primary">Generar análisis guiado</button>
-            <button id="clearAnalysisBtn" class="btn-secondary">Limpiar análisis</button>
-        </div>
+    <details class="aide"><summary>Pista</summary><div>«Marchita» se usa normalmente para flores; «nieves» y «plateado» describen un color — ¿de qué?</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="RWwgdmVyc28gZXhwcmVzYSBxdWUsIGRlc2RlIGxhIHBlcnNwZWN0aXZhIGVtb2Npb25hbCBkZWwgbmFycmFkb3IsIGRvcyBkw6ljYWRhcyBwYXJlY2VuIG5vIGhhYmVyIHBhc2FkbzogZWwgdGllbXBvIGNyb25vbMOzZ2ljbyB5IGVsIHRpZW1wbyBzZW50aWRvIG5vIGNvaW5jaWRlbiDigJQgbGEgbm9zdGFsZ2lhIGNvbXByaW1lIGxhIGRpc3RhbmNpYSB0ZW1wb3JhbC4=">
+    <p class="q">3. ¿Qué tema central resume mejor el verso «que veinte años no es nada»?</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q3" value="0"> A) La eternidad del amor romántico únicamente</label>
+      <label><input type="radio" name="e1q3" value="1"> B) La percepción subjetiva y fugaz del paso del tiempo</label>
+      <label><input type="radio" name="e1q3" value="2"> C) La duración exacta de un viaje</label>
+      <label><input type="radio" name="e1q3" value="3"> D) El desprecio del narrador por el pasado</label>
     </div>
-    
-    <div class="download-section">
-        <h3>Descargar tu trabajo</h3>
-        <p>Guarda tu análisis completo con los temas identificados para estudiarlo después.</p>
-        <div class="controls">
-            <button id="downloadJsonBtn" class="btn-primary">Descargar como JSON</button>
-            <button id="downloadTextBtn" class="btn-secondary">Descargar como texto</button>
-            <button id="downloadPDFBtn" class="btn-tertiary">Imprimir/Guardar como PDF</button>
-        </div>
+    <details class="aide"><summary>Pista</summary><div>Contrasta el tiempo real (veinte años, mucho) con la sensación del narrador (parece nada).</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TGEgcGVyc29uaWZpY2FjacOzbiBkZSBsYXMgZXN0cmVsbGFzIGNvbW8gwqtidXJsb25hc8K7IGUgwqtpbmRpZmVyZW50ZXPCuyBzdWJyYXlhIGVsIGNvbnRyYXN0ZSBlbnRyZSBsYSBhbmd1c3RpYSDDrW50aW1hIGRlbCBuYXJyYWRvciB5IHVuIHVuaXZlcnNvIHF1ZSBzaWd1ZSBzdSBjdXJzbyBzaW4gaW5tdXRhcnNlLg==">
+    <p class="q">4. El «burlón mirar de las estrellas» que observan «con indiferencia» sugiere que…</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q4" value="0"> A) la naturaleza celebra el regreso del narrador</label>
+      <label><input type="radio" name="e1q4" value="1"> B) el entorno permanece ajeno e inmutable frente al sufrimiento humano</label>
+      <label><input type="radio" name="e1q4" value="2"> C) las estrellas son un símbolo religioso de salvación</label>
+      <label><input type="radio" name="e1q4" value="3"> D) el narrador tiene miedo de la oscuridad</label>
     </div>
-    
-    <div class="keyboard-container">
-        <button class="keyboard-btn" id="toggleKeyboard">á</button>
-        <div class="keyboard" id="keyboard">
-            <p><strong>Teclado de acentos españoles</strong></p>
-            <p>Haz clic en una letra para insertarla en el área de análisis.</p>
-            <div class="keyboard-keys">
-                <div class="key" data-char="á">á</div>
-                <div class="key" data-char="é">é</div>
-                <div class="key" data-char="í">í</div>
-                <div class="key" data-char="ó">ó</div>
-                <div class="key" data-char="ú">ú</div>
-                <div class="key" data-char="ñ">ñ</div>
-                <div class="key" data-char="¿">¿</div>
-                <div class="key" data-char="¡">¡</div>
-                <div class="key" data-char="ü">ü</div>
-                <div class="key" data-char="Á">Á</div>
-            </div>
-            <p style="margin-top: 10px; font-size: 0.9rem;">Haz clic en el botón "á" para mostrar/ocultar este teclado.</p>
-        </div>
+    <details class="aide"><summary>Pista</summary><div>¿Las estrellas comparten la emoción del narrador o contrastan con ella?</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="bm9zdGFsZ2lhfGxhIG5vc3RhbGdpYXxzdWZyaW1pZW50b3xlbCBzdWZyaW1pZW50b3x0cmlzdGV6YXxsYSB0cmlzdGV6YQ==" data-exp="RXN0YXMgcGFsYWJyYXMgZm9ybWFuIHBhcnRlIGRlbCBjYW1wbyBzZW3DoW50aWNvIGRlIGxhIG5vc3RhbGdpYSB5IGVsIHN1ZnJpbWllbnRvIGVtb2Npb25hbCwgdGVtYSBjZW50cmFsIGRlbCB0YW5nbyBjb21vIGfDqW5lcm8u">
+    <p class="q">5. ¿A qué campo semántico pertenecen «dolor», «llorar» y «alma aferrada»? (una palabra en español)</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Piensa en el sentimiento agridulce de añorar algo perdido — es la palabra clave del género tanguero.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="YW7DoWZvcmF8bGEgYW7DoWZvcmE=" data-exp="TGEgYW7DoWZvcmEgY29uc2lzdGUgZW4gcmVwZXRpciB1bmEgcGFsYWJyYSAoYXF1w60sIGluZmluaXRpdm9zKSBhbCBwcmluY2lwaW8gZGUgdmVyc29zIHN1Y2VzaXZvcyBwYXJhIHJlZm9yemFyIGVsIHJpdG1vIHkgbGEgaW50ZW5zaWRhZCBlbW9jaW9uYWw6IMKrVm9sdmVyLCBjb24gbGEgZnJlbnRlIG1hcmNoaXRh4oCmIC8gVml2aXIsIGNvbiBlbCBhbG1hIGFmZXJyYWRh4oCmwrsu">
+    <p class="q">6. ¿Qué figura retórica se repite en «volver» / «vivir» al inicio de dos versos consecutivos? (término literario)</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Es la repetición de una palabra al comienzo de dos versos seguidos.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <h2>Ejercicio 2 · Vocabulario clave <span class="pts">(5 puntos)</span></h2>
+  <div class="consigne">Explica o traduce las siguientes palabras del extracto.</div>
+  <div class="item" data-type="text" data-a="cmV0b3Jub3xlbCByZXRvcm5vfHZvbHZlcg==" data-exp="wqtFbCByZWdyZXNvwrsgeSDCq2VsIHJldG9ybm/CuyBzb24gc2luw7NuaW1vczsgZWwgcHJvcGlvIHTDrXR1bG8gZGUgbGEgY2FuY2nDs24sIMKrVm9sdmVywrssIHRhbWJpw6luIGZ1bmNpb25hIGNvbW8gc2luw7NuaW1vIHZlcmJhbC4=">
+    <p class="q">7. «El regreso» — da un sinónimo del texto (una palabra).</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Busca en la primera estrofa una palabra que signifique lo mismo que «regreso».</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="d2l0aGVyZWR8d2lsdGVk" data-exp="wqtNYXJjaGl0YcK7IGRlc2NyaWJlIGFsZ28gKG5vcm1hbG1lbnRlIHVuYSBmbG9yKSBxdWUgaGEgcGVyZGlkbyBzdSBmcmVzY3VyYSB5IHZpZ29yOiBlbiBpbmdsw6lzLCDCq3dpdGhlcmVkwrsgbyDCq3dpbHRlZMK7Lg==">
+    <p class="q">8. «Marchita» — traduce al inglés.</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Piensa en una flor que lleva varios días sin agua.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="dmFnYWJ1bmRhfHZhZ2FuZG98cXVlIHZhZ2F8cGVyZGlkYQ==" data-exp="wqtFcnJhbnRlwrsgZGVzY3JpYmUgYWxnbyBxdWUgdmFnYSBzaW4gcnVtYm8gZmlqbzsgYXF1w60sIGxhIG1pcmFkYSBkZWwgbmFycmFkb3IgYnVzY2Egc2luIGVuY29udHJhciwgcGVyZGlkYSBlbnRyZSBsYXMgc29tYnJhcyBkZWwgcmVjdWVyZG8u">
+    <p class="q">9. «Errante» (como en «mirada… errante en las sombras») — da un sinónimo en español.</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Piensa en alguien que camina sin dirección fija, sin saber adónde va.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="YWdhcnJhZGEgY29uIGZ1ZXJ6YXxhZmVycmFyc2UgZXMgYWdhcnJhcnNlIGZ1ZXJ0ZW1lbnRlfHN1amV0YSBjb24gZnVlcnphfGFwZWdhZGEgY29uIGZ1ZXJ6YQ==" data-exp="wqtBZmVycmFyc2UgYSBhbGdvwrsgc2lnbmlmaWNhIHN1amV0YXJsbyBjb24gZmlybWV6YSB5IG5vIHF1ZXJlciBzb2x0YXJsbzsgYXF1w60sIGVsIGFsbWEgZGVsIG5hcnJhZG9yIHNlIGFmZXJyYSBlbW9jaW9uYWxtZW50ZSBhbCByZWN1ZXJkbyBkZWwgYW1vciBwYXNhZG8u">
+    <p class="q">10. «Aferrada» (como en «el alma aferrada a un dulce recuerdo») — ¿qué significa?</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Imagina una mano que se agarra fuertemente a un objeto y no lo suelta.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqtBZGl2aW5vwrsgc2UgcmVmaWVyZSBhIGxhIHBlcmNlcGNpw7NuIHByZXNlbnRlIGRlbCBuYXJyYWRvciAocGVyY2liZSBsYXMgbHVjZXMgYWhvcmEpLCBtaWVudHJhcyBxdWUgwqtyZWN1ZXJkb8K7LCDCq2hvbmRhcyBob3Jhc8K7IHkgwqtwcmltZXIgYW1vcsK7IHJlbWl0ZW4gdG9kb3MgYWwgcGFzYWRvIGV2b2NhZG8u">
+    <p class="q">11. ¿Cuál de estas palabras NO pertenece al campo semántico de la memoria/el pasado en el poema?</p>
+    <div class="opts">
+      <label><input type="radio" name="e2q5" value="0"> A) recuerdo</label>
+      <label><input type="radio" name="e2q5" value="1"> B) adivino</label>
+      <label><input type="radio" name="e2q5" value="2"> C) hondas horas</label>
+      <label><input type="radio" name="e2q5" value="3"> D) primer amor</label>
     </div>
-    
-    <div class="footer">
-        <p>Actividad basada en el análisis de tango de Ernesto Sabato: "El tango es un pensamiento triste que se baila"</p>
-        <p>© 2023 Análisis de Tango - Para fines educativos - Niveles A2-B1.6</p>
+    <details class="aide"><summary>Pista</summary><div>Tres de las opciones apuntan claramente hacia el pasado; una describe una acción en el presente.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="cGVyc29uaWZpY2FjaW9ufHBlcnNvbmlmaWNhY2nDs258bGEgcGVyc29uaWZpY2FjaW9ufGxhIHBlcnNvbmlmaWNhY2nDs24=" data-exp="QXRyaWJ1aXIgdW5hIGFjY2nDs24gaHVtYW5hIChkZWNpcikgYSB1biBmZW7Ds21lbm8gZsOtc2ljbyAoZWwgZWNvKSBlcyB1bmEgcGVyc29uaWZpY2FjacOzbjogcmVjdXJzbyBtdXkgZnJlY3VlbnRlIGVuIGxhIGxldHJhIHBhcmEgZGFyIHZveiBhbCBwYXNhZG8geSBhbCByZWN1ZXJkby4=">
+    <p class="q">12. «El eco» (como en «el eco dijo») — ¿qué figura retórica se usa al atribuirle la capacidad de «decir» algo?</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>¿Qué figura retórica consiste en dar cualidades humanas a algo que no es humano?</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <h2>Ejercicio 3 · Gramática: pretérito e imperfecto en la narración lírica <span class="pts">(6 puntos)</span></h2>
+  <div class="consigne">El tango alterna el pretérito (hechos puntuales y cerrados) y el imperfecto (estados y trasfondo emocional). Repasa el recuadro antes de empezar.</div>
+  <div class="glossaire">
+<dl>
+<dt>Pretérito indefinido</dt><dd>expresa una acción pasada, completa y puntual: <em>«las nieves del tiempo <strong>platearon</strong> mi sien»</em> (un cambio que ocurrió).</dd>
+<dt>Pretérito imperfecto</dt><dd>describe el trasfondo, un estado o una acción habitual/en curso en el pasado, sin marcar su final: <em>«las mismas luces que <strong>alumbraron</strong>… hondas horas de dolor»</em> vs. una descripción como <em>«la calle <strong>estaba</strong> quieta»</em>.</dd>
+<dt>En la letra de tango</dt><dd>el imperfecto suele pintar el escenario emocional permanente (la nostalgia, el estado del alma), mientras que el pretérito marca los golpes puntuales del destino (la partida, el regreso, el cambio).</dd>
+</dl>
+</div>
+  <div class="item" data-type="text" data-a="cGxhdGVhcm9u" data-exp="UHJldMOpcml0byBpbmRlZmluaWRvLCAzwqogcGVyc29uYSBwbHVyYWw6IGVsIGVudmVqZWNpbWllbnRvIHNlIHByZXNlbnRhIGNvbW8gdW4gY2FtYmlvIHB1bnR1YWwgeSBjb25zdW1hZG8sIG5vIGNvbW8gdW4gcHJvY2VzbyBjb250aW51byBlbiBsYSBsZXRyYS4=">
+    <p class="q">13. «Las nieves del tiempo (platear-pretérito) ______ mi sien» — completa con el pretérito de «platear».</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Verbo regular en -ar, terminación «-aron» para «ellos/ellas».</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="ZXN0YWJh" data-exp="RWwgaW1wZXJmZWN0byBkZXNjcmliZSBlbCBlc3RhZG8gZGUgbGEgY2FsbGUgY29tbyB0ZWzDs24gZGUgZm9uZG8gcGVybWFuZW50ZSwgbWllbnRyYXMgcXVlIMKrbGxlZ8OzwrsgKHByZXTDqXJpdG8pIG1hcmNhIGxhIGFjY2nDs24gcHVudHVhbCBxdWUgaW50ZXJydW1wZSBlc2EgcXVpZXR1ZC4=">
+    <p class="q">14. «La calle (estar-imperfecto) ______ quieta cuando el narrador llegó.» — completa con el imperfecto de «estar».</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Describe un estado de fondo, no una acción puntual: imperfecto, 3ª persona singular.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="Mg==" data-exp="RWwgcHJldMOpcml0byDCq2FsdW1icmFyb27CuyBtYXJjYSBlc2FzIGhvcmFzIGRlIGRvbG9yIGNvbW8gZXBpc29kaW9zIHlhIGNlcnJhZG9zIGVuIGVsIHBhc2FkbywgdmlzdG9zIGNvbW8gdW4gYmxvcXVlIGNvbXBsZXRvLCBhdW5xdWUgc2UgcmVwaXRpZXJhbiB2YXJpYXMgdmVjZXMu">
+    <p class="q">15. ¿Por qué se usa el pretérito «alumbraron» y no el imperfecto en «las mismas que alumbraron… hondas horas de dolor»?</p>
+    <div class="opts">
+      <label><input type="radio" name="e3q3" value="0"> A) Porque el verbo «alumbrar» siempre es irregular</label>
+      <label><input type="radio" name="e3q3" value="1"> B) Porque se refiere a un proceso todavía en curso</label>
+      <label><input type="radio" name="e3q3" value="2"> C) Porque señala una acción pasada, ya completada, aunque repetida en momentos concretos</label>
+      <label><input type="radio" name="e3q3" value="3"> D) Porque el pretérito no existe en español</label>
     </div>
+    <details class="aide"><summary>Pista</summary><div>Compara: ¿esas horas de dolor siguen ocurriendo ahora, o pertenecen a un pasado cerrado?</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="dmFnYWJh" data-exp="RWwgaW1wZXJmZWN0byBwaW50YSBsYSBtaXJhZGEgZGVsIG5hcnJhZG9yIGNvbW8gdW5hIGFjY2nDs24gY29udGludWFkYSwgc2luIGzDrW1pdGUgY2xhcm8sIHTDrXBpY2EgZGUgbGEgZGVzY3JpcGNpw7NuIGVtb2Npb25hbCBlbiBlbCBpbXBlcmZlY3RvLg==">
+    <p class="q">16. «Febril la mirada (vagar-imperfecto) ______ en las sombras» — completa con el imperfecto de «vagar».</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Acción prolongada, sin final marcado: imperfecto, 3ª persona singular, verbo en -ar.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="RWwgaW1wZXJmZWN0byBzZSBlbXBsZWEgcGFyYSBkZXNjcmliaXIgZXN0YWRvcywgc2VudGltaWVudG9zIHkgZXNjZW5hcmlvcyBkZSBmb25kbyBzaW4gbWFyY2FyIHN1IGluaWNpbyBvIGZpbmFsIOKAlCBwZXJmZWN0byBwYXJhIGV4cHJlc2FyIGxhIG5vc3RhbGdpYSBjb250aW51YSBkZWwgdGFuZ28u">
+    <p class="q">17. En una narración típica de tango, ¿qué tiempo verbal se asocia más con «el trasfondo emocional permanente» (la nostalgia de fondo)?</p>
+    <div class="opts">
+      <label><input type="radio" name="e3q5" value="0"> A) El pretérito indefinido</label>
+      <label><input type="radio" name="e3q5" value="1"> B) El imperfecto</label>
+      <label><input type="radio" name="e3q5" value="2"> C) El futuro simple</label>
+      <label><input type="radio" name="e3q5" value="3"> D) El condicional</label>
+    </div>
+    <details class="aide"><summary>Pista</summary><div>¿Qué tiempo describe estados y sentimientos sin marcar principio ni fin?</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="YWRpdmluZXxhZGl2aW7DqQ==" data-exp="QXVucXVlIGVuIGxhIGNhbmNpw7NuIG9yaWdpbmFsIHNlIHVzYSBlbCBwcmVzZW50ZSAowqthZGl2aW5vwrspIGNvbiB2YWxvciBuYXJyYXRpdm8sIHNpIHNlIG5hcnJhIGNvbW8gYWNjacOzbiBwdW50dWFsIHkgY29tcGxldGFkYSBzZSBuZWNlc2l0YSBlbCBwcmV0w6lyaXRvIMKrYWRpdmluw6nCuy4=">
+    <p class="q">18. Transforma al pretérito: «Yo (adivinar) el parpadeo de las luces» (acción puntual, un solo momento) → Yo ______ el parpadeo de las luces.</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="Tu respuesta…">
+    <details class="aide"><summary>Pista</summary><div>Primera persona singular, pretérito, verbo regular en -ar (recuerda la tilde en la é final).</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <script>
-        // POETRY DATA - Formatted as stanzas with line-by-line structure
-        const poems = {
-            cumparsita: {
-                title: "La Cumparsita",
-                author: "Gerardo Matos Rodríguez",
-                stanzas: [
-                    {
-                        lines: [
-                            "Si supieras que aún",
-                            "dentro de mi alma",
-                            "Conservo aquel cariño",
-                            "que tuve para ti."
-                        ]
-                    },
-                    {
-                        lines: [
-                            "Quien sabe si supieras",
-                            "Que nunca te he olvidado",
-                            "Volviendo a tu pasado",
-                            "Te acordarás de mí"
-                        ]
-                    },
-                    {
-                        lines: [
-                            "Los amigos ya no vienen",
-                            "Ni siquiera a visitarme",
-                            "Nadie quiere consolarme",
-                            "En mi aflicción",
-                            "Desde el día que te fuiste",
-                            "Siento angustias en mi pecho",
-                            "Decí*, percanta: ¿Qué has hecho",
-                            "De mi pobre corazón?"
-                        ]
-                    },
-                    {
-                        lines: [
-                            "Al cotorro+ abandonado.",
-                            "Ya ni el sol de la mañana",
-                            "Asoma por la ventana",
-                            "Como cuando estabas vos^"
-                        ]
-                    },
-                    {
-                        lines: [
-                            "Y aquel perrito compañero",
-                            "Que por tu ausencia no comía",
-                            "Al verme solo, el otro día",
-                            "También me dejó"
-                        ]
-                    },
-                    {
-                        lines: [
-                            "Si supieras..."
-                        ]
-                    }
-                ]
-            },
-            volver: {
-                title: "Volver",
-                author: "Carlos Gardel (1934)",
-                stanzas: [
-                    {
-                        lines: [
-                            "Yo adivino el parpadeo",
-                            "de las luces que a lo lejos",
-                            "van marcando mi retorno.",
-                            "Son las mismas que alumbraron",
-                            "con sus pálidos reflejos",
-                            "hondas horas de dolor."
-                        ]
-                    },
-                    {
-                        lines: [
-                            "Y aunque no quise el regreso,",
-                            "siempre se vuelve al primer amor.",
-                            "La vieja calle donde el eco dijo:",
-                            "tuya es su vida, tuyo es su querer,",
-                            "bajo el burlón mirar de las estrellas",
-                            "que con indiferencia hoy me ven volver..."
-                        ]
-                    },
-                    {
-                        lines: [
-                            "Volver... con la frente marchita,",
-                            "las nieves del tiempo platearon mi sien."
-                        ]
-                    },
-                    {
-                        lines: [
-                            "Sentir... que es un soplo la vida,",
-                            "que veinte años no es nada,",
-                            "que febril la mirada, errante en las sombras,",
-                            "te busca y te nombra."
-                        ]
-                    },
-                    {
-                        lines: [
-                            "Vivir... con el alma aferrada",
-                            "a un dulce recuerdo",
-                            "que lloro otra vez."
-                        ]
-                    },
-                    {
-                        lines: [
-                            "Tengo miedo del encuentro",
-                            "con el pasado que vuelve",
-                            "a enfrentarse con mi vida.",
-                            "Tengo miedo de las noches",
-                            "que pobladas de recuerdos",
-                            "encadenan mi soñar..."
-                        ]
-                    },
-                    {
-                        lines: [
-                            "Pero el viajero que huye",
-                            "tarde o temprano detiene su andar.",
-                            "Y aunque el olvido, que todo destruye,",
-                            "haya matado mi vieja ilusión,",
-                            "guardo escondida una esperanza humilde",
-                            "que es toda la fortuna de mi corazón."
-                        ]
-                    }
-                ]
-            },
-            minochetriste: {
-                title: "Mi noche triste",
-                author: "Pascual Contursi (1917)",
-                stanzas: [
-                    {
-                        lines: [
-                            "Percanta que me amuraste* en lo mejor de mi vida",
-                            "Dejándome el alma herida y espina en el corazón",
-                            "Sabiendo que te quería, que vos eras mi alegría",
-                            "Y mi sueño abrasador"
-                        ]
-                    },
-                    {
-                        lines: [
-                            "Para mí ya no hay consuelo y por eso me encurdelo+",
-                            "Pa' olvidarme de tu amor",
-                            "Cuando voy a mi cotorro+ y lo veo desarreglado",
-                            "Todo triste, abandonado, me dan ganas de llorar",
-                            "Y me detengo rato campaneando^ tu retrato",
-                            "Pa' poderme consolar"
-                        ]
-                    },
-                    {
-                        lines: [
-                            "De noche cuando me acuesto, no puedo cerrar la puerta",
-                            "Porque dejándola abierta me hago ilusión que volvés",
-                            "Siempre traigo bizcochitos pa' tomar con matecitos*",
-                            "Como si estuvieras vos"
-                        ]
-                    },
-                    {
-                        lines: [
-                            "Y si vieras la catrera como se pone cabrera",
-                            "Cuando no nos ve a los dos",
-                            "Ya no hay en el bulín+ aquellos lindos frasquitos",
-                            "Adornados con moñitos todos de un mismo color"
-                        ]
-                    },
-                    {
-                        lines: [
-                            "Y el espejo está empañado si parece que ha llorado",
-                            "Por la ausencia de tu amor",
-                            "La guitarra en el ropero todavía está colgada",
-                            "Nadie en ella canta nada ni hace sus cuerdas vibrar",
-                            "Y la lámpara del cuarto también tu ausencia ha sentido",
-                            "Porque su luz no ha querido",
-                            "Mi noche triste alumbrar"
-                        ]
-                    }
-                ]
-            },
-            estanochemeemborracho: {
-                title: "Esta noche me emborracho",
-                author: "Enrique Santos Discépolo (1928)",
-                stanzas: [
-                    {
-                        lines: [
-                            "¡Y pensar que hace diez años,",
-                            "fue mi locura!",
-                            "¡Que llegué hasta la traición",
-                            "por su hermosura!..."
-                        ]
-                    },
-                    {
-                        lines: [
-                            "Que esto que hoy es un cascajo",
-                            "fue la dulce metedura",
-                            "donde yo perdí el honor;"
-                        ]
-                    },
-                    {
-                        lines: [
-                            "que chiflao por su belleza",
-                            "le quité el pan a la vieja,",
-                            "me hice ruin y pechador..."
-                        ]
-                    },
-                    {
-                        lines: [
-                            "Que quedé sin un amigo,",
-                            "que viví de mala fe,",
-                            "que me tuvo de rodillas,",
-                            "sin moral, hecho un mendigo,",
-                            "cuando se fue."
-                        ]
-                    }
-                ]
-            }
-        };
+  <button class="btn" onclick="checkAll()">✔ Comprobar mis respuestas</button>
+  <button class="btn second" onclick="resetAll()">↺ Empezar de nuevo</button>
+  <div class="score-banner" id="scoreBanner"></div>
 
-        // Datos de temas con colores y patrones
-        const themes = [
-            { 
-                id: 'lost-love', 
-                es: 'Amor perdido / La pena de amor', 
-                en: 'Lost love / Heartbreak', 
-                color: '#FFE4E1', 
-                textColor: '#8B0000',
-                patterns: [/\b(amor|quería|alegría|corazón|olvid[aeo]|amar|querer|ilusión|dulce|sueño|cariño)\b/gi]
-            },
-            { 
-                id: 'treacherous-fate', 
-                es: 'Destino traicionero / Traición / Mundo injusto', 
-                en: 'Treacherous fate / Betrayal / Unjust world', 
-                color: '#E6E6FA', 
-                textColor: '#4B0082',
-                patterns: [/\b(traición|honor|mendigo|ruin|deshonra|engaño|infiel|mala fe|sin moral|metedura)\b/gi]
-            },
-            { 
-                id: 'abandonment', 
-                es: 'El abandono / La soledad', 
-                en: 'Abandonment / Loneliness', 
-                color: '#F0FFF0', 
-                textColor: '#006400',
-                patterns: [/\b(solo|abandonado|soledad|ausencia|partir|irse|dejar|me dejó|amuraste|aflicción)\b/gi]
-            },
-            { 
-                id: 'passage-of-time', 
-                es: 'El paso del tiempo / Fugacidad', 
-                en: 'Passage of time / Transience', 
-                color: '#FFF0F5', 
-                textColor: '#8B4513',
-                patterns: [/\b(tiempo|años|marchita|veinte años|diez años|pasado|retorno|volver|nieves del tiempo)\b/gi]
-            },
-            { 
-                id: 'reunion', 
-                es: 'Reencuentro - ex-amantes', 
-                en: 'Reunion - ex-lovers', 
-                color: '#F0F8FF', 
-                textColor: '#2F4F4F',
-                patterns: [/\b(volver|retorno|encuentro|regreso|reencuentro|recordar|acordar|volvés|regreso)\b/gi]
-            },
-            { 
-                id: 'alcohol', 
-                es: 'El alcohol / Evasión', 
-                en: 'Alcohol / Escape', 
-                color: '#FFFACD', 
-                textColor: '#B8860B',
-                patterns: [/\b(alcohol|emborracho|encurdelo|borracho|vino|copas|matecitos)\b/gi]
-            }
-        ];
+  <div class="stretch">
+    <h2>Desafío A* — Párrafo analítico</h2>
+    <div class="consigne">Escribe un párrafo analítico (70 palabras mínimo) sobre una de las imágenes o figuras retóricas del extracto («las nieves del tiempo», la anáfora «Volver… / Vivir…», o el contraste pretérito/imperfecto). Usa terminología literaria y al menos una cita textual entre comillas.</div>
+    <p><em>Amorces / starters:</em> «La imagen de… simboliza…», «A través de la anáfora en los versos…, Gardel y Le Pera consiguen…», «El contraste entre el pretérito y el imperfecto refuerza…», «En definitiva, la letra retrata…»</p>
+    <div class="item" data-type="free" data-min="70">
+      <textarea placeholder="Redacta aquí (70 palabras mínimo)…"></textarea>
+      <div class="fb"></div>
+    </div>
+    <details class="aide"><summary>Ver un modelo de respuesta (después de escribir el tuyo)</summary>
+      <div id="modelAnswer">Modelo: La imagen de «las nieves del tiempo» que «platearon» la sien del narrador simboliza de manera muy visual el paso implacable del tiempo: la metáfora del cabello cano como nieve convierte un proceso biológico abstracto en un paisaje casi pictórico. A través de la anáfora en «Volver, con la frente marchita… / Vivir, con el alma aferrada…», Gardel y Le Pera consiguen ligar dos verbos aparentemente opuestos —volver y vivir— en una misma tensión emocional: regresar es, paradójicamente, revivir un dolor antiguo. El contraste entre el pretérito («platearon», «alumbraron») y el imperfecto implícito en el estado de ánimo del narrador refuerza la idea de que, si bien los hechos concretos del pasado están cerrados, la nostalgia que provocan permanece viva e inacabada. En definitiva, la letra retrata el regreso no como un simple viaje físico, sino como una vuelta obligada al primer amor y a las heridas que el tiempo nunca termina de curar.</div></details>
+  </div>
 
-        // Elementos DOM
-        const themeKeyElement = document.getElementById('themeKey');
-        const volverElement = document.getElementById('volver');
-        const cumparsitaElement = document.getElementById('cumparsita');
-        const minochetristeElement = document.getElementById('minochetriste');
-        const estanochemeemborrachoElement = document.getElementById('estanochemeemborracho');
-        const highlightVolverBtn = document.getElementById('highlightVolverBtn');
-        const highlightAllBtn = document.getElementById('highlightAllBtn');
-        const resetBtn = document.getElementById('resetBtn');
-        const toggleKeyboard = document.getElementById('toggleKeyboard');
-        const keyboard = document.getElementById('keyboard');
-        const analysisText = document.getElementById('analysisText');
-        const downloadJsonBtn = document.getElementById('downloadJsonBtn');
-        const downloadTextBtn = document.getElementById('downloadTextBtn');
-        const downloadPDFBtn = document.getElementById('downloadPDFBtn');
-        const countThemesBtn = document.getElementById('countThemesBtn');
-        const clearAnalysisBtn = document.getElementById('clearAnalysisBtn');
-        const themeStatsElement = document.getElementById('themeStats');
-        const showComparisonBtn = document.getElementById('showComparisonBtn');
-        const comparisonTableContainer = document.getElementById('comparisonTableContainer');
-        const generateAnalysisBtn = document.getElementById('generateAnalysisBtn');
+  <button class="btn dl" onclick="downloadResults()">📥 Descargar mis resultados</button>
+</div>
 
-        // Variables de estado
-        let activeTheme = null;
-        let originalStructures = {};
+<button id="padToggle" onclick="togglePad()">á ñ ¿ — Acentos</button>
+<div id="accentPad" style="display:none">
+  <div class="drag">⋮⋮ mover</div>
+</div>
 
-        // Renderizar poemas en formato línea por línea
-        function renderPoems() {
-            Object.keys(poems).forEach(poemId => {
-                const poem = poems[poemId];
-                const element = document.getElementById(poemId);
-                
-                if (!element) return;
-                
-                let html = '';
-                poem.stanzas.forEach((stanza, stanzaIndex) => {
-                    html += `<div class="stanza" data-stanza="${stanzaIndex}">`;
-                    stanza.lines.forEach((line, lineIndex) => {
-                        if (line.trim() === '') {
-                            html += `<div class="poem-line empty-line"></div>`;
-                        } else {
-                            // Split line into words for individual highlighting
-                            const words = line.split(/(\s+)/);
-                            const processedLine = words.map(word => {
-                                if (word.trim() === '') return word;
-                                return `<span class="word" data-word="${word}">${word}</span>`;
-                            }).join('');
-                            
-                            html += `<div class="poem-line" data-line="${lineIndex}">${processedLine}</div>`;
-                        }
-                    });
-                    html += '</div>';
-                });
-                
-                element.innerHTML = html;
-                
-                // Store original structure
-                originalStructures[poemId] = {
-                    html: html,
-                    lines: poem.stanzas.flatMap(stanza => stanza.lines)
-                };
-            });
-            
-            // Add click events to words
-            setupWordClickEvents();
-        }
+<script>
+/* ================= HOUSE ENGINE — do not weaken ================= */
+function d(b){try{return decodeURIComponent(escape(atob(b)))}catch(e){return""}}
+function e64(s){return btoa(unescape(encodeURIComponent(s)))}
 
-        // Configurar eventos de clic en palabras
-        function setupWordClickEvents() {
-            document.querySelectorAll('.word').forEach(wordElement => {
-                wordElement.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    
-                    if (activeTheme) {
-                        const theme = themes.find(t => t.id === activeTheme);
-                        if (theme) {
-                            // Check if already highlighted
-                            if (wordElement.classList.contains('highlight')) {
-                                // Remove highlighting
-                                wordElement.classList.remove('highlight');
-                                wordElement.style.backgroundColor = '';
-                                wordElement.style.color = '';
-                                wordElement.removeAttribute('data-theme');
-                            } else {
-                                // Add highlighting
-                                wordElement.classList.add('highlight');
-                                wordElement.style.backgroundColor = theme.color;
-                                wordElement.style.color = theme.textColor;
-                                wordElement.setAttribute('data-theme', theme.id);
-                            }
-                        }
-                    } else {
-                        alert('Primero selecciona un tema haciendo clic en uno de los recuadros de colores.');
-                    }
-                });
-            });
-        }
+function norm(s){return (s||"").toLowerCase().replace(/[’']/g,"'").replace(/\s+/g," ").trim()}
+function deacc(s){return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"")}
 
-        // Inicializar teclas de temas
-        function initThemeKey() {
-            themeKeyElement.innerHTML = '';
-            themes.forEach(theme => {
-                const themeElement = document.createElement('div');
-                themeElement.className = 'theme-item';
-                themeElement.style.backgroundColor = theme.color;
-                themeElement.style.color = theme.textColor;
-                themeElement.innerHTML = `<strong>${theme.es}</strong><br><small>${theme.en}</small>`;
-                themeElement.addEventListener('click', () => {
-                    // Toggle active state
-                    document.querySelectorAll('.theme-item').forEach(item => {
-                        item.classList.remove('active');
-                    });
-                    
-                    if (activeTheme === theme.id) {
-                        activeTheme = null;
-                    } else {
-                        themeElement.classList.add('active');
-                        activeTheme = theme.id;
-                    }
-                });
-                themeKeyElement.appendChild(themeElement);
-            });
-        }
+function judge(val, accepted){
+  const v=norm(val);
+  if(accepted.some(a=>norm(a)===v)) return "ok";
+  if(accepted.some(a=>deacc(a)===deacc(val))) return "accents";
+  return "bad";
+}
 
-        // Auto-highlight themes in a specific poem
-        function autoHighlightPoem(poemId) {
-            const poemElement = document.getElementById(poemId);
-            if (!poemElement) return;
-            
-            // Reset to original first
-            resetSinglePoem(poemId);
-            
-            // Apply all themes
-            themes.forEach(theme => {
-                const wordElements = poemElement.querySelectorAll('.word');
-                wordElements.forEach(wordElement => {
-                    const word = wordElement.textContent;
-                    theme.patterns.forEach(pattern => {
-                        if (pattern.test(word)) {
-                            wordElement.classList.add('highlight');
-                            wordElement.style.backgroundColor = theme.color;
-                            wordElement.style.color = theme.textColor;
-                            wordElement.setAttribute('data-theme', theme.id);
-                        }
-                    });
-                });
-            });
-        }
+let results=[];
 
-        // Auto-highlight all poems
-        function autoHighlightAllPoems() {
-            Object.keys(poems).forEach(poemId => {
-                autoHighlightPoem(poemId);
-            });
-        }
+function checkAll(){
+  results=[]; let score=0, max=0;
+  document.querySelectorAll(".item").forEach((it,idx)=>{
+    const type=it.dataset.type, fb=it.querySelector(".fb");
+    const label=(it.querySelector(".q")?it.querySelector(".q").textContent.trim():("Desafío "+(idx+1))).slice(0,90);
+    if(type==="mcq"){
+      max++;
+      const sel=it.querySelector("input[type=radio]:checked");
+      const correct=d(it.dataset.a), exp=d(it.dataset.exp||"");
+      if(!sel){fb.className="fb bad";fb.textContent="⚠ Responde a la pregunta.";results.push({label,given:"—",ok:false});return}
+      if(sel.value===correct){score++;fb.className="fb ok";fb.textContent="✔ Correcto. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:true});}
+      else{fb.className="fb bad";fb.textContent="✘ Incorrecto. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:false});}
+    }
+    if(type==="text"){
+      max++;
+      const inp=it.querySelector("input,textarea");
+      const accepted=d(it.dataset.a).split("|"), exp=d(it.dataset.exp||"");
+      const r=judge(inp.value,accepted);
+      if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correcto. "+exp;}
+      else if(r==="accents"){fb.className="fb almost";fb.textContent="≈ ¡Casi! Revisa los acentos: "+accepted[0]+". "+exp;}
+      else{fb.className="fb bad";fb.textContent="✘ Respuesta esperada: "+accepted[0]+". "+exp;}
+      results.push({label,given:inp.value||"—",ok:r==="ok"});
+    }
+    if(type==="free"){
+      const ta=it.querySelector("textarea"), min=parseInt(it.dataset.min||"40");
+      const words=(ta.value.trim().match(/\S+/g)||[]).length;
+      if(words===0){fb.className="fb";fb.textContent="";}
+      else if(words<min){fb.className="fb almost";fb.textContent="≈ "+words+" palabras — intenta llegar a "+min+". Desarrolla con un conector (sin embargo, no obstante…).";}
+      else{fb.className="fb ok";fb.textContent="✔ "+words+" palabras. Compara ahora con el modelo y mejora una frase.";}
+      results.push({label,given:ta.value||"—",ok:words>=min});
+    }
+  });
+  const b=document.getElementById("scoreBanner");
+  b.style.display="block";
+  const pct=max?Math.round(100*score/max):0;
+  b.textContent="Puntuación: "+score+" / "+max+" ("+pct+" %) — "+(pct>=80?"¡Excelente!":pct>=60?"Bien — corrige los puntos señalados.":"Relee las pistas e inténtalo otra vez.");
+  window._score={score,max};
+}
 
-        // Reset a single poem to original
-        function resetSinglePoem(poemId) {
-            const poemElement = document.getElementById(poemId);
-            if (!poemElement || !originalStructures[poemId]) return;
-            
-            poemElement.innerHTML = originalStructures[poemId].html;
-            setupWordClickEvents();
-        }
+function resetAll(){
+  document.querySelectorAll(".item input[type=text], .item textarea").forEach(i=>i.value="");
+  document.querySelectorAll(".item input[type=radio]").forEach(r=>r.checked=false);
+  document.querySelectorAll(".fb").forEach(f=>{f.className="fb";f.textContent=""});
+  document.getElementById("scoreBanner").style.display="none";
+  results=[];window._score=null;window.scrollTo({top:0,behavior:"smooth"});
+}
 
-        // Reset all poems
-        function resetAllPoems() {
-            Object.keys(poems).forEach(poemId => {
-                resetSinglePoem(poemId);
-            });
-            
-            themeStatsElement.innerHTML = '<h4>Estadísticas:</h4><p>Usa el botón "Contar temas" para ver estadísticas</p>';
-            comparisonTableContainer.innerHTML = '';
-            activeTheme = null;
-            document.querySelectorAll('.theme-item').forEach(item => {
-                item.classList.remove('active');
-            });
-        }
+function downloadResults(){
+  const name=document.getElementById("studentName").value.trim();
+  if(!name){alert("Escribe primero tu nombre al principio de la página.");document.getElementById("studentName").focus();return}
+  if(!window._score){alert("Pulsa primero «Comprobar mis respuestas».");return}
+  let txt="RESULTADOS — "+document.title+"\n";
+  txt+="Alumno/a: "+name+"\nFecha: "+new Date().toLocaleString("es-ES")+"\n";
+  txt+="Puntuación: "+window._score.score+" / "+window._score.max+"\n";
+  txt+="".padEnd(60,"=")+"\n\n";
+  results.forEach((r,i)=>{txt+=(i+1)+". "+r.label+"\n   Respuesta: "+r.given+"\n   "+(r.ok?"✔ correcto":"✘ repasar")+"\n\n";});
+  const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(document.title.split("—")[0].trim()||"resultados").replace(/\s+/g,"_")+"_"+name.replace(/\s+/g,"_")+".txt";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+}
 
-        // Contar temas destacados
-        function countThemes() {
-            const poemIds = Object.keys(poems);
-            const themeCounts = {};
-            
-            themes.forEach(theme => {
-                themeCounts[theme.id] = { count: 0, name: theme.es, en: theme.en };
-            });
-            
-            poemIds.forEach(poemId => {
-                const poemElement = document.getElementById(poemId);
-                if (!poemElement) return;
-                
-                const highlightedElements = poemElement.querySelectorAll('.highlight');
-                highlightedElements.forEach(el => {
-                    const themeId = el.getAttribute('data-theme');
-                    if (themeCounts[themeId]) {
-                        themeCounts[themeId].count++;
-                    }
-                });
-            });
-            
-            // Mostrar estadísticas
-            let statsHTML = '<h4>Estadísticas de temas encontrados:</h4><ul>';
-            
-            themes.forEach(theme => {
-                const count = themeCounts[theme.id].count;
-                statsHTML += `<li><strong>${theme.es}</strong>: ${count} ocurrencias</li>`;
-            });
-            
-            // Total
-            const total = Object.values(themeCounts).reduce((sum, t) => sum + t.count, 0);
-            statsHTML += `<li><strong>TOTAL</strong>: ${total} ocurrencias</li>`;
-            statsHTML += '</ul>';
-            
-            themeStatsElement.innerHTML = statsHTML;
-            
-            // Mostrar alerta con resumen
-            alert(`Temas encontrados:\n\n${themes.map(theme => `• ${theme.es}: ${themeCounts[theme.id].count} veces`).join('\n')}\n\nTotal: ${total} ocurrencias`);
-        }
+/* ---------- Accent pad ---------- */
+const CHARS=["á","é","í","ó","ú","ü","ñ","¿","¡","«","»","Á","É","Í","Ó","Ú","Ñ"];
+let lastField=null;
+document.addEventListener("focusin",e=>{
+  if(e.target.matches("input[type=text],textarea") && e.target.id!=="studentName") lastField=e.target;
+  if(e.target.id==="studentName") lastField=e.target;
+});
+const pad=document.getElementById("accentPad");
+CHARS.forEach(c=>{
+  const b=document.createElement("button");
+  b.textContent=c; if(c===c.toUpperCase()&&c.toLowerCase()!==c) b.className="maj";
+  b.addEventListener("mousedown",ev=>{
+    ev.preventDefault();
+    if(!lastField) return;
+    const s=lastField.selectionStart??lastField.value.length, t=lastField.selectionEnd??s;
+    lastField.value=lastField.value.slice(0,s)+c+lastField.value.slice(t);
+    lastField.selectionStart=lastField.selectionEnd=s+c.length;
+    lastField.focus();
+  });
+  pad.appendChild(b);
+});
+function togglePad(){
+  const show=pad.style.display==="none";
+  pad.style.display=show?"flex":"none";
+  document.getElementById("padToggle").style.display=show?"none":"block";
+  if(show){
+    if(!pad.querySelector(".closer")){
+      const x=document.createElement("button");x.textContent="✕";x.className="closer";
+      x.addEventListener("mousedown",ev=>{ev.preventDefault();togglePad()});pad.appendChild(x);
+    }
+  }
+}
+(function(){
+  const h=pad.querySelector(".drag");let sx,sy,ox,oy,drag=false;
+  h.addEventListener("mousedown",e=>{drag=true;sx=e.clientX;sy=e.clientY;const r=pad.getBoundingClientRect();ox=r.left;oy=r.top;
+    pad.style.right="auto";pad.style.bottom="auto";e.preventDefault()});
+  document.addEventListener("mousemove",e=>{if(!drag)return;pad.style.left=(ox+e.clientX-sx)+"px";pad.style.top=(oy+e.clientY-sy)+"px"});
+  document.addEventListener("mouseup",()=>drag=false);
+})();
 
-        // Mostrar tabla comparativa
-        function showComparisonTable() {
-            const poemIds = Object.keys(poems);
-            
-            let tableHTML = '<h3>Tabla Comparativa de Temas</h3>';
-            tableHTML += '<table class="comparison-table">';
-            tableHTML += '<tr><th>Tema</th><th>Español/Inglés</th><th>Volver</th><th>La Cumparsita</th><th>Mi noche triste</th><th>Esta noche me emborracho</th></tr>';
-            
-            themes.forEach(theme => {
-                const row = [];
-                row.push(theme.id);
-                row.push(`${theme.es}<br><em>${theme.en}</em>`);
-                
-                poemIds.forEach(poemId => {
-                    const poemElement = document.getElementById(poemId);
-                    if (!poemElement) {
-                        row.push('');
-                        return;
-                    }
-                    
-                    const count = Array.from(poemElement.querySelectorAll('.highlight')).filter(el => 
-                        el.getAttribute('data-theme') === theme.id
-                    ).length;
-                    row.push(count > 0 ? `${count} ✓` : '');
-                });
-                
-                tableHTML += `<tr><td style="background-color:${theme.color}">${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td><td>${row[3]}</td><td>${row[4]}</td><td>${row[5]}</td></tr>`;
-            });
-            
-            tableHTML += '</table>';
-            comparisonTableContainer.innerHTML = tableHTML;
-        }
-
-        // Teclado flotante
-        toggleKeyboard.addEventListener('click', () => {
-            keyboard.classList.toggle('active');
-        });
-
-        // Insertar caracteres especiales
-        document.querySelectorAll('.key').forEach(key => {
-            key.addEventListener('click', () => {
-                const char = key.getAttribute('data-char');
-                analysisText.focus();
-                
-                // Para navegadores modernos
-                analysisText.setRangeText(char, analysisText.selectionStart, analysisText.selectionEnd, 'end');
-                analysisText.dispatchEvent(new Event('input', { bubbles: true }));
-            });
-        });
-
-        // Generar análisis guiado
-        function generateGuidedAnalysis() {
-            const guidedAnalysis = `ANÁLISIS COMPARATIVO DE TANGOS - FORMATO POÉTICO
-
-1. ESTRUCTURA POÉTICA OBSERVADA:
-
-"La Cumparsita":
-• Estructura en estrofas de 4 versos (cuartetas)
-• Ritmo melancólico y repetitivo
-• Uso de la segunda persona ("tú") para dirigirse al amor perdido
-
-"Volver":
-• Estructura más libre, con versos de longitud variable
-• Uso de puntos suspensivos para crear suspense
-• Repetición de "Volver...", "Sentir...", "Vivir..." como estribillos
-
-"Mi noche triste":
-• Estructura narrativa, cuenta una historia
-• Uso abundante de lunfardo (percanta, amuraste, encurdelo)
-• Descripción detallada del espacio abandonado
-
-"Esta noche me emborracho":
-• Estructura más concentrada y dramática
-• Uso de exclamaciones y frases cortas
-• Confesión directa de los errores cometidos
-
-2. TEMAS COMUNES ENCONTRADOS:
-
-• Amor perdido: Presente en todas las canciones. 
-  En "Volver": "siempre se vuelve al primer amor"
-  En "La Cumparsita": "Conservo aquel cariño que tuve para ti"
-  En "Mi noche triste": "Sabiendo que te quería, que vos eras mi alegría"
-
-• Abandono y soledad: 
-  "Volver": "tengo miedo de las noches que pobladas de recuerdos"
-  "La Cumparsita": "Los amigos ya no vienen ni siquiera a visitarme"
-  "Mi noche triste": "Todo triste, abandonado, me dan ganas de llorar"
-
-• Paso del tiempo: 
-  "Volver": "las nieves del tiempo platearon mi sien", "que veinte años no es nada"
-  "Esta noche me emborracho": "¡Y pensar que hace diez años!"
-
-3. CONEXIÓN CON LA PELÍCULA "VOLVER" DE ALMODÓVAR:
-
-La película "Volver" trata sobre:
-• El regreso al pueblo natal (como el tema del "volver" en la canción)
-• Secretos familiares (como las confesiones en "Esta noche me emborracho")
-• Relaciones entre mujeres (ausencia de figuras masculinas positivas en el tango)
-• Supervivencia y resistencia (como la "esperanza humilde" en "Volver")
-
-El formato poético línea por línea nos ayuda a:
-1. Apreciar el ritmo y la musicalidad del español
-2. Identificar recursos poéticos como la repetición y el paralelismo
-3. Analizar cómo la estructura refuerza el contenido emocional`;
-
-            analysisText.value = guidedAnalysis;
-        }
-
-        // Event Listeners
-        highlightVolverBtn.addEventListener('click', () => {
-            autoHighlightPoem('volver');
-        });
-
-        highlightAllBtn.addEventListener('click', () => {
-            autoHighlightAllPoems();
-        });
-
-        resetBtn.addEventListener('click', resetAllPoems);
-
-        countThemesBtn.addEventListener('click', countThemes);
-
-        showComparisonBtn.addEventListener('click', showComparisonTable);
-
-        clearAnalysisBtn.addEventListener('click', () => {
-            analysisText.value = '';
-        });
-
-        generateAnalysisBtn.addEventListener('click', generateGuidedAnalysis);
-
-        // Descargar resultados como JSON
-        downloadJsonBtn.addEventListener('click', () => {
-            const analysis = analysisText.value;
-            const highlightedThemes = [];
-            
-            // Recopilar temas destacados
-            Object.keys(poems).forEach(poemId => {
-                const poemElement = document.getElementById(poemId);
-                if (!poemElement) return;
-                
-                const songThemes = [];
-                themes.forEach(theme => {
-                    const count = Array.from(poemElement.querySelectorAll('.highlight')).filter(el => 
-                        el.getAttribute('data-theme') === theme.id
-                    ).length;
-                    
-                    if (count > 0) {
-                        songThemes.push({
-                            theme: theme.es,
-                            theme_en: theme.en,
-                            occurrences: count
-                        });
-                    }
-                });
-                
-                highlightedThemes.push({
-                    song: poems[poemId].title,
-                    themes: songThemes
-                });
-            });
-            
-            const data = {
-                analysis: analysis,
-                poems: highlightedThemes,
-                date: new Date().toLocaleString(),
-                studentLevel: "A2-B1.6",
-                activity: "6a - Análisis de letras de tango",
-                format: "poesía línea por línea"
-            };
-            
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'analisis-tango-poetico.json';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        });
-
-        // Descargar resultados como texto
-        downloadTextBtn.addEventListener('click', () => {
-            const analysis = analysisText.value || "(No se ha escrito ningún análisis)";
-            
-            let textContent = 'ANÁLISIS DE LETRAS DE TANGO - FORMATO POÉTICO\n';
-            textContent += '================================================\n\n';
-            textContent += 'Fecha: ' + new Date().toLocaleString() + '\n';
-            textContent += 'Nivel: A2-B1.6\n';
-            textContent += 'Formato: Poesía línea por línea\n\n';
-            
-            textContent += 'TEMAS IDENTIFICADOS:\n';
-            textContent += '-------------------\n\n';
-            
-            // Contar temas por canción
-            Object.keys(poems).forEach(poemId => {
-                const poemElement = document.getElementById(poemId);
-                if (!poemElement) return;
-                
-                textContent += `${poems[poemId].title}:\n`;
-                
-                themes.forEach(theme => {
-                    const count = Array.from(poemElement.querySelectorAll('.highlight')).filter(el => 
-                        el.getAttribute('data-theme') === theme.id
-                    ).length;
-                    
-                    if (count > 0) {
-                        textContent += `  • ${theme.es}: ${count} ocurrencias\n`;
-                    }
-                });
-                
-                textContent += '\n';
-            });
-            
-            textContent += '\nMI ANÁLISIS POÉTICO:\n';
-            textContent += '--------------------\n';
-            textContent += analysis + '\n\n';
-            
-            textContent += 'OBSERVACIONES SOBRE LA ESTRUCTURA POÉTICA:\n';
-            textContent += '-----------------------------------------\n';
-            textContent += '1. Los poemas muestran diferentes estructuras estróficas\n';
-            textContent += '2. Uso de recursos poéticos como repetición, paralelismo, exclamación\n';
-            textContent += '3. El lunfardo añade autenticidad y color local\n';
-            
-            const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'analisis-poetico-tango.txt';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        });
-
-        // Descargar como PDF (simulado)
-        downloadPDFBtn.addEventListener('click', () => {
-            window.print();
-        });
-
-        // Texto de ayuda para el área de análisis
-        analysisText.placeholder = `Escribe tu análisis poético comparando las estructuras y temas de los tangos...
-
-Ejemplo de análisis poético:
-• Estructura estrófica (estrofas, versos, ritmo)
-• Recursos literarios (metáforas, repeticiones, exclamaciones)
-• Uso del lunfardo y vocabulario específico
-• Tono emocional (melancólico, nostálgico, dramático)
-• Conexión con la película "Volver" de Almodóvar
-
-Puedes escribir en español o inglés.`;
-
-        // Inicializar la página
-        function initPage() {
-            initThemeKey();
-            renderPoems();
-            
-            console.log("Página inicializada con formato poético línea por línea");
-        }
-
-        // Inicializar cuando el DOM esté cargado
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initPage);
-        } else {
-            initPage();
-        }
-    </script>
+</script>
 </body>
 </html>
