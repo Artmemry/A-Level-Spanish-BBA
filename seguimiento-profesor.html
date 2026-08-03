@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A-Level Spanish — cohort tracker</title>
+<style>
+:root{--paper:#FBFAF6;--card:#FFF;--ink:#1A2440;--ink-soft:#4A5570;--muted:#8A8F9E;--accent:#C60B1E;
+--bleu:#2B4C9B;--bleu-pale:#EDF1FA;--vert:#2E7D52;--or:#B8860B;--line:#E5E2D8;--line-strong:#CFCBBD;
+--serif:Georgia,serif;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+--mono:ui-monospace,Menlo,Consolas,monospace;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55}
+header{border-bottom:3px solid var(--ink);background:var(--card);padding:16px 20px}
+.in{max-width:1100px;margin:0 auto}
+.brand{font-family:var(--serif);font-weight:700;font-size:1.3rem}.brand span{color:var(--accent)}
+.sub{font-family:var(--mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+main{max-width:1100px;margin:0 auto;padding:24px 20px 80px}
+h2{font-family:var(--serif);font-size:1.3rem;margin:0 0 6px}
+.lede{color:var(--ink-soft);max-width:70ch}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin:16px 0;
+  box-shadow:0 1px 2px rgba(26,36,64,.06)}
+textarea{width:100%;min-height:150px;font-family:var(--mono);font-size:.76rem;border:1.5px solid var(--line-strong);
+  border-radius:9px;padding:10px;background:var(--card);color:var(--ink)}
+.btn{font-family:var(--sans);font-size:.9rem;font-weight:600;border-radius:9px;border:1.5px solid var(--ink);
+  background:var(--card);color:var(--ink);padding:9px 16px;cursor:pointer;margin:12px 8px 0 0}
+.btn.primary{background:var(--bleu);border-color:var(--bleu);color:#fff}
+.btn:disabled{opacity:.45;cursor:default}
+table{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:8px}
+th{text-align:left;font-family:var(--mono);font-size:.64rem;text-transform:uppercase;letter-spacing:.06em;
+  color:var(--muted);border-bottom:2px solid var(--ink);padding:7px 8px;white-space:nowrap}
+td{border-bottom:1px solid var(--line);padding:7px 8px;vertical-align:top}
+td.num{font-family:var(--mono);text-align:right;white-space:nowrap}
+.mini{height:6px;background:var(--line);border-radius:3px;overflow:hidden;min-width:60px;margin-top:3px}
+.mini i{display:block;height:100%;background:var(--vert)}
+.mini i.warn{background:var(--or)}.mini i.low{background:var(--accent)}
+.err{background:#FBEDEE;border:1px solid var(--accent);color:#8A1020;border-radius:9px;padding:10px 13px;margin-top:12px}
+.hidden{display:none}
+.label{font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);
+  font-weight:700;margin:26px 0 6px;display:flex;align-items:center;gap:10px}
+.label::after{content:"";flex:1;height:1px;background:var(--line-strong)}
+.chip{display:inline-block;background:#FBEDEE;border:1px solid var(--accent);color:#8A1020;border-radius:6px;
+  padding:2px 8px;font-size:.8rem;margin:2px 4px 2px 0}
+footer{max-width:1100px;margin:0 auto;padding:18px 20px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.68rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<header><div class="in">
+  <div class="brand">A-Level Spanish <span>·</span> cohort tracker</div>
+  <div class="sub">Edexcel 9SP0 · BBA Sixth Form · teacher view</div>
+</div></header>
+<main>
+  <h2>Who has done what</h2>
+  <p class="lede">Paste student codes, one per line — several codes per student across the term are fine, the latest is used and the change since the previous one is shown. Codes start with <code>DOSES1.</code>. Everything is decoded in this browser; nothing is uploaded.</p>
+  <div class="card">
+    <textarea id="codes" placeholder="DOSES1.eyJ2IjoxLCJuIjo…&#10;DOSES1.eyJ2IjoxLCJuIjo…"></textarea>
+    <button class="btn primary" id="go">Build table</button>
+    <button class="btn" id="csv" disabled>Download CSV</button>
+    <div id="err" class="err hidden"></div>
+  </div>
+  <div id="out"></div>
+</main>
+<footer>Progress is self-reported by students from the hub. Snapshots, not live monitoring. No server, no upload.</footer>
+<script>
+var TITLES = {"T1-U1-01": "La estructura familiar española", "T1-U1-02": "Los cambios en las estructuras familiares", "T1-U2-01": "El desempleo en España", "T1-U2-02": "El mundo laboral en España", "T1-U2-03": "«Ojalá me renueven el contrato»", "T1-U2-04": "La brecha generacional", "T1-U2-05": "La brecha generacional — Paper 3", "T1-U3-01": "El ecoturismo", "T1-U3-02": "El impacto turístico en España", "T1-U3-03": "Turismo y tecnología", "T1-U3-04": "Turismo — condicionales y subjuntivo", "T1-U3-05": "Turismo sostenible — condicional y subjuntivo", "T2-U4-01": "Música — Task 1", "T2-U4-02": "Traducción — Unidad 4", "T2-U4-03": "Análisis de letras de tango", "T2-U4-04": "La música hispana", "T2-U4-05": "El tango — práctica ampliada", "T2-U4-06": "El papel de los cantantes y músicos", "T2-U5-01": "La prensa", "T2-U5-02": "El prime time español", "T2-U5-03": "Los medios de comunicación", "T2-U6-01": "Festivales, costumbres y tradiciones", "T3-U7-01": "Inmigración y economía", "T3-U7-02": "La inmigración en España", "T3-U7-03": "Jóvenes de origen migratorio", "T3-U7-04": "Beneficios y desafíos", "T3-U9-01": "Ceuta 2026 — una ciudad desbordada", "T3-U9-02": "A la española", "T3-U9-03": "Inmigración y política", "T3-U9-04": "El envenenado debate migratorio", "T4-U10-01": "Guerra Civil — España dividida", "T4-U10-02": "Guerra Civil — actividades", "T4-U10-03": "La Segunda República", "T4-U12-01": "España: 50 años de cambios", "T4-U12-02": "La Transición 1975–1986", "T4-U12-03": "La Transición — deberes", "P2-Volver-01": "Ensayo sobre Volver", "P2-Volver-02": "Práctica de redacción", "P2-Volver-03": "Sinónimos de «película»", "P2-Volver-04": "Volver — ejercicios AO3", "P2-Volver-05": "Volver — gramática", "P2-Volver-06": "Subjuntivo, relativos y conectores", "P2-Volver-07": "50 frases para el ensayo", "P2-Volver-08": "Cuaderno de redacción", "P2-Volver-09": "Constructor de párrafos", "P2-Volver-10": "Quiz de frases de ensayo", "P2-Volver-11": "Autoevaluación (baremo)", "P2-Volver-12": "Entrenador de citas", "P2-Volver-13": "Práctica de verbos", "P2-Volver-14": "Práctica de citas", "P2-Volver-15": "Análisis de género", "P2-LCBA-01": "Acto I — ejercicios", "P2-LCBA-02": "LCBA — nivel B2", "P2-LCBA-03": "LCBA — avanzado", "P2-LCBA-04": "50 frases para el ensayo", "P2-LCBA-05": "Citas y escenas", "P2-LCBA-06": "Taller A*", "P2-LCBA-07": "Acto III — ejercicios", "P2-LCBA-08": "Banco de frases", "P2-LCBA-09": "Práctica de ensayo", "P2-LCBA-10": "Tarjetas de citas", "P2-LCBA-11": "Lorca y la España de los años 30", "P2-LCBA-12": "Planificador de ensayo", "P2-LCBA-13": "LCBA — gramática", "P2-LCBA-14": "Subjuntivo — Lorca y Almodóvar", "S1-Examenoral—destrezas-01": "Entrenador de vocabulario", "S1-Examenoral—destrezas-02": "Entrenador del examen oral", "S2-Gramáticaesencial-01": "Práctica de gramática", "S2-Gramáticaesencial-02": "Estructuras con infinitivo", "S2-Gramáticaesencial-03": "Pronombres de objeto", "S2-Gramáticaesencial-04": "Formas del imperfecto", "S2-Gramáticaesencial-05": "Por vs. para", "S2-Gramáticaesencial-06": "100 sustantivos más comunes", "S2-Gramáticaesencial-07": "Concordancia de adjetivos", "S2-Gramáticaesencial-08": "La negación", "S2-Gramáticaesencial-09": "El pretérito", "S2-Gramáticaesencial-10": "«Cuando» + futuro", "S2-Gramáticaesencial-11": "Pretérito vs imperfecto", "S2-Gramáticaesencial-12": "Sitios de gramática", "S2-Gramáticaesencial-13": "Patrones de cognados", "S2-Gramáticaesencial-14": "Negación — ejercicio completo", "S2-Gramáticaesencial-15": "Los números", "S2-Gramáticaesencial-16": "Pretérito vs imperfecto (2)", "S2-Gramáticaesencial-17": "Pronombres reflexivos", "S2-Gramáticaesencial-18": "Desafíos gramaticales B2", "S2-Gramáticaesencial-19": "Taller — lagunas Edexcel", "S3-Ensayoyverbosdeanálisis-01": "Verbos y concordancia", "S3-Ensayoyverbosdeanálisis-02": "Bootcamp de precisión", "S3-Ensayoyverbosdeanálisis-03": "100 verbos de ensayo", "S3-Ensayoyverbosdeanálisis-04": "Quiz de verbos de ensayo", "S3-Ensayoyverbosdeanálisis-05": "Verbos con cambio de raíz"};
+var SECS   = [{"id": "T1", "label": "Tema 1"}, {"id": "T2", "label": "Tema 2"}, {"id": "T3", "label": "Tema 3"}, {"id": "T4", "label": "Tema 4"}, {"id": "P2", "label": "Paper 2"}, {"id": "S1", "label": "Destrezas"}, {"id": "S2", "label": "Destrezas"}, {"id": "S3", "label": "Destrezas"}];
+var PREFIX = "DOSES1.";
+(function(){
+"use strict";
+var $=function(s){return document.querySelector(s);};
+var students=[];
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function norm(s){return String(s||"").toLowerCase().replace(/\s+/g," ").trim();}
+function decode(line){
+  line=line.trim(); if(!line)return null;
+  if(line.indexOf(PREFIX)!==0) throw new Error("not a "+PREFIX+" code: "+line.slice(0,18)+"…");
+  var p=JSON.parse(decodeURIComponent(escape(atob(line.slice(PREFIX.length)))));
+  if(p.v!==1) throw new Error("unknown code version");
+  return p;
+}
+$("#go").addEventListener("click",function(){
+  var lines=$("#codes").value.split(/\n+/), errs=[], by={};
+  lines.forEach(function(l,i){ if(!l.trim())return;
+    try{ var p=decode(l); (by[norm(p.n)]=by[norm(p.n)]||[]).push(p); }
+    catch(e){ errs.push("Line "+(i+1)+": "+e.message); }
+  });
+  students=Object.keys(by).map(function(k){
+    var a=by[k]; a.sort(function(x,y){return x.t-y.t;});
+    return {codes:a,cur:a[a.length-1],prev:a.length>1?a[a.length-2]:null};
+  }).sort(function(a,b){return a.cur.n.localeCompare(b.cur.n);});
+  var e=$("#err");
+  if(errs.length){ e.textContent=errs.join("  ·  "); e.className="err"; } else e.className="err hidden";
+  render(); $("#csv").disabled=!students.length;
+});
+function delta(c,p){
+  if(p==null||c===p)return "";
+  var n=c-p;
+  return ' <span style="color:'+(n>0?"var(--vert)":"var(--accent)")+';font-size:.8em">'+(n>0?"▲+":"▼")+n+'</span>';
+}
+function render(){
+  var out=$("#out"); out.innerHTML="";
+  if(!students.length){ out.innerHTML='<p style="color:var(--muted)">No valid codes yet.</p>'; return; }
+  var h='<div class="label">Overview</div><div style="overflow-x:auto"><table><thead><tr>'
+   +'<th>Student</th><th>Exported</th><th>Codes</th><th>Done</th><th>Opened</th><th>%</th>';
+  SECS.forEach(function(s){ h+='<th>'+esc(s.label)+'</th>'; });
+  h+='</tr></thead><tbody>';
+  students.forEach(function(st){
+    var c=st.cur,p=st.prev,o=c.o||{};
+    var pc=o.total?Math.round(100*o.done/o.total):0;
+    h+='<tr><td><b>'+esc(c.n)+'</b></td>'
+      +'<td class="num">'+new Date(c.t).toLocaleDateString()+'</td>'
+      +'<td class="num">'+st.codes.length+'</td>'
+      +'<td class="num">'+o.done+'/'+o.total+(p?delta(o.done,(p.o||{}).done):'')+'</td>'
+      +'<td class="num">'+(o.opened!=null?o.opened:'—')+'</td>'
+      +'<td class="num">'+pc+'%</td>';
+    SECS.forEach(function(s){
+      var d=(c.s||{})[s.id];
+      if(!d){ h+='<td class="num" style="color:var(--muted)">—</td>'; return; }
+      var q=d[1]?Math.round(100*d[0]/d[1]):0;
+      var cls=q<34?'low':q<67?'warn':'';
+      h+='<td class="num">'+d[0]+'/'+d[1]+'<div class="mini"><i class="'+cls+'" style="width:'+q+'%"></i></div></td>';
+    });
+    h+='</tr>';
+  });
+  h+='</tbody></table></div>';
+
+  // coverage: which activities nobody has done
+  var doneCount={};
+  students.forEach(function(st){ (st.cur.d||[]).forEach(function(id){ doneCount[id]=(doneCount[id]||0)+1; }); });
+  var never=Object.keys(TITLES).filter(function(id){ return !doneCount[id]; });
+  h+='<div class="label">Not attempted by anyone ('+never.length+')</div>';
+  h+= never.length? '<div class="card">'+never.map(function(id){
+        return '<span class="chip">'+esc(TITLES[id])+'</span>'; }).join("")+'</div>'
+      : '<p style="color:var(--muted)">Every activity has been done by at least one student.</p>';
+
+  // flagged as difficult
+  var hard={};
+  students.forEach(function(st){ (st.cur.h||[]).forEach(function(id){ hard[id]=(hard[id]||0)+1; }); });
+  var hardList=Object.keys(hard).sort(function(a,b){return hard[b]-hard[a];}).slice(0,15);
+  h+='<div class="label">Flagged “difficult” by students</div>';
+  h+= hardList.length? '<div class="card">'+hardList.map(function(id){
+        return '<span class="chip">'+esc(TITLES[id]||id)+' ×'+hard[id]+'</span>'; }).join("")
+        +'</div><p style="font-size:.85rem;color:var(--ink-soft)">Students tapped 😕 on these — worth a starter or a re-teach.</p>'
+      : '<p style="color:var(--muted)">Nothing flagged yet.</p>';
+  out.innerHTML=h;
+}
+$("#csv").addEventListener("click",function(){
+  var head=["student","exported","codes","done","total","opened","percent"];
+  SECS.forEach(function(s){ head.push(s.id+"_done",s.id+"_total"); });
+  head.push("difficult");
+  var lines=[head.join(",")];
+  students.forEach(function(st){
+    var c=st.cur,o=c.o||{};
+    var row=['"'+c.n.replace(/"/g,'""')+'"',new Date(c.t).toISOString().slice(0,10),st.codes.length,
+      o.done,o.total,o.opened!=null?o.opened:"",o.total?Math.round(100*o.done/o.total):0];
+    SECS.forEach(function(s){ var d=(c.s||{})[s.id]||["",""]; row.push(d[0],d[1]); });
+    row.push('"'+(c.h||[]).map(function(id){return TITLES[id]||id;}).join("; ").replace(/"/g,'""')+'"');
+    lines.push(row.join(","));
+  });
+  var blob=new Blob([lines.join("\n")],{type:"text/csv"});
+  var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download="spanish-hub-cohort.csv"; a.click();
+});
+})();
+</script>
+</body>
+</html>
