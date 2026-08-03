@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ceuta 2026 — comprensión B2 · A-Level Spanish BBA</title>
+<meta name="description" content="Tema 3 · Inmigración. Comprensión lectora B2 sobre la crisis migratoria de Ceuta (agosto de 2026), con léxico, gramática y producción escrita.">
+<style>
+:root{
+  --paper:#FBFAF6; --card:#FFFFFF; --ink:#1A2440; --ink-soft:#4A5570; --muted:#8A8F9E;
+  --rojo:#C60B1E; --oro:#B8860B; --azul:#2B4C9B; --azul-pale:#EDF1FA;
+  --verde:#2E7D52; --verde-pale:#EAF4EE; --rojo-pale:#FBEDEE; --ambar-pale:#FFF7E6;
+  --line:#E5E2D8; --line-strong:#CFCBBD; --radius:12px;
+  --shadow:0 1px 2px rgba(26,36,64,.06), 0 4px 16px rgba(26,36,64,.05);
+  --serif:Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55}
+:focus-visible{outline:2px solid var(--azul);outline-offset:2px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+header.site{border-bottom:3px solid var(--ink);background:var(--card);padding:0 20px}
+.site-inner{max-width:900px;margin:0 auto;padding:18px 0 14px;display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+.brand{font-family:var(--serif);font-weight:700;font-size:1.4rem;letter-spacing:-.01em}
+.brand span{color:var(--rojo)}
+.brand-sub{font-family:var(--mono);font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.09em}
+.tag{margin-left:auto;font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--rojo);color:#fff;padding:4px 10px;border-radius:99px}
+main{max-width:900px;margin:0 auto;padding:24px 20px 120px}
+h1{font-family:var(--serif);font-size:1.75rem;line-height:1.2;margin:0 0 6px}
+h2{font-family:var(--serif);font-size:1.2rem;margin:0 0 4px}
+.lede{color:var(--ink-soft);margin:0 0 20px;max-width:62ch}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:16px}
+.section-label{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.11em;color:var(--rojo);
+  font-weight:700;margin:30px 0 10px;display:flex;align-items:center;gap:10px}
+.section-label::after{content:"";flex:1;height:1px;background:var(--line-strong)}
+.hint{font-size:.85rem;color:var(--muted);margin:4px 0 12px}
+
+/* texto */
+.lectura{background:var(--card);border:1px solid var(--line-strong);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:26px 28px;position:relative}
+.lectura::before{content:"";position:absolute;inset:8px;border:1px solid var(--line);border-radius:7px;pointer-events:none}
+.lectura p{font-family:var(--serif);font-size:1.09rem;line-height:1.75;margin:0 0 14px;position:relative}
+.lectura p:last-child{margin-bottom:0}
+.meta-lectura{font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:14px}
+.gloss{border-bottom:1px dotted var(--rojo);cursor:help}
+
+/* botones */
+.btn{font-family:var(--sans);font-size:.92rem;font-weight:600;border-radius:9px;border:1.5px solid var(--ink);
+  background:var(--card);color:var(--ink);padding:9px 16px;cursor:pointer;transition:background .12s}
+.btn:hover{background:var(--azul-pale)}
+.btn.primary{background:var(--azul);border-color:var(--azul);color:#fff}
+.btn.primary:hover{background:#233F82}
+.btn.ghost{border-color:var(--line-strong);font-weight:500}
+.btn.small{padding:5px 11px;font-size:.83rem}
+.btn:disabled{opacity:.45;cursor:default}
+.btn-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+
+/* preguntas */
+.q{padding:14px 0;border-bottom:1px solid var(--line)}
+.q:last-child{border-bottom:none}
+.q-num{font-family:var(--mono);font-size:.72rem;color:var(--rojo);font-weight:700}
+.q-text{font-weight:600;margin:2px 0 8px}
+input.typed,textarea.typed{font-family:var(--sans);font-size:1rem;width:100%;border:1.5px solid var(--line-strong);
+  border-radius:9px;padding:10px 13px;background:var(--card);color:var(--ink)}
+textarea.typed{min-height:110px;line-height:1.6;resize:vertical}
+input.typed:focus,textarea.typed:focus{border-color:var(--azul)}
+.opts{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.opt{font-family:var(--sans);font-size:.9rem;border:1.5px solid var(--line-strong);border-radius:99px;
+  background:var(--card);color:var(--ink);padding:7px 15px;cursor:pointer}
+.opt:hover{border-color:var(--azul)}
+.opt.sel{border-color:var(--azul);background:var(--azul-pale);color:var(--azul);font-weight:600}
+.opt.good{border-color:var(--verde);background:var(--verde-pale);color:#1D5A3A}
+.opt.bad{border-color:var(--rojo);background:var(--rojo-pale);color:#8A1020}
+.fb{margin-top:9px;padding:10px 13px;border-radius:9px;font-size:.92rem;display:none}
+.fb.show{display:block}
+.fb.good{background:var(--verde-pale);border:1px solid var(--verde);color:#1D5A3A}
+.fb.bad{background:var(--rojo-pale);border:1px solid var(--rojo);color:#8A1020}
+.fb.info{background:var(--ambar-pale);border:1px solid var(--oro);color:#7A5B08}
+.fb b{font-weight:700}
+select.typed{font-family:var(--sans);font-size:1rem;border:1.5px solid var(--line-strong);border-radius:9px;
+  padding:9px 12px;background:var(--card);color:var(--ink);max-width:100%}
+
+/* léxico */
+.lex{display:grid;gap:10px}
+@media(min-width:640px){.lex{grid-template-columns:1fr 1fr}}
+.lex-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:var(--card)}
+.lex-row .def{flex:1;font-size:.93rem}
+.lex-row select{min-width:150px}
+
+/* progreso */
+.kpi-row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));margin:14px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 15px;text-align:center}
+.kpi .n{font-family:var(--serif);font-size:1.7rem;font-weight:700;line-height:1}
+.kpi .l{font-family:var(--mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-top:4px}
+.bar{height:7px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:var(--verde);transition:width .3s}
+.bar i.warn{background:var(--oro)} .bar i.low{background:var(--rojo)}
+.wc{font-family:var(--mono);font-size:.78rem;color:var(--muted);margin-top:6px}
+.wc.ok{color:var(--verde);font-weight:700}
+
+/* checklist */
+.check-list{list-style:none;padding:0;margin:10px 0 0}
+.check-list li{padding:6px 0;display:flex;gap:9px;align-items:flex-start;font-size:.93rem;border-bottom:1px solid var(--line)}
+.check-list li:last-child{border-bottom:none}
+.check-list input{margin-top:4px;accent-color:var(--azul);flex-shrink:0}
+
+/* teclado flotante */
+.accent-pad{position:fixed;left:50%;transform:translateX(-50%);bottom:max(14px,env(safe-area-inset-bottom));
+  display:flex;gap:5px;flex-wrap:wrap;justify-content:center;background:var(--card);border:1.5px solid var(--ink);
+  border-radius:13px;box-shadow:0 6px 26px rgba(26,36,64,.2);padding:9px 11px;z-index:60;max-width:min(96vw,540px)}
+.accent-pad button{font-family:var(--serif);font-size:1.22rem;line-height:1;min-width:39px;padding:9px 6px;
+  border:1px solid var(--line-strong);border-radius:9px;background:var(--paper);color:var(--ink);cursor:pointer}
+.accent-pad button:hover{border-color:var(--azul);background:var(--azul-pale)}
+.accent-pad button:active{background:var(--azul);color:#fff}
+.accent-pad .cerrar{font-family:var(--sans);font-size:.9rem;min-width:34px;color:var(--muted)}
+body.pad-on{padding-bottom:120px}
+.hidden{display:none!important}
+footer.site{max-width:900px;margin:0 auto;padding:18px 20px 40px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+@media print{
+  .accent-pad,.btn,.no-print{display:none!important}
+  body{background:#fff} .card,.lectura{box-shadow:none;break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="site-inner">
+    <div>
+      <div class="brand">Pasaporte <span>·</span> A-Level Spanish</div>
+      <div class="brand-sub">Edexcel · BBA Sixth Form</div>
+    </div>
+    <div class="tag">Tema 3 · Inmigración</div>
+  </div>
+</header>
+
+<main>
+  <h1>Ceuta, agosto de 2026: una ciudad desbordada</h1>
+  <p class="lede">Comprensión lectora de nivel B2 sobre la reacción de la sociedad y del Estado ante una llegada masiva de migrantes. Lee el texto, responde a las cuatro secciones y descarga tus respuestas para entregárselas a tu profesor.</p>
+
+  <div class="card no-print">
+    <label for="nombre" style="font-weight:600;font-size:.9rem">Tu nombre</label>
+    <input id="nombre" class="typed" style="margin-top:7px" placeholder="Nombre + inicial, p. ej. Lucía G." autocomplete="off">
+  </div>
+
+  <div class="section-label">El texto · 150 palabras</div>
+  <div class="lectura">
+    <div class="meta-lectura">Lectura · nivel B2 · pasa el ratón por las palabras subrayadas</div>
+    <p>En agosto de 2026, la ciudad autónoma de Ceuta, situada en la costa norteafricana, vivió la entrada de migrantes más numerosa de su historia. En un solo día, decenas de miles de personas cruzaron la frontera desde Marruecos. La mayoría <span class="gloss" title="volvió, regresó">retornó</span> al país vecino en los cuatro días siguientes, pero las autoridades calculaban que entre tres mil y cinco mil seguían en la ciudad.</p>
+    <p>El caso de los menores resultó especialmente delicado. Los servicios sociales atendían a 862 chicos, aunque el centro de acogida dispone únicamente de veintinueve plazas. Como la ley prohíbe expulsar a los menores de edad, el Gobierno ceutí <span class="gloss" title="preparó, adaptó un espacio">acondicionó</span> naves industriales y reclamó más fondos al Estado.</p>
+    <p>Mientras tanto, algunos vecinos cerraron sus calles con <span class="gloss" title="barreras metálicas de construcción">vallas de obra</span> por miedo, y muchos jóvenes se escondieron en zonas de monte. La crisis provocó además fuertes tensiones diplomáticas dentro de la Unión Europea y reabrió el debate sobre el reparto de responsabilidades.</p>
+    <div class="btn-row no-print">
+      <button class="btn small ghost" id="btnLeer">🔊 Escuchar el texto</button>
+      <button class="btn small ghost" id="btnImprimir">Imprimir</button>
+    </div>
+  </div>
+
+  <!-- ── A ── -->
+  <div class="section-label">A · ¿Verdadero, falso o no se menciona?</div>
+  <p class="hint">Cuidado: «no se menciona» significa que el texto no da esa información, aunque pueda ser cierta en la realidad.</p>
+  <div class="card" id="secA"></div>
+
+  <!-- ── B ── -->
+  <div class="section-label">B · Preguntas de comprensión</div>
+  <p class="hint">Responde con tus propias palabras, en español y con frases completas. Usa el teclado flotante para las tildes.</p>
+  <div class="card" id="secB"></div>
+
+  <!-- ── C ── -->
+  <div class="section-label">C · Léxico en contexto</div>
+  <p class="hint">Elige la palabra del texto que corresponde a cada definición.</p>
+  <div class="card"><div class="lex" id="secC"></div>
+    <div class="btn-row"><button class="btn primary" id="btnC">Comprobar léxico</button></div>
+    <div class="fb" id="fbC"></div>
+  </div>
+
+  <!-- ── D ── -->
+  <div class="section-label">D · Producción escrita</div>
+  <div class="card">
+    <p class="q-text">«Ante una llegada masiva de migrantes, la responsabilidad debe ser europea y no solo del país de llegada.» ¿Hasta qué punto estás de acuerdo?</p>
+    <p class="hint">Escribe entre 90 y 120 palabras. Incluye al menos un subjuntivo, dos conectores y un dato del texto.</p>
+    <textarea class="typed" id="ensayo" placeholder="Escribe aquí tu respuesta…"></textarea>
+    <div class="wc" id="wc">0 palabras</div>
+    <p style="font-weight:600;font-size:.9rem;margin:14px 0 0">Autoevaluación</p>
+    <ul class="check-list" id="checklist"></ul>
+  </div>
+
+  <!-- ── resultados ── -->
+  <div class="section-label">Resultados</div>
+  <div class="card">
+    <div class="kpi-row">
+      <div class="kpi"><div class="n" id="kA">–</div><div class="l">Sección A</div></div>
+      <div class="kpi"><div class="n" id="kB">–</div><div class="l">Sección B</div></div>
+      <div class="kpi"><div class="n" id="kC">–</div><div class="l">Sección C</div></div>
+      <div class="kpi"><div class="n" id="kT">–</div><div class="l">Total</div></div>
+    </div>
+    <div class="bar"><i id="barT" style="width:0%"></i></div>
+    <div class="btn-row">
+      <button class="btn primary" id="btnDescargar">⬇ Descargar mis respuestas</button>
+      <button class="btn ghost" id="btnReiniciar">Reiniciar</button>
+    </div>
+    <p class="hint" style="margin-top:10px">El archivo se guarda en tu dispositivo. Envíaselo a tu profesor por correo o Teams.</p>
+  </div>
+</main>
+
+<footer class="site">
+  Tema 3 · La inmigración y la sociedad multicultural — la reacción de la sociedad y del estado.
+  Texto original redactado para esta actividad a partir de hechos publicados por EL PAÍS y Reuters (agosto de 2026).
+  Funciona sin conexión.
+</footer>
+
+<script>
+(function(){
+"use strict";
+var $ = function(s){ return document.querySelector(s); };
+function el(tag, attrs){
+  var n=document.createElement(tag), k;
+  if(attrs) for(k in attrs){
+    if(k==="class") n.className=attrs[k];
+    else if(k==="html") n.innerHTML=attrs[k];
+    else if(k.indexOf("on")===0) n.addEventListener(k.slice(2), attrs[k]);
+    else n.setAttribute(k, attrs[k]);
+  }
+  for(var i=2;i<arguments.length;i++){
+    var c=arguments[i];
+    if(c==null) continue;
+    if(Object.prototype.toString.call(c)==="[object Array]"){
+      for(var j=0;j<c.length;j++){ if(c[j]!=null) n.appendChild(c[j].nodeType?c[j]:document.createTextNode(c[j])); }
+    } else n.appendChild(c.nodeType?c:document.createTextNode(c));
+  }
+  return n;
+}
+function norm(s){
+  return String(s||"").toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[¡!¿?.,;:"'()]/g," ").replace(/\s+/g," ").trim();
+}
+
+/* ═════════ teclado flotante de tildes ═════════ */
+var ACENTOS=["á","é","í","ó","ú","ñ","ü","¡","¿"];
+var padTarget=null;
+var pad=(function(){
+  var p=el("div",{class:"accent-pad hidden",role:"toolbar","aria-label":"Tildes y signos españoles"});
+  ACENTOS.forEach(function(ch){
+    var b=el("button",{type:"button",tabindex:"-1"},ch);
+    b.addEventListener("mousedown",function(ev){ev.preventDefault();});
+    b.addEventListener("click",function(){
+      if(!padTarget)return;
+      var st=padTarget.selectionStart, en=padTarget.selectionEnd;
+      if(st==null){ padTarget.value+=ch; }
+      else{
+        padTarget.value=padTarget.value.slice(0,st)+ch+padTarget.value.slice(en);
+        padTarget.selectionStart=padTarget.selectionEnd=st+ch.length;
+      }
+      padTarget.dispatchEvent(new Event("input",{bubbles:true}));
+      padTarget.focus();
+    });
+    p.appendChild(b);
+  });
+  var x=el("button",{class:"cerrar",type:"button",tabindex:"-1",title:"Ocultar"},"✕");
+  x.addEventListener("mousedown",function(ev){ev.preventDefault();});
+  x.addEventListener("click",function(){ hidePad(); });
+  p.appendChild(x);
+  document.body.appendChild(p);
+  return p;
+})();
+function showPad(input){ padTarget=input; pad.classList.remove("hidden"); document.body.classList.add("pad-on"); }
+function hidePad(){ padTarget=null; pad.classList.add("hidden"); document.body.classList.remove("pad-on"); }
+function attachPad(input){
+  input.addEventListener("focus",function(){ showPad(input); });
+}
+
+/* ═════════ datos ═════════ */
+var A=[
+ {t:"El texto dice que Ceuta se encuentra en el norte de África.", r:"V",
+  x:"El texto la sitúa «en la costa norteafricana»."},
+ {t:"Según el texto, todos los migrantes que entraron volvieron a Marruecos.", r:"F",
+  x:"Volvió la mayoría, pero entre tres mil y cinco mil seguían en la ciudad."},
+ {t:"El centro de acogida de menores tenía muchas más plazas de las necesarias.", r:"F",
+  x:"Atendía a 862 chicos y solo dispone de veintinueve plazas."},
+ {t:"La ley española impide expulsar a los migrantes menores de edad.", r:"V",
+  x:"El texto lo da como la razón por la que hubo que alojarlos."},
+ {t:"El Gobierno de Ceuta pidió dinero al Estado para hacer frente a la situación.", r:"V",
+  x:"«reclamó más fondos al Estado»."},
+ {t:"El texto indica cuántos migrantes murieron durante la crisis.", r:"NM",
+  x:"Hubo víctimas mortales en la realidad, pero el texto no menciona ninguna cifra."},
+ {t:"Algunos habitantes de la ciudad reaccionaron con miedo.", r:"V",
+  x:"Cerraron calles con vallas de obra «por miedo»."},
+ {t:"La Unión Europea resolvió rápidamente sus desacuerdos sobre la crisis.", r:"NM",
+  x:"El texto habla de «fuertes tensiones diplomáticas», pero no dice si se resolvieron."}
+];
+
+var B=[
+ {q:"¿Por qué fue especialmente difícil la situación de los menores? Menciona dos razones.",
+  claves:[["862","ochocientos"],["veintinueve","29","plazas","pocas","capacidad"]],
+  modelo:"Porque los servicios sociales atendían a 862 chicos y el centro solo tenía veintinueve plazas, y además la ley no permite expulsarlos."},
+ {q:"¿Qué dos medidas tomó el Gobierno de Ceuta ante la falta de espacio?",
+  claves:[["naves","industriales","acondiciono","acondicionar","adapto"],["fondos","dinero","estado","reclamo","pidio"]],
+  modelo:"Acondicionó naves industriales para alojar a los menores y reclamó más fondos al Estado."},
+ {q:"Explica con tus propias palabras cómo reaccionaron algunos vecinos de la ciudad.",
+  claves:[["vallas","cerraron","calles","barreras","obra"],["miedo","temor","temian","asustados"]],
+  modelo:"Cerraron sus calles con vallas de obra porque tenían miedo de lo que pudiera pasar."},
+ {q:"¿Qué hicieron muchos jóvenes migrantes que se quedaron en Ceuta?",
+  claves:[["escondieron","esconderse","ocultaron","refugiaron"],["monte","zonas","campo","bosque"]],
+  modelo:"Se escondieron en zonas de monte para no ser localizados."},
+ {q:"Según el texto, ¿qué consecuencia tuvo la crisis fuera de España?",
+  claves:[["tensiones","diplomaticas","desacuerdos","conflicto"],["union europea","europea","ue","europa"]],
+  modelo:"Provocó fuertes tensiones diplomáticas dentro de la Unión Europea."}
+];
+
+var C=[
+ {def:"volver a un lugar del que se ha salido", r:"retornar"},
+ {def:"preparar o adaptar un espacio para que pueda usarse", r:"acondicionar"},
+ {def:"barrera metálica que se usa en las construcciones", r:"la valla de obra"},
+ {def:"persona que todavía no tiene dieciocho años", r:"el menor"},
+ {def:"exigir algo a lo que se cree tener derecho", r:"reclamar"},
+ {def:"superado por una situación que no se puede controlar", r:"desbordado"}
+];
+var C_OPC=["retornar","acondicionar","la valla de obra","el menor","reclamar","desbordado","la frontera","el vecino"];
+
+var CHECK=[
+ "He escrito entre 90 y 120 palabras.",
+ "He usado al menos un verbo en subjuntivo (p. ej. «aunque sea», «para que pueda»).",
+ "He usado dos conectores (sin embargo, por lo tanto, no obstante, además…).",
+ "He citado un dato concreto del texto.",
+ "He revisado las tildes y la concordancia."
+];
+
+/* ═════════ estado ═════════ */
+var estado={A:{}, B:{}, C:{}, puntosA:0, puntosB:0, puntosC:0};
+
+/* ═════════ sección A ═════════ */
+var wrapA=$("#secA");
+A.forEach(function(item,i){
+  var fb=el("div",{class:"fb"});
+  var opts=el("div",{class:"opts"});
+  var etiquetas=[["V","Verdadero"],["F","Falso"],["NM","No se menciona"]];
+  var botones=[];
+  etiquetas.forEach(function(par){
+    var b=el("button",{class:"opt",type:"button"},par[1]);
+    b.addEventListener("click",function(){
+      if(estado.A[i]!=null) return;
+      estado.A[i]=par[0];
+      var bien = par[0]===item.r;
+      botones.forEach(function(x,k){
+        x.disabled=true;
+        if(etiquetas[k][0]===item.r) x.className="opt good";
+      });
+      if(!bien) b.className="opt bad";
+      fb.className="fb show "+(bien?"good":"bad");
+      fb.innerHTML=(bien?"<b>Correcto.</b> ":"<b>No.</b> La respuesta es «"+
+        (item.r==="V"?"verdadero":item.r==="F"?"falso":"no se menciona")+"». ")+item.x;
+      if(bien) estado.puntosA++;
+      pintar();
+    });
+    botones.push(b); opts.appendChild(b);
+  });
+  wrapA.appendChild(el("div",{class:"q"},
+    el("div",{class:"q-num"},"A"+(i+1)),
+    el("div",{class:"q-text"},item.t),
+    opts, fb));
+});
+
+/* ═════════ sección B ═════════ */
+var wrapB=$("#secB");
+B.forEach(function(item,i){
+  var inp=el("textarea",{class:"typed",style:"min-height:70px",placeholder:"Tu respuesta en español…"});
+  attachPad(inp);
+  var fb=el("div",{class:"fb"});
+  var btn=el("button",{class:"btn small primary",type:"button"},"Comprobar");
+  var self=el("button",{class:"btn small ghost hidden",type:"button"},"Mi respuesta también vale");
+  btn.addEventListener("click",function(){
+    var txt=norm(inp.value);
+    if(!txt) return;
+    var aciertos=0;
+    item.claves.forEach(function(grupo){
+      for(var k=0;k<grupo.length;k++){ if(txt.indexOf(norm(grupo[k]))>=0){ aciertos++; return; } }
+    });
+    var total=item.claves.length;
+    var nota = aciertos===total ? 2 : aciertos>0 ? 1 : 0;
+    estado.B[i]=nota;
+    btn.disabled=true; inp.readOnly=true;
+    fb.className="fb show "+(nota===2?"good":nota===1?"info":"bad");
+    fb.innerHTML=(nota===2?"<b>Muy bien.</b> ":nota===1?"<b>Vas por buen camino</b>, pero falta información. ":"<b>Revisa el texto.</b> ")
+      +"<br><b>Respuesta modelo:</b> "+item.modelo;
+    if(nota<2) self.classList.remove("hidden");
+    estado.puntosB+=nota;
+    pintar();
+  });
+  self.addEventListener("click",function(){
+    estado.puntosB += 2-estado.B[i];
+    estado.B[i]=2;
+    self.disabled=true; self.textContent="Aceptada ✓";
+    fb.className="fb show good";
+    pintar();
+  });
+  wrapB.appendChild(el("div",{class:"q"},
+    el("div",{class:"q-num"},"B"+(i+1)),
+    el("div",{class:"q-text"},item.q),
+    inp,
+    el("div",{class:"btn-row"},btn,self),
+    fb));
+  item._inp=inp;
+});
+
+/* ═════════ sección C ═════════ */
+var wrapC=$("#secC");
+C.forEach(function(item,i){
+  var sel=el("select",{class:"typed"});
+  sel.appendChild(el("option",{value:""},"— elige —"));
+  C_OPC.forEach(function(o){ sel.appendChild(el("option",{value:o},o)); });
+  item._sel=sel;
+  wrapC.appendChild(el("div",{class:"lex-row"},
+    el("div",{class:"def"},el("b",null,"C"+(i+1)+". "),item.def), sel));
+});
+$("#btnC").addEventListener("click",function(){
+  var bien=0;
+  C.forEach(function(item,i){
+    var v=item._sel.value;
+    estado.C[i]=v;
+    item._sel.disabled=true;
+    var fila=item._sel.parentNode;
+    if(v===item.r){ bien++; fila.style.borderColor="var(--verde)"; fila.style.background="var(--verde-pale)"; }
+    else{
+      fila.style.borderColor="var(--rojo)"; fila.style.background="var(--rojo-pale)";
+      item._sel.parentNode.appendChild(el("div",{style:"font-size:.8rem;color:#8A1020;width:100%"},"→ "+item.r));
+    }
+  });
+  estado.puntosC=bien;
+  $("#btnC").disabled=true;
+  var fb=$("#fbC");
+  fb.className="fb show "+(bien===C.length?"good":bien>=C.length/2?"info":"bad");
+  fb.innerHTML="<b>"+bien+" de "+C.length+"</b> correctas.";
+  pintar();
+});
+
+/* ═════════ sección D ═════════ */
+var ensayo=$("#ensayo");
+attachPad(ensayo);
+ensayo.addEventListener("input",function(){
+  var n=ensayo.value.trim().split(/\s+/).filter(function(w){return w.length;}).length;
+  var wc=$("#wc");
+  wc.textContent=n+" palabra"+(n===1?"":"s")+(n<90?" · faltan "+(90-n):n>120?" · sobran "+(n-120):" ✓");
+  wc.className="wc"+(n>=90&&n<=120?" ok":"");
+});
+var lista=$("#checklist");
+CHECK.forEach(function(t,i){
+  var cb=el("input",{type:"checkbox",id:"chk"+i});
+  lista.appendChild(el("li",null,cb,el("label",{for:"chk"+i},t)));
+});
+
+/* ═════════ marcador ═════════ */
+function pintar(){
+  var maxA=A.length, maxB=B.length*2, maxC=C.length;
+  $("#kA").textContent=estado.puntosA+"/"+maxA;
+  $("#kB").textContent=estado.puntosB+"/"+maxB;
+  $("#kC").textContent=estado.puntosC+"/"+maxC;
+  var t=estado.puntosA+estado.puntosB+estado.puntosC, max=maxA+maxB+maxC;
+  var pc=Math.round(100*t/max);
+  $("#kT").textContent=pc+"%";
+  var b=$("#barT");
+  b.style.width=pc+"%";
+  b.className=pc<50?"low":pc<75?"warn":"";
+}
+pintar();
+
+/* ═════════ audio ═════════ */
+$("#btnLeer").addEventListener("click",function(){
+  if(!("speechSynthesis" in window)){ alert("Tu navegador no ofrece voz."); return; }
+  var texto=Array.prototype.slice.call(document.querySelectorAll(".lectura p"))
+    .map(function(p){ return p.textContent; }).join(" ");
+  var u=new SpeechSynthesisUtterance(texto);
+  var vs=speechSynthesis.getVoices()||[];
+  var mejor=null, mejorP=-1;
+  vs.forEach(function(v){
+    if(!v.lang || v.lang.toLowerCase().indexOf("es")!==0) return;
+    var p=0, n=(v.name||"").toLowerCase();
+    if(v.lang.replace("_","-")==="es-ES") p+=40;
+    if(/natural|neural|premium|enhanced|siri/.test(n)) p+=45;
+    if(/google/.test(n)) p+=30;
+    if(v.localService===false) p+=20;
+    if(/espeak|compact/.test(n)) p-=60;
+    if(p>mejorP){ mejorP=p; mejor=v; }
+  });
+  if(mejor) u.voice=mejor;
+  u.lang="es-ES"; u.rate=0.9;
+  speechSynthesis.cancel(); speechSynthesis.speak(u);
+});
+$("#btnImprimir").addEventListener("click",function(){ window.print(); });
+
+/* ═════════ descarga (Blob) ═════════ */
+$("#btnDescargar").addEventListener("click",function(){
+  var nombre=$("#nombre").value.trim()||"(sin nombre)";
+  var fecha=new Date();
+  var L=[];
+  L.push("A-LEVEL SPANISH · BBA — Tema 3 · Inmigración");
+  L.push("Ceuta 2026: una ciudad desbordada — comprensión B2");
+  L.push("Alumno/a: "+nombre);
+  L.push("Fecha: "+fecha.toLocaleDateString("es-ES")+" "+fecha.toLocaleTimeString("es-ES"));
+  L.push("");
+  L.push("PUNTUACIÓN");
+  L.push("  Sección A (V/F/NM): "+estado.puntosA+"/"+A.length);
+  L.push("  Sección B (comprensión): "+estado.puntosB+"/"+(B.length*2));
+  L.push("  Sección C (léxico): "+estado.puntosC+"/"+C.length);
+  var tot=estado.puntosA+estado.puntosB+estado.puntosC;
+  var max=A.length+B.length*2+C.length;
+  L.push("  TOTAL: "+tot+"/"+max+" ("+Math.round(100*tot/max)+"%)");
+  L.push("");
+  L.push("SECCIÓN A");
+  A.forEach(function(item,i){
+    var d=estado.A[i];
+    L.push("  A"+(i+1)+". "+item.t);
+    L.push("      respuesta: "+(d?(d==="V"?"verdadero":d==="F"?"falso":"no se menciona"):"(sin responder)")
+      +"  ·  correcta: "+(item.r==="V"?"verdadero":item.r==="F"?"falso":"no se menciona"));
+  });
+  L.push("");
+  L.push("SECCIÓN B");
+  B.forEach(function(item,i){
+    L.push("  B"+(i+1)+". "+item.q);
+    L.push("      respuesta: "+(item._inp.value.trim()||"(sin responder)"));
+    L.push("      nota: "+(estado.B[i]!=null?estado.B[i]:0)+"/2");
+  });
+  L.push("");
+  L.push("SECCIÓN C");
+  C.forEach(function(item,i){
+    L.push("  C"+(i+1)+". "+item.def+" → "+(estado.C[i]||"(sin responder)")+"  ·  correcta: "+item.r);
+  });
+  L.push("");
+  L.push("SECCIÓN D · PRODUCCIÓN ESCRITA");
+  var pal=ensayo.value.trim().split(/\s+/).filter(function(w){return w.length;}).length;
+  L.push("  ("+pal+" palabras)");
+  L.push("  "+(ensayo.value.trim()||"(sin responder)"));
+  L.push("");
+  L.push("  Autoevaluación:");
+  CHECK.forEach(function(t,i){
+    var c=document.getElementById("chk"+i);
+    L.push("    ["+(c&&c.checked?"x":" ")+"] "+t);
+  });
+  var blob=new Blob([L.join("\n")],{type:"text/plain;charset=utf-8"});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement("a");
+  a.href=url;
+  a.download="Ceuta2026_"+nombre.replace(/[^\wáéíóúñÁÉÍÓÚÑ]+/g,"_")+".txt";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); },1500);
+});
+
+$("#btnReiniciar").addEventListener("click",function(){
+  if(confirm("¿Borrar todas tus respuestas y empezar de nuevo?")) location.reload();
+});
+})();
+</script>
+</body>
+</html>
