@@ -3,736 +3,360 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pasaporte — A-Level Spanish · BBA</title>
+<title>A-Level Spanish · BBA</title>
+<meta name="description" content="Pasaporte de revisión A-Level Spanish (Edexcel 9SP0): los cuatro temas, las obras y las destrezas, con seguimiento del progreso.">
 <style>
-  :root{
-    --green:#163d2c; --green-deep:#0e2a1e; --cream:#f3ecd8; --page:#fbf6e9;
-    --ink:#1f1a17; --oxblood:#8b1e1e; --gold:#c9a85c; --line:#d8cdac;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-    background:var(--green-deep);color:var(--ink);line-height:1.5;
-    -webkit-font-smoothing:antialiased}
-  .serif{font-family:Georgia,"Times New Roman",serif}
-  a{color:inherit;text-decoration:none}
+:root{
+  --paper:#FBFAF6;--card:#FFF;--ink:#1A2440;--ink-soft:#4A5570;--muted:#8A8F9E;
+  --accent:#C60B1E;--bleu:#2B4C9B;--bleu-pale:#EDF1FA;--vert:#2E7D52;--vert-pale:#EAF4EE;
+  --or:#B8860B;--line:#E5E2D8;--line-strong:#CFCBBD;--radius:12px;
+  --shadow:0 1px 2px rgba(26,36,64,.06),0 4px 16px rgba(26,36,64,.05);
+  --serif:Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55}
+:focus-visible{outline:2px solid var(--bleu);outline-offset:2px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+a{color:inherit}
 
-  /* ---- Passport cover ---- */
-  .cover{background:
-      radial-gradient(120% 80% at 50% -10%, #1d4a36 0%, var(--green) 45%, var(--green-deep) 100%);
-    color:var(--cream);padding:56px 24px 40px;text-align:center;
-    border-bottom:3px solid var(--gold)}
-  .crest{width:60px;height:60px;margin:0 auto 18px;border:2px solid var(--gold);
-    border-radius:50%;display:flex;align-items:center;justify-content:center;
-    font-family:Georgia,serif;font-size:26px;color:var(--gold);letter-spacing:1px}
-  .cover .kicker{font-size:12px;letter-spacing:.42em;text-transform:uppercase;
-    color:var(--gold);margin-bottom:14px}
-  .cover h1{font-family:Georgia,serif;font-size:clamp(30px,6vw,52px);font-weight:600;
-    letter-spacing:.02em;color:#fff}
-  .cover h1 em{font-style:italic;color:var(--gold)}
-  .cover .sub{margin-top:12px;font-size:13px;letter-spacing:.28em;text-transform:uppercase;
-    color:#cfe0d4}
-  .fork{display:inline-flex;gap:10px;margin-top:26px;flex-wrap:wrap;justify-content:center}
-  .fork a{border:1px solid rgba(201,168,92,.5);border-radius:999px;padding:8px 18px;
-    font-size:13px;letter-spacing:.04em;color:var(--cream);transition:.18s}
-  .fork a.here{background:var(--gold);color:var(--green-deep);border-color:var(--gold);font-weight:600}
-  .fork a:hover{border-color:var(--gold);color:#fff}
-  .fork a.here:hover{color:var(--green-deep)}
+header.site{border-bottom:3px solid var(--ink);background:var(--card);position:sticky;top:0;z-index:40}
+.site-inner{max-width:1080px;margin:0 auto;padding:15px 20px 12px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{font-family:var(--serif);font-weight:700;font-size:1.35rem;line-height:1.1}
+.brand span{color:var(--accent)}
+.brand-sub{font-family:var(--mono);font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.09em}
+.hdr-prog{margin-left:auto;display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.ring{width:38px;height:38px;flex-shrink:0}
+nav.jump{max-width:1080px;margin:0 auto;padding:0 20px 12px;display:flex;gap:6px;flex-wrap:wrap}
+nav.jump a{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;
+  border:1px solid var(--line-strong);border-radius:99px;padding:5px 12px;text-decoration:none;color:var(--ink-soft);background:var(--card)}
+nav.jump a:hover{border-color:var(--accent);color:var(--accent)}
 
-  /* ---- sticky theme nav ---- */
-  nav.themes{position:sticky;top:0;z-index:5;background:rgba(14,42,30,.96);
-    border-bottom:1px solid rgba(201,168,92,.3);
-    display:flex;gap:4px;overflow-x:auto;padding:10px 16px;
-    backdrop-filter:saturate(140%) blur(4px)}
-  nav.themes a{white-space:nowrap;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
-    color:#bcd1c2;padding:6px 12px;border-radius:6px;transition:.15s}
-  nav.themes a:hover{color:#fff;background:rgba(201,168,92,.18)}
-  nav.themes .navsep{width:1px;flex:none;background:rgba(201,168,92,.25);margin:2px 4px}
+main{max-width:1080px;margin:0 auto;padding:26px 20px 90px}
+.intro{max-width:70ch;color:var(--ink-soft);margin:0 0 8px}
+.intro b{color:var(--ink)}
+.papers-key{display:flex;gap:14px;flex-wrap:wrap;font-size:.85rem;color:var(--ink-soft);
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:13px 16px;margin:16px 0 6px}
+.papers-key div{flex:1;min-width:210px}
+.papers-key b{display:block;font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--accent)}
 
-  .doc{max-width:1020px;margin:0 auto;padding:8px 18px 64px;background:var(--green-deep)}
+.theme{margin-top:38px;scroll-margin-top:86px}
+.theme-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:9px}
+.theme-num{font-family:var(--mono);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--accent);color:#fff;padding:4px 10px;border-radius:5px}
+.theme-name{font-family:var(--serif);font-size:1.32rem;font-weight:700;flex:1;min-width:240px}
+.theme-papers{font-family:var(--mono);font-size:.67rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.theme-blurb{color:var(--ink-soft);font-size:.93rem;margin:9px 0 4px}
+.theme-prog{display:flex;align-items:center;gap:10px;margin:10px 0 4px}
+.theme-prog .bar{flex:1;height:7px;background:var(--line);border-radius:4px;overflow:hidden}
+.theme-prog .bar i{display:block;height:100%;background:var(--vert);width:0;transition:width .3s}
+.theme-prog .n{font-family:var(--mono);font-size:.73rem;color:var(--muted);min-width:76px;text-align:right}
 
-  /* ---- band label between exam sections ---- */
-  .band{display:flex;align-items:center;gap:14px;margin:30px 4px 2px;color:var(--gold)}
-  .band .lbl{font-family:Georgia,serif;font-size:13px;letter-spacing:.22em;text-transform:uppercase}
-  .band .ln{flex:1;height:1px;background:rgba(201,168,92,.4)}
+.unit{margin-top:20px}
+.unit-head{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);
+  font-weight:700;display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.unit-head::after{content:"";flex:1;height:1px;background:var(--line-strong)}
+.unit-head .u{background:var(--bleu-pale);color:var(--bleu);border-radius:4px;padding:2px 7px}
 
-  /* ---- a page of the passport ---- */
-  .page{background:var(--page);border-radius:10px;margin-top:22px;padding:26px 26px 30px;
-    box-shadow:0 14px 40px rgba(0,0,0,.32);scroll-margin-top:60px;
-    background-image:repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(180,150,90,.07) 28px)}
-  .page-head{display:flex;align-items:center;gap:20px;border-bottom:1.5px dashed var(--line);
-    padding-bottom:16px;margin-bottom:18px}
-  .page-titles{flex:1;min-width:0}
-  .page-titles h2{font-family:Georgia,serif;font-size:22px;color:var(--green-deep);font-weight:600}
-  .page-titles p{font-size:13.5px;color:#6b6253;margin-top:3px}
-  .page-count{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;color:var(--oxblood);
-    border:1px solid var(--line);border-radius:6px;padding:4px 9px;align-self:flex-start}
+.grid{display:grid;gap:11px;grid-template-columns:repeat(auto-fill,minmax(268px,1fr))}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:14px 15px;display:flex;flex-direction:column;gap:6px;position:relative;transition:border-color .12s}
+.tile:hover{border-color:var(--bleu)}
+.tile.done{border-color:var(--vert);background:linear-gradient(0deg,var(--vert-pale),var(--card) 60%)}
+.tile .badge{font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.tile .badge .new{background:var(--accent);color:#fff;border-radius:3px;padding:1px 5px;margin-left:5px}
+.tile .t{font-weight:700;font-size:1rem;line-height:1.3}
+.tile .d{font-size:.86rem;color:var(--ink-soft);flex:1}
+.tile .row{display:flex;align-items:center;gap:8px;margin-top:4px;flex-wrap:wrap}
+.open{font-family:var(--sans);font-size:.85rem;font-weight:600;text-decoration:none;
+  border:1.5px solid var(--bleu);color:#fff;background:var(--bleu);border-radius:8px;padding:6px 13px}
+.open:hover{background:#233F82}
+.mark{font-family:var(--sans);font-size:.8rem;border:1.5px solid var(--line-strong);background:var(--card);
+  color:var(--ink-soft);border-radius:8px;padding:5px 11px;cursor:pointer}
+.mark:hover{border-color:var(--vert);color:var(--vert)}
+.mark.on{border-color:var(--vert);background:var(--vert-pale);color:#1D5A3A;font-weight:700}
+.conf{margin-left:auto;display:flex;gap:3px}
+.conf button{border:1px solid var(--line-strong);background:var(--card);border-radius:7px;width:28px;height:26px;
+  cursor:pointer;font-size:.85rem;line-height:1;padding:0}
+.conf button.on{border-color:var(--or);background:#FFF7E6}
+.seen{position:absolute;top:11px;right:12px;font-family:var(--mono);font-size:.6rem;color:var(--muted)}
 
-  /* ---- the stamp (signature element) ---- */
-  .stamp{flex:none;width:96px;height:74px;border:2.5px solid var(--oxblood);border-radius:8px;
-    display:flex;align-items:center;justify-content:center;text-align:center;
-    transform:rotate(-7deg);position:relative;color:var(--oxblood);
-    box-shadow:inset 0 0 0 3px rgba(139,30,30,.12)}
-  .stamp::before{content:"";position:absolute;inset:6px;border:1px solid rgba(139,30,30,.45);
-    border-radius:5px}
-  .stamp-code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10.5px;
-    letter-spacing:.06em;font-weight:700;line-height:1.25;padding:0 6px}
-
-  /* ---- sub-theme divider inside a page ---- */
-  .subtheme{grid-column:1/-1;display:flex;align-items:center;gap:10px;
-    margin:8px 2px 2px;color:var(--green)}
-  .subtheme:first-child{margin-top:0}
-  .subtheme span{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:#3c5a48}
-  .subtheme .sln{flex:1;height:1px;background:var(--line)}
-
-  .entries{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
-  .entry{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);
-    border-radius:8px;padding:12px 14px;transition:.15s;position:relative}
-  .entry:hover{transform:translateY(-2px);border-color:var(--gold);
-    box-shadow:0 6px 16px rgba(22,61,44,.14)}
-  .entry-no{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;color:var(--gold);
-    font-weight:700;flex:none}
-  .entry-title{flex:1;font-size:14px;color:var(--ink);min-width:0}
-  .entry-go{color:var(--green);opacity:.4;flex:none;transition:.15s}
-  .entry:hover .entry-go{opacity:1;color:var(--oxblood)}
-  .entry:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
-
-  footer{text-align:center;color:#8fa897;font-size:12px;padding:30px 18px 8px;letter-spacing:.04em}
-  footer .seal{color:var(--gold);font-family:Georgia,serif;letter-spacing:.2em;font-size:13px}
-
-  @media (max-width:560px){
-    .stamp{width:78px;height:62px} .page{padding:20px 16px 24px}
-    .page-head{gap:14px} .cover{padding:44px 18px 32px}
-  }
-  @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+/* suivi */
+.suivi{margin-top:44px;scroll-margin-top:86px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
+.kpi-row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));margin:14px 0}
+.kpi{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:13px 15px;text-align:center}
+.kpi .n{font-family:var(--serif);font-size:1.75rem;font-weight:700;line-height:1}
+.kpi .l{font-family:var(--mono);font-size:.64rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-top:4px}
+input.typed,textarea.code{font-family:var(--sans);font-size:1rem;width:100%;border:1.5px solid var(--line-strong);
+  border-radius:9px;padding:10px 13px;background:var(--card);color:var(--ink)}
+textarea.code{font-family:var(--mono);font-size:.75rem;min-height:96px}
+.btn{font-family:var(--sans);font-size:.9rem;font-weight:600;border-radius:9px;border:1.5px solid var(--ink);
+  background:var(--card);color:var(--ink);padding:9px 16px;cursor:pointer}
+.btn:hover{background:var(--bleu-pale)}
+.btn.primary{background:var(--bleu);border-color:var(--bleu);color:#fff}
+.btn.primary:hover{background:#233F82}
+.btn.ghost{border-color:var(--line-strong);font-weight:500}
+.btn-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}
+table.stats{width:100%;border-collapse:collapse;font-size:.9rem;margin-top:6px}
+table.stats th{text-align:left;font-family:var(--mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.06em;
+  color:var(--muted);border-bottom:2px solid var(--ink);padding:7px 9px}
+table.stats td{border-bottom:1px solid var(--line);padding:7px 9px}
+table.stats td.num{font-family:var(--mono);text-align:right}
+.mini{height:6px;background:var(--line);border-radius:3px;overflow:hidden;min-width:70px}
+.mini i{display:block;height:100%;background:var(--vert)}
+footer.site{max-width:1080px;margin:0 auto;padding:20px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.68rem;color:var(--muted)}
+@media print{nav.jump,.open,.mark,.conf,.btn,header.site{display:none!important}body{background:#fff}}
 </style>
 </head>
 <body>
-
-<header class="cover">
-  <div class="crest serif">E</div>
-  <div class="kicker">Edexcel · BBA</div>
-  <h1 class="serif">Pasaporte <em>—</em> A-Level Spanish</h1>
-  <div class="sub">90 actividades · sello por tema</div>
-  <nav class="fork">
-    <a class="here" href="index.html" aria-current="page">★ Español</a>
-    <a href="https://artmemry.github.io/A-Level-French-BBA/">→ A-Level French</a>
-  </nav>
+<header class="site">
+  <div class="site-inner">
+    <div>
+      <div class="brand">A-Level Spanish <span>·</span> BBA</div>
+      <div class="brand-sub">Edexcel 9SP0 · BBA Sixth Form</div>
+    </div>
+    <div class="hdr-prog">
+      <svg class="ring" viewBox="0 0 36 36" aria-hidden="true">
+        <circle cx="18" cy="18" r="15.5" fill="none" stroke="#E5E2D8" stroke-width="4"></circle>
+        <circle id="ringArc" cx="18" cy="18" r="15.5" fill="none" stroke="#2E7D52" stroke-width="4"
+          stroke-linecap="round" stroke-dasharray="0 999" transform="rotate(-90 18 18)"></circle>
+      </svg>
+      <span id="hdrTxt">0 / 0</span>
+    </div>
+  </div>
+  <nav class="jump" id="jump"></nav>
 </header>
 
-<nav class="themes" aria-label="Temas">
-  <a href="#tema1">T1 · Sociedad</a>
-  <a href="#tema2">T2 · Cultura</a>
-  <a href="#tema3">T3 · Inmigración</a>
-  <a href="#tema4">T4 · Franco</a>
-  <a href="#oral">Oral</a>
-  <span class="navsep" aria-hidden="true"></span>
-  <a href="#volver">Volver</a>
-  <a href="#lcba">LCBA</a>
-  <span class="navsep" aria-hidden="true"></span>
-  <a href="#grammar">Gramática</a>
-  <a href="#essay">Redacción</a>
-</nav>
+<main>
+  <p class="intro">Todo el curso en un solo sitio. Las actividades se organizan por <b>tema</b> — así está estructurado el programa. Los <b>exámenes</b> no son secciones aparte: los temas 1 a 4 se evalúan tanto en el Paper 1 como en el Paper 3, y solo las obras corresponden al Paper 2. Cada actividad se abre sola, se corrige sola y funciona sin conexión. 91 actividades.</p>
+  <div class="papers-key">
+    <div><b>Paper 1 — comprensión y traducción</b>Se basa en los cuatro temas. Trabájalos en las secciones Tema 1 a 4.</div>
+    <div><b>Paper 2 — obra y película</b>Volver y La casa de Bernarda Alba. Sección Paper 2.</div>
+    <div><b>Paper 3 — examen oral</b>Debate sobre un tema + proyecto de investigación. Las actividades marcadas «Oral» están dentro de cada tema.</div>
+  </div>
+  <div id="sections"></div>
 
-<main class="doc">
-
-  <!-- ===================== PAPER 3 · LOS CUATRO TEMAS ===================== -->
-  <div class="band"><span class="ln"></span><span class="lbl">Paper 3 · Examen oral</span><span class="ln"></span></div>
-
-  <section class="page" id="tema1">
-    <header class="page-head">
-      <div class="stamp"><span class="stamp-code">TEMA 1 · SOCIEDAD</span></div>
-      <div class="page-titles">
-        <h2>Tema 1 — <em>La evolución de la sociedad española</em></h2>
-        <p>Sub-temas: la familia · el mundo laboral · el impacto del turismo.</p>
+  <section class="suivi" id="suivi">
+    <div class="theme-head"><span class="theme-num">Progreso</span>
+      <span class="theme-name">Mi progreso</span></div>
+    <p class="theme-blurb">Marca «Hecha» en cada actividad terminada e indica si te ha resultado difícil. Todo se guarda en este dispositivo; el código de abajo permite a tu profesor ver por dónde vas.</p>
+    <div class="card">
+      <label for="nom" style="font-weight:600;font-size:.9rem">Tu nombre</label>
+      <input id="nom" class="typed" style="margin-top:7px" placeholder="Nombre + inicial, p. ej. Lucía G." autocomplete="off">
+      <div class="kpi-row">
+        <div class="kpi"><div class="n" id="kOpen">0</div><div class="l">actividades abiertas</div></div>
+        <div class="kpi"><div class="n" id="kDone">0</div><div class="l">actividades hechas</div></div>
+        <div class="kpi"><div class="n" id="kPct">0 %</div><div class="l">del pasaporte</div></div>
+        <div class="kpi"><div class="n" id="kHard">0</div><div class="l">marcadas difíciles</div></div>
       </div>
-      <div class="page-count">12</div>
-    </header>
-    <div class="entries">
-        <div class="subtheme"><span>La familia</span><span class="sln"></span></div>
-        <a class="entry" href="spanish_family_lesson.html">
-          <span class="entry-no">01</span>
-          <span class="entry-title">La Estructura Familiar Española - Práctica de 1 Hora</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="alevel_familia_improved.html">
-          <span class="entry-no">02</span>
-          <span class="entry-title">Práctica: Los Cambios en las Estructuras Familiares</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <div class="subtheme"><span>El mundo laboral</span><span class="sln"></span></div>
-        <a class="entry" href="unemployment_spain_activity.html">
-          <span class="entry-no">03</span>
-          <span class="entry-title">El Desempleo en España - Actividad</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Interactive_Practice_A-Level_Spanish_Paper_3__T1__U2_mundo_laboral.html">
-          <span class="entry-no">04</span>
-          <span class="entry-title">Práctica: El Mundo Laboral en España</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Ojala__me_renueven_el_contrato_practice_activities.html">
-          <span class="entry-no">05</span>
-          <span class="entry-title">Práctica: El Mundo Laboral Español</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="brecha_generacional_Espan_a.html">
-          <span class="entry-no">06</span>
-          <span class="entry-title">La brecha generacional – Actividad B2</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="brecha_generacional_Paper_3__U2_Edexcel_A-Level.html">
-          <span class="entry-no">07</span>
-          <span class="entry-title">La brecha generacional – Actividad B2 (Paper 3)</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <div class="subtheme"><span>El impacto del turismo</span><span class="sln"></span></div>
-        <a class="entry" href="ecoturismo-comprehension_y_pronombres.html">
-          <span class="entry-no">08</span>
-          <span class="entry-title">Comprensión: El Ecoturismo</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Interactive_Practice_A_level_Spanish__Paper_3__Task_1__U3_tourism.html">
-          <span class="entry-no">09</span>
-          <span class="entry-title">Práctica: El Impacto Turístico en España</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="spanish_tourism_quiz_html-2.html">
-          <span class="entry-no">10</span>
-          <span class="entry-title">Spanish Tourism Technology Practice Quiz</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="advanced_toursim_speaking_.html">
-          <span class="entry-no">11</span>
-          <span class="entry-title">Turismo en España – Condicionales y Subjuntivo (Prep. Oral)</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="spanish-conditional-subjunctive_speaking_exercise_practice.html">
-          <span class="entry-no">12</span>
-          <span class="entry-title">Condicionales y Subjuntivo - Turismo Sostenible (Prep. Oral)</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
+      <table class="stats"><thead><tr>
+        <th>Sección</th><th>Hechas</th><th></th></tr></thead>
+        <tbody id="tblProg"></tbody></table>
+      <p style="font-weight:600;margin:20px 0 6px;font-size:.92rem">Enviar al profesor</p>
+      <p style="font-size:.86rem;color:var(--ink-soft);margin:0 0 9px">Copia este código y envíaselo a tu profesor. Solo contiene tu progreso y el nombre escrito arriba.</p>
+      <textarea class="code" id="code" readonly></textarea>
+      <div class="btn-row">
+        <button class="btn primary" id="btnCopy">Copiar el código</button>
+        <button class="btn ghost" id="btnSave">Copia de seguridad (.json)</button>
+        <button class="btn ghost" id="btnLoad">Restaurar</button>
+        <button class="btn ghost" id="btnReset" style="color:var(--accent);border-color:var(--accent)">Reiniciar</button>
+      </div>
+      <div class="btn-row"><button class="btn ghost" id="btnLinks">Comprobar todos los enlaces</button></div>
+      <div id="linkOut" style="font-size:.85rem;margin-top:9px"></div>
     </div>
   </section>
-
-  <section class="page" id="tema2">
-    <header class="page-head">
-      <div class="stamp"><span class="stamp-code">TEMA 2 · CULTURA</span></div>
-      <div class="page-titles">
-        <h2>Tema 2 — <em>La cultura política y artística</em></h2>
-        <p>Sub-temas: la música · los medios de comunicación · festivales y tradiciones.</p>
-      </div>
-      <div class="page-count">10</div>
-    </header>
-    <div class="entries">
-        <div class="subtheme"><span>La música</span><span class="sln"></span></div>
-        <a class="entry" href="spanish_music_speaking_pdf_download.html">
-          <span class="entry-no">01</span>
-          <span class="entry-title">A-Level Spanish Speaking - Music Task 1 (Prep. Oral)</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="U4_Music_spanish_translation_exercises.html">
-          <span class="entry-no">02</span>
-          <span class="entry-title">A-Level Spanish Translation Exercises - Unit 4: Music</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Tango_letras_analisis.html">
-          <span class="entry-no">03</span>
-          <span class="entry-title">Análisis de Letras de Tango - A2-B1.6</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Interactive_Practice_A-Level_Spanish_paper_3_Task_one_U4_music.html">
-          <span class="entry-no">04</span>
-          <span class="entry-title">Práctica: La Música Hispana</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="tango.html">
-          <span class="entry-no">05</span>
-          <span class="entry-title">Unit 4.3: El Tango - Extended Practice</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="U4_spanish_music_lesson1.html">
-          <span class="entry-no">06</span>
-          <span class="entry-title">Unit 4: La Música - El papel de los cantantes y músicos</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <div class="subtheme"><span>Los medios de comunicación</span><span class="sln"></span></div>
-        <a class="entry" href="How_long_will_the_traditional_press_thrive_Spain.html">
-          <span class="entry-no">07</span>
-          <span class="entry-title">La prensa – Deberes interactivos</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Por_que__el_prime_time_espan_ol_termina_si_tarde.html">
-          <span class="entry-no">08</span>
-          <span class="entry-title">Prime time español - Actividades Interactivas (B1/B2)</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Interactive_Practice_A-Level_Spanish_-_U5_los_medios_de_comunicacion.html">
-          <span class="entry-no">09</span>
-          <span class="entry-title">Práctica: Los Medios de Comunicación Hispano</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <div class="subtheme"><span>Festivales y tradiciones</span><span class="sln"></span></div>
-        <a class="entry" href="Interactie_Practice_A-Level_Spanish_Paper_3__Task_1__U6_Festivales_y_tradiciones.html">
-          <span class="entry-no">10</span>
-          <span class="entry-title">Práctica: Festivales, Costumbres y Tradiciones Hispano</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-    </div>
-  </section>
-
-  <section class="page" id="tema3">
-    <header class="page-head">
-      <div class="stamp"><span class="stamp-code">TEMA 3 · MIGRACIÓN</span></div>
-      <div class="page-titles">
-        <h2>Tema 3 — <em>La inmigración y la sociedad multicultural</em></h2>
-        <p>Sub-temas: los impactos positivos · la integración y el racismo · la reacción de la sociedad y del estado.</p>
-      </div>
-      <div class="page-count">7</div>
-    </header>
-    <div class="entries">
-        <div class="subtheme"><span>Impactos e integración</span><span class="sln"></span></div>
-        <a class="entry" href="spanish-migration-exercise.html">
-          <span class="entry-no">01</span>
-          <span class="entry-title">A-Level Spanish: Inmigración y Economía</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="spanish-immigration-activity.html">
-          <span class="entry-no">02</span>
-          <span class="entry-title">La inmigración en España</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Comprehension_and_vocab_-_migracio_n_y_demografi_a.html">
-          <span class="entry-no">03</span>
-          <span class="entry-title">Práctica Interactiva: Jóvenes de Origen Migratorio en España</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Interactive_practice_U9.html">
-          <span class="entry-no">04</span>
-          <span class="entry-title">Práctica: La Inmigración en España - Beneficios y Desafíos (Prep. Oral)</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <div class="subtheme"><span>La reacción de la sociedad y del estado</span><span class="sln"></span></div>
-        <a class="entry" href="a_la_espanola_politica_migracion.html">
-          <span class="entry-no">05</span>
-          <span class="entry-title">A la española — comprensión y léxico (B2)</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Inmigracio_n_y_politica_y_subjuntivo.html">
-          <span class="entry-no">06</span>
-          <span class="entry-title">Actividad A-Level: Inmigración y Política en España</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="cayucos_-_menas_-_PP_VOX_PSOE_an_ugly_game.html">
-          <span class="entry-no">07</span>
-          <span class="entry-title">El Envenenado Debate sobre la Inmigración en España</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-       <a class="entry" href="ceuta_2026_comprension_B2.html">
-          <span class="entry-no">08</span>
-          <span class="entry-title">Ceuta 2026 — una ciudad desbordada (comprensión B2)</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-    </div>
-  </section>
-
-  <section class="page" id="tema4">
-    <header class="page-head">
-      <div class="stamp"><span class="stamp-code">TEMA 4 · FRANCO</span></div>
-      <div class="page-titles">
-        <h2>Tema 4 — <em>La dictadura franquista y la transición</em></h2>
-        <p>Sub-temas: la Guerra Civil y el ascenso de Franco · la vida bajo el franquismo · la transición a la democracia.</p>
-      </div>
-      <div class="page-count">6</div>
-    </header>
-    <div class="entries">
-        <div class="subtheme"><span>La Guerra Civil y el ascenso de Franco</span><span class="sln"></span></div>
-        <a class="entry" href="10_2_-_Guerra_civil_-_Espan_a_dividida.html">
-          <span class="entry-no">01</span>
-          <span class="entry-title">Guerra Civil Española - Actividad Interactiva</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="spanish_civil_war_una_Espan_a_dividida.html">
-          <span class="entry-no">02</span>
-          <span class="entry-title">Guerra Civil Española - Actividades Interactivas</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Revise_factors_downfall_2nd_Republic.html">
-          <span class="entry-no">03</span>
-          <span class="entry-title">La Segunda República Española - Ejercicio Interactivo</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <div class="subtheme"><span>La transición a la democracia</span><span class="sln"></span></div>
-        <a class="entry" href="spanish_50_years_practice.html">
-          <span class="entry-no">04</span>
-          <span class="entry-title">España: 50 años de cambios</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="transicion_timeline.html">
-          <span class="entry-no">05</span>
-          <span class="entry-title">La Transición Española 1975–1986</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="12_1_transicion-homework.html">
-          <span class="entry-no">06</span>
-          <span class="entry-title">La Transición española – Deberes</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-    </div>
-  </section>
-
-  <section class="page" id="oral">
-    <header class="page-head">
-      <div class="stamp"><span class="stamp-code">PAPER 3 · ORAL</span></div>
-      <div class="page-titles">
-        <h2>Examen oral — destrezas</h2>
-        <p>Destrezas transferibles para el oral. La práctica por tema está dentro de cada Tema 1–4.</p>
-      </div>
-      <div class="page-count">2</div>
-    </header>
-    <div class="entries">
-        <a class="entry" href="spanish_Speaking_Exam_vocab_trainer.html">
-          <span class="entry-no">01</span>
-          <span class="entry-title">Spanish A-Level Vocabulary Trainer</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Paper_3_Questions_practice_Tool_Spanish_A-Level.html">
-          <span class="entry-no">02</span>
-          <span class="entry-title">Spanish A-Level · Speaking Exam Trainer</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-    </div>
-  </section>
-
-  <!-- ===================== PAPER 2 · OBRAS ===================== -->
-  <div class="band"><span class="ln"></span><span class="lbl">Paper 2 · Obra y película</span><span class="ln"></span></div>
-
-  <section class="page" id="volver">
-    <header class="page-head">
-      <div class="stamp"><span class="stamp-code">PAPER 2 · VOLVER</span></div>
-      <div class="page-titles">
-        <h2>Almodóvar — <em>Volver</em></h2>
-        <p>Análisis, citas, gramática y redacción sobre la película.</p>
-      </div>
-      <div class="page-count">15</div>
-    </header>
-    <div class="entries">
-        <a class="entry" href="Essay_Practice_Volver_based_on_film_review.html">
-          <span class="entry-no">01</span>
-          <span class="entry-title">Actividad B1/B2: Ensayo sobre &quot;Volver&quot; - Tango y Cine</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="EssayVerbsVolver.html">
-          <span class="entry-no">02</span>
-          <span class="entry-title">Práctica de redacción - Volver</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Avoid_using_la_peli_cula.html">
-          <span class="entry-no">03</span>
-          <span class="entry-title">Quiz: Sinónimos de &quot;película&quot; (Español A-Level)</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="AO3_Volver.html">
-          <span class="entry-no">04</span>
-          <span class="entry-title">Volver - Pedro Almodóvar: Ejercicios A-Level</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Ultimate_Volver_Grammar.html">
-          <span class="entry-no">05</span>
-          <span class="entry-title">Volver - Pedro Almodóvar: Ejercicios A-Level</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Volver_Subjunctives_Rel_Pron_adv_connectors.html">
-          <span class="entry-no">06</span>
-          <span class="entry-title">Volver - Pedro Almodóvar: Ejercicios A-Level</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="50_Volver_Essay_Sentences.html">
-          <span class="entry-no">07</span>
-          <span class="entry-title">Volver - Práctica de frases para ensayo</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Volver_Cuaderno_Redaccion.html">
-          <span class="entry-no">08</span>
-          <span class="entry-title">Volver · Cuaderno de redacción (gap-fill)</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Volver_Paragraph_Builder.html">
-          <span class="entry-no">09</span>
-          <span class="entry-title">Volver – Essay Paragraph Builder</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Volver_Essay_Phrases_Quiz.html">
-          <span class="entry-no">10</span>
-          <span class="entry-title">Volver – Essay Phrases Quiz</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Volver_Essay_Self-Assessment.html">
-          <span class="entry-no">11</span>
-          <span class="entry-title">Volver – Essay Self-Assessment (Mark Scheme)</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="The_essential_quote_practice_tool_Volver.html">
-          <span class="entry-no">12</span>
-          <span class="entry-title">Volver – Quote Trainer (Lenient Mode)</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Volver_gap_fill_verbs.html">
-          <span class="entry-no">13</span>
-          <span class="entry-title">Volver – Spanish Essay Practice</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="volver-practica-citas.html">
-          <span class="entry-no">14</span>
-          <span class="entry-title">Volver — Práctica de citas (A-Level Spanish)</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Essential_Paper_2_prep_-_which_scene_what_type_of_genre.html">
-          <span class="entry-no">15</span>
-          <span class="entry-title">Volver (2006) - Análisis de género: tragedia, comedia, melodrama, tragicomedia</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-    </div>
-  </section>
-
-  <section class="page" id="lcba">
-    <header class="page-head">
-      <div class="stamp"><span class="stamp-code">PAPER 2 · LCBA</span></div>
-      <div class="page-titles">
-        <h2>Lorca — <em>La casa de Bernarda Alba</em></h2>
-        <p>Actos, citas, temas, talleres de ensayo y gramática.</p>
-      </div>
-      <div class="page-count">14</div>
-    </header>
-    <div class="entries">
-        <a class="entry" href="LcdBA_Act_I_exercises.html">
-          <span class="entry-no">01</span>
-          <span class="entry-title">La Casa de Bernarda Alba - Acto I</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="La_casa_de_Bernarda_Alba_-_B2.html">
-          <span class="entry-no">02</span>
-          <span class="entry-title">La casa de Bernarda Alba - B2 Spanish</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Advanced_Bernarda.html">
-          <span class="entry-no">03</span>
-          <span class="entry-title">La casa de Bernarda Alba - Lorca: Ejercicios A-Level Spanish</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Bernarda_50_sentences.html">
-          <span class="entry-no">04</span>
-          <span class="entry-title">La casa de Bernarda Alba - Práctica de frases para ensayo</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="lcdba_quote_match.html">
-          <span class="entry-no">05</span>
-          <span class="entry-title">La Casa de Bernarda Alba — Quote &amp; Scene Matching</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="LCBA_Taller_Astar.html">
-          <span class="entry-no">06</span>
-          <span class="entry-title">La Casa de Bernarda Alba — Taller A*</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Lorca_LcdBA__Ejecicios_acto_tercero.html">
-          <span class="entry-no">07</span>
-          <span class="entry-title">LCBA Acto III - Ejercicios</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="lorca_revision_Phrase_bank.html">
-          <span class="entry-no">08</span>
-          <span class="entry-title">LcdBA – Banco de Frases para el Ensayo</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="lorca_revision_3_practice_writing.html">
-          <span class="entry-no">09</span>
-          <span class="entry-title">LcdBA – Práctica de Ensayo / Essay Practice</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="lorca_revision_2_citas_quotes.html">
-          <span class="entry-no">10</span>
-          <span class="entry-title">LcdBA – Tarjetas de Citas / Quote Flashcards</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Lorca_y_la_Espan_a_de_los_1930s.html">
-          <span class="entry-no">11</span>
-          <span class="entry-title">Lorca - Ejercicios</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Planificador_de_ensayo_-_Lorca_-_La_casa_de_Bernarda_Alba.html">
-          <span class="entry-no">12</span>
-          <span class="entry-title">Planificador de ensayo - Lorca - La casa de Bernarda Alba</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="LCBA_grammar_focus.html">
-          <span class="entry-no">13</span>
-          <span class="entry-title">Spanish Grammar Practice - La casa de Bernarda Alba</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Volver_LcdBA_subjunctives.html">
-          <span class="entry-no">14</span>
-          <span class="entry-title">Subjunctive Practice: Lorca &amp; Almodóvar</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-    </div>
-  </section>
-
-  <!-- ===================== DESTREZAS ===================== -->
-  <div class="band"><span class="ln"></span><span class="lbl">Destrezas · Gramática · Redacción</span><span class="ln"></span></div>
-
-  <section class="page" id="grammar">
-    <header class="page-head">
-      <div class="stamp"><span class="stamp-code">GRAMÁTICA</span></div>
-      <div class="page-titles">
-        <h2>Gramática esencial</h2>
-        <p>Tiempos, pronombres, subjuntivo, por/para y más.</p>
-      </div>
-      <div class="page-count">19</div>
-    </header>
-    <div class="entries">
-        <a class="entry" href="spanish-grammar-exercises.html">
-          <span class="entry-no">01</span>
-          <span class="entry-title">A-Level Spanish Grammar Practice</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Spanish_iInfinitive_grammar_practice.html">
-          <span class="entry-no">02</span>
-          <span class="entry-title">Advanced Spanish: Infinitive Structures</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="pronouns_exercise_1.html">
-          <span class="entry-no">03</span>
-          <span class="entry-title">Ejercicio de Pronombres de Objeto</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Spanish_imperfect_exercise.html">
-          <span class="entry-no">04</span>
-          <span class="entry-title">Formas del Imperfecto - Spanish Imperfect Tense Practice</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="por_para_practice-3.html">
-          <span class="entry-no">05</span>
-          <span class="entry-title">Por vs. Para - Práctica Interactiva</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Practice_Spanish_Nouns_and_Gender.html">
-          <span class="entry-no">06</span>
-          <span class="entry-title">Practice 100 Most Common Spanish Nouns</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="spanish_adjective_practice.html">
-          <span class="entry-no">07</span>
-          <span class="entry-title">Práctica de Concordancia de Adjetivos</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="negation.html">
-          <span class="entry-no">08</span>
-          <span class="entry-title">Práctica de Negación - Español</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Preterite_practice_Spanish.html">
-          <span class="entry-no">09</span>
-          <span class="entry-title">Práctica del Pretérito</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="cuando_plus_future_tense.html">
-          <span class="entry-no">10</span>
-          <span class="entry-title">Práctica interactiva: &quot;cuando&quot; para hablar del futuro</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Preterite_and_Imperfect.html">
-          <span class="entry-no">11</span>
-          <span class="entry-title">Práctica Pretérito vs Imperfecto</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Spanish_grammar_and_comprehension_sites.html">
-          <span class="entry-no">12</span>
-          <span class="entry-title">Some excellent online Spanish Grammar and More Sites</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="spanish_cognate_practice.html">
-          <span class="entry-no">13</span>
-          <span class="entry-title">Spanish Cognate Pattern Practice</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Spanish_negation_exercise_with_instruction.html">
-          <span class="entry-no">14</span>
-          <span class="entry-title">Spanish Negation: Complete Exercise</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Spanish_Numbers_practice.html">
-          <span class="entry-no">15</span>
-          <span class="entry-title">Spanish Numbers Practice</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="preterite_imperfect_practice-3.html">
-          <span class="entry-no">16</span>
-          <span class="entry-title">Spanish Preterite vs Imperfect Practice</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="reflexive_pronoun_placement_Spanish.html">
-          <span class="entry-no">17</span>
-          <span class="entry-title">Spanish Quiz: Reflexive Pronoun Placement</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Desafi_os_de_gramma_tica_B2.html">
-          <span class="entry-no">18</span>
-          <span class="entry-title">Desafíos Gramaticales B2 - 100 Ejercicios</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Atelier_gramatica_lagunas_Edexcel.html">
-          <span class="entry-no">19</span>
-          <span class="entry-title">Taller de Gramática — Lagunas Edexcel (subj. imperfecto, pasiva, relativos, condicional compuesto)</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-    </div>
-  </section>
-
-  <section class="page" id="essay">
-    <header class="page-head">
-      <div class="stamp"><span class="stamp-code">REDACCIÓN</span></div>
-      <div class="page-titles">
-        <h2>Ensayo y verbos de análisis</h2>
-        <p>Verbos críticos, conectores y práctica de párrafos.</p>
-      </div>
-      <div class="page-count">5</div>
-    </header>
-    <div class="entries">
-        <a class="entry" href="Spanish_Verb_Tenses___Agreement_Practice.html">
-          <span class="entry-no">01</span>
-          <span class="entry-title">Spanish Verb &amp; Agreement Practice</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Spanish_Writing_Accuracy_Bootcamp.html">
-          <span class="entry-no">02</span>
-          <span class="entry-title">Spanish Writing Accuracy Bootcamp</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="Essay_Verb_Practice.html">
-          <span class="entry-no">03</span>
-          <span class="entry-title">Spanish-English Verb Practice (100, Mainly Into Spanish)</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="SpanishEssayVerbsisimo.html">
-          <span class="entry-no">04</span>
-          <span class="entry-title">Spanish-English Verb Quiz (Full Pairs, Written Input)</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-        <a class="entry" href="stem_changing_verbs.html">
-          <span class="entry-no">05</span>
-          <span class="entry-title">Verbos con Cambios de Raíz - Presente</span>
-          <span class="entry-go" aria-hidden="true">↗</span>
-        </a>
-    </div>
-  </section>
-
 </main>
 
-<footer>
-  <div class="seal">✦ BBA ✦</div>
-  Pasaporte de revisión · A-Level Spanish Edexcel · todas las actividades funcionan sin conexión
-</footer>
+<footer class="site">Pasaporte de revisión A-Level Spanish (Edexcel 9SP0) · BBA Sixth Form — 91 actividades. Todo funciona en el navegador, sin conexión y sin registro. Progreso guardado localmente en este dispositivo.</footer>
 
+<script>
+var DATA = [{"id": "T1", "label": "Tema 1", "name": "La evolución de la sociedad española", "papers": "Paper 1 · Paper 3", "blurb": "La familia · el mundo laboral · el impacto del turismo.", "units": [{"u": "U1", "name": "La familia", "items": [{"id": "T1-U1-01", "file": "spanish_family_lesson.html", "title": "La estructura familiar española", "desc": "Práctica de una hora sobre la familia.", "badge": "Paper 1"}, {"id": "T1-U1-02", "file": "alevel_familia_improved.html", "title": "Los cambios en las estructuras familiares", "desc": "Práctica sobre la familia en evolución.", "badge": "Paper 1"}]}, {"u": "U2", "name": "El mundo laboral", "items": [{"id": "T1-U2-01", "file": "unemployment_spain_activity.html", "title": "El desempleo en España", "desc": "Actividad sobre el paro.", "badge": "Paper 1"}, {"id": "T1-U2-02", "file": "Interactive_Practice_A-Level_Spanish_Paper_3__T1__U2_mundo_laboral.html", "title": "El mundo laboral en España", "desc": "Práctica interactiva Paper 3.", "badge": "Oral"}, {"id": "T1-U2-03", "file": "Ojala__me_renueven_el_contrato_practice_activities.html", "title": "«Ojalá me renueven el contrato»", "desc": "Práctica sobre el empleo y el subjuntivo.", "badge": "Paper 1"}, {"id": "T1-U2-04", "file": "brecha_generacional_Espan_a.html", "title": "La brecha generacional", "desc": "Actividad de nivel B2.", "badge": "Paper 1 · B2"}, {"id": "T1-U2-05", "file": "brecha_generacional_Paper_3__U2_Edexcel_A-Level.html", "title": "La brecha generacional — Paper 3", "desc": "Versión orientada al examen oral.", "badge": "Oral · B2"}]}, {"u": "U3", "name": "El impacto del turismo", "items": [{"id": "T1-U3-01", "file": "ecoturismo-comprehension_y_pronombres.html", "title": "El ecoturismo", "desc": "Comprensión y pronombres.", "badge": "Paper 1"}, {"id": "T1-U3-02", "file": "Interactive_Practice_A_level_Spanish__Paper_3__Task_1__U3_tourism.html", "title": "El impacto turístico en España", "desc": "Práctica interactiva Paper 3.", "badge": "Oral"}, {"id": "T1-U3-03", "file": "spanish_tourism_quiz_html-2.html", "title": "Turismo y tecnología", "desc": "Quiz de práctica.", "badge": "Paper 1"}, {"id": "T1-U3-04", "file": "advanced_toursim_speaking_.html", "title": "Turismo — condicionales y subjuntivo", "desc": "Preparación oral avanzada.", "badge": "Oral"}, {"id": "T1-U3-05", "file": "spanish-conditional-subjunctive_speaking_exercise_practice.html", "title": "Turismo sostenible — condicional y subjuntivo", "desc": "Preparación oral.", "badge": "Oral"}]}]}, {"id": "T2", "label": "Tema 2", "name": "La cultura política y artística en el mundo hispanohablante", "papers": "Paper 1 · Paper 3", "blurb": "La música · los medios de comunicación · festivales y tradiciones.", "units": [{"u": "U4", "name": "La música", "items": [{"id": "T2-U4-01", "file": "spanish_music_speaking_pdf_download.html", "title": "Música — Task 1", "desc": "Preparación oral sobre la música.", "badge": "Oral"}, {"id": "T2-U4-02", "file": "U4_Music_spanish_translation_exercises.html", "title": "Traducción — Unidad 4", "desc": "Ejercicios de traducción sobre la música.", "badge": "Traducción"}, {"id": "T2-U4-03", "file": "Tango_letras_analisis.html", "title": "Análisis de letras de tango", "desc": "Nivel A2–B1.6.", "badge": "Paper 1"}, {"id": "T2-U4-04", "file": "Interactive_Practice_A-Level_Spanish_paper_3_Task_one_U4_music.html", "title": "La música hispana", "desc": "Práctica interactiva Paper 3.", "badge": "Oral"}, {"id": "T2-U4-05", "file": "tango.html", "title": "El tango — práctica ampliada", "desc": "Unidad 4.3.", "badge": "Paper 1"}, {"id": "T2-U4-06", "file": "U4_spanish_music_lesson1.html", "title": "El papel de los cantantes y músicos", "desc": "Unidad 4, lección 1.", "badge": "Paper 1"}]}, {"u": "U5", "name": "Los medios de comunicación", "items": [{"id": "T2-U5-01", "file": "How_long_will_the_traditional_press_thrive_Spain.html", "title": "La prensa", "desc": "Deberes interactivos sobre la prensa escrita.", "badge": "Deberes"}, {"id": "T2-U5-02", "file": "Por_que__el_prime_time_espan_ol_termina_si_tarde.html", "title": "El prime time español", "desc": "Actividades interactivas B1/B2.", "badge": "Paper 1 · B2"}, {"id": "T2-U5-03", "file": "Interactive_Practice_A-Level_Spanish_-_U5_los_medios_de_comunicacion.html", "title": "Los medios de comunicación", "desc": "Práctica interactiva Paper 3.", "badge": "Oral"}]}, {"u": "U6", "name": "Festivales y tradiciones", "items": [{"id": "T2-U6-01", "file": "Interactie_Practice_A-Level_Spanish_Paper_3__Task_1__U6_Festivales_y_tradiciones.html", "title": "Festivales, costumbres y tradiciones", "desc": "Práctica interactiva Paper 3.", "badge": "Oral"}]}]}, {"id": "T3", "label": "Tema 3", "name": "La inmigración y la sociedad multicultural española", "papers": "Paper 1 · Paper 3", "blurb": "Los impactos positivos · la integración y el racismo · la reacción de la sociedad y del Estado.", "units": [{"u": "U7", "name": "Los impactos positivos y la integración", "items": [{"id": "T3-U7-01", "file": "spanish-migration-exercise.html", "title": "Inmigración y economía", "desc": "El aporte económico de la inmigración.", "badge": "Paper 1"}, {"id": "T3-U7-02", "file": "spanish-immigration-activity.html", "title": "La inmigración en España", "desc": "Actividad general.", "badge": "Paper 1"}, {"id": "T3-U7-03", "file": "Comprehension_and_vocab_-_migracio_n_y_demografi_a.html", "title": "Jóvenes de origen migratorio", "desc": "Comprensión y léxico.", "badge": "Paper 1"}, {"id": "T3-U7-04", "file": "Interactive_practice_U9.html", "title": "Beneficios y desafíos", "desc": "Práctica orientada al oral.", "badge": "Oral"}]}, {"u": "U9", "name": "La reacción de la sociedad y del Estado", "items": [{"id": "T3-U9-01", "file": "ceuta_2026_comprension_B2.html", "title": "Ceuta 2026 — una ciudad desbordada", "desc": "Comprensión B2 sobre la crisis migratoria.", "badge": "Paper 1 · B2 · NUEVO"}, {"id": "T3-U9-02", "file": "a_la_espanola_politica_migracion.html", "title": "A la española", "desc": "Comprensión y léxico (B2).", "badge": "Paper 1 · B2"}, {"id": "T3-U9-03", "file": "Inmigracio_n_y_politica_y_subjuntivo.html", "title": "Inmigración y política", "desc": "Actividad con subjuntivo.", "badge": "Paper 1"}, {"id": "T3-U9-04", "file": "cayucos_-_menas_-_PP_VOX_PSOE_an_ugly_game.html", "title": "El envenenado debate migratorio", "desc": "Cayucos, menas y los partidos.", "badge": "Paper 1"}]}]}, {"id": "T4", "label": "Tema 4", "name": "La dictadura franquista y la transición a la democracia", "papers": "Paper 1 · Paper 3", "blurb": "La Guerra Civil y el ascenso de Franco · la vida bajo el franquismo · la transición.", "units": [{"u": "U10", "name": "La Guerra Civil y el ascenso de Franco", "items": [{"id": "T4-U10-01", "file": "10_2_-_Guerra_civil_-_Espan_a_dividida.html", "title": "Guerra Civil — España dividida", "desc": "Actividad interactiva.", "badge": "Paper 1"}, {"id": "T4-U10-02", "file": "spanish_civil_war_una_Espan_a_dividida.html", "title": "Guerra Civil — actividades", "desc": "Actividades interactivas complementarias.", "badge": "Paper 1"}, {"id": "T4-U10-03", "file": "Revise_factors_downfall_2nd_Republic.html", "title": "La Segunda República", "desc": "Los factores de su caída.", "badge": "Paper 1"}]}, {"u": "U12", "name": "La transición a la democracia", "items": [{"id": "T4-U12-01", "file": "spanish_50_years_practice.html", "title": "España: 50 años de cambios", "desc": "Práctica sobre medio siglo de cambios.", "badge": "Paper 1"}, {"id": "T4-U12-02", "file": "transicion_timeline.html", "title": "La Transición 1975–1986", "desc": "Cronología interactiva.", "badge": "Paper 1"}, {"id": "T4-U12-03", "file": "12_1_transicion-homework.html", "title": "La Transición — deberes", "desc": "Deberes interactivos.", "badge": "Deberes"}]}]}, {"id": "P2", "label": "Paper 2", "name": "Obra y película", "papers": "Paper 2", "blurb": "Volver (Almodóvar) y La casa de Bernarda Alba (Lorca) — análisis, citas, gramática y redacción.", "units": [{"u": "Volver", "name": "Volver — Almodóvar", "items": [{"id": "P2-Volver-01", "file": "Essay_Practice_Volver_based_on_film_review.html", "title": "Ensayo sobre Volver", "desc": "Tango y cine (B1/B2).", "badge": "Paper 2"}, {"id": "P2-Volver-02", "file": "EssayVerbsVolver.html", "title": "Práctica de redacción", "desc": "Verbos para el ensayo.", "badge": "Paper 2"}, {"id": "P2-Volver-03", "file": "Avoid_using_la_peli_cula.html", "title": "Sinónimos de «película»", "desc": "Quiz de léxico.", "badge": "Paper 2"}, {"id": "P2-Volver-04", "file": "AO3_Volver.html", "title": "Volver — ejercicios AO3", "desc": "Ejercicios de lengua.", "badge": "Paper 2 · AO3"}, {"id": "P2-Volver-05", "file": "Ultimate_Volver_Grammar.html", "title": "Volver — gramática", "desc": "Gramática aplicada a la película.", "badge": "Paper 2 · AO3"}, {"id": "P2-Volver-06", "file": "Volver_Subjunctives_Rel_Pron_adv_connectors.html", "title": "Subjuntivo, relativos y conectores", "desc": "Estructuras clave.", "badge": "Paper 2 · AO3"}, {"id": "P2-Volver-07", "file": "50_Volver_Essay_Sentences.html", "title": "50 frases para el ensayo", "desc": "Banco de frases.", "badge": "Paper 2"}, {"id": "P2-Volver-08", "file": "Volver_Cuaderno_Redaccion.html", "title": "Cuaderno de redacción", "desc": "Ejercicios de huecos.", "badge": "Paper 2"}, {"id": "P2-Volver-09", "file": "Volver_Paragraph_Builder.html", "title": "Constructor de párrafos", "desc": "Bâtir párrafos analíticos.", "badge": "Paper 2"}, {"id": "P2-Volver-10", "file": "Volver_Essay_Phrases_Quiz.html", "title": "Quiz de frases de ensayo", "desc": "Las expresiones de mayor rendimiento.", "badge": "Paper 2"}, {"id": "P2-Volver-11", "file": "Volver_Essay_Self-Assessment.html", "title": "Autoevaluación (baremo)", "desc": "Evalúa tu propio ensayo.", "badge": "Paper 2"}, {"id": "P2-Volver-12", "file": "The_essential_quote_practice_tool_Volver.html", "title": "Entrenador de citas", "desc": "Modo indulgente.", "badge": "Paper 2"}, {"id": "P2-Volver-13", "file": "Volver_gap_fill_verbs.html", "title": "Práctica de verbos", "desc": "Huecos verbales sobre Volver.", "badge": "Paper 2 · AO3"}, {"id": "P2-Volver-14", "file": "volver-practica-citas.html", "title": "Práctica de citas", "desc": "Citas clave de la película.", "badge": "Paper 2"}, {"id": "P2-Volver-15", "file": "Essential_Paper_2_prep_-_which_scene_what_type_of_genre.html", "title": "Análisis de género", "desc": "Tragedia, comedia, melodrama.", "badge": "Paper 2"}]}, {"u": "LCBA", "name": "La casa de Bernarda Alba — Lorca", "items": [{"id": "P2-LCBA-01", "file": "LcdBA_Act_I_exercises.html", "title": "Acto I — ejercicios", "desc": "Trabajo sobre el primer acto.", "badge": "Paper 2"}, {"id": "P2-LCBA-02", "file": "La_casa_de_Bernarda_Alba_-_B2.html", "title": "LCBA — nivel B2", "desc": "Actividad de nivel B2.", "badge": "Paper 2 · B2"}, {"id": "P2-LCBA-03", "file": "Advanced_Bernarda.html", "title": "LCBA — avanzado", "desc": "Ejercicios avanzados.", "badge": "Paper 2"}, {"id": "P2-LCBA-04", "file": "Bernarda_50_sentences.html", "title": "50 frases para el ensayo", "desc": "Banco de frases.", "badge": "Paper 2"}, {"id": "P2-LCBA-05", "file": "lcdba_quote_match.html", "title": "Citas y escenas", "desc": "Emparejamiento de citas.", "badge": "Paper 2"}, {"id": "P2-LCBA-06", "file": "LCBA_Taller_Astar.html", "title": "Taller A*", "desc": "Práctica para la banda A*.", "badge": "Paper 2"}, {"id": "P2-LCBA-07", "file": "Lorca_LcdBA__Ejecicios_acto_tercero.html", "title": "Acto III — ejercicios", "desc": "Trabajo sobre el tercer acto.", "badge": "Paper 2"}, {"id": "P2-LCBA-08", "file": "lorca_revision_Phrase_bank.html", "title": "Banco de frases", "desc": "Frases para la redacción.", "badge": "Paper 2"}, {"id": "P2-LCBA-09", "file": "lorca_revision_3_practice_writing.html", "title": "Práctica de ensayo", "desc": "Redacción guiada.", "badge": "Paper 2"}, {"id": "P2-LCBA-10", "file": "lorca_revision_2_citas_quotes.html", "title": "Tarjetas de citas", "desc": "Flashcards de citas.", "badge": "Paper 2"}, {"id": "P2-LCBA-11", "file": "Lorca_y_la_Espan_a_de_los_1930s.html", "title": "Lorca y la España de los años 30", "desc": "Contexto histórico.", "badge": "Paper 2"}, {"id": "P2-LCBA-12", "file": "Planificador_de_ensayo_-_Lorca_-_La_casa_de_Bernarda_Alba.html", "title": "Planificador de ensayo", "desc": "Planifica antes de escribir.", "badge": "Paper 2"}, {"id": "P2-LCBA-13", "file": "LCBA_grammar_focus.html", "title": "LCBA — gramática", "desc": "Práctica gramatical aplicada.", "badge": "Paper 2 · AO3"}, {"id": "P2-LCBA-14", "file": "Volver_LcdBA_subjunctives.html", "title": "Subjuntivo — Lorca y Almodóvar", "desc": "Las dos obras.", "badge": "Paper 2 · AO3"}]}]}, {"id": "S1", "label": "Destrezas", "name": "Examen oral — destrezas", "papers": "Todos los exámenes", "blurb": "Destrezas transferibles para el oral. La práctica por tema está dentro de cada tema.", "units": [{"u": "Examen oral — destrezas", "name": "Examen oral — destrezas", "items": [{"id": "S1-Examenoral—destrezas-01", "file": "spanish_Speaking_Exam_vocab_trainer.html", "title": "Entrenador de vocabulario", "desc": "Vocabulario para el examen oral.", "badge": "Oral"}, {"id": "S1-Examenoral—destrezas-02", "file": "Paper_3_Questions_practice_Tool_Spanish_A-Level.html", "title": "Entrenador del examen oral", "desc": "Práctica de preguntas Paper 3.", "badge": "Oral"}]}]}, {"id": "S2", "label": "Destrezas", "name": "Gramática esencial", "papers": "Todos los exámenes", "blurb": "Tiempos, pronombres, subjuntivo, por/para y más.", "units": [{"u": "Gramática esencial", "name": "Gramática esencial", "items": [{"id": "S2-Gramáticaesencial-01", "file": "spanish-grammar-exercises.html", "title": "Práctica de gramática", "desc": "Ejercicios generales.", "badge": "AO3"}, {"id": "S2-Gramáticaesencial-02", "file": "Spanish_iInfinitive_grammar_practice.html", "title": "Estructuras con infinitivo", "desc": "Nivel avanzado.", "badge": "AO3"}, {"id": "S2-Gramáticaesencial-03", "file": "pronouns_exercise_1.html", "title": "Pronombres de objeto", "desc": "Ejercicio de pronombres.", "badge": "AO3"}, {"id": "S2-Gramáticaesencial-04", "file": "Spanish_imperfect_exercise.html", "title": "Formas del imperfecto", "desc": "Práctica del imperfecto.", "badge": "AO3"}, {"id": "S2-Gramáticaesencial-05", "file": "por_para_practice-3.html", "title": "Por vs. para", "desc": "Práctica interactiva.", "badge": "AO3"}, {"id": "S2-Gramáticaesencial-06", "file": "Practice_Spanish_Nouns_and_Gender.html", "title": "100 sustantivos más comunes", "desc": "Sustantivos y género.", "badge": "Vocabulario"}, {"id": "S2-Gramáticaesencial-07", "file": "spanish_adjective_practice.html", "title": "Concordancia de adjetivos", "desc": "Práctica de concordancia.", "badge": "AO3"}, {"id": "S2-Gramáticaesencial-08", "file": "negation.html", "title": "La negación", "desc": "Práctica de negación.", "badge": "AO3"}, {"id": "S2-Gramáticaesencial-09", "file": "Preterite_practice_Spanish.html", "title": "El pretérito", "desc": "Práctica del pretérito.", "badge": "AO3"}, {"id": "S2-Gramáticaesencial-10", "file": "cuando_plus_future_tense.html", "title": "«Cuando» + futuro", "desc": "Hablar del futuro.", "badge": "AO3"}, {"id": "S2-Gramáticaesencial-11", "file": "Preterite_and_Imperfect.html", "title": "Pretérito vs imperfecto", "desc": "Contraste de pasados.", "badge": "AO3"}, {"id": "S2-Gramáticaesencial-12", "file": "Spanish_grammar_and_comprehension_sites.html", "title": "Sitios de gramática", "desc": "Recursos en línea.", "badge": "Recursos"}, {"id": "S2-Gramáticaesencial-13", "file": "spanish_cognate_practice.html", "title": "Patrones de cognados", "desc": "Ampliar el léxico.", "badge": "Vocabulario"}, {"id": "S2-Gramáticaesencial-14", "file": "Spanish_negation_exercise_with_instruction.html", "title": "Negación — ejercicio completo", "desc": "Con explicaciones.", "badge": "AO3"}, {"id": "S2-Gramáticaesencial-15", "file": "Spanish_Numbers_practice.html", "title": "Los números", "desc": "Práctica de números.", "badge": "AO3"}, {"id": "S2-Gramáticaesencial-16", "file": "preterite_imperfect_practice-3.html", "title": "Pretérito vs imperfecto (2)", "desc": "Más práctica contrastiva.", "badge": "AO3"}, {"id": "S2-Gramáticaesencial-17", "file": "reflexive_pronoun_placement_Spanish.html", "title": "Pronombres reflexivos", "desc": "Colocación del pronombre.", "badge": "AO3"}, {"id": "S2-Gramáticaesencial-18", "file": "Desafi_os_de_gramma_tica_B2.html", "title": "Desafíos gramaticales B2", "desc": "100 ejercicios.", "badge": "AO3 · B2"}, {"id": "S2-Gramáticaesencial-19", "file": "Atelier_gramatica_lagunas_Edexcel.html", "title": "Taller — lagunas Edexcel", "desc": "Subjuntivo imperfecto, pasiva, relativos.", "badge": "AO3"}]}]}, {"id": "S3", "label": "Destrezas", "name": "Ensayo y verbos de análisis", "papers": "Todos los exámenes", "blurb": "Verbos críticos, conectores y práctica de párrafos.", "units": [{"u": "Ensayo y verbos de análisis", "name": "Ensayo y verbos de análisis", "items": [{"id": "S3-Ensayoyverbosdeanálisis-01", "file": "Spanish_Verb_Tenses___Agreement_Practice.html", "title": "Verbos y concordancia", "desc": "Práctica combinada.", "badge": "AO3"}, {"id": "S3-Ensayoyverbosdeanálisis-02", "file": "Spanish_Writing_Accuracy_Bootcamp.html", "title": "Bootcamp de precisión", "desc": "Corrección rápida y autoevaluada.", "badge": "AO3"}, {"id": "S3-Ensayoyverbosdeanálisis-03", "file": "Essay_Verb_Practice.html", "title": "100 verbos de ensayo", "desc": "Principalmente hacia el español.", "badge": "Redacción"}, {"id": "S3-Ensayoyverbosdeanálisis-04", "file": "SpanishEssayVerbsisimo.html", "title": "Quiz de verbos de ensayo", "desc": "Pares completos, respuesta escrita.", "badge": "Redacción"}, {"id": "S3-Ensayoyverbosdeanálisis-05", "file": "stem_changing_verbs.html", "title": "Verbos con cambio de raíz", "desc": "Presente de indicativo.", "badge": "AO3"}]}]}];
+var CFG  = {"ls": "pasaporte-es-v1", "base": "https://artmemry.github.io/A-Level-Spanish-BBA/", "prefix": "DOSES1.", "openLabel": "Abrir ↗", "doneOn": "Hecha ✓", "doneOff": "Marcar hecha", "seen": "abierta", "newLabel": "NUEVO", "noName": "(sin nombre)", "confTitles": ["Difícil", "Regular", "Dominada"], "saveFile": "pasaporte-espanol-progreso.json", "badFile": "Archivo no reconocido — elige una copia exportada desde este pasaporte.", "resetConfirm": "¿Borrar todo tu progreso en este dispositivo? Esta acción es definitiva.", "suiviTag": "Progreso", "linkChecking": "Comprobando…", "linkOk": "enlaces válidos.", "linkBad": "enlaces rotos:", "linkLocal": "Ejecútalo desde el sitio en línea (no desde un archivo local)."};
+(function(){
+"use strict";
+var LS=CFG.ls;
+var S=load();
+function load(){
+  try{var r=localStorage.getItem(LS); if(r){var s=JSON.parse(r); s.a=s.a||{}; return s;}}catch(e){}
+  return {name:"",a:{},created:Date.now()};
+}
+function save(){ try{localStorage.setItem(LS,JSON.stringify(S));}catch(e){} }
+function $(s){return document.querySelector(s);}
+function el(tag,attrs){
+  var n=document.createElement(tag),k;
+  if(attrs) for(k in attrs){
+    if(k==="class")n.className=attrs[k];
+    else if(k==="html")n.innerHTML=attrs[k];
+    else if(k.indexOf("on")===0)n.addEventListener(k.slice(2),attrs[k]);
+    else n.setAttribute(k,attrs[k]);
+  }
+  for(var i=2;i<arguments.length;i++){var c=arguments[i]; if(c==null)continue;
+    n.appendChild(c.nodeType?c:document.createTextNode(c));}
+  return n;
+}
+/* ---- flatten ---- */
+var ALL=[], SECTIONS=[];
+DATA.forEach(function(sec){
+  var items=[];
+  sec.units.forEach(function(u){ u.items.forEach(function(it){ items.push(it); ALL.push(it); }); });
+  SECTIONS.push({id:sec.id,label:sec.label,name:sec.name,items:items});
+});
+function rec(id){ return S.a[id]||(S.a[id]={}); }
+
+/* ---- render ---- */
+var jump=$("#jump"), wrap=$("#sections");
+DATA.forEach(function(sec){
+  jump.appendChild(el("a",{href:"#"+sec.id}, sec.label));
+  var head=el("div",{class:"theme-head"},
+    el("span",{class:"theme-num"},sec.label),
+    el("span",{class:"theme-name"},sec.name),
+    sec.papers? el("span",{class:"theme-papers"},sec.papers):null);
+  var prog=el("div",{class:"theme-prog"},
+    el("div",{class:"bar"},el("i",{id:"bar-"+sec.id})),
+    el("span",{class:"n",id:"n-"+sec.id},"0"));
+  var s=el("section",{class:"theme",id:sec.id}, head,
+    sec.blurb? el("p",{class:"theme-blurb"},sec.blurb):null, prog);
+  sec.units.forEach(function(u){
+    var uh=el("div",{class:"unit-head"});
+    if(u.u && u.u!==u.name) uh.appendChild(el("span",{class:"u"},u.u));
+    uh.appendChild(document.createTextNode(u.name));
+    var g=el("div",{class:"grid"});
+    u.items.forEach(function(it){ g.appendChild(tile(it)); });
+    s.appendChild(el("div",{class:"unit"},uh,g));
+  });
+  wrap.appendChild(s);
+});
+jump.appendChild(el("a",{href:"#suivi"},CFG.suiviTag));
+
+function tile(it){
+  var r=rec(it.id);
+  var t=el("div",{class:"tile"+(r.done?" done":"")});
+  var badge=el("div",{class:"badge"});
+  var b=it.badge||"";
+  if(b.indexOf("NOUVEAU")>=0||b.indexOf("NUEVO")>=0){
+    badge.appendChild(document.createTextNode(b.replace(/ ·? ?(NOUVEAU|NUEVO)/,"")));
+    badge.appendChild(el("span",{class:"new"},CFG.newLabel));
+  } else badge.appendChild(document.createTextNode(b));
+  var seen=el("div",{class:"seen"});
+  var mark=el("button",{class:"mark"+(r.done?" on":""),type:"button"});
+  var conf=el("div",{class:"conf"});
+  function paintTile(){
+    t.className="tile"+(r.done?" done":"");
+    mark.className="mark"+(r.done?" on":"");
+    mark.textContent=r.done?CFG.doneOn:CFG.doneOff;
+    seen.textContent=r.opened?CFG.seen:"";
+    [1,2,3].forEach(function(v,i){ conf.childNodes[i].className=(r.conf===v?"on":""); });
+  }
+  [["1","😕"],["2","🙂"],["3","😃"]].forEach(function(p){
+    conf.appendChild(el("button",{type:"button",title:CFG.confTitles[+p[0]-1],onclick:function(){
+      r.conf=(r.conf===+p[0])?0:+p[0]; save(); paintTile(); refresh();
+    }},p[1]));
+  });
+  mark.addEventListener("click",function(){
+    r.done=!r.done; if(r.done&&!r.opened) r.opened=Date.now();
+    if(r.done) r.at=Date.now();
+    save(); paintTile(); refresh();
+  });
+  var a=el("a",{class:"open",href:CFG.base+it.file,target:"_blank",rel:"noopener",onclick:function(){
+    if(!r.opened){ r.opened=Date.now(); save(); paintTile(); refresh(); }
+  }},CFG.openLabel);
+  t.appendChild(badge); t.appendChild(seen);
+  t.appendChild(el("div",{class:"t"},it.title));
+  t.appendChild(el("div",{class:"d"},it.desc));
+  t.appendChild(el("div",{class:"row"},a,mark,conf));
+  paintTile();
+  return t;
+}
+
+/* ---- progress ---- */
+function refresh(){
+  var open=0,done=0,hard=0;
+  ALL.forEach(function(it){var r=S.a[it.id]||{}; if(r.opened)open++; if(r.done)done++; if(r.conf===1)hard++;});
+  $("#kOpen").textContent=open; $("#kDone").textContent=done;
+  var pct=ALL.length?Math.round(100*done/ALL.length):0;
+  $("#kPct").textContent=pct+" %"; $("#kHard").textContent=hard;
+  var C=2*Math.PI*15.5;
+  document.getElementById("ringArc").setAttribute("stroke-dasharray",(C*pct/100).toFixed(1)+" 999");
+  $("#hdrTxt").textContent=done+" / "+ALL.length;
+  var tb=$("#tblProg"); tb.innerHTML="";
+  SECTIONS.forEach(function(sec){
+    var d=sec.items.filter(function(it){return (S.a[it.id]||{}).done;}).length;
+    var p=sec.items.length?Math.round(100*d/sec.items.length):0;
+    var bar=document.getElementById("bar-"+sec.id);
+    if(bar) bar.style.width=p+"%";
+    var lbl=document.getElementById("n-"+sec.id);
+    if(lbl) lbl.textContent=d+" / "+sec.items.length;
+    tb.appendChild(el("tr",null,
+      el("td",null,el("b",null,sec.label),document.createTextNode("  "+sec.name)),
+      el("td",{class:"num"},d+" / "+sec.items.length),
+      el("td",null,el("div",{class:"mini"},el("i",{style:"width:"+p+"%"})))));
+  });
+  $("#code").value=buildCode();
+}
+function buildCode(){
+  var secs={};
+  SECTIONS.forEach(function(sec){
+    var d=sec.items.filter(function(it){return (S.a[it.id]||{}).done;}).length;
+    secs[sec.id]=[d,sec.items.length];
+  });
+  var doneIds=[], hardIds=[];
+  ALL.forEach(function(it){
+    var r=S.a[it.id]||{};
+    if(r.done) doneIds.push(it.id);
+    if(r.conf===1) hardIds.push(it.id);
+  });
+  var p={v:1,n:S.name||CFG.noName,t:Date.now(),
+    o:{done:doneIds.length,total:ALL.length,opened:ALL.filter(function(it){return (S.a[it.id]||{}).opened;}).length},
+    s:secs, d:doneIds, h:hardIds.slice(0,25)};
+  return CFG.prefix+btoa(unescape(encodeURIComponent(JSON.stringify(p))));
+}
+$("#nom").value=S.name||"";
+$("#nom").addEventListener("input",function(e){S.name=e.target.value.trim();save();refresh();});
+$("#btnCopy").addEventListener("click",function(){
+  var ta=$("#code");
+  if(navigator.clipboard){ navigator.clipboard.writeText(ta.value).catch(function(){ta.select();document.execCommand("copy");}); }
+  else { ta.select(); document.execCommand("copy"); }
+});
+$("#btnSave").addEventListener("click",function(){
+  var blob=new Blob([JSON.stringify(S)],{type:"application/json"});
+  var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=CFG.saveFile;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+});
+$("#btnLoad").addEventListener("click",function(){
+  var inp=document.createElement("input"); inp.type="file"; inp.accept=".json";
+  inp.addEventListener("change",function(){
+    var f=inp.files[0]; if(!f)return;
+    var rd=new FileReader();
+    rd.onload=function(){ try{var s=JSON.parse(rd.result); if(!s.a)throw 0; S=s; save(); location.reload(); }
+      catch(e){ alert(CFG.badFile); } };
+    rd.readAsText(f);
+  });
+  inp.click();
+});
+$("#btnLinks").addEventListener("click",function(){
+  var out=$("#linkOut"); out.textContent=CFG.linkChecking;
+  if(location.protocol==="file:"){ out.textContent=CFG.linkLocal; return; }
+  var bad=[], n=0;
+  ALL.forEach(function(it){
+    fetch(CFG.base+it.file,{method:"HEAD"}).then(function(r){
+      if(!r.ok) bad.push(it.title+"  ("+it.file+")");
+    }).catch(function(){ bad.push(it.title+"  ("+it.file+")"); }).then(function(){
+      if(++n===ALL.length){
+        out.innerHTML = bad.length
+          ? '<b style="color:var(--accent)">'+bad.length+" / "+ALL.length+" "+CFG.linkBad+"</b><br>"+bad.join("<br>")
+          : '<b style="color:var(--vert)">'+ALL.length+" "+CFG.linkOk+"</b>";
+      }
+    });
+  });
+});
+$("#btnReset").addEventListener("click",function(){
+  if(confirm(CFG.resetConfirm)){ localStorage.removeItem(LS); location.reload(); }
+});
+refresh();
+})();
+</script>
 </body>
 </html>
