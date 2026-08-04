@@ -1,0 +1,121 @@
+{
+ "generated": true,
+ "total": 73,
+ "sections": [
+  {
+   "id": "T1",
+   "label": "Thème 1",
+   "name": "Les changements dans la société française"
+  },
+  {
+   "id": "T2",
+   "label": "Thème 2",
+   "name": "La culture politique et artistique dans les pays francophones"
+  },
+  {
+   "id": "T3",
+   "label": "Thème 3",
+   "name": "L'immigration et la société multiculturelle française"
+  },
+  {
+   "id": "T4",
+   "label": "Thème 4",
+   "name": "L'Occupation et la Résistance"
+  },
+  {
+   "id": "P2",
+   "label": "Paper 2",
+   "name": "Œuvres au programme"
+  },
+  {
+   "id": "S1",
+   "label": "Compétences",
+   "name": "Grammaire & AO3"
+  },
+  {
+   "id": "S2",
+   "label": "Compétences",
+   "name": "Vocabulaire"
+  },
+  {
+   "id": "S3",
+   "label": "Compétences",
+   "name": "Traduction"
+  }
+ ],
+ "titles": {
+  "a771fe937": "Les structures familiales",
+  "a6a32dbbf": "Le déclin démographique",
+  "a8a4d2d0b": "L'éducation en France",
+  "a38942194": "Luc Ferry — la laïcité",
+  "a735545de": "Éducation & harcèlement",
+  "ad353112e": "Le monde du travail",
+  "a033a3035": "Questions difficiles — le travail",
+  "ac07b3b8c": "Le monde du travail — Paper 3",
+  "a6bb57130": "L'actualité des retraites",
+  "a8bda25f1": "Les inégalités salariales",
+  "a5097be9c": "La Loi Rixain",
+  "a12136036": "La musique francophone",
+  "a12d72c99": "Les tendances musicales",
+  "a4b922e18": "Les JO 2024 & la musique",
+  "affcdbfb4": "La chanson française",
+  "a3abca149": "Les médias",
+  "a990d9c4c": "La presse écrite",
+  "a4d14a223": "Négation — les médias",
+  "aa4910e9b": "La liberté d'expression",
+  "a10fbabbe": "Festivals & traditions",
+  "a4d9cfc93": "L'immigration en France",
+  "ad4001b54": "Le positif de l'immigration",
+  "ac4806066": "Les défis de l'immigration",
+  "a2362e737": "Mots arabes chez les ados",
+  "a07629bd4": "Après Ceuta — l'Europe divisée",
+  "a5636e0f4": "Présidentielle 2027 — qui ira au second tour ?",
+  "a2a80ed08": "Macron « joue les durs »",
+  "a34627c7a": "Le vote RN 2002–2024",
+  "a7f8a8295": "Le Front National",
+  "a8fd70e21": "RN & la crise de la Ve République",
+  "a32b238c2": "La crise politique en France",
+  "ae0fa69ef": "Municipales 2026",
+  "ac4af3b00": "La présidentielle 2027",
+  "a091865b1": "Le cinéma sous l'Occupation",
+  "a6a1d8a96": "Le régime de Vichy — B2",
+  "a0f690f5c": "Vichy — étude approfondie",
+  "a1b9f123e": "Vichy — activité",
+  "afb556746": "L'ultime message de Pétain",
+  "a5d6c703e": "La Résistance — Task 1",
+  "a9da53c43": "La Résistance française",
+  "a3b2e2832": "Les femmes dans la Résistance",
+  "a64756c39": "Traductions — histoire & politique",
+  "a71873780": "Banque de citations",
+  "ad296c830": "Analyse de scènes clés",
+  "ad0f1c30b": "Constructeur de paragraphes",
+  "aa4f6f7a3": "Phrases d'essai — quiz",
+  "a48691a72": "Auto-évaluation (barème)",
+  "ac428e5be": "Prologue & JT — passé composé",
+  "a5a937992": "Analyse guidée",
+  "a7b556ac8": "Ch. 4 (2e partie) — Le Procès",
+  "a38ce4483": "Ch. 5 (2e partie) — La Prison",
+  "a4bfdca0d": "Phrases de rédaction",
+  "aa2e681b9": "Exercices mixtes",
+  "a2d3319ff": "Quiz interactif",
+  "a3a387caa": "Activité d'introduction",
+  "a67c3259c": "Gamme de langue — AO3",
+  "a1fcd5bf1": "Atelier A*",
+  "a2fec6fb7": "Subjonctif — les deux œuvres",
+  "af115132e": "◆ Clinique AO3 — Exactitude",
+  "ab5cf77e6": "◆ Atelier AO3 — Gamme",
+  "af98a249c": "Cahier de grammaire",
+  "a9343382d": "Erreurs récurrentes",
+  "a8c621594": "Exercices de grammaire",
+  "add4f6ed2": "Participes & passé composé",
+  "ab2233cb7": "Bootcamp exactitude · 60",
+  "ad8922fb7": "Mots apparentés",
+  "a62f0a851": "Connecteurs logiques · 25 min",
+  "ac851e241": "Scrooge — 30 verbes",
+  "acbd7eb7c": "Centre de ressources B2",
+  "a76cb4027": "Révision — Unités 7 à 10",
+  "ae19604bc": "Entraîneur — toutes les unités",
+  "a6b18cbbc": "200 noms les plus courants",
+  "ad11b8408": "Évaluation de traduction"
+ }
+}
