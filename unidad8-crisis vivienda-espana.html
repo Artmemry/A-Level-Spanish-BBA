@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La crisis de la vivienda en España · Unidad 7 · A-Level Español</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --tinta:#16242F;
+  --tinta-70:rgba(22,36,47,.70);
+  --tinta-45:rgba(22,36,47,.45);
+  --plano:#E7EBED;
+  --plano-alto:#F5F7F8;
+  --verde:#2F5D50;
+  --verde-claro:#DCE8E2;
+  --azulejo:#3D6E8C;
+  --ambar:#B8862F;
+  --rojo:#A4382C;
+  --linea:rgba(22,36,47,.16);
+  --display:'Archivo Narrow',system-ui,sans-serif;
+  --cuerpo:'Source Serif 4',Georgia,serif;
+  --dato:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--plano);
+  background-image:linear-gradient(var(--linea) 1px,transparent 1px),linear-gradient(90deg,var(--linea) 1px,transparent 1px);
+  background-size:44px 44px;
+  color:var(--tinta);
+  font-family:var(--cuerpo);
+  font-size:18px;
+  line-height:1.62;
+  padding-bottom:6rem;
+}
+.envoltorio{max-width:880px;margin:0 auto;padding:0 1.1rem}
+
+/* ---------- cabecera ---------- */
+header.cabecera{
+  background:var(--tinta);
+  color:var(--plano-alto);
+  border-bottom:5px solid var(--verde);
+}
+.cabecera .envoltorio{padding-top:2.2rem;padding-bottom:1.6rem}
+.eyebrow{
+  font-family:var(--dato);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+  color:#9FB4A9;margin:0 0 .8rem
+}
+h1{
+  font-family:var(--display);font-weight:700;font-size:clamp(2rem,6.4vw,3.3rem);
+  line-height:1.02;letter-spacing:-.01em;margin:0 0 .7rem;text-transform:uppercase
+}
+h1 em{font-style:normal;color:#8FBFAE}
+.sumario{margin:0;max-width:52ch;color:#CBD6DA;font-size:1rem}
+
+/* ---------- fachada / progreso ---------- */
+.fachada-caja{margin-top:1.7rem;border-top:1px solid rgba(255,255,255,.18);padding-top:1.1rem}
+.fachada{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;max-width:420px}
+.ventana{
+  aspect-ratio:3/4;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.22);
+  border-radius:2px;position:relative;transition:background .45s ease,box-shadow .45s ease
+}
+.ventana::after{content:"";position:absolute;inset:0;border-left:1px solid rgba(255,255,255,.14);width:50%}
+.ventana.parcial{background:var(--ambar);box-shadow:0 0 12px rgba(184,134,47,.45)}
+.ventana.completa{background:#8FBFAE;box-shadow:0 0 14px rgba(143,191,174,.5)}
+.leyenda{font-family:var(--dato);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#9FB4A9;margin:.7rem 0 0}
+
+/* ---------- secciones ---------- */
+section{margin-top:2.6rem}
+.rotulo{display:flex;align-items:baseline;gap:.7rem;border-bottom:2px solid var(--tinta);padding-bottom:.4rem;margin-bottom:1rem}
+.rotulo .clave{font-family:var(--dato);font-size:.74rem;letter-spacing:.12em;color:var(--verde);text-transform:uppercase;white-space:nowrap}
+h2{font-family:var(--display);font-weight:600;font-size:1.5rem;text-transform:uppercase;letter-spacing:.01em;margin:0;line-height:1.1}
+.consigna{font-size:.95rem;color:var(--tinta-70);margin:0 0 1.1rem;font-style:italic}
+
+.tarjeta{background:var(--plano-alto);border:1px solid var(--linea);border-radius:3px;padding:1.2rem 1.15rem}
+
+/* ---------- texto fuente ---------- */
+.lectura{background:var(--plano-alto);border:1px solid var(--linea);border-left:4px solid var(--azulejo);border-radius:3px;padding:1.3rem 1.25rem}
+.lectura h3{font-family:var(--display);font-size:1.35rem;text-transform:uppercase;margin:0 0 1rem;line-height:1.1;letter-spacing:.01em}
+.parrafo{display:flex;gap:.85rem;margin-bottom:1.05rem}
+.parrafo:last-child{margin-bottom:0}
+.parrafo .num{font-family:var(--dato);font-size:.75rem;color:var(--azulejo);padding-top:.42rem;flex:0 0 1.4rem}
+.parrafo p{margin:0}
+.glosa{border-bottom:1px dotted var(--azulejo);cursor:help}
+.fuente{font-family:var(--dato);font-size:.72rem;color:var(--tinta-45);margin:1.2rem 0 0;line-height:1.5}
+
+/* ---------- ejercicios ---------- */
+ol.items{list-style:none;counter-reset:it;margin:0;padding:0}
+ol.items>li{
+  counter-increment:it;display:grid;grid-template-columns:1.9rem 1fr;gap:.2rem .6rem;
+  padding:.75rem 0;border-top:1px solid var(--linea);align-items:start
+}
+ol.items>li:first-child{border-top:0;padding-top:0}
+ol.items>li::before{content:counter(it) ".";font-family:var(--dato);font-size:.85rem;color:var(--tinta-45);padding-top:.2rem}
+.enunciado{margin:0}
+.respuesta{grid-column:2;margin-top:.5rem;display:flex;flex-wrap:wrap;gap:.45rem;align-items:center}
+.pista{grid-column:2;font-family:var(--dato);font-size:.78rem;margin:.4rem 0 0;line-height:1.55}
+.pista.mal{color:var(--rojo)}
+.pista.bien{color:var(--verde)}
+.pista.tilde{color:var(--ambar)}
+.modelo{grid-column:2;margin:.5rem 0 0;font-size:.95rem;background:var(--verde-claro);border-left:3px solid var(--verde);padding:.55rem .7rem;border-radius:2px}
+.modelo strong{font-family:var(--dato);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;display:block;color:var(--verde);margin-bottom:.2rem}
+
+input[type=text],textarea,select{
+  font-family:var(--cuerpo);font-size:1rem;color:var(--tinta);background:#fff;
+  border:1px solid var(--tinta-45);border-radius:2px;padding:.4rem .55rem
+}
+input[type=text]{width:min(100%,15rem)}
+input.corto{width:7.5rem;text-align:center;font-family:var(--dato);font-size:.95rem}
+textarea{width:100%;min-height:5.5rem;line-height:1.55;resize:vertical}
+select{width:min(100%,26rem);cursor:pointer}
+input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid var(--azulejo);outline-offset:1px}
+li.acierto input[type=text],li.acierto select{border-color:var(--verde);background:#F1F7F4}
+li.fallo input[type=text],li.fallo select{border-color:var(--rojo);background:#FCF3F2}
+.hueco{display:inline-flex;align-items:baseline;gap:.25rem}
+.infinitivo{font-family:var(--dato);font-size:.82rem;color:var(--azulejo)}
+
+.opciones{display:flex;flex-wrap:wrap;gap:.4rem}
+.opcion{position:relative}
+.opcion input{position:absolute;opacity:0;width:100%;height:100%;left:0;top:0;margin:0;cursor:pointer}
+.opcion span{
+  display:block;font-family:var(--dato);font-size:.78rem;letter-spacing:.04em;padding:.32rem .7rem;
+  border:1px solid var(--tinta-45);border-radius:2px;background:#fff;text-transform:uppercase
+}
+.opcion input:checked+span{background:var(--tinta);color:var(--plano-alto);border-color:var(--tinta)}
+.opcion input:focus-visible+span{outline:3px solid var(--azulejo);outline-offset:1px}
+
+.banco{
+  display:flex;flex-wrap:wrap;gap:.35rem;margin:0 0 1.1rem;padding:.75rem .8rem;
+  background:#fff;border:1px dashed var(--tinta-45);border-radius:3px
+}
+.banco b{font-family:var(--dato);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta-45);width:100%;font-weight:500}
+.banco span{font-family:var(--dato);font-size:.85rem;background:var(--plano);padding:.15rem .5rem;border-radius:2px}
+
+.barra{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin-top:1.2rem}
+button{
+  font-family:var(--dato);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
+  padding:.55rem .95rem;border-radius:2px;cursor:pointer;border:1px solid var(--tinta);
+  background:var(--tinta);color:var(--plano-alto);transition:transform .12s ease
+}
+button:hover{transform:translateY(-1px)}
+button.secundario{background:transparent;color:var(--tinta)}
+.marcador{font-family:var(--dato);font-size:.8rem;color:var(--verde);font-weight:500}
+
+/* ---------- teclado de tildes ---------- */
+.teclado{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--tinta);
+  border-top:1px solid rgba(255,255,255,.2);padding:.5rem .6rem;
+  display:flex;gap:.35rem;justify-content:center;flex-wrap:wrap;
+  transform:translateY(120%);transition:transform .25s ease
+}
+.teclado.visible{transform:translateY(0)}
+.teclado button{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.28);color:#fff;font-size:1rem;padding:.4rem .75rem;text-transform:none;letter-spacing:0}
+
+footer{margin-top:3.2rem;border-top:1px solid var(--linea);padding-top:1.1rem;font-family:var(--dato);font-size:.72rem;color:var(--tinta-45);line-height:1.6}
+
+@media (max-width:560px){
+  body{font-size:17px}
+  .fachada{grid-template-columns:repeat(4,1fr);max-width:260px}
+  ol.items>li{grid-template-columns:1.5rem 1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{
+  body{background:#fff;padding:0}
+  .teclado,.barra,.fachada-caja{display:none}
+  section{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<header class="cabecera">
+  <div class="envoltorio">
+    <p class="eyebrow">A-Level Español · Unidad 7 · La inmigración y la sociedad multicultural</p>
+    <h1>Sin techo<br><em>asequible</em></h1>
+    <p class="sumario">La escasez de vivienda en España, el debate migratorio y las cifras que lo sostienen. Comprensión, léxico, gramática y traducción en un solo dossier.</p>
+    <div class="fachada-caja">
+      <div class="fachada" id="fachada" aria-hidden="true"></div>
+      <p class="leyenda" id="leyenda">8 actividades · ninguna corregida todavía</p>
+    </div>
+  </div>
+</header>
+
+<main class="envoltorio">
+
+<!-- =============== TEXTO =============== -->
+<section id="texto">
+  <div class="rotulo"><span class="clave">Texto</span><h2>La vivienda, primera preocupación</h2></div>
+  <p class="consigna">Lee el texto dos veces: la primera sin diccionario, la segunda subrayando las cifras. Las palabras con línea de puntos llevan glosa: pasa el cursor por encima o tócalas.</p>
+  <article class="lectura">
+    <h3>España construye menos de lo que necesita</h3>
+
+    <div class="parrafo"><span class="num">1</span><p>España atraviesa una de las peores crisis de vivienda de la Unión Europea. Según un estudio del Banco de España, entre 2021 y 2025 el país aprobó unas 750.000 viviendas menos de las que necesitaba su población, una cifra equivalente al 3,7 % de todos los <span class="glosa" title="unidad familiar; conjunto de personas que comparten una vivienda">hogares</span> españoles. En el mismo periodo, el déficit medio de la eurozona se quedó en el 0,5 %, es decir, más de siete veces menor. A esto se añade que España cuenta con uno de los <span class="glosa" title="conjunto de viviendas propiedad del Estado o de los ayuntamientos">parques de vivienda pública</span> más reducidos de la UE.</p></div>
+
+    <div class="parrafo"><span class="num">2</span><p>El estudio calcula ese déficit comparando los hogares nuevos que se forman cada año con las viviendas cuya construcción se autorizó dos años antes. Ese <span class="glosa" title="diferencia de tiempo entre dos hechos relacionados">desfase</span> de dos años sirve para tener en cuenta lo que tardan las obras.</p></div>
+
+    <div class="parrafo"><span class="num">3</span><p>Las consecuencias se notan sobre todo en las grandes ciudades. En Madrid y en Barcelona, quien cobra el salario medio tendría que destinar alrededor del 75 % de sus <span class="glosa" title="dinero que una persona recibe, sobre todo por su trabajo">ingresos</span> a alquilar un piso de un dormitorio en el centro. Muchos acaban durmiendo en el sofá de un amigo, alquilando una habitación en un piso que comparten varias familias o soportando <span class="glosa" title="viaje que se hace cada día entre la casa y el trabajo">desplazamientos</span> cada vez más largos hasta el trabajo. Además, el uso de apartamentos como alojamiento turístico reduce el número de viviendas disponibles para los residentes.</p></div>
+
+    <div class="parrafo"><span class="num">4</span><p>No sorprende, por tanto, que la vivienda sea hoy la primera preocupación de los votantes, según el CIS. El gobierno de Pedro Sánchez, que dirige un ejecutivo minoritario de izquierdas, mantiene una política migratoria de puertas abiertas: desde 2022, la población nacida en el extranjero crece a un ritmo medio de 665.000 personas al año. En abril, el Ejecutivo aprobó un plan de vivienda de 7.000 millones de euros para el periodo 2026-2030, con financiación para vivienda pública y para <span class="glosa" title="reformar un edificio deteriorado para volver a poder usarlo">rehabilitar</span> edificios vacíos.</p></div>
+
+    <div class="parrafo"><span class="num">5</span><p>Sin embargo, desde su reelección en 2023 el presidente apenas ha logrado sacar adelante leyes importantes: no tiene mayoría en el Congreso y, sobre todo, son las comunidades autónomas las que tienen más <span class="glosa" title="poderes que la ley atribuye a una administración concreta">competencias</span> en materia de vivienda.</p></div>
+
+    <div class="parrafo"><span class="num">6</span><p>Los <span class="glosa" title="empresas que financian y organizan la construcción de viviendas">promotores</span> privados sostienen que el origen del problema está en otra parte. Juan José Perucho, directivo de la promotora Ibosa, señala la burocracia y los recursos judiciales, que hacen que obtener permiso para edificar en un <span class="glosa" title="terreno vacío en el que se puede construir">solar</span> nuevo lleve años. Con todo, para él pesa aún más el rápido aumento del número de trabajadores inmigrantes que buscan vivienda asequible en el mismo segmento del mercado: tanto en venta como en alquiler, sostiene, los precios han alcanzado niveles que ya no son compatibles con los sueldos.</p></div>
+
+    <p class="fuente">Texto original redactado para uso en el aula a partir de datos publicados por el Banco de España, el CIS y la prensa económica (agosto de 2026). Cifras redondeadas.</p>
+  </article>
+</section>
+
+<!-- =============== EJERCICIOS (se generan) =============== -->
+<div id="ejercicios"></div>
+
+<!-- =============== EXPRESIÓN =============== -->
+<section id="oral">
+  <div class="rotulo"><span class="clave">Actividad 8</span><h2>Hablar y escribir</h2></div>
+  <p class="consigna">Sin corrección automática: graba tu respuesta o escríbela y compárala con las expresiones del banco.</p>
+  <div class="tarjeta">
+    <div class="banco">
+      <b>Expresiones para opinar y matizar</b>
+      <span>cabe señalar que…</span><span>los datos demuestran que…</span><span>no se trata solo de… sino también de…</span>
+      <span>a mi juicio, el problema de fondo es…</span><span>si bien es cierto que…, no hay que olvidar que…</span>
+      <span>por un lado… por otro…</span><span>en definitiva…</span><span>habría que + infinitivo</span>
+      <span>lo que más me llama la atención es que + subjuntivo</span>
+    </div>
+    <ol class="items" style="margin-top:0">
+      <li><p class="enunciado">¿Hasta qué punto es justo culpar a la inmigración de la crisis de la vivienda en España? Justifica tu postura con dos datos del texto.</p><div class="respuesta"><textarea aria-label="Respuesta 1"></textarea></div></li>
+      <li><p class="enunciado">Imagina que eres concejal de vivienda en Madrid. Presenta en un minuto dos medidas concretas y explica a quién beneficiarían.</p><div class="respuesta"><textarea aria-label="Respuesta 2"></textarea></div></li>
+      <li><p class="enunciado">«El turismo hace más daño a la vivienda española que la inmigración.» Defiende esta afirmación y después rebátela.</p><div class="respuesta"><textarea aria-label="Respuesta 3"></textarea></div></li>
+    </ol>
+    <div class="barra"><button class="secundario" onclick="window.print()">Imprimir / guardar en PDF</button></div>
+  </div>
+</section>
+
+<footer>
+  <p>Unidad 7 · La inmigración y la sociedad multicultural · Edexcel A-Level Español (9SP0). Material del aula; el trabajo no se guarda al cerrar la página, así que imprime o copia tus respuestas antes de salir.</p>
+</footer>
+</main>
+
+<div class="teclado" id="teclado" role="toolbar" aria-label="Teclado de tildes"></div>
+
+<script>
+/* ============================================================
+   DATOS DE LAS ACTIVIDADES
+   ============================================================ */
+const ACTIVIDADES = [
+  {
+    clave:'Actividad 1', titulo:'Verdadero, falso o no se dice',
+    consigna:'Marca V (verdadero), F (falso) o ND (no se dice en el texto). Solo cuenta lo que afirma el texto, no lo que tú ya sepas.',
+    tipo:'opcion', opciones:['V','F','ND'],
+    items:[
+      {texto:'El déficit de vivienda español es proporcionalmente mayor que la media de la eurozona.', ok:'V', nota:'3,7 % frente al 0,5 % (párrafo 1).'},
+      {texto:'España tiene mucha más vivienda pública que la mayoría de los países de la UE.', ok:'F', nota:'Al contrario: uno de los parques públicos más reducidos (párrafo 1).'},
+      {texto:'El estudio deja pasar dos años entre el permiso y la vivienda terminada porque las obras tardan.', ok:'V', nota:'Es la función del desfase (párrafo 2).'},
+      {texto:'En Barcelona el alquiler de un piso céntrico consume más del 100 % del salario medio.', ok:'F', nota:'Alrededor del 75 % (párrafo 3).'},
+      {texto:'El gobierno español ha prohibido los pisos turísticos en el centro de las ciudades.', ok:'ND', nota:'El texto menciona su efecto, pero no habla de ninguna prohibición.'},
+      {texto:'Sánchez tiene mayoría absoluta en el Congreso desde 2023.', ok:'F', nota:'No tiene mayoría (párrafo 5).'},
+      {texto:'Para los promotores privados, la burocracia retrasa la construcción durante años.', ok:'V', nota:'Burocracia y recursos judiciales (párrafo 6).'}
+    ]
+  },
+  {
+    clave:'Actividad 2', titulo:'Las cifras',
+    consigna:'Cada cifra del texto significa una cosa concreta. Empareja.',
+    tipo:'select',
+    banco:['750.000','3,7 %','0,5 %','75 %','665.000','7.000 millones','2023','2026-2030'],
+    items:[
+      {texto:'Viviendas que faltaron por autorizar entre 2021 y 2025.', ok:'750.000'},
+      {texto:'El déficit español expresado como porcentaje de los hogares.', ok:'3,7 %'},
+      {texto:'El déficit medio de la eurozona en el mismo periodo.', ok:'0,5 %'},
+      {texto:'Parte del salario medio que se lleva un alquiler céntrico en Madrid.', ok:'75 %'},
+      {texto:'Crecimiento medio anual de la población nacida en el extranjero.', ok:'665.000'},
+      {texto:'Euros del plan de vivienda aprobado en abril.', ok:'7.000 millones'},
+      {texto:'Año de la reelección de Pedro Sánchez.', ok:'2023'},
+      {texto:'Periodo que cubre el nuevo plan de vivienda.', ok:'2026-2030'}
+    ]
+  },
+  {
+    clave:'Actividad 3', titulo:'Respuesta corta en español',
+    consigna:'Contesta con tus propias palabras, en una frase completa. La corrección busca las ideas clave; después compara con la respuesta modelo.',
+    tipo:'abierta',
+    items:[
+      {texto:'¿Por qué el texto dice que el déficit español es «más de siete veces» el europeo?',
+       claves:[['3,7','3.7'],['0,5','0.5']],
+       modelo:'Porque el déficit español equivale al 3,7 % de los hogares, mientras que la media de la eurozona se queda en el 0,5 %.'},
+      {texto:'Menciona dos formas de vivir que adopta la gente que no encuentra piso.',
+       claves:[['sofá','sofa','amigo'],['habitación','habitacion','compart','desplazamiento']],
+       modelo:'Duerme en el sofá de un amigo, alquila una habitación en un piso compartido por varias familias o acepta desplazamientos muy largos.'},
+      {texto:'¿Qué efecto tiene el alojamiento turístico sobre el mercado de la vivienda?',
+       claves:[['reduce','disminuye','menos','quita'],['residentes','disponibles','vivienda','pisos']],
+       modelo:'Reduce el número de viviendas disponibles para los residentes, porque esos pisos se destinan a los turistas.'},
+      {texto:'Explica las dos razones por las que Sánchez no consigue aprobar leyes de vivienda.',
+       claves:[['mayoría','mayoria','congreso','parlamento'],['comunidades','autónomas','autonomas','competencias','regiones']],
+       modelo:'No tiene mayoría en el Congreso y, además, las competencias en materia de vivienda están en manos de las comunidades autónomas.'},
+      {texto:'Según Perucho, ¿cuál es el factor que más presiona los precios?',
+       claves:[['inmigrante','inmigra','trabajadores','extranjer'],['asequible','mismo segmento','segmento','demanda','precios']],
+       modelo:'El rápido aumento de trabajadores inmigrantes que buscan vivienda asequible en el mismo segmento del mercado.'},
+      {texto:'¿Por qué a los promotores les cuesta construir para las clases medias? Deduce la respuesta del párrafo 6.',
+       claves:[['burocracia','permiso','trámit','tramit','judicial'],['años','anos','lleva','tarda','coste','costes']],
+       modelo:'Porque la burocracia y los recursos judiciales alargan años la obtención de permisos, lo que encarece cada promoción.'}
+    ]
+  },
+  {
+    clave:'Actividad 4', titulo:'Léxico: definiciones',
+    consigna:'Todas estas palabras salen en el texto. Elige el término que corresponde a cada definición.',
+    tipo:'select',
+    banco:['el hogar','el solar','el desfase','los ingresos','asequible','rehabilitar','el promotor','las competencias','el alojamiento','el parque de vivienda'],
+    items:[
+      {texto:'Terreno vacío en el que se puede construir.', ok:'el solar'},
+      {texto:'Que tiene un precio que la mayoría puede pagar.', ok:'asequible'},
+      {texto:'Conjunto de personas que comparten una vivienda.', ok:'el hogar'},
+      {texto:'Dinero que entra en una casa cada mes.', ok:'los ingresos'},
+      {texto:'Reformar un edificio deteriorado para volver a usarlo.', ok:'rehabilitar'},
+      {texto:'Empresa que financia y organiza la construcción de pisos.', ok:'el promotor'},
+      {texto:'Poderes que la ley atribuye a una administración.', ok:'las competencias'},
+      {texto:'Diferencia de tiempo entre dos hechos relacionados.', ok:'el desfase'},
+      {texto:'Conjunto de viviendas de un país o una ciudad.', ok:'el parque de vivienda'},
+      {texto:'Sitio donde alguien se queda a dormir, sobre todo de viaje.', ok:'el alojamiento'}
+    ]
+  },
+  {
+    clave:'Actividad 5', titulo:'Familias de palabras',
+    consigna:'Escribe el sustantivo que corresponde a cada verbo, con su artículo (el / la). Cuidado con las tildes: cuentan.',
+    tipo:'hueco',
+    items:[
+      {texto:'construir  →', pista:'la c___________', ok:['la construcción']},
+      {texto:'alquilar  →', pista:'el a________', ok:['el alquiler']},
+      {texto:'vivir  →', pista:'la v_______ (dónde se vive)', ok:['la vivienda']},
+      {texto:'crecer  →', pista:'el c__________', ok:['el crecimiento']},
+      {texto:'inmigrar  →', pista:'la i__________ (el proceso)', ok:['la inmigración']},
+      {texto:'financiar  →', pista:'la f__________', ok:['la financiación']},
+      {texto:'edificar  →', pista:'el e_______ (la cosa construida)', ok:['el edificio']},
+      {texto:'escasear  →', pista:'la e_______', ok:['la escasez']}
+    ]
+  },
+  {
+    clave:'Actividad 6', titulo:'Gramática: comparar cifras',
+    consigna:'Completa cada hueco con UNA palabra del banco. Son las estructuras que necesitas para comentar datos en el Papel 2.',
+    tipo:'hueco',
+    banco:['más','menos','mayor','tantas','como','que','de','cuanto'],
+    items:[
+      {texto:'España aprobó 750.000 viviendas ______ de las que necesitaba.', ok:['menos']},
+      {texto:'En Madrid, el alquiler consume ______ del 70 % del salario medio.', ok:['más']},
+      {texto:'El déficit español es siete veces ______ que el europeo.', ok:['mayor'], pista:'una sola palabra, sinónimo de «más grande» (con «superior» habría que decir «superior al»)'},
+      {texto:'No se construyen ______ viviendas ______ hogares nuevos se forman.', ok:['tantas','como'], huecos:2},
+      {texto:'______ más crece la población, mayor es la presión sobre el mercado.', ok:['cuanto']},
+      {texto:'El parque público español es uno de los ______ reducidos de la UE.', ok:['más']}
+    ]
+  },
+  {
+    clave:'Actividad 7', titulo:'Gramática: ¿indicativo o subjuntivo?',
+    consigna:'Pon el verbo entre paréntesis en la forma correcta. No todas piden subjuntivo: piensa si el hecho es real y afirmado, o si depende de una voluntad, una duda o una finalidad.',
+    tipo:'hueco',
+    items:[
+      {texto:'Es urgente que el gobierno ________ (construir) más vivienda pública.', ok:['construya']},
+      {texto:'Es evidente que la vivienda ________ (preocupar) a los votantes.', ok:['preocupa'], pista:'«es evidente que» afirma un hecho'},
+      {texto:'Aunque el Ejecutivo ________ (aprobar) un plan en abril, los efectos tardarán años.', ok:['aprobó','aprobo'], pista:'hecho real y pasado'},
+      {texto:'Se financian rehabilitaciones para que los edificios vacíos ________ (volver) a usarse.', ok:['vuelvan']},
+      {texto:'No creo que la inmigración ________ (ser) la única causa del problema.', ok:['sea']},
+      {texto:'Cuando los precios ________ (bajar), muchos jóvenes podrán independizarse.', ok:['bajen'], pista:'«cuando» + futuro todavía no ocurrido'},
+      {texto:'Los promotores piden que las administraciones ________ (reducir) la burocracia.', ok:['reduzcan']},
+      {texto:'El estudio demuestra que el déficit ________ (acumularse) desde 2021.', ok:['se acumula','se ha acumulado'], pista:'verbo pronominal, indicativo'}
+    ]
+  }
+];
+
+const TRADUCCION = {
+  clave:'Traducción', titulo:'Al español (Papel 1)',
+  consigna:'Traduce cada frase. Después compara con el modelo: fíjate sobre todo en los números y en las estructuras comparativas.',
+  items:[
+    {en:'Housing is now the main concern of Spanish voters.',
+     modelo:'La vivienda es ahora la principal preocupación de los votantes españoles.'},
+    {en:'Between 2021 and 2025, Spain approved 750,000 fewer homes than it needed.',
+     modelo:'Entre 2021 y 2025, España aprobó 750.000 viviendas menos de las que necesitaba.'},
+    {en:'In Madrid, someone on an average salary has to spend about 75% of their income on rent.',
+     modelo:'En Madrid, quien cobra un salario medio tiene que destinar alrededor del 75 % de sus ingresos al alquiler.'},
+    {en:'Although the government approved a plan worth seven billion euros, developers say the real problem is bureaucracy.',
+     modelo:'Aunque el gobierno aprobó un plan de 7.000 millones de euros, los promotores dicen que el verdadero problema es la burocracia. (¡Cuidado: «billion» = mil millones.)'},
+    {en:'It is essential that more affordable homes be built so that young people can leave home.',
+     modelo:'Es fundamental que se construyan más viviendas asequibles para que los jóvenes puedan irse de casa.'}
+  ]
+};
+
+/* ============================================================
+   UTILIDADES
+   ============================================================ */
+const norm = s => (s||'').toString().toLowerCase().trim()
+  .replace(/[.,;:!¡?¿"'»«]+$/g,'').replace(/\s+/g,' ');
+const sinTilde = s => norm(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const el = (t,c,h) => { const n=document.createElement(t); if(c)n.className=c; if(h!==undefined)n.innerHTML=h; return n; };
+
+const estado = [];   // {hechas, total} por actividad
+
+/* ---------- fachada de progreso ---------- */
+const fachada = document.getElementById('fachada');
+const leyenda = document.getElementById('leyenda');
+for(let i=0;i<8;i++) fachada.appendChild(el('div','ventana'));
+function pintarFachada(){
+  const v = fachada.children;
+  let listas = 0;
+  estado.forEach((e,i)=>{
+    if(!e || e.total===0) return;
+    v[i].className = 'ventana ' + (e.aciertos===e.total ? 'completa' : 'parcial');
+    if(e.aciertos===e.total) listas++;
+  });
+  const corregidas = estado.filter(e=>e && e.total>0).length;
+  leyenda.textContent = corregidas===0
+    ? '8 actividades · ninguna corregida todavía'
+    : `${corregidas} de 8 corregidas · ${listas} sin ningún error`;
+}
+function marcarActividad(i,aciertos,total){
+  estado[i] = {aciertos,total};
+  pintarFachada();
+}
+
+/* ============================================================
+   CONSTRUCCIÓN DE LAS ACTIVIDADES
+   ============================================================ */
+const zona = document.getElementById('ejercicios');
+
+ACTIVIDADES.forEach((act,idx)=>{
+  const sec = el('section');
+  const rot = el('div','rotulo');
+  rot.appendChild(el('span','clave',act.clave));
+  rot.appendChild(el('h2',null,act.titulo));
+  sec.appendChild(rot);
+  sec.appendChild(el('p','consigna',act.consigna));
+
+  const caja = el('div','tarjeta');
+
+  if(act.banco && act.tipo==='hueco'){
+    const b = el('div','banco','<b>Banco de palabras</b>');
+    act.banco.forEach(w=>b.appendChild(el('span',null,w)));
+    caja.appendChild(b);
+  }
+
+  const lista = el('ol','items');
+
+  act.items.forEach((it,j)=>{
+    const li = el('li');
+    li.dataset.i = j;
+
+    if(act.tipo==='hueco'){
+      const partes = it.texto.split('________');
+      const p = el('p','enunciado');
+      partes.forEach((t,k)=>{
+        p.appendChild(document.createTextNode(t));
+        if(k<partes.length-1){
+          const inp = el('input'); inp.type='text'; inp.className='corto';
+          inp.setAttribute('aria-label','Hueco '+(k+1)); p.appendChild(inp);
+        }
+      });
+      li.appendChild(p);
+      if(partes.length===1){                       // huecos con ______ o al final
+        const r = el('div','respuesta');
+        const n = it.huecos || (it.texto.match(/______/g)||[]).length || 1;
+        if(it.texto.includes('______')){
+          p.innerHTML='';
+          const trozos = it.texto.split('______');
+          trozos.forEach((t,k)=>{
+            p.appendChild(document.createTextNode(t));
+            if(k<trozos.length-1){
+              const inp=el('input'); inp.type='text'; inp.className='corto';
+              inp.setAttribute('aria-label','Hueco '+(k+1)); p.appendChild(inp);
+            }
+          });
+        } else {
+          for(let k=0;k<n;k++){
+            const inp=el('input'); inp.type='text'; inp.className='corto';
+            inp.setAttribute('aria-label','Respuesta'); r.appendChild(inp);
+          }
+          li.appendChild(r);
+        }
+      }
+      if(it.pista) li.appendChild(el('p','pista','pista: '+it.pista));
+
+    } else if(act.tipo==='select'){
+      li.appendChild(el('p','enunciado',it.texto));
+      const r = el('div','respuesta');
+      const s = el('select');
+      s.setAttribute('aria-label','Elige la respuesta');
+      s.appendChild(el('option',null,'— elige —'));
+      act.banco.forEach(op=>{ const o=el('option',null,op); o.value=op; s.appendChild(o); });
+      r.appendChild(s); li.appendChild(r);
+
+    } else if(act.tipo==='opcion'){
+      li.appendChild(el('p','enunciado',it.texto));
+      const r = el('div','respuesta');
+      const g = el('div','opciones');
+      act.opciones.forEach(op=>{
+        const lab = el('label','opcion');
+        const inp = el('input'); inp.type='radio'; inp.name=`a${idx}i${j}`; inp.value=op;
+        lab.appendChild(inp); lab.appendChild(el('span',null,op)); g.appendChild(lab);
+      });
+      r.appendChild(g); li.appendChild(r);
+
+    } else if(act.tipo==='abierta'){
+      li.appendChild(el('p','enunciado',it.texto));
+      const r = el('div','respuesta');
+      const ta = el('textarea'); ta.setAttribute('aria-label','Tu respuesta'); r.appendChild(ta);
+      li.appendChild(r);
+    }
+    lista.appendChild(li);
+  });
+
+  caja.appendChild(lista);
+
+  const barra = el('div','barra');
+  const bComp = el('button',null,'Comprobar');
+  const bVer  = el('button','secundario','Ver soluciones');
+  const marc  = el('span','marcador','');
+  barra.appendChild(bComp); barra.appendChild(bVer); barra.appendChild(marc);
+  caja.appendChild(barra);
+  sec.appendChild(caja);
+  zona.appendChild(sec);
+
+  /* ---------- corrección ---------- */
+  function limpiar(li){
+    li.classList.remove('acierto','fallo');
+    li.querySelectorAll('.pista.mal,.pista.bien,.pista.tilde,.modelo').forEach(n=>n.remove());
+  }
+
+  bComp.addEventListener('click',()=>{
+    let aciertos=0, total=act.items.length;
+    lista.querySelectorAll('li').forEach(li=>{
+      const j = +li.dataset.i, it = act.items[j];
+      limpiar(li);
+      let bien=false, aviso=null;
+
+      if(act.tipo==='opcion'){
+        const sel = li.querySelector('input:checked');
+        bien = sel && sel.value===it.ok;
+        if(!bien && sel) aviso = 'No. '+it.nota;
+        if(!sel) aviso = 'Sin responder. La respuesta era '+it.ok+'.';
+
+      } else if(act.tipo==='select'){
+        const s = li.querySelector('select');
+        bien = norm(s.value)===norm(it.ok);
+        if(!bien) aviso='Vuelve a leer la definición.';
+
+      } else if(act.tipo==='hueco'){
+        const inputs = [...li.querySelectorAll('input')];
+        const esperadas = it.ok;
+        if(inputs.length>1){
+          bien = inputs.every((inp,k)=>norm(inp.value)===norm(esperadas[k]));
+        } else {
+          const v = inputs[0].value;
+          bien = esperadas.some(o=>norm(v)===norm(o));
+          if(!bien && esperadas.some(o=>sinTilde(v)===sinTilde(o))){
+            aviso='Casi: revisa la tilde.'; li.appendChild(el('p','pista tilde','⌃ '+aviso)); aviso=null;
+          }
+        }
+        if(!bien && !li.querySelector('.pista.tilde')) aviso='Todavía no. Inténtalo otra vez.';
+
+      } else if(act.tipo==='abierta'){
+        const v = sinTilde(li.querySelector('textarea').value);
+        if(v.length<8){ aviso='Escribe una frase completa.'; }
+        else {
+          const encontradas = it.claves.filter(grupo=>grupo.some(k=>v.includes(sinTilde(k)))).length;
+          bien = encontradas===it.claves.length;
+          if(!bien) aviso = `Te falta información: has cubierto ${encontradas} de ${it.claves.length} ideas clave.`;
+        }
+      }
+
+      if(bien){ li.classList.add('acierto'); aciertos++; li.appendChild(el('p','pista bien','✓ Correcto.')); }
+      else { li.classList.add('fallo'); if(aviso) li.appendChild(el('p','pista mal','✗ '+aviso)); }
+    });
+    marc.textContent = `${aciertos} / ${total}`;
+    marcarActividad(idx,aciertos,total);
+  });
+
+  bVer.addEventListener('click',()=>{
+    lista.querySelectorAll('li').forEach(li=>{
+      const j=+li.dataset.i, it=act.items[j];
+      li.querySelectorAll('.modelo').forEach(n=>n.remove());
+      let txt;
+      if(act.tipo==='opcion') txt = `<strong>Solución</strong>${it.ok} — ${it.nota}`;
+      else if(act.tipo==='select') txt = `<strong>Solución</strong>${it.ok}`;
+      else if(act.tipo==='hueco') txt = `<strong>Solución</strong>${it.ok.join(' / ')}`;
+      else txt = `<strong>Respuesta modelo</strong>${it.modelo}`;
+      li.appendChild(el('div','modelo',txt));
+    });
+  });
+});
+
+/* ---------- traducción ---------- */
+(function(){
+  const sec = el('section');
+  const rot = el('div','rotulo');
+  rot.appendChild(el('span','clave',TRADUCCION.clave));
+  rot.appendChild(el('h2',null,TRADUCCION.titulo));
+  sec.appendChild(rot);
+  sec.appendChild(el('p','consigna',TRADUCCION.consigna));
+  const caja = el('div','tarjeta');
+  const lista = el('ol','items');
+  TRADUCCION.items.forEach(it=>{
+    const li = el('li');
+    li.appendChild(el('p','enunciado','<em>'+it.en+'</em>'));
+    const r = el('div','respuesta');
+    const ta = el('textarea'); ta.setAttribute('aria-label','Tu traducción'); r.appendChild(ta);
+    li.appendChild(r);
+    li.dataset.modelo = it.modelo;
+    lista.appendChild(li);
+  });
+  caja.appendChild(lista);
+  const barra = el('div','barra');
+  const b = el('button',null,'Ver traducciones modelo');
+  barra.appendChild(b); caja.appendChild(barra);
+  b.addEventListener('click',()=>{
+    lista.querySelectorAll('li').forEach(li=>{
+      li.querySelectorAll('.modelo').forEach(n=>n.remove());
+      li.appendChild(el('div','modelo','<strong>Modelo</strong>'+li.dataset.modelo));
+    });
+    marcarActividad(7,1,1);
+  });
+  sec.appendChild(caja);
+  document.getElementById('ejercicios').appendChild(sec);
+})();
+
+/* ============================================================
+   TECLADO DE TILDES
+   ============================================================ */
+const teclado = document.getElementById('teclado');
+let foco = null;
+['á','é','í','ó','ú','ü','ñ','¿','¡','«','»'].forEach(ch=>{
+  const b = el('button',null,ch);
+  b.type='button';
+  b.addEventListener('mousedown',e=>e.preventDefault());
+  b.addEventListener('click',()=>{
+    if(!foco) return;
+    const s=foco.selectionStart, e=foco.selectionEnd, v=foco.value;
+    foco.value = v.slice(0,s)+ch+v.slice(e);
+    foco.selectionStart = foco.selectionEnd = s+1;
+    foco.focus();
+  });
+  teclado.appendChild(b);
+});
+document.addEventListener('focusin',e=>{
+  if(e.target.matches('input[type=text],textarea')){ foco=e.target; teclado.classList.add('visible'); }
+});
+document.addEventListener('focusout',e=>{
+  setTimeout(()=>{
+    if(!document.activeElement || !document.activeElement.matches('input[type=text],textarea')){
+      teclado.classList.remove('visible');
+    }
+  },120);
+});
+/* Enter en un hueco = pasar al siguiente */
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter' && e.target.matches('input.corto')){
+    e.preventDefault();
+    const todos=[...document.querySelectorAll('input.corto')];
+    const n=todos[todos.indexOf(e.target)+1]; if(n) n.focus();
+  }
+});
+pintarFachada();
+</script>
+</body>
+</html>
