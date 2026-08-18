@@ -1200,5 +1200,115 @@ Actividad basada en la reseña de Carla Marcantonio (Cinéaste, 2006)`;
             initPage();
         }
     </script>
+<!-- ══════════════════════════════════════════════════════════════════════
+     TECLADO DE TILDES — corrección universal
+     Se instala solo. No depende de nada y no toca el resto de la página.
+     Corrige los cinco fallos observados:
+       1. los botones llaman a una función que no existe
+       2. el teclado se abre pero nada escribe
+       3. la casilla se pierde al pulsar una tecla (blur)
+       4. mayúscula equivocada en el nombre de la función
+       5. escribe al final en vez de en el cursor
+     Pegar justo antes de </body>.
+     ══════════════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  "use strict";
+
+  var CHARS = "áéíóúüñÁÉÍÓÚÜÑ¿¡";
+  var target = null;      // última casilla enfocada — nunca se borra al perder el foco
+
+  function isField(el) {
+    if (!el || el.disabled || el.readOnly) return false;
+    if (el.tagName === "TEXTAREA") return true;
+    if (el.tagName !== "INPUT") return false;
+    var t = (el.getAttribute("type") || "text").toLowerCase();
+    return t === "text" || t === "search";
+  }
+
+  /* 1 ─ recordar la casilla. En focusin, y sin borrarla nunca en blur:
+         ese borrado es justamente lo que rompía AO3_Volver y EssayVerbsVolver. */
+  document.addEventListener("focusin", function (e) {
+    if (isField(e.target)) target = e.target;
+  }, true);
+
+  /* ¿es una tecla del teclado de tildes? Un solo carácter acentuado.
+     Se excluyen los botones que abren o cierran el panel: en algunas
+     actividades el botón «á» es el que despliega el teclado. */
+  function isKey(el) {
+    if (!el || !el.textContent) return false;
+    var s = el.textContent.trim();
+    if (s.length !== 1 || CHARS.indexOf(s) < 0) return false;
+    var id = (el.id || "") + " " + (typeof el.className === "string" ? el.className : "");
+    if (/toggle|abrir|cerrar|open|close/i.test(id)) return false;
+    var tag = el.tagName;
+    return tag === "BUTTON" || tag === "SPAN" || tag === "A" || tag === "DIV" || tag === "LI";
+  }
+
+  /* 2 ─ no dejar que la tecla robe el foco a la casilla */
+  document.addEventListener("mousedown", function (e) {
+    var el = e.target;
+    for (var i = 0; i < 3 && el; i++, el = el.parentElement) {
+      if (isKey(el)) { e.preventDefault(); return; }
+    }
+  }, true);
+
+  /* 3 ─ la inserción: en la posición del cursor, no al final */
+  function put(ch) {
+    if (ch == null) return;
+    ch = String(ch);
+    var el = target;
+    if (!el || !document.contains(el)) {
+      el = document.querySelector("textarea, input[type=text], input:not([type])");
+      if (!el) return;
+      target = el;
+    }
+    try { el.focus(); } catch (err) {}
+    var s = el.selectionStart, e = el.selectionEnd;
+    if (typeof s === "number" && typeof e === "number") {
+      var v = el.value;
+      el.value = v.slice(0, s) + ch + v.slice(e);
+      el.selectionStart = el.selectionEnd = s + ch.length;
+    } else {
+      el.value += ch;                       // casillas sin cursor (raro)
+    }
+    /* que lo vean la autocorrección y el autoguardado de la actividad */
+    el.dispatchEvent(new Event("input",  { bubbles: true }));
+    el.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+
+  /* ¿la tecla trae ya su propio onclick que escribe? Entonces ese onclick
+     —ahora que la función existe— ya ha hecho el trabajo y no repetimos.
+     Los teclados averiados por otro motivo (AO3_Volver, EssayVerbsVolver)
+     enlazan por addEventListener, no por atributo, así que sí los cubrimos. */
+  function hasOwnWriter(el) {
+    var a = el.getAttribute && el.getAttribute("onclick");
+    return !!a && /insert|accent|acento|tilde|escrib|typeChar/i.test(a);
+  }
+
+  /* 4 ─ rellenar los nombres que los onclick esperan y no existen.
+         NO se sobrescribe ninguna función que ya funcione: varias actividades
+         hacen algo más en la suya (spanish_music_speaking actualiza el contador
+         de palabras), y pisarla rompería esa parte. Sólo se cubren los huecos. */
+  var NAMES = ["insertChar", "insertchar", "insertAccent", "insertaccent",
+               "addAccent", "addaccent", "insertAtCursor", "insertCharAtCursor",
+               "escribirAcento", "ponerAcento", "typeChar"];
+  for (var i = 0; i < NAMES.length; i++) {
+    try { if (typeof window[NAMES[i]] !== "function") window[NAMES[i]] = put; } catch (err) {}
+  }
+
+  /* 5 ─ delegación para los teclados que no tienen nada conectado */
+  document.addEventListener("click", function (e) {
+    var el = e.target;
+    for (var i = 0; i < 3 && el; i++, el = el.parentElement) {
+      if (isKey(el)) {
+        if (!hasOwnWriter(el)) put(el.textContent.trim());
+        return;
+      }
+    }
+  }, false);
+
+})();
+</script>
 </body>
 </html>

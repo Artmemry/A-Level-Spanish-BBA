@@ -259,7 +259,7 @@
             <div id="results"></div>
 
             <div class="buttons">
-                <button type="button" onclick="checkAnswers()">Terminé / Check Answers</button>
+                <button type="button" onclick="checkAnswers()">Terminado / Check Answers</button>
                 <button type="button" onclick="resetExercise()">Reiniciar / Reset</button>
                 <button type="button" onclick="downloadResults()">Descargar Resultados / Download Results</button>
             </div>
@@ -324,10 +324,16 @@
         }
 
         function insertChar(char) {
-            if (currentInput) {
-                currentInput.value += char;
-                currentInput.focus();
+            if (!currentInput) return;
+            var s = currentInput.selectionStart, e = currentInput.selectionEnd, v = currentInput.value;
+            if (typeof s === 'number') {                  // escribir en el cursor, no al final
+                currentInput.value = v.slice(0, s) + char + v.slice(e);
+                currentInput.selectionStart = currentInput.selectionEnd = s + char.length;
+            } else {
+                currentInput.value = v + char;
             }
+            currentInput.focus();
+            currentInput.dispatchEvent(new Event('input', { bubbles: true }));
         }
 
         // Dragging functionality
