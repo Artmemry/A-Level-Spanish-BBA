@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Teacher dashboard · A-Level French &amp; Spanish · BBA</title>
+<meta name="description" content="Decode student progress codes from Le Lexique and the revision dossiers. Everything is decoded in this browser; nothing is uploaded.">
+<style>
+:root{
+  --paper:#FBFAF6;--card:#FFF;--ink:#1A2440;--ink-soft:#4A5570;--muted:#8A8F9E;
+  --accent:#C0142E;--bleu:#2B4C9B;--bleu-pale:#EDF1FA;--vert:#2E7D52;--vert-pale:#EAF4EE;
+  --rouge:#B3261E;--or:#B8860B;--or-pale:#FFF7E6;
+  --line:#E5E2D8;--line-strong:#CFCBBD;--radius:12px;
+  --shadow:0 1px 2px rgba(26,36,64,.06),0 4px 16px rgba(26,36,64,.05);
+  --serif:Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55}
+:focus-visible{outline:2px solid var(--bleu);outline-offset:2px;border-radius:4px}
+a{color:inherit}
+header.site{border-bottom:3px solid var(--ink);background:var(--card)}
+.site-inner{max-width:1180px;margin:0 auto;padding:15px 20px 12px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{font-family:var(--serif);font-weight:700;font-size:1.35rem;line-height:1.1}
+.brand span{color:var(--accent)}
+.brand-sub{font-family:var(--mono);font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.09em}
+.roster-state{margin-left:auto;font-family:var(--mono);font-size:.7rem;color:var(--muted);text-align:right}
+main{max-width:1180px;margin:0 auto;padding:24px 20px 90px}
+.intro{max-width:74ch;color:var(--ink-soft);margin:0 0 6px}
+.intro b{color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-top:18px}
+h2{font-family:var(--serif);font-size:1.15rem;margin:0 0 4px}
+.hint{font-size:.85rem;color:var(--muted);margin:0 0 10px}
+textarea.code{font-family:var(--mono);font-size:.75rem;width:100%;min-height:130px;border:1.5px solid var(--line-strong);
+  border-radius:9px;padding:10px 13px;background:var(--card);color:var(--ink);resize:vertical}
+.btn{font-family:var(--sans);font-size:.9rem;font-weight:600;border-radius:9px;border:1.5px solid var(--ink);
+  background:var(--card);color:var(--ink);padding:9px 16px;cursor:pointer}
+.btn:hover{background:var(--bleu-pale)}
+.btn.primary{background:var(--bleu);border-color:var(--bleu);color:#fff}
+.btn.primary:hover{background:#233F82}
+.btn.ghost{border-color:var(--line-strong);font-weight:500}
+.btn.danger{border-color:var(--accent);color:var(--accent);font-weight:500}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px;align-items:center}
+.msg{font-size:.85rem;border-radius:8px;padding:9px 12px;margin-top:11px;line-height:1.5}
+.msg.err{background:#FDF1F0;border:1px solid #F0C8C4;color:var(--rouge)}
+.msg.ok{background:var(--vert-pale);border:1px solid #BFD9CB;color:#1D5A3A}
+.hidden{display:none}
+.section-label{font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.09em;
+  color:var(--accent);font-weight:700;margin:26px 0 8px;display:flex;align-items:center;gap:9px}
+.section-label::after{content:"";flex:1;height:1px;background:var(--line-strong)}
+.section-label .tag{background:var(--bleu-pale);color:var(--bleu);border-radius:4px;padding:2px 7px;font-weight:600}
+.wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+table.stats{width:100%;border-collapse:collapse;font-size:.87rem}
+table.stats th{text-align:left;font-family:var(--mono);font-size:.63rem;text-transform:uppercase;letter-spacing:.05em;
+  color:var(--muted);border-bottom:2px solid var(--ink);padding:8px 9px;white-space:nowrap;font-weight:500;
+  background:var(--card);position:sticky;top:0}
+table.stats td{border-bottom:1px solid var(--line);padding:7px 9px;white-space:nowrap}
+table.stats tbody tr:hover{background:var(--bleu-pale)}
+table.stats td.name{font-weight:600;white-space:normal;min-width:130px}
+table.stats td.num{font-family:var(--mono);text-align:right}
+table.stats td.wide{white-space:normal;min-width:180px}
+.pill{display:inline-block;font-family:var(--mono);font-size:.62rem;padding:1px 6px;border-radius:3px;
+  border:1px solid var(--line-strong);color:var(--ink-soft)}
+.pill.fr{background:var(--bleu-pale);color:var(--bleu);border-color:#C4D2EC}
+.pill.es{background:#FDF0E6;color:#A85A16;border-color:#EFD3B8}
+.bar{display:inline-block;height:6px;width:58px;background:var(--line);border-radius:3px;overflow:hidden;
+  vertical-align:middle;margin-right:6px}
+.bar i{display:block;height:100%;background:var(--vert)}
+.bar.low i{background:var(--accent)}
+.bar.mid i{background:var(--or)}
+.d-up{color:var(--vert);font-size:.78em;font-family:var(--mono)}
+.d-down{color:var(--rouge);font-size:.78em;font-family:var(--mono)}
+.flag{background:var(--or-pale);border-left:3px solid var(--or)}
+details.detail{margin-top:10px;border:1px solid var(--line);border-radius:9px;background:var(--card)}
+details.detail>summary{cursor:pointer;padding:9px 13px;font-size:.87rem;font-weight:600;list-style:none}
+details.detail>summary::-webkit-details-marker{display:none}
+details.detail>summary::before{content:"▸ ";color:var(--muted)}
+details.detail[open]>summary::before{content:"▾ "}
+details.detail .inner{padding:0 13px 13px}
+.drop{border:2px dashed var(--line-strong);border-radius:11px;padding:26px 18px;text-align:center;
+  cursor:pointer;background:var(--paper);transition:border-color .15s,background .15s}
+.drop:hover,.drop:focus-visible{border-color:var(--bleu);background:var(--bleu-pale)}
+.drop.over{border-color:var(--vert);background:var(--vert-pale)}
+.drop b{display:block;font-size:.95rem;margin-bottom:3px}
+.drop span{font-size:.83rem;color:var(--muted)}
+.legend{font-size:.8rem;color:var(--muted);margin-top:9px;line-height:1.6}
+.legend b{color:var(--ink-soft)}
+footer.site{max-width:1180px;margin:0 auto;padding:20px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.68rem;color:var(--muted);line-height:1.7}
+@media (max-width:640px){.site-inner{gap:8px}.roster-state{margin-left:0;text-align:left;width:100%}}
+@media print{.btn-row,textarea.code,header.site .roster-state{display:none!important}body{background:#fff}}
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="site-inner">
+    <div>
+      <div class="brand">Teacher dashboard <span>·</span> BBA</div>
+      <div class="brand-sub">A-Level French 9FR0 &amp; Spanish 9SP0 · Sixth Form</div>
+    </div>
+    <div class="roster-state" id="rosterState">roster empty</div>
+  </div>
+</header>
+
+<main>
+  <p class="intro">Paste the codes your students send you — one per line, any mix of languages and any mix of
+  <b>Le Lexique</b> and <b>revision dossier</b> codes. The page works out which is which. Everything is decoded
+  in this browser: nothing is uploaded, and no server ever sees a student name.</p>
+
+  <div class="card">
+    <h2>Import the Forms responses</h2>
+    <p class="hint">In Microsoft Forms choose <b>Open in Excel</b>, then <b>Save As → CSV</b>, and drop the file here.
+      Every code in the sheet is picked up — column order, extra columns and comma-or-semicolon separators
+      make no difference. Re-dropping a newer export later only adds what's new, so this is safe to repeat
+      each half-term.</p>
+    <div class="drop" id="drop" tabindex="0" role="button" aria-label="Drop a CSV export here, or press Enter to choose a file">
+      <b>Drop the CSV here</b>
+      <span>or click to choose a file · .csv, .txt, .tsv</span>
+    </div>
+    <input type="file" id="file" accept=".csv,.txt,.tsv,text/csv,text/plain" multiple hidden>
+    <div class="msg ok hidden" id="okFile"></div>
+  </div>
+
+  <div class="card">
+    <h2>Paste codes</h2>
+    <p class="hint">Accepts <code>LEXFR2.</code> <code>LEXFR1.</code> <code>LEXES2.</code> <code>LEXES1.</code>
+      <code>DOSFR1.</code> <code>DOSES1.</code> — one per line. Several codes from the same student over time
+      are welcome: the newest is shown, with the change since the previous one.</p>
+    <textarea class="code" id="codes" spellcheck="false"
+      placeholder="LEXFR2.eyJ2IjoyLCJuIjo…&#10;DOSFR1.eyJ2IjoxLCJuIjo…&#10;LEXES2.eyJ2IjoyLCJuIjo…"></textarea>
+    <div class="btn-row">
+      <button class="btn primary" id="btnAdd">Add to roster</button>
+      <button class="btn ghost" id="btnOnce">Read once, don't save</button>
+      <button class="btn ghost" id="btnClearBox">Clear box</button>
+      <span style="flex:1"></span>
+      <button class="btn ghost" id="btnBackup">Back up roster (.json)</button>
+      <button class="btn ghost" id="btnRestore">Restore</button>
+      <button class="btn danger" id="btnWipe">Empty roster</button>
+    </div>
+    <div class="msg err hidden" id="err"></div>
+    <div class="msg ok hidden" id="ok"></div>
+  </div>
+
+  <div id="results"></div>
+
+  <div class="card" id="legendCard" style="display:none">
+    <h2>Reading the tables</h2>
+    <p class="legend">
+      <b>Seen</b> — distinct items the student has met at least once, out of the whole list.
+      <b>Mastered</b> — items answered correctly enough times to leave the review cycle.
+      <b>Leeches</b> — items failed repeatedly; these are the ones worth teaching directly.
+      <b>Exam avg</b> — mean of the in-app tests, with the number of tests in brackets.
+      <b>Done / Opened</b> — dossier tiles marked finished, and tiles merely opened.
+      <b>Flagged hard</b> — tiles the student marked difficult.
+      <br>An amber row means <b>seen is climbing but mastered is not</b> — the student is browsing rather
+      than learning, which is the pattern most worth catching early.
+    </p>
+  </div>
+</main>
+
+<footer class="site">
+  Codes carry aggregate statistics only — no answers, no free text. Decoded locally in this browser; no server, no upload.
+  These are snapshots a student chose to send, not live monitoring. The roster is stored in this browser only:
+  clearing site data, or opening the page on another machine, starts it empty — use the backup button to move it.
+</footer>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   CODE FORMATS
+   ============================================================ */
+const FORMATS = {
+  "LEXFR2.":{kind:"lex",lang:"FR"}, "LEXFR1.":{kind:"lex",lang:"FR"},
+  "LEXES2.":{kind:"lex",lang:"ES"}, "LEXES1.":{kind:"lex",lang:"ES"},
+  "DOSFR1.":{kind:"dos",lang:"FR"}, "DOSES1.":{kind:"dos",lang:"ES"}
+};
+const GROUPS = [
+  {kind:"lex",lang:"FR",title:"Le Lexique — French",   tag:"LEXFR"},
+  {kind:"lex",lang:"ES",title:"El Léxico — Spanish",   tag:"LEXES"},
+  {kind:"dos",lang:"FR",title:"Revision dossier — French", tag:"DOSFR"},
+  {kind:"dos",lang:"ES",title:"Pasaporte — Spanish",   tag:"DOSES"}
+];
+const LS = "bba-teacher-roster-v1";
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+const $  = s => document.querySelector(s);
+const esc = s => String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const normName = s => String(s||"").toLowerCase().replace(/\s+/g," ").trim();
+const pct = (a,b) => b ? Math.round(100*a/b) : 0;
+const fmtDate = ts => { const d=new Date(ts); return isNaN(d) ? "—" :
+  d.toLocaleDateString(undefined,{day:"2-digit",month:"short",year:"numeric"}); };
+
+function delta(cur, prev){
+  if(prev==null || cur==null || cur===prev) return "";
+  const n = cur - prev;
+  return ' <span class="'+(n>0?"d-up":"d-down")+'">'+(n>0?"▲+":"▼")+n+"</span>";
+}
+function bar(p){
+  const cls = p<40 ? " low" : (p<70 ? " mid" : "");
+  return '<span class="bar'+cls+'"><i style="width:'+Math.max(0,Math.min(100,p))+'%"></i></span>';
+}
+function decode(line){
+  line = line.trim();
+  if(!line) return null;
+  let hit = null;
+  for(const p in FORMATS){ if(line.startsWith(p)){ hit = p; break; } }
+  if(!hit){
+    const head = line.slice(0,9).replace(/[^A-Za-z0-9.]/g,"");
+    throw new Error('unrecognised prefix "'+head+'…" — expected one of '+Object.keys(FORMATS).join(" "));
+  }
+  let p;
+  try{ p = JSON.parse(decodeURIComponent(escape(atob(line.slice(hit.length))))); }
+  catch(e){ throw new Error("could not decode — the code looks truncated or altered"); }
+  if(typeof p!=="object" || p===null) throw new Error("decoded, but the contents are not a record");
+  if(p.v!==1 && p.v!==2) throw new Error("unknown code version "+p.v);
+  if(!p.n) p.n = "(no name)";
+  if(!p.t) p.t = 0;
+  return Object.assign({}, FORMATS[hit], {prefix:hit, p:p});
+}
+
+/* exam average out of the x:[[day,score,count],…] array */
+function examAvg(x){
+  if(!Array.isArray(x) || !x.length) return null;
+  let num=0, den=0;
+  x.forEach(e=>{
+    const score = Array.isArray(e) ? e[1] : e;
+    const n = (Array.isArray(e) && e[2]) ? e[2] : 1;
+    if(typeof score==="number"){ num += score*n; den += n; }
+  });
+  return den ? {avg:Math.round(num/den), tests:x.length} : null;
+}
+
+/* ============================================================
+   ROSTER
+   ============================================================ */
+let roster = load();
+function load(){
+  try{
+    const raw = localStorage.getItem(LS);
+    if(raw){ const o = JSON.parse(raw); if(o && Array.isArray(o.entries)) return o; }
+  }catch(e){}
+  return {v:1, entries:[]};
+}
+let storageOk = true;
+function save(){
+  try{ localStorage.setItem(LS, JSON.stringify(roster)); }
+  catch(e){ storageOk = false; }
+}
+/* Identity: prefer the stable id the code carries; fall back to the typed name.
+   Codes emitted before ids existed keep working — they just group by name as before. */
+function idKey(p){
+  const id = p && p.i != null ? String(p.i).trim() : "";
+  return id ? "#"+id.toLowerCase() : "~"+normName(p.n);
+}
+const keyOf = e => e.kind+"|"+e.lang+"|"+idKey(e.p)+"|"+e.p.t;
+
+function addEntries(list){
+  const have = new Set(roster.entries.map(keyOf));
+  let added = 0;
+  list.forEach(e=>{ const k = keyOf(e); if(!have.has(k)){ have.add(k); roster.entries.push(e); added++; } });
+  save();
+  return added;
+}
+
+/* group entries → one row per student per group, newest first with previous kept */
+function grouped(entries, kind, lang){
+  const byWho = {};
+  entries.filter(e=>e.kind===kind && e.lang===lang).forEach(e=>{
+    const k = idKey(e.p);
+    (byWho[k] = byWho[k] || []).push(e.p);
+  });
+  return Object.values(byWho).map(arr=>{
+    arr.sort((a,b)=>a.t-b.t);
+    return {codes:arr, cur:arr[arr.length-1], prev:arr.length>1?arr[arr.length-2]:null};
+  }).sort((a,b)=>String(a.cur.n).localeCompare(String(b.cur.n)));
+}
+/* does any student in this set carry an id? decides whether the ID column shows */
+const anyId = studs => studs.some(s=>s.codes.some(c=>c.i!=null && String(c.i).trim()));
+const idCell = c => (c.i!=null && String(c.i).trim()) ? esc(String(c.i).trim()) : '<span style="color:var(--muted)">—</span>';
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+let lastTables = {};   // id → {header:[], rows:[[]]} for CSV
+
+function render(entries){
+  const R = $("#results");
+  R.innerHTML = "";
+  lastTables = {};
+  let any = false;
+
+  GROUPS.forEach(g=>{
+    const studs = grouped(entries, g.kind, g.lang);
+    if(!studs.length) return;
+    any = true;
+    const id = g.kind + g.lang;
+    const block = document.createElement("div");
+    block.innerHTML = '<div class="section-label"><span class="tag pill '+g.lang.toLowerCase()+'">'+g.tag+'</span>'
+                    + esc(g.title) + ' · ' + studs.length + ' student' + (studs.length>1?"s":"") + '</div>';
+    block.appendChild(g.kind==="lex" ? lexTable(studs,id) : dosTable(studs,id));
+    block.appendChild(detailBlock(studs, g));
+    const row = document.createElement("div");
+    row.className = "btn-row";
+    row.innerHTML = '<button class="btn ghost" data-csv="'+id+'">Download CSV</button>';
+    block.appendChild(row);
+    R.appendChild(block);
+  });
+
+  if(!any){
+    R.innerHTML = '<div class="card"><p style="color:var(--muted);margin:0">'
+      + 'Nothing in the roster yet. Paste codes above and press <b>Add to roster</b>.</p></div>';
+  }
+  $("#legendCard").style.display = any ? "" : "none";
+
+  R.querySelectorAll("[data-csv]").forEach(b=>{
+    b.addEventListener("click", ()=>downloadCsv(b.getAttribute("data-csv")));
+  });
+  paintState();
+}
+
+function lexTable(studs, id){
+  const unitSet = new Set();
+  studs.forEach(s=>s.codes.forEach(c=>Object.keys(c.u||{}).forEach(u=>unitSet.add(u))));
+  const units = [...unitSet].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
+
+  const withId = anyId(studs);
+  const header = ["Student"].concat(withId?["ID"]:[])
+                 .concat(["Exported","Codes","Seen","Of","Mastered","Sessions","Leeches","Exam avg"])
+                 .concat(units.map(u=>u+" %"));
+  const rows = [];
+
+  let html = '<div class="wrap"><table class="stats"><thead><tr>'
+           + '<th>Student</th>'+(withId?'<th>ID</th>':'')
+           + '<th>Exported</th><th>#</th><th>Seen</th><th>Mastered</th>'
+           + '<th>Sessions</th><th>Leeches</th><th>Exam avg</th>'
+           + units.map(u=>'<th>'+esc(u)+'</th>').join("")
+           + '</tr></thead><tbody>';
+
+  studs.forEach(st=>{
+    const c = st.cur, o = c.o||{}, po = st.prev ? (st.prev.o||{}) : null;
+    const seen = o.seen||0, total = o.total||0, mast = o.mast||0;
+    // browsing-not-learning flag: meaningful exposure, nothing retained
+    const flag = seen >= 20 && mast === 0;
+    const ex = examAvg(c.x);
+    html += '<tr'+(flag?' class="flag"':'')+'>'
+      + '<td class="name">'+esc(c.n)+'</td>'
+      + (withId?'<td class="num">'+idCell(c)+'</td>':'')
+      + '<td class="num">'+fmtDate(c.t)+'</td>'
+      + '<td class="num">'+st.codes.length+'</td>'
+      + '<td class="num">'+bar(pct(seen,total))+seen+' / '+total+delta(seen, po?po.seen:null)+'</td>'
+      + '<td class="num">'+mast+delta(mast, po?po.mast:null)+'</td>'
+      + '<td class="num">'+(o.sess!=null?o.sess:"—")+'</td>'
+      + '<td class="num">'+(o.lee!=null?o.lee:"—")+'</td>'
+      + '<td class="num">'+(ex?ex.avg+' % <span style="color:var(--muted)">('+ex.tests+')</span>':"—")+'</td>';
+    const rowOut = [c.n].concat(withId?[c.i!=null?String(c.i):""]:[])
+                   .concat([fmtDate(c.t), st.codes.length, seen, total, mast,
+                    o.sess!=null?o.sess:"", o.lee!=null?o.lee:"", ex?ex.avg:""]);
+    units.forEach(u=>{
+      const d = (c.u||{})[u];
+      if(!d){ html += '<td class="num" style="color:var(--muted)">—</td>'; rowOut.push(""); }
+      else{
+        const acc = d[3]!=null ? d[3] : pct(d[0]||0, d[1]||0);
+        html += '<td class="num">'+acc+' %<br><span style="color:var(--muted);font-size:.85em">'
+              + (d[0]||0)+'/'+(d[1]||0)+'</span></td>';
+        rowOut.push(acc);
+      }
+    });
+    html += '</tr>';
+    rows.push(rowOut);
+  });
+  html += '</tbody></table></div>';
+  lastTables[id] = {header:header, rows:rows, name:id};
+  const w = document.createElement("div"); w.innerHTML = html; return w.firstChild;
+}
+
+function dosTable(studs, id){
+  const secSet = new Set();
+  studs.forEach(s=>s.codes.forEach(c=>Object.keys(c.s||{}).forEach(k=>secSet.add(k))));
+  const secs = [...secSet].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
+
+  const withId = anyId(studs);
+  const header = ["Student"].concat(withId?["ID"]:[])
+                 .concat(["Exported","Codes","Done","Of","Opened","% complete","Flagged hard"])
+                 .concat(secs);
+  const rows = [];
+
+  let html = '<div class="wrap"><table class="stats"><thead><tr>'
+           + '<th>Student</th>'+(withId?'<th>ID</th>':'')
+           + '<th>Exported</th><th>#</th><th>Done</th><th>Opened</th>'
+           + '<th>% complete</th><th>Flagged hard</th>'
+           + secs.map(s=>'<th>'+esc(s)+'</th>').join("")
+           + '</tr></thead><tbody>';
+
+  studs.forEach(st=>{
+    const c = st.cur, o = c.o||{}, po = st.prev ? (st.prev.o||{}) : null;
+    const done = o.done||0, total = o.total||0, opened = o.opened||0;
+    const hard = Array.isArray(c.h) ? c.h.length : 0;
+    // opened a lot, finished almost none
+    const flag = opened >= 8 && done === 0;
+    html += '<tr'+(flag?' class="flag"':'')+'>'
+      + '<td class="name">'+esc(c.n)+'</td>'
+      + (withId?'<td class="num">'+idCell(c)+'</td>':'')
+      + '<td class="num">'+fmtDate(c.t)+'</td>'
+      + '<td class="num">'+st.codes.length+'</td>'
+      + '<td class="num">'+bar(pct(done,total))+done+' / '+total+delta(done, po?po.done:null)+'</td>'
+      + '<td class="num">'+opened+delta(opened, po?po.opened:null)+'</td>'
+      + '<td class="num">'+pct(done,total)+' %</td>'
+      + '<td class="num">'+(hard||"—")+'</td>';
+    const rowOut = [c.n].concat(withId?[c.i!=null?String(c.i):""]:[])
+                   .concat([fmtDate(c.t), st.codes.length, done, total, opened, pct(done,total), hard]);
+    secs.forEach(k=>{
+      const d = (c.s||{})[k];
+      if(!d){ html += '<td class="num" style="color:var(--muted)">—</td>'; rowOut.push(""); }
+      else{ html += '<td class="num">'+(d[0]||0)+'/'+(d[1]||0)+'</td>'; rowOut.push((d[0]||0)+"/"+(d[1]||0)); }
+    });
+    html += '</tr>';
+    rows.push(rowOut);
+  });
+  html += '</tbody></table></div>';
+  lastTables[id] = {header:header, rows:rows, name:id};
+  const w = document.createElement("div"); w.innerHTML = html; return w.firstChild;
+}
+
+/* per-student breakdown: lessons for the lexicon, hard-flagged tiles for the dossier */
+function detailBlock(studs, g){
+  const d = document.createElement("details");
+  d.className = "detail";
+  let inner = "";
+  studs.forEach(st=>{
+    const c = st.cur;
+    if(g.kind==="lex"){
+      const l = Array.isArray(c.l) ? c.l : [];
+      if(!l.length) return;
+      inner += '<p style="margin:12px 0 4px"><b>'+esc(c.n)+'</b></p><div class="wrap">'
+             + '<table class="stats"><thead><tr><th>Lesson</th><th>Seen</th><th>Of</th><th>Accuracy</th></tr></thead><tbody>';
+      l.slice().sort((a,b)=>String(a[0]).localeCompare(String(b[0]),undefined,{numeric:true}))
+       .forEach(r=>{
+        const acc = r[3]!=null ? r[3] : pct(r[1]||0, r[2]||0);
+        inner += '<tr><td>'+esc(r[0])+'</td><td class="num">'+(r[1]||0)+'</td>'
+               + '<td class="num">'+(r[2]||0)+'</td>'
+               + '<td class="num">'+bar(acc)+acc+' %</td></tr>';
+       });
+      inner += '</tbody></table></div>';
+    } else {
+      const h = Array.isArray(c.h) ? c.h : [];
+      if(!h.length) return;
+      inner += '<p style="margin:12px 0 4px"><b>'+esc(c.n)+'</b> — flagged difficult: '
+             + '<span style="font-family:var(--mono);font-size:.8rem;color:var(--ink-soft)">'
+             + h.map(esc).join(", ") + '</span></p>';
+    }
+  });
+  if(!inner){ d.style.display="none"; return d; }
+  d.innerHTML = '<summary>Per-student breakdown</summary><div class="inner">'+inner+'</div>';
+  return d;
+}
+
+/* ============================================================
+   CSV
+   ============================================================ */
+function csvCell(v){
+  const s = String(v==null?"":v);
+  return /[",\n;]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s;
+}
+function downloadCsv(id){
+  const t = lastTables[id];
+  if(!t) return;
+  const lines = [t.header.map(csvCell).join(",")]
+    .concat(t.rows.map(r=>r.map(csvCell).join(",")));
+  const blob = new Blob(["﻿"+lines.join("\r\n")], {type:"text/csv;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "bba_"+id+"_"+new Date().toISOString().slice(0,10)+".csv";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+}
+
+/* ============================================================
+   UI
+   ============================================================ */
+function showErr(list){
+  const box = $("#err");
+  if(!list.length){ box.classList.add("hidden"); return; }
+  box.innerHTML = "<b>"+list.length+" line"+(list.length>1?"s":"")+" could not be read</b><br>"+list.map(esc).join("<br>");
+  box.classList.remove("hidden");
+}
+function showOk(msg){
+  const box = $("#ok");
+  if(!msg){ box.classList.add("hidden"); return; }
+  box.textContent = msg;
+  box.classList.remove("hidden");
+}
+function paintState(){
+  const n = roster.entries.length;
+  const names = new Set(roster.entries.map(e=>e.lang+"|"+normName(e.p.n))).size;
+  $("#rosterState").textContent = !storageOk
+    ? "roster cannot be saved in this browser"
+    : (n ? names+" student"+(names>1?"s":"")+" · "+n+" code"+(n>1?"s":"")+" stored" : "roster empty");
+}
+
+function readBox(){
+  const lines = $("#codes").value.split(/\n+/);
+  const good = [], errs = [];
+  lines.forEach((l,i)=>{
+    if(!l.trim()) return;
+    try{ const e = decode(l); if(e) good.push(e); }
+    catch(err){ errs.push("Line "+(i+1)+": "+err.message); }
+  });
+  showErr(errs);
+  return good;
+}
+
+/* ============================================================
+   FILE IMPORT — Forms → Excel → Save As CSV
+   Codes are self-describing, so we scan the whole file for them rather than
+   guessing at columns. That survives extra columns, reordered questions,
+   renamed headings, and comma-vs-semicolon exports from a localised Excel.
+   ============================================================ */
+const CODE_RE = /\b(?:LEX|DOS)(?:FR|ES)[12]\.[A-Za-z0-9+/=]{16,}/g;
+
+function importText(text, label, tally){
+  const found = String(text).match(CODE_RE) || [];
+  tally.scanned += found.length;
+  const good = [];
+  found.forEach(c=>{
+    try{ const e = decode(c); if(e) good.push(e); }
+    catch(err){ tally.bad.push(label+": "+err.message); }
+  });
+  return good;
+}
+
+function handleFiles(files){
+  const list = [...files];
+  if(!list.length) return;
+  const tally = {scanned:0, bad:[], files:0};
+  let pending = list.length, collected = [];
+  list.forEach(f=>{
+    const rd = new FileReader();
+    rd.onload = ()=>{
+      tally.files++;
+      collected = collected.concat(importText(rd.result, f.name, tally));
+      if(--pending === 0) finish();
+    };
+    rd.onerror = ()=>{ tally.bad.push(f.name+": could not be read"); if(--pending===0) finish(); };
+    rd.readAsText(f, "utf-8");
+  });
+
+  function finish(){
+    const box = $("#okFile");
+    if(!tally.scanned){
+      box.className = "msg err";
+      box.innerHTML = "<b>No codes found in "+tally.files+" file"+(tally.files===1?"":"s")+".</b><br>"
+        + "Check you exported the response sheet rather than the form itself, and saved it as CSV. "
+        + "The column holding the codes can be anywhere.";
+      box.classList.remove("hidden");
+      return;
+    }
+    const added = addEntries(collected);
+    const dup = collected.length - added;
+    box.className = "msg ok";
+    box.innerHTML = "<b>"+added+" new code"+(added===1?"":"s")+" imported</b> from "
+      + tally.files+" file"+(tally.files===1?"":"s")+"."
+      + (dup ? " "+dup+" already in the roster, skipped." : "")
+      + (tally.bad.length ? "<br>"+tally.bad.length+" could not be decoded: "+esc(tally.bad.slice(0,3).join(" · ")) : "")
+      + (storageOk ? "" : "<br>WARNING: this browser refused to save — the roster will vanish on reload.");
+    box.classList.remove("hidden");
+    render(roster.entries);
+  }
+}
+
+const drop = $("#drop"), fileInput = $("#file");
+drop.addEventListener("click", ()=>fileInput.click());
+drop.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); fileInput.click(); } });
+fileInput.addEventListener("change", ()=>{ handleFiles(fileInput.files); fileInput.value=""; });
+["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev, e=>{
+  e.preventDefault(); e.stopPropagation(); drop.classList.add("over");
+}));
+["dragleave","drop"].forEach(ev=>drop.addEventListener(ev, e=>{
+  e.preventDefault(); e.stopPropagation(); drop.classList.remove("over");
+}));
+drop.addEventListener("drop", e=>{ if(e.dataTransfer && e.dataTransfer.files) handleFiles(e.dataTransfer.files); });
+/* stop a stray drop elsewhere on the page from navigating away from the roster */
+["dragover","drop"].forEach(ev=>window.addEventListener(ev, e=>{
+  if(!drop.contains(e.target)) e.preventDefault();
+}));
+
+$("#btnAdd").addEventListener("click", ()=>{
+  const good = readBox();
+  if(!good.length){ showOk(""); render(roster.entries); return; }
+  const added = addEntries(good);
+  const dup = good.length - added;
+  showOk(added+" code"+(added===1?"":"s")+" added"
+        + (dup ? " · "+dup+" already in the roster, skipped" : "")
+        + (storageOk ? "" : " · WARNING: this browser refused to save, the roster will vanish on reload"));
+  render(roster.entries);
+  $("#codes").value = "";
+});
+
+$("#btnOnce").addEventListener("click", ()=>{
+  const good = readBox();
+  showOk(good.length ? "Showing "+good.length+" code"+(good.length===1?"":"s")+" — not saved to the roster." : "");
+  render(good);
+});
+
+$("#btnClearBox").addEventListener("click", ()=>{
+  $("#codes").value = ""; showErr([]); showOk("");
+});
+
+$("#btnWipe").addEventListener("click", ()=>{
+  if(!roster.entries.length) return;
+  if(!confirm("Empty the roster? Every code stored in this browser will be deleted. This cannot be undone."))
+    return;
+  roster = {v:1, entries:[]};
+  try{ localStorage.removeItem(LS); }catch(e){}
+  showOk("Roster emptied."); showErr([]);
+  render(roster.entries);
+});
+
+$("#btnBackup").addEventListener("click", ()=>{
+  const blob = new Blob([JSON.stringify(roster)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "bba-teacher-roster-"+new Date().toISOString().slice(0,10)+".json";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+});
+
+$("#btnRestore").addEventListener("click", ()=>{
+  const inp = document.createElement("input");
+  inp.type = "file"; inp.accept = ".json";
+  inp.addEventListener("change", ()=>{
+    const f = inp.files[0]; if(!f) return;
+    const rd = new FileReader();
+    rd.onload = ()=>{
+      try{
+        const o = JSON.parse(rd.result);
+        if(!o || !Array.isArray(o.entries)) throw 0;
+        const added = addEntries(o.entries.filter(e=>e && e.p && e.kind && e.lang));
+        showOk("Restored — "+added+" new code"+(added===1?"":"s")+" merged into the roster.");
+        showErr([]);
+        render(roster.entries);
+      }catch(e){ showErr(["That file is not a roster backup from this page."]); }
+    };
+    rd.readAsText(f);
+  });
+  inp.click();
+});
+
+/* go */
+render(roster.entries);
+paintState();
+})();
+</script>
+</body>
+</html>
