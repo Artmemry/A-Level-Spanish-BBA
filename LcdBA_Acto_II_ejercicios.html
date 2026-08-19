@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Casa de Bernarda Alba - Acto II</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .keyboard-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #f0a500;
+            color: #1a1a2e;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(240, 165, 0, 0.4);
+            z-index: 999;
+            transition: all 0.3s;
+        }
+
+        .keyboard-toggle:hover { transform: scale(1.05); }
+
+        #accentKeyboard {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: rgba(240, 165, 0, 0.95);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+        }
+
+        #accentKeyboard.show { display: block; }
+
+        .accent-btn {
+            background: #1a1a2e;
+            color: #f0a500;
+            border: none;
+            padding: 8px 12px;
+            margin: 3px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .accent-btn:hover {
+            background: #f0a500;
+            color: #1a1a2e;
+            transform: scale(1.1);
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #f0a500;
+            margin-bottom: 10px;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #c0c0c0;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .download-section {
+            margin-bottom: 20px;
+            text-align: center;
+            background: rgba(156, 39, 176, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #9C27B0;
+        }
+
+        #studentName {
+            width: 300px;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(240,165,0,0.5);
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-size: 1em;
+            margin-right: 10px;
+        }
+
+        #studentName::placeholder { color: #a0a0a0; }
+
+        .download-btn {
+            background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(156, 39, 176, 0.4);
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(135deg, #7B1FA2 0%, #6A1B9A 100%);
+            transform: scale(1.05);
+        }
+        
+        .exercise-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+        
+        .exercise-btn {
+            background: rgba(240, 165, 0, 0.2);
+            border: 2px solid #f0a500;
+            color: #f0a500;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        
+        .exercise-btn:hover {
+            background: #f0a500;
+            color: #1a1a2e;
+            transform: translateY(-2px);
+        }
+        
+        .exercise-btn.active {
+            background: #f0a500;
+            color: #1a1a2e;
+        }
+        
+        .exercise-section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .exercise-section.active { display: block; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .question {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #f0a500;
+        }
+        
+        .question-text {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(240, 165, 0, 0.3);
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-size: 1em;
+            margin-bottom: 10px;
+            transition: border 0.3s;
+        }
+        
+        input[type="text"]:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #f0a500;
+        }
+        
+        textarea {
+            min-height: 100px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        select { cursor: pointer; }
+        option { background: #1a1a2e; color: #e0e0e0; }
+        
+        .check-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            margin-right: 10px;
+            margin-top: 5px;
+        }
+        
+        .check-btn:hover {
+            background: #45a049;
+            transform: scale(1.05);
+        }
+        
+        .answer {
+            display: none;
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid #4CAF50;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 8px;
+            color: #a5d6a7;
+        }
+        
+        .answer.show {
+            display: block;
+            animation: slideDown 0.3s;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; }
+            to { opacity: 1; max-height: 1000px; }
+        }
+        
+        .note {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-style: italic;
+            color: #ffe082;
+        }
+
+        .text-passage {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            border-left: 4px solid #6495ED;
+        }
+
+        .blank {
+            display: inline-block;
+            min-width: 80px;
+            padding: 2px 8px;
+            margin: 0 3px;
+            border-bottom: 2px solid #f0a500;
+            background: rgba(240, 165, 0, 0.1);
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .vocab-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #f0a500;
+        }
+        
+        .symbol-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .symbol-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #9C27B0;
+        }
+        
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .character-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .gap-exercise {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            border-left: 4px solid #FF9800;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>La Casa de Bernarda Alba - Acto II</h1>
+        <p class="subtitle">Ejercicios para preparación de ensayos A-Level</p>
+        
+        <div class="download-section">
+            <h3 style="color: #9C27B0; margin-bottom: 15px;">💾 Guardar Tu Trabajo</h3>
+            <p style="color: #c0c0c0; margin-bottom: 15px; font-size: 0.9em;">Introduce tu nombre y descarga tus respuestas</p>
+            <input type="text" id="studentName" placeholder="Escribe tu nombre completo aquí">
+            <button class="download-btn" onclick="downloadWork()">📥 DESCARGAR TRABAJO</button>
+        </div>
+
+        <div class="exercise-selector">
+            <button class="exercise-btn active" onclick="showExercise(1)">Comprensión</button>
+            <button class="exercise-btn" onclick="showExercise(2)">Análisis</button>
+            <button class="exercise-btn" onclick="showExercise(3)">Traducciones</button>
+            <button class="exercise-btn" onclick="showExercise(4)">Textos Clave</button>
+            <button class="exercise-btn" onclick="showExercise(5)">Mini Ensayos</button>
+        </div>
+
+        <button class="keyboard-toggle" onclick="toggleKeyboard()">Ñ á é í ó ú</button>
+        <div id="accentKeyboard">
+            <div style="text-align: center; margin-bottom: 10px; color: #1a1a2e; font-weight: bold;">Acentos</div>
+            <button class="accent-btn" onclick="insertChar('á')">á</button>
+            <button class="accent-btn" onclick="insertChar('é')">é</button>
+            <button class="accent-btn" onclick="insertChar('í')">í</button>
+            <button class="accent-btn" onclick="insertChar('ó')">ó</button>
+            <button class="accent-btn" onclick="insertChar('ú')">ú</button>
+            <button class="accent-btn" onclick="insertChar('ñ')">ñ</button>
+            <br>
+            <button class="accent-btn" onclick="insertChar('Á')">Á</button>
+            <button class="accent-btn" onclick="insertChar('É')">É</button>
+            <button class="accent-btn" onclick="insertChar('Í')">Í</button>
+            <button class="accent-btn" onclick="insertChar('Ó')">Ó</button>
+            <button class="accent-btn" onclick="insertChar('Ú')">Ú</button>
+            <button class="accent-btn" onclick="insertChar('Ñ')">Ñ</button>
+            <br>
+            <button class="accent-btn" onclick="insertChar('¿')">¿</button>
+            <button class="accent-btn" onclick="insertChar('¡')">¡</button>
+            <button class="accent-btn" onclick="insertChar('ü')">ü</button>
+            <button class="accent-btn" onclick="insertChar('Ü')">Ü</button>
+        </div>
+
+        <!-- EJERCICIO 1: COMPRENSIÓN -->
+        <div id="ex1" class="exercise-section active">
+            <h2 style="color: #f0a500; margin-bottom: 20px;">Comprensión del Segundo Acto</h2>
+            
+            <div class="gap-exercise">
+                <h3 style="color: #FF9800; margin-bottom: 15px;">Resumen del Acto II</h3>
+                <p>Completa los espacios en blanco:</p>
+                <p>La escena comienza con las hijas de Bernarda cosiendo en una habitación, hablando del noviazgo de Angustias y de Pepe el Romano y escuchando a "la Poncia" hablar de su difunto <input type="text" class="blank" id="gap1" placeholder="...">. Tras una discusión entre Martirio y Adela, Poncia le dice a ésta que lo que está haciendo no está bien. Adela empieza a hablar con Poncia sobre sus <input type="text" class="blank" id="gap2" placeholder="..."> hacia Pepe cuando las otras hermanas vuelven diciendo que los segadores ya han venido y se asoman a verlos cuando se escuchan sus cantos.</p>
+                
+                <p>Martirio está contando a Amelia que escuchó ruido la noche anterior cuando Angustias vuelve gritando porque le han quitado el <input type="text" class="blank" id="gap3" placeholder="..."> que tenía de Pepe, Poncia lo busca y lo encuentra en la habitación de Martirio.</p>
+                
+                <p>Tras una discusión entre las hermanas, Bernarda les dice a todas que salgan y empieza a hablar con Poncia, quien le da pistas de lo que pasa en la casa. Angustias dice que Pepe lleva toda la semana yéndose a la una y media, y a pesar de que Poncia explica que él aún estaba por la casa a las cuatro y media la madrugada anterior, Bernarda se niega a admitir lo que <input type="text" class="blank" id="gap4" placeholder="...">.</p>
+                
+                <p>Adela admite a Martirio lo que hace con Pepe durante una de sus discusiones mientras que la criada entra en escena diciendo que hay un gran <input type="text" class="blank" id="gap5" placeholder="..."> en la calle. Cuando Poncia vuelve de ver lo que pasaba, como le había ordenado hacer Bernarda, explica que la hija de la Librada tuvo un <input type="text" class="blank" id="gap6" placeholder="..."> con alguien, que mató al niño y que la descubrieron, y que ahora la quieren matar. Martirio y Bernarda están a favor de que maten a la chica por su indecencia, mientras que Adela pide que la dejen y se echa la mano al <input type="text" class="blank" id="gap7" placeholder="...">.</p>
+                
+                <button class="check-btn" onclick="checkGaps()">Verificar Respuestas</button>
+                <div id="gapAnswers" class="answer" style="display: none;">
+                    <strong>Respuestas correctas:</strong><br>
+                    1. marido<br>
+                    2. sentimientos<br>
+                    3. retrato<br>
+                    4. pasa<br>
+                    5. tumulto<br>
+                    6. hijo<br>
+                    7. vientre
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">1. ¿Por qué se asusta Amelia cuando Poncia está contando cómo fue la primera vez que habló con su marido?</div>
+                <textarea id="q1_1" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans1_1')">Verificar</button>
+                <div id="ans1_1" class="answer">
+                    <strong>Respuesta:</strong> Porque creyó que venía Bernarda.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">2. ¿Por qué dice Poncia que se está mejor en la casa de las vecinas del callejón?</div>
+                <textarea id="q1_2" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans1_2')">Verificar</button>
+                <div id="ans1_2" class="answer">
+                    <strong>Respuesta:</strong> Porque allí se ríe y se oyen porrazos.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">3. ¿Qué quiere hacer Adela cuando escucha a los hombres cantar?</div>
+                <textarea id="q1_3" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans1_3')">Verificar</button>
+                <div id="ans1_3" class="answer">
+                    <strong>Respuesta:</strong> Ir a los campos.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">4. ¿Qué dice Amelia sobre el hecho de nacer mujer?</div>
+                <textarea id="q1_4" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans1_4')">Verificar</button>
+                <div id="ans1_4" class="answer">
+                    <strong>Respuesta:</strong> Que es el mayor castigo.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">5. Cuando Martirio dice que escucha ruidos por la noche en el corral, ¿a quién se refiere cuando dice "una mulilla sin desbravar"?</div>
+                <textarea id="q1_5" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans1_5')">Verificar</button>
+                <div id="ans1_5" class="answer">
+                    <strong>Respuesta:</strong> A Adela.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">6. ¿Qué es lo que le quitan a Angustias?</div>
+                <textarea id="q1_6" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans1_6')">Verificar</button>
+                <div id="ans1_6" class="answer">
+                    <strong>Respuesta:</strong> El retrato de Pepe.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">7. ¿Quién le había quitado el objeto a Angustias?</div>
+                <textarea id="q1_7" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans1_7')">Verificar</button>
+                <div id="ans1_7" class="answer">
+                    <strong>Respuesta:</strong> Martirio.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">8. ¿Qué excusa pone Martirio por haberlo hecho?</div>
+                <textarea id="q1_8" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans1_8')">Verificar</button>
+                <div id="ans1_8" class="answer">
+                    <strong>Respuesta:</strong> Dice que era una broma.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">9. ¿Por qué no dejó Bernarda que Martirio se casase con Enrique Humanes?</div>
+                <textarea id="q1_9" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans1_9')">Verificar</button>
+                <div id="ans1_9" class="answer">
+                    <strong>Respuesta:</strong> Porque su padre fue gañán.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">10. ¿Cómo reacciona Adela cuando se entera de que quieren matar a la hija de la Librada? ¿Por qué crees que lo hizo?</div>
+                <textarea id="q1_10" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans1_10')">Verificar</button>
+                <div id="ans1_10" class="answer">
+                    <strong>Respuesta:</strong> No quiere que la maten y se echa la mano al vientre. Adela se identifica con ella.
+                </div>
+            </div>
+        </div>
+
+        <!-- EJERCICIO 2: ANÁLISIS -->
+        <div id="ex2" class="exercise-section">
+            <h2 style="color: #f0a500; margin-bottom: 20px;">Análisis del Segundo Acto</h2>
+            <p style="color: #c0c0c0; margin-bottom: 20px;">Analiza las siguientes citas del segundo acto:</p>
+            
+            <div class="question">
+                <div class="question-text">a. Pág. 40. Angustias: "La envidia la come."</div>
+                <textarea id="q2_a" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans2_a')">Verificar</button>
+                <div id="ans2_a" class="answer">
+                    <strong>Análisis:</strong> Angustias sabe que su hermana Adela le tiene envidia porque se va a casar con Pepe. Refleja la tensión creciente entre las hermanas y cómo el amor de Pepe divide a la familia.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">b. Pág. 42. Poncia: "¿Dónde vas de noche cuando te levantas?"</div>
+                <textarea id="q2_b" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans2_b')">Verificar</button>
+                <div id="ans2_b" class="answer">
+                    <strong>Análisis:</strong> Poncia sabe que Adela se levanta por la noche y que se ve con Pepe. Muestra que los secretos en la casa son cada vez más difíciles de ocultar.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">c. Pág. 43. Poncia: "¡Velo!, para que las gentes no escupan al pasar por esta puerta."</div>
+                <textarea id="q2_c" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans2_c')">Verificar</button>
+                <div id="ans2_c" class="answer">
+                    <strong>Análisis:</strong> Esta frase se refiere a la reputación y al "qué dirán", tan importantes en la obra. Lo interesante es que La Poncia parece compartir la actitud de Bernarda.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">d. Pág. 44. Adela: "Nadie puede evitar que suceda lo que tiene que suceder."</div>
+                <textarea id="q2_d" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans2_d')">Verificar</button>
+                <div id="ans2_d" class="answer">
+                    <strong>Análisis:</strong> Este enunciado es una referencia al destino/la inevitabilidad, cuya idea tiene gran importancia en la obra. Anuncia la tragedia que se avecina.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">e. Pág. 46. Poncia: "¡Siquiera allí se ríe y se escuchan porrazos!"</div>
+                <textarea id="q2_e" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans2_e')">Verificar</button>
+                <div id="ans2_e" class="answer">
+                    <strong>Análisis:</strong> Poncia compara la felicidad de otra casa con la tristeza y represión de la casa de Bernarda. Destaca el contraste entre la vida dentro y fuera de la casa.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">f. Pág. 47. Magdalena: "Cada clase tiene que hacer lo suyo."</div>
+                <textarea id="q2_f" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans2_f')">Verificar</button>
+                <div id="ans2_f" class="answer">
+                    <strong>Análisis:</strong> Tenemos aquí otro ejemplo que alude a las clases sociales y a la función de cada una de ellas. Refleja la aceptación resignada del destino social.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">g. Pág. 47. Adela: "Se les perdona todo."</div>
+                <textarea id="q2_g" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans2_g')">Verificar</button>
+                <div id="ans2_g" class="answer">
+                    <strong>Análisis:</strong> Las mujeres se presentan como víctimas indefensas en la obra, sin embargo, a los hombres se les presenta como seres con más derechos y libertades, como muestra esta cita.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">h. Pág. 57. Bernarda: "No a ella, a él."</div>
+                <textarea id="q2_h" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans2_h')">Verificar</button>
+                <div id="ans2_h" class="answer">
+                    <strong>Análisis:</strong> Aunque Bernarda no quiera admitirlo, ella sabe que Pepe es la causa de los enfrentamientos. Revela que Bernarda comprende la verdadera naturaleza del problema.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">i. Pág. 59. Bernarda: "El lupanar se queda para alguna mujer ya difunta."</div>
+                <textarea id="q2_i" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans2_i')">Verificar</button>
+                <div id="ans2_i" class="answer">
+                    <strong>Análisis:</strong> Referencia a la madre de la Poncia, quien fue prostituta. Muestra la hipocresía de Bernarda y cómo usa el pasado de Poncia para humillarla.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">j. Pág. 66. Acotación: "Cogiéndose el vientre."</div>
+                <textarea id="q2_j" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans2_j')">Verificar</button>
+                <div id="ans2_j" class="answer">
+                    <strong>Análisis:</strong> Esta acción, y el hecho de que Adela defienda a la mujer que quieren matar, nos dice que Adela se identifica con la mujer. Sugiere que Adela podría estar embarazada o anticipa su propio destino.
+                </div>
+            </div>
+        </div>
+
+        <!-- EJERCICIO 3: TRADUCCIONES -->
+        <div id="ex3" class="exercise-section">
+            <h2 style="color: #f0a500; margin-bottom: 20px;">Traducciones al Inglés</h2>
+            <p style="color: #c0c0c0; margin-bottom: 20px;">Traduce las siguientes frases del segundo acto al inglés:</p>
+            
+            <div class="question">
+                <div class="question-text">a. «Ya sabes que ando detrás de ti, necesito una mujer buena, modosa, y ésa eres tú, si me das la conformidad.»</div>
+                <textarea id="q3_a" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans3_a')">Verificar</button>
+                <div id="ans3_a" class="answer">
+                    <strong>Traducción:</strong> "You already know that I am after you, I need a good woman, well behaved, and that is you, if you give me your consent."
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">b. No habléis de locos. Aquí es el único sitio donde no se puede pronunciar esta palabra.</div>
+                <textarea id="q3_b" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans3_b')">Verificar</button>
+                <div id="ans3_b" class="answer">
+                    <strong>Traducción:</strong> "Don't talk about crazy people. Here is the only place where that word can't be mentioned."
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">c. Ésas están mejor que vosotras. ¡Siquiera allí se ríe y se oyen porrazos!</div>
+                <textarea id="q3_c" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans3_c')">Verificar</button>
+                <div id="ans3_c" class="answer">
+                    <strong>Traducción:</strong> "Those are better than you. At least there they laugh and they make noise!"
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">d. Hace años vino otra de éstas y yo misma di dinero a mi hijo mayor para que fuera. Los hombres necesitan estas cosas.</div>
+                <textarea id="q3_d" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans3_d')">Verificar</button>
+                <div id="ans3_d" class="answer">
+                    <strong>Traducción:</strong> "One of those women came over a few years ago and I myself gave money to my eldest son to go. Men need these things."
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">e. Estoy deseando que llegue noviembre, los días de lluvia, la escarcha; todo lo que no sea este verano interminable.</div>
+                <textarea id="q3_e" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans3_e')">Verificar</button>
+                <div id="ans3_e" class="answer">
+                    <strong>Traducción:</strong> "I can't wait for November, rainy days, dew; anything except this endless summer."
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">f. ¿Dónde está el retrato de Pepe que tenía yo debajo de mi almohada? ¿Quién de vosotras lo tiene?</div>
+                <textarea id="q3_f" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans3_f')">Verificar</button>
+                <div id="ans3_f" class="answer">
+                    <strong>Traducción:</strong> "Where is the portrait of Pepe that I had under my pillow? Which one of you has it?"
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">g. Yo no tengo la culpa de que Pepe el Romano se haya fijado en mí.</div>
+                <textarea id="q3_g" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans3_g')">Verificar</button>
+                <div id="ans3_g" class="answer">
+                    <strong>Traducción:</strong> "It's not my fault if Pepe el Romano has chosen me."
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">h. ¡Y lo haría mil veces! ¡Mi sangre no se junta con la de los Humanes mientras yo viva! Su padre fue gañán.</div>
+                <textarea id="q3_h" placeholder="Escribe tu traducción aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans3_h')">Verificar</button>
+                <div id="ans3_h" class="answer">
+                    <strong>Traducción:</strong> "And I would do it a thousand times! My blood will not mix with that of the Humanes as long as I live! His father was a farmhand."
+                </div>
+            </div>
+        </div>
+
+        <!-- EJERCICIO 4: TEXTOS CLAVE -->
+        <div id="ex4" class="exercise-section">
+            <h2 style="color: #f0a500; margin-bottom: 20px;">Análisis de Textos Clave</h2>
+            <p style="color: #c0c0c0; margin-bottom: 20px;">Analiza los siguientes extractos importantes del segundo acto:</p>
+            
+            <div class="question">
+                <div class="question-text">1. Pág. 43. Poncia: «¡No seas como los niños chicos! Deja en paz a tu hermana y si Pepe el Romano te gusta te aguantas. (Adela llora.) Además, ¿quién dice que no te puedes casar con él? Tu hermana Angustias es una enferma. Esa no resiste el primer parto. Es estrecha de cintura, vieja, y con mi conocimiento te digo que se morirá. Entonces Pepe hará lo que hacen todos los viudos de esta tierra: se casará con la más joven, la más hermosa, y esa eres tú. Alimenta esa esperanza, olvídalo. Lo que quieras, pero no vayas contra la ley de Dios.»</div>
+                <textarea id="q4_1" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans4_1')">Verificar</button>
+                <div id="ans4_1" class="answer">
+                    <strong>Análisis:</strong> Poncia aconseja a Adela con pragmatismo y cinismo. Su consejo refleja la realidad social donde el matrimonio es una transacción y las mujeres deben esperar su turno. También muestra cómo Poncia conoce los secretos de todos y actúa como mediadora.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">2. Pág. 44. Adela: «Es inútil tu consejo. Ya es tarde. No por encima de ti, que eres una criada; por encima de mi madre saltaría para apagarme este fuego que tengo levantado por piernas y boca. ¿Qué puedes decir de mí? ¿Que me encierro en mi cuarto y no abro la puerta? ¿Que no duermo? ¡Soy más lista que tú! Mira a ver si puedes agarrar la liebre con tus manos.»</div>
+                <textarea id="q4_2" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans4_2')">Verificar</button>
+                <div id="ans4_2" class="answer">
+                    <strong>Análisis:</strong> Adela expresa su desesperación y rebeldía total. El "fuego" simboliza su pasión sexual reprimida. Su comparación con la "liebre" muestra su astucia para evadir la vigilancia. Revela que ha cruzado un punto de no retorno en su desafío a las normas.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">3. Pág. 56. Bernarda: «¡Silencio digo! Yo veía la tormenta venir, pero no creía que estallara tan pronto. ¡Ay, qué pedrisco de odio habéis echado sobre mi corazón! Pero todavía no soy anciana y tengo cinco cadenas para vosotras y esta casa levantada por mi padre para que ni las hierbas se enteren de mi desolación. ¡Fuera de aquí! (Salen. Bernarda se sienta desolada. La Poncia está de pie arrimada a los muros. Bernarda reacciona, da un golpe en el suelo y dice:) ¡Tendré que sentarles la mano! Bernarda, ¡acuérdate que ésta es tu obligación!»</div>
+                <textarea id="q4_3" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans4_3')">Verificar</button>
+                <div id="ans4_3" class="answer">
+                    <strong>Análisis:</strong> Bernarda reconoce el conflicto pero se niega a abordar sus causas reales. Su preocupación por "lo que dirán las hierbas" muestra su obsesión con las apariencias. Su monólogo revela la tensión entre su deber como madre y su naturaleza autoritaria.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">4. Pág. 58. Poncia: «No, Bernarda, aquí pasa una cosa muy grande. Yo no te quiero echar la culpa, pero tú no has dejado a tus hijas libres. Martirio es enamoradiza, digas lo que tú quieras. ¿Por qué no la dejaste casar con Enrique Humanes? ¿Por qué el mismo día que iba a venir a la ventana le mandaste recado que no viniera?»</div>
+                <textarea id="q4_4" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans4_4')">Verificar</button>
+                <div id="ans4_4" class="answer">
+                    <strong>Análisis:</strong> Poncia confronta directamente a Bernarda con las consecuencias de sus acciones. Revela que Bernarda destruyó deliberadamente la oportunidad de felicidad de Martirio por prejuicios de clase. Es un momento clave donde se expone la raíz de los problemas familiares.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">5. Pág. 65. Poncia: «Y para ocultar su vergüenza lo mató y lo metió debajo de unas piedras; pero unos perros, con más corazón que muchas criaturas, lo sacaron y como llevados por la mano de Dios lo han puesto en el tranco de su puerta. Ahora la quieren matar. La traen arrastrando por la calle abajo, y por las trochas y los terrenos del olivar vienen los hombres corriendo, dando unas voces que estremecen los campos.»</div>
+                <textarea id="q4_5" placeholder="Escribe tu análisis aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans4_5')">Verificar</button>
+                <div id="ans4_5" class="answer">
+                    <strong>Análisis:</strong> Esta escena funciona como un espejo de la situación de Adela. La violencia contra la hija de la Librada anticipa el destino posible de Adela. La reacción de Adela (cogiéndose el vientre) sugiere su identificación con la mujer perseguida y posiblemente su propio embarazo.
+                </div>
+            </div>
+        </div>
+
+        <!-- EJERCICIO 5: MINI ENSAYOS -->
+        <div id="ex5" class="exercise-section">
+            <h2 style="color: #f0a500; margin-bottom: 20px;">Mini Ensayos</h2>
+            <p style="color: #c0c0c0; margin-bottom: 20px;">Escribe un párrafo discutiendo las siguientes afirmaciones. Di si estás de acuerdo o no, y da ejemplos de la obra:</p>
+            
+            <div class="question">
+                <div class="question-text">1. Adela se compara a sí misma con una liebre, porque es igual de ágil.</div>
+                <textarea id="q5_1" placeholder="Escribe tu ensayo aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans5_1')">Verificar</button>
+                <div id="ans5_1" class="answer">
+                    <strong>Análisis:</strong> Esta afirmación es parcialmente correcta. Adela se compara con una liebre no solo por su agilidad para evadir la vigilancia, sino principalmente por su astucia y capacidad para esconder sus acciones. La liebre simboliza su rebeldía calculada y su determinación de seguir sus deseos a pesar de los obstáculos.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">2. Martirio asemeja a Adela con una mulilla sin desbravar, porque tienen la misma vitalidad.</div>
+                <textarea id="q5_2" placeholder="Escribe tu ensayo aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans5_2')">Verificar</button>
+                <div id="ans5_2" class="answer">
+                    <strong>Análisis:</strong> Esta comparación va más allá de la simple vitalidad. La "mulilla sin desbravar" representa la sexualidad indomable de Adela, su naturaleza pasional que desafía el control. Martirio, con esta metáfora, expresa tanto su envidia como su reconocimiento de la fuerza vital de su hermana.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">3. Martirio escondió el retrato de broma.</div>
+                <textarea id="q5_3" placeholder="Escribe tu ensayo aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans5_3')">Verificar</button>
+                <div id="ans5_3" class="answer">
+                    <strong>Análisis:</strong> Esta afirmación es falsa. Martirio esconde el retrato por celos y resentimiento hacia Angustias y Adela. Es un acto de sabotaje emocional que revela su amargura y su deseo inconsciente de poseer a Pepe. La "broma" es solo una excusa para ocultar sus verdaderos sentimientos.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">4. Angustias sabe lo que hace Pepe.</div>
+                <textarea id="q5_4" placeholder="Escribe tu ensayo aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans5_4')">Verificar</button>
+                <div id="ans5_4" class="answer">
+                    <strong>Análisis:</strong> Angustias parece ser la única que ignora la verdad sobre Pepe. Su ingenuidad y desesperación por casarse la ciegan ante las evidencias. Representa la víctima perfecta del sistema: obsesionada con el matrimonio como única salida, es incapaz de ver la realidad de su situación.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">5. Poncia sabe lo que pasa en la casa.</div>
+                <textarea id="q5_5" placeholder="Escribe tu ensayo aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans5_5')">Verificar</button>
+                <div id="ans5_5" class="answer">
+                    <strong>Análisis:</strong> Totalmente cierto. Poncia actúa como la conciencia de la obra, conociendo todos los secretos. Su posición de criada le permite observar sin ser completamente parte de la familia, dándole una perspectiva única sobre los conflictos y hipocresías de la casa.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">6. Bernarda sabe lo que pasa en la casa.</div>
+                <textarea id="q5_6" placeholder="Escribe tu ensayo aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans5_6')">Verificar</button>
+                <div id="ans5_6" class="answer">
+                    <strong>Análisis:</strong> Bernarda sabe pero se niega a admitirlo conscientemente. Su comentario "No a ella, a él" revela que comprende la verdad, pero su obsesión con las apariencias y el control le impide enfrentar la realidad. Prefiere aumentar la represión antes que reconocer el fracaso de su sistema.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">7. Adela se identifica con la hija de la Librada.</div>
+                <textarea id="q5_7" placeholder="Escribe tu ensayo aquí..."></textarea>
+                <button class="check-btn" onclick="toggleAnswer('ans5_7')">Verificar</button>
+                <div id="ans5_7" class="answer">
+                    <strong>Análisis:</strong> Completamente cierto. La reacción de Adela ("No, no, para matarla no!" y cogerse el vientre) muestra su identificación total con la mujer perseguida. Ambas han transgredido las normas sexuales y enfrentan el castigo social. Esta escena funciona como un presagio del destino de Adela.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mostrar/ocultar ejercicios
+        function showExercise(num) {
+            // Ocultar todos los ejercicios
+            document.querySelectorAll('.exercise-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Mostrar el ejercicio seleccionado
+            document.getElementById('ex' + num).classList.add('active');
+            
+            // Actualizar botones activos
+            document.querySelectorAll('.exercise-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Mostrar/ocultar respuestas
+        function toggleAnswer(id) {
+            const answer = document.getElementById(id);
+            answer.classList.toggle('show');
+        }
+
+        // Verificar respuestas de espacios en blanco
+        function checkGaps() {
+            const answers = {
+                gap1: 'marido',
+                gap2: 'sentimientos',
+                gap3: 'retrato',
+                gap4: 'pasa',
+                gap5: 'tumulto',
+                gap6: 'hijo',
+                gap7: 'vientre'
+            };
+            
+            let allCorrect = true;
+            
+            for (const [id, correctAnswer] of Object.entries(answers)) {
+                const input = document.getElementById(id);
+                const userAnswer = input.value.trim().toLowerCase();
+                
+                if (userAnswer === correctAnswer) {
+                    input.style.backgroundColor = 'rgba(76, 175, 80, 0.3)';
+                    input.style.borderColor = '#4CAF50';
+                } else {
+                    input.style.backgroundColor = 'rgba(244, 67, 54, 0.3)';
+                    input.style.borderColor = '#f44336';
+                    allCorrect = false;
+                }
+            }
+            
+            // Mostrar respuestas correctas
+            document.getElementById('gapAnswers').classList.add('show');
+        }
+
+        // Teclado de acentos
+        let activeInput = null;
+
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                activeInput = e.target;
+            }
+        });
+
+        function insertChar(char) {
+            if (activeInput) {
+                const start = activeInput.selectionStart;
+                const end = activeInput.selectionEnd;
+                const value = activeInput.value;
+                
+                activeInput.value = value.substring(0, start) + char + value.substring(end);
+                activeInput.selectionStart = activeInput.selectionEnd = start + char.length;
+                activeInput.focus();
+            }
+        }
+
+        function toggleKeyboard() {
+            const keyboard = document.getElementById('accentKeyboard');
+            keyboard.classList.toggle('show');
+        }
+
+        // Descargar trabajo
+        function downloadWork() {
+            const studentName = document.getElementById('studentName').value || 'Estudiante';
+            let content = `ANÁLISIS DE "LA CASA DE BERNARDA ALBA" - ACTO II\n`;
+            content += `Nombre del estudiante: ${studentName}\n`;
+            content += `Fecha: ${new Date().toLocaleDateString()}\n\n`;
+            
+            // Recopilar respuestas de todos los ejercicios
+            const exercises = document.querySelectorAll('.exercise-section');
+            exercises.forEach(exercise => {
+                const exerciseTitle = exercise.querySelector('h2').textContent;
+                content += `\n${exerciseTitle}\n`;
+                content += '='.repeat(exerciseTitle.length) + '\n\n';
+                
+                const questions = exercise.querySelectorAll('.question');
+                questions.forEach((question, index) => {
+                    const questionText = question.querySelector('.question-text').textContent;
+                    const answerInput = question.querySelector('input, textarea');
+                    
+                    content += `${index + 1}. ${questionText}\n`;
+                    if (answerInput && answerInput.value.trim() !== '') {
+                        content += `   Respuesta: ${answerInput.value}\n\n`;
+                    } else {
+                        content += `   Respuesta: [Sin responder]\n\n`;
+                    }
+                });
+            });
+            
+            // Crear y descargar archivo
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Bernarda_Alba_Acto_II_Analisis_${studentName.replace(/\s+/g, '_')}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('Trabajo descargado exitosamente.');
+        }
+    </script>
+<script>
+/* Corrección de mantenimiento (2026): la casilla activa sólo se registraba al
+   hacer clic, de modo que un alumno que se moviera con el tabulador perdía el
+   teclado de acentos. Ahora también se registra al recibir el foco. */
+['focus','focusin'].forEach(function (ev) {
+  document.addEventListener(ev, function (e) {
+    var t = e.target;
+    if (!t || !t.tagName) return;
+    var ok = t.tagName === 'TEXTAREA' || (t.tagName === 'INPUT' && /^(text|search|)$/i.test(t.type || ''));
+    if (ok && !/name|nombre/i.test(t.id || '')) { try { activeInput = t; } catch (err) {} }
+  }, true);
+});
+/* y el teclado no debe robar el cursor a la casilla */
+document.addEventListener('mousedown', function (e) {
+  var b = e.target && e.target.closest ? e.target.closest('.accent-btn') : null;
+  if (b) e.preventDefault();
+}, true);
+</script>
+</body>
+</html>

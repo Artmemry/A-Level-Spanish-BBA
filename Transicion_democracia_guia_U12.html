@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Unidad 12 — La Transición a la democracia (1975-1986)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root {
+  --ink:#7B1F2A; --paper:#FAF6F1; --line:#E0D8CB;
+  --good:#1D8348; --bad:#922B21; --warn:#B7950B;
+  --accent:#B5854A; --soft:#F2EBE1;
+  --tab-active:#7B1F2A; --tab-inactive:#9A8775;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0; padding:0 0 240px 0; background:var(--paper); color:#1F1A14;
+  font-family:-apple-system,"Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;
+  line-height:1.55;
+}
+header {
+  background:linear-gradient(135deg,#7B1F2A 0%,#5A1620 100%); color:#FAF6F1;
+  padding:22px 24px;
+}
+header h1 { margin:0 0 4px 0; font-size:1.2rem; font-weight:600; letter-spacing:.02em; }
+header .meta { font-size:.88rem; opacity:.85; }
+main { max-width:880px; margin:0 auto; padding:18px 18px; }
+.scorebar {
+  position:sticky; top:0; background:var(--paper); padding:8px 0;
+  display:flex; gap:10px; align-items:center; border-bottom:1px solid var(--line);
+  z-index:9; flex-wrap:wrap;
+}
+.scorebar .pill {
+  background:#fff; border:1px solid var(--line); padding:4px 10px;
+  border-radius:14px; font-size:.82rem;
+}
+.scorebar progress { flex:1; min-width:120px; height:8px; }
+.tabs {
+  display:flex; gap:4px; margin:18px 0 6px 0; border-bottom:2px solid var(--line);
+  flex-wrap:wrap;
+}
+.tab {
+  padding:9px 13px; cursor:pointer; border:none; background:none;
+  color:var(--tab-inactive); font-weight:600; font-size:.92rem;
+  border-bottom:2px solid transparent; margin-bottom:-2px; font-family:inherit;
+}
+.tab.active { color:var(--tab-active); border-bottom-color:var(--tab-active); }
+.tab:hover { color:var(--tab-active); }
+.section { display:none; }
+.section.active { display:block; }
+.section-intro {
+  background:var(--soft); border-left:3px solid var(--accent);
+  padding:12px 14px; font-size:.92rem; margin:10px 0 16px 0; border-radius:4px;
+}
+.timeline-item {
+  display:grid; grid-template-columns:130px 1fr; gap:14px;
+  padding:11px 14px; border-left:3px solid var(--accent);
+  background:#fff; border:1px solid var(--line); border-left-color:var(--accent);
+  margin:8px 0; border-radius:0 6px 6px 0;
+}
+.timeline-item .date { font-weight:700; color:var(--ink); font-size:.88rem; }
+.timeline-item .body { font-size:.93rem; }
+.timeline-item .body b { color:var(--ink); }
+.concept-card, .person-card {
+  background:#fff; border:1px solid var(--line); border-radius:8px;
+  padding:14px 16px; margin:10px 0;
+}
+.concept-card h3, .person-card h3 { margin:0 0 4px 0; color:var(--ink); font-size:1rem; }
+.concept-card .en, .person-card .dates {
+  font-style:italic; color:#7C6E5B; font-size:.85rem; margin-bottom:6px;
+}
+.concept-card p, .person-card p { margin:0; font-size:.92rem; }
+.vocab-block { margin:10px 0; }
+.vocab-block h3 { color:var(--ink); margin:14px 0 6px 0; font-size:1rem; }
+.vocab-table { width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--line); border-radius:6px; overflow:hidden; }
+.vocab-table td { padding:6px 10px; border-bottom:1px solid var(--line); font-size:.92rem; vertical-align:top; }
+.vocab-table td:first-child { font-weight:500; color:#1F1A14; width:42%; }
+.vocab-table td:last-child { color:#5A4A35; }
+.vocab-table tr:last-child td { border-bottom:none; }
+.qcard {
+  background:#fff; border:1px solid var(--line); border-radius:8px;
+  padding:14px 16px; margin:12px 0;
+}
+.qcard .qhead { font-size:.75rem; color:#888; margin-bottom:4px; }
+.qcard .qhead .tag { background:var(--soft); color:var(--ink); padding:1px 8px; border-radius:10px; font-size:.7rem; margin-left:6px; }
+.qcard .question { font-size:.96rem; margin-bottom:8px; }
+.options { display:flex; flex-wrap:wrap; gap:8px; margin:6px 0; }
+.opt-btn {
+  padding:7px 14px; border:1px solid var(--line); background:#fff;
+  border-radius:6px; cursor:pointer; font-size:.93rem; font-family:inherit;
+}
+.opt-btn.selected { background:var(--accent); color:#fff; border-color:var(--accent); }
+input.fill {
+  width:100%; padding:7px 10px; border:1px solid var(--line);
+  border-radius:6px; font-size:.96rem; font-family:inherit;
+}
+input.fill:focus { outline:2px solid var(--accent); }
+.controls { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
+.btn {
+  padding:6px 12px; border:1px solid var(--line); background:#fff; color:#1F1A14;
+  border-radius:5px; cursor:pointer; font-size:.88rem; font-family:inherit;
+}
+.btn.primary { background:var(--ink); color:#fff; border-color:var(--ink); }
+.btn.primary:hover { background:#5A1620; }
+.btn.primary:disabled { opacity:.55; cursor:default; }
+.feedback { margin-top:8px; font-size:.9rem; padding:8px 10px; border-radius:5px; display:none; }
+.feedback.show { display:block; }
+.feedback.ok { background:#E8F5EC; color:var(--good); border:1px solid #C4E5D0; }
+.feedback.fail { background:#FDECEA; color:var(--bad); border:1px solid #F4C7C3; }
+.feedback.hint { background:#FFF8E1; color:var(--warn); border:1px solid #F0E0A0; }
+.essay-card {
+  background:#fff; border:1px solid var(--line); border-radius:8px;
+  padding:16px 18px; margin:14px 0;
+}
+.essay-card h3 { margin:0 0 6px 0; color:var(--ink); font-size:1rem; }
+.essay-card .scaffold { font-size:.85rem; color:#5A4A35; padding:8px 12px; background:var(--soft); border-radius:5px; margin:8px 0; }
+.essay-card .scaffold ul { margin:4px 0 4px 16px; padding:0; }
+.essay-card .vocab-strip { font-size:.85rem; margin-top:6px; }
+.essay-card .vocab-strip span {
+  display:inline-block; background:#fff; border:1px solid var(--accent);
+  color:var(--ink); padding:1px 8px; margin:2px 3px 2px 0; border-radius:11px; font-size:.78rem;
+}
+.essay-card textarea {
+  width:100%; min-height:120px; padding:8px 10px;
+  border:1px solid var(--line); border-radius:6px; font-family:inherit;
+  font-size:.95rem; line-height:1.5; resize:vertical;
+}
+.essay-card textarea:focus { outline:2px solid var(--accent); }
+.summary-card {
+  background:#fff; border:2px solid var(--ink); border-radius:8px;
+  padding:16px 18px; margin:14px 0;
+}
+.summary-card h3 { margin:0 0 6px 0; color:var(--ink); }
+.accent-pad {
+  position:fixed; bottom:0; left:0; right:0;
+  background:rgba(250,246,241,.97); border-top:1px solid var(--line);
+  padding:9px 12px; z-index:50; backdrop-filter:blur(6px);
+  box-shadow:0 -2px 8px rgba(123,31,42,.08);
+  transition:transform .25s ease;
+}
+.accent-pad .label { font-size:.7rem; color:#666; margin-bottom:5px; letter-spacing:.04em; text-transform:uppercase; }
+.accent-pad .row { display:flex; flex-wrap:wrap; gap:5px; }
+.accent-pad button {
+  min-width:34px; height:34px; padding:0 6px; border:1px solid var(--line);
+  background:#fff; border-radius:5px; font-size:1.05rem; cursor:pointer; font-family:inherit;
+}
+.accent-pad button:hover { background:var(--soft); border-color:var(--accent); }
+.accent-pad button.special { background:var(--ink); color:#fff; }
+.accent-pad.hidden { transform:translateY(100%); }
+.pad-toggle {
+  position:fixed; right:14px; bottom:200px; z-index:51;
+  background:var(--ink); color:#fff; border:none; border-radius:50%;
+  width:38px; height:38px; font-size:1.1rem; cursor:pointer;
+  box-shadow:0 2px 8px rgba(0,0,0,.2);
+}
+@media (max-width:600px) {
+  .timeline-item { grid-template-columns:1fr; }
+  .accent-pad button { min-width:30px; height:30px; font-size:.95rem; }
+  .tab { padding:8px 9px; font-size:.85rem; }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Unidad 12 — La Transición a la democracia (1975-1986)</h1>
+  <div class="meta">Guía de estudio A-Level · vocabulario, conceptos, cronología, ensayos</div>
+</header>
+
+<main>
+  <div class="scorebar">
+    <span class="pill">Práctica: <b id="practica-score">0</b>/16</span>
+    <progress id="prog" max="16" value="0"></progress>
+    <button class="btn primary" id="downloadBtn">Descargar mis notas</button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="cron">Cronología</button>
+    <button class="tab" data-tab="conc">Conceptos clave</button>
+    <button class="tab" data-tab="pers">Personajes</button>
+    <button class="tab" data-tab="voc">Vocabulario</button>
+    <button class="tab" data-tab="prac">Práctica</button>
+    <button class="tab" data-tab="ens">Ensayos</button>
+    <button class="tab" data-tab="res">Resumen</button>
+  </div>
+
+  <!-- CRONOLOGÍA -->
+  <div class="section active" data-tab="cron">
+    <div class="section-intro">Línea temporal de los acontecimientos clave de la Transición, desde la muerte de Franco (1975) hasta la consolidación democrática y el ingreso en Europa (1986).</div>
+    <div class="timeline-item">
+          <div class="date">20 nov 1975</div>
+          <div class="body"><b>Muerte de Francisco Franco.</b> Tras casi 40 años de dictadura, muere el Caudillo. Comienza la incertidumbre sobre el futuro político del país.</div>
+        </div>
+<div class="timeline-item">
+          <div class="date">22 nov 1975</div>
+          <div class="body"><b>Juan Carlos I, proclamado rey.</b> El sucesor designado por Franco jura como rey. Pocos esperan que pilote un cambio democrático.</div>
+        </div>
+<div class="timeline-item">
+          <div class="date">jul 1976</div>
+          <div class="body"><b>Adolfo Suárez, presidente del Gobierno.</b> El rey nombra a Suárez, un antiguo cuadro del Movimiento Nacional, para liderar la apertura. La elección sorprende a casi todos.</div>
+        </div>
+<div class="timeline-item">
+          <div class="date">nov 1976</div>
+          <div class="body"><b>Ley para la Reforma Política.</b> Suárez consigue que las propias Cortes franquistas aprueben su autoliquidación. «Harakiri» legal del régimen.</div>
+        </div>
+<div class="timeline-item">
+          <div class="date">15 dic 1976</div>
+          <div class="body"><b>Referéndum sobre la Reforma Política.</b> El 94 % de los votos a favor. La transición negociada se valida en las urnas.</div>
+        </div>
+<div class="timeline-item">
+          <div class="date">9 abr 1977</div>
+          <div class="body"><b>Legalización del PCE.</b> Decisión arriesgada de Suárez en Sábado Santo. El Ejército lo vive como una traición; Carrillo acepta la monarquía y la bandera bicolor.</div>
+        </div>
+<div class="timeline-item">
+          <div class="date">15 jun 1977</div>
+          <div class="body"><b>Primeras elecciones democráticas.</b> Primer voto libre desde 1936. Gana la UCD (34 %), seguida por el PSOE (29 %), el PCE (9 %) y AP (8 %).</div>
+        </div>
+<div class="timeline-item">
+          <div class="date">15 oct 1977</div>
+          <div class="body"><b>Ley de Amnistía.</b> Se libera a los presos políticos del franquismo… y se impide juzgar los crímenes del régimen. Nace el «pacto del silencio».</div>
+        </div>
+<div class="timeline-item">
+          <div class="date">6 dic 1978</div>
+          <div class="body"><b>Aprobación de la Constitución.</b> El 87,8 % de los votantes la respalda. Monarquía parlamentaria, comunidades autónomas, derechos fundamentales.</div>
+        </div>
+<div class="timeline-item">
+          <div class="date">ene 1981</div>
+          <div class="body"><b>Dimisión de Suárez.</b> Acorralado por su propio partido, por la crisis económica y por los ruidos de sables, Suárez dimite.</div>
+        </div>
+<div class="timeline-item">
+          <div class="date">23 feb 1981</div>
+          <div class="body"><b>TEJERAZO (23-F).</b> El teniente coronel Antonio Tejero asalta el Congreso al grito de «¡Quieto todo el mundo!». El golpe fracasa la madrugada del 24 gracias al discurso del rey defendiendo la Constitución.</div>
+        </div>
+<div class="timeline-item">
+          <div class="date">28 oct 1982</div>
+          <div class="body"><b>Victoria aplastante del PSOE.</b> Felipe González gana con mayoría absoluta (202 escaños). Se consolida la alternancia democrática.</div>
+        </div>
+<div class="timeline-item">
+          <div class="date">12 jul 1981</div>
+          <div class="body"><b>Ley del divorcio.</b> Bajo el gobierno de Calvo-Sotelo (UCD). Tema crucial en una sociedad mayoritariamente católica.</div>
+        </div>
+<div class="timeline-item">
+          <div class="date">1 ene 1986</div>
+          <div class="body"><b>Ingreso en la CEE.</b> España entra en la Comunidad Europea. Símbolo del retorno a Europa tras décadas de aislamiento.</div>
+        </div>
+<div class="timeline-item">
+          <div class="date">12 mar 1986</div>
+          <div class="body"><b>Referéndum sobre la OTAN.</b> Felipe González, que había hecho campaña electoral contra la OTAN, defiende ahora la permanencia. El «sí» gana con un 56,8 %.</div>
+        </div>
+  </div>
+
+  <!-- CONCEPTOS -->
+  <div class="section" data-tab="conc">
+    <div class="section-intro">Los conceptos políticos y culturales que estructuran el periodo. Memorízalos con su definición en español — son el vocabulario nuclear de cualquier ensayo sobre la Transición.</div>
+    <div class="concept-card">
+          <h3>La transición negociada</h3>
+          <div class="en">the negotiated transition</div>
+          <p>Proceso de cambio político pactado entre las élites del régimen franquista (Suárez, el rey) y la oposición democrática. Se evitó la <i>ruptura</i> radical, lo que permitió la legalización gradual de los partidos políticos pero, según sus críticos, dejó intactas muchas estructuras del franquismo.</p>
+        </div>
+<div class="concept-card">
+          <h3>El consenso</h3>
+          <div class="en">consensus politics</div>
+          <p>La cultura política dominante de la Transición. Las decisiones constitucionales se tomaban con el acuerdo de todos los partidos parlamentarios, no por mayoría simple. La Constitución de 1978 es el ejemplo paradigmático: redactada por una ponencia de siete diputados de todos los partidos.</p>
+        </div>
+<div class="concept-card">
+          <h3>El pacto del silencio (o del olvido)</h3>
+          <div class="en">the pact of silence; post-Franco amnesia</div>
+          <p>Acuerdo tácito, codificado en la Ley de Amnistía de 1977, de no juzgar los crímenes del franquismo a cambio de la consolidación democrática. La Ley de Memoria Histórica (2007) y la Ley de Memoria Democrática (2022) intentan revisarlo. Sigue siendo la gran <b>asignatura pendiente</b> de la Transición.</p>
+        </div>
+<div class="concept-card">
+          <h3>Café para todos</h3>
+          <div class="en">uniform regional devolution</div>
+          <p>La decisión de generalizar el sistema autonómico a todas las regiones, no solo a las llamadas «nacionalidades históricas» (Cataluña, País Vasco, Galicia). Permitió encauzar las demandas nacionalistas pero diluyó la singularidad de las regiones con identidad propia. Fuente de tensión hasta hoy.</p>
+        </div>
+<div class="concept-card">
+          <h3>El bunker</h3>
+          <div class="en">Franco-loyalist hardliners</div>
+          <p>Los sectores franquistas duros opuestos al cambio democrático. Incluye militares, falangistas y burócratas del régimen. Su frustración alimentó el clima golpista de 1979-1981 y culminó en el Tejerazo.</p>
+        </div>
+<div class="concept-card">
+          <h3>Reforma vs ruptura</h3>
+          <div class="en">reform vs rupture</div>
+          <p>El gran debate político de 1976. <b>Reforma</b> (Suárez): cambiar desde dentro las leyes franquistas para hacerlas democráticas. <b>Ruptura</b> (oposición democrática): romper completamente con el régimen y empezar desde cero. Triunfó una fórmula intermedia: la <b>ruptura pactada</b>.</p>
+        </div>
+<div class="concept-card">
+          <h3>Las primeras elecciones (1977)</h3>
+          <div class="en">first democratic elections</div>
+          <p>Primer voto libre desde febrero de 1936. UCD 34 % · PSOE 29 % · PCE 9 % · AP 8 %. Las Cortes elegidas redactaron la Constitución, por lo que se las conoce como <b>Cortes Constituyentes</b>.</p>
+        </div>
+<div class="concept-card">
+          <h3>La Constitución de 1978</h3>
+          <div class="en">the 1978 Constitution</div>
+          <p>Define España como una monarquía parlamentaria, un Estado social y democrático de derecho. Reconoce la pluralidad nacional (art. 2: «la indisoluble unidad de la nación española… y el derecho a la autonomía de las nacionalidades y regiones»). Aprobada por referéndum con 87,8 % de votos a favor.</p>
+        </div>
+<div class="concept-card">
+          <h3>El espaldarazo del rey en el 23-F</h3>
+          <div class="en">the king&#x27;s decisive intervention on 23-F</div>
+          <p>En la madrugada del 24 de febrero, Juan Carlos I aparece en televisión, uniformado de Capitán General, y ordena a los militares acatar la Constitución. Considerado por muchos su acto más decisivo: sin él, la legitimidad democrática de la monarquía habría sido cuestionada.</p>
+        </div>
+<div class="concept-card">
+          <h3>La victoria aplastante del PSOE (1982)</h3>
+          <div class="en">the PSOE landslide</div>
+          <p>El PSOE de Felipe González obtiene 202 escaños (de 350) y el 48,1 % de los votos: la mayor mayoría absoluta de la historia democrática española. Marca el fin de la UCD (desaparece de la política nacional) y el inicio de los <i>catorce años</i> socialistas.</p>
+        </div>
+  </div>
+
+  <!-- PERSONAJES -->
+  <div class="section" data-tab="pers">
+    <div class="section-intro">Las figuras decisivas. Para cada una, conoce su papel exacto en el proceso y un dato concreto que puedas citar en un ensayo.</div>
+    <div class="person-card">
+          <h3>Adolfo Suárez</h3>
+          <div class="dates">1932-2014</div>
+          <p>Presidente del Gobierno 1976-1981. Antiguo Secretario General del Movimiento Nacional, nombrado por el rey para sorpresa general. Pilotó la <b>Ley de Reforma Política</b> y las primeras elecciones democráticas. Su mayor mérito: hacer que un régimen autoritario se autodisolviera democráticamente. Su caída: percibido como débil por su propio partido y por el Ejército, dimitió en enero de 1981, semanas antes del Tejerazo.</p>
+        </div>
+<div class="person-card">
+          <h3>Juan Carlos I</h3>
+          <div class="dates">1938-</div>
+          <p>Rey de España 1975-2014. Designado sucesor por Franco. Sorprendió pilotando el cambio a la democracia y eligiendo a Suárez. Su intervención televisada del 23-F, defendiendo la Constitución, es considerada su acto más decisivo. Abdicó en 2014 en favor de su hijo Felipe VI.</p>
+        </div>
+<div class="person-card">
+          <h3>Felipe González</h3>
+          <div class="dates">1942-</div>
+          <p>Líder del PSOE 1974-1997. Tras la victoria aplastante de 1982, consolidó la democracia, modernizó el país, integró España en la <b>CEE</b> (1986) y, tras un viraje de su posición, defendió con éxito la permanencia en la <b>OTAN</b> en el referéndum de 1986. Presidió cuatro legislaturas (1982-1996).</p>
+        </div>
+<div class="person-card">
+          <h3>Antonio Tejero</h3>
+          <div class="dates">1932-</div>
+          <p>Teniente coronel de la Guardia Civil. Líder visible del intento de golpe del 23-F, irrumpió en el Congreso al grito de «¡Quieto todo el mundo!». Condenado a 30 años. Su nombre da el sobrenombre popular al golpe: <b>el Tejerazo</b>.</p>
+        </div>
+<div class="person-card">
+          <h3>Santiago Carrillo</h3>
+          <div class="dates">1915-2012</div>
+          <p>Secretario general del PCE 1960-1982. Su renuncia al leninismo, su aceptación de la monarquía y de la bandera rojigualda permitieron a Suárez legalizar el partido en Sábado Santo de 1977. Su famosa frase en el Congreso del 23-F: «esto es lo que hay».</p>
+        </div>
+<div class="person-card">
+          <h3>Manuel Fraga</h3>
+          <div class="dates">1922-2012</div>
+          <p>Antiguo ministro franquista, fundador de Alianza Popular (1976), precursora del Partido Popular. Representa el tránsito de la derecha franquista al conservadurismo democrático. Posteriormente, presidente de la Xunta de Galicia (1990-2005).</p>
+        </div>
+<div class="person-card">
+          <h3>Leopoldo Calvo-Sotelo</h3>
+          <div class="dates">1926-2008</div>
+          <p>Presidente del Gobierno entre la dimisión de Suárez y la victoria del PSOE (febrero 1981 - diciembre 1982). Su investidura fue interrumpida por el Tejerazo. Bajo su mandato se aprobaron la <b>Ley del Divorcio</b> y el ingreso de España en la <b>OTAN</b>.</p>
+        </div>
+  </div>
+
+  <!-- VOCABULARIO -->
+  <div class="section" data-tab="voc">
+    <div class="section-intro">Vocabulario completo de la Unidad, organizado por lección. Repasa por bloques temáticos.</div>
+    <div class="vocab-block">
+          <h3>12.1 Se acerca la democracia… ¡y también el peligro!</h3>
+          <table class="vocab-table"><tr><td>el alivio</td><td>relief</td></tr><tr><td>la amenaza</td><td>threat</td></tr><tr><td>el asaltante</td><td>attacker</td></tr><tr><td>la asignatura pendiente</td><td>unresolved matter</td></tr><tr><td>el atentado</td><td>attack</td></tr><tr><td>la autodestrucción</td><td>self-destruction</td></tr><tr><td>el bunker</td><td>Franco hardliners opposing democracy</td></tr><tr><td>el Congreso de los Diputados</td><td>Congress of Deputies</td></tr><tr><td>el consejero</td><td>adviser</td></tr><tr><td>el cuartel</td><td>barracks</td></tr><tr><td>el decenio; la década</td><td>decade</td></tr><tr><td>el derrocamiento</td><td>overthrow</td></tr><tr><td>el discurso</td><td>speech</td></tr><tr><td>el disparo</td><td>shot</td></tr><tr><td>el giro</td><td>switch; turn</td></tr><tr><td>el golpe de estado</td><td>military coup</td></tr><tr><td>el golpista</td><td>conspirator</td></tr><tr><td>los grises</td><td>national police under Franco (grey uniform)</td></tr><tr><td>la incertidumbre</td><td>uncertainty</td></tr><tr><td>la intervención</td><td>intervention</td></tr><tr><td>el malestar</td><td>uneasiness</td></tr><tr><td>la matanza</td><td>slaughter</td></tr><tr><td>la meta</td><td>goal; aim</td></tr><tr><td>el milagro</td><td>miracle</td></tr><tr><td>la pancarta</td><td>banner</td></tr><tr><td>el peso</td><td>weight</td></tr><tr><td>el presentimiento</td><td>inkling</td></tr><tr><td>los problemas de fondo</td><td>background problems</td></tr><tr><td>el punto de no retorno</td><td>point of no return</td></tr><tr><td>marcha atrás</td><td>reverse gear; U-turn</td></tr><tr><td>el riesgo</td><td>risk</td></tr><tr><td>el Tejerazo; el 23-F</td><td>the Tejerazo coup attempt (23-F)</td></tr><tr><td>el vacío</td><td>vacuum; emptiness</td></tr><tr><td>agrio</td><td>bitter</td></tr><tr><td>apertura</td><td>opening</td></tr><tr><td>aplastante</td><td>crushing</td></tr><tr><td>contundente</td><td>heavy; solid; clear</td></tr><tr><td>culminante</td><td>culminating</td></tr><tr><td>de madrugada</td><td>in the early morning</td></tr><tr><td>deshecho</td><td>in tatters</td></tr><tr><td>fallido</td><td>failed</td></tr><tr><td>amenazar</td><td>to threaten</td></tr><tr><td>asegurar</td><td>to ensure</td></tr><tr><td>atender órdenes</td><td>to obey orders</td></tr><tr><td>chocar de pleno</td><td>to meet head on</td></tr><tr><td>colocar</td><td>to place</td></tr><tr><td>confeccionar</td><td>to design</td></tr><tr><td>desmantelar</td><td>to take apart</td></tr><tr><td>devolver</td><td>to return</td></tr><tr><td>dotar</td><td>to equip</td></tr><tr><td>enderezar</td><td>to put right</td></tr><tr><td>entregarse</td><td>to surrender</td></tr><tr><td>estar pendiente de</td><td>to be on the lookout for; to depend on</td></tr><tr><td>frenar</td><td>to halt; to slow down</td></tr><tr><td>impulsar</td><td>to push</td></tr><tr><td>irrumpir</td><td>to burst in</td></tr><tr><td>juzgar</td><td>to judge</td></tr><tr><td>pegarle un tiro</td><td>to shoot someone</td></tr><tr><td>perpetrar</td><td>to carry out; to perpetrate</td></tr><tr><td>pisar</td><td>to tread</td></tr><tr><td>pretender</td><td>to try to</td></tr><tr><td>profundizar</td><td>to go into detail</td></tr><tr><td>retener</td><td>to retain</td></tr><tr><td>rezar</td><td>to read (as a slogan)</td></tr><tr><td>sanear</td><td>to clean up</td></tr><tr><td>secuestrar</td><td>to kidnap</td></tr><tr><td>tirarse al suelo</td><td>to throw oneself down</td></tr><tr><td>vulnerar</td><td>to infringe; to break</td></tr></table>
+        </div>
+<div class="vocab-block">
+          <h3>12.2 Adolfo Suárez: de la dictadura a la democracia</h3>
+          <table class="vocab-table"><tr><td>el apoyo popular</td><td>public support</td></tr><tr><td>el café para todos</td><td>uniform devolution of autonomy</td></tr><tr><td>la competencia</td><td>responsibility (jurisdiction)</td></tr><tr><td>las comunidades autónomas</td><td>autonomous communities</td></tr><tr><td>el consenso</td><td>consensus</td></tr><tr><td>la Constitución de 1978</td><td>the 1978 Constitution</td></tr><tr><td>las Cortes</td><td>Spanish Parliament</td></tr><tr><td>el dirigente</td><td>leader</td></tr><tr><td>el espaldarazo</td><td>decisive backing</td></tr><tr><td>el Estatuto de Autonomía</td><td>Statute of Autonomy</td></tr><tr><td>la fidelidad</td><td>loyalty</td></tr><tr><td>la firmeza</td><td>firmness</td></tr><tr><td>el impulso</td><td>boost</td></tr><tr><td>la ley de amnistía de 1977</td><td>the 1977 Amnesty Law</td></tr><tr><td>la ley de reforma política</td><td>Political Reform Act (1976)</td></tr><tr><td>la monarquía parlamentaria</td><td>parliamentary monarchy</td></tr><tr><td>el pacto del silencio</td><td>the pact of silence</td></tr><tr><td>el papel clave</td><td>key role</td></tr><tr><td>el pluralismo</td><td>pluralism; multiparty</td></tr><tr><td>el referéndum constitucional</td><td>constitutional referendum</td></tr><tr><td>el reinado</td><td>reign</td></tr><tr><td>el rey Juan Carlos I</td><td>King Juan Carlos I</td></tr><tr><td>la soberanía nacional</td><td>national sovereignty</td></tr><tr><td>la transición negociada</td><td>negotiated transition</td></tr><tr><td>el trato</td><td>deal; agreement</td></tr><tr><td>la Unión de Centro Democrático (UCD)</td><td>UCD (Suárez&#x27;s party)</td></tr><tr><td>Adolfo Suárez</td><td>Adolfo Suárez (first democratic PM)</td></tr><tr><td>cautela</td><td>caution; prudence</td></tr><tr><td>consciente</td><td>conscious; aware</td></tr><tr><td>adelantar</td><td>to advance; to bring forward</td></tr><tr><td>amnistiar</td><td>to pardon; to amnesty</td></tr><tr><td>asimilar</td><td>to assimilate; to absorb</td></tr><tr><td>centrarse en</td><td>to focus on</td></tr><tr><td>consensuar</td><td>to reach an agreement</td></tr><tr><td>consolidar</td><td>to consolidate</td></tr><tr><td>convocar</td><td>to call; to summon</td></tr><tr><td>dimitir</td><td>to resign</td></tr><tr><td>emprender</td><td>to start; to undertake</td></tr><tr><td>encargar</td><td>to put in charge; to task</td></tr><tr><td>enfocar</td><td>to focus on</td></tr><tr><td>heredar</td><td>to inherit</td></tr><tr><td>instaurar</td><td>to establish</td></tr><tr><td>llevar a cabo</td><td>to carry out</td></tr><tr><td>lograr</td><td>to achieve</td></tr><tr><td>pedir disculpas</td><td>to apologise</td></tr><tr><td>poner en marcha</td><td>to set in motion</td></tr><tr><td>promulgar</td><td>to pass a law; to promulgate</td></tr><tr><td>renegar</td><td>to reject; to renounce</td></tr><tr><td>restablecer la democracia</td><td>to restore democracy</td></tr><tr><td>urgir</td><td>to be urgent</td></tr><tr><td>era urgente</td><td>it was urgent</td></tr></table>
+        </div>
+<div class="vocab-block">
+          <h3>12.3 Año 1977: primeras elecciones democráticas desde 1936</h3>
+          <table class="vocab-table"><tr><td>el asiento; el escaño</td><td>parliamentary seat</td></tr><tr><td>las elecciones de 1977</td><td>the 1977 general elections</td></tr><tr><td>la encuesta</td><td>opinion poll</td></tr><tr><td>la gestión</td><td>management</td></tr><tr><td>el guía</td><td>guide</td></tr><tr><td>el ingreso</td><td>entry</td></tr><tr><td>la legislatura</td><td>term in office</td></tr><tr><td>el mandato</td><td>mandate</td></tr><tr><td>la obra</td><td>work; plan</td></tr><tr><td>el planteamiento</td><td>approach</td></tr><tr><td>la prensa</td><td>press</td></tr><tr><td>las primeras elecciones democráticas</td><td>first democratic elections</td></tr><tr><td>el PSOE</td><td>Spanish Socialist Workers&#x27; Party</td></tr><tr><td>el puesto</td><td>position</td></tr><tr><td>la sede</td><td>seat; base</td></tr><tr><td>la senda</td><td>path</td></tr><tr><td>a corto plazo</td><td>in the short term</td></tr><tr><td>aperturista</td><td>opening; liberalising</td></tr><tr><td>Felipe González</td><td>Felipe González (PSOE PM after 1982)</td></tr><tr><td>apostar por</td><td>to back; to bet on</td></tr><tr><td>confiar</td><td>to trust</td></tr><tr><td>darle la razón a alguien</td><td>to prove someone right</td></tr><tr><td>darse cuenta</td><td>to realise</td></tr><tr><td>desafiar</td><td>to challenge</td></tr><tr><td>distar</td><td>to be far from</td></tr><tr><td>enfrentarse</td><td>to oppose</td></tr><tr><td>exigir</td><td>to demand</td></tr><tr><td>ganar terreno a</td><td>to gain ground over</td></tr><tr><td>presagiar</td><td>to foreshadow</td></tr><tr><td>respaldar</td><td>to back; to support</td></tr><tr><td>señalar</td><td>to point to</td></tr><tr><td>la ley del divorcio</td><td>divorce law (1981)</td></tr></table>
+        </div>
+<div class="vocab-block">
+          <h3>12.4 PSOE landslide, amnistía y «pacto del silencio»</h3>
+          <table class="vocab-table"><tr><td>la anulación</td><td>abolition; annulment</td></tr><tr><td>la Comunidad Europea; la CEE; la UE</td><td>European Community / European Union</td></tr><tr><td>las elecciones de 1982</td><td>the 1982 general elections</td></tr><tr><td>la fuente de conflictos</td><td>source of conflict</td></tr><tr><td>la generación nacida en libertad</td><td>the generation born into freedom</td></tr><tr><td>el legado</td><td>legacy</td></tr><tr><td>la manifestación</td><td>demonstration</td></tr><tr><td>la mayoría absoluta</td><td>absolute majority</td></tr><tr><td>la oleada de huelgas</td><td>wave of strikes</td></tr><tr><td>la OTAN</td><td>NATO</td></tr><tr><td>la pena de muerte</td><td>death penalty</td></tr><tr><td>el prestigio</td><td>prestige</td></tr><tr><td>la querella</td><td>dispute</td></tr><tr><td>el rechazo</td><td>rejection</td></tr><tr><td>la sanidad</td><td>health (system)</td></tr><tr><td>el sindicato</td><td>trade union</td></tr><tr><td>la victoria aplastante; el triunfo arrollador</td><td>landslide victory</td></tr><tr><td>el vínculo</td><td>link</td></tr><tr><td>a largo plazo</td><td>in the long run</td></tr><tr><td>abrumador</td><td>overwhelming</td></tr><tr><td>con miras a</td><td>with a view to</td></tr><tr><td>conciliador</td><td>conciliatory</td></tr><tr><td>conjuntamente</td><td>jointly</td></tr><tr><td>destaca</td><td>stands out</td></tr><tr><td>destacado</td><td>outstanding</td></tr><tr><td>en vez de</td><td>instead of</td></tr><tr><td>en vigor</td><td>in force</td></tr><tr><td>en última instancia</td><td>in the final analysis</td></tr><tr><td>estadounidense; americano</td><td>American</td></tr><tr><td>resuelto</td><td>resolved</td></tr><tr><td>satisfecho</td><td>satisfied</td></tr><tr><td>según</td><td>according to</td></tr><tr><td>tomar las riendas</td><td>to take the reins</td></tr><tr><td>tras</td><td>following; after</td></tr><tr><td>unánime</td><td>unanimous</td></tr><tr><td>aguantar</td><td>to put up with</td></tr><tr><td>permanecer</td><td>to remain</td></tr><tr><td>pertenecer</td><td>to belong</td></tr><tr><td>soportar</td><td>to put up with</td></tr><tr><td>a tiro de piedra</td><td>a stone&#x27;s throw away</td></tr></table>
+        </div>
+  </div>
+
+  <!-- PRÁCTICA -->
+  <div class="section" data-tab="prac">
+    <div class="section-intro">Autoevaluación. Mezcla de preguntas de opción múltiple y huecos para completar. Pulsa <b>Comprobar</b> en cada pregunta.</div>
+    <div class="qcard" data-qid="p-1">
+          <div class="qhead">P1 / 16 <span class="tag">fechas clave</span></div>
+          <div class="question">¿En qué año fue el Tejerazo?</div>
+          <div class="options"><button class="opt-btn" data-value="1975">1975</button><button class="opt-btn" data-value="1977">1977</button><button class="opt-btn" data-value="1981">1981</button><button class="opt-btn" data-value="1982">1982</button></div>
+          <div class="controls">
+            <button class="btn primary" data-act="check"  data-id="p-1">Comprobar</button>
+            <button class="btn"          data-act="hint"   data-id="p-1">Pista</button>
+            <button class="btn"          data-act="reveal" data-id="p-1">Revelar</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+<div class="qcard" data-qid="p-2">
+          <div class="qhead">P2 / 16 <span class="tag">personajes</span></div>
+          <div class="question">¿Quién lideró el intento de golpe del 23-F?</div>
+          <div class="options"><button class="opt-btn" data-value="Manuel Fraga">Manuel Fraga</button><button class="opt-btn" data-value="Antonio Tejero">Antonio Tejero</button><button class="opt-btn" data-value="Adolfo Suárez">Adolfo Suárez</button><button class="opt-btn" data-value="Santiago Carrillo">Santiago Carrillo</button></div>
+          <div class="controls">
+            <button class="btn primary" data-act="check"  data-id="p-2">Comprobar</button>
+            <button class="btn"          data-act="hint"   data-id="p-2">Pista</button>
+            <button class="btn"          data-act="reveal" data-id="p-2">Revelar</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+<div class="qcard" data-qid="p-3">
+          <div class="qhead">P3 / 16 <span class="tag">partidos</span></div>
+          <div class="question">¿Cuál fue el partido de Adolfo Suárez?</div>
+          <div class="options"><button class="opt-btn" data-value="PSOE">PSOE</button><button class="opt-btn" data-value="PCE">PCE</button><button class="opt-btn" data-value="UCD">UCD</button><button class="opt-btn" data-value="AP">AP</button></div>
+          <div class="controls">
+            <button class="btn primary" data-act="check"  data-id="p-3">Comprobar</button>
+            <button class="btn"          data-act="hint"   data-id="p-3">Pista</button>
+            <button class="btn"          data-act="reveal" data-id="p-3">Revelar</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+<div class="qcard" data-qid="p-4">
+          <div class="qhead">P4 / 16 <span class="tag">conceptos clave</span></div>
+          <div class="question">La Ley de Amnistía de 1977 es la base legal de…</div>
+          <div class="options"><button class="opt-btn" data-value="la legalización del PCE">la legalización del PCE</button><button class="opt-btn" data-value="el pacto del silencio">el pacto del silencio</button><button class="opt-btn" data-value="el café para todos">el café para todos</button><button class="opt-btn" data-value="el ingreso en la OTAN">el ingreso en la OTAN</button></div>
+          <div class="controls">
+            <button class="btn primary" data-act="check"  data-id="p-4">Comprobar</button>
+            <button class="btn"          data-act="hint"   data-id="p-4">Pista</button>
+            <button class="btn"          data-act="reveal" data-id="p-4">Revelar</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+<div class="qcard" data-qid="p-5">
+          <div class="qhead">P5 / 16 <span class="tag">fechas clave</span></div>
+          <div class="question">¿En qué año fue aprobada la Constitución española?</div>
+          <div class="options"><button class="opt-btn" data-value="1976">1976</button><button class="opt-btn" data-value="1977">1977</button><button class="opt-btn" data-value="1978">1978</button><button class="opt-btn" data-value="1981">1981</button></div>
+          <div class="controls">
+            <button class="btn primary" data-act="check"  data-id="p-5">Comprobar</button>
+            <button class="btn"          data-act="hint"   data-id="p-5">Pista</button>
+            <button class="btn"          data-act="reveal" data-id="p-5">Revelar</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+<div class="qcard" data-qid="p-6">
+          <div class="qhead">P6 / 16 <span class="tag">conceptos clave</span></div>
+          <div class="question">¿Qué expresión describe la generalización del modelo autonómico a todas las regiones?</div>
+          <div class="options"><button class="opt-btn" data-value="el pacto del olvido">el pacto del olvido</button><button class="opt-btn" data-value="el café para todos">el café para todos</button><button class="opt-btn" data-value="la transición negociada">la transición negociada</button><button class="opt-btn" data-value="el espaldarazo del rey">el espaldarazo del rey</button></div>
+          <div class="controls">
+            <button class="btn primary" data-act="check"  data-id="p-6">Comprobar</button>
+            <button class="btn"          data-act="hint"   data-id="p-6">Pista</button>
+            <button class="btn"          data-act="reveal" data-id="p-6">Revelar</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+<div class="qcard" data-qid="p-7">
+          <div class="qhead">P7 / 16 <span class="tag">personajes</span></div>
+          <div class="question">¿Quién fue presidente del Gobierno entre la dimisión de Suárez y la victoria del PSOE?</div>
+          <div class="options"><button class="opt-btn" data-value="Felipe González">Felipe González</button><button class="opt-btn" data-value="Leopoldo Calvo-Sotelo">Leopoldo Calvo-Sotelo</button><button class="opt-btn" data-value="Manuel Fraga">Manuel Fraga</button><button class="opt-btn" data-value="Santiago Carrillo">Santiago Carrillo</button></div>
+          <div class="controls">
+            <button class="btn primary" data-act="check"  data-id="p-7">Comprobar</button>
+            <button class="btn"          data-act="hint"   data-id="p-7">Pista</button>
+            <button class="btn"          data-act="reveal" data-id="p-7">Revelar</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+<div class="qcard" data-qid="p-8">
+          <div class="qhead">P8 / 16 <span class="tag">vocabulario clave</span></div>
+          <div class="question">¿Cómo se llama el sector franquista duro que se opuso a la democracia?</div>
+          <div class="options"><button class="opt-btn" data-value="el bunker">el bunker</button><button class="opt-btn" data-value="los grises">los grises</button><button class="opt-btn" data-value="el golpismo">el golpismo</button><button class="opt-btn" data-value="la oposición">la oposición</button></div>
+          <div class="controls">
+            <button class="btn primary" data-act="check"  data-id="p-8">Comprobar</button>
+            <button class="btn"          data-act="hint"   data-id="p-8">Pista</button>
+            <button class="btn"          data-act="reveal" data-id="p-8">Revelar</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+<div class="qcard" data-qid="p-9">
+          <div class="qhead">P9 / 16 <span class="tag">vocabulario clave</span></div>
+          <div class="question">Completa la frase: «En 1982, el PSOE obtuvo una victoria ___ con 202 escaños».</div>
+          <input class="fill" type="text" placeholder="Escribe tu respuesta…">
+          <div class="controls">
+            <button class="btn primary" data-act="check"  data-id="p-9">Comprobar</button>
+            <button class="btn"          data-act="hint"   data-id="p-9">Pista</button>
+            <button class="btn"          data-act="reveal" data-id="p-9">Revelar</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+<div class="qcard" data-qid="p-10">
+          <div class="qhead">P10 / 16 <span class="tag">verbos clave</span></div>
+          <div class="question">Completa la frase: «En enero de 1981, Adolfo Suárez ___ del cargo de presidente».</div>
+          <input class="fill" type="text" placeholder="Escribe tu respuesta…">
+          <div class="controls">
+            <button class="btn primary" data-act="check"  data-id="p-10">Comprobar</button>
+            <button class="btn"          data-act="hint"   data-id="p-10">Pista</button>
+            <button class="btn"          data-act="reveal" data-id="p-10">Revelar</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+<div class="qcard" data-qid="p-11">
+          <div class="qhead">P11 / 16 <span class="tag">vocabulario clave</span></div>
+          <div class="question">Completa: «La ___ de Memoria Democrática de 2022 intenta revisar el pacto del silencio».</div>
+          <input class="fill" type="text" placeholder="Escribe tu respuesta…">
+          <div class="controls">
+            <button class="btn primary" data-act="check"  data-id="p-11">Comprobar</button>
+            <button class="btn"          data-act="hint"   data-id="p-11">Pista</button>
+            <button class="btn"          data-act="reveal" data-id="p-11">Revelar</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+<div class="qcard" data-qid="p-12">
+          <div class="qhead">P12 / 16 <span class="tag">vocabulario clave</span></div>
+          <div class="question">Completa: «El rey Juan Carlos I emitió un ___ televisivo en defensa de la Constitución la madrugada del 24 de febrero».</div>
+          <input class="fill" type="text" placeholder="Escribe tu respuesta…">
+          <div class="controls">
+            <button class="btn primary" data-act="check"  data-id="p-12">Comprobar</button>
+            <button class="btn"          data-act="hint"   data-id="p-12">Pista</button>
+            <button class="btn"          data-act="reveal" data-id="p-12">Revelar</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+<div class="qcard" data-qid="p-13">
+          <div class="qhead">P13 / 16 <span class="tag">conceptos clave</span></div>
+          <div class="question">¿Cuál de estas frases describe mejor la «transición negociada»?</div>
+          <div class="options"><button class="opt-btn" data-value="Cambio impuesto desde arriba sin consulta popular">Cambio impuesto desde arriba sin consulta popular</button><button class="opt-btn" data-value="Ruptura total con el franquismo">Ruptura total con el franquismo</button><button class="opt-btn" data-value="Proceso de cambio pactado entre las élites del régimen y la oposición">Proceso de cambio pactado entre las élites del régimen y la oposición</button><button class="opt-btn" data-value="Restauración de la Segunda República">Restauración de la Segunda República</button></div>
+          <div class="controls">
+            <button class="btn primary" data-act="check"  data-id="p-13">Comprobar</button>
+            <button class="btn"          data-act="hint"   data-id="p-13">Pista</button>
+            <button class="btn"          data-act="reveal" data-id="p-13">Revelar</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+<div class="qcard" data-qid="p-14">
+          <div class="qhead">P14 / 16 <span class="tag">fechas clave</span></div>
+          <div class="question">¿Qué decisión arriesgada tomó Suárez en Sábado Santo de 1977?</div>
+          <div class="options"><button class="opt-btn" data-value="Legalizó el PCE">Legalizó el PCE</button><button class="opt-btn" data-value="Convocó el referéndum constitucional">Convocó el referéndum constitucional</button><button class="opt-btn" data-value="Aprobó la Ley de Amnistía">Aprobó la Ley de Amnistía</button><button class="opt-btn" data-value="Disolvió las Cortes franquistas">Disolvió las Cortes franquistas</button></div>
+          <div class="controls">
+            <button class="btn primary" data-act="check"  data-id="p-14">Comprobar</button>
+            <button class="btn"          data-act="hint"   data-id="p-14">Pista</button>
+            <button class="btn"          data-act="reveal" data-id="p-14">Revelar</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+<div class="qcard" data-qid="p-15">
+          <div class="qhead">P15 / 16 <span class="tag">vocabulario clave</span></div>
+          <div class="question">Completa: «La Ley de ___ Política de 1976 permitió que las Cortes franquistas aprobaran su propia disolución».</div>
+          <input class="fill" type="text" placeholder="Escribe tu respuesta…">
+          <div class="controls">
+            <button class="btn primary" data-act="check"  data-id="p-15">Comprobar</button>
+            <button class="btn"          data-act="hint"   data-id="p-15">Pista</button>
+            <button class="btn"          data-act="reveal" data-id="p-15">Revelar</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+<div class="qcard" data-qid="p-16">
+          <div class="qhead">P16 / 16 <span class="tag">fechas clave</span></div>
+          <div class="question">¿En qué referéndum de 1986 cambió Felipe González su posición previa?</div>
+          <div class="options"><button class="opt-btn" data-value="La entrada en la CEE">La entrada en la CEE</button><button class="opt-btn" data-value="La permanencia en la OTAN">La permanencia en la OTAN</button><button class="opt-btn" data-value="La Constitución">La Constitución</button><button class="opt-btn" data-value="La Ley del Divorcio">La Ley del Divorcio</button></div>
+          <div class="controls">
+            <button class="btn primary" data-act="check"  data-id="p-16">Comprobar</button>
+            <button class="btn"          data-act="hint"   data-id="p-16">Pista</button>
+            <button class="btn"          data-act="reveal" data-id="p-16">Revelar</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+  </div>
+
+  <!-- ENSAYOS -->
+  <div class="section" data-tab="ens">
+    <div class="section-intro">Cinco preguntas de ensayo en formato A-Level. Cada una incluye un <b>guion estructural</b> y una <b>tira de vocabulario clave</b> para incorporar en tu respuesta. Escribe tu ensayo en el cuadro — se guarda en la descarga.</div>
+    <div class="essay-card">
+          <h3>Ensayo 1</h3>
+          <div><b>Analiza el papel del rey Juan Carlos I durante la Transición. ¿Hasta qué punto fue decisivo para el éxito del proceso?</b></div>
+          <div class="scaffold"><b>Guion sugerido:</b><ul><li>designación de Suárez · espaldarazo a la reforma</li><li>intervención televisada del 23-F</li><li>legitimación democrática de la monarquía</li><li>límites: papel simbólico, no decisorio en la política diaria</li></ul></div>
+          <div class="vocab-strip"><b>Vocabulario clave a incluir:</b><br><span>el espaldarazo</span><span>el reinado</span><span>la monarquía parlamentaria</span><span>el papel clave</span><span>instaurar</span><span>consolidar</span><span>la legitimidad</span><span>el discurso</span></div>
+          <textarea data-essay="e-1" placeholder="Escribe aquí tu ensayo (300-350 palabras)…"></textarea>
+        </div>
+<div class="essay-card">
+          <h3>Ensayo 2</h3>
+          <div><b>¿Por qué fue importante el Tejerazo del 23-F? ¿Qué reveló sobre las debilidades de la democracia española en sus primeros años?</b></div>
+          <div class="scaffold"><b>Guion sugerido:</b><ul><li>contexto: crisis económica, dimisión de Suárez, ruido de sables</li><li>irrupción de Tejero en el Congreso</li><li>discurso del rey de madrugada</li><li>consolidación democrática paradójica tras el fracaso del golpe</li></ul></div>
+          <div class="vocab-strip"><b>Vocabulario clave a incluir:</b><br><span>el golpe de estado</span><span>el golpista</span><span>irrumpir</span><span>el cuartel</span><span>el malestar</span><span>el bunker</span><span>fallido</span><span>el punto de no retorno</span><span>amenazar</span><span>frenar</span></div>
+          <textarea data-essay="e-2" placeholder="Escribe aquí tu ensayo (300-350 palabras)…"></textarea>
+        </div>
+<div class="essay-card">
+          <h3>Ensayo 3</h3>
+          <div><b>Examina el «pacto del silencio». ¿Fue una condición necesaria para la consolidación democrática o una traición a las víctimas del franquismo?</b></div>
+          <div class="scaffold"><b>Guion sugerido:</b><ul><li>Ley de Amnistía de 1977 como base legal</li><li>argumento pragmático: condición de la transición pacífica</li><li>argumento crítico: impunidad de los crímenes franquistas</li><li>leyes de memoria (2007, 2022) como revisión actual</li></ul></div>
+          <div class="vocab-strip"><b>Vocabulario clave a incluir:</b><br><span>el pacto del silencio</span><span>la asignatura pendiente</span><span>la amnistía</span><span>amnistiar</span><span>juzgar</span><span>la víctima</span><span>el legado</span><span>la memoria histórica</span><span>resuelto / no resuelto</span></div>
+          <textarea data-essay="e-3" placeholder="Escribe aquí tu ensayo (300-350 palabras)…"></textarea>
+        </div>
+<div class="essay-card">
+          <h3>Ensayo 4</h3>
+          <div><b>¿En qué medida la Constitución de 1978 sigue siendo válida hoy? Considera especialmente el debate sobre el modelo autonómico.</b></div>
+          <div class="scaffold"><b>Guion sugerido:</b><ul><li>logros: pluralismo, monarquía parlamentaria, derechos</li><li>el «café para todos» y sus tensiones</li><li>tensiones territoriales actuales (Cataluña, País Vasco)</li><li>voces a favor / en contra de la reforma constitucional</li></ul></div>
+          <div class="vocab-strip"><b>Vocabulario clave a incluir:</b><br><span>la Constitución</span><span>las comunidades autónomas</span><span>el café para todos</span><span>la soberanía nacional</span><span>el Estatuto de Autonomía</span><span>la competencia</span><span>el consenso</span><span>en vigor</span><span>desafiar</span><span>respaldar</span></div>
+          <textarea data-essay="e-4" placeholder="Escribe aquí tu ensayo (300-350 palabras)…"></textarea>
+        </div>
+<div class="essay-card">
+          <h3>Ensayo 5</h3>
+          <div><b>Compara el liderazgo de Adolfo Suárez (UCD) y Felipe González (PSOE). ¿Cuál fue más decisivo para la consolidación democrática?</b></div>
+          <div class="scaffold"><b>Guion sugerido:</b><ul><li>Suárez: pilotó el cambio desde el franquismo, primeras elecciones, Constitución</li><li>González: alternancia, modernización, integración en la CEE</li><li>argumento: sin Suárez no hay democracia; sin González no hay alternancia consolidada</li><li>conclusión razonada en lugar de elegir uno</li></ul></div>
+          <div class="vocab-strip"><b>Vocabulario clave a incluir:</b><br><span>el dirigente</span><span>emprender</span><span>consolidar</span><span>la mayoría absoluta</span><span>la alternancia</span><span>el legado</span><span>modernizar</span><span>el ingreso en la CEE</span><span>destacar</span><span>el papel clave</span></div>
+          <textarea data-essay="e-5" placeholder="Escribe aquí tu ensayo (300-350 palabras)…"></textarea>
+        </div>
+  </div>
+
+  <!-- RESUMEN -->
+  <div class="section" data-tab="res">
+    <div class="section-intro">Resumen en una sola página. Útil para una revisión final antes del examen.</div>
+    <div class="summary-card">
+      <h3>El esquema en cinco líneas</h3>
+      <p><b>1. Origen.</b> La muerte de Franco (1975) abre un vacío político. Juan Carlos I, sucesor designado, elige sorprendentemente la apertura.</p>
+      <p><b>2. Reforma.</b> Suárez aprueba la Ley de Reforma Política (1976), legaliza el PCE (1977) y convoca las primeras elecciones democráticas desde 1936.</p>
+      <p><b>3. Constitución.</b> La Constitución de 1978 fija la monarquía parlamentaria, las comunidades autónomas y el modelo de consenso. La Ley de Amnistía de 1977 sella el «pacto del silencio».</p>
+      <p><b>4. Crisis.</b> Suárez dimite en enero de 1981. Un mes después, Tejero asalta el Congreso. El discurso del rey la madrugada del 24-F salva la democracia.</p>
+      <p><b>5. Consolidación.</b> Victoria aplastante del PSOE en 1982 (202 escaños). Felipe González moderniza el país, integra España en la CEE y mantiene la OTAN tras referéndum (1986).</p>
+    </div>
+    <div class="summary-card">
+      <h3>Las cuatro asignaturas pendientes</h3>
+      <p>• <b>Memoria histórica.</b> El pacto del silencio aún hoy genera debate.</p>
+      <p>• <b>Modelo autonómico.</b> El «café para todos» no resolvió las demandas catalana, vasca y gallega.</p>
+      <p>• <b>Papel del rey.</b> Decisivo en el 23-F, cuestionado tras la abdicación de Juan Carlos I (2014).</p>
+      <p>• <b>Reforma constitucional.</b> Debate abierto sobre la actualización de la Constitución de 1978.</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- Spanish accent pad -->
+<button class="pad-toggle" id="padToggle" title="mostrar / ocultar acentos">á</button>
+<div class="accent-pad" id="accentPad">
+  <div class="label">Teclado de acentos — pulsa para insertar</div>
+  <div class="row">
+    <button data-c="á">á</button>
+    <button data-c="é">é</button>
+    <button data-c="í">í</button>
+    <button data-c="ó">ó</button>
+    <button data-c="ú">ú</button>
+    <button data-c="ü">ü</button>
+    <button data-c="ñ">ñ</button>
+    <button data-c="¿">¿</button>
+    <button data-c="¡">¡</button>
+    <button data-c="«">«</button>
+    <button data-c="»">»</button>
+    <button data-c="’">’</button>
+    <button data-c="—">—</button>
+    <button class="special" data-c="Á">Á</button>
+    <button class="special" data-c="É">É</button>
+    <button class="special" data-c="Í">Í</button>
+    <button class="special" data-c="Ó">Ó</button>
+    <button class="special" data-c="Ú">Ú</button>
+    <button class="special" data-c="Ñ">Ñ</button>
+    <button class="special" data-c="Ü">Ü</button>
+  </div>
+</div>
+
+<script>
+const PRACTICA = [{"id": "p-1", "kind": "choose", "q": "¿En qué año fue el Tejerazo?", "options": ["1975", "1977", "1981", "1982"], "answer": "1981", "tag": "fechas clave"}, {"id": "p-2", "kind": "choose", "q": "¿Quién lideró el intento de golpe del 23-F?", "options": ["Manuel Fraga", "Antonio Tejero", "Adolfo Suárez", "Santiago Carrillo"], "answer": "Antonio Tejero", "tag": "personajes"}, {"id": "p-3", "kind": "choose", "q": "¿Cuál fue el partido de Adolfo Suárez?", "options": ["PSOE", "PCE", "UCD", "AP"], "answer": "UCD", "tag": "partidos"}, {"id": "p-4", "kind": "choose", "q": "La Ley de Amnistía de 1977 es la base legal de…", "options": ["la legalización del PCE", "el pacto del silencio", "el café para todos", "el ingreso en la OTAN"], "answer": "el pacto del silencio", "tag": "conceptos clave"}, {"id": "p-5", "kind": "choose", "q": "¿En qué año fue aprobada la Constitución española?", "options": ["1976", "1977", "1978", "1981"], "answer": "1978", "tag": "fechas clave"}, {"id": "p-6", "kind": "choose", "q": "¿Qué expresión describe la generalización del modelo autonómico a todas las regiones?", "options": ["el pacto del olvido", "el café para todos", "la transición negociada", "el espaldarazo del rey"], "answer": "el café para todos", "tag": "conceptos clave"}, {"id": "p-7", "kind": "choose", "q": "¿Quién fue presidente del Gobierno entre la dimisión de Suárez y la victoria del PSOE?", "options": ["Felipe González", "Leopoldo Calvo-Sotelo", "Manuel Fraga", "Santiago Carrillo"], "answer": "Leopoldo Calvo-Sotelo", "tag": "personajes"}, {"id": "p-8", "kind": "choose", "q": "¿Cómo se llama el sector franquista duro que se opuso a la democracia?", "options": ["el bunker", "los grises", "el golpismo", "la oposición"], "answer": "el bunker", "tag": "vocabulario clave"}, {"id": "p-9", "kind": "fill", "q": "Completa la frase: «En 1982, el PSOE obtuvo una victoria ___ con 202 escaños».", "answer": "aplastante", "alternates": ["arrolladora", "abrumadora"], "hint": "sinónimos: arrolladora / abrumadora", "tag": "vocabulario clave"}, {"id": "p-10", "kind": "fill", "q": "Completa la frase: «En enero de 1981, Adolfo Suárez ___ del cargo de presidente».", "answer": "dimitió", "alternates": ["renunció"], "hint": "verbo en pretérito indefinido", "tag": "verbos clave"}, {"id": "p-11", "kind": "fill", "q": "Completa: «La ___ de Memoria Democrática de 2022 intenta revisar el pacto del silencio».", "answer": "Ley", "tag": "vocabulario clave"}, {"id": "p-12", "kind": "fill", "q": "Completa: «El rey Juan Carlos I emitió un ___ televisivo en defensa de la Constitución la madrugada del 24 de febrero».", "answer": "discurso", "tag": "vocabulario clave"}, {"id": "p-13", "kind": "choose", "q": "¿Cuál de estas frases describe mejor la «transición negociada»?", "options": ["Cambio impuesto desde arriba sin consulta popular", "Ruptura total con el franquismo", "Proceso de cambio pactado entre las élites del régimen y la oposición", "Restauración de la Segunda República"], "answer": "Proceso de cambio pactado entre las élites del régimen y la oposición", "tag": "conceptos clave"}, {"id": "p-14", "kind": "choose", "q": "¿Qué decisión arriesgada tomó Suárez en Sábado Santo de 1977?", "options": ["Legalizó el PCE", "Convocó el referéndum constitucional", "Aprobó la Ley de Amnistía", "Disolvió las Cortes franquistas"], "answer": "Legalizó el PCE", "tag": "fechas clave"}, {"id": "p-15", "kind": "fill", "q": "Completa: «La Ley de ___ Política de 1976 permitió que las Cortes franquistas aprobaran su propia disolución».", "answer": "Reforma", "tag": "vocabulario clave"}, {"id": "p-16", "kind": "choose", "q": "¿En qué referéndum de 1986 cambió Felipe González su posición previa?", "options": ["La entrada en la CEE", "La permanencia en la OTAN", "La Constitución", "La Ley del Divorcio"], "answer": "La permanencia en la OTAN", "tag": "fechas clave"}];
+const ENSAYOS  = [{"id": "e-1", "q": "Analiza el papel del rey Juan Carlos I durante la Transición. ¿Hasta qué punto fue decisivo para el éxito del proceso?", "scaffold": ["designación de Suárez · espaldarazo a la reforma", "intervención televisada del 23-F", "legitimación democrática de la monarquía", "límites: papel simbólico, no decisorio en la política diaria"], "vocab": ["el espaldarazo", "el reinado", "la monarquía parlamentaria", "el papel clave", "instaurar", "consolidar", "la legitimidad", "el discurso"]}, {"id": "e-2", "q": "¿Por qué fue importante el Tejerazo del 23-F? ¿Qué reveló sobre las debilidades de la democracia española en sus primeros años?", "scaffold": ["contexto: crisis económica, dimisión de Suárez, ruido de sables", "irrupción de Tejero en el Congreso", "discurso del rey de madrugada", "consolidación democrática paradójica tras el fracaso del golpe"], "vocab": ["el golpe de estado", "el golpista", "irrumpir", "el cuartel", "el malestar", "el bunker", "fallido", "el punto de no retorno", "amenazar", "frenar"]}, {"id": "e-3", "q": "Examina el «pacto del silencio». ¿Fue una condición necesaria para la consolidación democrática o una traición a las víctimas del franquismo?", "scaffold": ["Ley de Amnistía de 1977 como base legal", "argumento pragmático: condición de la transición pacífica", "argumento crítico: impunidad de los crímenes franquistas", "leyes de memoria (2007, 2022) como revisión actual"], "vocab": ["el pacto del silencio", "la asignatura pendiente", "la amnistía", "amnistiar", "juzgar", "la víctima", "el legado", "la memoria histórica", "resuelto / no resuelto"]}, {"id": "e-4", "q": "¿En qué medida la Constitución de 1978 sigue siendo válida hoy? Considera especialmente el debate sobre el modelo autonómico.", "scaffold": ["logros: pluralismo, monarquía parlamentaria, derechos", "el «café para todos» y sus tensiones", "tensiones territoriales actuales (Cataluña, País Vasco)", "voces a favor / en contra de la reforma constitucional"], "vocab": ["la Constitución", "las comunidades autónomas", "el café para todos", "la soberanía nacional", "el Estatuto de Autonomía", "la competencia", "el consenso", "en vigor", "desafiar", "respaldar"]}, {"id": "e-5", "q": "Compara el liderazgo de Adolfo Suárez (UCD) y Felipe González (PSOE). ¿Cuál fue más decisivo para la consolidación democrática?", "scaffold": ["Suárez: pilotó el cambio desde el franquismo, primeras elecciones, Constitución", "González: alternancia, modernización, integración en la CEE", "argumento: sin Suárez no hay democracia; sin González no hay alternancia consolidada", "conclusión razonada en lugar de elegir uno"], "vocab": ["el dirigente", "emprender", "consolidar", "la mayoría absoluta", "la alternancia", "el legado", "modernizar", "el ingreso en la CEE", "destacar", "el papel clave"]}];
+
+// --- Tabs ---
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelector('.section[data-tab="'+t.dataset.tab+'"]').classList.add('active');
+  });
+});
+
+// --- Accent pad ---
+let lastFocused = null;
+function insertAtCursor(text) {
+  const el = lastFocused;
+  if (!el) return;
+  const start = el.selectionStart ?? el.value.length;
+  const end = el.selectionEnd ?? el.value.length;
+  el.value = el.value.slice(0, start) + text + el.value.slice(end);
+  el.selectionStart = el.selectionEnd = start + text.length;
+  el.focus();
+}
+document.querySelectorAll('.accent-pad button').forEach(b => {
+  b.addEventListener('mousedown', e => { e.preventDefault(); insertAtCursor(b.dataset.c); });
+});
+document.getElementById('padToggle').addEventListener('click', () => {
+  document.getElementById('accentPad').classList.toggle('hidden');
+});
+document.querySelectorAll('textarea, input.fill').forEach(el => {
+  el.addEventListener('focus', () => { lastFocused = el; });
+});
+
+// --- MCQ selection ---
+document.querySelectorAll('.opt-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    const card = b.closest('.qcard');
+    card.querySelectorAll('.opt-btn').forEach(x => x.classList.remove('selected'));
+    b.classList.add('selected');
+    card.dataset.selectedOpt = b.dataset.value;
+  });
+});
+
+// --- Scoring ---
+const results = {};
+const norm = s => (s||"").toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,' ').trim();
+function strictEq(a,b) { return norm(a) === norm(b); }
+function anyMatch(s, ans, alts) {
+  if (strictEq(s, ans)) return true;
+  for (const a of (alts||[])) if (strictEq(s, a)) return true;
+  return false;
+}
+function renderScore() {
+  const c = Object.values(results).filter(r => r.correct).length;
+  document.getElementById('practica-score').textContent = c;
+  document.getElementById('prog').value = Object.values(results).filter(r => r.attempts > 0).length;
+}
+
+document.addEventListener('click', e => {
+  const btn = e.target.closest('button[data-act]'); if (!btn) return;
+  const id = btn.dataset.id;
+  const q = PRACTICA.find(x => x.id === id); if (!q) return;
+  const card = document.querySelector('.qcard[data-qid="'+id+'"]');
+  const fb = card.querySelector('.feedback');
+
+  if (btn.dataset.act === 'hint') {
+    fb.className = 'feedback hint show';
+    fb.textContent = '💡 ' + (q.hint || 'Piensa en sinónimos / contexto histórico.');
+    return;
+  }
+  if (btn.dataset.act === 'reveal') {
+    fb.className = 'feedback hint show';
+    fb.innerHTML = 'Respuesta: <b>' + q.answer + '</b>';
+    return;
+  }
+  if (btn.dataset.act === 'check') {
+    const r = results[id] || {attempts:0, correct:false, answer:""};
+    r.attempts += 1;
+    let ok = false, picked = "";
+    if (q.kind === 'choose') {
+      picked = card.dataset.selectedOpt || "";
+      r.answer = picked;
+      ok = (picked === q.answer);
+    } else {
+      const inp = card.querySelector('input.fill');
+      picked = inp.value;
+      r.answer = picked;
+      ok = anyMatch(picked, q.answer, q.alternates);
+    }
+    r.correct = ok || r.correct;
+    if (!picked) {
+      fb.className = 'feedback hint show';
+      fb.textContent = '↑ Elige o escribe una respuesta primero.';
+    } else if (ok) {
+      fb.className = 'feedback ok show';
+      fb.innerHTML = '✓ Correcto: <b>' + q.answer + '</b>';
+    } else {
+      fb.className = 'feedback fail show';
+      fb.innerHTML = '✗ No, tu respuesta: <b>' + picked + '</b>. Modelo: <b>' + q.answer + '</b>';
+    }
+    results[id] = r;
+    renderScore();
+  }
+});
+
+// --- Download blob ---
+document.getElementById('downloadBtn').addEventListener('click', () => {
+  const L = [];
+  L.push('Unidad 12 — La Transición a la democracia (1975-1986)');
+  L.push('Guía de estudio · cuaderno de trabajo');
+  L.push('Fecha: ' + new Date().toISOString());
+  L.push('='.repeat(72));
+  L.push('');
+  L.push('## Práctica — autoevaluación');
+  L.push('');
+  let c = 0, a = 0;
+  PRACTICA.forEach((q, i) => {
+    const r = results[q.id] || {};
+    if (r.attempts) a++;
+    if (r.correct)  c++;
+    const mark = r.correct ? '✓' : (r.attempts ? '✗' : '—');
+    L.push('Q' + (i+1) + ' [' + q.tag + ']  ' + mark);
+    L.push('  pregunta : ' + q.q);
+    L.push('  tu resp. : ' + (r.answer || '(no contestada)'));
+    L.push('  modelo   : ' + q.answer);
+    L.push('');
+  });
+  L.push('Total práctica: ' + c + ' / ' + PRACTICA.length + '   (atentadas: ' + a + ')');
+  L.push('');
+  L.push('## Ensayos — borradores');
+  L.push('');
+  ENSAYOS.forEach((e, i) => {
+    const ta = document.querySelector('textarea[data-essay="'+e.id+'"]');
+    const txt = ta ? ta.value : '';
+    L.push('Ensayo ' + (i+1) + ': ' + e.q);
+    L.push('Guion:');
+    e.scaffold.forEach(s => L.push('  · ' + s));
+    L.push('Vocabulario clave: ' + e.vocab.join(' · '));
+    L.push('');
+    L.push('TU RESPUESTA:');
+    L.push(txt || '(sin escribir)');
+    L.push('');
+    L.push('-'.repeat(72));
+    L.push('');
+  });
+  const blob = new Blob([L.join('\n')], {type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a2 = document.createElement('a');
+  const stamp = new Date().toISOString().slice(0,10);
+  a2.href = url; a2.download = 'Transicion_apuntes_' + stamp + '.txt';
+  document.body.appendChild(a2); a2.click();
+  setTimeout(() => { document.body.removeChild(a2); URL.revokeObjectURL(url); }, 200);
+});
+
+renderScore();
+</script>
+<!-- ============================================================
+     COMPLEMENTO DE LA CASA — teclado de acentos flotante + nombre obligatorio
+     Añadido al normalizar el sitio (agosto de 2026).
+     No depende de ninguna biblioteca: todo está en este bloque.
+     ============================================================ -->
+<style>
+#housePad{position:fixed;right:16px;bottom:16px;z-index:99999;background:#fff;border:2px solid #2a5298;
+  border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.25);padding:10px;width:238px;
+  font-family:Calibri,'Segoe UI',Tahoma,sans-serif;color:#1f2933;}
+#housePad h4{font-size:.84em;color:#42536b;margin:0 0 8px;display:flex;justify-content:space-between;
+  align-items:center;font-weight:700;}
+#housePad .keys{display:flex;flex-wrap:wrap;gap:5px;}
+#housePad button{font-family:inherit;background:#2a5298;color:#fff;border:none;border-radius:4px;
+  padding:6px 10px;font-size:1em;font-weight:600;cursor:pointer;line-height:1.1;}
+#housePad button:hover{background:#1e3c72;}
+#housePadToggle{padding:2px 9px;font-size:.85em;}
+#housePad.collapsed{width:auto;}
+#housePad.collapsed .keys,#housePad.collapsed .hint{display:none;}
+#housePad .hint{font-size:.76em;color:#7d8ba1;margin-top:7px;line-height:1.35;}
+#houseNameBar{background:#eef3fb;border:2px solid #2a5298;border-radius:8px;padding:13px 15px;
+  margin:0 auto 18px;max-width:1000px;font-family:Calibri,'Segoe UI',Tahoma,sans-serif;color:#1f2933;}
+#houseNameBar label{font-weight:700;display:block;margin-bottom:6px;font-size:.98rem;}
+#houseNameBar input{width:100%;max-width:430px;padding:9px 10px;border:2px solid #c3cfe2;border-radius:5px;
+  font-size:1rem;font-family:inherit;background:#fff;color:#1f2933;}
+#houseNameBar input:focus{outline:none;border-color:#2a5298;}
+#houseNameWarn{display:none;margin-top:9px;padding:8px 10px;background:#fdecea;color:#8a1c13;
+  border-radius:5px;font-weight:700;font-size:.95rem;}
+#houseDlBtn{display:inline-block;margin:26px auto;padding:12px 22px;background:#2e7d32;color:#fff;border:none;
+  border-radius:6px;font-family:Calibri,'Segoe UI',Tahoma,sans-serif;font-size:1rem;font-weight:700;cursor:pointer;}
+#houseDlBtn:hover{background:#256428;}
+@media (max-width:820px){#housePad{left:10px;right:10px;width:auto;bottom:8px;}}
+</style>
+<script>
+window.HOUSE = { noPad:true };
+(function () {
+  "use strict";
+  var CFG = window.HOUSE || {};
+  var KEYS = ['á','é','í','ó','ú','ñ','ü','¿','¡','Á','É','Í','Ó','Ú','Ñ','«','»','–'];
+  var last = null;
+
+  function isField(el) {
+    return !!el && (el.tagName === 'TEXTAREA' ||
+      (el.tagName === 'INPUT' && /^(text|search|email|)$/i.test(el.type || '')));
+  }
+
+  /* ---------- 1. barra de nombre (reutiliza la de la página si ya existe) ---------- */
+  var nameInput = document.querySelector('input[id*="name" i], input[id*="nombre" i]');
+  if (!nameInput) {
+    var bar = document.createElement('div');
+    bar.id = 'houseNameBar';
+    bar.innerHTML =
+      '<label for="houseName">Tu nombre / Your name — necesario para descargar tu trabajo</label>' +
+      '<input type="text" id="houseName" placeholder="Nombre y apellido — p. ej. Lucía Martín" autocomplete="name" maxlength="60">' +
+      '<div id="houseNameWarn">⚠ Escribe tu nombre antes de descargar: aparecerá en la cabecera del archivo.</div>';
+    var host = document.querySelector('main, .page, .container, .wrap, body');
+    host.insertBefore(bar, host.firstChild);
+    nameInput = document.getElementById('houseName');
+  } else if (!document.getElementById('houseNameWarn')) {
+    var warn = document.createElement('div');
+    warn.id = 'houseNameWarn';
+    warn.textContent = '⚠ Escribe tu nombre antes de descargar: aparecerá en la cabecera del archivo.';
+    nameInput.parentNode.insertBefore(warn, nameInput.nextSibling);
+  }
+  function studentName() { return (nameInput.value || '').trim(); }
+  function demandName() {
+    var w = document.getElementById('houseNameWarn');
+    if (w) w.style.display = 'block';
+    nameInput.style.borderColor = '#b3261e';
+    nameInput.focus();
+    nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  /* ---------- 2. el botón de descarga no debe funcionar sin nombre ---------- */
+  document.addEventListener('click', function (e) {
+    var b = e.target && e.target.closest ? e.target.closest('button, a') : null;
+    if (!b || b.id === 'housePadToggle') return;
+    var t = (b.textContent || '').toLowerCase();
+    if (!/descarg|download|export|\.txt|\.pdf/.test(t)) return;
+    if (!studentName()) { e.preventDefault(); e.stopImmediatePropagation(); demandName(); }
+    else { var w = document.getElementById('houseNameWarn'); if (w) w.style.display = 'none'; }
+  }, true);
+
+  /* ---------- 3. teclado flotante (se omite si la página ya tiene uno) ---------- */
+  var pad = null;
+  if (!CFG.noPad) {
+  pad = document.createElement('div');
+  pad.id = 'housePad';
+  pad.innerHTML = '<h4><span>Teclado de acentos</span><button type="button" id="housePadToggle">▾</button></h4>' +
+                  '<div class="keys"></div>' +
+                  '<div class="hint">Haz clic primero en una casilla y después en una tecla.</div>';
+  document.body.appendChild(pad);
+  var keyBox = pad.querySelector('.keys');
+  KEYS.forEach(function (ch) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.textContent = ch;
+    b.addEventListener('mousedown', function (ev) { ev.preventDefault(); });  /* mantiene el cursor en la casilla */
+    b.addEventListener('click', function () { insert(ch); });
+    keyBox.appendChild(b);
+  });
+  document.getElementById('housePadToggle').addEventListener('click', function () {
+    pad.classList.toggle('collapsed');
+    this.textContent = pad.classList.contains('collapsed') ? '⌨' : '▾';
+  });
+  }
+  function insert(ch) {
+    if (!last) { if (pad) pad.querySelector('.hint').textContent = 'Haz clic primero en una casilla y después en una tecla.'; return; }
+    var s = last.selectionStart, e = last.selectionEnd;
+    if (s == null) { s = e = last.value.length; }
+    last.value = last.value.slice(0, s) + ch + last.value.slice(e);
+    last.dispatchEvent(new Event('input', { bubbles: true }));
+    last.focus();
+    try { last.setSelectionRange(s + ch.length, s + ch.length); } catch (err) {}
+  }
+  trackFields();
+  function trackFields() {
+    ['focus', 'focusin'].forEach(function (ev) {
+      document.addEventListener(ev, function (e) {
+        if (isField(e.target) && e.target !== nameInput) {
+          last = e.target;
+          var h = document.querySelector('#housePad .hint');
+          if (h) h.textContent = 'Casilla activa: tu texto irá al sitio correcto.';
+        }
+      }, true);
+    });
+    /* los teclados ya existentes no deben robar el cursor a la casilla */
+    document.addEventListener('mousedown', function (e) {
+      var b = e.target && e.target.closest ? e.target.closest('button') : null;
+      if (!b) return;
+      var t = (b.textContent || '').trim();
+      if (t.length <= 2 && /[À-ſ¿¡«»]/.test(t)) e.preventDefault();
+    }, true);
+  }
+
+  /* ---------- 4. descarga genérica, sólo donde la página no tiene ninguna ---------- */
+  if (CFG.addDownload) {
+    var btn = document.createElement('button');
+    btn.id = 'houseDlBtn'; btn.type = 'button';
+    btn.textContent = '📥 Descargar mis respuestas';
+    var wrap = document.createElement('div');
+    wrap.style.textAlign = 'center';
+    wrap.appendChild(btn);
+    (document.querySelector('main, .page, .container, .wrap') || document.body).appendChild(wrap);
+
+    btn.addEventListener('click', function () {
+      var name = studentName();
+      if (!name) { demandName(); return; }
+      var L = [], now = new Date();
+      L.push((CFG.title || document.title).toUpperCase());
+      L.push(''.padEnd(64, '='));
+      L.push('Alumno/a : ' + name);
+      L.push('Fecha : ' + now.toLocaleString('es-ES'));
+      L.push('');
+      var n = 0;
+      document.querySelectorAll('input[type=text], textarea, select').forEach(function (f) {
+        if (f === nameInput || f.id === 'houseName') return;
+        var val = (f.value || '').trim();
+        if (f.tagName === 'SELECT') val = f.selectedIndex > 0 ? f.options[f.selectedIndex].text : '';
+        n++;
+        L.push(n + '. ' + label(f));
+        L.push('   Respuesta : ' + (val || '—'));
+        L.push('');
+      });
+      document.querySelectorAll('input[type=radio]:checked, input[type=checkbox]:checked').forEach(function (f) {
+        L.push('✔ ' + label(f));
+      });
+      L.push('');
+      L.push('Sube este archivo a Teams / SharePoint.');
+      var blob = new Blob([L.join('\n')], { type: 'text/plain;charset=utf-8' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = (CFG.filePrefix || 'mis_respuestas') + '_' + name.replace(/[^\wÀ-ÿ]+/g, '_') + '_' +
+                   now.toISOString().slice(0, 10) + '.txt';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+    });
+
+    function label(f) {
+      if (f.getAttribute('aria-label')) return f.getAttribute('aria-label');
+      var lab = f.id && document.querySelector('label[for="' + f.id + '"]');
+      if (lab) return clean(lab.textContent);
+      var box = f.closest('li, td, .question, .item, .card, .exercise, .q-block, div');
+      var hops = 0;
+      while (box && hops < 4) {
+        var t = clean(box.textContent);
+        if (t.length > 8) return t.slice(0, 140);
+        box = box.parentElement; hops++;
+      }
+      return f.placeholder || f.name || f.id || 'Respuesta';
+    }
+    function clean(s) { return (s || '').replace(/\s+/g, ' ').trim(); }
+  }
+})();
+</script>
+</body>
+</html>
