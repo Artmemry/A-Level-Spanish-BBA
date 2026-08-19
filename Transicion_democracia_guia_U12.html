@@ -5,6 +5,7 @@
 <title>Unidad 12 — La Transición a la democracia (1975-1986)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
+
 :root {
   --ink:#7B1F2A; --paper:#FAF6F1; --line:#E0D8CB;
   --good:#1D8348; --bad:#922B21; --warn:#B7950B;
@@ -157,33 +158,190 @@ input.fill:focus { outline:2px solid var(--accent); }
   .accent-pad button { min-width:30px; height:30px; font-size:.95rem; }
   .tab { padding:8px 9px; font-size:.85rem; }
 }
+
+/* ============ ampliación: práctica y escritura ============ */
+.namebar {
+  background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent);
+  border-radius:6px; padding:10px 14px; margin:14px 0 4px 0;
+}
+.namebar label { display:block; font-size:.82rem; color:#5A4A35; margin-bottom:4px; }
+.namebar input {
+  width:100%; max-width:420px; padding:7px 10px; border:1px solid var(--line);
+  border-radius:6px; font-size:.96rem; font-family:inherit;
+}
+#nameWarning { display:none; color:var(--bad); font-size:.82rem; margin-top:6px; }
+
+.subtabs { display:flex; gap:4px; flex-wrap:wrap; margin:14px 0 10px 0; }
+.subtab {
+  padding:6px 11px; border:1px solid var(--line); background:#fff; color:#5A4A35;
+  border-radius:16px; cursor:pointer; font-size:.84rem; font-family:inherit; font-weight:600;
+}
+.subtab.active { background:var(--ink); color:#fff; border-color:var(--ink); }
+.subpanel { display:none; }
+.subpanel.active { display:block; }
+
+.taskbox {
+  background:#fff; border:1px solid var(--line); border-left:4px solid var(--ink);
+  border-radius:6px; padding:11px 14px; margin:10px 0 16px 0; font-size:.9rem;
+}
+.taskbox .t { margin-bottom:6px; }
+.taskbox .s { padding-top:6px; border-top:1px dashed var(--line); color:#5A4A35; }
+.taskbox b { color:var(--ink); }
+
+.mini { font-size:.84rem; color:#7C6E5B; margin:4px 0 8px 0; }
+h3 { color:var(--ink); }
+
+/* --- MCQ --- */
+.opt-btn, .opt {
+  padding:7px 14px; border:1px solid var(--line); background:#fff;
+  border-radius:6px; cursor:pointer; font-size:.93rem; font-family:inherit; text-align:left;
+}
+.opt.selected { background:var(--accent); color:#fff; border-color:var(--accent); }
+.opt.right { background:#E8F5EC; border-color:#1D8348; color:#146034; font-weight:600; }
+.opt.wrong { background:#FDECEA; border-color:#922B21; color:#7B1F2A; text-decoration:line-through; }
+.opt:disabled { cursor:default; }
+
+/* --- CLOZE --- */
+.clozecard, .matchcard, .seqcard, .wcard {
+  background:#fff; border:1px solid var(--line); border-radius:8px;
+  padding:14px 16px; margin:12px 0;
+}
+.bankwrap { background:var(--soft); border-radius:6px; padding:9px 11px; margin:8px 0 12px 0; }
+.banklabel { font-size:.78rem; color:#7C6E5B; margin-bottom:6px; }
+.bank { display:flex; flex-wrap:wrap; gap:6px; }
+.chip {
+  padding:4px 11px; border:1px solid var(--accent); background:#fff; color:var(--ink);
+  border-radius:13px; cursor:pointer; font-size:.88rem; font-family:inherit;
+}
+.chip:hover { background:var(--accent); color:#fff; }
+.chip.used { display:none; }
+.bank.hidden { display:none; }
+.clozetext { line-height:2.5; font-size:.97rem; }
+input[type=text].gapin, .gapin {
+  width:150px; padding:3px 7px; border:none; border-bottom:2px solid var(--accent);
+  background:#FCF8F2; font-size:.94rem; font-family:inherit; border-radius:3px 3px 0 0;
+}
+.gapin:focus { outline:none; background:#F6EDDF; box-shadow:0 2px 0 var(--ink); }
+.gapin.ok   { background:#E8F5EC; border-bottom-color:#1D8348; color:#146034; }
+.gapin.near { background:#FFF8E1; border-bottom-color:#B7950B; color:#7A6708; }
+.gapin.bad  { background:#FDECEA; border-bottom-color:#922B21; color:#7B1F2A; }
+.gapwrap { white-space:nowrap; }
+
+/* --- EMPAREJAR --- */
+.matchgrid { display:grid; grid-template-columns:1fr 1.35fr; gap:12px; }
+.collabel { font-size:.78rem; color:#7C6E5B; text-transform:uppercase; letter-spacing:.05em; margin-bottom:5px; }
+.mit {
+  display:block; width:100%; text-align:left; margin:0 0 6px 0; padding:8px 11px;
+  border:1px solid var(--line); background:#fff; border-radius:6px; cursor:pointer;
+  font-size:.9rem; font-family:inherit; line-height:1.35;
+}
+.mit.sel { background:var(--accent); color:#fff; border-color:var(--accent); }
+.mit.done { background:#E8F5EC; border-color:#1D8348; color:#146034; cursor:default; }
+.mit.flash { background:#FDECEA; border-color:#922B21; }
+
+/* --- ORDENAR --- */
+.seqpool { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+.sit {
+  padding:6px 11px; border:1px solid var(--line); background:#fff; border-radius:6px;
+  cursor:pointer; font-size:.88rem; font-family:inherit;
+}
+.sit.used { display:none; }
+.seqtarget { margin:6px 0 0 0; padding-left:24px; }
+.seqtarget li { padding:4px 8px; margin:3px 0; border-radius:5px; background:var(--soft); font-size:.9rem; }
+.seqtarget li.ok  { background:#E8F5EC; color:#146034; }
+.seqtarget li.bad { background:#FDECEA; color:#7B1F2A; }
+
+/* --- V/F/NS --- */
+.sourcetext {
+  background:#fff; border:1px solid var(--line); border-radius:8px;
+  padding:16px 18px; margin:10px 0 18px 0; font-size:.95rem;
+}
+.sourcetext p { margin:0 0 10px 0; }
+.sourcetext .src { font-size:.78rem; color:#7C6E5B; font-style:italic; }
+.justlab { display:block; font-size:.8rem; color:#5A4A35; margin:8px 0 3px 0; }
+textarea.just, textarea.wtext {
+  width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:6px;
+  font-family:inherit; font-size:.94rem; line-height:1.5; resize:vertical;
+}
+textarea.just:focus, textarea.wtext:focus { outline:2px solid var(--accent); }
+
+/* --- VOCABULARIO --- */
+.vrow {
+  background:#fff; border:1px solid var(--line); border-radius:8px; padding:10px 13px;
+  margin:7px 0; display:grid; grid-template-columns:1fr 200px auto auto; gap:8px; align-items:center;
+}
+.vrow .vq { font-size:.93rem; }
+.vrow .num { color:#9A8775; font-size:.8rem; margin-right:8px; }
+input[type=text].vin, .vin {
+  width:100%; padding:6px 9px; border:1px solid var(--line); border-radius:6px;
+  font-size:.94rem; font-family:inherit;
+}
+.vin.ok   { background:#E8F5EC; border-color:#1D8348; }
+.vin.near { background:#FFF8E1; border-color:#B7950B; }
+.vin.bad  { background:#FDECEA; border-color:#922B21; }
+.vrow .feedback { grid-column:1 / -1; }
+@media (max-width:640px) { .vrow { grid-template-columns:1fr; } .matchgrid { grid-template-columns:1fr; } }
+
+/* --- ESCRITURA --- */
+.chipbar {
+  background:var(--soft); border-radius:6px; padding:9px 11px; margin:8px 0 14px 0;
+  display:flex; flex-wrap:wrap; gap:5px; align-items:center;
+}
+.chipbar .lab { font-size:.78rem; color:#7C6E5B; margin-right:4px; }
+.conn, .starter {
+  padding:3px 10px; border:1px solid var(--accent); background:#fff; color:var(--ink);
+  border-radius:12px; cursor:pointer; font-size:.82rem; font-family:inherit;
+}
+.conn:hover, .starter:hover { background:var(--accent); color:#fff; }
+.starters { display:flex; flex-wrap:wrap; gap:5px; margin:6px 0; }
+.scaffold { font-size:.86rem; color:#5A4A35; padding:9px 12px; background:var(--soft); border-radius:5px; margin:8px 0; }
+.needlist ul { margin:4px 0 0 16px; padding:0; }
+.stretchline { font-size:.85rem; color:#5A4A35; border-left:3px solid var(--accent); padding:5px 10px; margin:6px 0 8px 0; }
+.counter { font-size:.8rem; color:#7C6E5B; margin-top:5px; }
+.counter.done { color:var(--good); font-weight:600; }
+.question.en { font-style:italic; color:#3A322A; }
+.checklist { margin:6px 0 0 0; padding-left:18px; }
+.checklist li.yes { color:var(--good); }
+.checklist li.no  { color:var(--bad); }
+
+/* --- teclado flotante --- */
+.pad-toggle {
+  position:fixed; right:16px; bottom:16px; z-index:40; width:46px; height:46px;
+  border-radius:50%; border:none; background:var(--ink); color:#fff; font-size:1.25rem;
+  cursor:pointer; box-shadow:0 3px 10px rgba(0,0,0,.28); font-family:inherit;
+}
+.accent-pad {
+  position:fixed; right:16px; bottom:72px; z-index:40; background:#fff;
+  border:1px solid var(--line); border-radius:10px; padding:10px 12px;
+  box-shadow:0 6px 22px rgba(0,0,0,.18); max-width:min(92vw,330px);
+}
+.accent-pad.hidden { display:none; }
+.accent-pad .label { font-size:.74rem; color:#7C6E5B; margin-bottom:6px; }
+.accent-pad .row { display:flex; flex-wrap:wrap; gap:5px; }
+.accent-pad button {
+  min-width:32px; padding:5px 8px; border:1px solid var(--line); background:#FAF6F1;
+  border-radius:5px; cursor:pointer; font-size:1rem; font-family:inherit;
+}
+.accent-pad button:hover { background:var(--accent); color:#fff; }
+.accent-pad button.special { background:#F2EBE1; font-size:.9rem; }
+
+.wcard .qhead { font-size:.75rem; color:#888; margin-bottom:4px; }
+.wcard .qhead .tag {
+  background:var(--soft); color:var(--ink); padding:1px 8px;
+  border-radius:10px; font-size:.7rem; margin-left:6px;
+}
+.wcard .question { font-size:.98rem; margin-bottom:8px; font-weight:600; color:#1F1A14; }
+.connmsg { width:100%; color:var(--bad); }
+
 </style>
 </head>
 <body>
-<header>
-  <h1>Unidad 12 — La Transición a la democracia (1975-1986)</h1>
-  <div class="meta">Guía de estudio A-Level · vocabulario, conceptos, cronología, ensayos</div>
-</header>
-
+<header><h1>Unidad 12 — La Transición a la democracia (1975-1986)</h1><div class="meta">Guía de estudio y cuaderno de ejercicios A-Level · Edexcel Tema 4</div></header>
 <main>
-  <div class="scorebar">
-    <span class="pill">Práctica: <b id="practica-score">0</b>/16</span>
-    <progress id="prog" max="16" value="0"></progress>
-    <button class="btn primary" id="downloadBtn">Descargar mis notas</button>
-  </div>
-
-  <div class="tabs">
-    <button class="tab active" data-tab="cron">Cronología</button>
-    <button class="tab" data-tab="conc">Conceptos clave</button>
-    <button class="tab" data-tab="pers">Personajes</button>
-    <button class="tab" data-tab="voc">Vocabulario</button>
-    <button class="tab" data-tab="prac">Práctica</button>
-    <button class="tab" data-tab="ens">Ensayos</button>
-    <button class="tab" data-tab="res">Resumen</button>
-  </div>
-
-  <!-- CRONOLOGÍA -->
-  <div class="section active" data-tab="cron">
+<div class="namebar"><label for="studentName">Tu nombre / Your name — necesario para descargar tu trabajo</label><input type="text" id="studentName" maxlength="60" autocomplete="name" placeholder="Nombre y apellido — p. ej. Lucía Martín"><div id="nameWarning">⚠ Escribe tu nombre antes de descargar: aparecerá en la cabecera del archivo.</div></div>
+<div class="scorebar"><span class="pill">Aciertos: <b id="score">0</b> / 115</span><span class="pill">Hechos: <b id="done">0</b></span><progress id="prog" max="115" value="0"></progress><button class="btn primary" id="downloadBtn">📥 Descargar mi trabajo</button></div>
+<div class="tabs"><button class="tab active" data-tab="cron">Cronología</button><button class="tab" data-tab="conc">Conceptos</button><button class="tab" data-tab="pers">Personajes</button><button class="tab" data-tab="voc">Vocabulario</button><button class="tab" data-tab="prac">Práctica</button><button class="tab" data-tab="escr">Escritura</button><button class="tab" data-tab="ens">Ensayos</button><button class="tab" data-tab="res">Resumen</button></div>
+<div class="section active" data-tab="cron">
     <div class="section-intro">Línea temporal de los acontecimientos clave de la Transición, desde la muerte de Franco (1975) hasta la consolidación democrática y el ingreso en Europa (1986).</div>
     <div class="timeline-item">
           <div class="date">20 nov 1975</div>
@@ -244,11 +402,8 @@ input.fill:focus { outline:2px solid var(--accent); }
 <div class="timeline-item">
           <div class="date">12 mar 1986</div>
           <div class="body"><b>Referéndum sobre la OTAN.</b> Felipe González, que había hecho campaña electoral contra la OTAN, defiende ahora la permanencia. El «sí» gana con un 56,8 %.</div>
-        </div>
-  </div>
-
-  <!-- CONCEPTOS -->
-  <div class="section" data-tab="conc">
+        </div></div>
+<div class="section" data-tab="conc">
     <div class="section-intro">Los conceptos políticos y culturales que estructuran el periodo. Memorízalos con su definición en español — son el vocabulario nuclear de cualquier ensayo sobre la Transición.</div>
     <div class="concept-card">
           <h3>La transición negociada</h3>
@@ -299,11 +454,8 @@ input.fill:focus { outline:2px solid var(--accent); }
           <h3>La victoria aplastante del PSOE (1982)</h3>
           <div class="en">the PSOE landslide</div>
           <p>El PSOE de Felipe González obtiene 202 escaños (de 350) y el 48,1 % de los votos: la mayor mayoría absoluta de la historia democrática española. Marca el fin de la UCD (desaparece de la política nacional) y el inicio de los <i>catorce años</i> socialistas.</p>
-        </div>
-  </div>
-
-  <!-- PERSONAJES -->
-  <div class="section" data-tab="pers">
+        </div></div>
+<div class="section" data-tab="pers">
     <div class="section-intro">Las figuras decisivas. Para cada una, conoce su papel exacto en el proceso y un dato concreto que puedas citar en un ensayo.</div>
     <div class="person-card">
           <h3>Adolfo Suárez</h3>
@@ -339,11 +491,8 @@ input.fill:focus { outline:2px solid var(--accent); }
           <h3>Leopoldo Calvo-Sotelo</h3>
           <div class="dates">1926-2008</div>
           <p>Presidente del Gobierno entre la dimisión de Suárez y la victoria del PSOE (febrero 1981 - diciembre 1982). Su investidura fue interrumpida por el Tejerazo. Bajo su mandato se aprobaron la <b>Ley del Divorcio</b> y el ingreso de España en la <b>OTAN</b>.</p>
-        </div>
-  </div>
-
-  <!-- VOCABULARIO -->
-  <div class="section" data-tab="voc">
+        </div></div>
+<div class="section" data-tab="voc">
     <div class="section-intro">Vocabulario completo de la Unidad, organizado por lección. Repasa por bloques temáticos.</div>
     <div class="vocab-block">
           <h3>12.1 Se acerca la democracia… ¡y también el peligro!</h3>
@@ -360,192 +509,87 @@ input.fill:focus { outline:2px solid var(--accent); }
 <div class="vocab-block">
           <h3>12.4 PSOE landslide, amnistía y «pacto del silencio»</h3>
           <table class="vocab-table"><tr><td>la anulación</td><td>abolition; annulment</td></tr><tr><td>la Comunidad Europea; la CEE; la UE</td><td>European Community / European Union</td></tr><tr><td>las elecciones de 1982</td><td>the 1982 general elections</td></tr><tr><td>la fuente de conflictos</td><td>source of conflict</td></tr><tr><td>la generación nacida en libertad</td><td>the generation born into freedom</td></tr><tr><td>el legado</td><td>legacy</td></tr><tr><td>la manifestación</td><td>demonstration</td></tr><tr><td>la mayoría absoluta</td><td>absolute majority</td></tr><tr><td>la oleada de huelgas</td><td>wave of strikes</td></tr><tr><td>la OTAN</td><td>NATO</td></tr><tr><td>la pena de muerte</td><td>death penalty</td></tr><tr><td>el prestigio</td><td>prestige</td></tr><tr><td>la querella</td><td>dispute</td></tr><tr><td>el rechazo</td><td>rejection</td></tr><tr><td>la sanidad</td><td>health (system)</td></tr><tr><td>el sindicato</td><td>trade union</td></tr><tr><td>la victoria aplastante; el triunfo arrollador</td><td>landslide victory</td></tr><tr><td>el vínculo</td><td>link</td></tr><tr><td>a largo plazo</td><td>in the long run</td></tr><tr><td>abrumador</td><td>overwhelming</td></tr><tr><td>con miras a</td><td>with a view to</td></tr><tr><td>conciliador</td><td>conciliatory</td></tr><tr><td>conjuntamente</td><td>jointly</td></tr><tr><td>destaca</td><td>stands out</td></tr><tr><td>destacado</td><td>outstanding</td></tr><tr><td>en vez de</td><td>instead of</td></tr><tr><td>en vigor</td><td>in force</td></tr><tr><td>en última instancia</td><td>in the final analysis</td></tr><tr><td>estadounidense; americano</td><td>American</td></tr><tr><td>resuelto</td><td>resolved</td></tr><tr><td>satisfecho</td><td>satisfied</td></tr><tr><td>según</td><td>according to</td></tr><tr><td>tomar las riendas</td><td>to take the reins</td></tr><tr><td>tras</td><td>following; after</td></tr><tr><td>unánime</td><td>unanimous</td></tr><tr><td>aguantar</td><td>to put up with</td></tr><tr><td>permanecer</td><td>to remain</td></tr><tr><td>pertenecer</td><td>to belong</td></tr><tr><td>soportar</td><td>to put up with</td></tr><tr><td>a tiro de piedra</td><td>a stone&#x27;s throw away</td></tr></table>
-        </div>
-  </div>
-
-  <!-- PRÁCTICA -->
-  <div class="section" data-tab="prac">
-    <div class="section-intro">Autoevaluación. Mezcla de preguntas de opción múltiple y huecos para completar. Pulsa <b>Comprobar</b> en cada pregunta.</div>
-    <div class="qcard" data-qid="p-1">
-          <div class="qhead">P1 / 16 <span class="tag">fechas clave</span></div>
-          <div class="question">¿En qué año fue el Tejerazo?</div>
-          <div class="options"><button class="opt-btn" data-value="1975">1975</button><button class="opt-btn" data-value="1977">1977</button><button class="opt-btn" data-value="1981">1981</button><button class="opt-btn" data-value="1982">1982</button></div>
-          <div class="controls">
-            <button class="btn primary" data-act="check"  data-id="p-1">Comprobar</button>
-            <button class="btn"          data-act="hint"   data-id="p-1">Pista</button>
-            <button class="btn"          data-act="reveal" data-id="p-1">Revelar</button>
-          </div>
-          <div class="feedback"></div>
-        </div>
-<div class="qcard" data-qid="p-2">
-          <div class="qhead">P2 / 16 <span class="tag">personajes</span></div>
-          <div class="question">¿Quién lideró el intento de golpe del 23-F?</div>
-          <div class="options"><button class="opt-btn" data-value="Manuel Fraga">Manuel Fraga</button><button class="opt-btn" data-value="Antonio Tejero">Antonio Tejero</button><button class="opt-btn" data-value="Adolfo Suárez">Adolfo Suárez</button><button class="opt-btn" data-value="Santiago Carrillo">Santiago Carrillo</button></div>
-          <div class="controls">
-            <button class="btn primary" data-act="check"  data-id="p-2">Comprobar</button>
-            <button class="btn"          data-act="hint"   data-id="p-2">Pista</button>
-            <button class="btn"          data-act="reveal" data-id="p-2">Revelar</button>
-          </div>
-          <div class="feedback"></div>
-        </div>
-<div class="qcard" data-qid="p-3">
-          <div class="qhead">P3 / 16 <span class="tag">partidos</span></div>
-          <div class="question">¿Cuál fue el partido de Adolfo Suárez?</div>
-          <div class="options"><button class="opt-btn" data-value="PSOE">PSOE</button><button class="opt-btn" data-value="PCE">PCE</button><button class="opt-btn" data-value="UCD">UCD</button><button class="opt-btn" data-value="AP">AP</button></div>
-          <div class="controls">
-            <button class="btn primary" data-act="check"  data-id="p-3">Comprobar</button>
-            <button class="btn"          data-act="hint"   data-id="p-3">Pista</button>
-            <button class="btn"          data-act="reveal" data-id="p-3">Revelar</button>
-          </div>
-          <div class="feedback"></div>
-        </div>
-<div class="qcard" data-qid="p-4">
-          <div class="qhead">P4 / 16 <span class="tag">conceptos clave</span></div>
-          <div class="question">La Ley de Amnistía de 1977 es la base legal de…</div>
-          <div class="options"><button class="opt-btn" data-value="la legalización del PCE">la legalización del PCE</button><button class="opt-btn" data-value="el pacto del silencio">el pacto del silencio</button><button class="opt-btn" data-value="el café para todos">el café para todos</button><button class="opt-btn" data-value="el ingreso en la OTAN">el ingreso en la OTAN</button></div>
-          <div class="controls">
-            <button class="btn primary" data-act="check"  data-id="p-4">Comprobar</button>
-            <button class="btn"          data-act="hint"   data-id="p-4">Pista</button>
-            <button class="btn"          data-act="reveal" data-id="p-4">Revelar</button>
-          </div>
-          <div class="feedback"></div>
-        </div>
-<div class="qcard" data-qid="p-5">
-          <div class="qhead">P5 / 16 <span class="tag">fechas clave</span></div>
-          <div class="question">¿En qué año fue aprobada la Constitución española?</div>
-          <div class="options"><button class="opt-btn" data-value="1976">1976</button><button class="opt-btn" data-value="1977">1977</button><button class="opt-btn" data-value="1978">1978</button><button class="opt-btn" data-value="1981">1981</button></div>
-          <div class="controls">
-            <button class="btn primary" data-act="check"  data-id="p-5">Comprobar</button>
-            <button class="btn"          data-act="hint"   data-id="p-5">Pista</button>
-            <button class="btn"          data-act="reveal" data-id="p-5">Revelar</button>
-          </div>
-          <div class="feedback"></div>
-        </div>
-<div class="qcard" data-qid="p-6">
-          <div class="qhead">P6 / 16 <span class="tag">conceptos clave</span></div>
-          <div class="question">¿Qué expresión describe la generalización del modelo autonómico a todas las regiones?</div>
-          <div class="options"><button class="opt-btn" data-value="el pacto del olvido">el pacto del olvido</button><button class="opt-btn" data-value="el café para todos">el café para todos</button><button class="opt-btn" data-value="la transición negociada">la transición negociada</button><button class="opt-btn" data-value="el espaldarazo del rey">el espaldarazo del rey</button></div>
-          <div class="controls">
-            <button class="btn primary" data-act="check"  data-id="p-6">Comprobar</button>
-            <button class="btn"          data-act="hint"   data-id="p-6">Pista</button>
-            <button class="btn"          data-act="reveal" data-id="p-6">Revelar</button>
-          </div>
-          <div class="feedback"></div>
-        </div>
-<div class="qcard" data-qid="p-7">
-          <div class="qhead">P7 / 16 <span class="tag">personajes</span></div>
-          <div class="question">¿Quién fue presidente del Gobierno entre la dimisión de Suárez y la victoria del PSOE?</div>
-          <div class="options"><button class="opt-btn" data-value="Felipe González">Felipe González</button><button class="opt-btn" data-value="Leopoldo Calvo-Sotelo">Leopoldo Calvo-Sotelo</button><button class="opt-btn" data-value="Manuel Fraga">Manuel Fraga</button><button class="opt-btn" data-value="Santiago Carrillo">Santiago Carrillo</button></div>
-          <div class="controls">
-            <button class="btn primary" data-act="check"  data-id="p-7">Comprobar</button>
-            <button class="btn"          data-act="hint"   data-id="p-7">Pista</button>
-            <button class="btn"          data-act="reveal" data-id="p-7">Revelar</button>
-          </div>
-          <div class="feedback"></div>
-        </div>
-<div class="qcard" data-qid="p-8">
-          <div class="qhead">P8 / 16 <span class="tag">vocabulario clave</span></div>
-          <div class="question">¿Cómo se llama el sector franquista duro que se opuso a la democracia?</div>
-          <div class="options"><button class="opt-btn" data-value="el bunker">el bunker</button><button class="opt-btn" data-value="los grises">los grises</button><button class="opt-btn" data-value="el golpismo">el golpismo</button><button class="opt-btn" data-value="la oposición">la oposición</button></div>
-          <div class="controls">
-            <button class="btn primary" data-act="check"  data-id="p-8">Comprobar</button>
-            <button class="btn"          data-act="hint"   data-id="p-8">Pista</button>
-            <button class="btn"          data-act="reveal" data-id="p-8">Revelar</button>
-          </div>
-          <div class="feedback"></div>
-        </div>
-<div class="qcard" data-qid="p-9">
-          <div class="qhead">P9 / 16 <span class="tag">vocabulario clave</span></div>
-          <div class="question">Completa la frase: «En 1982, el PSOE obtuvo una victoria ___ con 202 escaños».</div>
-          <input class="fill" type="text" placeholder="Escribe tu respuesta…">
-          <div class="controls">
-            <button class="btn primary" data-act="check"  data-id="p-9">Comprobar</button>
-            <button class="btn"          data-act="hint"   data-id="p-9">Pista</button>
-            <button class="btn"          data-act="reveal" data-id="p-9">Revelar</button>
-          </div>
-          <div class="feedback"></div>
-        </div>
-<div class="qcard" data-qid="p-10">
-          <div class="qhead">P10 / 16 <span class="tag">verbos clave</span></div>
-          <div class="question">Completa la frase: «En enero de 1981, Adolfo Suárez ___ del cargo de presidente».</div>
-          <input class="fill" type="text" placeholder="Escribe tu respuesta…">
-          <div class="controls">
-            <button class="btn primary" data-act="check"  data-id="p-10">Comprobar</button>
-            <button class="btn"          data-act="hint"   data-id="p-10">Pista</button>
-            <button class="btn"          data-act="reveal" data-id="p-10">Revelar</button>
-          </div>
-          <div class="feedback"></div>
-        </div>
-<div class="qcard" data-qid="p-11">
-          <div class="qhead">P11 / 16 <span class="tag">vocabulario clave</span></div>
-          <div class="question">Completa: «La ___ de Memoria Democrática de 2022 intenta revisar el pacto del silencio».</div>
-          <input class="fill" type="text" placeholder="Escribe tu respuesta…">
-          <div class="controls">
-            <button class="btn primary" data-act="check"  data-id="p-11">Comprobar</button>
-            <button class="btn"          data-act="hint"   data-id="p-11">Pista</button>
-            <button class="btn"          data-act="reveal" data-id="p-11">Revelar</button>
-          </div>
-          <div class="feedback"></div>
-        </div>
-<div class="qcard" data-qid="p-12">
-          <div class="qhead">P12 / 16 <span class="tag">vocabulario clave</span></div>
-          <div class="question">Completa: «El rey Juan Carlos I emitió un ___ televisivo en defensa de la Constitución la madrugada del 24 de febrero».</div>
-          <input class="fill" type="text" placeholder="Escribe tu respuesta…">
-          <div class="controls">
-            <button class="btn primary" data-act="check"  data-id="p-12">Comprobar</button>
-            <button class="btn"          data-act="hint"   data-id="p-12">Pista</button>
-            <button class="btn"          data-act="reveal" data-id="p-12">Revelar</button>
-          </div>
-          <div class="feedback"></div>
-        </div>
-<div class="qcard" data-qid="p-13">
-          <div class="qhead">P13 / 16 <span class="tag">conceptos clave</span></div>
-          <div class="question">¿Cuál de estas frases describe mejor la «transición negociada»?</div>
-          <div class="options"><button class="opt-btn" data-value="Cambio impuesto desde arriba sin consulta popular">Cambio impuesto desde arriba sin consulta popular</button><button class="opt-btn" data-value="Ruptura total con el franquismo">Ruptura total con el franquismo</button><button class="opt-btn" data-value="Proceso de cambio pactado entre las élites del régimen y la oposición">Proceso de cambio pactado entre las élites del régimen y la oposición</button><button class="opt-btn" data-value="Restauración de la Segunda República">Restauración de la Segunda República</button></div>
-          <div class="controls">
-            <button class="btn primary" data-act="check"  data-id="p-13">Comprobar</button>
-            <button class="btn"          data-act="hint"   data-id="p-13">Pista</button>
-            <button class="btn"          data-act="reveal" data-id="p-13">Revelar</button>
-          </div>
-          <div class="feedback"></div>
-        </div>
-<div class="qcard" data-qid="p-14">
-          <div class="qhead">P14 / 16 <span class="tag">fechas clave</span></div>
-          <div class="question">¿Qué decisión arriesgada tomó Suárez en Sábado Santo de 1977?</div>
-          <div class="options"><button class="opt-btn" data-value="Legalizó el PCE">Legalizó el PCE</button><button class="opt-btn" data-value="Convocó el referéndum constitucional">Convocó el referéndum constitucional</button><button class="opt-btn" data-value="Aprobó la Ley de Amnistía">Aprobó la Ley de Amnistía</button><button class="opt-btn" data-value="Disolvió las Cortes franquistas">Disolvió las Cortes franquistas</button></div>
-          <div class="controls">
-            <button class="btn primary" data-act="check"  data-id="p-14">Comprobar</button>
-            <button class="btn"          data-act="hint"   data-id="p-14">Pista</button>
-            <button class="btn"          data-act="reveal" data-id="p-14">Revelar</button>
-          </div>
-          <div class="feedback"></div>
-        </div>
-<div class="qcard" data-qid="p-15">
-          <div class="qhead">P15 / 16 <span class="tag">vocabulario clave</span></div>
-          <div class="question">Completa: «La Ley de ___ Política de 1976 permitió que las Cortes franquistas aprobaran su propia disolución».</div>
-          <input class="fill" type="text" placeholder="Escribe tu respuesta…">
-          <div class="controls">
-            <button class="btn primary" data-act="check"  data-id="p-15">Comprobar</button>
-            <button class="btn"          data-act="hint"   data-id="p-15">Pista</button>
-            <button class="btn"          data-act="reveal" data-id="p-15">Revelar</button>
-          </div>
-          <div class="feedback"></div>
-        </div>
-<div class="qcard" data-qid="p-16">
-          <div class="qhead">P16 / 16 <span class="tag">fechas clave</span></div>
-          <div class="question">¿En qué referéndum de 1986 cambió Felipe González su posición previa?</div>
-          <div class="options"><button class="opt-btn" data-value="La entrada en la CEE">La entrada en la CEE</button><button class="opt-btn" data-value="La permanencia en la OTAN">La permanencia en la OTAN</button><button class="opt-btn" data-value="La Constitución">La Constitución</button><button class="opt-btn" data-value="La Ley del Divorcio">La Ley del Divorcio</button></div>
-          <div class="controls">
-            <button class="btn primary" data-act="check"  data-id="p-16">Comprobar</button>
-            <button class="btn"          data-act="hint"   data-id="p-16">Pista</button>
-            <button class="btn"          data-act="reveal" data-id="p-16">Revelar</button>
-          </div>
-          <div class="feedback"></div>
-        </div>
-  </div>
-
-  <!-- ENSAYOS -->
-  <div class="section" data-tab="ens">
+        </div></div>
+<div class="section" data-tab="prac"><div class="section-intro">Ocho tipos de ejercicio, del reconocimiento a la producción. La barra de arriba lleva la cuenta; al final puedes descargarlo todo con tu nombre.</div><div class="subtabs"><button class="subtab active" data-sub="s1">1 · Opción múltiple</button><button class="subtab" data-sub="s2">2 · Texto lagunado</button><button class="subtab" data-sub="s3">3 · Emparejar</button><button class="subtab" data-sub="s4">4 · Ordenar la cronología</button><button class="subtab" data-sub="s5">5 · V / F / No se dice</button><button class="subtab" data-sub="s6">6 · Vocabulario activo</button></div><div class="subpanel active" data-sub="s1"><div class="taskbox"><div class="t"><b>Tarea</b> — Contesta las 20 preguntas. Pulsa <b>Comprobar</b>: la opción correcta se pone verde y aparece la explicación.</div><div class="s"><b>Tarea plus · A*/C1</b> — Tapa las opciones con la mano y contesta de memoria. Después, escribe en el cuaderno una pregunta más de opción múltiple sobre la Transición, con sus cuatro opciones y su explicación.</div></div>
+<div class="qcard" data-kind="mcq" data-id="m1"><div class="qhead">P1 / 20<span class="tag">fechas</span></div><div class="question">¿En qué año se produjo el Tejerazo?</div><div class="options"><button class="opt" data-i="0">1975</button><button class="opt" data-i="1">1977</button><button class="opt" data-i="2">1981</button><button class="opt" data-i="3">1982</button></div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="mcq" data-id="m2"><div class="qhead">P2 / 20<span class="tag">personajes</span></div><div class="question">¿Quién dirigió el asalto al Congreso del 23-F?</div><div class="options"><button class="opt" data-i="0">Manuel Fraga</button><button class="opt" data-i="1">Antonio Tejero</button><button class="opt" data-i="2">Adolfo Suárez</button><button class="opt" data-i="3">Santiago Carrillo</button></div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="mcq" data-id="m3"><div class="qhead">P3 / 20<span class="tag">partidos</span></div><div class="question">¿A qué partido pertenecía Adolfo Suárez?</div><div class="options"><button class="opt" data-i="0">PSOE</button><button class="opt" data-i="1">PCE</button><button class="opt" data-i="2">UCD</button><button class="opt" data-i="3">AP</button></div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="mcq" data-id="m4"><div class="qhead">P4 / 20<span class="tag">conceptos</span></div><div class="question">La Ley de Amnistía de 1977 es la base legal de…</div><div class="options"><button class="opt" data-i="0">la legalización del PCE</button><button class="opt" data-i="1">el pacto del silencio</button><button class="opt" data-i="2">el café para todos</button><button class="opt" data-i="3">el ingreso en la OTAN</button></div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="mcq" data-id="m5"><div class="qhead">P5 / 20<span class="tag">fechas</span></div><div class="question">¿En qué año se aprobó la Constitución española vigente?</div><div class="options"><button class="opt" data-i="0">1976</button><button class="opt" data-i="1">1977</button><button class="opt" data-i="2">1978</button><button class="opt" data-i="3">1981</button></div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="mcq" data-id="m6"><div class="qhead">P6 / 20<span class="tag">conceptos</span></div><div class="question">¿Qué expresión describe la extensión del modelo autonómico a todas las regiones?</div><div class="options"><button class="opt" data-i="0">el pacto del olvido</button><button class="opt" data-i="1">el café para todos</button><button class="opt" data-i="2">la transición negociada</button><button class="opt" data-i="3">el espaldarazo</button></div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="mcq" data-id="m7"><div class="qhead">P7 / 20<span class="tag">personajes</span></div><div class="question">¿Quién presidió el Gobierno entre la dimisión de Suárez y la victoria del PSOE?</div><div class="options"><button class="opt" data-i="0">Felipe González</button><button class="opt" data-i="1">Leopoldo Calvo-Sotelo</button><button class="opt" data-i="2">Manuel Fraga</button><button class="opt" data-i="3">Santiago Carrillo</button></div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="mcq" data-id="m8"><div class="qhead">P8 / 20<span class="tag">vocabulario</span></div><div class="question">¿Cómo se llama el sector franquista duro que se opuso a toda reforma?</div><div class="options"><button class="opt" data-i="0">el bunker</button><button class="opt" data-i="1">los grises</button><button class="opt" data-i="2">el golpismo</button><button class="opt" data-i="3">la oposición</button></div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="mcq" data-id="m9"><div class="qhead">P9 / 20<span class="tag">conceptos</span></div><div class="question">¿Cuál de estas frases define mejor la «transición negociada»?</div><div class="options"><button class="opt" data-i="0">Un cambio impuesto sin consultar a nadie</button><button class="opt" data-i="1">Una ruptura total con el franquismo</button><button class="opt" data-i="2">Un cambio pactado entre las élites del régimen y la oposición</button><button class="opt" data-i="3">La vuelta de la Segunda República</button></div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="mcq" data-id="m10"><div class="qhead">P10 / 20<span class="tag">fechas</span></div><div class="question">¿Qué decisión arriesgada tomó Suárez el Sábado Santo de 1977?</div><div class="options"><button class="opt" data-i="0">Legalizó el PCE</button><button class="opt" data-i="1">Convocó el referéndum constitucional</button><button class="opt" data-i="2">Aprobó la Ley de Amnistía</button><button class="opt" data-i="3">Disolvió las Cortes franquistas</button></div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="mcq" data-id="m11"><div class="qhead">P11 / 20<span class="tag">fechas</span></div><div class="question">¿En qué referéndum de 1986 cambió Felipe González la postura que había defendido en campaña?</div><div class="options"><button class="opt" data-i="0">La entrada en la CEE</button><button class="opt" data-i="1">La permanencia en la OTAN</button><button class="opt" data-i="2">La Constitución</button><button class="opt" data-i="3">La ley del divorcio</button></div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="mcq" data-id="m12"><div class="qhead">P12 / 20<span class="tag">conceptos</span></div><div class="question">¿Qué permitió la Ley para la Reforma Política de 1976?</div><div class="options"><button class="opt" data-i="0">Prohibir los partidos de izquierda</button><button class="opt" data-i="1">Que las Cortes franquistas aprobaran su propia disolución</button><button class="opt" data-i="2">Restaurar la Constitución de 1931</button><button class="opt" data-i="3">Convocar un referéndum sobre la monarquía</button></div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="mcq" data-id="m13"><div class="qhead">P13 / 20<span class="tag">partidos</span></div><div class="question">¿Qué partido ganó las elecciones de junio de 1977?</div><div class="options"><button class="opt" data-i="0">El PSOE</button><button class="opt" data-i="1">El PCE</button><button class="opt" data-i="2">La UCD</button><button class="opt" data-i="3">Alianza Popular</button></div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="mcq" data-id="m14"><div class="qhead">P14 / 20<span class="tag">fechas</span></div><div class="question">¿Cuántos escaños obtuvo el PSOE en las elecciones de 1982?</div><div class="options"><button class="opt" data-i="0">176</button><button class="opt" data-i="1">202</button><button class="opt" data-i="2">230</button><button class="opt" data-i="3">150</button></div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="mcq" data-id="m15"><div class="qhead">P15 / 20<span class="tag">conceptos</span></div><div class="question">¿Qué hizo el rey la madrugada del 24 de febrero de 1981?</div><div class="options"><button class="opt" data-i="0">Huyó del país</button><button class="opt" data-i="1">Nombró un gobierno militar</button><button class="opt" data-i="2">Se dirigió al país por televisión defendiendo la Constitución</button><button class="opt" data-i="3">Disolvió las Cortes</button></div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="mcq" data-id="m16"><div class="qhead">P16 / 20<span class="tag">personajes</span></div><div class="question">¿Qué aceptó Santiago Carrillo a cambio de la legalización del PCE?</div><div class="options"><button class="opt" data-i="0">La monarquía y la bandera bicolor</button><button class="opt" data-i="1">La disolución de su partido</button><button class="opt" data-i="2">El exilio permanente</button><button class="opt" data-i="3">Renunciar a presentarse a las elecciones</button></div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="mcq" data-id="m17"><div class="qhead">P17 / 20<span class="tag">conceptos</span></div><div class="question">¿Qué forma de Estado establece la Constitución de 1978?</div><div class="options"><button class="opt" data-i="0">Una república federal</button><button class="opt" data-i="1">Una monarquía absoluta</button><button class="opt" data-i="2">Una monarquía parlamentaria</button><button class="opt" data-i="3">Un Estado unitario sin autonomías</button></div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="mcq" data-id="m18"><div class="qhead">P18 / 20<span class="tag">actualidad</span></div><div class="question">¿Qué ley de 2022 revisa el pacto del silencio?</div><div class="options"><button class="opt" data-i="0">La Ley de Amnistía</button><button class="opt" data-i="1">La Ley de Memoria Democrática</button><button class="opt" data-i="2">La Ley para la Reforma Política</button><button class="opt" data-i="3">La LOAPA</button></div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="mcq" data-id="m19"><div class="qhead">P19 / 20<span class="tag">conceptos</span></div><div class="question">¿Sobre qué versaron los Pactos de la Moncloa de octubre de 1977?</div><div class="options"><button class="opt" data-i="0">El modelo autonómico</button><button class="opt" data-i="1">La crisis económica: inflación, paro y reforma fiscal</button><button class="opt" data-i="2">La legalización de los sindicatos únicamente</button><button class="opt" data-i="3">La entrada en la CEE</button></div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="mcq" data-id="m20"><div class="qhead">P20 / 20<span class="tag">conceptos</span></div><div class="question">¿Por qué se dice que el 23-F, paradójicamente, reforzó la democracia?</div><div class="options"><button class="opt" data-i="0">Porque el Ejército recuperó poder político</button><button class="opt" data-i="1">Porque demostró que no había marcha atrás y unió a la ciudadanía</button><button class="opt" data-i="2">Porque obligó a redactar una nueva Constitución</button><button class="opt" data-i="3">Porque provocó la abdicación del rey</button></div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div></div><div class="subpanel" data-sub="s2"><div class="taskbox"><div class="t"><b>Tarea</b> — Completa los dos textos. Pulsa una palabra del banco y se coloca sola en el hueco activo; si te equivocas, pulsa el hueco y la palabra vuelve al banco.</div><div class="s"><b>Tarea plus · A*/C1</b> — Activa el <b>modo desafío</b>: el banco desaparece y tienes que escribir las palabras de memoria, con sus tildes.</div></div>
+<div class="clozecard" data-kind="cloze" data-id="c1"><h3>De la dictadura a las urnas (1975-1978)</h3><div class="mini">Rellena los doce huecos. Puedes pulsar una palabra del banco o escribirla tú.</div><div class="bankwrap"><div class="banklabel">Banco de palabras — 18 palabras para 12 huecos (sobran 6 intrusas)</div><div class="bank"><button class="chip" data-w="incertidumbre">incertidumbre</button><button class="chip" data-w="rey">rey</button><button class="chip" data-w="nombra">nombra</button><button class="chip" data-w="Reforma">Reforma</button><button class="chip" data-w="autodestrucción">autodestrucción</button><button class="chip" data-w="votos">votos</button><button class="chip" data-w="legaliza">legaliza</button><button class="chip" data-w="elecciones">elecciones</button><button class="chip" data-w="Amnistía">Amnistía</button><button class="chip" data-w="juzgar">juzgar</button><button class="chip" data-w="silencio">silencio</button><button class="chip" data-w="parlamentaria">parlamentaria</button><button class="chip" data-w="dictadura">dictadura</button><button class="chip" data-w="referéndum">referéndum</button><button class="chip" data-w="prohibir">prohibir</button><button class="chip" data-w="ministro">ministro</button><button class="chip" data-w="huelga">huelga</button><button class="chip" data-w="presidencial">presidencial</button></div></div><div class="clozetext">El 20 de noviembre de 1975 muere Francisco Franco y España entra en un periodo de gran <span class="gapwrap"><input class="gapin" data-gi="0" aria-label="hueco 1" autocomplete="off" spellcheck="false"></span>. Dos días después, Juan Carlos I es proclamado <span class="gapwrap"><input class="gapin" data-gi="1" aria-label="hueco 2" autocomplete="off" spellcheck="false"></span>: casi nadie espera que pilote un cambio democrático. En julio de 1976 el monarca <span class="gapwrap"><input class="gapin" data-gi="2" aria-label="hueco 3" autocomplete="off" spellcheck="false"></span> presidente del Gobierno a Adolfo Suárez, un antiguo cuadro del Movimiento. Su primera gran maniobra es la Ley para la <span class="gapwrap"><input class="gapin" data-gi="3" aria-label="hueco 4" autocomplete="off" spellcheck="false"></span> Política, que las propias Cortes franquistas aprueban en noviembre de 1976: el régimen firma así su propia <span class="gapwrap"><input class="gapin" data-gi="4" aria-label="hueco 5" autocomplete="off" spellcheck="false"></span>. El referéndum del 15 de diciembre la respalda con el 94 % de los <span class="gapwrap"><input class="gapin" data-gi="5" aria-label="hueco 6" autocomplete="off" spellcheck="false"></span>. El 9 de abril de 1977, Sábado Santo, Suárez <span class="gapwrap"><input class="gapin" data-gi="6" aria-label="hueco 7" autocomplete="off" spellcheck="false"></span> el Partido Comunista; el Ejército lo vive como una traición, pero Carrillo acepta la monarquía y la bandera bicolor. El 15 de junio se celebran las primeras <span class="gapwrap"><input class="gapin" data-gi="7" aria-label="hueco 8" autocomplete="off" spellcheck="false"></span> libres desde 1936 y gana la UCD. En octubre, la Ley de <span class="gapwrap"><input class="gapin" data-gi="8" aria-label="hueco 9" autocomplete="off" spellcheck="false"></span> libera a los presos políticos y, al mismo tiempo, impide <span class="gapwrap"><input class="gapin" data-gi="9" aria-label="hueco 10" autocomplete="off" spellcheck="false"></span> los crímenes del franquismo: es el llamado pacto del <span class="gapwrap"><input class="gapin" data-gi="10" aria-label="hueco 11" autocomplete="off" spellcheck="false"></span>. Finalmente, la Constitución de 1978 instaura una monarquía <span class="gapwrap"><input class="gapin" data-gi="11" aria-label="hueco 12" autocomplete="off" spellcheck="false"></span> y el Estado de las autonomías.</div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="challenge">Modo desafío (sin banco)</button><button class="btn" data-act="clear">Vaciar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="clozecard" data-kind="cloze" data-id="c2"><h3>Del golpe fallido a Europa (1981-1986)</h3><div class="mini">Doce huecos más. Fíjate en el tiempo verbal: todo el texto va en presente histórico.</div><div class="bankwrap"><div class="banklabel">Banco de palabras — 18 palabras para 12 huecos (sobran 6 intrusas)</div><div class="bank"><button class="chip" data-w="sables">sables</button><button class="chip" data-w="dimite">dimite</button><button class="chip" data-w="irrumpe">irrumpe</button><button class="chip" data-w="secuestra">secuestra</button><button class="chip" data-w="defiende">defiende</button><button class="chip" data-w="fracasa">fracasa</button><button class="chip" data-w="refuerza">refuerza</button><button class="chip" data-w="marcha">marcha</button><button class="chip" data-w="aplastante">aplastante</button><button class="chip" data-w="escaños">escaños</button><button class="chip" data-w="alternancia">alternancia</button><button class="chip" data-w="ingresa">ingresa</button><button class="chip" data-w="entrega">entrega</button><button class="chip" data-w="retira">retira</button><button class="chip" data-w="votantes">votantes</button><button class="chip" data-w="derrota">derrota</button><button class="chip" data-w="fusiles">fusiles</button><button class="chip" data-w="abandona">abandona</button></div></div><div class="clozetext">La Transición no fue un camino tranquilo. En enero de 1981, acorralado por su propio partido y por los llamados «ruidos de <span class="gapwrap"><input class="gapin" data-gi="0" aria-label="hueco 1" autocomplete="off" spellcheck="false"></span>», Adolfo Suárez <span class="gapwrap"><input class="gapin" data-gi="1" aria-label="hueco 2" autocomplete="off" spellcheck="false"></span>. El 23 de febrero, el teniente coronel Antonio Tejero <span class="gapwrap"><input class="gapin" data-gi="2" aria-label="hueco 3" autocomplete="off" spellcheck="false"></span> en el Congreso de los Diputados y <span class="gapwrap"><input class="gapin" data-gi="3" aria-label="hueco 4" autocomplete="off" spellcheck="false"></span> a los diputados durante casi dieciocho horas. La madrugada del 24, el rey aparece en televisión con uniforme de capitán general y <span class="gapwrap"><input class="gapin" data-gi="4" aria-label="hueco 5" autocomplete="off" spellcheck="false"></span> la Constitución: el golpe <span class="gapwrap"><input class="gapin" data-gi="5" aria-label="hueco 6" autocomplete="off" spellcheck="false"></span>. Paradójicamente, el 23-F <span class="gapwrap"><input class="gapin" data-gi="6" aria-label="hueco 7" autocomplete="off" spellcheck="false"></span> la democracia, porque demuestra que ya no hay <span class="gapwrap"><input class="gapin" data-gi="7" aria-label="hueco 8" autocomplete="off" spellcheck="false"></span> atrás. En octubre de 1982, el PSOE de Felipe González obtiene una victoria <span class="gapwrap"><input class="gapin" data-gi="8" aria-label="hueco 9" autocomplete="off" spellcheck="false"></span> con 202 <span class="gapwrap"><input class="gapin" data-gi="9" aria-label="hueco 10" autocomplete="off" spellcheck="false"></span> y se produce la primera <span class="gapwrap"><input class="gapin" data-gi="10" aria-label="hueco 11" autocomplete="off" spellcheck="false"></span> en el poder. Cuatro años después, España <span class="gapwrap"><input class="gapin" data-gi="11" aria-label="hueco 12" autocomplete="off" spellcheck="false"></span> en la Comunidad Económica Europea y confirma su permanencia en la OTAN mediante un referéndum.</div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="challenge">Modo desafío (sin banco)</button><button class="btn" data-act="clear">Vaciar</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div></div><div class="subpanel" data-sub="s3"><div class="taskbox"><div class="t"><b>Tarea</b> — Pulsa un elemento de la izquierda y después su pareja de la derecha. Los aciertos se bloquean en verde.</div><div class="s"><b>Tarea plus · A*/C1</b> — Antes de emparejar, tapa la columna derecha y di en voz alta la definición. Después escribe dos definiciones más en español para dos conceptos cualesquiera de la pestaña «Conceptos».</div></div>
+<div class="matchcard" data-kind="match" data-id="e1"><h3>Conceptos y definiciones</h3><div class="matchgrid"><div><div class="collabel">Concepto</div><button class="mit left" data-k="0">la transición negociada</button><button class="mit left" data-k="1">el pacto del silencio</button><button class="mit left" data-k="2">el café para todos</button><button class="mit left" data-k="3">el bunker</button><button class="mit left" data-k="4">el espaldarazo</button><button class="mit left" data-k="5">la ruptura</button><button class="mit left" data-k="6">el consenso</button><button class="mit left" data-k="7">la alternancia</button></div><div><div class="collabel">Definición</div><div class="rightcol"><button class="mit right" data-k="0">cambio político pactado entre las élites del régimen y la oposición</button><button class="mit right" data-k="1">renuncia colectiva a juzgar los crímenes de la dictadura</button><button class="mit right" data-k="2">extensión del modelo autonómico a todas las regiones por igual</button><button class="mit right" data-k="3">sector franquista que se opone a cualquier reforma</button><button class="mit right" data-k="4">apoyo decisivo que legitima a una persona o a un proceso</button><button class="mit right" data-k="5">final brusco del régimen, sin negociar con sus dirigentes</button><button class="mit right" data-k="6">acuerdo entre partidos rivales para redactar la Constitución</button><button class="mit right" data-k="7">relevo pacífico de un partido por otro en el gobierno</button></div></div></div><div class="controls"><button class="btn" data-act="reset">Empezar de nuevo</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="matchcard" data-kind="match" data-id="e2"><h3>Personajes y papel histórico</h3><div class="matchgrid"><div><div class="collabel">Personaje</div><button class="mit left" data-k="0">Adolfo Suárez</button><button class="mit left" data-k="1">Juan Carlos I</button><button class="mit left" data-k="2">Antonio Tejero</button><button class="mit left" data-k="3">Santiago Carrillo</button><button class="mit left" data-k="4">Manuel Fraga</button><button class="mit left" data-k="5">Felipe González</button><button class="mit left" data-k="6">Leopoldo Calvo-Sotelo</button></div><div><div class="collabel">Papel</div><div class="rightcol"><button class="mit right" data-k="0">presidente que desmontó el régimen desde dentro</button><button class="mit right" data-k="1">jefe del Estado que frenó el golpe del 23-F</button><button class="mit right" data-k="2">guardia civil que asaltó el Congreso</button><button class="mit right" data-k="3">líder comunista que aceptó la monarquía</button><button class="mit right" data-k="4">exministro franquista, fundador de Alianza Popular</button><button class="mit right" data-k="5">primer presidente socialista, mayoría absoluta en 1982</button><button class="mit right" data-k="6">presidente entre 1981 y 1982; España entra en la OTAN</button></div></div></div><div class="controls"><button class="btn" data-act="reset">Empezar de nuevo</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div>
+<div class="matchcard" data-kind="match" data-id="e3"><h3>Fechas y acontecimientos</h3><div class="matchgrid"><div><div class="collabel">Fecha</div><button class="mit left" data-k="0">20 nov 1975</button><button class="mit left" data-k="1">15 dic 1976</button><button class="mit left" data-k="2">9 abr 1977</button><button class="mit left" data-k="3">15 jun 1977</button><button class="mit left" data-k="4">15 oct 1977</button><button class="mit left" data-k="5">6 dic 1978</button><button class="mit left" data-k="6">23 feb 1981</button><button class="mit left" data-k="7">28 oct 1982</button></div><div><div class="collabel">Acontecimiento</div><div class="rightcol"><button class="mit right" data-k="0">muerte de Francisco Franco</button><button class="mit right" data-k="1">referéndum de la Ley para la Reforma Política</button><button class="mit right" data-k="2">legalización del Partido Comunista</button><button class="mit right" data-k="3">primeras elecciones democráticas desde 1936</button><button class="mit right" data-k="4">Ley de Amnistía</button><button class="mit right" data-k="5">referéndum constitucional</button><button class="mit right" data-k="6">asalto al Congreso</button><button class="mit right" data-k="7">mayoría absoluta del PSOE</button></div></div></div><div class="controls"><button class="btn" data-act="reset">Empezar de nuevo</button><button class="btn" data-act="reveal">Revelar</button></div><div class="feedback"></div></div></div><div class="subpanel" data-sub="s4"><div class="taskbox"><div class="t"><b>Tarea</b> — Pulsa los doce acontecimientos en orden cronológico. Si te equivocas, «Deshacer» quita el último.</div><div class="s"><b>Tarea plus · A*/C1</b> — Hazlo sin mirar la pestaña «Cronología». Después añade a cada acontecimiento su año en voz alta, y explica en una frase por qué el orden de dos de ellos es significativo.</div></div><div class="seqcard" data-kind="seq" data-id="s1"><h3>Ordena la Transición</h3><div class="mini">Pool de acontecimientos — pulsa en orden:</div><div class="seqpool"><button class="sit" data-o="0">Muere Francisco Franco</button><button class="sit" data-o="1">Juan Carlos I es proclamado rey</button><button class="sit" data-o="2">Adolfo Suárez es nombrado presidente del Gobierno</button><button class="sit" data-o="3">Las Cortes franquistas aprueban la Ley para la Reforma Política</button><button class="sit" data-o="4">Se legaliza el Partido Comunista</button><button class="sit" data-o="5">Primeras elecciones democráticas: gana la UCD</button><button class="sit" data-o="6">Se aprueba la Ley de Amnistía</button><button class="sit" data-o="7">Referéndum de la Constitución</button><button class="sit" data-o="8">Dimisión de Adolfo Suárez</button><button class="sit" data-o="9">Asalto al Congreso de Antonio Tejero</button><button class="sit" data-o="10">Victoria aplastante del PSOE</button><button class="sit" data-o="11">España ingresa en la Comunidad Europea</button></div><div class="mini">Tu orden:</div><ol class="seqtarget"></ol><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="undo">Deshacer</button><button class="btn" data-act="reset">Vaciar</button></div><div class="feedback"></div></div></div><div class="subpanel" data-sub="s5"><div class="taskbox"><div class="t"><b>Tarea</b> — Lee el texto y decide: verdadero, falso o no se dice. Escribe siempre una justificación citando el texto.</div><div class="s"><b>Tarea plus · A*/C1</b> — Reescribe en español correcto las frases falsas para que sean verdaderas, y explica en una frase por qué «no se dice» no es lo mismo que «falso».</div></div><div class="sourcetext"><p><b>La Transición, cuarenta años después</b> <span class="src">(texto adaptado, estilo Paper 1)</span></p>
+<p>Cuando Marta, estudiante de Historia en Granada, habla de la Transición con su abuelo, los dos parecen referirse a países distintos. Para él, aquellos años significaron sobre todo <b>alivio</b>: se acabó el miedo a los grises, llegaron las urnas y España dejó de ser una excepción en Europa. Para ella, en cambio, la Transición es el momento en que su país decidió <b>mirar hacia otro lado</b>.</p>
+<p>El desacuerdo tiene un nombre legal. La Ley de Amnistía de 1977 liberó a los presos políticos, pero también cerró la puerta a cualquier proceso contra los responsables de la represión franquista. Durante décadas, esa renuncia se presentó como el precio inevitable de una transición pacífica. Hoy una parte importante de la sociedad la considera una deuda pendiente. La Ley de Memoria Democrática, aprobada en 2022, reconoce el derecho de las familias a buscar e identificar a las víctimas enterradas en fosas comunes; el Estado asume ahora esa tarea, que antes recaía en asociaciones privadas.</p>
+<p>Los símbolos también han cambiado. En octubre de 2019 los restos de Franco fueron trasladados fuera del Valle de los Caídos, hoy rebautizado Valle de Cuelgamuros. «No se trata de reabrir heridas», explica la historiadora ficticia Elena Ruiz en este texto, «sino de aceptar que una democracia madura puede juzgar su propio pasado sin romperse».</p>
+<p>El abuelo de Marta escucha y matiza: quienes vivieron aquellos años sabían que los cuarteles estaban inquietos y que el 23-F podía repetirse. «Vosotros discutís sobre la Transición porque nosotros conseguimos que hubiera algo sobre lo que discutir», le dice. Marta no está del todo de acuerdo, pero reconoce que nunca ha tenido que temer un golpe de estado.</p></div><div class="qcard" data-kind="vfn" data-id="v1"><div class="qhead">Frase 1 / 8</div><div class="question">Marta y su abuelo valoran la Transición de la misma manera.</div><div class="options"><button class="opt" data-v="V">Verdadero</button><button class="opt" data-v="F">Falso</button><button class="opt" data-v="NS">No se dice</button></div><label class="justlab">Justificación en español (cita el texto):</label><textarea class="just" rows="2" placeholder="Porque el texto dice que…"></textarea><div class="controls"><button class="btn primary" data-act="check">Comprobar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="vfn" data-id="v2"><div class="qhead">Frase 2 / 8</div><div class="question">La Ley de Amnistía de 1977 impidió procesar a los responsables de la represión franquista.</div><div class="options"><button class="opt" data-v="V">Verdadero</button><button class="opt" data-v="F">Falso</button><button class="opt" data-v="NS">No se dice</button></div><label class="justlab">Justificación en español (cita el texto):</label><textarea class="just" rows="2" placeholder="Porque el texto dice que…"></textarea><div class="controls"><button class="btn primary" data-act="check">Comprobar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="vfn" data-id="v3"><div class="qhead">Frase 3 / 8</div><div class="question">La Ley de Memoria Democrática se aprobó en 2007.</div><div class="options"><button class="opt" data-v="V">Verdadero</button><button class="opt" data-v="F">Falso</button><button class="opt" data-v="NS">No se dice</button></div><label class="justlab">Justificación en español (cita el texto):</label><textarea class="just" rows="2" placeholder="Porque el texto dice que…"></textarea><div class="controls"><button class="btn primary" data-act="check">Comprobar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="vfn" data-id="v4"><div class="qhead">Frase 4 / 8</div><div class="question">Antes de esa ley, la búsqueda de víctimas en fosas comunes dependía sobre todo de asociaciones privadas.</div><div class="options"><button class="opt" data-v="V">Verdadero</button><button class="opt" data-v="F">Falso</button><button class="opt" data-v="NS">No se dice</button></div><label class="justlab">Justificación en español (cita el texto):</label><textarea class="just" rows="2" placeholder="Porque el texto dice que…"></textarea><div class="controls"><button class="btn primary" data-act="check">Comprobar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="vfn" data-id="v5"><div class="qhead">Frase 5 / 8</div><div class="question">Marta ha participado personalmente en una exhumación.</div><div class="options"><button class="opt" data-v="V">Verdadero</button><button class="opt" data-v="F">Falso</button><button class="opt" data-v="NS">No se dice</button></div><label class="justlab">Justificación en español (cita el texto):</label><textarea class="just" rows="2" placeholder="Porque el texto dice que…"></textarea><div class="controls"><button class="btn primary" data-act="check">Comprobar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="vfn" data-id="v6"><div class="qhead">Frase 6 / 8</div><div class="question">Los restos de Franco siguen en el Valle de los Caídos.</div><div class="options"><button class="opt" data-v="V">Verdadero</button><button class="opt" data-v="F">Falso</button><button class="opt" data-v="NS">No se dice</button></div><label class="justlab">Justificación en español (cita el texto):</label><textarea class="just" rows="2" placeholder="Porque el texto dice que…"></textarea><div class="controls"><button class="btn primary" data-act="check">Comprobar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="vfn" data-id="v7"><div class="qhead">Frase 7 / 8</div><div class="question">El abuelo cree que la generación de Marta puede debatir gracias a lo que consiguió la suya.</div><div class="options"><button class="opt" data-v="V">Verdadero</button><button class="opt" data-v="F">Falso</button><button class="opt" data-v="NS">No se dice</button></div><label class="justlab">Justificación en español (cita el texto):</label><textarea class="just" rows="2" placeholder="Porque el texto dice que…"></textarea><div class="controls"><button class="btn primary" data-act="check">Comprobar</button></div><div class="feedback"></div></div>
+<div class="qcard" data-kind="vfn" data-id="v8"><div class="qhead">Frase 8 / 8</div><div class="question">El abuelo de Marta votó a favor de la Constitución en 1978.</div><div class="options"><button class="opt" data-v="V">Verdadero</button><button class="opt" data-v="F">Falso</button><button class="opt" data-v="NS">No se dice</button></div><label class="justlab">Justificación en español (cita el texto):</label><textarea class="just" rows="2" placeholder="Porque el texto dice que…"></textarea><div class="controls"><button class="btn primary" data-act="check">Comprobar</button></div><div class="feedback"></div></div></div><div class="subpanel" data-sub="s6"><div class="taskbox"><div class="t"><b>Tarea</b> — Escribe la palabra española. Se perdona una errata pequeña, pero <b>no</b> la tilde: el corrector te dirá cuál es el problema.</div><div class="s"><b>Tarea plus · A*/C1</b> — Escribe cada palabra con su artículo correcto y, en el cuaderno, una frase entera sobre la Transición que la contenga.</div></div><h3>A · Del inglés al español</h3><div class="vrow" data-kind="vocab" data-id="w1" data-set="en"><div class="vq"><span class="num">1</span>the coup d&#x27;état</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="en español…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="w2" data-set="en"><div class="vq"><span class="num">2</span>uncertainty</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="en español…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="w3" data-set="en"><div class="vq"><span class="num">3</span>to resign (from office)</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="en español…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="w4" data-set="en"><div class="vq"><span class="num">4</span>crushing (victory)</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="en español…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="w5" data-set="en"><div class="vq"><span class="num">5</span>parliamentary seat</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="en español…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="w6" data-set="en"><div class="vq"><span class="num">6</span>decisive backing</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="en español…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="w7" data-set="en"><div class="vq"><span class="num">7</span>to burst in</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="en español…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="w8" data-set="en"><div class="vq"><span class="num">8</span>the barracks</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="en español…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="w9" data-set="en"><div class="vq"><span class="num">9</span>unresolved matter</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="en español…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="w10" data-set="en"><div class="vq"><span class="num">10</span>to carry out</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="en español…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="w11" data-set="en"><div class="vq"><span class="num">11</span>the reign</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="en español…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="w12" data-set="en"><div class="vq"><span class="num">12</span>absolute majority</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="en español…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="w13" data-set="en"><div class="vq"><span class="num">13</span>to consolidate</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="en español…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="w14" data-set="en"><div class="vq"><span class="num">14</span>the legacy</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="en español…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="w15" data-set="en"><div class="vq"><span class="num">15</span>in force (a law)</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="en español…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="w16" data-set="en"><div class="vq"><span class="num">16</span>to call (an election)</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="en español…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="w17" data-set="en"><div class="vq"><span class="num">17</span>the trade union</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="en español…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="w18" data-set="en"><div class="vq"><span class="num">18</span>to challenge</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="en español…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="w19" data-set="en"><div class="vq"><span class="num">19</span>to restore democracy</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="en español…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="w20" data-set="en"><div class="vq"><span class="num">20</span>a failed (coup)</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="en español…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div><h3>B · Definición en español → palabra</h3><div class="mini">Este es el formato de las plataformas polisémicas: se define en la lengua meta, no se traduce.</div><div class="vrow" data-kind="vocab" data-id="d1" data-set="es"><div class="vq"><span class="num">1</span>Persona que participa en un golpe de estado.</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="la palabra…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="d2" data-set="es"><div class="vq"><span class="num">2</span>Acuerdo entre fuerzas políticas rivales para sacar adelante un proyecto común.</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="la palabra…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="d3" data-set="es"><div class="vq"><span class="num">3</span>Territorio con gobierno y parlamento propios dentro del Estado español.</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="la palabra…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="d4" data-set="es"><div class="vq"><span class="num">4</span>Perdón legal que anula la responsabilidad penal de ciertos delitos.</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="la palabra…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="d5" data-set="es"><div class="vq"><span class="num">5</span>Sistema en el que el rey reina pero no gobierna.</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="la palabra…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="d6" data-set="es"><div class="vq"><span class="num">6</span>Momento a partir del cual ya no es posible volver a la situación anterior.</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="la palabra…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="d7" data-set="es"><div class="vq"><span class="num">7</span>Dejar voluntariamente un cargo público.</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="la palabra…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div>
+<div class="vrow" data-kind="vocab" data-id="d8" data-set="es"><div class="vq"><span class="num">8</span>Consulta en la que toda la ciudadanía vota sí o no a una propuesta.</div><input class="vin" autocomplete="off" spellcheck="false" placeholder="la palabra…"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="hint">Pista</button><div class="feedback"></div></div></div></div>
+<div class="section" data-tab="escr"><div class="section-intro">Producción escrita corta y traducción. No se puntúan automáticamente: el corrector comprueba los elementos obligatorios y el número de palabras, y tu texto se guarda en la descarga.</div><div class="subtabs"><button class="subtab active" data-sub="e1">7 · Escribir en español</button><button class="subtab" data-sub="e2">8 · Traducción</button></div><div class="subpanel active" data-sub="e1"><div class="taskbox"><div class="t"><b>Tarea</b> — Escribe una respuesta breve en español para cada pregunta. El contador te dice cuántas palabras llevas; «Comprobar» te dice qué elementos obligatorios te faltan.</div><div class="s"><b>Tarea plus · A*/C1</b> — Haz la versión «plus» de cada pregunta: 80 palabras y la estructura indicada (subjuntivo, conector de contraste). El corrector la detecta.</div></div>
+<div class="chipbar"><span class="lab">Conectores — pulsa para insertar:</span><button class="conn" data-c="en primer lugar">en primer lugar</button><button class="conn" data-c="además">además</button><button class="conn" data-c="sin embargo">sin embargo</button><button class="conn" data-c="no obstante">no obstante</button><button class="conn" data-c="por lo tanto">por lo tanto</button><button class="conn" data-c="a pesar de que">a pesar de que</button><button class="conn" data-c="aunque">aunque</button><button class="conn" data-c="es decir">es decir</button><button class="conn" data-c="por un lado">por un lado</button><button class="conn" data-c="por otro lado">por otro lado</button><button class="conn" data-c="en definitiva">en definitiva</button><button class="conn" data-c="cabe destacar que">cabe destacar que</button><button class="conn" data-c="lo que provocó">lo que provocó</button><button class="conn" data-c="gracias a">gracias a</button><button class="conn" data-c="debido a">debido a</button><button class="conn" data-c="mientras que">mientras que</button></div>
+<div class="wcard" data-kind="write" data-id="x1"><div class="qhead">Escrito 1 de 6<span class="tag">objetivo: 40 palabras</span></div><div class="question">Explica por qué la Transición se llama «negociada».</div><div class="scaffold"><b>Andamiaje.</b> Empieza por una de estas frases:<div class="starters"><button class="starter" data-c="Se habla de una transición negociada porque…">Se habla de una transición negociada porque…</button><button class="starter" data-c="Las élites del régimen y la oposición…">Las élites del régimen y la oposición…</button></div><div class="needlist"><b>Tienes que incluir:</b><ul><li>una palabra de la familia de «pactar / negociar / acuerdo»</li><li>una referencia al régimen o a sus élites</li><li>una mención de la oposición democrática</li></ul></div></div><div class="stretchline"><b>Plus A*/C1 —</b> Añade una crítica: ¿qué precio se pagó por no romper con el franquismo? (80 palabras, incluye «a pesar de que» + subjuntivo)</div><textarea class="wtext" rows="5" placeholder="Escribe aquí en español…"></textarea><div class="counter"><span class="wc">0</span> palabras · objetivo 40</div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="model">Ver modelo</button></div><div class="feedback"></div></div>
+<div class="wcard" data-kind="write" data-id="x2"><div class="qhead">Escrito 2 de 6<span class="tag">objetivo: 45 palabras</span></div><div class="question">Describe qué ocurrió el 23-F y por qué fue importante.</div><div class="scaffold"><b>Andamiaje.</b> Empieza por una de estas frases:<div class="starters"><button class="starter" data-c="El 23 de febrero de 1981…">El 23 de febrero de 1981…</button><button class="starter" data-c="Aquella noche el rey…">Aquella noche el rey…</button></div><div class="needlist"><b>Tienes que incluir:</b><ul><li>«golpe de estado» o «asaltó»</li><li>el papel del rey</li><li>el hecho de que el golpe fracasara</li></ul></div></div><div class="stretchline"><b>Plus A*/C1 —</b> Explica la paradoja: ¿cómo puede un golpe fallido reforzar una democracia? (80 palabras, usa «lo que demuestra que…»)</div><textarea class="wtext" rows="5" placeholder="Escribe aquí en español…"></textarea><div class="counter"><span class="wc">0</span> palabras · objetivo 45</div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="model">Ver modelo</button></div><div class="feedback"></div></div>
+<div class="wcard" data-kind="write" data-id="x3"><div class="qhead">Escrito 3 de 6<span class="tag">objetivo: 50 palabras</span></div><div class="question">¿El pacto del silencio fue necesario o fue una traición a las víctimas?</div><div class="scaffold"><b>Andamiaje.</b> Empieza por una de estas frases:<div class="starters"><button class="starter" data-c="Por un lado, se puede argumentar que…">Por un lado, se puede argumentar que…</button><button class="starter" data-c="Sin embargo, para las familias de las víctimas…">Sin embargo, para las familias de las víctimas…</button></div><div class="needlist"><b>Tienes que incluir:</b><ul><li>la Ley de Amnistía</li><li>las víctimas o la memoria histórica</li><li>un conector de contraste</li></ul></div></div><div class="stretchline"><b>Plus A*/C1 —</b> Cierra con tu propia postura y matízala (80 palabras, incluye «aunque» + subjuntivo).</div><textarea class="wtext" rows="5" placeholder="Escribe aquí en español…"></textarea><div class="counter"><span class="wc">0</span> palabras · objetivo 50</div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="model">Ver modelo</button></div><div class="feedback"></div></div>
+<div class="wcard" data-kind="write" data-id="x4"><div class="qhead">Escrito 4 de 6<span class="tag">objetivo: 45 palabras</span></div><div class="question">Explica el «café para todos» y una tensión territorial actual.</div><div class="scaffold"><b>Andamiaje.</b> Empieza por una de estas frases:<div class="starters"><button class="starter" data-c="La expresión «café para todos» se refiere a…">La expresión «café para todos» se refiere a…</button><button class="starter" data-c="Hoy en día, en Cataluña y el País Vasco…">Hoy en día, en Cataluña y el País Vasco…</button></div><div class="needlist"><b>Tienes que incluir:</b><ul><li>las comunidades autónomas</li><li>una región concreta</li><li>la tensión actual</li></ul></div></div><div class="stretchline"><b>Plus A*/C1 —</b> ¿Reformarías el modelo? Justifícalo (80 palabras, incluye «para que» + subjuntivo).</div><textarea class="wtext" rows="5" placeholder="Escribe aquí en español…"></textarea><div class="counter"><span class="wc">0</span> palabras · objetivo 45</div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="model">Ver modelo</button></div><div class="feedback"></div></div>
+<div class="wcard" data-kind="write" data-id="x5"><div class="qhead">Escrito 5 de 6<span class="tag">objetivo: 40 palabras</span></div><div class="question">¿Qué significó el año 1986 para España?</div><div class="scaffold"><b>Andamiaje.</b> Empieza por una de estas frases:<div class="starters"><button class="starter" data-c="El año 1986 marca…">El año 1986 marca…</button><button class="starter" data-c="Tras décadas de aislamiento…">Tras décadas de aislamiento…</button></div><div class="needlist"><b>Tienes que incluir:</b><ul><li>la entrada en la CEE</li><li>el referéndum de la OTAN</li><li>la salida del aislamiento</li></ul></div></div><div class="stretchline"><b>Plus A*/C1 —</b> Relaciona 1986 con la idea de «normalización» europea (80 palabras, incluye «gracias a que…»).</div><textarea class="wtext" rows="5" placeholder="Escribe aquí en español…"></textarea><div class="counter"><span class="wc">0</span> palabras · objetivo 40</div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="model">Ver modelo</button></div><div class="feedback"></div></div>
+<div class="wcard" data-kind="write" data-id="x6"><div class="qhead">Escrito 6 de 6<span class="tag">objetivo: 50 palabras</span></div><div class="question">Valora el papel del rey Juan Carlos I en la Transición.</div><div class="scaffold"><b>Andamiaje.</b> Empieza por una de estas frases:<div class="starters"><button class="starter" data-c="El rey desempeñó un papel clave porque…">El rey desempeñó un papel clave porque…</button><button class="starter" data-c="No obstante, conviene matizar que…">No obstante, conviene matizar que…</button></div><div class="needlist"><b>Tienes que incluir:</b><ul><li>el nombramiento de Suárez</li><li>su intervención en el 23-F</li><li>un matiz o contrapunto</li></ul></div></div><div class="stretchline"><b>Plus A*/C1 —</b> Incluye la abdicación de 2014 y el debate posterior sobre la monarquía (80 palabras).</div><textarea class="wtext" rows="5" placeholder="Escribe aquí en español…"></textarea><div class="counter"><span class="wc">0</span> palabras · objetivo 50</div><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="model">Ver modelo</button></div><div class="feedback"></div></div></div><div class="subpanel" data-sub="e2"><div class="taskbox"><div class="t"><b>Tarea</b> — Traduce al español. «Comprobar» busca los elementos clave de la frase; después compara con el modelo.</div><div class="s"><b>Tarea plus · A*/C1</b> — Traduce sin mirar los elementos clave y, para cada frase, escribe una variante con otra estructura (por ejemplo, con pasiva refleja).</div></div>
+<div class="wcard" data-kind="trad" data-id="t1"><div class="qhead">Traducción 1 de 8</div><div class="question en">After Franco&#x27;s death, the country entered a period of great uncertainty.</div><textarea class="wtext" rows="2" placeholder="Tu traducción…"></textarea><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="model">Ver modelo</button></div><div class="feedback"></div></div>
+<div class="wcard" data-kind="trad" data-id="t2"><div class="qhead">Traducción 2 de 8</div><div class="question en">The king appointed Suárez so that he could dismantle the regime from within.</div><textarea class="wtext" rows="2" placeholder="Tu traducción…"></textarea><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="model">Ver modelo</button></div><div class="feedback"></div></div>
+<div class="wcard" data-kind="trad" data-id="t3"><div class="qhead">Traducción 3 de 8</div><div class="question en">The Amnesty Law made it impossible to try the crimes of the dictatorship.</div><textarea class="wtext" rows="2" placeholder="Tu traducción…"></textarea><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="model">Ver modelo</button></div><div class="feedback"></div></div>
+<div class="wcard" data-kind="trad" data-id="t4"><div class="qhead">Traducción 4 de 8</div><div class="question en">Although the coup failed, it showed that the army was still a threat.</div><textarea class="wtext" rows="2" placeholder="Tu traducción…"></textarea><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="model">Ver modelo</button></div><div class="feedback"></div></div>
+<div class="wcard" data-kind="trad" data-id="t5"><div class="qhead">Traducción 5 de 8</div><div class="question en">In 1982 the socialists won an absolute majority for the first time.</div><textarea class="wtext" rows="2" placeholder="Tu traducción…"></textarea><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="model">Ver modelo</button></div><div class="feedback"></div></div>
+<div class="wcard" data-kind="trad" data-id="t6"><div class="qhead">Traducción 6 de 8</div><div class="question en">Many young Spaniards think the pact of silence should be revised.</div><textarea class="wtext" rows="2" placeholder="Tu traducción…"></textarea><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="model">Ver modelo</button></div><div class="feedback"></div></div>
+<div class="wcard" data-kind="trad" data-id="t7"><div class="qhead">Traducción 7 de 8</div><div class="question en">If the king had not spoken on television, the coup might have succeeded.</div><textarea class="wtext" rows="2" placeholder="Tu traducción…"></textarea><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="model">Ver modelo</button></div><div class="feedback"></div></div>
+<div class="wcard" data-kind="trad" data-id="t8"><div class="qhead">Traducción 8 de 8</div><div class="question en">Spain joined the European Community after decades of isolation.</div><textarea class="wtext" rows="2" placeholder="Tu traducción…"></textarea><div class="controls"><button class="btn primary" data-act="check">Comprobar</button><button class="btn" data-act="model">Ver modelo</button></div><div class="feedback"></div></div></div></div>
+<div class="section" data-tab="ens">
     <div class="section-intro">Cinco preguntas de ensayo en formato A-Level. Cada una incluye un <b>guion estructural</b> y una <b>tira de vocabulario clave</b> para incorporar en tu respuesta. Escribe tu ensayo en el cuadro — se guarda en la descarga.</div>
     <div class="essay-card">
           <h3>Ensayo 1</h3>
@@ -581,11 +625,8 @@ input.fill:focus { outline:2px solid var(--accent); }
           <div class="scaffold"><b>Guion sugerido:</b><ul><li>Suárez: pilotó el cambio desde el franquismo, primeras elecciones, Constitución</li><li>González: alternancia, modernización, integración en la CEE</li><li>argumento: sin Suárez no hay democracia; sin González no hay alternancia consolidada</li><li>conclusión razonada en lugar de elegir uno</li></ul></div>
           <div class="vocab-strip"><b>Vocabulario clave a incluir:</b><br><span>el dirigente</span><span>emprender</span><span>consolidar</span><span>la mayoría absoluta</span><span>la alternancia</span><span>el legado</span><span>modernizar</span><span>el ingreso en la CEE</span><span>destacar</span><span>el papel clave</span></div>
           <textarea data-essay="e-5" placeholder="Escribe aquí tu ensayo (300-350 palabras)…"></textarea>
-        </div>
-  </div>
-
-  <!-- RESUMEN -->
-  <div class="section" data-tab="res">
+        </div></div>
+<div class="section" data-tab="res">
     <div class="section-intro">Resumen en una sola página. Útil para una revisión final antes del examen.</div>
     <div class="summary-card">
       <h3>El esquema en cinco líneas</h3>
@@ -601,389 +642,751 @@ input.fill:focus { outline:2px solid var(--accent); }
       <p>• <b>Modelo autonómico.</b> El «café para todos» no resolvió las demandas catalana, vasca y gallega.</p>
       <p>• <b>Papel del rey.</b> Decisivo en el 23-F, cuestionado tras la abdicación de Juan Carlos I (2014).</p>
       <p>• <b>Reforma constitucional.</b> Debate abierto sobre la actualización de la Constitución de 1978.</p>
-    </div>
-  </div>
-
+    </div></div>
 </main>
-
-<!-- Spanish accent pad -->
 <button class="pad-toggle" id="padToggle" title="mostrar / ocultar acentos">á</button>
-<div class="accent-pad" id="accentPad">
-  <div class="label">Teclado de acentos — pulsa para insertar</div>
-  <div class="row">
-    <button data-c="á">á</button>
-    <button data-c="é">é</button>
-    <button data-c="í">í</button>
-    <button data-c="ó">ó</button>
-    <button data-c="ú">ú</button>
-    <button data-c="ü">ü</button>
-    <button data-c="ñ">ñ</button>
-    <button data-c="¿">¿</button>
-    <button data-c="¡">¡</button>
-    <button data-c="«">«</button>
-    <button data-c="»">»</button>
-    <button data-c="’">’</button>
-    <button data-c="—">—</button>
-    <button class="special" data-c="Á">Á</button>
-    <button class="special" data-c="É">É</button>
-    <button class="special" data-c="Í">Í</button>
-    <button class="special" data-c="Ó">Ó</button>
-    <button class="special" data-c="Ú">Ú</button>
-    <button class="special" data-c="Ñ">Ñ</button>
-    <button class="special" data-c="Ü">Ü</button>
-  </div>
-</div>
-
+<div class="accent-pad" id="accentPad"><div class="label">Teclado de acentos — pulsa para insertar</div><div class="row"><button data-c="á">á</button><button data-c="é">é</button><button data-c="í">í</button><button data-c="ó">ó</button><button data-c="ú">ú</button><button data-c="ü">ü</button><button data-c="ñ">ñ</button><button data-c="¿">¿</button><button data-c="¡">¡</button><button data-c="«">«</button><button data-c="»">»</button><button data-c="’">’</button><button data-c="—">—</button><button class="special" data-c="Á">Á</button><button class="special" data-c="É">É</button><button class="special" data-c="Í">Í</button><button class="special" data-c="Ó">Ó</button><button class="special" data-c="Ú">Ú</button><button class="special" data-c="Ñ">Ñ</button><button class="special" data-c="Ü">Ü</button></div></div>
 <script>
-const PRACTICA = [{"id": "p-1", "kind": "choose", "q": "¿En qué año fue el Tejerazo?", "options": ["1975", "1977", "1981", "1982"], "answer": "1981", "tag": "fechas clave"}, {"id": "p-2", "kind": "choose", "q": "¿Quién lideró el intento de golpe del 23-F?", "options": ["Manuel Fraga", "Antonio Tejero", "Adolfo Suárez", "Santiago Carrillo"], "answer": "Antonio Tejero", "tag": "personajes"}, {"id": "p-3", "kind": "choose", "q": "¿Cuál fue el partido de Adolfo Suárez?", "options": ["PSOE", "PCE", "UCD", "AP"], "answer": "UCD", "tag": "partidos"}, {"id": "p-4", "kind": "choose", "q": "La Ley de Amnistía de 1977 es la base legal de…", "options": ["la legalización del PCE", "el pacto del silencio", "el café para todos", "el ingreso en la OTAN"], "answer": "el pacto del silencio", "tag": "conceptos clave"}, {"id": "p-5", "kind": "choose", "q": "¿En qué año fue aprobada la Constitución española?", "options": ["1976", "1977", "1978", "1981"], "answer": "1978", "tag": "fechas clave"}, {"id": "p-6", "kind": "choose", "q": "¿Qué expresión describe la generalización del modelo autonómico a todas las regiones?", "options": ["el pacto del olvido", "el café para todos", "la transición negociada", "el espaldarazo del rey"], "answer": "el café para todos", "tag": "conceptos clave"}, {"id": "p-7", "kind": "choose", "q": "¿Quién fue presidente del Gobierno entre la dimisión de Suárez y la victoria del PSOE?", "options": ["Felipe González", "Leopoldo Calvo-Sotelo", "Manuel Fraga", "Santiago Carrillo"], "answer": "Leopoldo Calvo-Sotelo", "tag": "personajes"}, {"id": "p-8", "kind": "choose", "q": "¿Cómo se llama el sector franquista duro que se opuso a la democracia?", "options": ["el bunker", "los grises", "el golpismo", "la oposición"], "answer": "el bunker", "tag": "vocabulario clave"}, {"id": "p-9", "kind": "fill", "q": "Completa la frase: «En 1982, el PSOE obtuvo una victoria ___ con 202 escaños».", "answer": "aplastante", "alternates": ["arrolladora", "abrumadora"], "hint": "sinónimos: arrolladora / abrumadora", "tag": "vocabulario clave"}, {"id": "p-10", "kind": "fill", "q": "Completa la frase: «En enero de 1981, Adolfo Suárez ___ del cargo de presidente».", "answer": "dimitió", "alternates": ["renunció"], "hint": "verbo en pretérito indefinido", "tag": "verbos clave"}, {"id": "p-11", "kind": "fill", "q": "Completa: «La ___ de Memoria Democrática de 2022 intenta revisar el pacto del silencio».", "answer": "Ley", "tag": "vocabulario clave"}, {"id": "p-12", "kind": "fill", "q": "Completa: «El rey Juan Carlos I emitió un ___ televisivo en defensa de la Constitución la madrugada del 24 de febrero».", "answer": "discurso", "tag": "vocabulario clave"}, {"id": "p-13", "kind": "choose", "q": "¿Cuál de estas frases describe mejor la «transición negociada»?", "options": ["Cambio impuesto desde arriba sin consulta popular", "Ruptura total con el franquismo", "Proceso de cambio pactado entre las élites del régimen y la oposición", "Restauración de la Segunda República"], "answer": "Proceso de cambio pactado entre las élites del régimen y la oposición", "tag": "conceptos clave"}, {"id": "p-14", "kind": "choose", "q": "¿Qué decisión arriesgada tomó Suárez en Sábado Santo de 1977?", "options": ["Legalizó el PCE", "Convocó el referéndum constitucional", "Aprobó la Ley de Amnistía", "Disolvió las Cortes franquistas"], "answer": "Legalizó el PCE", "tag": "fechas clave"}, {"id": "p-15", "kind": "fill", "q": "Completa: «La Ley de ___ Política de 1976 permitió que las Cortes franquistas aprobaran su propia disolución».", "answer": "Reforma", "tag": "vocabulario clave"}, {"id": "p-16", "kind": "choose", "q": "¿En qué referéndum de 1986 cambió Felipe González su posición previa?", "options": ["La entrada en la CEE", "La permanencia en la OTAN", "La Constitución", "La Ley del Divorcio"], "answer": "La permanencia en la OTAN", "tag": "fechas clave"}];
-const ENSAYOS  = [{"id": "e-1", "q": "Analiza el papel del rey Juan Carlos I durante la Transición. ¿Hasta qué punto fue decisivo para el éxito del proceso?", "scaffold": ["designación de Suárez · espaldarazo a la reforma", "intervención televisada del 23-F", "legitimación democrática de la monarquía", "límites: papel simbólico, no decisorio en la política diaria"], "vocab": ["el espaldarazo", "el reinado", "la monarquía parlamentaria", "el papel clave", "instaurar", "consolidar", "la legitimidad", "el discurso"]}, {"id": "e-2", "q": "¿Por qué fue importante el Tejerazo del 23-F? ¿Qué reveló sobre las debilidades de la democracia española en sus primeros años?", "scaffold": ["contexto: crisis económica, dimisión de Suárez, ruido de sables", "irrupción de Tejero en el Congreso", "discurso del rey de madrugada", "consolidación democrática paradójica tras el fracaso del golpe"], "vocab": ["el golpe de estado", "el golpista", "irrumpir", "el cuartel", "el malestar", "el bunker", "fallido", "el punto de no retorno", "amenazar", "frenar"]}, {"id": "e-3", "q": "Examina el «pacto del silencio». ¿Fue una condición necesaria para la consolidación democrática o una traición a las víctimas del franquismo?", "scaffold": ["Ley de Amnistía de 1977 como base legal", "argumento pragmático: condición de la transición pacífica", "argumento crítico: impunidad de los crímenes franquistas", "leyes de memoria (2007, 2022) como revisión actual"], "vocab": ["el pacto del silencio", "la asignatura pendiente", "la amnistía", "amnistiar", "juzgar", "la víctima", "el legado", "la memoria histórica", "resuelto / no resuelto"]}, {"id": "e-4", "q": "¿En qué medida la Constitución de 1978 sigue siendo válida hoy? Considera especialmente el debate sobre el modelo autonómico.", "scaffold": ["logros: pluralismo, monarquía parlamentaria, derechos", "el «café para todos» y sus tensiones", "tensiones territoriales actuales (Cataluña, País Vasco)", "voces a favor / en contra de la reforma constitucional"], "vocab": ["la Constitución", "las comunidades autónomas", "el café para todos", "la soberanía nacional", "el Estatuto de Autonomía", "la competencia", "el consenso", "en vigor", "desafiar", "respaldar"]}, {"id": "e-5", "q": "Compara el liderazgo de Adolfo Suárez (UCD) y Felipe González (PSOE). ¿Cuál fue más decisivo para la consolidación democrática?", "scaffold": ["Suárez: pilotó el cambio desde el franquismo, primeras elecciones, Constitución", "González: alternancia, modernización, integración en la CEE", "argumento: sin Suárez no hay democracia; sin González no hay alternancia consolidada", "conclusión razonada en lugar de elegir uno"], "vocab": ["el dirigente", "emprender", "consolidar", "la mayoría absoluta", "la alternancia", "el legado", "modernizar", "el ingreso en la CEE", "destacar", "el papel clave"]}];
+/* =====================================================================
+   MOTOR DE CORRECCIÓN DE LA CASA (versión española) — tolerancia a erratas
+   Verdicts : ok | typo | accent | morph | bad
+     ok     : réponse exacte                                → vert, compte juste
+     typo   : faute de frappe tolérée (distance de Levenshtein) → vert, l'orthographe correcte est affichée
+     accent : bon mot, accents manquants ou fautifs          → orange, NE compte PAS juste
+     morph  : la différence porte sur une terminaison
+              grammaticale (-s, -e, -es, -ent, -é/-er/-ez…)  → rouge, message ciblé
+     bad    : autre                                          → rouge
+   La tolérance ne s'applique jamais à ce qui porte la grammaire :
+   « parlé / parler / parlez » ou « élève / élèves » restent des erreurs.
+   ===================================================================== */
+const MARK = (function () {
+  function norm(s) {
+    return (s == null ? '' : String(s))
+      .toLowerCase()
+      .replace(/[’‘`´]/g, "'")
+      .replace(/[«»"]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .replace(/^[\s.,;:!?]+|[\s.,;:!?]+$/g, '')
+      .trim();
+  }
+  function deacc(s) { return norm(s).normalize('NFD').replace(/[̀-ͯ]/g, ''); }
 
-// --- Tabs ---
-document.querySelectorAll('.tab').forEach(t => {
-  t.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+  function lev(a, b) {
+    if (a === b) return 0;
+    const m = a.length, n = b.length;
+    if (!m) return n; if (!n) return m;
+    let prev = new Array(n + 1), cur = new Array(n + 1);
+    for (let j = 0; j <= n; j++) prev[j] = j;
+    for (let i = 1; i <= m; i++) {
+      cur[0] = i;
+      for (let j = 1; j <= n; j++) {
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        cur[j] = Math.min(cur[j - 1] + 1, prev[j] + 1, prev[j - 1] + cost);
+      }
+      const t = prev; prev = cur; cur = t;
+    }
+    return prev[n];
+  }
+
+  /* terminaisons porteuses de grammaire (sur la forme désaccentuée) */
+  const SUFFIXES = ['aient', 'ees', 'ent', 'ais', 'ait', 'ons', 'ont', 'ees', 'es', 'er', 'ez', 'ee', 'es', 'ie', 'ies', 'aux', 's', 'x', 'e', 'a', ''];
+  function stems(w) {
+    const out = new Set();
+    SUFFIXES.forEach(suf => {
+      if (suf === '') { out.add(w); return; }
+      if (w.length - suf.length >= 3 && w.slice(-suf.length) === suf) out.add(w.slice(0, w.length - suf.length));
+    });
+    return out;
+  }
+  function isMorph(a, b) {
+    if (a === b) return false;
+    const A = stems(a), B = stems(b);
+    for (const s of A) if (B.has(s)) return true;
+    return false;
+  }
+
+  function tolerance(n) { return n <= 4 ? 0 : n <= 8 ? 1 : n <= 14 ? 2 : 3; }
+
+  /* article défini/indéfini en tête de réponse : facultatif, mais s'il est là il doit être juste */
+  const ART = /^(el|la|los|las|un|una|unos|unas|al|del)\s+/;
+  function article(s) { const m = norm(s).match(ART); return m ? m[0].trim() : ''; }
+  function stripArt(s) { return norm(s).replace(ART, ''); }
+
+  /* ---------------------------------------------------------------
+     En español la tilde no es un adorno: distingue persona y tiempo
+     (hablo / habló, hable / hablé) y separa pares mínimos enteros
+     (el / él, si / sí, mas / más). Una diferencia de tilde de ese tipo
+     es un ERROR DE GRAMÁTICA, no una errata, y no se perdona.
+     --------------------------------------------------------------- */
+  const DIACRITIC_PAIRS = [
+    ['el','él'], ['tu','tú'], ['mi','mí'], ['si','sí'], ['mas','más'],
+    ['se','sé'], ['de','dé'], ['te','té'], ['aun','aún'], ['solo','sólo'],
+    ['esta','está'], ['estas','estás'], ['este','esté'], ['como','cómo'],
+    ['que','qué'], ['cuando','cuándo'], ['donde','dónde'], ['quien','quién'],
+    ['porque','porqué'], ['publico','público'], ['practico','práctico'],
+    ['termino','término'], ['critico','crítico'], ['secretaria','secretaría']
+  ];
+  function isDiacriticPair(a, g) {
+    const A = norm(a), G = norm(g);
+    return DIACRITIC_PAIRS.some(p =>
+      (A === p[0] && G === p[1]) || (A === p[1] && G === p[0]));
+  }
+  /* ¿La tilde que falta cambia la gramática, o sólo la ortografía?
+     - habló / hablo, hablé / hable ........ persona y tiempo  → error
+     - buscarán / buscaran ................. futuro / subj. imperfecto → error
+     - tenía / tenia, haría / haria ........ imperfecto y condicional → error
+     - canción / cancion, música / musica .. sustantivo, sólo ortografía → tilde
+     Distinguirlo importa: en un ejercicio de verbos, perdonar la tilde
+     sería perdonar precisamente lo que se evalúa. */
+  /* Terminaciones en las que la tilde SIEMPRE es gramatical: ningún sustantivo
+     español termina así, de modo que no hay falsos positivos. */
+  const VERB_ALWAYS = [
+    /(ar|er|ir)á(n|s)?$/,          /* buscará, buscarán, buscarás ≠ buscaran */
+    /í(a|as|amos|ais|an)$/,        /* tenía, haríamos, vivían */
+    /ó$/                           /* habló, comió */
+  ];
+  /* Terminaciones ambiguas: -é y -ás valen para verbos (hablé, comerás) pero
+     también para sustantivos (café, además). Sólo cuentan como gramaticales
+     cuando quien llama declara que el ejercicio es de verbos: judge(x, y, {verb:true}). */
+  const VERB_IF_DECLARED = [/[áéíóú]$/, /[áéíóú]s$/];
+  function accentIsGrammatical(a, g, verbCtx) {
+    const A = norm(a), G = norm(g);
+    if (isDiacriticPair(A, G)) return true;
+    const rules = verbCtx ? VERB_ALWAYS.concat(VERB_IF_DECLARED) : VERB_ALWAYS;
+    const verbish = w => rules.some(re => re.test(w));
+    if (verbish(A) !== verbish(G)) return true;
+    return false;
+  }
+
+  /* given : la réponse de l'élève ; accepted : chaîne ou tableau de variantes
+     opts.strict : désactive la tolérance aux fautes de frappe. À employer dès que
+     la forme du mot EST l'objet de l'exercice (conjugaison, auxiliaire, terminaison) :
+     sinon « avaient fait » passerait pour « aient fait » à deux caractères près. */
+  function judge(given, accepted, opts) {
+    const strict = !!(opts && opts.strict);
+    const list = Array.isArray(accepted) ? accepted : [accepted];
+    const g = norm(given), gd = deacc(given);
+    if (!g) return { verdict: 'bad', expected: list[0], empty: true };
+
+    for (const a of list) if (norm(a) === g) return { verdict: 'ok', expected: a };
+
+    /* même réponse, article omis (accepté) ou article faux (erreur de genre) */
+    for (const a of list) {
+      if (stripArt(a) === stripArt(given)) {
+        const ga = article(given), aa = article(a);
+        if (!ga || ga === aa) return { verdict: 'ok', expected: a };
+        return { verdict: 'morph', expected: a, article: true };
+      }
+    }
+
+    for (const a of list) {
+      if (deacc(a) === gd || deacc(stripArt(a)) === deacc(stripArt(given))) {
+        return accentIsGrammatical(a, given, opts && opts.verb)
+          ? { verdict: 'morph', expected: a }
+          : { verdict: 'accent', expected: a };
+      }
+    }
+
+    /* la différence n'est-elle qu'une terminaison grammaticale ? */
+    for (const a of list) {
+      const ad = deacc(a);
+      const aw = ad.split(' '), gw = gd.split(' ');
+      if (aw.length === gw.length) {
+        let morphOnly = true, someDiff = false;
+        for (let i = 0; i < aw.length; i++) {
+          if (aw[i] === gw[i]) continue;
+          someDiff = true;
+          if (!isMorph(aw[i], gw[i])) { morphOnly = false; break; }
+        }
+        if (someDiff && morphOnly) return { verdict: 'morph', expected: a };
+      } else if (isMorph(ad, gd)) return { verdict: 'morph', expected: a };
+    }
+
+    /* faute de frappe ? (jamais en mode strict) */
+    if (strict) return { verdict: 'bad', expected: list[0], strict: true };
+    let best = null;
+    for (const a of list) {
+      const ad = deacc(a);
+      const d = lev(ad, gd);
+      const tol = tolerance(ad.length);
+      const sameStart = ad.charAt(0) === gd.charAt(0);
+      if (d > 0 && d <= tol && sameStart && d / Math.max(ad.length, 1) <= 0.34) {
+        if (!best || d < best.d) best = { d: d, a: a };
+      }
+    }
+    if (best) return { verdict: 'typo', expected: best.a, distance: best.d };
+
+    return { verdict: 'bad', expected: list[0] };
+  }
+
+  const MSG = {
+    ok:     () => '✓ Correcto.',
+    typo:   r => '✓ Correcto — pequeña errata; la forma exacta es «<strong>' + r.expected + '</strong>».',
+    accent: r => '≈ La palabra es correcta, pero la tilde no: «<strong>' + r.expected + '</strong>». En el examen la tilde cuenta.',
+    morph:  r => r.article
+              ? '✗ Casi — el <strong>artículo</strong> no es el correcto: «<strong>' + r.expected + '</strong>». Comprueba el género.'
+              : '✗ Casi — falla la <strong>terminación o la tilde</strong>: «<strong>' + r.expected + '</strong>». En español la tilde cambia la persona o el tiempo (hablo / habló).',
+    bad:    r => '✗ Respuesta esperada: «<strong>' + r.expected + '</strong>».'
+  };
+  function message(r) { return (MSG[r.verdict] || MSG.bad)(r); }
+  function isRight(r) { return r.verdict === 'ok' || r.verdict === 'typo'; }
+  function cssClass(r) { return isRight(r) ? 'ok' : (r.verdict === 'accent' ? 'near' : 'bad'); }
+
+  return { judge, message, isRight, cssClass, norm, deacc, lev };
+})();
+
+var DATA = {"mcq": [{"id": "m1", "a": 2, "why": "23 de febrero de 1981. Tejero asalta el Congreso un mes después de la dimisión de Suárez.", "q": "¿En qué año se produjo el Tejerazo?", "o": ["1975", "1977", "1981", "1982"], "tag": "fechas"}, {"id": "m2", "a": 1, "why": "Antonio Tejero, teniente coronel de la Guardia Civil, entró a tiros al grito de «¡Quieto todo el mundo!».", "q": "¿Quién dirigió el asalto al Congreso del 23-F?", "o": ["Manuel Fraga", "Antonio Tejero", "Adolfo Suárez", "Santiago Carrillo"], "tag": "personajes"}, {"id": "m3", "a": 2, "why": "La Unión de Centro Democrático (UCD), coalición de centro creada en 1977 en torno a Suárez.", "q": "¿A qué partido pertenecía Adolfo Suárez?", "o": ["PSOE", "PCE", "UCD", "AP"], "tag": "partidos"}, {"id": "m4", "a": 1, "why": "Libera a los presos políticos, pero también impide juzgar los crímenes del franquismo.", "q": "La Ley de Amnistía de 1977 es la base legal de…", "o": ["la legalización del PCE", "el pacto del silencio", "el café para todos", "el ingreso en la OTAN"], "tag": "conceptos"}, {"id": "m5", "a": 2, "why": "Referéndum del 6 de diciembre de 1978: la respaldó el 87,8 % de los votantes.", "q": "¿En qué año se aprobó la Constitución española vigente?", "o": ["1976", "1977", "1978", "1981"], "tag": "fechas"}, {"id": "m6", "a": 1, "why": "«Café para todos»: lo que se concedía a Cataluña y al País Vasco se generalizó al resto.", "q": "¿Qué expresión describe la extensión del modelo autonómico a todas las regiones?", "o": ["el pacto del olvido", "el café para todos", "la transición negociada", "el espaldarazo"], "tag": "conceptos"}, {"id": "m7", "a": 1, "why": "Calvo-Sotelo (UCD), 1981-1982. Bajo su mandato España entró en la OTAN.", "q": "¿Quién presidió el Gobierno entre la dimisión de Suárez y la victoria del PSOE?", "o": ["Felipe González", "Leopoldo Calvo-Sotelo", "Manuel Fraga", "Santiago Carrillo"], "tag": "personajes"}, {"id": "m8", "a": 0, "why": "«El bunker»: los inmovilistas atrincherados en la defensa del régimen.", "q": "¿Cómo se llama el sector franquista duro que se opuso a toda reforma?", "o": ["el bunker", "los grises", "el golpismo", "la oposición"], "tag": "vocabulario"}, {"id": "m9", "a": 2, "why": "Reforma pactada, no ruptura: por eso muchas estructuras del régimen sobrevivieron.", "q": "¿Cuál de estas frases define mejor la «transición negociada»?", "o": ["Un cambio impuesto sin consultar a nadie", "Una ruptura total con el franquismo", "Un cambio pactado entre las élites del régimen y la oposición", "La vuelta de la Segunda República"], "tag": "conceptos"}, {"id": "m10", "a": 0, "why": "9 de abril de 1977. Lo hizo en plena Semana Santa, con los militares de permiso.", "q": "¿Qué decisión arriesgada tomó Suárez el Sábado Santo de 1977?", "o": ["Legalizó el PCE", "Convocó el referéndum constitucional", "Aprobó la Ley de Amnistía", "Disolvió las Cortes franquistas"], "tag": "fechas"}, {"id": "m11", "a": 1, "why": "Había hecho campaña con el «OTAN, de entrada no»; en 1986 defendió el «sí», que ganó con el 56,8 %.", "q": "¿En qué referéndum de 1986 cambió Felipe González la postura que había defendido en campaña?", "o": ["La entrada en la CEE", "La permanencia en la OTAN", "La Constitución", "La ley del divorcio"], "tag": "fechas"}, {"id": "m12", "a": 1, "why": "El «harakiri» legal del régimen: se desmontó con sus propias reglas, y un referéndum lo ratificó con el 94 %.", "q": "¿Qué permitió la Ley para la Reforma Política de 1976?", "o": ["Prohibir los partidos de izquierda", "Que las Cortes franquistas aprobaran su propia disolución", "Restaurar la Constitución de 1931", "Convocar un referéndum sobre la monarquía"], "tag": "conceptos"}, {"id": "m13", "a": 2, "why": "UCD 34 %, PSOE 29 %, PCE 9 %, AP 8 %. Primer voto libre desde 1936.", "q": "¿Qué partido ganó las elecciones de junio de 1977?", "o": ["El PSOE", "El PCE", "La UCD", "Alianza Popular"], "tag": "partidos"}, {"id": "m14", "a": 1, "why": "202 escaños: mayoría absolutísima y primera alternancia real en el poder.", "q": "¿Cuántos escaños obtuvo el PSOE en las elecciones de 1982?", "o": ["176", "202", "230", "150"], "tag": "fechas"}, {"id": "m15", "a": 2, "why": "Con uniforme de capitán general, ordenó a los militares respetar el orden constitucional. El golpe se desinfló.", "q": "¿Qué hizo el rey la madrugada del 24 de febrero de 1981?", "o": ["Huyó del país", "Nombró un gobierno militar", "Se dirigió al país por televisión defendiendo la Constitución", "Disolvió las Cortes"], "tag": "conceptos"}, {"id": "m16", "a": 0, "why": "Un gesto enorme para un partido republicano: Carrillo prioriza la democracia sobre la forma de Estado.", "q": "¿Qué aceptó Santiago Carrillo a cambio de la legalización del PCE?", "o": ["La monarquía y la bandera bicolor", "La disolución de su partido", "El exilio permanente", "Renunciar a presentarse a las elecciones"], "tag": "personajes"}, {"id": "m17", "a": 2, "why": "Monarquía parlamentaria: el rey reina pero no gobierna, y la soberanía reside en el pueblo español.", "q": "¿Qué forma de Estado establece la Constitución de 1978?", "o": ["Una república federal", "Una monarquía absoluta", "Una monarquía parlamentaria", "Un Estado unitario sin autonomías"], "tag": "conceptos"}, {"id": "m18", "a": 1, "why": "Sucede a la Ley de Memoria Histórica de 2007 y amplía la búsqueda e identificación de víctimas.", "q": "¿Qué ley de 2022 revisa el pacto del silencio?", "o": ["La Ley de Amnistía", "La Ley de Memoria Democrática", "La Ley para la Reforma Política", "La LOAPA"], "tag": "actualidad"}, {"id": "m19", "a": 1, "why": "Gobierno, partidos y sindicatos pactan medidas contra la crisis. El consenso también fue económico.", "q": "¿Sobre qué versaron los Pactos de la Moncloa de octubre de 1977?", "o": ["El modelo autonómico", "La crisis económica: inflación, paro y reforma fiscal", "La legalización de los sindicatos únicamente", "La entrada en la CEE"], "tag": "conceptos"}, {"id": "m20", "a": 1, "why": "El fracaso del golpe fijó un punto de no retorno: al año siguiente el PSOE gobernó sin sobresaltos militares.", "q": "¿Por qué se dice que el 23-F, paradójicamente, reforzó la democracia?", "o": ["Porque el Ejército recuperó poder político", "Porque demostró que no había marcha atrás y unió a la ciudadanía", "Porque obligó a redactar una nueva Constitución", "Porque provocó la abdicación del rey"], "tag": "conceptos"}], "cloze": [{"id": "c1", "title": "De la dictadura a las urnas (1975-1978)", "keys": ["incertidumbre", "rey", "nombra", "Reforma", "autodestrucción", "votos", "legaliza", "elecciones", "Amnistía", "juzgar", "silencio", "parlamentaria"]}, {"id": "c2", "title": "Del golpe fallido a Europa (1981-1986)", "keys": ["sables", "dimite", "irrumpe", "secuestra", "defiende", "fracasa", "refuerza", "marcha", "aplastante", "escaños", "alternancia", "ingresa"]}], "match": [{"id": "e1", "title": "Conceptos y definiciones", "pairs": [["la transición negociada", "cambio político pactado entre las élites del régimen y la oposición"], ["el pacto del silencio", "renuncia colectiva a juzgar los crímenes de la dictadura"], ["el café para todos", "extensión del modelo autonómico a todas las regiones por igual"], ["el bunker", "sector franquista que se opone a cualquier reforma"], ["el espaldarazo", "apoyo decisivo que legitima a una persona o a un proceso"], ["la ruptura", "final brusco del régimen, sin negociar con sus dirigentes"], ["el consenso", "acuerdo entre partidos rivales para redactar la Constitución"], ["la alternancia", "relevo pacífico de un partido por otro en el gobierno"]]}, {"id": "e2", "title": "Personajes y papel histórico", "pairs": [["Adolfo Suárez", "presidente que desmontó el régimen desde dentro"], ["Juan Carlos I", "jefe del Estado que frenó el golpe del 23-F"], ["Antonio Tejero", "guardia civil que asaltó el Congreso"], ["Santiago Carrillo", "líder comunista que aceptó la monarquía"], ["Manuel Fraga", "exministro franquista, fundador de Alianza Popular"], ["Felipe González", "primer presidente socialista, mayoría absoluta en 1982"], ["Leopoldo Calvo-Sotelo", "presidente entre 1981 y 1982; España entra en la OTAN"]]}, {"id": "e3", "title": "Fechas y acontecimientos", "pairs": [["20 nov 1975", "muerte de Francisco Franco"], ["15 dic 1976", "referéndum de la Ley para la Reforma Política"], ["9 abr 1977", "legalización del Partido Comunista"], ["15 jun 1977", "primeras elecciones democráticas desde 1936"], ["15 oct 1977", "Ley de Amnistía"], ["6 dic 1978", "referéndum constitucional"], ["23 feb 1981", "asalto al Congreso"], ["28 oct 1982", "mayoría absoluta del PSOE"]]}], "seq": {"id": "s1", "items": ["Muere Francisco Franco", "Juan Carlos I es proclamado rey", "Adolfo Suárez es nombrado presidente del Gobierno", "Las Cortes franquistas aprueban la Ley para la Reforma Política", "Se legaliza el Partido Comunista", "Primeras elecciones democráticas: gana la UCD", "Se aprueba la Ley de Amnistía", "Referéndum de la Constitución", "Dimisión de Adolfo Suárez", "Asalto al Congreso de Antonio Tejero", "Victoria aplastante del PSOE", "España ingresa en la Comunidad Europea"]}, "vfn": [{"id": "v1", "s": "Marta y su abuelo valoran la Transición de la misma manera.", "a": "F", "j": "«los dos parecen referirse a países distintos»: él subraya el alivio, ella el silencio."}, {"id": "v2", "s": "La Ley de Amnistía de 1977 impidió procesar a los responsables de la represión franquista.", "a": "V", "j": "«cerró la puerta a cualquier proceso contra los responsables de la represión franquista»."}, {"id": "v3", "s": "La Ley de Memoria Democrática se aprobó en 2007.", "a": "F", "j": "El texto dice 2022. (La de 2007 es la Ley de Memoria Histórica, que no se menciona aquí.)"}, {"id": "v4", "s": "Antes de esa ley, la búsqueda de víctimas en fosas comunes dependía sobre todo de asociaciones privadas.", "a": "V", "j": "«el Estado asume ahora esa tarea, que antes recaía en asociaciones privadas»."}, {"id": "v5", "s": "Marta ha participado personalmente en una exhumación.", "a": "NS", "j": "El texto no dice nada de su participación: no se puede deducir."}, {"id": "v6", "s": "Los restos de Franco siguen en el Valle de los Caídos.", "a": "F", "j": "«en octubre de 2019 los restos de Franco fueron trasladados fuera del Valle de los Caídos»."}, {"id": "v7", "s": "El abuelo cree que la generación de Marta puede debatir gracias a lo que consiguió la suya.", "a": "V", "j": "«Vosotros discutís sobre la Transición porque nosotros conseguimos que hubiera algo sobre lo que discutir»."}, {"id": "v8", "s": "El abuelo de Marta votó a favor de la Constitución en 1978.", "a": "NS", "j": "No se menciona su voto en ningún momento."}], "vocab": [{"id": "w1", "q": "the coup d'état", "a": ["el golpe de estado", "golpe de estado"], "hint": "g_____ de e_____", "set": "en"}, {"id": "w2", "q": "uncertainty", "a": ["la incertidumbre", "incertidumbre"], "hint": "empieza por «incert…»", "set": "en"}, {"id": "w3", "q": "to resign (from office)", "a": ["dimitir"], "hint": "verbo en -ir", "set": "en"}, {"id": "w4", "q": "crushing (victory)", "a": ["aplastante"], "hint": "adjetivo invariable en -ante", "set": "en"}, {"id": "w5", "q": "parliamentary seat", "a": ["el escaño", "escaño", "el asiento", "asiento"], "hint": "lleva ñ", "set": "en"}, {"id": "w6", "q": "decisive backing", "a": ["el espaldarazo", "espaldarazo"], "hint": "viene de «espalda»", "set": "en"}, {"id": "w7", "q": "to burst in", "a": ["irrumpir"], "hint": "i________", "set": "en"}, {"id": "w8", "q": "the barracks", "a": ["el cuartel", "cuartel"], "hint": "c______", "set": "en"}, {"id": "w9", "q": "unresolved matter", "a": ["la asignatura pendiente", "asignatura pendiente"], "hint": "dos palabras, metáfora escolar", "set": "en"}, {"id": "w10", "q": "to carry out", "a": ["llevar a cabo", "realizar"], "hint": "tres palabras", "set": "en"}, {"id": "w11", "q": "the reign", "a": ["el reinado", "reinado"], "hint": "r______", "set": "en"}, {"id": "w12", "q": "absolute majority", "a": ["la mayoría absoluta", "mayoría absoluta"], "hint": "lleva tilde en la í", "set": "en"}, {"id": "w13", "q": "to consolidate", "a": ["consolidar"], "hint": "cognado", "set": "en"}, {"id": "w14", "q": "the legacy", "a": ["el legado", "legado"], "hint": "l_____", "set": "en"}, {"id": "w15", "q": "in force (a law)", "a": ["en vigor"], "hint": "dos palabras", "set": "en"}, {"id": "w16", "q": "to call (an election)", "a": ["convocar"], "hint": "c________", "set": "en"}, {"id": "w17", "q": "the trade union", "a": ["el sindicato", "sindicato"], "hint": "s________", "set": "en"}, {"id": "w18", "q": "to challenge", "a": ["desafiar"], "hint": "d_______", "set": "en"}, {"id": "w19", "q": "to restore democracy", "a": ["restablecer la democracia", "restablecer la democracia."], "hint": "restab______ la democracia", "set": "en"}, {"id": "w20", "q": "a failed (coup)", "a": ["fallido"], "hint": "f______", "set": "en"}, {"id": "d1", "q": "Persona que participa en un golpe de estado.", "a": ["el golpista", "golpista"], "hint": "primera letra: g", "set": "es"}, {"id": "d2", "q": "Acuerdo entre fuerzas políticas rivales para sacar adelante un proyecto común.", "a": ["el consenso", "consenso"], "hint": "primera letra: c", "set": "es"}, {"id": "d3", "q": "Territorio con gobierno y parlamento propios dentro del Estado español.", "a": ["la comunidad autónoma", "comunidad autónoma", "las comunidades autónomas", "comunidades autónomas"], "hint": "primera letra: a", "set": "es"}, {"id": "d4", "q": "Perdón legal que anula la responsabilidad penal de ciertos delitos.", "a": ["la amnistía", "amnistía"], "hint": "primera letra: a", "set": "es"}, {"id": "d5", "q": "Sistema en el que el rey reina pero no gobierna.", "a": ["la monarquía parlamentaria", "monarquía parlamentaria"], "hint": "primera letra: p", "set": "es"}, {"id": "d6", "q": "Momento a partir del cual ya no es posible volver a la situación anterior.", "a": ["el punto de no retorno", "punto de no retorno"], "hint": "primera letra: r", "set": "es"}, {"id": "d7", "q": "Dejar voluntariamente un cargo público.", "a": ["dimitir"], "hint": "primera letra: d", "set": "es"}, {"id": "d8", "q": "Consulta en la que toda la ciudadanía vota sí o no a una propuesta.", "a": ["el referéndum", "referéndum", "el referendum", "referendum"], "hint": "primera letra: r", "set": "es"}], "write": [{"id": "x1", "q": "Explica por qué la Transición se llama «negociada».", "words": 40, "model": "Se habla de una transición negociada porque el cambio no vino de una ruptura sino de un acuerdo entre las élites del régimen franquista y la oposición democrática. Suárez desmontó la dictadura con sus propias leyes y, a cambio, la oposición aceptó la monarquía. El precio fue la supervivencia de muchas estructuras del franquismo.", "stretch": "Añade una crítica: ¿qué precio se pagó por no romper con el franquismo? (80 palabras, incluye «a pesar de que» + subjuntivo)", "need": [["pact|negoci|acuerd", "una palabra de la familia de «pactar / negociar / acuerdo»"], ["elite|regimen|franquis", "una referencia al régimen o a sus élites"], ["oposicion|opositor", "una mención de la oposición democrática"]]}, {"id": "x2", "q": "Describe qué ocurrió el 23-F y por qué fue importante.", "words": 45, "model": "El 23 de febrero de 1981 el teniente coronel Tejero asaltó el Congreso y secuestró a los diputados. La madrugada siguiente, el rey se dirigió al país por televisión en defensa de la Constitución y el golpe fracasó. Fue importante porque demostró que ya no había marcha atrás posible.", "stretch": "Explica la paradoja: ¿cómo puede un golpe fallido reforzar una democracia? (80 palabras, usa «lo que demuestra que…»)", "need": [["golpe|asalt", "«golpe de estado» o «asaltó»"], ["rey|Juan Carlos", "el papel del rey"], ["fracas|falli|desinfl", "el hecho de que el golpe fracasara"]]}, {"id": "x3", "q": "¿El pacto del silencio fue necesario o fue una traición a las víctimas?", "words": 50, "model": "Por un lado, la Ley de Amnistía de 1977 evitó una espiral de venganzas y permitió que el proceso fuera pacífico. Sin embargo, para las familias de las víctimas enterradas en fosas comunes supuso la impunidad de los responsables. La Ley de Memoria Democrática de 2022 demuestra que la cuestión sigue abierta.", "stretch": "Cierra con tu propia postura y matízala (80 palabras, incluye «aunque» + subjuntivo).", "need": [["amnist", "la Ley de Amnistía"], ["victima|fosa|memoria", "las víctimas o la memoria histórica"], ["sin embargo|no obstante|por un lado|aunque", "un conector de contraste"]]}, {"id": "x4", "q": "Explica el «café para todos» y una tensión territorial actual.", "words": 45, "model": "La expresión «café para todos» se refiere a la decisión de conceder autonomía a todas las regiones y no solo a las históricas. El objetivo era rebajar la tensión, pero el resultado fue que Cataluña y el País Vasco siguieron reivindicando un trato diferenciado, un conflicto que continúa hoy.", "stretch": "¿Reformarías el modelo? Justifícalo (80 palabras, incluye «para que» + subjuntivo).", "need": [["autonom|autonom", "las comunidades autónomas"], ["Catalun|Catalu|vasc|Galicia", "una región concreta"], ["tension|conflicto|reivindica|demanda|independen", "la tensión actual"]]}, {"id": "x5", "q": "¿Qué significó el año 1986 para España?", "words": 40, "model": "El año 1986 marca la vuelta definitiva de España a Europa: el 1 de enero entró en la Comunidad Económica Europea, tras décadas de aislamiento internacional. En marzo, el referéndum sobre la OTAN confirmó su lugar en el bloque occidental, aunque Felipe González había hecho campaña en contra años antes.", "stretch": "Relaciona 1986 con la idea de «normalización» europea (80 palabras, incluye «gracias a que…»).", "need": [["CEE|Comunidad Europea|Europa", "la entrada en la CEE"], ["OTAN", "el referéndum de la OTAN"], ["aislamiento|internacional|Europa", "la salida del aislamiento"]]}, {"id": "x6", "q": "Valora el papel del rey Juan Carlos I en la Transición.", "words": 50, "model": "El rey desempeñó un papel clave porque nombró a Suárez y respaldó la reforma cuando pocos creían en ella, y sobre todo porque su discurso televisado del 24 de febrero de 1981 desactivó el golpe. No obstante, conviene matizar que su prestigio se deterioró mucho antes de su abdicación en 2014.", "stretch": "Incluye la abdicación de 2014 y el debate posterior sobre la monarquía (80 palabras).", "need": [["Suarez|nombr|design", "el nombramiento de Suárez"], ["23-F|23 de febrero|golpe|discurso", "su intervención en el 23-F"], ["no obstante|sin embargo|aunque|matiz", "un matiz o contrapunto"]]}], "trad": [{"id": "t1", "en": "After Franco's death, the country entered a period of great uncertainty.", "model": "Tras la muerte de Franco, el país entró en un periodo de gran incertidumbre.", "need": [["tras|despues de", "«tras» o «después de»"], ["incertidumbre", "«incertidumbre»"], ["entro|entra", "el pretérito «entró»"]]}, {"id": "t2", "en": "The king appointed Suárez so that he could dismantle the regime from within.", "model": "El rey nombró a Suárez para que desmantelara el régimen desde dentro.", "need": [["para que", "«para que»"], ["desmantelara|desmantelase", "el imperfecto de subjuntivo"], ["desde dentro", "«desde dentro»"]]}, {"id": "t3", "en": "The Amnesty Law made it impossible to try the crimes of the dictatorship.", "model": "La Ley de Amnistía hizo imposible juzgar los crímenes de la dictadura.", "need": [["juzgar", "«juzgar»"], ["amnistia", "«amnistía»"], ["crimenes|delitos", "«crímenes»"]]}, {"id": "t4", "en": "Although the coup failed, it showed that the army was still a threat.", "model": "Aunque el golpe fracasó, demostró que el ejército seguía siendo una amenaza.", "need": [["aunque", "«aunque»"], ["fracaso|fallido|fracasado", "«fracasó»"], ["amenaza", "«amenaza»"]]}, {"id": "t5", "en": "In 1982 the socialists won an absolute majority for the first time.", "model": "En 1982 los socialistas obtuvieron por primera vez la mayoría absoluta.", "need": [["mayoria absoluta", "«mayoría absoluta»"], ["por primera vez", "«por primera vez»"], ["obtuvieron|consiguieron|ganaron", "el pretérito indefinido en plural"]]}, {"id": "t6", "en": "Many young Spaniards think the pact of silence should be revised.", "model": "Muchos jóvenes españoles piensan que el pacto del silencio debería revisarse.", "need": [["pacto del silencio", "«pacto del silencio»"], ["deberia|habria que|hay que", "el condicional o una perífrasis de obligación"], ["revis", "«revisar»"]]}, {"id": "t7", "en": "If the king had not spoken on television, the coup might have succeeded.", "model": "Si el rey no hubiera hablado por televisión, el golpe podría haber triunfado.", "need": [["hubiera|hubiese", "el pluscuamperfecto de subjuntivo"], ["podria|habria", "el condicional"], ["television", "«televisión»"]]}, {"id": "t8", "en": "Spain joined the European Community after decades of isolation.", "model": "España ingresó en la Comunidad Europea tras décadas de aislamiento.", "need": [["ingreso|entro|se incorporo", "el verbo de entrada"], ["aislamiento", "«aislamiento»"], ["decadas|decenios", "«décadas»"]]}]};
+var TOTAL = 115;
+/* ================= Unidad 12 — motor de ejercicios ================= */
+(function () {
+"use strict";
+
+var byId = {};
+['mcq','cloze','match','vfn','vocab','write','trad'].forEach(function (k) {
+  byId[k] = {};
+  (DATA[k] || []).forEach(function (o) { byId[k][o.id] = o; });
+});
+
+/* ---------- puntuación ---------- */
+var SC = {};                       /* clave -> true/false */
+function mark(key, ok) { SC[key] = (SC[key] === true) || !!ok; render(); }
+function render() {
+  var keys = Object.keys(SC), good = 0, i;
+  for (i = 0; i < keys.length; i++) if (SC[keys[i]]) good++;
+  document.getElementById('score').textContent = good;
+  document.getElementById('done').textContent = keys.length;
+  document.getElementById('prog').value = keys.length;
+}
+function fb(el, cls, html) {
+  el.className = 'feedback show ' + cls;
+  el.innerHTML = html;
+}
+function deacc(s) {
+  return (s || '').toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+}
+function words(s) { return (s || '').trim().split(/\s+/).filter(Boolean).length; }
+/* la ñ no es una tilde: es otra letra, y conviene decirlo con esas palabras */
+function verdictMsg(r, given) {
+  if (r.verdict === 'accent' && /ñ/i.test(r.expected) && !/ñ/i.test(given || '')) {
+    return '≈ Ojo: la <strong>ñ</strong> no es una «n» con adorno, es otra letra distinta. Se escribe «<strong>' +
+           r.expected + '</strong>».';
+  }
+  return MARK.message(r);
+}
+function shuffle(list) {
+  var a = list.slice(), i, j, t;
+  for (i = a.length - 1; i > 0; i--) { j = Math.floor(Math.random() * (i + 1)); t = a[i]; a[i] = a[j]; a[j] = t; }
+  return a;
+}
+function shuffleChildren(box) {
+  shuffle(Array.prototype.slice.call(box.children)).forEach(function (n) { box.appendChild(n); });
+}
+
+/* ---------- pestañas ---------- */
+document.querySelectorAll('.tab').forEach(function (t) {
+  t.addEventListener('click', function () {
+    document.querySelectorAll('.tab').forEach(function (x) { x.classList.remove('active'); });
     t.classList.add('active');
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelector('.section[data-tab="'+t.dataset.tab+'"]').classList.add('active');
+    document.querySelectorAll('main > .section').forEach(function (s) { s.classList.remove('active'); });
+    var s = document.querySelector('.section[data-tab="' + t.dataset.tab + '"]');
+    if (s) s.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+document.querySelectorAll('.subtab').forEach(function (t) {
+  t.addEventListener('click', function () {
+    var host = t.closest('.section');
+    host.querySelectorAll('.subtab').forEach(function (x) { x.classList.remove('active'); });
+    t.classList.add('active');
+    host.querySelectorAll('.subpanel').forEach(function (p) { p.classList.remove('active'); });
+    var p = host.querySelector('.subpanel[data-sub="' + t.dataset.sub + '"]');
+    if (p) p.classList.add('active');
   });
 });
 
-// --- Accent pad ---
-let lastFocused = null;
-function insertAtCursor(text) {
-  const el = lastFocused;
+/* ---------- teclado de acentos ---------- */
+var lastField = null;
+function isField(el) {
+  return !!el && (el.tagName === 'TEXTAREA' ||
+    (el.tagName === 'INPUT' && /^(text|search|)$/i.test(el.type || '')));
+}
+['focus', 'focusin'].forEach(function (ev) {
+  document.addEventListener(ev, function (e) {
+    if (isField(e.target) && e.target.id !== 'studentName') lastField = e.target;
+  }, true);
+});
+function insertChar(ch) {
+  var el = lastField;
   if (!el) return;
-  const start = el.selectionStart ?? el.value.length;
-  const end = el.selectionEnd ?? el.value.length;
-  el.value = el.value.slice(0, start) + text + el.value.slice(end);
-  el.selectionStart = el.selectionEnd = start + text.length;
+  var s = el.selectionStart, e = el.selectionEnd;
+  if (s == null) { s = e = el.value.length; }
+  el.value = el.value.slice(0, s) + ch + el.value.slice(e);
+  try { el.setSelectionRange(s + ch.length, s + ch.length); } catch (err) {}
+  el.dispatchEvent(new Event('input', { bubbles: true }));
   el.focus();
 }
-document.querySelectorAll('.accent-pad button').forEach(b => {
-  b.addEventListener('mousedown', e => { e.preventDefault(); insertAtCursor(b.dataset.c); });
+document.querySelectorAll('#accentPad button').forEach(function (b) {
+  b.addEventListener('mousedown', function (e) { e.preventDefault(); });
+  b.addEventListener('click', function () { insertChar(b.dataset.c); });
 });
-document.getElementById('padToggle').addEventListener('click', () => {
+document.getElementById('padToggle').addEventListener('click', function () {
   document.getElementById('accentPad').classList.toggle('hidden');
 });
-document.querySelectorAll('textarea, input.fill').forEach(el => {
-  el.addEventListener('focus', () => { lastFocused = el; });
-});
+document.getElementById('accentPad').classList.add('hidden');
 
-// --- MCQ selection ---
-document.querySelectorAll('.opt-btn').forEach(b => {
-  b.addEventListener('click', () => {
-    const card = b.closest('.qcard');
-    card.querySelectorAll('.opt-btn').forEach(x => x.classList.remove('selected'));
-    b.classList.add('selected');
-    card.dataset.selectedOpt = b.dataset.value;
-  });
-});
-
-// --- Scoring ---
-const results = {};
-const norm = s => (s||"").toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,' ').trim();
-function strictEq(a,b) { return norm(a) === norm(b); }
-function anyMatch(s, ans, alts) {
-  if (strictEq(s, ans)) return true;
-  for (const a of (alts||[])) if (strictEq(s, a)) return true;
-  return false;
-}
-function renderScore() {
-  const c = Object.values(results).filter(r => r.correct).length;
-  document.getElementById('practica-score').textContent = c;
-  document.getElementById('prog').value = Object.values(results).filter(r => r.attempts > 0).length;
-}
-
-document.addEventListener('click', e => {
-  const btn = e.target.closest('button[data-act]'); if (!btn) return;
-  const id = btn.dataset.id;
-  const q = PRACTICA.find(x => x.id === id); if (!q) return;
-  const card = document.querySelector('.qcard[data-qid="'+id+'"]');
-  const fb = card.querySelector('.feedback');
-
-  if (btn.dataset.act === 'hint') {
-    fb.className = 'feedback hint show';
-    fb.textContent = '💡 ' + (q.hint || 'Piensa en sinónimos / contexto histórico.');
-    return;
-  }
-  if (btn.dataset.act === 'reveal') {
-    fb.className = 'feedback hint show';
-    fb.innerHTML = 'Respuesta: <b>' + q.answer + '</b>';
-    return;
-  }
-  if (btn.dataset.act === 'check') {
-    const r = results[id] || {attempts:0, correct:false, answer:""};
-    r.attempts += 1;
-    let ok = false, picked = "";
-    if (q.kind === 'choose') {
-      picked = card.dataset.selectedOpt || "";
-      r.answer = picked;
-      ok = (picked === q.answer);
-    } else {
-      const inp = card.querySelector('input.fill');
-      picked = inp.value;
-      r.answer = picked;
-      ok = anyMatch(picked, q.answer, q.alternates);
-    }
-    r.correct = ok || r.correct;
-    if (!picked) {
-      fb.className = 'feedback hint show';
-      fb.textContent = '↑ Elige o escribe una respuesta primero.';
-    } else if (ok) {
-      fb.className = 'feedback ok show';
-      fb.innerHTML = '✓ Correcto: <b>' + q.answer + '</b>';
-    } else {
-      fb.className = 'feedback fail show';
-      fb.innerHTML = '✗ No, tu respuesta: <b>' + picked + '</b>. Modelo: <b>' + q.answer + '</b>';
-    }
-    results[id] = r;
-    renderScore();
-  }
-});
-
-// --- Download blob ---
-document.getElementById('downloadBtn').addEventListener('click', () => {
-  const L = [];
-  L.push('Unidad 12 — La Transición a la democracia (1975-1986)');
-  L.push('Guía de estudio · cuaderno de trabajo');
-  L.push('Fecha: ' + new Date().toISOString());
-  L.push('='.repeat(72));
-  L.push('');
-  L.push('## Práctica — autoevaluación');
-  L.push('');
-  let c = 0, a = 0;
-  PRACTICA.forEach((q, i) => {
-    const r = results[q.id] || {};
-    if (r.attempts) a++;
-    if (r.correct)  c++;
-    const mark = r.correct ? '✓' : (r.attempts ? '✗' : '—');
-    L.push('Q' + (i+1) + ' [' + q.tag + ']  ' + mark);
-    L.push('  pregunta : ' + q.q);
-    L.push('  tu resp. : ' + (r.answer || '(no contestada)'));
-    L.push('  modelo   : ' + q.answer);
-    L.push('');
-  });
-  L.push('Total práctica: ' + c + ' / ' + PRACTICA.length + '   (atentadas: ' + a + ')');
-  L.push('');
-  L.push('## Ensayos — borradores');
-  L.push('');
-  ENSAYOS.forEach((e, i) => {
-    const ta = document.querySelector('textarea[data-essay="'+e.id+'"]');
-    const txt = ta ? ta.value : '';
-    L.push('Ensayo ' + (i+1) + ': ' + e.q);
-    L.push('Guion:');
-    e.scaffold.forEach(s => L.push('  · ' + s));
-    L.push('Vocabulario clave: ' + e.vocab.join(' · '));
-    L.push('');
-    L.push('TU RESPUESTA:');
-    L.push(txt || '(sin escribir)');
-    L.push('');
-    L.push('-'.repeat(72));
-    L.push('');
-  });
-  const blob = new Blob([L.join('\n')], {type:'text/plain;charset=utf-8'});
-  const url = URL.createObjectURL(blob);
-  const a2 = document.createElement('a');
-  const stamp = new Date().toISOString().slice(0,10);
-  a2.href = url; a2.download = 'Transicion_apuntes_' + stamp + '.txt';
-  document.body.appendChild(a2); a2.click();
-  setTimeout(() => { document.body.removeChild(a2); URL.revokeObjectURL(url); }, 200);
-});
-
-renderScore();
-</script>
-<!-- ============================================================
-     COMPLEMENTO DE LA CASA — teclado de acentos flotante + nombre obligatorio
-     Añadido al normalizar el sitio (agosto de 2026).
-     No depende de ninguna biblioteca: todo está en este bloque.
-     ============================================================ -->
-<style>
-#housePad{position:fixed;right:16px;bottom:16px;z-index:99999;background:#fff;border:2px solid #2a5298;
-  border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.25);padding:10px;width:238px;
-  font-family:Calibri,'Segoe UI',Tahoma,sans-serif;color:#1f2933;}
-#housePad h4{font-size:.84em;color:#42536b;margin:0 0 8px;display:flex;justify-content:space-between;
-  align-items:center;font-weight:700;}
-#housePad .keys{display:flex;flex-wrap:wrap;gap:5px;}
-#housePad button{font-family:inherit;background:#2a5298;color:#fff;border:none;border-radius:4px;
-  padding:6px 10px;font-size:1em;font-weight:600;cursor:pointer;line-height:1.1;}
-#housePad button:hover{background:#1e3c72;}
-#housePadToggle{padding:2px 9px;font-size:.85em;}
-#housePad.collapsed{width:auto;}
-#housePad.collapsed .keys,#housePad.collapsed .hint{display:none;}
-#housePad .hint{font-size:.76em;color:#7d8ba1;margin-top:7px;line-height:1.35;}
-#houseNameBar{background:#eef3fb;border:2px solid #2a5298;border-radius:8px;padding:13px 15px;
-  margin:0 auto 18px;max-width:1000px;font-family:Calibri,'Segoe UI',Tahoma,sans-serif;color:#1f2933;}
-#houseNameBar label{font-weight:700;display:block;margin-bottom:6px;font-size:.98rem;}
-#houseNameBar input{width:100%;max-width:430px;padding:9px 10px;border:2px solid #c3cfe2;border-radius:5px;
-  font-size:1rem;font-family:inherit;background:#fff;color:#1f2933;}
-#houseNameBar input:focus{outline:none;border-color:#2a5298;}
-#houseNameWarn{display:none;margin-top:9px;padding:8px 10px;background:#fdecea;color:#8a1c13;
-  border-radius:5px;font-weight:700;font-size:.95rem;}
-#houseDlBtn{display:inline-block;margin:26px auto;padding:12px 22px;background:#2e7d32;color:#fff;border:none;
-  border-radius:6px;font-family:Calibri,'Segoe UI',Tahoma,sans-serif;font-size:1rem;font-weight:700;cursor:pointer;}
-#houseDlBtn:hover{background:#256428;}
-@media (max-width:820px){#housePad{left:10px;right:10px;width:auto;bottom:8px;}}
-</style>
-<script>
-window.HOUSE = { noPad:true };
-(function () {
-  "use strict";
-  var CFG = window.HOUSE || {};
-  var KEYS = ['á','é','í','ó','ú','ñ','ü','¿','¡','Á','É','Í','Ó','Ú','Ñ','«','»','–'];
-  var last = null;
-
-  function isField(el) {
-    return !!el && (el.tagName === 'TEXTAREA' ||
-      (el.tagName === 'INPUT' && /^(text|search|email|)$/i.test(el.type || '')));
-  }
-
-  /* ---------- 1. barra de nombre (reutiliza la de la página si ya existe) ---------- */
-  var nameInput = document.querySelector('input[id*="name" i], input[id*="nombre" i]');
-  if (!nameInput) {
-    var bar = document.createElement('div');
-    bar.id = 'houseNameBar';
-    bar.innerHTML =
-      '<label for="houseName">Tu nombre / Your name — necesario para descargar tu trabajo</label>' +
-      '<input type="text" id="houseName" placeholder="Nombre y apellido — p. ej. Lucía Martín" autocomplete="name" maxlength="60">' +
-      '<div id="houseNameWarn">⚠ Escribe tu nombre antes de descargar: aparecerá en la cabecera del archivo.</div>';
-    var host = document.querySelector('main, .page, .container, .wrap, body');
-    host.insertBefore(bar, host.firstChild);
-    nameInput = document.getElementById('houseName');
-  } else if (!document.getElementById('houseNameWarn')) {
-    var warn = document.createElement('div');
-    warn.id = 'houseNameWarn';
-    warn.textContent = '⚠ Escribe tu nombre antes de descargar: aparecerá en la cabecera del archivo.';
-    nameInput.parentNode.insertBefore(warn, nameInput.nextSibling);
-  }
-  function studentName() { return (nameInput.value || '').trim(); }
-  function demandName() {
-    var w = document.getElementById('houseNameWarn');
-    if (w) w.style.display = 'block';
-    nameInput.style.borderColor = '#b3261e';
-    nameInput.focus();
-    nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-
-  /* ---------- 2. el botón de descarga no debe funcionar sin nombre ---------- */
-  document.addEventListener('click', function (e) {
-    var b = e.target && e.target.closest ? e.target.closest('button, a') : null;
-    if (!b || b.id === 'housePadToggle') return;
-    var t = (b.textContent || '').toLowerCase();
-    if (!/descarg|download|export|\.txt|\.pdf/.test(t)) return;
-    if (!studentName()) { e.preventDefault(); e.stopImmediatePropagation(); demandName(); }
-    else { var w = document.getElementById('houseNameWarn'); if (w) w.style.display = 'none'; }
-  }, true);
-
-  /* ---------- 3. teclado flotante (se omite si la página ya tiene uno) ---------- */
-  var pad = null;
-  if (!CFG.noPad) {
-  pad = document.createElement('div');
-  pad.id = 'housePad';
-  pad.innerHTML = '<h4><span>Teclado de acentos</span><button type="button" id="housePadToggle">▾</button></h4>' +
-                  '<div class="keys"></div>' +
-                  '<div class="hint">Haz clic primero en una casilla y después en una tecla.</div>';
-  document.body.appendChild(pad);
-  var keyBox = pad.querySelector('.keys');
-  KEYS.forEach(function (ch) {
-    var b = document.createElement('button');
-    b.type = 'button'; b.textContent = ch;
-    b.addEventListener('mousedown', function (ev) { ev.preventDefault(); });  /* mantiene el cursor en la casilla */
-    b.addEventListener('click', function () { insert(ch); });
-    keyBox.appendChild(b);
-  });
-  document.getElementById('housePadToggle').addEventListener('click', function () {
-    pad.classList.toggle('collapsed');
-    this.textContent = pad.classList.contains('collapsed') ? '⌨' : '▾';
-  });
-  }
-  function insert(ch) {
-    if (!last) { if (pad) pad.querySelector('.hint').textContent = 'Haz clic primero en una casilla y después en una tecla.'; return; }
-    var s = last.selectionStart, e = last.selectionEnd;
-    if (s == null) { s = e = last.value.length; }
-    last.value = last.value.slice(0, s) + ch + last.value.slice(e);
-    last.dispatchEvent(new Event('input', { bubbles: true }));
-    last.focus();
-    try { last.setSelectionRange(s + ch.length, s + ch.length); } catch (err) {}
-  }
-  trackFields();
-  function trackFields() {
-    ['focus', 'focusin'].forEach(function (ev) {
-      document.addEventListener(ev, function (e) {
-        if (isField(e.target) && e.target !== nameInput) {
-          last = e.target;
-          var h = document.querySelector('#housePad .hint');
-          if (h) h.textContent = 'Casilla activa: tu texto irá al sitio correcto.';
-        }
-      }, true);
+/* ================= 1 · OPCIÓN MÚLTIPLE ================= */
+document.querySelectorAll('.qcard[data-kind="mcq"]').forEach(function (card) {
+  var q = byId.mcq[card.dataset.id], f = card.querySelector('.feedback');
+  var opts = card.querySelectorAll('.opt');
+  opts.forEach(function (o) {
+    o.addEventListener('click', function () {
+      if (card.dataset.locked) return;
+      opts.forEach(function (x) { x.classList.remove('selected'); });
+      o.classList.add('selected');
+      card.dataset.sel = o.dataset.i;
     });
-    /* los teclados ya existentes no deben robar el cursor a la casilla */
-    document.addEventListener('mousedown', function (e) {
-      var b = e.target && e.target.closest ? e.target.closest('button') : null;
-      if (!b) return;
-      var t = (b.textContent || '').trim();
-      if (t.length <= 2 && /[À-ſ¿¡«»]/.test(t)) e.preventDefault();
-    }, true);
-  }
-
-  /* ---------- 4. descarga genérica, sólo donde la página no tiene ninguna ---------- */
-  if (CFG.addDownload) {
-    var btn = document.createElement('button');
-    btn.id = 'houseDlBtn'; btn.type = 'button';
-    btn.textContent = '📥 Descargar mis respuestas';
-    var wrap = document.createElement('div');
-    wrap.style.textAlign = 'center';
-    wrap.appendChild(btn);
-    (document.querySelector('main, .page, .container, .wrap') || document.body).appendChild(wrap);
-
-    btn.addEventListener('click', function () {
-      var name = studentName();
-      if (!name) { demandName(); return; }
-      var L = [], now = new Date();
-      L.push((CFG.title || document.title).toUpperCase());
-      L.push(''.padEnd(64, '='));
-      L.push('Alumno/a : ' + name);
-      L.push('Fecha : ' + now.toLocaleString('es-ES'));
-      L.push('');
-      var n = 0;
-      document.querySelectorAll('input[type=text], textarea, select').forEach(function (f) {
-        if (f === nameInput || f.id === 'houseName') return;
-        var val = (f.value || '').trim();
-        if (f.tagName === 'SELECT') val = f.selectedIndex > 0 ? f.options[f.selectedIndex].text : '';
-        n++;
-        L.push(n + '. ' + label(f));
-        L.push('   Respuesta : ' + (val || '—'));
-        L.push('');
-      });
-      document.querySelectorAll('input[type=radio]:checked, input[type=checkbox]:checked').forEach(function (f) {
-        L.push('✔ ' + label(f));
-      });
-      L.push('');
-      L.push('Sube este archivo a Teams / SharePoint.');
-      var blob = new Blob([L.join('\n')], { type: 'text/plain;charset=utf-8' });
-      var a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = (CFG.filePrefix || 'mis_respuestas') + '_' + name.replace(/[^\wÀ-ÿ]+/g, '_') + '_' +
-                   now.toISOString().slice(0, 10) + '.txt';
-      document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+  });
+  function settle(revealed) {
+    card.dataset.locked = '1';
+    opts.forEach(function (x, i) {
+      x.classList.remove('selected');
+      if (i === q.a) x.classList.add('right');
+      else if (!revealed && String(i) === card.dataset.sel) x.classList.add('wrong');
+      x.disabled = true;
     });
+  }
+  card.querySelector('[data-act="check"]').addEventListener('click', function () {
+    if (card.dataset.locked) return;
+    if (card.dataset.sel === undefined) { fb(f, 'hint', '↑ Elige una opción primero.'); return; }
+    var ok = Number(card.dataset.sel) === q.a;
+    settle(false);
+    fb(f, ok ? 'ok' : 'fail', (ok ? '✓ Correcto. ' : '✗ La respuesta correcta es «<b>' + q.o[q.a] + '</b>». ') + q.why);
+    mark(q.id, ok);
+  });
+  card.querySelector('[data-act="reveal"]').addEventListener('click', function () {
+    settle(true);
+    fb(f, 'hint', 'Respuesta: <b>' + q.o[q.a] + '</b>. ' + q.why);
+    mark(q.id, false);
+  });
+});
 
-    function label(f) {
-      if (f.getAttribute('aria-label')) return f.getAttribute('aria-label');
-      var lab = f.id && document.querySelector('label[for="' + f.id + '"]');
-      if (lab) return clean(lab.textContent);
-      var box = f.closest('li, td, .question, .item, .card, .exercise, .q-block, div');
-      var hops = 0;
-      while (box && hops < 4) {
-        var t = clean(box.textContent);
-        if (t.length > 8) return t.slice(0, 140);
-        box = box.parentElement; hops++;
+/* ================= 2 · TEXTO LAGUNADO ================= */
+document.querySelectorAll('.clozecard').forEach(function (card) {
+  var d = byId.cloze[card.dataset.id];
+  var f = card.querySelector('.feedback');
+  var bank = card.querySelector('.bank');
+  var gaps = card.querySelectorAll('.gapin');
+  shuffleChildren(bank);
+
+  function firstEmpty() {
+    var i;
+    for (i = 0; i < gaps.length; i++) if (!gaps[i].value.trim()) return gaps[i];
+    return null;
+  }
+  function place(chip) {
+    var target = (isField(lastField) && lastField.classList.contains('gapin') &&
+                  card.contains(lastField) && !lastField.value.trim()) ? lastField : firstEmpty();
+    if (!target) { fb(f, 'hint', 'No quedan huecos vacíos. Pulsa un hueco para devolver su palabra al banco.'); return; }
+    target.value = chip.dataset.w;
+    target._chip = chip;
+    chip.classList.add('used');
+    target.className = 'gapin';
+    var nxt = firstEmpty();
+    if (nxt) { nxt.focus(); lastField = nxt; }
+  }
+  bank.querySelectorAll('.chip').forEach(function (chip) {
+    chip.addEventListener('mousedown', function (e) { e.preventDefault(); });
+    chip.addEventListener('click', function () { place(chip); });
+  });
+  gaps.forEach(function (g) {
+    g.addEventListener('click', function () {
+      if (g._chip) { g._chip.classList.remove('used'); g._chip = null; g.value = ''; g.className = 'gapin'; }
+    });
+    g.addEventListener('input', function () { g.className = 'gapin'; if (g._chip) { g._chip.classList.remove('used'); g._chip = null; } });
+  });
+  function clearAll() {
+    gaps.forEach(function (g) { g.value = ''; g.className = 'gapin'; if (g._chip) { g._chip.classList.remove('used'); g._chip = null; } });
+    f.className = 'feedback';
+  }
+  card.querySelector('[data-act="clear"]').addEventListener('click', clearAll);
+  card.querySelector('[data-act="challenge"]').addEventListener('click', function () {
+    bank.parentNode.classList.toggle('hidden');
+    var off = bank.parentNode.classList.contains('hidden');
+    this.textContent = off ? 'Volver a mostrar el banco' : 'Modo desafío (sin banco)';
+    if (off) clearAll();
+  });
+  card.querySelector('[data-act="check"]').addEventListener('click', function () {
+    var good = 0, tries = 0, tilde = [], mal = [], vacio = [];
+    gaps.forEach(function (g, i) {
+      var key = d.keys[i];
+      if (!g.value.trim()) { g.className = 'gapin'; vacio.push(i + 1); return; }
+      tries++;
+      var r = MARK.judge(g.value, key, {});
+      g.className = 'gapin ' + MARK.cssClass(r);
+      var ok = MARK.isRight(r);
+      if (ok) good++;
+      else if (r.verdict === 'accent') tilde.push(i + 1);
+      else mal.push(i + 1);
+      g.title = ok ? 'correcto' : ('forma correcta: ' + key);
+      mark(d.id + '#' + i, ok);
+    });
+    if (!tries) { fb(f, 'hint', '↑ Coloca al menos una palabra antes de comprobar.'); return; }
+    var det = [];
+    if (tilde.length) det.push('Falta la tilde o la ñ en: <b>' + tilde.join(', ') + '</b>.');
+    if (mal.length) det.push('Palabra equivocada en: <b>' + mal.join(', ') + '</b>.');
+    if (vacio.length) det.push('Sin rellenar: ' + vacio.join(', ') + '.');
+    fb(f, good === gaps.length ? 'ok' : 'fail',
+       good + ' de ' + gaps.length + ' correctos. ' + det.join(' ') +
+       (good === gaps.length ? ' Texto completo y correcto.' : ' Corrige y vuelve a comprobar; «Revelar» solo al final.'));
+  });
+  card.querySelector('[data-act="reveal"]').addEventListener('click', function () {
+    gaps.forEach(function (g, i) {
+      if (!MARK.isRight(MARK.judge(g.value, d.keys[i], {}))) { g.value = d.keys[i]; g.className = 'gapin near'; }
+      mark(d.id + '#' + i, false);
+    });
+    fb(f, 'hint', 'Texto completo. Vuelve a intentarlo mañana con el modo desafío.');
+  });
+});
+
+/* ================= 3 · EMPAREJAR ================= */
+document.querySelectorAll('.matchcard').forEach(function (card) {
+  var d = byId.match[card.dataset.id], f = card.querySelector('.feedback');
+  var sel = null;
+  shuffleChildren(card.querySelector('.rightcol'));
+  function clearSel() { card.querySelectorAll('.mit.sel').forEach(function (x) { x.classList.remove('sel'); }); sel = null; }
+  card.querySelectorAll('.mit.left').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.classList.contains('done')) return;
+      clearSel(); b.classList.add('sel'); sel = b;
+    });
+  });
+  card.querySelectorAll('.mit.right').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.classList.contains('done')) return;
+      if (!sel) { fb(f, 'hint', '↑ Elige primero un elemento de la izquierda.'); return; }
+      var k = sel.dataset.k;
+      if (k === b.dataset.k) {
+        sel.classList.remove('sel'); sel.classList.add('done'); b.classList.add('done');
+        sel.disabled = b.disabled = true;
+        mark(d.id + '#' + k, true);
+        var left = d.pairs[Number(k)];
+        fb(f, 'ok', '✓ ' + left[0] + ' — ' + left[1]);
+        sel = null;
+      } else {
+        var wrong = sel;
+        mark(d.id + '#' + k, false);
+        wrong.classList.add('flash'); b.classList.add('flash');
+        fb(f, 'fail', '✗ Esa no es la pareja. Vuelve a leer la definición entera antes de decidir.');
+        setTimeout(function () { wrong.classList.remove('flash'); b.classList.remove('flash'); }, 550);
+        clearSel();
       }
-      return f.placeholder || f.name || f.id || 'Respuesta';
+    });
+  });
+  card.querySelector('[data-act="reset"]').addEventListener('click', function () {
+    card.querySelectorAll('.mit').forEach(function (x) { x.className = x.className.replace(/ (done|sel|flash)/g, ''); x.disabled = false; });
+    shuffleChildren(card.querySelector('.rightcol'));
+    f.className = 'feedback'; sel = null;
+  });
+  card.querySelector('[data-act="reveal"]').addEventListener('click', function () {
+    var L = d.pairs.map(function (p, i) {
+      mark(d.id + '#' + i, false);
+      return '<li><b>' + p[0] + '</b> — ' + p[1] + '</li>';
+    }).join('');
+    fb(f, 'hint', '<ul class="checklist">' + L + '</ul>');
+  });
+});
+
+/* ================= 4 · ORDENAR ================= */
+document.querySelectorAll('.seqcard').forEach(function (card) {
+  var d = DATA.seq, f = card.querySelector('.feedback');
+  var pool = card.querySelector('.seqpool'), target = card.querySelector('.seqtarget');
+  shuffleChildren(pool);
+  pool.querySelectorAll('.sit').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.classList.contains('used')) return;
+      b.classList.add('used');
+      var li = document.createElement('li');
+      li.textContent = b.textContent;
+      li.dataset.o = b.dataset.o;
+      target.appendChild(li);
+    });
+  });
+  card.querySelector('[data-act="undo"]').addEventListener('click', function () {
+    var last = target.lastElementChild;
+    if (!last) return;
+    var chip = pool.querySelector('.sit[data-o="' + last.dataset.o + '"]');
+    if (chip) chip.classList.remove('used');
+    target.removeChild(last);
+  });
+  card.querySelector('[data-act="reset"]').addEventListener('click', function () {
+    target.innerHTML = '';
+    pool.querySelectorAll('.sit').forEach(function (x) { x.classList.remove('used'); });
+    shuffleChildren(pool);
+    f.className = 'feedback';
+  });
+  card.querySelector('[data-act="check"]').addEventListener('click', function () {
+    var lis = target.querySelectorAll('li'), good = 0;
+    if (!lis.length) { fb(f, 'hint', '↑ Pulsa los acontecimientos en orden antes de comprobar.'); return; }
+    lis.forEach(function (li, i) {
+      var ok = Number(li.dataset.o) === i;
+      li.className = ok ? 'ok' : 'bad';
+      if (ok) good++;
+      mark(d.id + '#' + i, ok);
+    });
+    fb(f, good === d.items.length ? 'ok' : 'fail',
+       good + ' de ' + d.items.length + ' en su sitio.' +
+       (good === d.items.length ? ' Cronología dominada.' : ' Los rojos están fuera de lugar: usa «Deshacer» y corrige desde ahí.'));
+  });
+});
+
+/* ================= 5 · V / F / NO SE DICE ================= */
+document.querySelectorAll('.qcard[data-kind="vfn"]').forEach(function (card) {
+  var d = byId.vfn[card.dataset.id], f = card.querySelector('.feedback');
+  var opts = card.querySelectorAll('.opt');
+  opts.forEach(function (o) {
+    o.addEventListener('click', function () {
+      opts.forEach(function (x) { x.classList.remove('selected'); });
+      o.classList.add('selected');
+      card.dataset.sel = o.dataset.v;
+    });
+  });
+  card.querySelector('[data-act="check"]').addEventListener('click', function () {
+    if (!card.dataset.sel) { fb(f, 'hint', '↑ Elige verdadero, falso o no se dice.'); return; }
+    var ok = card.dataset.sel === d.a;
+    var just = card.querySelector('.just').value.trim();
+    var extra = just ? '' : '<br><i>Escribe también la justificación: en el examen sin justificación no hay punto.</i>';
+    fb(f, ok ? 'ok' : 'fail',
+       (ok ? '✓ ' : '✗ Es <b>' + ({ V: 'verdadero', F: 'falso', NS: 'no se dice' })[d.a] + '</b>. ') +
+       'Justificación modelo: ' + d.j + extra);
+    mark(d.id, ok);
+  });
+});
+
+/* ================= 6 · VOCABULARIO ================= */
+document.querySelectorAll('.vrow').forEach(function (row) {
+  var d = byId.vocab[row.dataset.id], f = row.querySelector('.feedback'), inp = row.querySelector('.vin');
+  row.querySelector('[data-act="check"]').addEventListener('click', function () {
+    if (!inp.value.trim()) { fb(f, 'hint', '↑ Escribe tu respuesta.'); return; }
+    var r = MARK.judge(inp.value, d.a, {});
+    inp.className = 'vin ' + MARK.cssClass(r);
+    fb(f, MARK.isRight(r) ? 'ok' : (r.verdict === 'accent' ? 'hint' : 'fail'), verdictMsg(r, inp.value));
+    mark(d.id, MARK.isRight(r));
+  });
+  row.querySelector('[data-act="hint"]').addEventListener('click', function () {
+    fb(f, 'hint', '💡 ' + d.hint);
+  });
+  inp.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); row.querySelector('[data-act="check"]').click(); }
+  });
+});
+
+/* ================= 7 · ESCRITURA ================= */
+var SUBJ = /\b\w+(?:ara|aras|áramos|arais|aran|iera|ieras|iéramos|ierais|ieran|ase|ases|ásemos|aseis|asen|iese|ieses|iésemos|ieseis|iesen)\b|\b(sea|seas|seamos|sean|fuera|fuese|fueran|fuesen|haya|hayan|hubiera|hubiese|hubieran|pueda|puedan|pudiera|tenga|tengan|tuviera|vaya|vayan|dé|den|esté|estén|estuviera|sepa|sepan|quiera|quieran|permita|permitan)\b/;
+function checkNeeds(text, need) {
+  var t = deacc(text), out = [];
+  need.forEach(function (n) {
+    out.push({ ok: new RegExp(n[0], 'i').test(t), label: n[1] });
+  });
+  return out;
+}
+function listNeeds(res) {
+  return '<ul class="checklist">' + res.map(function (r) {
+    return '<li class="' + (r.ok ? 'yes' : 'no') + '">' + (r.ok ? '✓ ' : '✗ falta ') + r.label + '</li>';
+  }).join('') + '</ul>';
+}
+document.querySelectorAll('.wcard[data-kind="write"]').forEach(function (card) {
+  var d = byId.write[card.dataset.id], f = card.querySelector('.feedback');
+  var ta = card.querySelector('.wtext'), wc = card.querySelector('.wc'), counter = card.querySelector('.counter');
+  ta.addEventListener('input', function () {
+    var n = words(ta.value);
+    wc.textContent = n;
+    counter.classList.toggle('done', n >= d.words);
+  });
+  card.querySelectorAll('.starter').forEach(function (b) {
+    b.addEventListener('mousedown', function (e) { e.preventDefault(); });
+    b.addEventListener('click', function () {
+      lastField = ta; ta.focus();
+      if (ta.value.trim()) insertChar(' ' + b.dataset.c + ' ');
+      else { ta.value = b.dataset.c + ' '; ta.dispatchEvent(new Event('input', { bubbles: true })); }
+    });
+  });
+  card.querySelector('[data-act="check"]').addEventListener('click', function () {
+    var txt = ta.value.trim();
+    if (!txt) { fb(f, 'hint', '↑ Escribe tu respuesta primero.'); return; }
+    var n = words(txt), res = checkNeeds(txt, d.need);
+    var missing = res.filter(function (r) { return !r.ok; }).length;
+    var lines = listNeeds(res);
+    lines += '<div class="mini">Extensión: ' + n + ' palabras (objetivo ' + d.words + ').' +
+             (n < d.words ? ' Te falta desarrollo: añade un ejemplo concreto con fecha o nombre propio.' : ' Extensión conseguida.') + '</div>';
+    var plus = [];
+    if (n >= 80) plus.push('80 palabras o más');
+    if (SUBJ.test(deacc(txt).replace(/[^a-z\s]/g, ' ')) || SUBJ.test(txt)) plus.push('subjuntivo detectado');
+    if (/\b(a pesar de|no obstante|sin embargo|pese a|mientras que|por el contrario)\b/i.test(txt)) plus.push('conector de contraste');
+    lines += '<div class="mini"><b>Nivel plus:</b> ' + (plus.length ? plus.join(' · ') : 'todavía no — mira la línea «Plus A*/C1» de arriba') + '</div>';
+    fb(f, missing ? 'fail' : 'ok',
+       (missing ? '≈ Casi: te faltan ' + missing + ' elemento(s) obligatorio(s).' : '✓ Están todos los elementos obligatorios.') + lines);
+  });
+  card.querySelector('[data-act="model"]').addEventListener('click', function () {
+    fb(f, 'hint', '<b>Respuesta modelo</b> (una entre muchas posibles):<br>' + d.model);
+  });
+});
+
+/* ================= 8 · TRADUCCIÓN ================= */
+document.querySelectorAll('.wcard[data-kind="trad"]').forEach(function (card) {
+  var d = byId.trad[card.dataset.id], f = card.querySelector('.feedback');
+  var ta = card.querySelector('.wtext');
+  card.querySelector('[data-act="check"]').addEventListener('click', function () {
+    var txt = ta.value.trim();
+    if (!txt) { fb(f, 'hint', '↑ Escribe tu traducción primero.'); return; }
+    var res = checkNeeds(txt, d.need);
+    var missing = res.filter(function (r) { return !r.ok; }).length;
+    fb(f, missing ? 'fail' : 'ok',
+       (missing ? '≈ Faltan elementos clave — revisa antes de ver el modelo.' : '✓ Están los tres elementos clave.') +
+       listNeeds(res) +
+       '<div class="mini">El corrector solo busca elementos clave: una traducción distinta también puede estar bien.</div>');
+  });
+  card.querySelector('[data-act="model"]').addEventListener('click', function () {
+    fb(f, 'hint', '<b>Modelo:</b> ' + d.model);
+  });
+});
+
+/* ================= conectores ================= */
+function connNotice(msg) {
+  var bar = document.querySelector('.chipbar');
+  if (!bar) return;
+  var n = bar.querySelector('.connmsg');
+  if (!n) { n = document.createElement('div'); n.className = 'connmsg mini'; bar.appendChild(n); }
+  n.textContent = msg;
+  clearTimeout(n._t);
+  n._t = setTimeout(function () { n.textContent = ''; }, 4000);
+}
+document.querySelectorAll('.conn').forEach(function (b) {
+  b.addEventListener('mousedown', function (e) { e.preventDefault(); });
+  b.addEventListener('click', function () {
+    if (!lastField || !lastField.classList.contains('wtext')) {
+      connNotice('Pulsa primero dentro de la casilla de texto donde quieres el conector.');
+      return;
     }
-    function clean(s) { return (s || '').replace(/\s+/g, ' ').trim(); }
+    var pos = lastField.selectionStart;
+    if (pos == null) pos = lastField.value.length;
+    var before = lastField.value.slice(0, pos);
+    var pad = (before && !/[\s(¿¡]$/.test(before)) ? ' ' : '';
+    insertChar(pad + b.dataset.c + ' ');
+  });
+});
+
+/* ================= descarga ================= */
+function studentName() { return (document.getElementById('studentName').value || '').trim(); }
+document.getElementById('downloadBtn').addEventListener('click', function () {
+  var name = studentName();
+  if (!name) {
+    document.getElementById('nameWarning').style.display = 'block';
+    var i = document.getElementById('studentName');
+    i.style.borderColor = '#922B21';
+    i.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    i.focus();
+    return;
   }
+  document.getElementById('nameWarning').style.display = 'none';
+  var L = [], now = new Date(), keys = Object.keys(SC), good = 0;
+  keys.forEach(function (k) { if (SC[k]) good++; });
+  L.push('UNIDAD 12 — LA TRANSICIÓN A LA DEMOCRACIA (1975-1986)');
+  L.push('Cuaderno de ejercicios · A-Level Español · Tema 4');
+  L.push(new Array(70).join('='));
+  L.push('Alumno/a : ' + name);
+  L.push('Fecha    : ' + now.toLocaleString('es-ES'));
+  L.push('Resultado: ' + good + ' aciertos sobre ' + TOTAL + ' puntos posibles (' + keys.length + ' intentados)');
+  L.push('');
+
+  L.push('## 1 · OPCIÓN MÚLTIPLE');
+  DATA.mcq.forEach(function (q, i) {
+    var card = document.querySelector('.qcard[data-id="' + q.id + '"]');
+    var sel = card && card.dataset.sel !== undefined ? q.o[Number(card.dataset.sel)] : '(sin contestar)';
+    L.push('P' + (i + 1) + ' ' + (SC[q.id] ? '✓' : (card && card.dataset.sel !== undefined ? '✗' : '—')) + '  ' + q.q);
+    L.push('    tu respuesta : ' + sel);
+    L.push('    correcta     : ' + q.o[q.a]);
+  });
+  L.push('');
+
+  L.push('## 2 · TEXTO LAGUNADO');
+  DATA.cloze.forEach(function (c) {
+    L.push('· ' + c.title);
+    var gaps = document.querySelectorAll('.clozecard[data-id="' + c.id + '"] .gapin');
+    gaps.forEach(function (g, i) {
+      L.push('   ' + (i + 1) + '. ' + (g.value.trim() || '(vacío)') + '   [clave: ' + c.keys[i] + ']' +
+             (SC[c.id + '#' + i] ? '  ✓' : ''));
+    });
+  });
+  L.push('');
+
+  L.push('## 3 · EMPAREJAR');
+  DATA.match.forEach(function (m) {
+    var n = 0;
+    m.pairs.forEach(function (p, i) { if (SC[m.id + '#' + i]) n++; });
+    L.push('· ' + m.title + ' : ' + n + ' / ' + m.pairs.length + ' correctos');
+  });
+  L.push('');
+
+  L.push('## 4 · CRONOLOGÍA');
+  var lis = document.querySelectorAll('.seqcard .seqtarget li');
+  if (!lis.length) L.push('(sin hacer)');
+  lis.forEach(function (li, i) {
+    L.push('   ' + (i + 1) + '. ' + li.textContent + (SC[DATA.seq.id + '#' + i] ? '  ✓' : '  ✗'));
+  });
+  L.push('');
+
+  L.push('## 5 · VERDADERO / FALSO / NO SE DICE');
+  DATA.vfn.forEach(function (v, i) {
+    var card = document.querySelector('.qcard[data-id="' + v.id + '"]');
+    L.push((i + 1) + '. ' + v.s);
+    L.push('    tu respuesta  : ' + (card.dataset.sel || '—') + '   (correcta: ' + v.a + ')');
+    L.push('    justificación : ' + (card.querySelector('.just').value.trim() || '(sin escribir)'));
+    L.push('    modelo        : ' + v.j);
+  });
+  L.push('');
+
+  L.push('## 6 · VOCABULARIO');
+  DATA.vocab.forEach(function (w) {
+    var row = document.querySelector('.vrow[data-id="' + w.id + '"]');
+    L.push(' ' + (SC[w.id] ? '✓' : '·') + ' ' + w.q);
+    L.push('     tu respuesta : ' + (row.querySelector('.vin').value.trim() || '(vacío)') + '   [clave: ' + w.a[0] + ']');
+  });
+  L.push('');
+
+  L.push('## 7 · ESCRITURA');
+  DATA.write.forEach(function (e, i) {
+    var ta = document.querySelector('.wcard[data-id="' + e.id + '"] .wtext');
+    var txt = ta.value.trim();
+    L.push('Escrito ' + (i + 1) + ': ' + e.q + '   (objetivo ' + e.words + ' palabras)');
+    L.push('Plus A*/C1: ' + e.stretch);
+    L.push('TU TEXTO (' + words(txt) + ' palabras):');
+    L.push(txt || '(sin escribir)');
+    L.push('MODELO: ' + e.model);
+    L.push(new Array(70).join('-'));
+  });
+  L.push('');
+
+  L.push('## 8 · TRADUCCIÓN');
+  DATA.trad.forEach(function (t, i) {
+    var ta = document.querySelector('.wcard[data-id="' + t.id + '"] .wtext');
+    L.push((i + 1) + '. ' + t.en);
+    L.push('    tu versión : ' + (ta.value.trim() || '(sin escribir)'));
+    L.push('    modelo     : ' + t.model);
+  });
+  L.push('');
+  L.push('Sube este archivo a Teams / SharePoint.');
+
+  var blob = new Blob([L.join('\n')], { type: 'text/plain;charset=utf-8' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'U12_Transicion_' + name.replace(/[^\wÀ-ÿ]+/g, '_') + '_' + now.toISOString().slice(0, 10) + '.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+});
+
+render();
 })();
+
 </script>
 </body>
 </html>
