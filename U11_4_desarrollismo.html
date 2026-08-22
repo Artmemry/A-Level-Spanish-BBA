@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11.4 El desarrollismo y el tardofranquismo</title>
+<style>
+:root{
+  --paper:#FBFAF6;--card:#FFF;--ink:#1A2440;--soft:#4A5570;--muted:#8A8F9E;
+  --accent:#C60B1E;--blue:#2B4C9B;--blue-pale:#EDF1FA;--green:#2E7D52;--green-pale:#EAF4EE;
+  --gold:#B8860B;--gold-pale:#FFF7E6;--line:#E5E2D8;--line2:#CFCBBD;
+  --serif:Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --shadow:0 1px 2px rgba(26,36,64,.06),0 4px 16px rgba(26,36,64,.05);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:3px}
+header.top{background:var(--card);border-bottom:3px solid var(--ink)}
+.top-in{max-width:940px;margin:0 auto;padding:22px 20px 18px}
+.kicker{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1{font-family:var(--serif);font-size:1.9rem;line-height:1.15;margin:6px 0 4px}
+.sub{color:var(--soft);font-size:.95rem;margin:0}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.pill{font-family:var(--mono);font-size:.66rem;letter-spacing:.07em;text-transform:uppercase;
+  border:1px solid var(--line2);border-radius:99px;padding:4px 11px;color:var(--soft)}
+.pill.hot{background:var(--ink);border-color:var(--ink);color:#fff}
+main{max-width:940px;margin:0 auto;padding:26px 20px 40px}
+.lede{font-size:1.02rem;color:var(--soft);max-width:66ch;margin:0 0 26px}
+h2{font-family:var(--serif);font-size:1.24rem;margin:0}
+h3{font-family:var(--serif);font-size:1.02rem;margin:22px 0 8px;color:var(--blue)}
+
+.tl{border-left:3px solid var(--accent);padding-left:16px;margin:0 0 30px}
+.tl .row{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:7px 0;border-bottom:1px solid var(--line)}
+.tl .row:last-child{border-bottom:none}
+.tl .yr{font-family:var(--mono);font-size:.78rem;font-weight:700;color:var(--accent);padding-top:2px}
+.tl .ev{font-size:.9rem;color:var(--soft)}
+
+.cgrid{display:grid;gap:11px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));margin-bottom:30px}
+.cc{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--blue);
+  border-radius:9px;padding:12px 14px;box-shadow:var(--shadow)}
+.cc .es{font-weight:700}
+.cc .en{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:2px 0 6px}
+.cc .why{font-size:.86rem;color:var(--soft);margin:0}
+
+section.task{background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:20px 22px;margin:0 0 20px;box-shadow:var(--shadow)}
+.sechead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.sechead .secscore{margin-left:auto;font-family:var(--mono);font-size:.78rem;color:var(--green);font-weight:700}
+.aim{background:var(--blue-pale);border-left:3px solid var(--blue);border-radius:0 7px 7px 0;
+  padding:10px 13px;margin:13px 0;font-size:.9rem}
+.aim b{color:var(--blue)}
+.scaf{background:var(--gold-pale);border:1px dashed var(--gold);border-radius:7px;padding:10px 13px;margin:12px 0;font-size:.87rem}
+.scaf::before{content:"Andamiaje ";font-family:var(--mono);font-size:.63rem;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--gold);font-weight:700;display:block;margin-bottom:3px}
+.stretch{background:var(--green-pale);border-left:3px solid var(--green);border-radius:0 7px 7px 0;
+  padding:10px 13px;margin:14px 0 0;font-size:.87rem}
+.bank{background:var(--paper);border:1px solid var(--line2);border-radius:7px;padding:9px 13px;
+  margin:12px 0;font-size:.88rem}
+.bank::before{content:"Banco ";font-family:var(--mono);font-size:.63rem;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted);font-weight:700;display:block}
+
+.psg{font-size:1rem;line-height:1.75}
+.psg p{margin:0 0 13px}
+.psg .src{font-size:.8rem;color:var(--muted)}
+.gl{display:grid;gap:5px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+  background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin-top:14px}
+.gl div{font-size:.83rem;color:var(--soft)}
+.gl b{color:var(--ink)}
+
+ol.qs{margin:0;padding-left:22px}
+ol.qs>li{margin:0 0 14px}
+.qtxt{margin-bottom:5px}
+input[type=text]{font-family:var(--sans);font-size:.97rem;border:1.5px solid var(--line2);border-radius:6px;
+  padding:6px 9px;background:#fff;color:var(--ink);min-width:150px}
+input[type=text].wide{width:100%;max-width:520px}
+input.ok{border-color:var(--green);background:var(--green-pale)}
+input.warn{border-color:var(--gold);background:var(--gold-pale)}
+input.bad{border-color:var(--accent);background:#FDEDEB}
+textarea{width:100%;font-family:var(--sans);font-size:.97rem;border:1.5px solid var(--line2);
+  border-radius:7px;padding:9px 11px;min-height:84px;resize:vertical;background:#fff;color:var(--ink)}
+.hint{font-family:var(--mono);font-size:.68rem;color:var(--muted);margin-left:7px}
+small.fb{display:block;font-size:.79rem;color:#7a5c00;margin-top:4px}
+small.fb.bad{color:#a5281b}
+
+table.vocab{width:100%;border-collapse:collapse}
+table.vocab td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.vocab td.es{font-weight:600;width:38%}
+table.vocab tr:last-child td{border-bottom:none}
+
+.mcq{border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin:0 0 12px;background:var(--paper)}
+.mcq.ok{border-color:var(--green);background:var(--green-pale)}
+.mcq.bad{border-color:var(--accent);background:#FDEDEB}
+.mcq .q{font-weight:600;margin-bottom:7px}
+.mcq label{display:block;font-size:.93rem;padding:3px 0;cursor:pointer}
+.mcq input{margin-right:8px}
+
+.model{display:none;background:var(--green-pale);border-left:3px solid var(--green);border-radius:0 7px 7px 0;
+  padding:10px 13px;margin-top:9px;font-size:.9rem}
+.model.show{display:block}
+button.reveal{font-family:var(--sans);font-size:.8rem;font-weight:600;border:1.5px solid var(--line2);
+  background:#fff;color:var(--soft);border-radius:7px;padding:5px 12px;cursor:pointer;margin-top:8px}
+button.reveal:hover{border-color:var(--green);color:var(--green)}
+button.checkone{font-family:var(--sans);font-size:.83rem;font-weight:600;border:1.5px solid var(--blue);
+  background:#fff;color:var(--blue);border-radius:7px;padding:6px 14px;cursor:pointer;margin-top:14px}
+button.checkone:hover{background:var(--blue-pale)}
+.selfrow{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:9px;font-size:.86rem;color:var(--soft)}
+.selfrow input{min-width:70px}
+
+.speakq{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin:0 0 11px}
+.speakq .q{font-weight:600;margin-bottom:6px}
+
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--ink);color:#fff;
+  box-shadow:0 -2px 14px rgba(0,0,0,.22)}
+.dock .bar{max-width:940px;margin:0 auto;padding:8px 16px;display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.dock input#nom{height:32px;border-radius:6px;border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.09);color:#fff;padding:0 10px;width:180px;font-size:.9rem}
+.dock input#nom::placeholder{color:rgba(255,255,255,.6)}
+#pad{display:flex;gap:4px;flex-wrap:wrap}
+#pad .k{min-width:32px;height:32px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.09);
+  color:#fff;border-radius:6px;font-size:16px;cursor:pointer;padding:0 6px}
+#pad .k:hover{background:rgba(255,255,255,.22)}
+#pad .k.shift{font-size:11.5px}
+#pad .k.shift.on{background:#fff;color:var(--ink);font-weight:700}
+.dock .acts{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.dock .acts button{height:32px;border:0;border-radius:6px;padding:0 14px;font-size:.82rem;font-weight:600;cursor:pointer}
+#btnCheck{background:#e8eefc;color:var(--ink)}
+#btnDl{background:var(--green);color:#fff}
+#btnReset{background:transparent;color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.28)}
+.dock .score{max-width:940px;margin:0 auto;padding:0 16px 8px;display:flex;gap:10px;align-items:center}
+.dock .track{flex:1;height:6px;background:rgba(255,255,255,.18);border-radius:4px;overflow:hidden}
+.dock .track i{display:block;height:100%;width:0;background:#5fd39a;transition:width .3s}
+.dock .score span{font-family:var(--mono);font-size:.75rem;color:#cfe0f5;min-width:64px;text-align:right}
+#dockMsg{max-width:940px;margin:0 auto;padding:0 16px 7px;font-size:.76rem;color:#cfe0f5}
+footer.site{max-width:940px;margin:0 auto;padding:8px 20px 30px;font-family:var(--mono);
+  font-size:.68rem;color:var(--muted)}
+@media (max-width:640px){
+  .tl .row{grid-template-columns:70px 1fr}
+  .dock input#nom{width:130px}
+  h1{font-size:1.5rem}
+}
+@media print{.dock,button{display:none!important}body{background:#fff;padding-bottom:0!important}
+  section.task{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+<div class="kicker">A-Level Spanish · Edexcel 9SP0 · Unidad 11 · El franquismo</div>
+<h1>El desarrollismo y el tardofranquismo</h1>
+<p class="sub">Growth without freedom, 1959–1975</p>
+<div class="meta"><span class="pill hot">1959 – 1975</span><span class="pill">Paper 1 · Paper 3</span><span class="pill">Lección 11.4</span></div>
+</div></header>
+<main>
+<p class="lede">Las tres lecciones anteriores cubren el hambre, la censura y la memoria, pero apenas rozan los años sesenta. Y es el periodo que más se pregunta, porque contiene la paradoja del régimen: la economía se abre, el país se moderniza y la represión continúa.</p>
+<h3>La cronología que debes saber</h3><div class="tl">
+<div class="row"><div class="yr">1953</div><div class="ev"><b>Concordato</b> con el Vaticano y <b>Pactos de Madrid</b> con Estados Unidos: bases militares a cambio de ayuda. Fin del aislamiento.</div></div>
+<div class="row"><div class="yr">1955</div><div class="ev">España entra en la <b>ONU</b>.</div></div>
+<div class="row"><div class="yr">1959</div><div class="ev"><b>Plan de Estabilización</b>: se abandona la autarquía. Se funda <b>ETA</b>.</div></div>
+<div class="row"><div class="yr">1962</div><div class="ev">Huelgas mineras en Asturias; nacen <b>Comisiones Obreras</b>. Fraga, ministro de Información y Turismo.</div></div>
+<div class="row"><div class="yr">1962–65</div><div class="ev"><b>Concilio Vaticano II</b>: la Iglesia universal cambia y una parte del clero español se distancia del régimen.</div></div>
+<div class="row"><div class="yr">1964</div><div class="ev">Primer <b>Plan de Desarrollo</b> y campaña «XXV Años de Paz».</div></div>
+<div class="row"><div class="yr">1966</div><div class="ev"><b>Ley de Prensa</b> de Fraga: apertura limitada. Ley Orgánica del Estado.</div></div>
+<div class="row"><div class="yr">1968</div><div class="ev">ETA comete su primer asesinato premeditado: el comisario <b>Melitón Manzanas</b>.</div></div>
+<div class="row"><div class="yr">1969</div><div class="ev">Juan Carlos es designado <b>sucesor</b> a título de rey. Estado de excepción.</div></div>
+<div class="row"><div class="yr">1970</div><div class="ev"><b>Proceso de Burgos</b>: consejo de guerra contra militantes de ETA; protestas internacionales.</div></div>
+<div class="row"><div class="yr">1973</div><div class="ev">ETA asesina al almirante <b>Carrero Blanco</b>, presidente del Gobierno.</div></div>
+<div class="row"><div class="yr">1975</div><div class="ev">Últimas ejecuciones del régimen en septiembre. Franco muere el 20 de noviembre.</div></div>
+</div>
+<h3>Conceptos clave — y por qué importan en el examen</h3><div class="cgrid">
+<div class="cc"><div class="es">el desarrollismo</div><div class="en">the development boom</div><p class="why">El modelo de los años sesenta: crecer deprisa sin tocar la política. Es <b>el</b> término del periodo.</p></div>
+<div class="cc"><div class="es">el Plan de Estabilización (1959)</div><div class="en">the Stabilisation Plan</div><p class="why">Devaluación, recorte del gasto, apertura a la inversión extranjera. Marca el final de la autarquía.</p></div>
+<div class="cc"><div class="es">los tecnócratas</div><div class="en">the technocrats</div><p class="why">Ministros ligados al Opus Dei —López Rodó, Ullastres, Navarro Rubio— que sustituyen a los falangistas. Gobiernan con cifras, no con ideología.</p></div>
+<div class="cc"><div class="es">el éxodo rural</div><div class="en">the rural exodus</div><p class="why">Millones de personas dejan el campo por Madrid, Barcelona y Bilbao. Cambia la cara del país.</p></div>
+<div class="cc"><div class="es">las remesas</div><div class="en">remittances</div><p class="why">El dinero que mandan a casa cerca de dos millones de emigrantes en Alemania, Francia y Suiza. Junto al turismo, paga el milagro.</p></div>
+<div class="cc"><div class="es">el turismo de masas</div><div class="en">mass tourism</div><p class="why">Más de treinta millones de visitantes al año a principios de los setenta. Trae divisas… y bikinis, es decir, otras costumbres.</p></div>
+<div class="cc"><div class="es">la apertura</div><div class="en">the (limited) opening-up</div><p class="why">Palabra del régimen para sus reformas. Cuidado: en el examen conviene calificarla — <em>una apertura más económica que política</em>.</p></div>
+<div class="cc"><div class="es">el estado de excepción</div><div class="en">the state of emergency</div><p class="why">Suspensión de garantías, decretada en 1969 y 1970. La prueba de que la represión no se relajó.</p></div>
+<div class="cc"><div class="es">el tardofranquismo</div><div class="en">the late Franco period</div><p class="why">Los últimos años: un régimen que crece por fuera y se descompone por dentro.</p></div>
+</div>
+<section class="task">
+<div class="sechead"><h2>1 · Léxico del desarrollismo</h2><span class="secscore"></span></div>
+<div class="aim">Traduce al inglés. Es vocabulario económico y social: aparece en los textos de Paper 1 sobre los años sesenta.</div>
+<table class="vocab">
+<tr><td class="es">el desarrollismo</td><td><input type="text" data-a="the development boom|developmentalism|the economic boom" data-q="1 · Léxico del desarrollismo — el desarrollismo" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">el éxodo rural</td><td><input type="text" data-a="the rural exodus|rural exodus|migration from the countryside" data-q="1 · Léxico del desarrollismo — el éxodo rural" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">las remesas</td><td><input type="text" data-a="remittances|the remittances|money sent home" data-q="1 · Léxico del desarrollismo — las remesas" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">la mano de obra</td><td><input type="text" data-a="the workforce|labour|manpower|the labour force" data-q="1 · Léxico del desarrollismo — la mano de obra" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">las divisas</td><td><input type="text" data-a="foreign currency|foreign exchange|hard currency" data-q="1 · Léxico del desarrollismo — las divisas" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">la apertura</td><td><input type="text" data-a="the opening up|opening-up|liberalisation" data-q="1 · Léxico del desarrollismo — la apertura" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">el nivel de vida</td><td><input type="text" data-a="the standard of living|standard of living" data-q="1 · Léxico del desarrollismo — el nivel de vida" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">la huelga</td><td><input type="text" data-a="the strike|strike" data-q="1 · Léxico del desarrollismo — la huelga" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">el atentado</td><td><input type="text" data-a="the attack|the terrorist attack|attack|bombing" data-q="1 · Léxico del desarrollismo — el atentado" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">el sindicato</td><td><input type="text" data-a="the trade union|trade union|the union" data-q="1 · Léxico del desarrollismo — el sindicato" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">la clase media</td><td><input type="text" data-a="the middle class|middle class" data-q="1 · Léxico del desarrollismo — la clase media" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">el estado de excepción</td><td><input type="text" data-a="the state of emergency|state of emergency|state of exception" data-q="1 · Léxico del desarrollismo — el estado de excepción" autocomplete="off" spellcheck="false"></td></tr>
+</table>
+<button type="button" class="checkone">Corregir esta sección</button>
+<div class="stretch">Desafío A*: escribe una frase que <b>encadene</b> tres de estas palabras en una relación de causa: <em>El éxodo rural llenó las ciudades, lo que a su vez…</em></div>
+</section>
+<section class="task">
+<div class="sechead"><h2>2 · Lectura: crecer sin abrir la mano</h2></div>
+<div class="aim">Este texto contiene la paradoja entera del periodo. Subraya en un color los datos económicos y en otro los de represión.</div>
+<div class="psg"><p>En 1959 el régimen se dio cuenta de que la autarquía había fracasado: España estaba al borde de la
+quiebra. El <b>Plan de Estabilización</b> devaluó la peseta, recortó el gasto público y abrió el país a la
+inversión extranjera. Los falangistas dejaron paso a los <b>tecnócratas</b>, ministros vinculados al Opus
+Dei que prometían gestionar la economía como se gestiona una empresa.</p>
+
+<p>Funcionó. Entre 1961 y 1973 la economía española creció a un ritmo cercano al siete por ciento anual, solo
+superado en el mundo por Japón. Tres motores lo hicieron posible y ninguno de los tres era propiamente
+español: la <b>inversión extranjera</b>, las <b>remesas</b> de casi dos millones de emigrantes que trabajaban
+en Alemania, Francia y Suiza, y el <b>turismo de masas</b>, que a principios de los setenta traía más de
+treinta millones de visitantes al año. El campo se vació —el <em>éxodo rural</em> llenó los suburbios de
+Madrid, Barcelona y Bilbao— y apareció algo que España casi no había tenido: una <b>clase media urbana</b>
+con nevera, televisor y un SEAT 600 en la puerta.</p>
+
+<p>Pero el crecimiento no vino acompañado de libertad. La <b>Ley de Prensa de 1966</b> suprimió la censura
+previa y el régimen la presentó como una <em>apertura</em>; en la práctica, el periodista seguía exponiéndose
+a multas y al secuestro de la edición, de modo que la censura pasó de la mesa del funcionario a la cabeza del
+redactor. Los sindicatos seguían prohibidos, aunque desde las huelgas mineras de Asturias de 1962 las
+<b>Comisiones Obreras</b> se organizaban en la clandestinidad. El gobierno decretó el <b>estado de
+excepción</b> en 1969 y de nuevo en 1970, y en septiembre de 1975, dos meses antes de morir Franco, el
+régimen todavía fusiló a cinco condenados pese a las protestas de media Europa.</p>
+
+<p>Mientras tanto, dos apoyos históricos del régimen se movían. La <b>Iglesia</b>, tras el Concilio Vaticano
+II, dejó de ser un bloque: aparecieron curas obreros, homilías en catalán y vasco, y una cárcel especial para
+sacerdotes en Zamora; en 1971 los obispos llegaron a pedir perdón por el papel de la Iglesia en la guerra. No
+fue la Iglesia la que abandonó a los españoles, sino una parte de la Iglesia la que abandonó al régimen. Y en
+el País Vasco, <b>ETA</b>, fundada en 1959, pasó a la acción: mató por primera vez de forma premeditada en
+1968, fue juzgada en el <b>Proceso de Burgos</b> de 1970 —que convirtió a los acusados en símbolos
+internacionales— y en diciembre de 1973 hizo volar el coche del almirante <b>Carrero Blanco</b>, el hombre
+que debía garantizar la continuidad del franquismo sin Franco.</p>
+
+<p>De ahí la conclusión que suele pedirse en el examen: el desarrollismo modernizó la economía y la sociedad
+españolas, pero no el Estado. Y fue justamente esa nueva clase media, más rica, más urbana y más viajada, la
+que unos años después exigiría la democracia.</p></div>
+<div class="gl"><div><b>al borde de la quiebra</b> — on the verge of bankruptcy</div><div><b>el suburbio</b> — the (poor) outskirts, shanty area</div><div><b>el secuestro de la edición</b> — the seizure of the print run</div><div><b>la clandestinidad</b> — the underground</div><div><b>pese a</b> — despite</div><div><b>la homilía</b> — the sermon</div></div>
+</section>
+<section class="task">
+<div class="sechead"><h2>3 · Las fechas y los nombres (Paper 1)</h2><span class="secscore"></span></div>
+<div class="aim">Completa. En Paper 3 una fecha exacta vale más que tres adjetivos.</div>
+<div class="scaf">Andamiaje: si dudas entre dos años, sitúalos: la apertura económica es <b>1959</b>; la de prensa, <b>1966</b>.</div>
+<ol class="qs">
+<li><div class="qtxt">El <input type="text" data-a="Plan" data-q="3 · Las fechas y los nombres (Paper 1) — 1" autocomplete="off" spellcheck="false"> de Estabilización de 1959 puso fin a la autarquía.</div></li>
+<li><div class="qtxt">Los ministros ligados al Opus Dei que dirigieron la economía se conocen como los <input type="text" data-a="tecnócratas|los tecnócratas" data-q="3 · Las fechas y los nombres (Paper 1) — 2" autocomplete="off" spellcheck="false">.</div></li>
+<li><div class="qtxt">La Ley de Prensa de <input type="text" data-a="1966" data-q="3 · Las fechas y los nombres (Paper 1) — 3" autocomplete="off" spellcheck="false"> suprimió la censura previa pero mantuvo las multas.<span class="hint">año</span></div></li>
+<li><div class="qtxt">Casi dos millones de españoles emigraron a Europa y enviaban <input type="text" data-a="remesas|las remesas" data-q="3 · Las fechas y los nombres (Paper 1) — 4" autocomplete="off" spellcheck="false"> a sus familias.</div></li>
+<li><div class="qtxt">En 1970 el <input type="text" data-a="Proceso|proceso" data-q="3 · Las fechas y los nombres (Paper 1) — 5" autocomplete="off" spellcheck="false"> de Burgos juzgó a militantes de ETA y provocó protestas internacionales.</div></li>
+<li><div class="qtxt">En diciembre de 1973 ETA asesinó al almirante <input type="text" data-a="Carrero" data-q="3 · Las fechas y los nombres (Paper 1) — 6" autocomplete="off" spellcheck="false"> Blanco.</div></li>
+<li><div class="qtxt">El Concilio <input type="text" data-a="Vaticano" data-q="3 · Las fechas y los nombres (Paper 1) — 7" autocomplete="off" spellcheck="false"> II cambió la relación entre la Iglesia y el régimen.</div></li>
+<li><div class="qtxt">En 1969 Franco designó como sucesor a título de rey a <input type="text" data-a="Juan Carlos|Juan Carlos I|don Juan Carlos" data-q="3 · Las fechas y los nombres (Paper 1) — 8" autocomplete="off" spellcheck="false">.</div></li>
+</ol>
+<button type="button" class="checkone">Corregir esta sección</button>
+<div class="stretch">Desafío A*: ordena de memoria estos cinco hitos y explica en una frase la relación causal entre dos de ellos.</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>4 · Entender la paradoja</h2><span class="secscore"></span></div>
+<div class="aim">Elige la opción que mejor recoge el argumento del texto, no solo el dato.</div>
+<div class="scaf">Pregúntate siempre: ¿esta opción es <em>verdadera</em> pero <em>irrelevante</em>? En Paper 1 ese es el distractor típico.</div>
+<div class="mcq" data-mcq="B" data-q="El «milagro español» se apoyó sobre todo en…">
+<div class="q">1. El «milagro español» se apoyó sobre todo en…</div>
+<label><input type="radio" name="m3_0" value="A"> <b>A.</b> la industria pesada creada durante la autarquía</label>
+<label><input type="radio" name="m3_0" value="B"> <b>B.</b> la inversión extranjera, las remesas y el turismo</label>
+<label><input type="radio" name="m3_0" value="C"> <b>C.</b> los créditos del Plan Marshall</label>
+<label><input type="radio" name="m3_0" value="D"> <b>D.</b> la exportación de productos agrícolas a América Latina</label>
+</div>
+<div class="mcq" data-mcq="B" data-q="La Ley de Prensa de 1966 supuso…">
+<div class="q">2. La Ley de Prensa de 1966 supuso…</div>
+<label><input type="radio" name="m3_1" value="A"> <b>A.</b> el fin real de la censura</label>
+<label><input type="radio" name="m3_1" value="B"> <b>B.</b> una apertura limitada, con autocensura y sanciones</label>
+<label><input type="radio" name="m3_1" value="C"> <b>C.</b> el cierre de los periódicos católicos</label>
+<label><input type="radio" name="m3_1" value="D"> <b>D.</b> la creación del NO-DO</label>
+</div>
+<div class="mcq" data-mcq="C" data-q="El texto sostiene que, respecto a la Iglesia,…">
+<div class="q">3. El texto sostiene que, respecto a la Iglesia,…</div>
+<label><input type="radio" name="m3_2" value="A"> <b>A.</b> la Iglesia entera rompió con el régimen en 1962</label>
+<label><input type="radio" name="m3_2" value="B"> <b>B.</b> el régimen expulsó a la Iglesia del Estado</label>
+<label><input type="radio" name="m3_2" value="C"> <b>C.</b> una parte de la Iglesia se distanció del régimen, no al revés</label>
+<label><input type="radio" name="m3_2" value="D"> <b>D.</b> la Iglesia no cambió en absoluto durante el periodo</label>
+</div>
+<div class="mcq" data-mcq="B" data-q="El asesinato de Carrero Blanco fue decisivo porque…">
+<div class="q">4. El asesinato de Carrero Blanco fue decisivo porque…</div>
+<label><input type="radio" name="m3_3" value="A"> <b>A.</b> provocó la caída inmediata del régimen</label>
+<label><input type="radio" name="m3_3" value="B"> <b>B.</b> eliminó al hombre que debía asegurar la continuidad sin Franco</label>
+<label><input type="radio" name="m3_3" value="C"> <b>C.</b> obligó a Franco a nombrar sucesor</label>
+<label><input type="radio" name="m3_3" value="D"> <b>D.</b> puso fin a la actividad de ETA</label>
+</div>
+<div class="mcq" data-mcq="C" data-q="El estado de excepción de 1969 y 1970 demuestra que…">
+<div class="q">5. El estado de excepción de 1969 y 1970 demuestra que…</div>
+<label><input type="radio" name="m3_4" value="A"> <b>A.</b> la represión se relajó al mismo ritmo que crecía la economía</label>
+<label><input type="radio" name="m3_4" value="B"> <b>B.</b> el régimen ya era una democracia imperfecta</label>
+<label><input type="radio" name="m3_4" value="C"> <b>C.</b> la apertura económica no fue acompañada de apertura política</label>
+<label><input type="radio" name="m3_4" value="D"> <b>D.</b> las huelgas habían desaparecido</label>
+</div>
+<div class="mcq" data-mcq="A" data-q="La conclusión del texto sobre el desarrollismo es que…">
+<div class="q">6. La conclusión del texto sobre el desarrollismo es que…</div>
+<label><input type="radio" name="m3_5" value="A"> <b>A.</b> modernizó la economía y la sociedad, pero no el Estado</label>
+<label><input type="radio" name="m3_5" value="B"> <b>B.</b> fracasó por completo</label>
+<label><input type="radio" name="m3_5" value="C"> <b>C.</b> hizo innecesaria la democracia</label>
+<label><input type="radio" name="m3_5" value="D"> <b>D.</b> fue obra exclusiva de los tecnócratas</label>
+</div>
+<button type="button" class="checkone">Corregir esta sección</button>
+<div class="stretch">Desafío A*: reescribe la opción correcta de la pregunta 1 empezando por «No tanto… cuanto…».</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>5 · Gramática: contar el pasado (indefinido / imperfecto)</h2><span class="secscore"></span></div>
+<div class="aim">Escribe el verbo en el tiempo correcto. Es la decisión gramatical que más marcas cuesta en este tema.</div>
+<div class="scaf">Truco: si puedes poner una fecha exacta delante, casi siempre es <b>indefinido</b>. Si puedes poner «entonces» o «en aquella época», es <b>imperfecto</b>.</div>
+<div class="bank">Indefinido = un hecho puntual y cerrado · Imperfecto = un estado, una costumbre o el decorado de fondo</div>
+<ol class="qs">
+<li><div class="qtxt">En 1959 el gobierno <input type="text" data-a="aprobó" data-q="5 · Gramática: contar el pasado (indefinido / imperfecto) — 1" autocomplete="off" spellcheck="false"> (aprobar) el Plan de Estabilización.<span class="hint">indefinido</span></div></li>
+<li><div class="qtxt">Durante los años sesenta muchas familias <input type="text" data-a="emigraban|emigraron" data-q="5 · Gramática: contar el pasado (indefinido / imperfecto) — 2" autocomplete="off" spellcheck="false"> (emigrar) a Alemania.<span class="hint">costumbre repetida</span></div></li>
+<li><div class="qtxt">El campo se <input type="text" data-a="vaciaba|vació" data-q="5 · Gramática: contar el pasado (indefinido / imperfecto) — 3" autocomplete="off" spellcheck="false"> (vaciar) mientras las ciudades crecían.</div></li>
+<li><div class="qtxt">ETA <input type="text" data-a="cometió" data-q="5 · Gramática: contar el pasado (indefinido / imperfecto) — 4" autocomplete="off" spellcheck="false"> (cometer) su primer asesinato premeditado en 1968.<span class="hint">fecha exacta</span></div></li>
+<li><div class="qtxt">Antes de 1959 España <input type="text" data-a="vivía" data-q="5 · Gramática: contar el pasado (indefinido / imperfecto) — 5" autocomplete="off" spellcheck="false"> (vivir) aislada del resto de Europa.<span class="hint">estado de fondo</span></div></li>
+<li><div class="qtxt">El Proceso de Burgos <input type="text" data-a="provocó" data-q="5 · Gramática: contar el pasado (indefinido / imperfecto) — 6" autocomplete="off" spellcheck="false"> (provocar) protestas en toda Europa.</div></li>
+<li><div class="qtxt">Los sindicatos <input type="text" data-a="estaban" data-q="5 · Gramática: contar el pasado (indefinido / imperfecto) — 7" autocomplete="off" spellcheck="false"> (estar) prohibidos, pero CCOO se organizaba en la clandestinidad.</div></li>
+<li><div class="qtxt">Franco <input type="text" data-a="murió" data-q="5 · Gramática: contar el pasado (indefinido / imperfecto) — 8" autocomplete="off" spellcheck="false"> (morir) el 20 de noviembre de 1975.</div></li>
+</ol>
+<button type="button" class="checkone">Corregir esta sección</button>
+<div class="stretch">Desafío A*: transforma tres de estas frases al <b>pluscuamperfecto</b> para explicar lo que ya había ocurrido antes: <em>Cuando llegó el turismo, la autarquía ya había fracasado.</em></div>
+</section>
+<section class="task">
+<div class="sechead"><h2>6 · Traducción al inglés (Paper 1, Sección C)</h2><span class="secscore"></span></div>
+<div class="aim">Traduce el párrafo. Cuidado con «apertura», con la pasiva refleja y con las cifras.</div>
+<ol class="qs">
+<li><div class="qtxt">Entre 1961 y 1973 la economía española creció casi un siete por ciento anual, gracias a la inversión extranjera, al turismo y al dinero que enviaban los emigrantes. Sin embargo, aquella prosperidad no trajo libertad: los sindicatos seguían prohibidos y el gobierno declaró el estado de excepción en dos ocasiones. Se suele decir que el régimen modernizó la economía sin modernizar el Estado.</div>
+<textarea rows="5" data-open="o5_0" data-q="Entre 1961 y 1973 la economía española creció casi un siete por ciento anual, gracias a la inversión extranjera, al turismo y al dinero que enviaban los emigrantes. Sin embargo, aquella prosperidad no trajo libertad: los sindicatos seguían prohibidos y el gobierno declaró el estado de excepción en dos ocasiones. Se suele decir que el régimen modernizó la economía sin modernizar el Estado." data-model="Between 1961 and 1973 the Spanish economy grew by almost seven per cent a year, thanks to foreign investment, tourism and the money sent home by emigrants. However, that prosperity did not bring freedom: trade unions were still banned and the government declared a state of emergency on two occasions. It is often said that the regime modernised the economy without modernising the state."></textarea>
+<button type="button" class="reveal" data-t="mo_o5_0" data-on="Ver la respuesta modelo" data-off="Ocultar el modelo">Ver la respuesta modelo</button>
+<div class="model" id="mo_o5_0"><b>Modelo:</b> Between 1961 and 1973 the Spanish economy grew by almost seven per cent a year, thanks to foreign investment, tourism and the money sent home by emigrants. However, that prosperity did not bring freedom: trade unions were still banned and the government declared a state of emergency on two occasions. It is often said that the regime modernised the economy without modernising the state.</div>
+<div class="selfrow">Autoevaluación (de 5): <input type="text" data-self="o5_0" inputmode="numeric" placeholder="p. ej. 4"> <span>— compárate con el modelo, no con lo que querías decir.</span></div>
+</li>
+</ol>
+<div class="stretch">Desafío A*: sustituye «pero» por «si bien» o «aunque» en tu versión española antes de traducir, y comprueba cómo cambia el registro.</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>7 · La pregunta de ensayo</h2><span class="secscore"></span></div>
+<div class="aim">Escribe un párrafo de unas 90 palabras. Después compáralo con el modelo y anota qué te faltó.</div>
+<div class="scaf">Estructura: <b>tesis</b> (una frase) → <b>prueba</b> (un dato con fecha) → <b>matiz</b> (lo que no encaja) → <b>conclusión</b>.</div>
+<ol class="qs">
+<li><div class="qtxt">«Franco modernizó España.» ¿Hasta qué punto estás de acuerdo?</div>
+<textarea rows="3" data-open="o6_0" data-q="«Franco modernizó España.» ¿Hasta qué punto estás de acuerdo?" data-model="Es cierto que la economía se transformó: tras el Plan de Estabilización de 1959, España creció cerca de un siete por ciento anual hasta 1973 y apareció una clase media urbana. Ahora bien, esa modernización fue material y no política. Por mucho que aumentara el nivel de vida, los sindicatos seguían prohibidos, la prensa vivía bajo autocensura desde 1966 y el régimen decretó dos estados de excepción. De hecho, la paradoja es que fue esa nueva clase media, más urbana y más viajada, la que acabó exigiendo la democracia que el régimen le negaba."></textarea>
+<button type="button" class="reveal" data-t="mo_o6_0" data-on="Ver la respuesta modelo" data-off="Ocultar el modelo">Ver la respuesta modelo</button>
+<div class="model" id="mo_o6_0"><b>Modelo:</b> Es cierto que la economía se transformó: tras el Plan de Estabilización de 1959, España creció cerca de un siete por ciento anual hasta 1973 y apareció una clase media urbana. Ahora bien, esa modernización fue material y no política. Por mucho que aumentara el nivel de vida, los sindicatos seguían prohibidos, la prensa vivía bajo autocensura desde 1966 y el régimen decretó dos estados de excepción. De hecho, la paradoja es que fue esa nueva clase media, más urbana y más viajada, la que acabó exigiendo la democracia que el régimen le negaba.</div>
+<div class="selfrow">Autoevaluación (de 5): <input type="text" data-self="o6_0" inputmode="numeric" placeholder="p. ej. 4"> <span>— compárate con el modelo, no con lo que querías decir.</span></div>
+</li>
+</ol>
+<div class="stretch">Desafío A*: incluye una concesiva con subjuntivo («por mucho que creciera la economía…») y una cifra exacta.</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>8 · Paper 3: el debate del desarrollismo</h2></div>
+<div class="aim">La pregunta clásica del periodo. Prepara los dos lados: el examinador te llevará al contrario del que elijas.</div>
+<div class="scaf">Frases de apoyo: <em>Conviene distinguir entre modernización económica y modernización política.</em> · <em>Si bien es verdad que…, no lo es menos que…</em> · <em>El dato que lo demuestra es…</em></div>
+<div class="speakq"><div class="q">1. ¿Modernizó Franco España, o se modernizó España a pesar de Franco?</div><textarea rows="3" data-open="s7_0" data-q="¿Modernizó Franco España, o se modernizó España a pesar de Franco?" data-model="" placeholder="Tus apuntes: idea principal, un dato con fecha, un ejemplo."></textarea></div>
+<div class="speakq"><div class="q">2. ¿Por qué crees que el régimen permitió el turismo de masas si traía costumbres extranjeras?</div><textarea rows="3" data-open="s7_1" data-q="¿Por qué crees que el régimen permitió el turismo de masas si traía costumbres extranjeras?" data-model="" placeholder="Tus apuntes: idea principal, un dato con fecha, un ejemplo."></textarea></div>
+<div class="speakq"><div class="q">3. ¿Qué significó para una familia española tener un SEAT 600 y un televisor?</div><textarea rows="3" data-open="s7_2" data-q="¿Qué significó para una familia española tener un SEAT 600 y un televisor?" data-model="" placeholder="Tus apuntes: idea principal, un dato con fecha, un ejemplo."></textarea></div>
+<div class="speakq"><div class="q">4. ¿Por qué se distanció una parte de la Iglesia del régimen en los años sesenta?</div><textarea rows="3" data-open="s7_3" data-q="¿Por qué se distanció una parte de la Iglesia del régimen en los años sesenta?" data-model="" placeholder="Tus apuntes: idea principal, un dato con fecha, un ejemplo."></textarea></div>
+<div class="speakq"><div class="q">5. ¿Fue el asesinato de Carrero Blanco el principio del fin del franquismo?</div><textarea rows="3" data-open="s7_4" data-q="¿Fue el asesinato de Carrero Blanco el principio del fin del franquismo?" data-model="" placeholder="Tus apuntes: idea principal, un dato con fecha, un ejemplo."></textarea></div>
+<div class="stretch">Desafío A*: sostén durante un minuto la tesis con la que <b>no</b> estás de acuerdo. Es el mejor entrenamiento para la parte de discusión.</div>
+</section>
+</main>
+<footer class="site">Unidad 11 · El franquismo · BBA Sixth Form. Todo funciona en el navegador, sin conexión y sin registro. Descarga tus respuestas y súbelas a Teams.</footer>
+
+<div class="dock">
+  <div class="bar">
+    <input id="nom" type="text" placeholder="Tu nombre" autocomplete="off" aria-label="Tu nombre">
+    <div id="pad"></div>
+    <div class="acts">
+      <button type="button" id="btnCheck">Corregir todo</button>
+      <button type="button" id="btnDl">Descargar</button>
+      <button type="button" id="btnReset">Borrar</button>
+    </div>
+  </div>
+  <div class="score"><div class="track"><i id="scoreBar"></i></div><span id="scoreTxt">0 / 0</span></div>
+  <div id="dockMsg">Escribe tu nombre, corrige y descarga el CSV para tu profesor.</div>
+</div>
+<script>
+/* Unit 11 · Franquismo — shared activity engine
+   Tolerant marking (Edexcel accent/typo rules), accent pad, blob download. */
+(function(){
+"use strict";
+var PAD  = ["á","é","í","ó","ú","ü","ñ","¿","¡"];
+var PADU = ["Á","É","Í","Ó","Ú","Ü","Ñ","¿","¡"];
+
+/* ---------------------------------------------------------------- marking */
+function deacc(s){ return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").normalize("NFC"); }
+function keep(s){ return String(s||"").toLowerCase().replace(/[’‘`´]/g,"'")
+  .replace(/[«»“”"]/g,"").replace(/[.,;:!?¿¡()\[\]]/g,"").replace(/\s+/g," ").trim(); }
+function norm(s){ return deacc(keep(s)); }
+function lev(a,b){
+  if(a===b) return 0;
+  var m=a.length,n=b.length,i,j,prev,tmp,row=[];
+  if(!m) return n; if(!n) return m;
+  for(j=0;j<=n;j++) row[j]=j;
+  for(i=1;i<=m;i++){ prev=row[0]; row[0]=i;
+    for(j=1;j<=n;j++){ tmp=row[j];
+      row[j]=Math.min(row[j]+1,row[j-1]+1,prev+(a.charAt(i-1)===b.charAt(j-1)?0:1)); prev=tmp; } }
+  return row[n];
+}
+function accentIsGrammatical(g,w){
+  g=keep(g); w=keep(w);
+  if(/[áéíóú]$/.test(w)!==/[áéíóú]$/.test(g)) return true;
+  if(/í(a|as|an|amos|ais)$/.test(w)!==/í(a|as|an|amos|ais)$/.test(g)) return true;
+  if(/^(si|sí|el|él|tu|tú|mi|mí|te|té|mas|más|se|sé|de|dé|solo|sólo|aun|aún|que|qué|como|cómo|cuando|cuándo|donde|dónde)$/.test(w) && w!==g) return true;
+  if((w.indexOf("ñ")>=0)!==(g.indexOf("ñ")>=0)) return true;
+  return false;
+}
+function typoOnly(g,w){
+  var A=g.split(" "), B=w.split(" "), slips=0, i, a, b;
+  if(A.length!==B.length) return false;
+  for(i=0;i<A.length;i++){
+    a=A[i]; b=B[i];
+    if(a===b) continue;
+    if(b.length<5) return false;
+    if(a.slice(-2)!==b.slice(-2)) return false;
+    if(lev(a.slice(0,-2),b.slice(0,-2))>1) return false;
+    if(++slips>1) return false;
+  }
+  return slips===1;
+}
+function judge(given, expected){
+  var wants=String(expected).split(/\s*\|\s*/).filter(Boolean), best=null, i, w;
+  if(!keep(given)) return {code:"empty", note:"Sin responder.", want:wants[0]};
+  for(i=0;i<wants.length;i++){
+    w=wants[i];
+    if(keep(given)===keep(w)) return {code:"ok", note:"Correcto.", want:w};
+    if(norm(given)===norm(w)){
+      if(accentIsGrammatical(given,w)){ if(!best) best={code:"no",note:"La tilde cambia la palabra o el tiempo verbal: tiene que ser exacta.",want:w}; continue; }
+      return {code:"accent", note:"Falta una tilde — aquí no se penaliza, pero corrígela.", want:w};
+    }
+    if(typoOnly(norm(given),norm(w)) && (!best||best.code==="no")) best={code:"typo",note:"Errata tolerada — la terminación es correcta.",want:w};
+  }
+  return best || {code:"no", note:"Todavía no.", want:wants[0]};
+}
+
+/* ------------------------------------------------------------------- util */
+function $(s,r){ return (r||document).querySelector(s); }
+function $$(s,r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); }
+var LABEL={ok:"Correcto",accent:"Aceptado (tilde)",typo:"Aceptado (errata)",no:"Incorrecto",empty:"Sin responder"};
+
+/* ------------------------------------------------------------- accent pad */
+var last=null;
+document.addEventListener("focusin",function(e){
+  var el=e.target;
+  if(el && !el.closest(".dock") && (el.tagName==="TEXTAREA"||(el.tagName==="INPUT"&&/^(text|search|)$/i.test(el.type)))) last=el;
+});
+function insert(ch){
+  var el=last||$("input[type=text],textarea");
+  if(!el) return;
+  el.focus();
+  var s=el.selectionStart,e=el.selectionEnd;
+  if(typeof s==="number"){ el.value=el.value.slice(0,s)+ch+el.value.slice(e); el.selectionStart=el.selectionEnd=s+ch.length; }
+  else el.value+=ch;
+  el.dispatchEvent(new Event("input",{bubbles:true}));
+}
+function buildPad(host){
+  var up=false, keys=[];
+  var sh=document.createElement("button");
+  sh.type="button"; sh.className="k shift"; sh.textContent="ABC"; sh.title="Mayúsculas";
+  sh.onclick=function(){ up=!up; sh.classList.toggle("on",up); keys.forEach(function(o){ o.b.textContent=up?o.U:o.l; }); };
+  host.appendChild(sh);
+  PAD.forEach(function(ch,i){
+    var b=document.createElement("button");
+    b.type="button"; b.className="k"; b.textContent=ch; b.setAttribute("aria-label",ch);
+    b.onmousedown=function(ev){ ev.preventDefault(); };
+    b.onclick=function(){ insert(up?PADU[i]:ch); };
+    keys.push({b:b,l:ch,U:PADU[i]}); host.appendChild(b);
+  });
+}
+
+/* --------------------------------------------------------------- checking */
+function tip(el, v){
+  var old=el.parentNode.querySelector(".fb");
+  if(old) old.remove();
+  el.classList.remove("ok","warn","bad");
+  if(v.code==="empty") return;
+  el.classList.add(v.code==="ok"?"ok":(v.code==="no"?"bad":"warn"));
+  if(v.code==="ok") return;
+  var s=document.createElement("small");
+  s.className="fb"+(v.code==="no"?" bad":"");
+  s.textContent=v.note+(v.code==="no"?"  →  "+v.want:"");
+  el.parentNode.insertBefore(s, el.nextSibling);
+}
+function checkSection(sec){
+  var done=0, tot=0;
+  $$("[data-a]", sec).forEach(function(el){
+    tot++;
+    var v=judge(el.value, el.getAttribute("data-a"));
+    tip(el,v);
+    if(v.code==="ok"||v.code==="accent"||v.code==="typo") done++;
+  });
+  $$("[data-mcq]", sec).forEach(function(g){
+    tot++;
+    var want=g.getAttribute("data-mcq");
+    var chosen=$$("input[type=radio]",g).filter(function(r){return r.checked;})[0];
+    g.classList.remove("ok","bad");
+    $$(".fb",g).forEach(function(n){n.remove();});
+    if(!chosen) return;
+    var right = chosen.value===want;
+    g.classList.add(right?"ok":"bad");
+    if(right){ done++; }
+    else {
+      var s=document.createElement("small"); s.className="fb bad";
+      s.textContent="La respuesta correcta es "+want+".";
+      g.appendChild(s);
+    }
+  });
+  var bar=$(".secscore", sec);
+  if(bar) bar.textContent=tot?(done+" / "+tot):"";
+  return {done:done, total:tot};
+}
+function checkAll(){
+  var d=0,t=0;
+  $$("section.task").forEach(function(s){ var r=checkSection(s); d+=r.done; t+=r.total; });
+  var pct=t?Math.round(100*d/t):0;
+  $("#scoreTxt").textContent=d+" / "+t;
+  $("#scoreBar").style.width=pct+"%";
+  return {done:d,total:t};
+}
+
+/* --------------------------------------------------------------- download */
+function cell(v){ return '"'+String(v==null?"":v).replace(/"/g,'""').replace(/\r?\n/g,"  ")+'"'; }
+function download(){
+  var name=$("#nom").value.trim();
+  var r=checkAll();
+  var d=new Date(), p=function(n){return (n<10?"0":"")+n;};
+  var stamp=d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate());
+  var L=[];
+  L.push([ "Alumno/a", name||"(sin nombre)" ].map(cell).join(","));
+  L.push([ "Actividad", document.title ].map(cell).join(","));
+  L.push([ "Fecha", stamp+" "+p(d.getHours())+":"+p(d.getMinutes()) ].map(cell).join(","));
+  L.push([ "Puntuación automática", r.done+" / "+r.total ].map(cell).join(","));
+  L.push("");
+  L.push(["Sección","Pregunta","Respuesta","Modelo","Resultado","Comentario"].map(cell).join(","));
+  $$("section.task").forEach(function(sec){
+    var title=$("h2",sec)?$("h2",sec).textContent.trim():"";
+    $$("[data-a]",sec).forEach(function(el){
+      var v=judge(el.value, el.getAttribute("data-a"));
+      L.push([title, el.getAttribute("data-q")||"", el.value, v.want, LABEL[v.code], v.note].map(cell).join(","));
+    });
+    $$("[data-mcq]",sec).forEach(function(g){
+      var want=g.getAttribute("data-mcq");
+      var ch=$$("input[type=radio]",g).filter(function(x){return x.checked;})[0];
+      var got=ch?ch.value:"";
+      L.push([title, g.getAttribute("data-q")||"", got, want,
+              got? (got===want?"Correcto":"Incorrecto") : "Sin responder", ""].map(cell).join(","));
+    });
+    $$("[data-open]",sec).forEach(function(el){
+      var self=sec.querySelector('[data-self="'+el.getAttribute("data-open")+'"]');
+      L.push([title, el.getAttribute("data-q")||"", el.value,
+              el.getAttribute("data-model")||"", self&&self.value?("Autoevaluación: "+self.value):"Para corregir por el profesor",
+              ""].map(cell).join(","));
+    });
+  });
+  var blob=new Blob(["﻿"+L.join("\r\n")],{type:"text/csv;charset=utf-8;"});
+  var a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(name?name+" - ":"")+document.title.replace(/[\\\/:*?"<>|]/g,"-")+" - "+stamp+".csv";
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },0);
+  if(!name) $("#dockMsg").textContent="Descargado — escribe tu nombre antes de enviarlo.";
+  else $("#dockMsg").textContent="Descargado para "+name+".";
+}
+
+/* ------------------------------------------------------------------- boot */
+function boot(){
+  buildPad($("#pad"));
+  $("#btnCheck").onclick=function(){ checkAll(); };
+  $("#btnDl").onclick=download;
+  $("#btnReset").onclick=function(){
+    if(!confirm("¿Borrar todas tus respuestas en esta página?")) return;
+    $$("input[type=text],textarea").forEach(function(e){ if(e.id!=="nom"){ e.value=""; e.classList.remove("ok","warn","bad"); } });
+    $$("input[type=radio]").forEach(function(e){ e.checked=false; });
+    $$(".fb").forEach(function(n){ n.remove(); });
+    $$("[data-mcq]").forEach(function(g){ g.classList.remove("ok","bad"); });
+    $$(".secscore").forEach(function(n){ n.textContent=""; });
+    $("#scoreTxt").textContent="0 / 0"; $("#scoreBar").style.width="0%";
+  };
+  $$("section.task").forEach(function(sec){
+    var b=$(".checkone",sec);
+    if(b) b.onclick=function(){ checkSection(sec); };
+  });
+  $$(".reveal").forEach(function(b){
+    b.onclick=function(){
+      var t=document.getElementById(b.getAttribute("data-t"));
+      var open=t.classList.toggle("show");
+      b.textContent=open?b.getAttribute("data-off"):b.getAttribute("data-on");
+    };
+  });
+  try{ $("#nom").value=localStorage.getItem("bba-name")||""; }catch(e){}
+  $("#nom").addEventListener("input",function(){ try{localStorage.setItem("bba-name",$("#nom").value.trim());}catch(e){} });
+  var dock=$(".dock");
+  function pack(){ document.body.style.paddingBottom=(dock.offsetHeight+16)+"px"; }
+  pack(); window.addEventListener("resize",pack);
+}
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",boot); else boot();
+})();
+</script>
+</body>
+</html>

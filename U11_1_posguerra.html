@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11.1 La posguerra: hambre, autarquía y represión</title>
+<style>
+:root{
+  --paper:#FBFAF6;--card:#FFF;--ink:#1A2440;--soft:#4A5570;--muted:#8A8F9E;
+  --accent:#C60B1E;--blue:#2B4C9B;--blue-pale:#EDF1FA;--green:#2E7D52;--green-pale:#EAF4EE;
+  --gold:#B8860B;--gold-pale:#FFF7E6;--line:#E5E2D8;--line2:#CFCBBD;
+  --serif:Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --shadow:0 1px 2px rgba(26,36,64,.06),0 4px 16px rgba(26,36,64,.05);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:3px}
+header.top{background:var(--card);border-bottom:3px solid var(--ink)}
+.top-in{max-width:940px;margin:0 auto;padding:22px 20px 18px}
+.kicker{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1{font-family:var(--serif);font-size:1.9rem;line-height:1.15;margin:6px 0 4px}
+.sub{color:var(--soft);font-size:.95rem;margin:0}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.pill{font-family:var(--mono);font-size:.66rem;letter-spacing:.07em;text-transform:uppercase;
+  border:1px solid var(--line2);border-radius:99px;padding:4px 11px;color:var(--soft)}
+.pill.hot{background:var(--ink);border-color:var(--ink);color:#fff}
+main{max-width:940px;margin:0 auto;padding:26px 20px 40px}
+.lede{font-size:1.02rem;color:var(--soft);max-width:66ch;margin:0 0 26px}
+h2{font-family:var(--serif);font-size:1.24rem;margin:0}
+h3{font-family:var(--serif);font-size:1.02rem;margin:22px 0 8px;color:var(--blue)}
+
+.tl{border-left:3px solid var(--accent);padding-left:16px;margin:0 0 30px}
+.tl .row{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:7px 0;border-bottom:1px solid var(--line)}
+.tl .row:last-child{border-bottom:none}
+.tl .yr{font-family:var(--mono);font-size:.78rem;font-weight:700;color:var(--accent);padding-top:2px}
+.tl .ev{font-size:.9rem;color:var(--soft)}
+
+.cgrid{display:grid;gap:11px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));margin-bottom:30px}
+.cc{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--blue);
+  border-radius:9px;padding:12px 14px;box-shadow:var(--shadow)}
+.cc .es{font-weight:700}
+.cc .en{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:2px 0 6px}
+.cc .why{font-size:.86rem;color:var(--soft);margin:0}
+
+section.task{background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:20px 22px;margin:0 0 20px;box-shadow:var(--shadow)}
+.sechead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.sechead .secscore{margin-left:auto;font-family:var(--mono);font-size:.78rem;color:var(--green);font-weight:700}
+.aim{background:var(--blue-pale);border-left:3px solid var(--blue);border-radius:0 7px 7px 0;
+  padding:10px 13px;margin:13px 0;font-size:.9rem}
+.aim b{color:var(--blue)}
+.scaf{background:var(--gold-pale);border:1px dashed var(--gold);border-radius:7px;padding:10px 13px;margin:12px 0;font-size:.87rem}
+.scaf::before{content:"Andamiaje ";font-family:var(--mono);font-size:.63rem;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--gold);font-weight:700;display:block;margin-bottom:3px}
+.stretch{background:var(--green-pale);border-left:3px solid var(--green);border-radius:0 7px 7px 0;
+  padding:10px 13px;margin:14px 0 0;font-size:.87rem}
+.bank{background:var(--paper);border:1px solid var(--line2);border-radius:7px;padding:9px 13px;
+  margin:12px 0;font-size:.88rem}
+.bank::before{content:"Banco ";font-family:var(--mono);font-size:.63rem;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted);font-weight:700;display:block}
+
+.psg{font-size:1rem;line-height:1.75}
+.psg p{margin:0 0 13px}
+.psg .src{font-size:.8rem;color:var(--muted)}
+.gl{display:grid;gap:5px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+  background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin-top:14px}
+.gl div{font-size:.83rem;color:var(--soft)}
+.gl b{color:var(--ink)}
+
+ol.qs{margin:0;padding-left:22px}
+ol.qs>li{margin:0 0 14px}
+.qtxt{margin-bottom:5px}
+input[type=text]{font-family:var(--sans);font-size:.97rem;border:1.5px solid var(--line2);border-radius:6px;
+  padding:6px 9px;background:#fff;color:var(--ink);min-width:150px}
+input[type=text].wide{width:100%;max-width:520px}
+input.ok{border-color:var(--green);background:var(--green-pale)}
+input.warn{border-color:var(--gold);background:var(--gold-pale)}
+input.bad{border-color:var(--accent);background:#FDEDEB}
+textarea{width:100%;font-family:var(--sans);font-size:.97rem;border:1.5px solid var(--line2);
+  border-radius:7px;padding:9px 11px;min-height:84px;resize:vertical;background:#fff;color:var(--ink)}
+.hint{font-family:var(--mono);font-size:.68rem;color:var(--muted);margin-left:7px}
+small.fb{display:block;font-size:.79rem;color:#7a5c00;margin-top:4px}
+small.fb.bad{color:#a5281b}
+
+table.vocab{width:100%;border-collapse:collapse}
+table.vocab td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.vocab td.es{font-weight:600;width:38%}
+table.vocab tr:last-child td{border-bottom:none}
+
+.mcq{border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin:0 0 12px;background:var(--paper)}
+.mcq.ok{border-color:var(--green);background:var(--green-pale)}
+.mcq.bad{border-color:var(--accent);background:#FDEDEB}
+.mcq .q{font-weight:600;margin-bottom:7px}
+.mcq label{display:block;font-size:.93rem;padding:3px 0;cursor:pointer}
+.mcq input{margin-right:8px}
+
+.model{display:none;background:var(--green-pale);border-left:3px solid var(--green);border-radius:0 7px 7px 0;
+  padding:10px 13px;margin-top:9px;font-size:.9rem}
+.model.show{display:block}
+button.reveal{font-family:var(--sans);font-size:.8rem;font-weight:600;border:1.5px solid var(--line2);
+  background:#fff;color:var(--soft);border-radius:7px;padding:5px 12px;cursor:pointer;margin-top:8px}
+button.reveal:hover{border-color:var(--green);color:var(--green)}
+button.checkone{font-family:var(--sans);font-size:.83rem;font-weight:600;border:1.5px solid var(--blue);
+  background:#fff;color:var(--blue);border-radius:7px;padding:6px 14px;cursor:pointer;margin-top:14px}
+button.checkone:hover{background:var(--blue-pale)}
+.selfrow{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:9px;font-size:.86rem;color:var(--soft)}
+.selfrow input{min-width:70px}
+
+.speakq{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin:0 0 11px}
+.speakq .q{font-weight:600;margin-bottom:6px}
+
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--ink);color:#fff;
+  box-shadow:0 -2px 14px rgba(0,0,0,.22)}
+.dock .bar{max-width:940px;margin:0 auto;padding:8px 16px;display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.dock input#nom{height:32px;border-radius:6px;border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.09);color:#fff;padding:0 10px;width:180px;font-size:.9rem}
+.dock input#nom::placeholder{color:rgba(255,255,255,.6)}
+#pad{display:flex;gap:4px;flex-wrap:wrap}
+#pad .k{min-width:32px;height:32px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.09);
+  color:#fff;border-radius:6px;font-size:16px;cursor:pointer;padding:0 6px}
+#pad .k:hover{background:rgba(255,255,255,.22)}
+#pad .k.shift{font-size:11.5px}
+#pad .k.shift.on{background:#fff;color:var(--ink);font-weight:700}
+.dock .acts{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.dock .acts button{height:32px;border:0;border-radius:6px;padding:0 14px;font-size:.82rem;font-weight:600;cursor:pointer}
+#btnCheck{background:#e8eefc;color:var(--ink)}
+#btnDl{background:var(--green);color:#fff}
+#btnReset{background:transparent;color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.28)}
+.dock .score{max-width:940px;margin:0 auto;padding:0 16px 8px;display:flex;gap:10px;align-items:center}
+.dock .track{flex:1;height:6px;background:rgba(255,255,255,.18);border-radius:4px;overflow:hidden}
+.dock .track i{display:block;height:100%;width:0;background:#5fd39a;transition:width .3s}
+.dock .score span{font-family:var(--mono);font-size:.75rem;color:#cfe0f5;min-width:64px;text-align:right}
+#dockMsg{max-width:940px;margin:0 auto;padding:0 16px 7px;font-size:.76rem;color:#cfe0f5}
+footer.site{max-width:940px;margin:0 auto;padding:8px 20px 30px;font-family:var(--mono);
+  font-size:.68rem;color:var(--muted)}
+@media (max-width:640px){
+  .tl .row{grid-template-columns:70px 1fr}
+  .dock input#nom{width:130px}
+  h1{font-size:1.5rem}
+}
+@media print{.dock,button{display:none!important}body{background:#fff;padding-bottom:0!important}
+  section.task{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+<div class="kicker">A-Level Spanish · Edexcel 9SP0 · Unidad 11 · El franquismo</div>
+<h1>La posguerra: hambre, autarquía y represión</h1>
+<p class="sub">The post-war years, 1939–1951 — hunger, autarky and repression</p>
+<div class="meta"><span class="pill hot">1939 – 1952</span><span class="pill">Paper 1 · Paper 3</span><span class="pill">Lección 11.1</span></div>
+</div></header>
+<main>
+<p class="lede">El régimen ganó la guerra en 1939, pero para la mayoría de los españoles los años peores fueron los que vinieron después. Esta página cubre los conceptos, el vocabulario y las fechas que necesitas para hablar y escribir sobre «los años del hambre».</p>
+<h3>La cronología que debes saber</h3><div class="tl">
+<div class="row"><div class="yr">1939</div><div class="ev">Fin de la guerra civil. Ley de Responsabilidades Políticas: se puede juzgar a alguien por lo que hizo <em>antes</em> de 1939. Unos 450.000 españoles marchan al exilio.</div></div>
+<div class="row"><div class="yr">1940</div><div class="ev">Se generaliza la <b>cartilla de racionamiento</b>. Empieza la <b>autarquía</b>: España intenta vivir de lo que produce.</div></div>
+<div class="row"><div class="yr">1946</div><div class="ev">La ONU condena al régimen y recomienda retirar a los embajadores. <b>Aislamiento internacional</b>.</div></div>
+<div class="row"><div class="yr">1947</div><div class="ev">Ley de Sucesión: España es «un reino», pero sin rey. Franco decidirá quién le sucede.</div></div>
+<div class="row"><div class="yr">1952</div><div class="ev">Se retira la cartilla de racionamiento. Empieza, muy despacio, la salida del hambre.</div></div>
+</div>
+<h3>Conceptos clave — y por qué importan en el examen</h3><div class="cgrid">
+<div class="cc"><div class="es">vencedores y vencidos</div><div class="en">winners and defeated</div><p class="why">La idea central del periodo. El régimen no se legitima por unas elecciones sino por haber ganado una guerra — y trata a la mitad del país como enemigo vencido.</p></div>
+<div class="cc"><div class="es">la autarquía</div><div class="en">self-sufficiency / autarky</div><p class="why">Política económica de vivir sin importaciones. Resultado: escasez, mercado negro y hambre. Es la causa económica de casi todo lo que lees en los textos del periodo.</p></div>
+<div class="cc"><div class="es">la cartilla de racionamiento</div><div class="en">the ration book</div><p class="why">1939–1952. El símbolo material de la posguerra: te dice cuánto pan, aceite o azúcar te toca.</p></div>
+<div class="cc"><div class="es">el estraperlo</div><div class="en">the black market</div><p class="why">Lo que la gente hacía para sobrevivir cuando la cartilla no bastaba. Delito castigado con «quincenas» de cárcel.</p></div>
+<div class="cc"><div class="es">el aislamiento internacional</div><div class="en">international isolation</div><p class="why">Sin Plan Marshall, sin ONU hasta 1955. Agrava el hambre y explica por qué la autarquía dura tanto.</p></div>
+<div class="cc"><div class="es">la represión</div><div class="en">repression</div><p class="why">Fusilamientos, cárceles, campos de concentración, depuración de maestros y funcionarios. No es un episodio: es el sistema.</p></div>
+<div class="cc"><div class="es">el maquis</div><div class="en">the anti-Franco guerrillas</div><p class="why">Resistencia armada en las montañas hasta los años cincuenta. Útil si te preguntan «¿hubo oposición?».</p></div>
+<div class="cc"><div class="es">la ley del silencio</div><div class="en">the unspoken rule of silence</div><p class="why">Las familias deciden no hablar de la guerra. Enlaza directamente con la lección 11.3 sobre la memoria histórica.</p></div>
+</div>
+<section class="task">
+<div class="sechead"><h2>1 · El vocabulario que hace falta</h2><span class="secscore"></span></div>
+<div class="aim">Escribe la traducción al inglés. Sin este léxico no se entiende ningún texto del periodo.</div>
+<table class="vocab">
+<tr><td class="es">la posguerra</td><td><input type="text" data-a="the post-war period|the post-war years|the postwar period" data-q="1 · El vocabulario que hace falta — la posguerra" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">la escasez</td><td><input type="text" data-a="shortage|scarcity|shortages" data-q="1 · El vocabulario que hace falta — la escasez" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">el hambre</td><td><input type="text" data-a="hunger|famine" data-q="1 · El vocabulario que hace falta — el hambre" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">la cartilla de racionamiento</td><td><input type="text" data-a="the ration book|ration book|ration card" data-q="1 · El vocabulario que hace falta — la cartilla de racionamiento" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">el estraperlo</td><td><input type="text" data-a="the black market|black market" data-q="1 · El vocabulario que hace falta — el estraperlo" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">los vencidos</td><td><input type="text" data-a="the defeated|the losers|the vanquished" data-q="1 · El vocabulario que hace falta — los vencidos" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">fusilar</td><td><input type="text" data-a="to shoot|to execute|to execute by firing squad|to shoot dead" data-q="1 · El vocabulario que hace falta — fusilar" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">las sobras</td><td><input type="text" data-a="leftovers|the leftovers|scraps" data-q="1 · El vocabulario que hace falta — las sobras" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">la colilla</td><td><input type="text" data-a="cigarette butt|the cigarette butt|cigarette end" data-q="1 · El vocabulario que hace falta — la colilla" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">la prenda</td><td><input type="text" data-a="garment|item of clothing|the garment" data-q="1 · El vocabulario que hace falta — la prenda" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">agravarse</td><td><input type="text" data-a="to worsen|to get worse|to become worse" data-q="1 · El vocabulario que hace falta — agravarse" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">el aislamiento</td><td><input type="text" data-a="isolation|the isolation" data-q="1 · El vocabulario que hace falta — el aislamiento" autocomplete="off" spellcheck="false"></td></tr>
+</table>
+<button type="button" class="checkone">Corregir esta sección</button>
+<div class="stretch">Desafío A*: escribe una frase con tres de estas palabras que explique una <b>causa</b>, no solo un hecho: «Como los alimentos escaseaban, muchos recurrieron al estraperlo…»</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>2 · Lectura: «Nada que llevarse a la boca»</h2></div>
+<div class="aim">Lee dos veces: la primera sin diccionario, la segunda subrayando las cifras y las fechas.</div>
+<div class="psg"><p>Finalizada la guerra civil española, no solo hubo vencedores y vencidos. También hubo hambre,
+escasez y miedo. <b>Los primeros años de la posguerra fueron peores que la misma guerra.</b> Las tropas
+franquistas ocuparon Madrid el 28 de marzo de 1939 y hasta el 8 de abril no entraron en la capital trenes
+con alimentos. Muchos ciudadanos se vieron obligados a cambiar monedas o joyas de oro por un chusco de pan
+negro; otros acudían a los cuarteles a pedir las sobras. Los alimentos se convirtieron en un bien escaso.
+A los españoles aún les quedaba por soportar una dura etapa, que <b>se vio agravada por el aislamiento
+internacional</b> del régimen franquista.</p>
+
+<p>La ropa se hacía a mano en cada casa, desde las medias y calcetines de lana hasta la ropa interior.
+Cuando una prenda se dejaba por vieja, de las partes sanas se hacían prendas nuevas para los más pequeños
+de la familia. Los fumadores, aparte de recoger colillas, secaban hojas de patata que luego se fumaban.
+El tabaco fue también racionado y solamente estaba destinado a los hombres: <b>las mujeres quedaban
+excluidas, como en tantas cosas</b>. Los niños, los grandes perdedores de las guerras, siempre en la
+calle, sobrevivían malamente ejerciendo las más variopintas tareas, entre ellas la de buscar colillas para
+vender luego su exiguo contenido como tabaco picado.</p>
+
+<p>Juana Doña, militante comunista a quien suprimieron la cartilla de racionamiento porque fue detenida y
+permaneció en la cárcel durante tres lustros*, contaba: «200 gramos de azúcar por familia, medio kilo de
+arroz, un cuartillo de aceite, dos kilos de patatas… Y así cada quince días o un mes. Éramos ocho en casa.
+Había hornos de pan ilegales. En cada portería, en cada esquina, una mujer mayor vendía con una bolsa,
+exponiéndose a quince días de cárcel: las tristemente célebres <em>quincenas</em>. Las falsas embarazadas
+eran legión: su vientre ocultaba aceite —carísimo—, harina, judías, carbón…»</p>
+
+<p class="src">Texto adaptado de «Tiempos de posguerra: mucho miedo y poco pan».
+<br>* <b>un lustro</b> = un período de cinco años.</p></div>
+<div class="gl"><div><b>un chusco</b> — a hunk / crust of bread</div><div><b>el cuartillo</b> — an old measure, about half a litre</div><div><b>variopintas</b> — all sorts of, motley</div><div><b>exiguo</b> — meagre, tiny</div><div><b>la portería</b> — the entrance hall of a block of flats</div></div>
+</section>
+<section class="task">
+<div class="sechead"><h2>3 · Comprensión (Paper 1, respuestas en español)</h2><span class="secscore"></span></div>
+<div class="aim">Contesta con tus propias palabras. No copies frases enteras del texto: el examinador penaliza el «lifting».</div>
+<div class="scaf">Andamiaje: empieza cada respuesta con el verbo de la pregunta. «¿Cuánto tiempo pasó…?» → <em>Pasaron once días…</em></div>
+<ol class="qs">
+<li><div class="qtxt">¿Cuánto tiempo pasó desde que las tropas franquistas ocuparon Madrid hasta que llegó comida?</div>
+<textarea rows="3" data-open="o2_0" data-q="¿Cuánto tiempo pasó desde que las tropas franquistas ocuparon Madrid hasta que llegó comida?" data-model="Once días: ocuparon Madrid el 28 de marzo de 1939 y los trenes con alimentos no llegaron hasta el 8 de abril."></textarea>
+<button type="button" class="reveal" data-t="mo_o2_0" data-on="Ver la respuesta modelo" data-off="Ocultar el modelo">Ver la respuesta modelo</button>
+<div class="model" id="mo_o2_0"><b>Modelo:</b> Once días: ocuparon Madrid el 28 de marzo de 1939 y los trenes con alimentos no llegaron hasta el 8 de abril.</div>
+<div class="selfrow">Autoevaluación (de 5): <input type="text" data-self="o2_0" inputmode="numeric" placeholder="p. ej. 4"> <span>— compárate con el modelo, no con lo que querías decir.</span></div>
+</li>
+<li><div class="qtxt">Menciona tres cosas que la gente tuvo que hacer para sobrevivir.</div>
+<textarea rows="3" data-open="o2_1" data-q="Menciona tres cosas que la gente tuvo que hacer para sobrevivir." data-model="Cambiar joyas u oro por pan negro; pedir las sobras en los cuarteles; recoger colillas o vender comida de contrabando en la calle."></textarea>
+<button type="button" class="reveal" data-t="mo_o2_1" data-on="Ver la respuesta modelo" data-off="Ocultar el modelo">Ver la respuesta modelo</button>
+<div class="model" id="mo_o2_1"><b>Modelo:</b> Cambiar joyas u oro por pan negro; pedir las sobras en los cuarteles; recoger colillas o vender comida de contrabando en la calle.</div>
+<div class="selfrow">Autoevaluación (de 5): <input type="text" data-self="o2_1" inputmode="numeric" placeholder="p. ej. 4"> <span>— compárate con el modelo, no con lo que querías decir.</span></div>
+</li>
+<li><div class="qtxt">¿Qué circunstancia hizo que la posguerra fuera aún más dura?</div>
+<textarea rows="3" data-open="o2_2" data-q="¿Qué circunstancia hizo que la posguerra fuera aún más dura?" data-model="El aislamiento internacional del régimen, que dejó a España sin ayuda exterior y prolongó la escasez."></textarea>
+<button type="button" class="reveal" data-t="mo_o2_2" data-on="Ver la respuesta modelo" data-off="Ocultar el modelo">Ver la respuesta modelo</button>
+<div class="model" id="mo_o2_2"><b>Modelo:</b> El aislamiento internacional del régimen, que dejó a España sin ayuda exterior y prolongó la escasez.</div>
+<div class="selfrow">Autoevaluación (de 5): <input type="text" data-self="o2_2" inputmode="numeric" placeholder="p. ej. 4"> <span>— compárate con el modelo, no con lo que querías decir.</span></div>
+</li>
+<li><div class="qtxt">¿Qué se les prohibía a las mujeres, según el texto?</div>
+<textarea rows="3" data-open="o2_3" data-q="¿Qué se les prohibía a las mujeres, según el texto?" data-model="Fumar: el tabaco racionado estaba destinado únicamente a los hombres. El autor lo presenta como un ejemplo más de exclusión."></textarea>
+<button type="button" class="reveal" data-t="mo_o2_3" data-on="Ver la respuesta modelo" data-off="Ocultar el modelo">Ver la respuesta modelo</button>
+<div class="model" id="mo_o2_3"><b>Modelo:</b> Fumar: el tabaco racionado estaba destinado únicamente a los hombres. El autor lo presenta como un ejemplo más de exclusión.</div>
+<div class="selfrow">Autoevaluación (de 5): <input type="text" data-self="o2_3" inputmode="numeric" placeholder="p. ej. 4"> <span>— compárate con el modelo, no con lo que querías decir.</span></div>
+</li>
+<li><div class="qtxt">¿En qué palabras se nota la compasión del autor hacia los niños?</div>
+<textarea rows="3" data-open="o2_4" data-q="¿En qué palabras se nota la compasión del autor hacia los niños?" data-model="Los llama «los grandes perdedores de las guerras» y dice que «sobrevivían malamente»."></textarea>
+<button type="button" class="reveal" data-t="mo_o2_4" data-on="Ver la respuesta modelo" data-off="Ocultar el modelo">Ver la respuesta modelo</button>
+<div class="model" id="mo_o2_4"><b>Modelo:</b> Los llama «los grandes perdedores de las guerras» y dice que «sobrevivían malamente».</div>
+<div class="selfrow">Autoevaluación (de 5): <input type="text" data-self="o2_4" inputmode="numeric" placeholder="p. ej. 4"> <span>— compárate con el modelo, no con lo que querías decir.</span></div>
+</li>
+<li><div class="qtxt">¿Por qué le quitaron la cartilla de racionamiento a Juana Doña?</div>
+<textarea rows="3" data-open="o2_5" data-q="¿Por qué le quitaron la cartilla de racionamiento a Juana Doña?" data-model="Porque era militante comunista y fue detenida; pasó quince años (tres lustros) en la cárcel."></textarea>
+<button type="button" class="reveal" data-t="mo_o2_5" data-on="Ver la respuesta modelo" data-off="Ocultar el modelo">Ver la respuesta modelo</button>
+<div class="model" id="mo_o2_5"><b>Modelo:</b> Porque era militante comunista y fue detenida; pasó quince años (tres lustros) en la cárcel.</div>
+<div class="selfrow">Autoevaluación (de 5): <input type="text" data-self="o2_5" inputmode="numeric" placeholder="p. ej. 4"> <span>— compárate con el modelo, no con lo que querías decir.</span></div>
+</li>
+</ol>
+<div class="stretch">Desafío A*: añade a dos de tus respuestas una oración con «lo cual» o «lo que» para comentar la consecuencia: <em>…, lo cual demuestra que el hambre era política, no accidental.</em></div>
+</section>
+<section class="task">
+<div class="sechead"><h2>4 · Gramática: los adverbios</h2><span class="secscore"></span></div>
+<div class="aim">Completa con el adverbio más adecuado. Cada uno se usa una sola vez.</div>
+<div class="scaf">Recuerda: <b>adjetivo femenino + ‑mente</b> (rápida → rápidamente). Si el adjetivo lleva tilde, el adverbio la conserva: <em>rápida → rápidamente</em>, pero <em>fácil → fácilmente</em>.</div>
+<div class="bank">gradualmente · brutalmente · atrás · ideológicamente · sobre todo · muy · incluso · democráticamente</div>
+<ol class="qs">
+<li><div class="qtxt">Para la mayoría de las personas la vida cotidiana estaba marcada por la pobreza e <input type="text" data-a="incluso" data-q="4 · Gramática: los adverbios — 1" autocomplete="off" spellcheck="false"> la miseria.</div></li>
+<li><div class="qtxt">El franquismo, <input type="text" data-a="sobre todo" data-q="4 · Gramática: los adverbios — 2" autocomplete="off" spellcheck="false"> entre 1939 y 1959, se caracterizó por la represión política y social.<span class="hint">dos palabras</span></div></li>
+<li><div class="qtxt">Algunos artistas, cuya producción era <input type="text" data-a="ideológicamente" data-q="4 · Gramática: los adverbios — 3" autocomplete="off" spellcheck="false"> contraria al fascismo, convivían con los que apoyaban al régimen.</div></li>
+<li><div class="qtxt">La extrema dureza de la represión hizo <input type="text" data-a="muy" data-q="4 · Gramática: los adverbios — 4" autocomplete="off" spellcheck="false"> difícil la oposición a la dictadura.</div></li>
+<li><div class="qtxt">La legitimidad del régimen se basó siempre en la victoria y nunca en la voluntad de los españoles <input type="text" data-a="democráticamente" data-q="4 · Gramática: los adverbios — 5" autocomplete="off" spellcheck="false"> expresada.</div></li>
+<li><div class="qtxt">Desde 1949, España fue entrando <input type="text" data-a="gradualmente" data-q="4 · Gramática: los adverbios — 6" autocomplete="off" spellcheck="false"> en diversos organismos internacionales.</div></li>
+<li><div class="qtxt">Después de 1960, España fue dejando <input type="text" data-a="atrás" data-q="4 · Gramática: los adverbios — 7" autocomplete="off" spellcheck="false"> su carácter agrario y rural.</div></li>
+<li><div class="qtxt">Franco trató <input type="text" data-a="brutalmente" data-q="4 · Gramática: los adverbios — 8" autocomplete="off" spellcheck="false"> a los soldados republicanos, mandándolos a campos de concentración.</div></li>
+</ol>
+<button type="button" class="checkone">Corregir esta sección</button>
+<div class="stretch">Desafío A*: reescribe tres de estas frases sustituyendo el adverbio en ‑mente por «de manera / de forma + adjetivo» o «con + sustantivo». <em>brutalmente → con brutalidad</em>. Los examinadores premian esa variedad en el AO3.</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>5 · Traducción al inglés (Paper 1, Sección C)</h2><span class="secscore"></span></div>
+<div class="aim">Traduce el párrafo. Un punto por segmento, como en el examen: cuida los tiempos verbales y el vocabulario del periodo.</div>
+<ol class="qs">
+<li><div class="qtxt">Los primeros años de la posguerra fueron peores que la misma guerra, porque a la represión se añadieron el hambre y el miedo. La ropa se hacía en casa y los alimentos, racionados desde 1940, se convirtieron en un bien escaso. Muchas familias, que lo habían perdido todo, recurrieron al mercado negro aunque arriesgaban quince días de cárcel.</div>
+<textarea rows="5" data-open="o4_0" data-q="Los primeros años de la posguerra fueron peores que la misma guerra, porque a la represión se añadieron el hambre y el miedo. La ropa se hacía en casa y los alimentos, racionados desde 1940, se convirtieron en un bien escaso. Muchas familias, que lo habían perdido todo, recurrieron al mercado negro aunque arriesgaban quince días de cárcel." data-model="The first years of the post-war period were worse than the war itself, because hunger and fear were added to the repression. Clothes were made at home and food, rationed from 1940, became a scarce commodity. Many families, who had lost everything, turned to the black market even though they risked a fortnight in prison."></textarea>
+<button type="button" class="reveal" data-t="mo_o4_0" data-on="Ver la respuesta modelo" data-off="Ocultar el modelo">Ver la respuesta modelo</button>
+<div class="model" id="mo_o4_0"><b>Modelo:</b> The first years of the post-war period were worse than the war itself, because hunger and fear were added to the repression. Clothes were made at home and food, rationed from 1940, became a scarce commodity. Many families, who had lost everything, turned to the black market even though they risked a fortnight in prison.</div>
+<div class="selfrow">Autoevaluación (de 5): <input type="text" data-self="o4_0" inputmode="numeric" placeholder="p. ej. 4"> <span>— compárate con el modelo, no con lo que querías decir.</span></div>
+</li>
+</ol>
+<div class="stretch">Desafío A*: después de traducir, vuelve al español y subraya los dos verbos en <b>pretérito indefinido</b> y el que está en <b>imperfecto</b>. Explica por qué el autor cambia de tiempo.</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>6 · Paper 3: hablar del periodo</h2></div>
+<div class="aim">Prepara respuestas de unos 40 segundos. Escribe apuntes, no un guion palabra por palabra.</div>
+<div class="scaf">Frases de apoyo: <em>Lo que más me llama la atención es que…</em> · <em>Conviene recordar que…</em> · <em>No se trata solo de… sino también de…</em> · <em>Aunque el régimen afirmara que…, la realidad era que…</em></div>
+<div class="speakq"><div class="q">1. ¿Por qué se dice que los primeros años de la posguerra fueron peores que la guerra misma?</div><textarea rows="3" data-open="s5_0" data-q="¿Por qué se dice que los primeros años de la posguerra fueron peores que la guerra misma?" data-model="" placeholder="Tus apuntes: idea principal, un dato con fecha, un ejemplo."></textarea></div>
+<div class="speakq"><div class="q">2. ¿Qué papel tuvo el aislamiento internacional en la vida cotidiana de los españoles?</div><textarea rows="3" data-open="s5_1" data-q="¿Qué papel tuvo el aislamiento internacional en la vida cotidiana de los españoles?" data-model="" placeholder="Tus apuntes: idea principal, un dato con fecha, un ejemplo."></textarea></div>
+<div class="speakq"><div class="q">3. «El régimen trató a media España como enemiga.» ¿Estás de acuerdo? Justifica tu respuesta.</div><textarea rows="3" data-open="s5_2" data-q="«El régimen trató a media España como enemiga.» ¿Estás de acuerdo? Justifica tu respuesta." data-model="" placeholder="Tus apuntes: idea principal, un dato con fecha, un ejemplo."></textarea></div>
+<div class="speakq"><div class="q">4. ¿Cómo afectó la posguerra de manera distinta a las mujeres y a los niños?</div><textarea rows="3" data-open="s5_3" data-q="¿Cómo afectó la posguerra de manera distinta a las mujeres y a los niños?" data-model="" placeholder="Tus apuntes: idea principal, un dato con fecha, un ejemplo."></textarea></div>
+<div class="stretch">Desafío A*: en una de tus respuestas usa <b>«a pesar de que» + subjuntivo</b> y cita una cifra exacta del periodo.</div>
+</section>
+</main>
+<footer class="site">Unidad 11 · El franquismo · BBA Sixth Form. Todo funciona en el navegador, sin conexión y sin registro. Descarga tus respuestas y súbelas a Teams.</footer>
+
+<div class="dock">
+  <div class="bar">
+    <input id="nom" type="text" placeholder="Tu nombre" autocomplete="off" aria-label="Tu nombre">
+    <div id="pad"></div>
+    <div class="acts">
+      <button type="button" id="btnCheck">Corregir todo</button>
+      <button type="button" id="btnDl">Descargar</button>
+      <button type="button" id="btnReset">Borrar</button>
+    </div>
+  </div>
+  <div class="score"><div class="track"><i id="scoreBar"></i></div><span id="scoreTxt">0 / 0</span></div>
+  <div id="dockMsg">Escribe tu nombre, corrige y descarga el CSV para tu profesor.</div>
+</div>
+<script>
+/* Unit 11 · Franquismo — shared activity engine
+   Tolerant marking (Edexcel accent/typo rules), accent pad, blob download. */
+(function(){
+"use strict";
+var PAD  = ["á","é","í","ó","ú","ü","ñ","¿","¡"];
+var PADU = ["Á","É","Í","Ó","Ú","Ü","Ñ","¿","¡"];
+
+/* ---------------------------------------------------------------- marking */
+function deacc(s){ return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").normalize("NFC"); }
+function keep(s){ return String(s||"").toLowerCase().replace(/[’‘`´]/g,"'")
+  .replace(/[«»“”"]/g,"").replace(/[.,;:!?¿¡()\[\]]/g,"").replace(/\s+/g," ").trim(); }
+function norm(s){ return deacc(keep(s)); }
+function lev(a,b){
+  if(a===b) return 0;
+  var m=a.length,n=b.length,i,j,prev,tmp,row=[];
+  if(!m) return n; if(!n) return m;
+  for(j=0;j<=n;j++) row[j]=j;
+  for(i=1;i<=m;i++){ prev=row[0]; row[0]=i;
+    for(j=1;j<=n;j++){ tmp=row[j];
+      row[j]=Math.min(row[j]+1,row[j-1]+1,prev+(a.charAt(i-1)===b.charAt(j-1)?0:1)); prev=tmp; } }
+  return row[n];
+}
+function accentIsGrammatical(g,w){
+  g=keep(g); w=keep(w);
+  if(/[áéíóú]$/.test(w)!==/[áéíóú]$/.test(g)) return true;
+  if(/í(a|as|an|amos|ais)$/.test(w)!==/í(a|as|an|amos|ais)$/.test(g)) return true;
+  if(/^(si|sí|el|él|tu|tú|mi|mí|te|té|mas|más|se|sé|de|dé|solo|sólo|aun|aún|que|qué|como|cómo|cuando|cuándo|donde|dónde)$/.test(w) && w!==g) return true;
+  if((w.indexOf("ñ")>=0)!==(g.indexOf("ñ")>=0)) return true;
+  return false;
+}
+function typoOnly(g,w){
+  var A=g.split(" "), B=w.split(" "), slips=0, i, a, b;
+  if(A.length!==B.length) return false;
+  for(i=0;i<A.length;i++){
+    a=A[i]; b=B[i];
+    if(a===b) continue;
+    if(b.length<5) return false;
+    if(a.slice(-2)!==b.slice(-2)) return false;
+    if(lev(a.slice(0,-2),b.slice(0,-2))>1) return false;
+    if(++slips>1) return false;
+  }
+  return slips===1;
+}
+function judge(given, expected){
+  var wants=String(expected).split(/\s*\|\s*/).filter(Boolean), best=null, i, w;
+  if(!keep(given)) return {code:"empty", note:"Sin responder.", want:wants[0]};
+  for(i=0;i<wants.length;i++){
+    w=wants[i];
+    if(keep(given)===keep(w)) return {code:"ok", note:"Correcto.", want:w};
+    if(norm(given)===norm(w)){
+      if(accentIsGrammatical(given,w)){ if(!best) best={code:"no",note:"La tilde cambia la palabra o el tiempo verbal: tiene que ser exacta.",want:w}; continue; }
+      return {code:"accent", note:"Falta una tilde — aquí no se penaliza, pero corrígela.", want:w};
+    }
+    if(typoOnly(norm(given),norm(w)) && (!best||best.code==="no")) best={code:"typo",note:"Errata tolerada — la terminación es correcta.",want:w};
+  }
+  return best || {code:"no", note:"Todavía no.", want:wants[0]};
+}
+
+/* ------------------------------------------------------------------- util */
+function $(s,r){ return (r||document).querySelector(s); }
+function $$(s,r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); }
+var LABEL={ok:"Correcto",accent:"Aceptado (tilde)",typo:"Aceptado (errata)",no:"Incorrecto",empty:"Sin responder"};
+
+/* ------------------------------------------------------------- accent pad */
+var last=null;
+document.addEventListener("focusin",function(e){
+  var el=e.target;
+  if(el && !el.closest(".dock") && (el.tagName==="TEXTAREA"||(el.tagName==="INPUT"&&/^(text|search|)$/i.test(el.type)))) last=el;
+});
+function insert(ch){
+  var el=last||$("input[type=text],textarea");
+  if(!el) return;
+  el.focus();
+  var s=el.selectionStart,e=el.selectionEnd;
+  if(typeof s==="number"){ el.value=el.value.slice(0,s)+ch+el.value.slice(e); el.selectionStart=el.selectionEnd=s+ch.length; }
+  else el.value+=ch;
+  el.dispatchEvent(new Event("input",{bubbles:true}));
+}
+function buildPad(host){
+  var up=false, keys=[];
+  var sh=document.createElement("button");
+  sh.type="button"; sh.className="k shift"; sh.textContent="ABC"; sh.title="Mayúsculas";
+  sh.onclick=function(){ up=!up; sh.classList.toggle("on",up); keys.forEach(function(o){ o.b.textContent=up?o.U:o.l; }); };
+  host.appendChild(sh);
+  PAD.forEach(function(ch,i){
+    var b=document.createElement("button");
+    b.type="button"; b.className="k"; b.textContent=ch; b.setAttribute("aria-label",ch);
+    b.onmousedown=function(ev){ ev.preventDefault(); };
+    b.onclick=function(){ insert(up?PADU[i]:ch); };
+    keys.push({b:b,l:ch,U:PADU[i]}); host.appendChild(b);
+  });
+}
+
+/* --------------------------------------------------------------- checking */
+function tip(el, v){
+  var old=el.parentNode.querySelector(".fb");
+  if(old) old.remove();
+  el.classList.remove("ok","warn","bad");
+  if(v.code==="empty") return;
+  el.classList.add(v.code==="ok"?"ok":(v.code==="no"?"bad":"warn"));
+  if(v.code==="ok") return;
+  var s=document.createElement("small");
+  s.className="fb"+(v.code==="no"?" bad":"");
+  s.textContent=v.note+(v.code==="no"?"  →  "+v.want:"");
+  el.parentNode.insertBefore(s, el.nextSibling);
+}
+function checkSection(sec){
+  var done=0, tot=0;
+  $$("[data-a]", sec).forEach(function(el){
+    tot++;
+    var v=judge(el.value, el.getAttribute("data-a"));
+    tip(el,v);
+    if(v.code==="ok"||v.code==="accent"||v.code==="typo") done++;
+  });
+  $$("[data-mcq]", sec).forEach(function(g){
+    tot++;
+    var want=g.getAttribute("data-mcq");
+    var chosen=$$("input[type=radio]",g).filter(function(r){return r.checked;})[0];
+    g.classList.remove("ok","bad");
+    $$(".fb",g).forEach(function(n){n.remove();});
+    if(!chosen) return;
+    var right = chosen.value===want;
+    g.classList.add(right?"ok":"bad");
+    if(right){ done++; }
+    else {
+      var s=document.createElement("small"); s.className="fb bad";
+      s.textContent="La respuesta correcta es "+want+".";
+      g.appendChild(s);
+    }
+  });
+  var bar=$(".secscore", sec);
+  if(bar) bar.textContent=tot?(done+" / "+tot):"";
+  return {done:done, total:tot};
+}
+function checkAll(){
+  var d=0,t=0;
+  $$("section.task").forEach(function(s){ var r=checkSection(s); d+=r.done; t+=r.total; });
+  var pct=t?Math.round(100*d/t):0;
+  $("#scoreTxt").textContent=d+" / "+t;
+  $("#scoreBar").style.width=pct+"%";
+  return {done:d,total:t};
+}
+
+/* --------------------------------------------------------------- download */
+function cell(v){ return '"'+String(v==null?"":v).replace(/"/g,'""').replace(/\r?\n/g,"  ")+'"'; }
+function download(){
+  var name=$("#nom").value.trim();
+  var r=checkAll();
+  var d=new Date(), p=function(n){return (n<10?"0":"")+n;};
+  var stamp=d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate());
+  var L=[];
+  L.push([ "Alumno/a", name||"(sin nombre)" ].map(cell).join(","));
+  L.push([ "Actividad", document.title ].map(cell).join(","));
+  L.push([ "Fecha", stamp+" "+p(d.getHours())+":"+p(d.getMinutes()) ].map(cell).join(","));
+  L.push([ "Puntuación automática", r.done+" / "+r.total ].map(cell).join(","));
+  L.push("");
+  L.push(["Sección","Pregunta","Respuesta","Modelo","Resultado","Comentario"].map(cell).join(","));
+  $$("section.task").forEach(function(sec){
+    var title=$("h2",sec)?$("h2",sec).textContent.trim():"";
+    $$("[data-a]",sec).forEach(function(el){
+      var v=judge(el.value, el.getAttribute("data-a"));
+      L.push([title, el.getAttribute("data-q")||"", el.value, v.want, LABEL[v.code], v.note].map(cell).join(","));
+    });
+    $$("[data-mcq]",sec).forEach(function(g){
+      var want=g.getAttribute("data-mcq");
+      var ch=$$("input[type=radio]",g).filter(function(x){return x.checked;})[0];
+      var got=ch?ch.value:"";
+      L.push([title, g.getAttribute("data-q")||"", got, want,
+              got? (got===want?"Correcto":"Incorrecto") : "Sin responder", ""].map(cell).join(","));
+    });
+    $$("[data-open]",sec).forEach(function(el){
+      var self=sec.querySelector('[data-self="'+el.getAttribute("data-open")+'"]');
+      L.push([title, el.getAttribute("data-q")||"", el.value,
+              el.getAttribute("data-model")||"", self&&self.value?("Autoevaluación: "+self.value):"Para corregir por el profesor",
+              ""].map(cell).join(","));
+    });
+  });
+  var blob=new Blob(["﻿"+L.join("\r\n")],{type:"text/csv;charset=utf-8;"});
+  var a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(name?name+" - ":"")+document.title.replace(/[\\\/:*?"<>|]/g,"-")+" - "+stamp+".csv";
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },0);
+  if(!name) $("#dockMsg").textContent="Descargado — escribe tu nombre antes de enviarlo.";
+  else $("#dockMsg").textContent="Descargado para "+name+".";
+}
+
+/* ------------------------------------------------------------------- boot */
+function boot(){
+  buildPad($("#pad"));
+  $("#btnCheck").onclick=function(){ checkAll(); };
+  $("#btnDl").onclick=download;
+  $("#btnReset").onclick=function(){
+    if(!confirm("¿Borrar todas tus respuestas en esta página?")) return;
+    $$("input[type=text],textarea").forEach(function(e){ if(e.id!=="nom"){ e.value=""; e.classList.remove("ok","warn","bad"); } });
+    $$("input[type=radio]").forEach(function(e){ e.checked=false; });
+    $$(".fb").forEach(function(n){ n.remove(); });
+    $$("[data-mcq]").forEach(function(g){ g.classList.remove("ok","bad"); });
+    $$(".secscore").forEach(function(n){ n.textContent=""; });
+    $("#scoreTxt").textContent="0 / 0"; $("#scoreBar").style.width="0%";
+  };
+  $$("section.task").forEach(function(sec){
+    var b=$(".checkone",sec);
+    if(b) b.onclick=function(){ checkSection(sec); };
+  });
+  $$(".reveal").forEach(function(b){
+    b.onclick=function(){
+      var t=document.getElementById(b.getAttribute("data-t"));
+      var open=t.classList.toggle("show");
+      b.textContent=open?b.getAttribute("data-off"):b.getAttribute("data-on");
+    };
+  });
+  try{ $("#nom").value=localStorage.getItem("bba-name")||""; }catch(e){}
+  $("#nom").addEventListener("input",function(){ try{localStorage.setItem("bba-name",$("#nom").value.trim());}catch(e){} });
+  var dock=$(".dock");
+  function pack(){ document.body.style.paddingBottom=(dock.offsetHeight+16)+"px"; }
+  pack(); window.addEventListener("resize",pack);
+}
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",boot); else boot();
+})();
+</script>
+</body>
+</html>

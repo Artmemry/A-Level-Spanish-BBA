@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11.3 Un balance: la memoria histórica y «las dos Españas»</title>
+<style>
+:root{
+  --paper:#FBFAF6;--card:#FFF;--ink:#1A2440;--soft:#4A5570;--muted:#8A8F9E;
+  --accent:#C60B1E;--blue:#2B4C9B;--blue-pale:#EDF1FA;--green:#2E7D52;--green-pale:#EAF4EE;
+  --gold:#B8860B;--gold-pale:#FFF7E6;--line:#E5E2D8;--line2:#CFCBBD;
+  --serif:Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --shadow:0 1px 2px rgba(26,36,64,.06),0 4px 16px rgba(26,36,64,.05);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:3px}
+header.top{background:var(--card);border-bottom:3px solid var(--ink)}
+.top-in{max-width:940px;margin:0 auto;padding:22px 20px 18px}
+.kicker{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1{font-family:var(--serif);font-size:1.9rem;line-height:1.15;margin:6px 0 4px}
+.sub{color:var(--soft);font-size:.95rem;margin:0}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.pill{font-family:var(--mono);font-size:.66rem;letter-spacing:.07em;text-transform:uppercase;
+  border:1px solid var(--line2);border-radius:99px;padding:4px 11px;color:var(--soft)}
+.pill.hot{background:var(--ink);border-color:var(--ink);color:#fff}
+main{max-width:940px;margin:0 auto;padding:26px 20px 40px}
+.lede{font-size:1.02rem;color:var(--soft);max-width:66ch;margin:0 0 26px}
+h2{font-family:var(--serif);font-size:1.24rem;margin:0}
+h3{font-family:var(--serif);font-size:1.02rem;margin:22px 0 8px;color:var(--blue)}
+
+.tl{border-left:3px solid var(--accent);padding-left:16px;margin:0 0 30px}
+.tl .row{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:7px 0;border-bottom:1px solid var(--line)}
+.tl .row:last-child{border-bottom:none}
+.tl .yr{font-family:var(--mono);font-size:.78rem;font-weight:700;color:var(--accent);padding-top:2px}
+.tl .ev{font-size:.9rem;color:var(--soft)}
+
+.cgrid{display:grid;gap:11px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));margin-bottom:30px}
+.cc{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--blue);
+  border-radius:9px;padding:12px 14px;box-shadow:var(--shadow)}
+.cc .es{font-weight:700}
+.cc .en{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:2px 0 6px}
+.cc .why{font-size:.86rem;color:var(--soft);margin:0}
+
+section.task{background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:20px 22px;margin:0 0 20px;box-shadow:var(--shadow)}
+.sechead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.sechead .secscore{margin-left:auto;font-family:var(--mono);font-size:.78rem;color:var(--green);font-weight:700}
+.aim{background:var(--blue-pale);border-left:3px solid var(--blue);border-radius:0 7px 7px 0;
+  padding:10px 13px;margin:13px 0;font-size:.9rem}
+.aim b{color:var(--blue)}
+.scaf{background:var(--gold-pale);border:1px dashed var(--gold);border-radius:7px;padding:10px 13px;margin:12px 0;font-size:.87rem}
+.scaf::before{content:"Andamiaje ";font-family:var(--mono);font-size:.63rem;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--gold);font-weight:700;display:block;margin-bottom:3px}
+.stretch{background:var(--green-pale);border-left:3px solid var(--green);border-radius:0 7px 7px 0;
+  padding:10px 13px;margin:14px 0 0;font-size:.87rem}
+.bank{background:var(--paper);border:1px solid var(--line2);border-radius:7px;padding:9px 13px;
+  margin:12px 0;font-size:.88rem}
+.bank::before{content:"Banco ";font-family:var(--mono);font-size:.63rem;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted);font-weight:700;display:block}
+
+.psg{font-size:1rem;line-height:1.75}
+.psg p{margin:0 0 13px}
+.psg .src{font-size:.8rem;color:var(--muted)}
+.gl{display:grid;gap:5px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+  background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin-top:14px}
+.gl div{font-size:.83rem;color:var(--soft)}
+.gl b{color:var(--ink)}
+
+ol.qs{margin:0;padding-left:22px}
+ol.qs>li{margin:0 0 14px}
+.qtxt{margin-bottom:5px}
+input[type=text]{font-family:var(--sans);font-size:.97rem;border:1.5px solid var(--line2);border-radius:6px;
+  padding:6px 9px;background:#fff;color:var(--ink);min-width:150px}
+input[type=text].wide{width:100%;max-width:520px}
+input.ok{border-color:var(--green);background:var(--green-pale)}
+input.warn{border-color:var(--gold);background:var(--gold-pale)}
+input.bad{border-color:var(--accent);background:#FDEDEB}
+textarea{width:100%;font-family:var(--sans);font-size:.97rem;border:1.5px solid var(--line2);
+  border-radius:7px;padding:9px 11px;min-height:84px;resize:vertical;background:#fff;color:var(--ink)}
+.hint{font-family:var(--mono);font-size:.68rem;color:var(--muted);margin-left:7px}
+small.fb{display:block;font-size:.79rem;color:#7a5c00;margin-top:4px}
+small.fb.bad{color:#a5281b}
+
+table.vocab{width:100%;border-collapse:collapse}
+table.vocab td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.vocab td.es{font-weight:600;width:38%}
+table.vocab tr:last-child td{border-bottom:none}
+
+.mcq{border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin:0 0 12px;background:var(--paper)}
+.mcq.ok{border-color:var(--green);background:var(--green-pale)}
+.mcq.bad{border-color:var(--accent);background:#FDEDEB}
+.mcq .q{font-weight:600;margin-bottom:7px}
+.mcq label{display:block;font-size:.93rem;padding:3px 0;cursor:pointer}
+.mcq input{margin-right:8px}
+
+.model{display:none;background:var(--green-pale);border-left:3px solid var(--green);border-radius:0 7px 7px 0;
+  padding:10px 13px;margin-top:9px;font-size:.9rem}
+.model.show{display:block}
+button.reveal{font-family:var(--sans);font-size:.8rem;font-weight:600;border:1.5px solid var(--line2);
+  background:#fff;color:var(--soft);border-radius:7px;padding:5px 12px;cursor:pointer;margin-top:8px}
+button.reveal:hover{border-color:var(--green);color:var(--green)}
+button.checkone{font-family:var(--sans);font-size:.83rem;font-weight:600;border:1.5px solid var(--blue);
+  background:#fff;color:var(--blue);border-radius:7px;padding:6px 14px;cursor:pointer;margin-top:14px}
+button.checkone:hover{background:var(--blue-pale)}
+.selfrow{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:9px;font-size:.86rem;color:var(--soft)}
+.selfrow input{min-width:70px}
+
+.speakq{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin:0 0 11px}
+.speakq .q{font-weight:600;margin-bottom:6px}
+
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--ink);color:#fff;
+  box-shadow:0 -2px 14px rgba(0,0,0,.22)}
+.dock .bar{max-width:940px;margin:0 auto;padding:8px 16px;display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.dock input#nom{height:32px;border-radius:6px;border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.09);color:#fff;padding:0 10px;width:180px;font-size:.9rem}
+.dock input#nom::placeholder{color:rgba(255,255,255,.6)}
+#pad{display:flex;gap:4px;flex-wrap:wrap}
+#pad .k{min-width:32px;height:32px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.09);
+  color:#fff;border-radius:6px;font-size:16px;cursor:pointer;padding:0 6px}
+#pad .k:hover{background:rgba(255,255,255,.22)}
+#pad .k.shift{font-size:11.5px}
+#pad .k.shift.on{background:#fff;color:var(--ink);font-weight:700}
+.dock .acts{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.dock .acts button{height:32px;border:0;border-radius:6px;padding:0 14px;font-size:.82rem;font-weight:600;cursor:pointer}
+#btnCheck{background:#e8eefc;color:var(--ink)}
+#btnDl{background:var(--green);color:#fff}
+#btnReset{background:transparent;color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.28)}
+.dock .score{max-width:940px;margin:0 auto;padding:0 16px 8px;display:flex;gap:10px;align-items:center}
+.dock .track{flex:1;height:6px;background:rgba(255,255,255,.18);border-radius:4px;overflow:hidden}
+.dock .track i{display:block;height:100%;width:0;background:#5fd39a;transition:width .3s}
+.dock .score span{font-family:var(--mono);font-size:.75rem;color:#cfe0f5;min-width:64px;text-align:right}
+#dockMsg{max-width:940px;margin:0 auto;padding:0 16px 7px;font-size:.76rem;color:#cfe0f5}
+footer.site{max-width:940px;margin:0 auto;padding:8px 20px 30px;font-family:var(--mono);
+  font-size:.68rem;color:var(--muted)}
+@media (max-width:640px){
+  .tl .row{grid-template-columns:70px 1fr}
+  .dock input#nom{width:130px}
+  h1{font-size:1.5rem}
+}
+@media print{.dock,button{display:none!important}body{background:#fff;padding-bottom:0!important}
+  section.task{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+<div class="kicker">A-Level Spanish · Edexcel 9SP0 · Unidad 11 · El franquismo</div>
+<h1>Un balance: la memoria histórica y «las dos Españas»</h1>
+<p class="sub">Reckoning with the past, 1977 to today</p>
+<div class="meta"><span class="pill hot">1977 – hoy</span><span class="pill">Paper 1 · Paper 3 · IRP</span><span class="pill">Lección 11.3</span></div>
+</div></header>
+<main>
+<p class="lede">Esta es la lección que más rinde en el examen oral, porque conecta el pasado con la actualidad. El debate no es «¿fue mala la dictadura?» sino «¿qué se hace hoy con esa herencia?».</p>
+<h3>La cronología que debes saber</h3><div class="tl">
+<div class="row"><div class="yr">1977</div><div class="ev"><b>Ley de Amnistía</b>. Cierra el pasado judicialmente: nadie será juzgado. Base legal del llamado «pacto del olvido».</div></div>
+<div class="row"><div class="yr">1978</div><div class="ev">Constitución. La democracia se construye sin ajustar cuentas con la dictadura.</div></div>
+<div class="row"><div class="yr">2000</div><div class="ev">Primera exhumación de una fosa común por la <b>ARMH</b>, en Priaranza del Bierzo. Empieza el movimiento memorialista.</div></div>
+<div class="row"><div class="yr">2007</div><div class="ev"><b>Ley de Memoria Histórica</b>: reconoce a las víctimas y retira símbolos franquistas.</div></div>
+<div class="row"><div class="yr">2019</div><div class="ev">Los restos de Franco son exhumados del <b>Valle de los Caídos</b>.</div></div>
+<div class="row"><div class="yr">2022</div><div class="ev"><b>Ley de Memoria Democrática</b>: el Estado asume la búsqueda de desaparecidos.</div></div>
+</div>
+<h3>Conceptos clave — y por qué importan en el examen</h3><div class="cgrid">
+<div class="cc"><div class="es">el pacto del olvido</div><div class="en">the pact of forgetting</div><p class="why">Acuerdo tácito de la Transición: para avanzar, no se remueve el pasado. Es el concepto central de esta lección.</p></div>
+<div class="cc"><div class="es">la memoria histórica</div><div class="en">historical memory</div><p class="why">El movimiento que rompe ese pacto a partir de 2000. Ojo: en España el término es político, no neutro.</p></div>
+<div class="cc"><div class="es">la fosa común</div><div class="en">the mass grave</div><p class="why">Más de 100.000 personas siguen enterradas en cunetas y fosas sin identificar. El dato concreto que da fuerza a tu argumento.</p></div>
+<div class="cc"><div class="es">el desaparecido</div><div class="en">the disappeared person</div><p class="why">La ARMH habla de unos 114.000 casos reclamados por sus familias.</p></div>
+<div class="cc"><div class="es">la exhumación</div><div class="en">the exhumation</div><p class="why">El acto material de abrir la fosa: devolver un nombre a unos huesos.</p></div>
+<div class="cc"><div class="es">reabrir heridas</div><div class="en">to reopen wounds</div><p class="why">La expresión que usa quien se opone. Apréndela con su contraria: <em>cerrar en falso</em> = to close badly, without healing.</p></div>
+<div class="cc"><div class="es">las dos Españas</div><div class="en">the two Spains</div><p class="why">Idea de Machado: un país partido en dos mitades irreconciliables. Marco general de toda la unidad.</p></div>
+<div class="cc"><div class="es">el centralismo</div><div class="en">centralism</div><p class="why">La represión de lo catalán, lo vasco y lo gallego. Explica por qué el pasado sigue vivo en el debate territorial.</p></div>
+</div>
+<section class="task">
+<div class="sechead"><h2>1 · Léxico de la memoria</h2><span class="secscore"></span></div>
+<div class="aim">Traduce al inglés. Todas estas palabras aparecen en la prensa española de hoy.</div>
+<table class="vocab">
+<tr><td class="es">la fosa común</td><td><input type="text" data-a="the mass grave|mass grave" data-q="1 · Léxico de la memoria — la fosa común" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">el desaparecido</td><td><input type="text" data-a="the disappeared|missing person|the missing person" data-q="1 · Léxico de la memoria — el desaparecido" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">la exhumación</td><td><input type="text" data-a="the exhumation|exhumation" data-q="1 · Léxico de la memoria — la exhumación" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">hurgar</td><td><input type="text" data-a="to poke around|to dig around|to rummage|to poke about" data-q="1 · Léxico de la memoria — hurgar" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">destapar</td><td><input type="text" data-a="to uncover|to reveal|to expose" data-q="1 · Léxico de la memoria — destapar" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">la herida</td><td><input type="text" data-a="the wound|wound" data-q="1 · Léxico de la memoria — la herida" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">avivar</td><td><input type="text" data-a="to stir up|to revive|to rekindle|to fan" data-q="1 · Léxico de la memoria — avivar" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">el acatamiento</td><td><input type="text" data-a="obedience|submission|compliance|deference" data-q="1 · Léxico de la memoria — el acatamiento" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">el exilio</td><td><input type="text" data-a="exile|the exile" data-q="1 · Léxico de la memoria — el exilio" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">fusilado</td><td><input type="text" data-a="shot|executed|executed by firing squad" data-q="1 · Léxico de la memoria — fusilado" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">el cunetazo</td><td><input type="text" data-a="roadside killing|roadside execution" data-q="1 · Léxico de la memoria — el cunetazo" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">reivindicar</td><td><input type="text" data-a="to claim|to vindicate|to demand|to assert" data-q="1 · Léxico de la memoria — reivindicar" autocomplete="off" spellcheck="false"></td></tr>
+</table>
+<button type="button" class="checkone">Corregir esta sección</button>
+<div class="stretch">Desafío A*: agrupa seis de ellas en dos columnas —las que usa quien quiere exhumar y las que usa quien se opone— y explica por qué el vocabulario ya contiene el argumento.</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>2 · Lectura: la memoria del franquismo y la actualidad</h2></div>
+<div class="aim">Este texto contiene dos posturas enfrentadas. Antes de contestar nada, subraya con dos colores quién dice qué.</div>
+<div class="psg"><p>La distancia en el tiempo entre los acontecimientos de la era franquista y la actualidad nos brinda
+la oportunidad de hacer un balance de esta época. ¿Sigue habiendo fantasmas en la conciencia colectiva? Por
+supuesto que sí, porque son fáciles de encontrar las referencias a los horrores de la Guerra Civil.</p>
+
+<p>Es esto lo que se constata en un artículo reciente: «La Generalitat valenciana creará una comisión
+interdepartamental sobre memoria histórica que se ocupará de la <b>apertura de fosas</b> y de reivindicar
+biografías de personas con trayectorias democráticas poco conocidas». El anuncio ha sido criticado por el
+Partido Popular, que ha acusado al Gobierno autonómico de <em>«resucitar debates»</em>, <em>«avivar viejos
+fantasmas»</em> y <em>«reabrir heridas»</em>.</p>
+
+<p>Muchos españoles, sobre todo los menores de cuarenta años, ignoran los hechos de la Guerra Civil,
+precisamente porque este es un tema que dejó de formar parte de los planes de educación de la posguerra.
+Pocos quisieron <em>hurgar</em> y se impuso una tácita <b>ley del silencio</b>. Sin embargo, para otros el
+país todavía no ha liquidado sus deudas con los suyos, aunque estén muertos: así se expresa la Asociación
+para la Recuperación de la Memoria Histórica, que calcula que hay <b>114.226 personas</b> de desaparición
+forzada reclamadas por sus familiares en toda España.</p>
+
+<p>El historiador Ángel Viñas tiene una hipótesis: «El gobierno del PP tiene un miedo pavoroso a la
+historia». Considera que en los archivos españoles hay <em>serpientes venenosas</em>: «Ocurre que gran parte
+de la derecha actual española mantiene ahora mismo el temor reverencial y el <em>acatamiento</em> al líder
+de una manera vergonzosa. No sigue a Franco de forma directa, pero sí sigue los puntos fundamentales del
+canon franquista».</p>
+
+<p>Y ¿el balance? Hay que decir que sigue siendo doloroso el tema. Muchos preferirían no destapar nada de
+aquella época; pero todas las víctimas tenían familia, y la verdad, según muchos, no hay que esconderla.</p></div>
+<div class="gl"><div><b>brindar</b> — to offer, to give</div><div><b>constatar</b> — to confirm, to note</div><div><b>pavoroso</b> — terrifying, dreadful</div><div><b>liquidar una deuda</b> — to settle a debt</div></div>
+</section>
+<section class="task">
+<div class="sechead"><h2>3 · Comprensión del editorial (Paper 1)</h2><span class="secscore"></span></div>
+<div class="aim">Elige la terminación correcta. Ojo: en Paper 1 hay siempre una opción «casi correcta».</div>
+<div class="scaf">Estrategia: tapa las opciones, contesta de memoria, y solo entonces mira cuál se parece a tu respuesta.</div>
+<div class="mcq" data-mcq="B" data-q="La distancia en el tiempo permite a los españoles…">
+<div class="q">1. La distancia en el tiempo permite a los españoles…</div>
+<label><input type="radio" name="m2_0" value="A"> <b>A.</b> desconectar del problema</label>
+<label><input type="radio" name="m2_0" value="B"> <b>B.</b> enfocar el tema con más perspectiva</label>
+<label><input type="radio" name="m2_0" value="C"> <b>C.</b> descubrir fantasmas nuevos</label>
+<label><input type="radio" name="m2_0" value="D"> <b>D.</b> investigar la prensa de la época</label>
+</div>
+<div class="mcq" data-mcq="C" data-q="Según el texto, la conciencia colectiva española…">
+<div class="q">2. Según el texto, la conciencia colectiva española…</div>
+<label><input type="radio" name="m2_1" value="A"> <b>A.</b> se encuentra tranquila</label>
+<label><input type="radio" name="m2_1" value="B"> <b>B.</b> no tiene miedo a los fantasmas</label>
+<label><input type="radio" name="m2_1" value="C"> <b>C.</b> todavía guarda referencias dolorosas</label>
+<label><input type="radio" name="m2_1" value="D"> <b>D.</b> ha olvidado por completo la guerra</label>
+</div>
+<div class="mcq" data-mcq="B" data-q="El Partido Popular acusa al gobierno valenciano de…">
+<div class="q">3. El Partido Popular acusa al gobierno valenciano de…</div>
+<label><input type="radio" name="m2_2" value="A"> <b>A.</b> manipular la democracia</label>
+<label><input type="radio" name="m2_2" value="B"> <b>B.</b> perturbar innecesariamente el pasado</label>
+<label><input type="radio" name="m2_2" value="C"> <b>C.</b> cerrar tumbas obligatoriamente</label>
+<label><input type="radio" name="m2_2" value="D"> <b>D.</b> suprimir el debate</label>
+</div>
+<div class="mcq" data-mcq="B" data-q="Los planes de educación de la posguerra…">
+<div class="q">4. Los planes de educación de la posguerra…</div>
+<label><input type="radio" name="m2_3" value="A"> <b>A.</b> elogiaron los hechos de la Guerra Civil</label>
+<label><input type="radio" name="m2_3" value="B"> <b>B.</b> dejaron de mencionar el tema</label>
+<label><input type="radio" name="m2_3" value="C"> <b>C.</b> informaron bien a los jóvenes</label>
+<label><input type="radio" name="m2_3" value="D"> <b>D.</b> resucitaron el debate</label>
+</div>
+<div class="mcq" data-mcq="C" data-q="Según Ángel Viñas, en los archivos españoles hay…">
+<div class="q">5. Según Ángel Viñas, en los archivos españoles hay…</div>
+<label><input type="radio" name="m2_4" value="A"> <b>A.</b> mucho polvo y telarañas</label>
+<label><input type="radio" name="m2_4" value="B"> <b>B.</b> poca información nueva</label>
+<label><input type="radio" name="m2_4" value="C"> <b>C.</b> secretos peligrosos</label>
+<label><input type="radio" name="m2_4" value="D"> <b>D.</b> nada de interés</label>
+</div>
+<div class="mcq" data-mcq="B" data-q="La frase «el temor reverencial al líder»…">
+<div class="q">6. La frase «el temor reverencial al líder»…</div>
+<label><input type="radio" name="m2_5" value="A"> <b>A.</b> demuestra que las cosas han cambiado</label>
+<label><input type="radio" name="m2_5" value="B"> <b>B.</b> es una crítica de una parte de la derecha actual</label>
+<label><input type="radio" name="m2_5" value="C"> <b>C.</b> está llena de mentiras</label>
+<label><input type="radio" name="m2_5" value="D"> <b>D.</b> elogia la figura de Franco</label>
+</div>
+<div class="mcq" data-mcq="C" data-q="El balance final del texto es que…">
+<div class="q">7. El balance final del texto es que…</div>
+<label><input type="radio" name="m2_6" value="A"> <b>A.</b> reabrir fosas cuesta demasiado dinero</label>
+<label><input type="radio" name="m2_6" value="B"> <b>B.</b> las víctimas merecen descansar en paz sin ser tocadas</label>
+<label><input type="radio" name="m2_6" value="C"> <b>C.</b> hay que destapar los secretos por muy doloroso que sea</label>
+<label><input type="radio" name="m2_6" value="D"> <b>D.</b> el tema ya no interesa a nadie</label>
+</div>
+<button type="button" class="checkone">Corregir esta sección</button>
+<div class="stretch">Desafío A*: para las dos preguntas que te resulten más difíciles, escribe por qué las otras opciones están mal. Es la mejor preparación posible para Paper 1.</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>4 · «Comprensión auditiva»: se impone el centralismo</h2></div>
+<div class="aim">Entrevista a María del Mar sobre la represión franquista en Cataluña.</div>
+<div class="psg"><p><b>PABLO —</b> ¿Cuáles fueron las consecuencias de la derrota republicana para ti?</p>
+<p><b>MARÍA DEL MAR —</b> Funestas para mi familia, porque <b>dos tíos</b> tuvieron que marcharse al exilio.
+Para los que nos quedamos la represión fue durísima: hubo unos <b>150.000 catalanes</b> confinados en campos
+de concentración —dos de ellos primos míos—; <b>4.000 personas fueron fusiladas</b>, incluido mi padre. Nos
+afectó mucho también la detención y el fusilamiento del presidente de Cataluña, <b>Lluís Companys</b>.</p>
+<p><b>PABLO —</b> ¿La situación se normalizó?</p>
+<p><b>MDM —</b> Primero hubo una época de racionamiento, mercado negro y restricciones de toda clase: la luz,
+el petróleo… Nuestra empresa familiar tuvo que luchar para tener acceso a las materias primas y tuvimos que
+fijar la sede social en Madrid. Aquello no era normal en absoluto.</p>
+<p><b>PABLO —</b> Se ha comentado que no se podía hablar en catalán en público. ¿Así era?</p>
+<p><b>MDM —</b> Mira, el franquismo intentó desmantelar todos los símbolos de catalanidad e intentó relegar
+la lengua al <b>ámbito familiar</b>. Castigaron a la prensa catalana permitiendo que solo unas publicaciones
+de carácter religioso usaran el catalán.</p>
+<p><b>PABLO —</b> ¿Qué pasó en la enseñanza?</p>
+<p><b>MDM —</b> Bueno, primero, ¡fíjate!: excluyeron la historia de Cataluña de los libros de texto. Quitaron
+a muchos docentes, entraron excombatientes franquistas en las aulas y se impuso una disciplina semimilitar.
+El mundo cambió para siempre… excepto que ahora, cuando por suerte hemos recuperado nuestra libertad, el
+gobierno sigue sin entender por qué se reclama la independencia para Cataluña.</p></div>
+<div class="gl"><div><b>funesto</b> — disastrous, dire</div><div><b>confinar</b> — to confine, to intern</div><div><b>la sede social</b> — the registered office / head office</div><div><b>el ámbito</b> — the sphere, the domain</div><div><b>el docente</b> — the teacher</div><div><b>fíjate</b> — just look, imagine that</div></div>
+</section>
+<section class="task">
+<div class="sechead"><h2>5 · ¿Verdadero o falso? Corrige la información</h2><span class="secscore"></span></div>
+<div class="aim">Escribe <b>V</b> si la frase coincide con la entrevista. Si es falsa, escribe la palabra o cifra correcta. Es exactamente lo que pide Paper 1 en la sección de audición.</div>
+<div class="scaf">Andamiaje: el error suele estar en <b>una sola palabra</b> — un parentesco, una cifra o una negación.</div>
+<ol class="qs">
+<li><div class="qtxt">Dos primos tuvieron que emprender el camino del exilio.<br><input type="text" data-a="tíos|dos tíos" data-q="5 · ¿Verdadero o falso? Corrige la información — 1" autocomplete="off" spellcheck="false"><span class="hint">¿quiénes se exiliaron?</span></div></li>
+<li><div class="qtxt">El padre de María del Mar fue ejecutado.<br><input type="text" data-a="V" data-q="5 · ¿Verdadero o falso? Corrige la información — 2" autocomplete="off" spellcheck="false"></div></li>
+<li><div class="qtxt">El presidente de la República eludió a los que le perseguían.<br><input type="text" data-a="Companys|Lluís Companys|el presidente de Cataluña" data-q="5 · ¿Verdadero o falso? Corrige la información — 3" autocomplete="off" spellcheck="false"><span class="hint">¿quién era, y le eludió?</span></div></li>
+<li><div class="qtxt">Nunca escasearon la luz y el petróleo.<br><input type="text" data-a="escasearon|sí escasearon|hubo restricciones" data-q="5 · ¿Verdadero o falso? Corrige la información — 4" autocomplete="off" spellcheck="false"><span class="hint">cuidado con la negación</span></div></li>
+<li><div class="qtxt">Lo normal en aquella época era fijar la sede social de una empresa en la capital.<br><input type="text" data-a="V" data-q="5 · ¿Verdadero o falso? Corrige la información — 5" autocomplete="off" spellcheck="false"></div></li>
+<li><div class="qtxt">El catalán no se podía usar en actuaciones públicas.<br><input type="text" data-a="V" data-q="5 · ¿Verdadero o falso? Corrige la información — 6" autocomplete="off" spellcheck="false"></div></li>
+<li><div class="qtxt">No se podía enseñar la historia de Cataluña en esta época.<br><input type="text" data-a="V" data-q="5 · ¿Verdadero o falso? Corrige la información — 7" autocomplete="off" spellcheck="false"></div></li>
+<li><div class="qtxt">Unos 4.000 catalanes fueron confinados en campos de concentración.<br><input type="text" data-a="150.000|150000" data-q="5 · ¿Verdadero o falso? Corrige la información — 8" autocomplete="off" spellcheck="false"><span class="hint">la cifra correcta</span></div></li>
+</ol>
+<button type="button" class="checkone">Corregir esta sección</button>
+<div class="stretch">Desafío A*: identifica cuál de las ocho frases es falsa por una <b>negación</b> y no por un dato. Es el error más difícil de oír en el examen.</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>6 · Gramática: el orden de las palabras en la pregunta</h2><span class="secscore"></span></div>
+<div class="aim">Aquí tienes las respuestas. Escribe la <b>palabra interrogativa</b> que falta al principio de cada pregunta.</div>
+<div class="scaf">En español el sujeto va <b>detrás</b> del verbo en la pregunta: <em>¿Cuándo exhumaron los restos de Franco?</em>, nunca «¿Cuándo los restos…?». Y todas las interrogativas llevan tilde.</div>
+<div class="bank">Qué · Quién · Cuándo · Dónde · Cuántas · Por qué · Cómo · Cuál</div>
+<ol class="qs">
+<li><div class="qtxt">¿<input type="text" data-a="Cuándo" data-q="6 · Gramática: el orden de las palabras en la pregunta — 1" autocomplete="off" spellcheck="false"> se exhumaron los restos de Franco? — En 2019.<span class="hint">tiempo</span></div></li>
+<li><div class="qtxt">¿<input type="text" data-a="Cuántas" data-q="6 · Gramática: el orden de las palabras en la pregunta — 2" autocomplete="off" spellcheck="false"> personas desaparecidas calcula la ARMH? — 114.226.<span class="hint">número, femenino plural</span></div></li>
+<li><div class="qtxt">¿<input type="text" data-a="Quién" data-q="6 · Gramática: el orden de las palabras en la pregunta — 3" autocomplete="off" spellcheck="false"> era el presidente de Cataluña fusilado en 1940? — Lluís Companys.</div></li>
+<li><div class="qtxt">¿<input type="text" data-a="Por qué" data-q="6 · Gramática: el orden de las palabras en la pregunta — 4" autocomplete="off" spellcheck="false"> se impuso la ley del silencio? — Porque nadie quería remover la guerra.<span class="hint">dos palabras</span></div></li>
+<li><div class="qtxt">¿<input type="text" data-a="Dónde" data-q="6 · Gramática: el orden de las palabras en la pregunta — 5" autocomplete="off" spellcheck="false"> estaban enterradas las víctimas? — En fosas comunes y en las cunetas.</div></li>
+<li><div class="qtxt">¿<input type="text" data-a="Cuál" data-q="6 · Gramática: el orden de las palabras en la pregunta — 6" autocomplete="off" spellcheck="false"> es la diferencia entre amnistía y amnesia? — La primera es jurídica; la segunda, voluntaria.</div></li>
+<li><div class="qtxt">¿<input type="text" data-a="Cómo" data-q="6 · Gramática: el orden de las palabras en la pregunta — 7" autocomplete="off" spellcheck="false"> reaccionó el PP ante la comisión valenciana? — Acusándola de reabrir heridas.</div></li>
+<li><div class="qtxt">¿<input type="text" data-a="Cuándo" data-q="6 · Gramática: el orden de las palabras en la pregunta — 8" autocomplete="off" spellcheck="false"> aprobó España la Ley de Memoria Histórica? — En 2007.</div></li>
+</ol>
+<button type="button" class="checkone">Corregir esta sección</button>
+<div class="stretch">Desafío A*: escribe la pregunta entera para tres de estas respuestas, con el orden verbo-sujeto correcto y las dos interrogaciones.</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>7 · Traducción en las dos direcciones</h2><span class="secscore"></span></div>
+<div class="aim">Primero al inglés, después al español. Compara tu versión con el modelo y anota qué se te escapó.</div>
+<ol class="qs">
+<li><div class="qtxt">Muchos españoles menores de cuarenta años desconocen los hechos de la Guerra Civil, porque el tema desapareció de los planes de estudio. Se impuso una tácita ley del silencio y pocos quisieron hurgar en el pasado. Sin embargo, para las familias de los desaparecidos el país todavía no ha saldado sus deudas.</div>
+<textarea rows="5" data-open="o6_0" data-q="Muchos españoles menores de cuarenta años desconocen los hechos de la Guerra Civil, porque el tema desapareció de los planes de estudio. Se impuso una tácita ley del silencio y pocos quisieron hurgar en el pasado. Sin embargo, para las familias de los desaparecidos el país todavía no ha saldado sus deudas." data-model="Many Spaniards under forty do not know the facts of the Civil War, because the subject disappeared from the school curriculum. An unspoken law of silence took hold and few people wanted to dig around in the past. However, for the families of the disappeared the country has still not settled its debts."></textarea>
+<button type="button" class="reveal" data-t="mo_o6_0" data-on="Ver la respuesta modelo" data-off="Ocultar el modelo">Ver la respuesta modelo</button>
+<div class="model" id="mo_o6_0"><b>Modelo:</b> Many Spaniards under forty do not know the facts of the Civil War, because the subject disappeared from the school curriculum. An unspoken law of silence took hold and few people wanted to dig around in the past. However, for the families of the disappeared the country has still not settled its debts.</div>
+<div class="selfrow">Autoevaluación (de 5): <input type="text" data-self="o6_0" inputmode="numeric" placeholder="p. ej. 4"> <span>— compárate con el modelo, no con lo que querías decir.</span></div>
+</li>
+<li><div class="qtxt">The exhumation of the mass graves divides Spanish society. Those who oppose it argue that it reopens old wounds; those who demand it reply that a wound which has never been cleaned cannot heal. It is estimated that more than one hundred thousand people are still buried by the roadside.</div>
+<textarea rows="5" data-open="o6_1" data-q="The exhumation of the mass graves divides Spanish society. Those who oppose it argue that it reopens old wounds; those who demand it reply that a wound which has never been cleaned cannot heal. It is estimated that more than one hundred thousand people are still buried by the roadside." data-model="La exhumación de las fosas comunes divide a la sociedad española. Quienes se oponen sostienen que reabre viejas heridas; quienes la reclaman responden que una herida que nunca se ha limpiado no puede cicatrizar. Se calcula que más de cien mil personas siguen enterradas en las cunetas."></textarea>
+<button type="button" class="reveal" data-t="mo_o6_1" data-on="Ver la respuesta modelo" data-off="Ocultar el modelo">Ver la respuesta modelo</button>
+<div class="model" id="mo_o6_1"><b>Modelo:</b> La exhumación de las fosas comunes divide a la sociedad española. Quienes se oponen sostienen que reabre viejas heridas; quienes la reclaman responden que una herida que nunca se ha limpiado no puede cicatrizar. Se calcula que más de cien mil personas siguen enterradas en las cunetas.</div>
+<div class="selfrow">Autoevaluación (de 5): <input type="text" data-self="o6_1" inputmode="numeric" placeholder="p. ej. 4"> <span>— compárate con el modelo, no con lo que querías decir.</span></div>
+</li>
+</ol>
+<div class="stretch">Desafío A*: en la traducción al español, usa una <b>pasiva refleja</b> («se calcula que…») y una <b>concesiva con subjuntivo</b> («por muy doloroso que sea»).</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>8 · Paper 3 y proyecto de investigación</h2></div>
+<div class="aim">Estas preguntas sirven tanto para la discusión de tema como para el IRP. Anota una cifra y un ejemplo por respuesta.</div>
+<div class="scaf">Frases de apoyo: <em>Hay quienes sostienen que…, mientras que otros replican que…</em> · <em>Personalmente me inclino por… porque…</em> · <em>El caso de … lo ilustra muy bien.</em></div>
+<div class="speakq"><div class="q">1. ¿Fue el «pacto del olvido» necesario para la Transición, o un error histórico?</div><textarea rows="3" data-open="s7_0" data-q="¿Fue el «pacto del olvido» necesario para la Transición, o un error histórico?" data-model="" placeholder="Tus apuntes: idea principal, un dato con fecha, un ejemplo."></textarea></div>
+<div class="speakq"><div class="q">2. ¿Debe el Estado pagar la exhumación de las fosas comunes? ¿Por qué?</div><textarea rows="3" data-open="s7_1" data-q="¿Debe el Estado pagar la exhumación de las fosas comunes? ¿Por qué?" data-model="" placeholder="Tus apuntes: idea principal, un dato con fecha, un ejemplo."></textarea></div>
+<div class="speakq"><div class="q">3. ¿Cómo influyó la represión del catalán y del vasco en el debate territorial de hoy?</div><textarea rows="3" data-open="s7_2" data-q="¿Cómo influyó la represión del catalán y del vasco en el debate territorial de hoy?" data-model="" placeholder="Tus apuntes: idea principal, un dato con fecha, un ejemplo."></textarea></div>
+<div class="speakq"><div class="q">4. «Las dos Españas ya no existen.» ¿Estás de acuerdo?</div><textarea rows="3" data-open="s7_3" data-q="«Las dos Españas ya no existen.» ¿Estás de acuerdo?" data-model="" placeholder="Tus apuntes: idea principal, un dato con fecha, un ejemplo."></textarea></div>
+<div class="speakq"><div class="q">5. Para el IRP: ¿qué fuentes en español usarías y cómo comprobarías que son fiables?</div><textarea rows="3" data-open="s7_4" data-q="Para el IRP: ¿qué fuentes en español usarías y cómo comprobarías que son fiables?" data-model="" placeholder="Tus apuntes: idea principal, un dato con fecha, un ejemplo."></textarea></div>
+<div class="stretch">Desafío A*: prepara una respuesta que reconozca el mejor argumento del bando contrario antes de rebatirlo. Es lo que separa una A de una A*.</div>
+</section>
+</main>
+<footer class="site">Unidad 11 · El franquismo · BBA Sixth Form. Todo funciona en el navegador, sin conexión y sin registro. Descarga tus respuestas y súbelas a Teams.</footer>
+
+<div class="dock">
+  <div class="bar">
+    <input id="nom" type="text" placeholder="Tu nombre" autocomplete="off" aria-label="Tu nombre">
+    <div id="pad"></div>
+    <div class="acts">
+      <button type="button" id="btnCheck">Corregir todo</button>
+      <button type="button" id="btnDl">Descargar</button>
+      <button type="button" id="btnReset">Borrar</button>
+    </div>
+  </div>
+  <div class="score"><div class="track"><i id="scoreBar"></i></div><span id="scoreTxt">0 / 0</span></div>
+  <div id="dockMsg">Escribe tu nombre, corrige y descarga el CSV para tu profesor.</div>
+</div>
+<script>
+/* Unit 11 · Franquismo — shared activity engine
+   Tolerant marking (Edexcel accent/typo rules), accent pad, blob download. */
+(function(){
+"use strict";
+var PAD  = ["á","é","í","ó","ú","ü","ñ","¿","¡"];
+var PADU = ["Á","É","Í","Ó","Ú","Ü","Ñ","¿","¡"];
+
+/* ---------------------------------------------------------------- marking */
+function deacc(s){ return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").normalize("NFC"); }
+function keep(s){ return String(s||"").toLowerCase().replace(/[’‘`´]/g,"'")
+  .replace(/[«»“”"]/g,"").replace(/[.,;:!?¿¡()\[\]]/g,"").replace(/\s+/g," ").trim(); }
+function norm(s){ return deacc(keep(s)); }
+function lev(a,b){
+  if(a===b) return 0;
+  var m=a.length,n=b.length,i,j,prev,tmp,row=[];
+  if(!m) return n; if(!n) return m;
+  for(j=0;j<=n;j++) row[j]=j;
+  for(i=1;i<=m;i++){ prev=row[0]; row[0]=i;
+    for(j=1;j<=n;j++){ tmp=row[j];
+      row[j]=Math.min(row[j]+1,row[j-1]+1,prev+(a.charAt(i-1)===b.charAt(j-1)?0:1)); prev=tmp; } }
+  return row[n];
+}
+function accentIsGrammatical(g,w){
+  g=keep(g); w=keep(w);
+  if(/[áéíóú]$/.test(w)!==/[áéíóú]$/.test(g)) return true;
+  if(/í(a|as|an|amos|ais)$/.test(w)!==/í(a|as|an|amos|ais)$/.test(g)) return true;
+  if(/^(si|sí|el|él|tu|tú|mi|mí|te|té|mas|más|se|sé|de|dé|solo|sólo|aun|aún|que|qué|como|cómo|cuando|cuándo|donde|dónde)$/.test(w) && w!==g) return true;
+  if((w.indexOf("ñ")>=0)!==(g.indexOf("ñ")>=0)) return true;
+  return false;
+}
+function typoOnly(g,w){
+  var A=g.split(" "), B=w.split(" "), slips=0, i, a, b;
+  if(A.length!==B.length) return false;
+  for(i=0;i<A.length;i++){
+    a=A[i]; b=B[i];
+    if(a===b) continue;
+    if(b.length<5) return false;
+    if(a.slice(-2)!==b.slice(-2)) return false;
+    if(lev(a.slice(0,-2),b.slice(0,-2))>1) return false;
+    if(++slips>1) return false;
+  }
+  return slips===1;
+}
+function judge(given, expected){
+  var wants=String(expected).split(/\s*\|\s*/).filter(Boolean), best=null, i, w;
+  if(!keep(given)) return {code:"empty", note:"Sin responder.", want:wants[0]};
+  for(i=0;i<wants.length;i++){
+    w=wants[i];
+    if(keep(given)===keep(w)) return {code:"ok", note:"Correcto.", want:w};
+    if(norm(given)===norm(w)){
+      if(accentIsGrammatical(given,w)){ if(!best) best={code:"no",note:"La tilde cambia la palabra o el tiempo verbal: tiene que ser exacta.",want:w}; continue; }
+      return {code:"accent", note:"Falta una tilde — aquí no se penaliza, pero corrígela.", want:w};
+    }
+    if(typoOnly(norm(given),norm(w)) && (!best||best.code==="no")) best={code:"typo",note:"Errata tolerada — la terminación es correcta.",want:w};
+  }
+  return best || {code:"no", note:"Todavía no.", want:wants[0]};
+}
+
+/* ------------------------------------------------------------------- util */
+function $(s,r){ return (r||document).querySelector(s); }
+function $$(s,r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); }
+var LABEL={ok:"Correcto",accent:"Aceptado (tilde)",typo:"Aceptado (errata)",no:"Incorrecto",empty:"Sin responder"};
+
+/* ------------------------------------------------------------- accent pad */
+var last=null;
+document.addEventListener("focusin",function(e){
+  var el=e.target;
+  if(el && !el.closest(".dock") && (el.tagName==="TEXTAREA"||(el.tagName==="INPUT"&&/^(text|search|)$/i.test(el.type)))) last=el;
+});
+function insert(ch){
+  var el=last||$("input[type=text],textarea");
+  if(!el) return;
+  el.focus();
+  var s=el.selectionStart,e=el.selectionEnd;
+  if(typeof s==="number"){ el.value=el.value.slice(0,s)+ch+el.value.slice(e); el.selectionStart=el.selectionEnd=s+ch.length; }
+  else el.value+=ch;
+  el.dispatchEvent(new Event("input",{bubbles:true}));
+}
+function buildPad(host){
+  var up=false, keys=[];
+  var sh=document.createElement("button");
+  sh.type="button"; sh.className="k shift"; sh.textContent="ABC"; sh.title="Mayúsculas";
+  sh.onclick=function(){ up=!up; sh.classList.toggle("on",up); keys.forEach(function(o){ o.b.textContent=up?o.U:o.l; }); };
+  host.appendChild(sh);
+  PAD.forEach(function(ch,i){
+    var b=document.createElement("button");
+    b.type="button"; b.className="k"; b.textContent=ch; b.setAttribute("aria-label",ch);
+    b.onmousedown=function(ev){ ev.preventDefault(); };
+    b.onclick=function(){ insert(up?PADU[i]:ch); };
+    keys.push({b:b,l:ch,U:PADU[i]}); host.appendChild(b);
+  });
+}
+
+/* --------------------------------------------------------------- checking */
+function tip(el, v){
+  var old=el.parentNode.querySelector(".fb");
+  if(old) old.remove();
+  el.classList.remove("ok","warn","bad");
+  if(v.code==="empty") return;
+  el.classList.add(v.code==="ok"?"ok":(v.code==="no"?"bad":"warn"));
+  if(v.code==="ok") return;
+  var s=document.createElement("small");
+  s.className="fb"+(v.code==="no"?" bad":"");
+  s.textContent=v.note+(v.code==="no"?"  →  "+v.want:"");
+  el.parentNode.insertBefore(s, el.nextSibling);
+}
+function checkSection(sec){
+  var done=0, tot=0;
+  $$("[data-a]", sec).forEach(function(el){
+    tot++;
+    var v=judge(el.value, el.getAttribute("data-a"));
+    tip(el,v);
+    if(v.code==="ok"||v.code==="accent"||v.code==="typo") done++;
+  });
+  $$("[data-mcq]", sec).forEach(function(g){
+    tot++;
+    var want=g.getAttribute("data-mcq");
+    var chosen=$$("input[type=radio]",g).filter(function(r){return r.checked;})[0];
+    g.classList.remove("ok","bad");
+    $$(".fb",g).forEach(function(n){n.remove();});
+    if(!chosen) return;
+    var right = chosen.value===want;
+    g.classList.add(right?"ok":"bad");
+    if(right){ done++; }
+    else {
+      var s=document.createElement("small"); s.className="fb bad";
+      s.textContent="La respuesta correcta es "+want+".";
+      g.appendChild(s);
+    }
+  });
+  var bar=$(".secscore", sec);
+  if(bar) bar.textContent=tot?(done+" / "+tot):"";
+  return {done:done, total:tot};
+}
+function checkAll(){
+  var d=0,t=0;
+  $$("section.task").forEach(function(s){ var r=checkSection(s); d+=r.done; t+=r.total; });
+  var pct=t?Math.round(100*d/t):0;
+  $("#scoreTxt").textContent=d+" / "+t;
+  $("#scoreBar").style.width=pct+"%";
+  return {done:d,total:t};
+}
+
+/* --------------------------------------------------------------- download */
+function cell(v){ return '"'+String(v==null?"":v).replace(/"/g,'""').replace(/\r?\n/g,"  ")+'"'; }
+function download(){
+  var name=$("#nom").value.trim();
+  var r=checkAll();
+  var d=new Date(), p=function(n){return (n<10?"0":"")+n;};
+  var stamp=d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate());
+  var L=[];
+  L.push([ "Alumno/a", name||"(sin nombre)" ].map(cell).join(","));
+  L.push([ "Actividad", document.title ].map(cell).join(","));
+  L.push([ "Fecha", stamp+" "+p(d.getHours())+":"+p(d.getMinutes()) ].map(cell).join(","));
+  L.push([ "Puntuación automática", r.done+" / "+r.total ].map(cell).join(","));
+  L.push("");
+  L.push(["Sección","Pregunta","Respuesta","Modelo","Resultado","Comentario"].map(cell).join(","));
+  $$("section.task").forEach(function(sec){
+    var title=$("h2",sec)?$("h2",sec).textContent.trim():"";
+    $$("[data-a]",sec).forEach(function(el){
+      var v=judge(el.value, el.getAttribute("data-a"));
+      L.push([title, el.getAttribute("data-q")||"", el.value, v.want, LABEL[v.code], v.note].map(cell).join(","));
+    });
+    $$("[data-mcq]",sec).forEach(function(g){
+      var want=g.getAttribute("data-mcq");
+      var ch=$$("input[type=radio]",g).filter(function(x){return x.checked;})[0];
+      var got=ch?ch.value:"";
+      L.push([title, g.getAttribute("data-q")||"", got, want,
+              got? (got===want?"Correcto":"Incorrecto") : "Sin responder", ""].map(cell).join(","));
+    });
+    $$("[data-open]",sec).forEach(function(el){
+      var self=sec.querySelector('[data-self="'+el.getAttribute("data-open")+'"]');
+      L.push([title, el.getAttribute("data-q")||"", el.value,
+              el.getAttribute("data-model")||"", self&&self.value?("Autoevaluación: "+self.value):"Para corregir por el profesor",
+              ""].map(cell).join(","));
+    });
+  });
+  var blob=new Blob(["﻿"+L.join("\r\n")],{type:"text/csv;charset=utf-8;"});
+  var a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(name?name+" - ":"")+document.title.replace(/[\\\/:*?"<>|]/g,"-")+" - "+stamp+".csv";
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },0);
+  if(!name) $("#dockMsg").textContent="Descargado — escribe tu nombre antes de enviarlo.";
+  else $("#dockMsg").textContent="Descargado para "+name+".";
+}
+
+/* ------------------------------------------------------------------- boot */
+function boot(){
+  buildPad($("#pad"));
+  $("#btnCheck").onclick=function(){ checkAll(); };
+  $("#btnDl").onclick=download;
+  $("#btnReset").onclick=function(){
+    if(!confirm("¿Borrar todas tus respuestas en esta página?")) return;
+    $$("input[type=text],textarea").forEach(function(e){ if(e.id!=="nom"){ e.value=""; e.classList.remove("ok","warn","bad"); } });
+    $$("input[type=radio]").forEach(function(e){ e.checked=false; });
+    $$(".fb").forEach(function(n){ n.remove(); });
+    $$("[data-mcq]").forEach(function(g){ g.classList.remove("ok","bad"); });
+    $$(".secscore").forEach(function(n){ n.textContent=""; });
+    $("#scoreTxt").textContent="0 / 0"; $("#scoreBar").style.width="0%";
+  };
+  $$("section.task").forEach(function(sec){
+    var b=$(".checkone",sec);
+    if(b) b.onclick=function(){ checkSection(sec); };
+  });
+  $$(".reveal").forEach(function(b){
+    b.onclick=function(){
+      var t=document.getElementById(b.getAttribute("data-t"));
+      var open=t.classList.toggle("show");
+      b.textContent=open?b.getAttribute("data-off"):b.getAttribute("data-on");
+    };
+  });
+  try{ $("#nom").value=localStorage.getItem("bba-name")||""; }catch(e){}
+  $("#nom").addEventListener("input",function(){ try{localStorage.setItem("bba-name",$("#nom").value.trim());}catch(e){} });
+  var dock=$(".dock");
+  function pack(){ document.body.style.paddingBottom=(dock.offsetHeight+16)+"px"; }
+  pack(); window.addEventListener("resize",pack);
+}
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",boot); else boot();
+})();
+</script>
+</body>
+</html>
