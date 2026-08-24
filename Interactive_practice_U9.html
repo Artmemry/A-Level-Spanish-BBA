@@ -891,7 +891,7 @@
                 score++;
                 detailedFeedback.push('Q13: ✓ Correcto');
             } else if (q13Checked.length >= 2) {
-                result13.textContent = `⚠ Parcialmente correcto (${q13Checked.length}/4). Todas las opciones son correctas.';
+                result13.textContent = `⚠ Parcialmente correcto (${q13Checked.length}/4). Todas las opciones son correctas.`;
                 result13.className = 'result partial show';
                 score += q13Checked.length * 0.25;
                 detailedFeedback.push(`Q13: ⚠ Parcialmente correcto (${q13Checked.length}/4)`);
