@@ -1,0 +1,136 @@
+/* =====================================================================
+   BBA mobile — the phone rules, in one place.
+
+   Students revise on phones. Measured at 390 px across the Spanish site,
+   fifteen pages scrolled sideways, ten had no viewport tag, thirty-three
+   carried text under 12 px, and fifty-six had input boxes under 16 px —
+   which makes iOS Safari zoom the whole page in the moment a finger
+   touches a field, and it does not zoom back out.
+
+   THIS IS THE GENERIC LAYER. It fixes the faults that are the same on
+   any site: the zoom trap, wide tables, oversized images, small tap
+   targets, the kit's own bar. The named flex rows and grids that cause
+   the fifteen overflows are specific to this site's stylesheets and are
+   still to be derived — that is the full sweep, not this file.
+
+   Everything below applies only at phone widths. Desktop is untouched.
+
+   bba-kit-es.js links this automatically, so pages carrying the kit need
+   no edit. Pages without it link it themselves:
+       <link rel="stylesheet" href="bba-mobile.css">
+   ===================================================================== */
+
+@media (max-width: 480px) {
+
+  /* ---- 1. the iOS zoom trap ---------------------------------------
+     Safari zooms the viewport when a focused field is under 16 px, and
+     leaves it zoomed. On a sixty-item drill that is sixty zooms. 16 px
+     is the threshold, not a preference — anything at or above it is
+     left alone, so a page that already sets 17 px keeps it. */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  textarea,
+  select {
+    font-size: max(16px, 1em) !important;
+  }
+
+  /* Fields must not push the page sideways either. */
+  input, textarea, select {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* ---- 2. nothing scrolls sideways ---------------------------------
+     Deliberately no `overflow-x: hidden` on the body. That hides the
+     symptom and silently clips whatever was sticking out — on the first
+     page I checked it had cut the right-hand column of a vocabulary list
+     clean off the screen. Each cause is fixed below instead. */
+  img, video, iframe, svg, pre, canvas { max-width: 100%; height: auto; }
+
+  /* A wide table scrolls inside itself instead of dragging the page
+     with it. This is what fixes the three comparison-table pages. */
+  table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* …but a table that already fits should still fill its column. */
+  table > tbody, table > thead, table > tfoot { min-width: 100%; }
+
+  /* A row holding a fixed-width label beside a text box is the commonest
+     cause of sideways scroll, and the rows have different class names on
+     this site than on the French one. Deriving them is part of the full
+     sweep; until then a field may still shrink rather than overflow. */
+  input, textarea { min-width: 0; }
+
+  /* A <select> is sized by its longest option, which on these pages is a
+     full sentence. On a phone it takes the line it is on. */
+  select { width: 100%; }
+
+  /* ---- 3. a floor under the text ----------------------------------
+     Structural sizes only; bba-mobile.js lifts the rest, because the
+     small type is spread across eighty-five different class names and
+     naming them all would be guesswork. */
+  body { font-size: max(15px, 1rem); }
+
+  /* ---- 4. things a finger can hit ---------------------------------
+     30 px was the measured floor on this site; 40 px is the guideline.
+     The kit's own bar is excluded — it is sized to stay out of the way. */
+  body button:not(#bba-kit button),
+  body .btn:not(#bba-kit .btn),
+  body a.open, body a.btn, body summary {
+    min-height: 40px;
+  }
+  body button:not(#bba-kit button),
+  body .btn:not(#bba-kit .btn) {
+    padding-top: max(8px, 0.4em);
+    padding-bottom: max(8px, 0.4em);
+  }
+  /* Checkboxes and radios are the hardest things on a page to hit.
+     24 px is the WCAG 2.5.8 floor. Where the site wraps them in a label
+     — which it does on every quiz — the real target is the whole option
+     row, already 260 px wide, and this just makes the box itself easier
+     to aim at. */
+  input[type="checkbox"], input[type="radio"] {
+    width: 24px; height: 24px;
+  }
+
+  /* The three confidence faces on a hub tile are 28 px wide. */
+  .conf button { min-width: 40px; }
+
+  /* Options in a multiple-choice list become the target, not just the box. */
+  label:has(> input[type="radio"]), label:has(> input[type="checkbox"]) {
+    display: block;
+    padding: 8px 10px;
+    min-height: 40px;
+  }
+
+  /* ---- 5. the kit's bar stays a bar --------------------------------
+     Two pages had the fixed bar measured wider than the screen, because
+     the document behind it had already overflowed. With the overflow
+     gone it cannot happen, but this makes it structural rather than
+     incidental. */
+  #bba-kit { max-width: 100vw; overflow-x: hidden; }
+  #bba-kit .bar { flex-wrap: wrap; }
+
+  /* The kit's own name box was the one field left under 16 px, and it is
+     the first thing a student touches. The attribute selector outranks
+     the kit's runtime stylesheet, which is injected after this file. */
+  #bba-kit input[type="text"].nm { font-size: 16px !important; height: 38px !important; }
+
+  /* A floating accent keyboard must not cover the field the student is
+     typing into, nor run off the side. Three of this site's keyboards
+     were measured wider than the screen. */
+  #accentPad, #virtualKeyboard, #accentKeyboard,
+  .accent-keyboard-float, .keyboard-content {
+    max-width: calc(100vw - 24px);
+    box-sizing: border-box;
+    flex-wrap: wrap;
+  }
+}
+
+/* Very narrow phones — an iPhone SE is 375 px, older Androids 360. */
+@media (max-width: 380px) {
+  #bba-kit .act button { padding: 0 10px !important; }
+  /* site-specific narrow-phone rules go here once derived */
+}
