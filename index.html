@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A-Level Spanish · Edexcel</title>
-<meta name="description" content="A-Level Spanish revision passport (Edexcel 9SP0): the four themes, both set works, translation and grammar, with progress tracking.">
+<meta name="description" content="A-Level Spanish revision passport (Edexcel 9SP0): the four themes, both set works, translation and grammar, with real scores and progress tracking.">
 <style>
 
 :root{
@@ -134,6 +134,19 @@ footer.site{max-width:1080px;margin:0 auto;padding:20px;border-top:1px solid var
   font-size:.78rem;color:var(--muted)}
 .unit-empty{font-size:.87rem;color:var(--muted);background:var(--card);border:1px dashed var(--line-strong);
   border-radius:var(--radius);padding:12px 14px}
+.tile .score{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);
+  font-size:.66rem;font-weight:700;letter-spacing:.04em;border-radius:4px;padding:2px 7px}
+.tile .score.hi{background:var(--vert-pale);color:#1D5A3A}
+.tile .score.mid{background:#FFF7E6;color:#7A5C00}
+.tile .score.lo{background:#FDECEA;color:#96261C}
+.tile .score.none{background:var(--line);color:var(--muted)}
+.tile .tries{font-family:var(--mono);font-size:.6rem;color:var(--muted)}
+.tile.scored{border-color:var(--vert)}
+.evidence{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;margin:4px 0 0;
+  font-family:var(--mono);font-size:.68rem;color:var(--muted)}
+.claimed{background:#FFF7E6;border:1px solid #E8D9A8;border-radius:6px;padding:9px 12px;
+  font-size:.85rem;color:#6B5A33;margin:10px 0 0}
+.claimed b{color:var(--ink)}
 .hide{display:none!important}
 .spec{font-family:var(--mono);font-size:.66rem;color:var(--muted);margin-top:26px}
 
@@ -144,7 +157,11 @@ footer.site{max-width:1080px;margin:0 auto;padding:20px;border-top:1px solid var
   nav.jump a{flex:0 0 auto}
   .finder input{min-width:100%}
 }
+.sid-note{font-size:.86rem;line-height:1.5;margin:0 0 9px;padding:9px 12px;border-radius:8px;
+  background:#F2F5FA;border:1px solid #D6DEEA;color:#3B4A63}
 </style>
+<link rel="stylesheet" href="bba-mobile.css">
+<script src="bba-mobile.js" defer></script>
 </head>
 <body>
 <header class="site">
@@ -166,7 +183,7 @@ footer.site{max-width:1080px;margin:0 auto;padding:20px;border-top:1px solid var
 </header>
 <main>
   <p class="lede">Everything for the course in one place — the four themes, both set works, translation and grammar.</p>
-  <p class="intro">The themes and sub-themes below are Edexcel's own, in Edexcel's wording, so what you see here is the shape of the exam. Every tile opens a self-contained activity that <b>marks itself and explains the answer</b>. Nothing to install, no login, and it all works offline. Tick things off as you go and the page keeps count for you.</p>
+  <p class="intro">The themes and sub-themes below are Edexcel's own, in Edexcel's wording, so what you see here is the shape of the exam. Every tile opens a self-contained activity that <b>marks itself and explains the answer</b>. Nothing to install, no login, and it works offline. Your score comes back to this page on its own — <b>the percentage on a tile is what you actually got</b>. Tick an activity and rate it to mark what you want to return to, then, whenever your teacher asks for it, go to <b>Progress</b> at the foot of the page and send them your code.</p>
 
   <div class="papers-key">
     <div><b>Paper 1 · 40%</b>Listening, reading and translation into English. Built entirely on the four themes.</div>
@@ -191,24 +208,28 @@ footer.site{max-width:1080px;margin:0 auto;padding:20px;border-top:1px solid var
   <section class="suivi" id="suivi">
     <div class="theme-head"><span class="theme-num">Progress</span>
       <span class="theme-name">My progress</span></div>
-    <p class="theme-blurb">Mark each activity «Done» when you finish it and say how hard you found it. Everything is stored on this device only; the code below is what lets your teacher see how far you have got.</p>
+    <p class="theme-blurb">Your score in each activity is recorded here automatically when you finish it — you do not have to do anything. The tick and the face are for you, to mark what you want to come back to. Everything is stored on this device only; the code below is what lets your teacher see how far you have got, and it now carries your real scores.</p>
     <div class="card">
       <label for="nom" style="font-weight:600;font-size:.9rem">Your name</label>
       <input id="nom" class="typed" style="margin-top:7px" placeholder="First name + initial, e.g. Lucía G." autocomplete="off">
       <label for="sid" style="font-weight:600;font-size:.9rem;display:block;margin-top:12px">Your candidate number</label>
-      <p style="font-size:.82rem;color:var(--muted);margin:2px 0 0">Type it once. It lets your teacher follow your progress across the two years even if you change computer.</p>
+      <p style="font-size:.82rem;color:var(--muted);margin:2px 0 0">Optional — but useful. Type it once and this device remembers it: your teacher can then follow your progress across the two years even if you change computer or write your name differently.</p>
       <input id="sid" class="typed" style="margin-top:7px" placeholder="e.g. 4417" autocomplete="off" inputmode="text">
       <div class="kpi-row">
         <div class="kpi"><div class="n" id="kOpen">0</div><div class="l">opened</div></div>
         <div class="kpi"><div class="n" id="kDone">0</div><div class="l">completed</div></div>
         <div class="kpi"><div class="n" id="kPct">0 %</div><div class="l">of the course</div></div>
         <div class="kpi"><div class="n" id="kHard">0</div><div class="l">marked hard</div></div>
+        <div class="kpi"><div class="n" id="kScored">0</div><div class="l">actually scored</div></div>
+        <div class="kpi"><div class="n" id="kAvg">—</div><div class="l">average score</div></div>
       </div>
+      <p class="claimed" id="claimNote" style="display:none"></p>
       <table class="stats"><thead><tr>
         <th>Section</th><th>Done</th><th></th></tr></thead>
         <tbody id="tblProg"></tbody></table>
       <p style="font-weight:600;margin:20px 0 6px;font-size:.92rem">Send to your teacher</p>
-      <p style="font-size:.86rem;color:var(--ink-soft);margin:0 0 9px">Copy this code and send it to your teacher. It contains your progress and the name you typed above — nothing else.</p>
+      <p style="font-size:.86rem;color:var(--ink-soft);margin:0 0 9px">Copy this code and send it to your teacher. It contains your scores, your name and your candidate number — nothing else. It carries only the activities you have opened, so it stays short.</p>
+      <p id="sidNote" class="sid-note" style="display:none"></p>
       <textarea class="code" id="code" readonly></textarea>
       <div class="btn-row">
         <button class="btn primary" id="btnForms">Send via MS Forms</button>
@@ -226,9 +247,10 @@ footer.site{max-width:1080px;margin:0 auto;padding:20px;border-top:1px solid var
 </main>
 <footer class="site">A-Level Spanish revision passport (Edexcel 9SP0) · BBA Sixth Form — 107 activities. Everything runs in the browser, offline, with no account. Progress is saved on this device. · <a href="teacher.html" style="color:var(--muted)">Teacher area</a></footer>
 
+<script src="bba-progress.js"></script>
 <script>
 var DATA = [{"id": "T1", "label": "Theme 1", "name": "La evolución de la sociedad española", "gloss": "The evolution of Spanish society", "papers": "Paper 1 · Paper 3", "blurb": "Family, work and tourism — the three sub-themes Edexcel names for Theme 1. Everything here can come up in the Paper 1 comprehensions and in your Paper 3 discussion.", "units": [{"u": "1.1", "name": "El cambio en la estructura familiar", "gloss": "Changes in family structure", "items": [{"id": "a14998b28", "file": "spanish_family_lesson.html", "title": "La estructura familiar española", "desc": "One-hour workout on family vocabulary and structures.", "badge": "Paper 1"}, {"id": "a02dcf75d", "file": "alevel_familia_improved.html", "title": "Los cambios en las estructuras familiares", "desc": "How the Spanish family has changed — reading and language practice.", "badge": "Paper 1"}]}, {"u": "1.2", "name": "El mundo laboral", "gloss": "The world of work", "items": [{"id": "af38d8d9d", "file": "unemployment_spain_activity.html", "title": "El desempleo en España", "desc": "Youth unemployment and the labour market, with comprehension questions.", "badge": "Paper 1"}, {"id": "af2566a8c", "file": "Interactive_Practice_A-Level_Spanish_Paper_3__T1__U2_mundo_laboral.html", "title": "El mundo laboral en España", "desc": "Speaking practice on work and employment, Paper 3 style.", "badge": "Speaking"}, {"id": "add8b2cbd", "file": "Ojala__me_renueven_el_contrato_practice_activities.html", "title": "«Ojalá me renueven el contrato»", "desc": "Job insecurity and short contracts — and the subjunctive after «ojalá».", "badge": "Paper 1"}, {"id": "a911e3519", "file": "brecha_generacional_Espan_a.html", "title": "La brecha generacional", "desc": "The generation gap at work. Longer B2 text.", "badge": "Paper 1 · B2"}, {"id": "a3eaeb983", "file": "brecha_generacional_Paper_3__U2_Edexcel_A-Level.html", "title": "La brecha generacional — Paper 3", "desc": "The same topic reworked as oral-exam questions and answers.", "badge": "Speaking · B2"}]}, {"u": "1.3", "name": "El impacto turístico en España", "gloss": "The impact of tourism on Spain", "items": [{"id": "aa9a1fdfa", "file": "ecoturismo-comprehension_y_pronombres.html", "title": "El ecoturismo", "desc": "Ecotourism: comprehension plus object-pronoun practice.", "badge": "Paper 1"}, {"id": "ae53baaad", "file": "Interactive_Practice_A_level_Spanish__Paper_3__Task_1__U3_tourism.html", "title": "El impacto turístico en España", "desc": "Speaking practice on the impact of tourism, Paper 3 style.", "badge": "Speaking"}, {"id": "aed32b536", "file": "spanish_tourism_quiz_html-2.html", "title": "Turismo y tecnología", "desc": "Quick quiz on tourism, technology and how travel is changing.", "badge": "Paper 1"}, {"id": "af02d8921", "file": "advanced_toursim_speaking_.html", "title": "Turismo — condicionales y subjuntivo", "desc": "Advanced oral prep — conditionals and the subjunctive in tourism debates.", "badge": "Speaking"}, {"id": "acd6f1a64", "file": "spanish-conditional-subjunctive_speaking_exercise_practice.html", "title": "Turismo sostenible — condicional y subjuntivo", "desc": "Sustainable tourism: build arguments using «si» clauses and the subjunctive.", "badge": "Speaking"}]}]}, {"id": "T2", "label": "Theme 2", "name": "La cultura política y artística en el mundo hispanohablante", "gloss": "Political and artistic culture in the Spanish-speaking world", "papers": "Paper 1 · Paper 3", "blurb": "Music, media, festivals and traditions. The strongest answers here reach beyond Spain to Latin America — the specification asks for the whole Spanish-speaking world.", "units": [{"u": "2.1", "name": "La música", "gloss": "Music", "items": [{"id": "a6e79bb8d", "file": "spanish_music_speaking_pdf_download.html", "title": "Música — Task 1", "desc": "Oral-exam Task 1 on music, with a downloadable answer plan.", "badge": "Speaking"}, {"id": "af73ff17e", "file": "U4_Music_spanish_translation_exercises.html", "title": "Traducción — Unidad 4", "desc": "Translation drills built on the music sub-theme.", "badge": "Translation"}, {"id": "a2b4a1310", "file": "Tango_letras_analisis.html", "title": "Análisis de letras de tango", "desc": "Close reading of tango lyrics. Gentle level — a good way in.", "badge": "Paper 1"}, {"id": "ad4fd8397", "file": "Interactive_Practice_A-Level_Spanish_paper_3_Task_one_U4_music.html", "title": "La música hispana", "desc": "Speaking practice on Hispanic music, Paper 3 style.", "badge": "Speaking"}, {"id": "ab17c16b2", "file": "tango.html", "title": "El tango — práctica ampliada", "desc": "Tango in more depth: origins, exile and identity.", "badge": "Paper 1"}, {"id": "a37b78927", "file": "U4_spanish_music_lesson1.html", "title": "El papel de los cantantes y músicos", "desc": "What singers and musicians do for a culture. Unit opener.", "badge": "Paper 1"}]}, {"u": "2.2", "name": "Los medios de comunicación", "gloss": "The media", "items": [{"id": "ac189a3ad", "file": "How_long_will_the_traditional_press_thrive_Spain.html", "title": "La prensa", "desc": "Timed homework on whether the printed press can survive.", "badge": "Homework"}, {"id": "aa873730a", "file": "Por_que__el_prime_time_espan_ol_termina_si_tarde.html", "title": "El prime time español", "desc": "Why Spanish prime time finishes so late — and what that says about the country.", "badge": "Paper 1 · B2"}, {"id": "ae2c0c591", "file": "Interactive_Practice_A-Level_Spanish_-_U5_los_medios_de_comunicacion.html", "title": "Los medios de comunicación", "desc": "Speaking practice on the media, Paper 3 style.", "badge": "Speaking"}]}, {"u": "2.3", "name": "Los festivales y las tradiciones", "gloss": "Festivals and traditions", "items": [{"id": "a4eb4aac4", "file": "Interactie_Practice_A-Level_Spanish_Paper_3__Task_1__U6_Festivales_y_tradiciones.html", "title": "Festivales, costumbres y tradiciones", "desc": "Speaking practice on festivals, customs and traditions, Paper 3 style.", "badge": "Speaking"}]}]}, {"id": "T3", "label": "Theme 3", "name": "La inmigración y la sociedad multicultural española", "gloss": "Immigration and Spanish multicultural society", "papers": "Paper 1 · Paper 3", "blurb": "The sub-themes move from what immigration gives Spain, to the difficulties, to how society and government respond. Examiners reward answers that hold all three together.", "units": [{"u": "3.1", "name": "El impacto positivo de la inmigración en la sociedad española", "gloss": "The positive impact of immigration on Spanish society", "items": [{"id": "afdbd11b4", "file": "spanish-migration-exercise.html", "title": "Inmigración y economía", "desc": "What immigration contributes to the Spanish economy, in figures.", "badge": "Paper 1"}, {"id": "ae9c0fd1a", "file": "spanish-immigration-activity.html", "title": "La inmigración en España", "desc": "General introduction to immigration in Spain.", "badge": "Paper 1"}, {"id": "a784434a6", "file": "Comprehension_and_vocab_-_migracio_n_y_demografi_a.html", "title": "Jóvenes de origen migratorio", "desc": "Second-generation young people: comprehension and topic vocabulary.", "badge": "Paper 1"}, {"id": "aa1e116bb", "file": "Interactive_practice_U9.html", "title": "Beneficios y desafíos", "desc": "Benefits and challenges side by side — shaped for the oral exam.", "badge": "Speaking"}]}, {"u": "3.2", "name": "Enfrentando los desafíos de la inmigración y la integración en España", "gloss": "Meeting the challenges of immigration and integration in Spain", "items": [{"id": "a7c4e91bd", "file": "unidad8-crisis-vivienda-espana.html", "title": "La crisis de la vivienda", "desc": "B2 dossier on housing, rents and migration pressure: 8 activities and a downloadable report.", "badge": "Paper 1 · B2 · NEW"}]}, {"u": "3.3", "name": "La reacción social y pública hacia la inmigración en España", "gloss": "Social and public reaction to immigration in Spain", "items": [{"id": "ad2dd0620", "file": "ceuta_2026_comprension_B2.html", "title": "Ceuta 2026 — una ciudad desbordada", "desc": "B2 comprehension on the Ceuta border crisis and a city under strain.", "badge": "Paper 1 · B2 · NEW"}, {"id": "a3f583499", "file": "a_la_espanola_politica_migracion.html", "title": "A la española", "desc": "How Spain does migration policy «a la española» — comprehension and vocabulary.", "badge": "Paper 1 · B2"}, {"id": "a90fb7c95", "file": "Inmigracio_n_y_politica_y_subjuntivo.html", "title": "Inmigración y política", "desc": "Immigration in party politics, with subjunctive practice built in.", "badge": "Paper 1"}, {"id": "aca541e6b", "file": "cayucos_-_menas_-_PP_VOX_PSOE_an_ugly_game.html", "title": "El envenenado debate migratorio", "desc": "Small boats, unaccompanied minors and how the parties use them.", "badge": "Paper 1"}]}]}, {"id": "T4", "label": "Theme 4", "name": "La dictadura franquista y la transición a la democracia", "gloss": "The Franco dictatorship and the transition to democracy", "papers": "Paper 1 · Paper 3", "blurb": "Three periods, three sub-themes: the war, the dictatorship, the Transition. Dates matter here — the examiner can tell whether you know them.", "units": [{"u": "4.1", "name": "La Guerra Civil y el ascenso de Franco (1936–1939)", "gloss": "The Civil War and Franco's rise to power", "items": [{"id": "a9645ac4d", "file": "10_2_-_Guerra_civil_-_Espan_a_dividida.html", "title": "Guerra Civil — España dividida", "desc": "A country split in two: the Civil War in outline.", "badge": "Paper 1"}, {"id": "a094f50a7", "file": "spanish_civil_war_una_Espan_a_dividida.html", "title": "Guerra Civil — actividades", "desc": "Further Civil War activities to consolidate the unit.", "badge": "Paper 1"}, {"id": "ac7d7cea6", "file": "Revise_factors_downfall_2nd_Republic.html", "title": "La Segunda República", "desc": "Why the Second Republic fell — the factors, ranked and argued.", "badge": "Paper 1"}]}, {"u": "4.2", "name": "La dictadura franquista", "gloss": "Life under the dictatorship: repression and its consequences", "items": [{"id": "c3f1a0d01", "file": "U11_1_posguerra.html", "title": "La posguerra: hambre, autarquía y represión", "desc": "1939–1952. Autarky, the ration book, the black market and international isolation. Reading, adverbs and translation into English.", "badge": "Paper 1 · Paper 3 · NEW"}, {"id": "c3f1a0d02", "file": "U11_2_censura_propaganda.html", "title": "Censura y propaganda", "desc": "1938–1966. The press law, NO-DO, censored film posters and the Church as moral police. Synonym hunt and indefinite adjectives.", "badge": "Paper 1 · Paper 3 · NEW"}, {"id": "c3f1a0d03", "file": "U11_4_desarrollismo.html", "title": "El desarrollismo y el tardofranquismo", "desc": "1959–1975. The Stabilisation Plan, technocrats, remittances and tourism — against states of emergency, CCOO and ETA. The «growth without freedom» essay.", "badge": "Paper 1 · Paper 3 · NEW"}]}, {"u": "4.3", "name": "La transición de la dictadura a la democracia", "gloss": "The transition from dictatorship to democracy", "items": [{"id": "a6e21082f", "file": "spanish_50_years_practice.html", "title": "España: 50 años de cambios", "desc": "Fifty years of change since Franco, across society and politics.", "badge": "Paper 1"}, {"id": "a6f1cb50a", "file": "transicion_timeline.html", "title": "La Transición 1975–1986", "desc": "Interactive timeline of the Transition, 1975–1986.", "badge": "Paper 1"}, {"id": "a6068d48b", "file": "12_1_transicion-homework.html", "title": "La Transición — deberes", "desc": "Timed homework on the Transition.", "badge": "Homework"}, {"id": "aa7eb79a0", "file": "Transicion_democracia_guia_U12.html", "title": "La Transición — guía completa", "desc": "The full unit guide: negotiated transition, consensus, the pacto del olvido, «café para todos», el búnker, reform vs rupture and the 1977 elections.", "badge": "Paper 1 · Paper 3 · NEW"}, {"id": "c3f1a0d04", "file": "U11_3_memoria_balance.html", "title": "Un balance: la memoria histórica y «las dos Españas»", "desc": "1977 to today. Pacto del olvido, mass graves, the 114,226 disappeared and repression in Catalonia. Strong material for the IRP.", "badge": "Paper 1 · Paper 3 · IRP · NEW"}]}]}, {"id": "P2", "label": "Set works", "name": "Set text and film", "gloss": null, "papers": "Paper 2 · Sections B and C", "blurb": "One essay on the play, one on the film — about 330 words each. Marks are split between your knowledge of the work (AO4) and the quality of your Spanish (AO3), so the language activities here matter as much as the analysis.", "units": [{"u": "Film", "name": "Volver — Almodóvar", "gloss": "Analysis, quotations, essay language and self-assessment", "items": [{"id": "a2f8d0c91", "file": "Essay_Practice_Volver_based_on_film_review.html", "title": "Ensayo sobre Volver", "desc": "Write a full essay from a film review. Tango and cinema.", "badge": "Paper 2"}, {"id": "a8f09e97c", "file": "EssayVerbsVolver.html", "title": "Práctica de redacción", "desc": "The verbs that carry an analytical essay.", "badge": "Paper 2"}, {"id": "afea4c3ec", "file": "Avoid_using_la_peli_cula.html", "title": "Sinónimos de «película»", "desc": "Stop writing «la película» twelve times — synonyms quiz.", "badge": "Paper 2"}, {"id": "ac0aff2da", "file": "AO3_Volver.html", "title": "Volver — ejercicios AO3", "desc": "Language accuracy exercises tied to the film.", "badge": "Paper 2 · AO3"}, {"id": "a595a8866", "file": "Ultimate_Volver_Grammar.html", "title": "Volver — gramática", "desc": "Grammar drills using scenes and characters from Volver.", "badge": "Paper 2 · AO3"}, {"id": "aa631222d", "file": "Volver_Subjunctives_Rel_Pron_adv_connectors.html", "title": "Subjuntivo, relativos y conectores", "desc": "Subjunctive, relative pronouns and connectives — the structures examiners reward.", "badge": "Paper 2 · AO3"}, {"id": "a3185bc4c", "file": "50_Volver_Essay_Sentences.html", "title": "50 frases para el ensayo", "desc": "Fifty ready-made essay sentences to adapt.", "badge": "Paper 2"}, {"id": "aee9ac720", "file": "Volver_Cuaderno_Redaccion.html", "title": "Cuaderno de redacción", "desc": "Gap-fill workbook for essay writing on Volver.", "badge": "Paper 2"}, {"id": "ad216755c", "file": "Volver_Paragraph_Builder.html", "title": "Constructor de párrafos", "desc": "Build an analytical paragraph one move at a time.", "badge": "Paper 2"}, {"id": "a3bfb36ee", "file": "Volver_Essay_Phrases_Quiz.html", "title": "Quiz de frases de ensayo", "desc": "Quiz on the highest-yield essay phrases.", "badge": "Paper 2"}, {"id": "adc66a84b", "file": "Volver_Essay_Self-Assessment.html", "title": "Autoevaluación (baremo)", "desc": "Mark your own essay against the Edexcel criteria.", "badge": "Paper 2"}, {"id": "acc8451a9", "file": "The_essential_quote_practice_tool_Volver.html", "title": "Entrenador de citas", "desc": "Quotation trainer, forgiving mode — get the idea before the wording.", "badge": "Paper 2"}, {"id": "aaca9e059", "file": "Volver_gap_fill_verbs.html", "title": "Práctica de verbos", "desc": "Verb gap-fills set in the world of the film.", "badge": "Paper 2 · AO3"}, {"id": "a0e53ef46", "file": "volver-practica-citas.html", "title": "Práctica de citas", "desc": "Drill the key quotations from Volver.", "badge": "Paper 2"}, {"id": "a5dcba963", "file": "Essential_Paper_2_prep_-_which_scene_what_type_of_genre.html", "title": "Análisis de género", "desc": "Which scene, which genre? Tragedy, comedy, melodrama.", "badge": "Paper 2"}, {"id": "a9989092f", "file": "Volver_analisis_cinematografico.html", "title": "Análisis cinematográfico", "desc": "Camera work, symbols and the link between the tango and the film, with a phrase bank.", "badge": "Paper 2 · AO4 · NEW"}]}, {"u": "Play", "name": "La casa de Bernarda Alba — Lorca", "gloss": "Act-by-act work, quotations, context and essay planning", "items": [{"id": "a25fa72ae", "file": "LcdBA_Act_I_exercises.html", "title": "Acto I — ejercicios", "desc": "Work through Act I: comprehension, quotation and analysis.", "badge": "Paper 2"}, {"id": "a10ff6412", "file": "La_casa_de_Bernarda_Alba_-_B2.html", "title": "LCBA — nivel B2", "desc": "Longer B2 activity on the play as a whole.", "badge": "Paper 2 · B2"}, {"id": "aa60bd2f4", "file": "Advanced_Bernarda.html", "title": "LCBA — avanzado", "desc": "Advanced exercises for students aiming at the top bands.", "badge": "Paper 2"}, {"id": "a1963e258", "file": "Bernarda_50_sentences.html", "title": "50 frases para el ensayo", "desc": "Fifty ready-made essay sentences to adapt.", "badge": "Paper 2"}, {"id": "a45a8948f", "file": "lcdba_quote_match.html", "title": "Citas y escenas", "desc": "Match quotations to scenes and characters.", "badge": "Paper 2"}, {"id": "a8aee1f01", "file": "LCBA_Taller_Astar.html", "title": "Taller A*", "desc": "A* workshop: the moves that separate an A from an A*.", "badge": "Paper 2"}, {"id": "acc3ebe5c", "file": "Lorca_LcdBA__Ejecicios_acto_tercero.html", "title": "Acto III — ejercicios", "desc": "Work through Act III, including the ending.", "badge": "Paper 2"}, {"id": "a4c6d96df", "file": "lorca_revision_Phrase_bank.html", "title": "Banco de frases", "desc": "Phrase bank for writing about Lorca.", "badge": "Paper 2"}, {"id": "a300cbb9d", "file": "lorca_revision_3_practice_writing.html", "title": "Práctica de ensayo", "desc": "Guided essay writing with prompts at each stage.", "badge": "Paper 2"}, {"id": "ac1b03235", "file": "lorca_revision_2_citas_quotes.html", "title": "Tarjetas de citas", "desc": "Flashcards for the quotations you must know.", "badge": "Paper 2"}, {"id": "ab4534e73", "file": "Lorca_y_la_Espan_a_de_los_1930s.html", "title": "Lorca y la España de los años 30", "desc": "Lorca and 1930s Spain — the context the play needs.", "badge": "Paper 2"}, {"id": "a47af3835", "file": "Planificador_de_ensayo_-_Lorca_-_La_casa_de_Bernarda_Alba.html", "title": "Planificador de ensayo", "desc": "Plan the essay before you write it.", "badge": "Paper 2"}, {"id": "a9bc31829", "file": "LCBA_grammar_focus.html", "title": "LCBA — gramática", "desc": "Grammar practice drawn from the text.", "badge": "Paper 2 · AO3"}, {"id": "a08f659c2", "file": "Volver_LcdBA_subjunctives.html", "title": "Subjuntivo — Lorca y Almodóvar", "desc": "Subjunctive practice across both set works.", "badge": "Paper 2 · AO3"}, {"id": "a3933582a", "file": "LcdBA_Acto_II_ejercicios.html", "title": "Acto II — ejercicios", "desc": "Act II: comprehension, summary, analysis, translation and mini-essays.", "badge": "Paper 2 · NEW"}]}]}, {"id": "P1TR", "label": "Into English", "name": "Translation into English", "gloss": null, "papers": "Paper 1 · Section C", "blurb": "A Spanish passage split exactly the way the Edexcel mark scheme splits it: twenty segments, one mark each. You are marked segment by segment, the source text cannot be copied, and you can download a report with your name on it.", "units": [{"u": "Section C", "name": "Español → inglés", "gloss": "Spanish into English, 20 marks", "items": [{"id": "b2a10c5e1", "file": "ES-EN-1%20La%20inmigracion%20en%20Espana.html", "title": "La inmigración en España", "desc": "Theme 3 — immigration and integration. Relative pronouns, «soler» + infinitive, political vocabulary.", "badge": "Paper 1 · Section C · NEW"}, {"id": "b2a10c5e2", "file": "ES-EN-2%20La%20transicion%20a%20la%20democracia.html", "title": "La transición a la democracia", "desc": "Theme 4 — the Transition. «cuyo», the pluperfect and the gerund («siendo muy joven»).", "badge": "Paper 1 · Section C · NEW"}, {"id": "b2a10c5e3", "file": "ES-EN-3%20El%20trabajo%20de%20la%20mujer%20espanola.html", "title": "El trabajo de la mujer española", "desc": "Themes 1 and 4 — women and work. Imperfect, passive «se» («se reservaba»), relative pronouns.", "badge": "Paper 1 · Section C · NEW"}]}]}, {"id": "P2TR", "label": "Into Spanish", "name": "Translation into Spanish", "gloss": null, "papers": "Paper 2 · Section A", "blurb": "Twenty segments, one mark each. There is an accent pad, accents that don't change the grammar are tolerated, and if you disagree with the automatic mark you can award your own against the mark scheme and say why.", "units": [{"u": "Section A", "name": "Inglés → español", "gloss": "English into Spanish, 20 marks", "items": [{"id": "b2a10c5f1", "file": "ES-TL-1%20La%20familia%20espanola%20de%20hoy.html", "title": "La familia española de hoy", "desc": "Theme 1 — the family. «dado» + noun, relative pronouns, «mientras» + present.", "badge": "Paper 2 · Section A · NEW"}, {"id": "b2a10c5f2", "file": "ES-TL-2%20La%20memoria%20de%20la%20dictadura.html", "title": "La memoria de la dictadura", "desc": "Theme 4 — dictatorship and memory. Passive with «ser», «aunque» + subjunctive, pluperfect.", "badge": "Paper 2 · Section A · NEW"}, {"id": "b2a10c5f3", "file": "ES-TL-3%20La%20musica%20y%20la%20identidad%20hispana.html", "title": "La música y la identidad hispana", "desc": "Theme 2 — music. «cada vez más», «para que» + subjunctive, imperfect of habit.", "badge": "Paper 2 · Section A · NEW"}]}]}, {"id": "S1", "label": "Speaking", "name": "Speaking-exam skills", "gloss": null, "papers": "Paper 3", "blurb": "Transferable practice for the oral. The topic-by-topic questions live inside each theme above.", "units": [{"u": "Speaking", "name": "Destrezas orales", "gloss": "Vocabulary and question drills", "items": [{"id": "ae4f39e55", "file": "Paper_3_Questions_practice_Tool_Spanish_A-Level.html", "title": "Entrenador del examen oral", "desc": "Every Paper 3 question, shuffled, with a downloadable answer plan.", "badge": "Speaking"}]}]}, {"id": "S2", "label": "Grammar", "name": "Core grammar", "gloss": null, "papers": "All papers", "blurb": "Tenses, pronouns, the subjunctive, por/para. These are the AO3 marks — the ones available in every single paper. Start with the foundations trainer if you are not sure where you stand.", "units": [{"u": "Grammar", "name": "Gramática esencial", "gloss": "Accuracy and range", "items": [{"id": "a2f7b31c8", "file": "entrenador-gramatica-base.html", "title": "Entrenador de gramática de base", "desc": "The twelve blocks from the baseline test: the rule, a worked example, then practice. Mixed review and a downloadable report.", "badge": "Grammar · Foundations · NEW"}, {"id": "ae95663ce", "file": "spanish-grammar-exercises.html", "title": "Práctica de gramática", "desc": "General grammar exercises across the A-Level range.", "badge": "Grammar"}, {"id": "a00d3cfa3", "file": "Spanish_iInfinitive_grammar_practice.html", "title": "Estructuras con infinitivo", "desc": "Infinitive constructions — advanced.", "badge": "Grammar"}, {"id": "a73daf1a3", "file": "pronouns_exercise_1.html", "title": "Pronombres de objeto", "desc": "Object pronouns: which one, and where it goes.", "badge": "Grammar"}, {"id": "aacbb0cda", "file": "Spanish_imperfect_exercise.html", "title": "Formas del imperfecto", "desc": "Imperfect tense forms.", "badge": "Grammar"}, {"id": "ab32d52d3", "file": "por_para_practice-3.html", "title": "Por vs. para", "desc": "Por vs para, the pairs that actually come up.", "badge": "Grammar"}, {"id": "a19b6e8d1", "file": "Practice_Spanish_Nouns_and_Gender.html", "title": "100 sustantivos más comunes", "desc": "The 100 commonest nouns, drilled with their gender.", "badge": "Vocabulary"}, {"id": "a759c1625", "file": "spanish_adjective_practice.html", "title": "Concordancia de adjetivos", "desc": "Adjective agreement — the marks most often thrown away.", "badge": "Grammar"}, {"id": "a8fbabd27", "file": "negation.html", "title": "La negación", "desc": "Negation: no, nunca, nadie, ni… ni.", "badge": "Grammar"}, {"id": "aecccaf0c", "file": "Preterite_practice_Spanish.html", "title": "El pretérito", "desc": "Preterite forms, including the irregulars.", "badge": "Grammar"}, {"id": "aa3fd1d3c", "file": "cuando_plus_future_tense.html", "title": "«Cuando» + futuro", "desc": "«Cuando» + subjunctive when you talk about the future.", "badge": "Grammar"}, {"id": "a92e709d3", "file": "Preterite_and_Imperfect.html", "title": "Pretérito vs imperfecto", "desc": "Preterite vs imperfect — choosing between the two past tenses.", "badge": "Grammar"}, {"id": "ac6b2f584", "file": "Spanish_grammar_and_comprehension_sites.html", "title": "Sitios de gramática", "desc": "Curated links for independent grammar and reading practice.", "badge": "Resources"}, {"id": "a912b967c", "file": "spanish_cognate_practice.html", "title": "Patrones de cognados", "desc": "Cognate patterns: turn one English word into ten Spanish ones.", "badge": "Vocabulary"}, {"id": "ab1175800", "file": "Spanish_negation_exercise_with_instruction.html", "title": "Negación — ejercicio completo", "desc": "Negation again, this time with the rules explained first.", "badge": "Grammar"}, {"id": "a2b23ff13", "file": "Spanish_Numbers_practice.html", "title": "Los números", "desc": "Numbers, dates and statistics — needed for every comprehension.", "badge": "Grammar"}, {"id": "ae69795d5", "file": "preterite_imperfect_practice-3.html", "title": "Pretérito vs imperfecto (2)", "desc": "More contrastive practice on the two past tenses.", "badge": "Grammar"}, {"id": "a0e34b737", "file": "reflexive_pronoun_placement_Spanish.html", "title": "Pronombres reflexivos", "desc": "Where the reflexive pronoun goes, and when it can move.", "badge": "Grammar"}, {"id": "a50542791", "file": "Desafi_os_de_gramma_tica_B2.html", "title": "Desafíos gramaticales B2", "desc": "100 exercises on the structures that separate B2 from B1.", "badge": "Grammar · B2"}, {"id": "aa6f8304a", "file": "Atelier_gramatica_lagunas_Edexcel.html", "title": "Taller — lagunas Edexcel", "desc": "Workshop on the Edexcel gaps: imperfect subjunctive, passive, relative pronouns.", "badge": "Grammar"}]}]}, {"id": "VOC", "label": "Vocabulary", "name": "Vocabulario", "gloss": "The words that keep coming back", "papers": "All papers", "blurb": "Learn the words once and they pay in every paper. El Léxico holds the whole workbook with spaced repetition and tracking; the trainer here is the quick theme-by-theme drill.", "units": [{"u": "Vocabulary", "name": "Vocabulario", "gloss": "El léxico que vuelve una y otra vez", "items": [{"id": "a6ed644a8", "file": "https://artmemry.github.io/A-Level-Spanish-Edexcel-Vocabulary-training/", "title": "El Léxico — las 4 035 palabras", "desc": "El cuaderno entero, en los dos sentidos, con repetición espaciada, dictado, modo examen y seguimiento. Sitio aparte; el código LEXES2 lo lee el área del profesor.", "badge": "Vocabulario · Sitio aparte ↗"}, {"id": "a27bf5e4a", "file": "spanish_Speaking_Exam_vocab_trainer.html", "title": "Entrenador de vocabulario", "desc": "Vocabulary trainer for the speaking exam, theme by theme.", "badge": "Speaking"}]}]}, {"id": "S3", "label": "Writing", "name": "Essay writing and analytical verbs", "gloss": null, "papers": "Paper 2", "blurb": "The verbs, connectives and paragraph shapes that turn a summary into an argument.", "units": [{"u": "Writing", "name": "Redacción y verbos de análisis", "gloss": "Argument, not retelling", "items": [{"id": "a07fe19f6", "file": "Spanish_Verb_Tenses___Agreement_Practice.html", "title": "Verbos y concordancia", "desc": "Verb tense and agreement together, as they appear in real writing.", "badge": "Grammar"}, {"id": "a350a9028", "file": "Spanish_Writing_Accuracy_Bootcamp.html", "title": "Bootcamp de precisión", "desc": "Rapid accuracy bootcamp — spot and fix, self-marked.", "badge": "Grammar"}, {"id": "a8f2a8df9", "file": "Essay_Verb_Practice.html", "title": "100 verbos de ensayo", "desc": "100 essay verbs, mostly English into Spanish.", "badge": "Writing"}, {"id": "a617ba69d", "file": "SpanishEssayVerbsisimo.html", "title": "Quiz de verbos de ensayo", "desc": "Essay verbs quiz — full pairs, typed answers.", "badge": "Writing"}, {"id": "aaed063f7", "file": "stem_changing_verbs.html", "title": "Verbos con cambio de raíz", "desc": "Stem-changing verbs in the present indicative.", "badge": "Grammar"}]}]}];
-var CFG  = {"ls": "pasaporte-es-v1", "base": "https://artmemry.github.io/A-Level-Spanish-BBA/", "prefix": "DOSES1.", "openLabel": "Open ↗", "doneOn": "Done ✓", "doneOff": "Mark done", "seen": "opened", "newLabel": "NEW", "noName": "(no name)", "confTitles": ["Hard", "Getting there", "Nailed it"], "saveFile": "spanish-passport-progress.json", "badFile": "File not recognised — choose a backup exported from this page.", "resetConfirm": "Erase all your progress on this device? This cannot be undone.", "suiviTag": "Progress", "linkChecking": "Checking…", "linkOk": "links working.", "linkBad": "broken links:", "linkLocal": "Run this from the live site, not from a file on your computer.", "formsUrl": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=dBTLADSljUaCn2NuzjLCTEWSzXdNOvRDicS2YScslGFUMzhIUlZJRThXRUQ3RTVQMlFUUFk2UTJWNyQlQCNjPTEu", "formsName": "", "formsCode": "", "formsPasteHint": "Code copied. Paste it into the « Code » box on the form.", "startHere": ["a2f7b31c8", "ae4f39e55", "b2a10c5f1"], "emptyUnit": "Nothing here yet — ask your teacher."};
+var CFG  = {"ls": "pasaporte-es-v1", "base": "https://artmemry.github.io/A-Level-Spanish-BBA/", "prefix": "DOSES2.", "openLabel": "Open ↗", "doneOn": "Done ✓", "doneOff": "Mark done", "seen": "opened", "newLabel": "NEW", "noName": "(no name)", "confTitles": ["Hard", "Getting there", "Nailed it"], "saveFile": "spanish-passport-progress.json", "badFile": "File not recognised — choose a backup exported from this page.", "resetConfirm": "Erase all your progress on this device? This cannot be undone.", "suiviTag": "Progress", "linkChecking": "Checking…", "linkOk": "links working.", "linkBad": "broken links:", "linkLocal": "Run this from the live site, not from a file on your computer.", "formsUrl": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=dBTLADSljUaCn2NuzjLCTEWSzXdNOvRDicS2YScslGFUMzhIUlZJRThXRUQ3RTVQMlFUUFk2UTJWNyQlQCNjPTEu", "formsName": "", "formsCode": "", "formsSid": "", "formsPasteHint": "Code copied. Paste it into the « Code » box on the form.", "startHere": ["a2f7b31c8", "ae4f39e55", "b2a10c5f1"], "emptyUnit": "Nothing here yet — ask your teacher."};
 (function(){
 "use strict";
 var LS=CFG.ls;
@@ -239,10 +261,45 @@ function load(){
 }
 function save(){ try{localStorage.setItem(LS,JSON.stringify(S));}catch(e){} }
 function $(s){return document.querySelector(s);}
+
+/* ═══════════════════════════════════════════════════════════════════
+   REAL SCORES
+   Every activity writes its result to localStorage["bba-scores"].
+   The hub reads that store rather than believing the tick.
+   ═══════════════════════════════════════════════════════════════════ */
+var SC = {};                      // file -> record, keyed both encoded and not
+function loadScores(){
+  SC = {};
+  var raw = (window.BBAProgress ? BBAProgress.read() : {});
+  for (var k in raw){
+    SC[k] = raw[k];
+    try { SC[decodeURIComponent(k)] = raw[k]; } catch(e){}
+    SC[encodeURI(k)] = raw[k];
+  }
+}
 /* A file that is already a full address belongs to another site — El Léxico
    lives in its own repository — so it is used as it stands. */
 function urlFor(it){ return /^https?:\/\//.test(it.file) ? it.file : CFG.base + it.file; }
 function isExternal(it){ return /^https?:\/\//.test(it.file); }
+function scoreFor(it){
+  var f = it.file;
+  var r = SC[f];
+  if (!r) { try { r = SC[decodeURIComponent(f)]; } catch(e){} }
+  return r || null;
+}
+function pctFor(it){
+  var r = scoreFor(it);
+  return r && window.BBAProgress ? BBAProgress.pct(r) : null;
+}
+/* Completion counts a recorded attempt. A tick with no attempt behind it
+   still shows on the tile, but it is reported separately. */
+function isDone(it){
+  return !!scoreFor(it) || !!(S.a[it.id] && S.a[it.id].done);
+}
+function isClaimed(it){
+  return !scoreFor(it) && !!(S.a[it.id] && S.a[it.id].done);
+}
+loadScores();
 
 function el(tag,attrs){
   var n=document.createElement(tag),k;
@@ -290,8 +347,8 @@ DATA.forEach(function(sec){
       u.items.forEach(function(it){
         var node=tile(it);
         body.appendChild(node);
-        tiles.push({node:node, hay:(it.title+" "+it.desc+" "+(it.badge||"")+" "+
-          sec.label+" "+sec.name+" "+(sec.gloss||"")+" "+u.name+" "+(u.gloss||"")).toLowerCase()});
+        tiles.push({node:node, repaint:node.__repaint, hay:fold(it.title+" "+it.desc+" "+(it.badge||"")+" "+
+          sec.label+" "+sec.name+" "+(sec.gloss||"")+" "+u.name+" "+(u.gloss||""))});
       });
     } else {
       body=el("div",{class:"unit-empty"},CFG.emptyUnit);
@@ -315,12 +372,24 @@ function tile(it){
   var seen=el("div",{class:"seen"});
   var mark=el("button",{class:"mark"+(r.done?" on":""),type:"button"});
   var conf=el("div",{class:"conf"});
+  var ev=el("div",{class:"evidence"});
   function paintTile(){
-    t.className="tile"+(r.done?" done":"");
+    var rec = scoreFor(it), pct = pctFor(it);
+    t.className="tile"+(isDone(it)?" done":"")+(rec?" scored":"");
     mark.className="mark"+(r.done?" on":"");
     mark.textContent=r.done?CFG.doneOn:CFG.doneOff;
-    seen.textContent=r.opened?CFG.seen:"";
+    seen.textContent=(r.opened||rec)?CFG.seen:"";
     [1,2,3].forEach(function(v,i){ conf.childNodes[i].className=(r.conf===v?"on":""); });
+    ev.innerHTML="";
+    if (rec){
+      var band = pct>=70 ? "hi" : pct>=45 ? "mid" : "lo";
+      ev.appendChild(el("span",{class:"score "+band}, pct + " %"));
+      ev.appendChild(el("span",{class:"tries"},
+        rec.attempts + (rec.attempts===1 ? " attempt" : " attempts")
+        + " · best " + Math.round((rec.best>1?rec.best/rec.total:rec.best)*rec.total) + " / " + rec.total));
+    } else if (r.done){
+      ev.appendChild(el("span",{class:"score none"},"ticked, not scored"));
+    }
   }
   [["1","😕"],["2","🙂"],["3","😃"]].forEach(function(p){
     conf.appendChild(el("button",{type:"button",title:CFG.confTitles[+p[0]-1],onclick:function(){
@@ -339,7 +408,9 @@ function tile(it){
   t.appendChild(el("div",{class:"t"},it.title));
   t.appendChild(el("div",{class:"d"},it.desc));
   t.appendChild(el("div",{class:"row"},a,mark,conf));
+  t.appendChild(ev);
   paintTile();
+  t.__repaint = paintTile;
   return t;
 }
 /* ---- start here ---- */
@@ -352,6 +423,9 @@ function tile(it){
   });
 })();
 /* ---- search / filter ---- */
+function fold(t){
+  return String(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+}
 var CHIPS=[["All",""],["Paper 1","paper 1"],["Paper 2","paper 2"],["Speaking","speaking"],
             ["Grammar","grammar"],["Translation","translation"],["New","new"]];
 (function(){
@@ -365,13 +439,13 @@ var CHIPS=[["All",""],["Paper 1","paper 1"],["Paper 2","paper 2"],["Speaking","s
   function setActive(i){ btns.forEach(function(b,j){ b.className=(j===i?"on":""); }); }
   setActive(0);
   q.addEventListener("input",function(){
-    var v=q.value.trim().toLowerCase();
+    var v=fold(q.value.trim());
     var hit=-1; CHIPS.forEach(function(c,i){ if(c[1]&&c[1]===v) hit=i; });
     setActive(v?hit:0);
     apply();
   });
   function apply(){
-    var v=q.value.trim().toLowerCase();
+    var v=fold(q.value.trim());
     var shown=0, live={};
     UNITS.forEach(function(u){
       var vis=0;
@@ -397,17 +471,36 @@ var CHIPS=[["All",""],["Paper 1","paper 1"],["Paper 2","paper 2"],["Speaking","s
 })();
 /* ---- progress ---- */
 function refresh(){
-  var open=0,done=0,hard=0;
-  ALL.forEach(function(it){var r=S.a[it.id]||{}; if(r.opened)open++; if(r.done)done++; if(r.conf===1)hard++;});
+  loadScores();
+  var open=0,done=0,hard=0,scored=0,claimed=0,pctSum=0;
+  ALL.forEach(function(it){
+    var r=S.a[it.id]||{}, rec=scoreFor(it);
+    if(r.opened||rec)open++;
+    if(isDone(it))done++;
+    if(r.conf===1)hard++;
+    if(rec){ scored++; pctSum += pctFor(it); }
+    if(isClaimed(it))claimed++;
+  });
   $("#kOpen").textContent=open; $("#kDone").textContent=done;
   var pct=ALL.length?Math.round(100*done/ALL.length):0;
   $("#kPct").textContent=pct+" %"; $("#kHard").textContent=hard;
+  $("#kScored").textContent=scored;
+  $("#kAvg").textContent=scored?Math.round(pctSum/scored)+" %":"—";
+  var cl=$("#claimNote");
+  if(cl){
+    if(claimed){
+      cl.style.display="block";
+      cl.innerHTML="<b>"+claimed+(claimed===1?" activity is":" activities are")+" ticked but carry no score.</b> "
+        + "Some activities cannot be marked automatically — an essay plan, a speaking preparation — and a tick is the "
+        + "right record for those. Anything else is worth going back to, because your teacher sees the difference.";
+    } else cl.style.display="none";
+  }
   var C=2*Math.PI*15.5;
   document.getElementById("ringArc").setAttribute("stroke-dasharray",(C*pct/100).toFixed(1)+" 999");
   $("#hdrTxt").textContent=done+" / "+ALL.length;
   var tb=$("#tblProg"); tb.innerHTML="";
   SECTIONS.forEach(function(sec){
-    var d=sec.items.filter(function(it){return (S.a[it.id]||{}).done;}).length;
+    var d=sec.items.filter(isDone).length;
     var p=sec.items.length?Math.round(100*d/sec.items.length):0;
     var bar=document.getElementById("bar-"+sec.id);
     if(bar) bar.style.width=p+"%";
@@ -418,23 +511,60 @@ function refresh(){
       el("td",{class:"num"},d+" / "+sec.items.length),
       el("td",null,el("div",{class:"mini"},el("i",{style:"width:"+p+"%"})))));
   });
-  $("#code").value=buildCode();
+  paintCode();
 }
+
+/* The candidate number is an offer, never a condition. Nothing about sending
+   work is withheld for a blank field: the code is always there and the buttons
+   always work. The number simply keeps a student's codes joined to each other
+   across a change of machine or a change of name spelling, and the note says
+   so once, then gets out of the way. */
+function paintCode(){
+  var sid  = (S.sid||"").trim();
+  var note = $("#sidNote"), ta = $("#code");
+  ta.value = buildCode();
+  if(!sid){
+    note.innerHTML = "<b>Optional \u2014 your candidate number, above.</b> Your work sends perfectly "
+                   + "well without it. It just keeps everything you have done joined together if you "
+                   + "change computer, or write your name differently next time.";
+    note.style.display = "";
+  } else {
+    note.style.display = "none";
+  }
+}
+/* The code now carries what the student did, not what they said they did.
+   Only touched activities travel, three bytes each, so it stays pasteable. */
 function buildCode(){
-  var secs={};
+  var secs={}, scoredTotal=0, pctSum=0, claimed=0;
   SECTIONS.forEach(function(sec){
-    var d=sec.items.filter(function(it){return (S.a[it.id]||{}).done;}).length;
-    secs[sec.id]=[d,sec.items.length];
+    var d=sec.items.filter(isDone).length;
+    var withScore=sec.items.filter(scoreFor);
+    var avg=withScore.length
+      ? Math.round(withScore.reduce(function(a,it){return a+pctFor(it);},0)/withScore.length)
+      : null;
+    secs[sec.id]=[d, sec.items.length, withScore.length, avg];
   });
-  var doneIds=[], hardIds=[];
-  ALL.forEach(function(it){
-    var r=S.a[it.id]||{};
-    if(r.done) doneIds.push(it.id);
+  var rows=[], hardIds=[];
+  ALL.forEach(function(it,i){
+    var r=S.a[it.id]||{}, rec=scoreFor(it);
     if(r.conf===1) hardIds.push(it.id);
+    if(!rec && !r.done && !r.opened) return;           // untouched: nothing to send
+    if(rec){ scoredTotal++; pctSum+=pctFor(it); }
+    if(isClaimed(it)) claimed++;
+    rows.push({index:i, pct:rec?pctFor(it):null, ticked:!!r.done,
+               conf:r.conf||0, attempts:rec?rec.attempts:0});
   });
-  var p={v:1,n:S.name||CFG.noName,t:Date.now(),
-    o:{done:doneIds.length,total:ALL.length,opened:ALL.filter(function(it){return (S.a[it.id]||{}).opened;}).length},
-    s:secs, d:doneIds, h:hardIds.slice(0,25)};
+  var done=ALL.filter(isDone).length;
+  var p={
+    v:2, n:S.name||CFG.noName, t:Date.now(),
+    m:BBAProgress.fingerprint(ALL.map(function(it){return it.id;})),
+    o:{done:done, total:ALL.length,
+       opened:ALL.filter(function(it){return (S.a[it.id]||{}).opened||scoreFor(it);}).length,
+       scored:scoredTotal, avg:scoredTotal?Math.round(pctSum/scoredTotal):null,
+       claimed:claimed},
+    s:secs, h:hardIds.slice(0,25),
+    r:BBAProgress.pack(rows)
+  };
   if(S.sid) p.i=S.sid;          // stable id: lets a record survive a change of name spelling
   return CFG.prefix+btoa(unescape(encodeURIComponent(JSON.stringify(p))));
 }
@@ -447,17 +577,27 @@ $("#sid").addEventListener("input",function(e){S.sid=e.target.value.trim();save(
   if(!CFG.formsUrl){ b.parentNode.removeChild(b); return; }
   b.addEventListener("click",function(){
     var code=buildCode();
-    if(!(CFG.formsName&&CFG.formsCode)){        // tokens unknown: copy, then open the blank form
-      var ta=$("#code");
+    var ta=$("#code");
+    function copyThenOpen(){                   /* clipboard + blank form: always works */
       if(navigator.clipboard){ navigator.clipboard.writeText(code).catch(function(){ta.select();document.execCommand("copy");}); }
       else { ta.select(); document.execCommand("copy"); }
       alert(CFG.formsPasteHint);
       window.open(CFG.formsUrl,"_blank","noopener");
-      return;
     }
-    window.open(CFG.formsUrl
-      +"&"+CFG.formsName+"="+encodeURIComponent(S.name||CFG.noName)
-      +"&"+CFG.formsCode+"="+encodeURIComponent(code),"_blank","noopener");
+    if(!(CFG.formsName&&CFG.formsCode)){ copyThenOpen(); return; }
+    /* The name goes into the form already filled in, and the student can correct
+       it there. An empty box is better than the literal "(no name)", which is
+       what would otherwise be typed for them. The candidate number prefills too
+       if the form has a question for it and CFG.formsSid names that field. */
+    var url = CFG.formsUrl
+      + "&" + CFG.formsName + "=" + encodeURIComponent((S.name||"").trim())
+      + "&" + CFG.formsCode + "=" + encodeURIComponent(code);
+    if(CFG.formsSid && (S.sid||"").trim())
+      url += "&" + CFG.formsSid + "=" + encodeURIComponent((S.sid||"").trim());
+    /* A long code can outrun what a browser will carry in a URL, and a silently
+       truncated code is worse than no code: past that point, fall back. */
+    if(url.length > 1900){ copyThenOpen(); return; }
+    window.open(url,"_blank","noopener");
   });
 })();
 $("#btnCopy").addEventListener("click",function(){
@@ -500,6 +640,15 @@ $("#btnLinks").addEventListener("click",function(){
 $("#btnReset").addEventListener("click",function(){
   if(confirm(CFG.resetConfirm)){ localStorage.removeItem(LS); location.reload(); }
 });
+/* An activity finishes in another tab. Repaint when this one comes back. */
+window.addEventListener("storage", function(e){ if(!e.key || e.key===BBAProgress.KEY) repaintAll(); });
+document.addEventListener("visibilitychange", function(){ if(document.visibilityState==="visible") repaintAll(); });
+window.addEventListener("focus", repaintAll);
+function repaintAll(){
+  loadScores();
+  UNITS.forEach(function(u){ u.tiles.forEach(function(t){ if(t.repaint) t.repaint(); }); });
+  refresh();
+}
 refresh();
 })();
 </script>
