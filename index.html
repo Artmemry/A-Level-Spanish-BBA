@@ -587,15 +587,22 @@ function needsClass(){
   var st = taskStore();
   return fileHasClasses() || (CFG.classes||[]).some(function(c){ return st[c] && st[c].label; });
 }
+/* The class is the teaching group as the register writes it — 12Veil, 13Duque.
+   Its leading number is the year, so a group still lights the right year
+   button, and an older "Y12" code keeps working unchanged. */
+function yearOf(c){ var m = /^Y?(\d{1,2})/.exec(String(c||"").trim()); return m ? "Y"+m[1] : ""; }
 function setClass(c){ S.cls = c || ""; save(); paintClass(); refresh(); }
 function paintClass(){
   var box = $("#clsRow"); if(!box) return;
   box.innerHTML = "";
   (CFG.classes||[]).forEach(function(c){
-    var b = el("button", {class:"btn cls" + (S.cls===c ? " on" : ""), type:"button"}, c);
-    b.addEventListener("click", function(){ setClass(S.cls===c ? "" : c); });
+    var b = el("button", {class:"btn cls" + (yearOf(S.cls)===c ? " on" : ""), type:"button"}, c);
+    b.addEventListener("click", function(){ setClass(yearOf(S.cls)===c ? "" : c); });
     box.appendChild(b);
   });
+  if (S.cls && (CFG.classes||[]).indexOf(S.cls) < 0){
+    box.appendChild(el("span", {style:"align-self:center;margin-left:8px;color:var(--ink-soft);font-size:.85rem"}, S.cls));
+  }
 }
 function assignment(){
   var a = currentTask();
