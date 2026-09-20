@@ -834,6 +834,27 @@ function sendNow(){
     window.open(url,"_blank","noopener");
     markSent();
 }
+/* An activity's send strip arrives here with ?send=1. Sending is a pop-up and
+   a pop-up needs a gesture, so we do not fire it blind: the Progress panel is
+   opened with its Send button highlighted and one tap away. */
+(function(){
+  if(!/[?&]send=1\b/.test(location.search)) return;
+  try{ history.replaceState(null,"",location.pathname+location.hash); }catch(e){}
+  document.addEventListener("DOMContentLoaded", arrive);
+  if(document.readyState!=="loading") arrive();
+  function arrive(){
+    var b=$("#btnForms")||$("#btnSendStrip");
+    if(!b) return;
+    var card=b.closest?b.closest(".card,section,div"):null;
+    if(card&&card.scrollIntoView) try{ card.scrollIntoView({block:"center"}); }catch(e){}
+    b.classList.add("bba-arrived");
+    var css=document.createElement("style");
+    css.textContent=".bba-arrived{outline:3px solid #B07B12;outline-offset:3px;animation:bbaPulse 1.1s ease-in-out 3}"+
+      "@keyframes bbaPulse{0%,100%{outline-color:#B07B12}50%{outline-color:transparent}}";
+    document.head.appendChild(css);
+    try{ b.focus({preventScroll:true}); }catch(e){}
+  }
+})();
 (function(){
   var b=$("#btnForms");
   if(!CFG.formsUrl){ b.parentNode.removeChild(b); return; }
