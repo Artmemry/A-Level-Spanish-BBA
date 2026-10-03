@@ -192,6 +192,7 @@ footer.site{max-width:1080px;margin:0 auto;padding:20px;border-top:1px solid var
 </style>
 <link rel="stylesheet" href="bba-mobile.css">
 <script src="bba-mobile.js" defer></script>
+<script src="bba-sequence.js" data-site="hub" data-lang="ES"></script>
 </head>
 <body>
 <header class="site">
@@ -607,7 +608,8 @@ function paintClass(){
 function assignment(){
   var a = currentTask();
   if (!a || !a.label || !Array.isArray(a.items) || !a.items.length) return null;
-  var items = a.items.map(resolveItem).filter(Boolean);
+  /* each item keeps the key it was set by, so the sequence strip can be told it is done */
+  var items = a.items.map(function(k){ var it = resolveItem(k); if (it) it.__k = k; return it; }).filter(Boolean);
   if (!items.length) return null;
   var since = Date.parse(a.since || "2000-01-01") || 0;
   var due = a.due ? new Date(a.due + "T23:59:59") : null;
@@ -621,6 +623,12 @@ function assignment(){
   return {label:a.label, note:a.note||"", rows:rows, due:(due && !isNaN(due)) ? due : null,
           nDone:nDone, all:nDone === rows.length};
 }
+/* the sequence strip opens an activity the way the week panel does, so it counts as opened */
+window.bbaSeqOpen = function(key){
+  var it = resolveItem(key); if (!it) return false;
+  var r = rec(it.id); if (!r.opened){ r.opened = Date.now(); save(); }
+  window.open(urlFor(it), "_blank", "noopener"); refresh(); return true;
+};
 function dueText(a){
   if (!a.due) return "";
   var d = a.due.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
@@ -629,6 +637,7 @@ function dueText(a){
 function renderWeek(){
   var box = $("#week"); if(!box) return;
   var a = assignment();
+  if (a && window.BBA_SEQ) a.rows.forEach(function(x){ window.BBA_SEQ.mark("hub", x.it.__k, x.done); });
   if (!a && needsClass()){
     box.hidden = false; box.innerHTML = ""; box.className = "week ask";
     box.appendChild(el("h2", null, CFG.weekTitle));
