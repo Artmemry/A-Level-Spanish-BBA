@@ -658,6 +658,15 @@ function renderWeek(){
   box.appendChild(el("p", {class:"sub"},
     (a.all ? CFG.weekAllDone : a.nDone + " of " + a.rows.length + " done") + (a.due ? " · " + dueText(a) : "")
     + (a.note ? " · " + a.note : "")));
+  /* a two-site task starts with vocabulary lists on the vocab site */
+  var ct = currentTask();
+  if (ct && Array.isArray(ct.lessons) && ct.lessons.length && window.BBA_SEQ && window.BBA_SEQ.active()){
+    var nl = ct.lessons.length, back = el("button", {class:"btn", type:"button"}, window.BBA_SEQ.there);
+    back.addEventListener("click", function(){ window.BBA_SEQ.go(0); });
+    box.appendChild(el("div", {class:"item"},
+      el("span", {class:"t"}, "First: " + nl + " vocabulary list" + (nl > 1 ? "s" : "") + " on the vocab site",
+         el("small", null, ct.lessons.join(" · "))), back));
+  }
   a.rows.forEach(function(x){
     var it = x.it, st, cls;
     if (x.done){ cls = "done"; st = CFG.weekDone + (x.rec ? " · " + pctFor(it) + " %" : ""); }

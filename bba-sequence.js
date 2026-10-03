@@ -133,6 +133,10 @@ function goTo(i, andAct){
 
 /* ── 3. the sites tell the strip what is done ─────────────────────── */
 window.BBA_SEQ = {
+  there: W.there,
+  /* the sites' own task panels use this to point across to the other site */
+  go: function(i){ goTo(i, true); },
+  active: function(){ return !!cur(); },
   mark: function(site, key, done){
     var a = cur(); if (!a) return;
     var k = site + ":" + key;
@@ -164,7 +168,9 @@ var CSS = ""
  + "#bbaSeq ol{list-style:none;margin:0;padding:0 16px 12px;max-width:1100px;margin:0 auto;display:grid;gap:4px}"
  + "#bbaSeq ol button{width:100%;text-align:left;border:0;border-radius:6px;padding:6px 10px;font-weight:500;background:rgba(255,255,255,.08)}"
  + "#bbaSeq ol button.on{background:rgba(255,255,255,.22);font-weight:700}"
- + "@media print{#bbaSeq{display:none}}";
+ + "@media print{#bbaSeq{display:none}}"
+ /* the vocab site's floating accent keypad sits just above the bar, not under it */
+ + "body.bba-seq-on .accent-pad{bottom:calc(var(--bba-seq-h, 0px) + 10px) !important}";
 var listOpen = false;
 function el(tag, attrs){
   var e = document.createElement(tag);
@@ -175,7 +181,7 @@ function el(tag, attrs){
 function paint(){
   var box = document.getElementById("bbaSeq");
   var a = cur();
-  if (!a || a.shut){ if (box) box.remove(); document.body.style.paddingBottom = ""; return; }
+  if (!a || a.shut){ if (box) box.remove(); document.body.style.paddingBottom = ""; document.body.classList.remove("bba-seq-on"); return; }
   if (!box){
     if (!document.getElementById("bbaSeqCss")){ var s = el("style", {id:"bbaSeqCss"}); s.textContent = CSS; document.head.appendChild(s); }
     box = el("div", {id:"bbaSeq", role:"region", "aria-label":"This week's tasks, in order"});
@@ -211,9 +217,14 @@ function paint(){
     });
     box.appendChild(ol);
   }
+  setH(box);
+}
+function setH(box){
   document.body.style.paddingBottom = (box.offsetHeight + 12) + "px";
+  document.body.classList.add("bba-seq-on");
+  document.documentElement.style.setProperty("--bba-seq-h", box.offsetHeight + "px");
 }
 window.addEventListener("storage", function(e){ if (!e.key || e.key === KEY) paint(); });
-window.addEventListener("resize", function(){ var b = document.getElementById("bbaSeq"); if (b) document.body.style.paddingBottom = (b.offsetHeight + 12) + "px"; });
+window.addEventListener("resize", function(){ var b = document.getElementById("bbaSeq"); if (b) setH(b); });
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", paint); else paint();
 })();
