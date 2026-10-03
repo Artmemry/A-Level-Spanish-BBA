@@ -169,8 +169,10 @@ var CSS = ""
  + "#bbaSeq ol button{width:100%;text-align:left;border:0;border-radius:6px;padding:6px 10px;font-weight:500;background:rgba(255,255,255,.08)}"
  + "#bbaSeq ol button.on{background:rgba(255,255,255,.22);font-weight:700}"
  + "@media print{#bbaSeq{display:none}}"
- /* the vocab site's floating accent keypad sits just above the bar, not under it */
- + "body.bba-seq-on .accent-pad{bottom:calc(var(--bba-seq-h, 0px) + 10px) !important}";
+ /* while the vocab site's accent keypad is showing (the student is typing an
+    answer), the bar steps aside: the keypad keeps its own place and never
+    covers the answer box; the bar comes back when the keypad goes */
+ + "body.pad-on #bbaSeq{display:none}";
 var listOpen = false;
 function el(tag, attrs){
   var e = document.createElement(tag);

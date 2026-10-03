@@ -572,8 +572,33 @@ function build(){
     msg.textContent = T.cleared;
   });
 
-  function pack(){ document.body.style.paddingBottom = (kit.offsetHeight+12)+"px"; }
+  /* Some activities pin their own controls to the bottom of the screen — an
+     accent keypad, its show/hide button. The bar sits above everything, so
+     those would vanish under it: each one is lifted to sit just above the
+     bar, by the bar's own height, whenever the bar changes size. */
+  function liftOthers(){
+    var h = kit.offsetHeight, all = document.body.getElementsByTagName("*");
+    for (var i = 0; i < all.length; i++){
+      var el = all[i];
+      if (el === kit || kit.contains(el) || el.id === "bba-resume") continue;
+      if (el.dataset.bbaBottom == null){
+        var cs = getComputedStyle(el);
+        if (cs.position !== "fixed") continue;
+        var b = parseFloat(cs.bottom);
+        if (isNaN(b) || b > 240 || cs.top !== "auto" && parseFloat(cs.top) <= 0) continue;  /* pinned low, not a full-screen layer */
+        el.dataset.bbaBottom = b;
+      }
+      /* once the page moves it itself (a dragged keypad), it is left alone */
+      if (el.dataset.bbaSet && el.style.bottom !== el.dataset.bbaSet){ el.dataset.bbaBottom = "off"; }
+      if (el.dataset.bbaBottom === "off") continue;
+      el.style.bottom = el.dataset.bbaSet = (parseFloat(el.dataset.bbaBottom) + h) + "px";
+    }
+  }
+  function pack(){ document.body.style.paddingBottom = (kit.offsetHeight+12)+"px"; try{ liftOthers(); }catch(e){} }
   pack(); window.addEventListener("resize", pack);
+  /* controls a page builds a moment after loading are caught too */
+  setTimeout(pack, 600); setTimeout(pack, 2000);
+  if (window.ResizeObserver) try{ new ResizeObserver(function(){ pack(); }).observe(kit); }catch(e){}
 
   /* On a narrow screen the bar must not swallow the page. */
   if (window.matchMedia && window.matchMedia("(max-width:640px)").matches){
