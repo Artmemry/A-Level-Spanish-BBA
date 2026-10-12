@@ -791,12 +791,24 @@ function buildCode(){
       : null;
     secs[sec.id]=[d, sec.items.length, withScore.length, avg];
   });
-  var rows=[], hardIds=[];
+  var rows=[], hardIds=[], q=[], ansAll=0, ansT=0, mast=0;
+  var ct=currentTask(), since=ct ? (Date.parse(ct.since||"")||ct.t||0) : 0;
+  var OPEN={}; try{ OPEN=JSON.parse(localStorage.getItem("bba-answers")||"{}")||{}; }catch(e){}
+  var openFor=function(it){ var f=it.file, r=OPEN[f]; if(!r){ try{ r=OPEN[decodeURIComponent(f)]; }catch(e){} } return r||null; };
   ALL.forEach(function(it,i){
     var r=S.a[it.id]||{}, rec=scoreFor(it);
     if(r.conf===1) hardIds.push(it.id);
-    if(!rec && !r.done && !r.opened) return;           // untouched: nothing to send
+    if(!rec && !r.done && !r.opened && !openFor(it)) return;           // untouched: nothing to send
     if(rec){ scoredTotal++; pctSum+=pctFor(it); }
+    /* questions answered (all time, and since the task) and mastered = best ≥ 80 % */
+    var op=openFor(it);
+    if(rec || op){
+      var AS=window.BBAProgress&&BBAProgress.answeredSince;
+      var a=(rec&&rec.ans||0)+(op&&op.ans||0);
+      var aT=since&&AS ? AS(rec||{}, since)+AS(op||{}, since) : null;
+      ansAll+=a; if(aT!=null) ansT+=aT; if(rec && pctFor(it)>=80) mast++;
+      if(i<=254 && a) q.push([i, a, aT==null?-1:aT]);
+    }
     if(isClaimed(it)) claimed++;
     rows.push({index:i, pct:rec?pctFor(it):null, ticked:!!r.done,
                conf:r.conf||0, attempts:rec?rec.attempts:0});
@@ -808,8 +820,8 @@ function buildCode(){
     o:{done:done, total:ALL.length,
        opened:ALL.filter(function(it){return (S.a[it.id]||{}).opened||scoreFor(it);}).length,
        scored:scoredTotal, avg:scoredTotal?Math.round(pctSum/scoredTotal):null,
-       claimed:claimed},
-    s:secs, h:hardIds.slice(0,25),
+       claimed:claimed, ans:ansAll, ansT:since?ansT:null, mast:mast, ts:since?Math.floor(since/86400000):null},
+    s:secs, h:hardIds.slice(0,25), q:q,
     r:BBAProgress.pack(rows)
   };
   if(S.sid) p.i=S.sid;          // stable id: lets a record survive a change of name spelling

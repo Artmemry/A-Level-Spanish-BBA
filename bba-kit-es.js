@@ -405,11 +405,11 @@ function restoreAll(){
   return n;
 }
 function clearState(){
-  S = {v:2, name:S.name, ans:{}, tries:{}, done:{}, shown:{}, t:0};
+  S = {v:2, name:S.name, ans:{}, tries:{}, done:{}, shown:{}, cnt:{}, t:0};
   try{ localStorage.removeItem(storeKey()); }catch(e){}
 }
 /* Real scores, in one shared place the hub can read later. */
-function publishScore(scored, total){
+function publishScore(scored, total, answered){
   try{
     var all = JSON.parse(localStorage.getItem("bba-scores") || "{}");
     var f = decodeURIComponent(location.pathname.split("/").pop() || "index");
@@ -421,6 +421,12 @@ function publishScore(scored, total){
       attempts: (prev.attempts||0) + 1,
       t: Date.now()
     };
+    /* questions answered in this check: running total + per-day tally */
+    var n = Math.max(0, +answered || 0), rec = all[f];
+    rec.ans = (prev.ans||0) + n;
+    rec.lg = {}; for (var k in (prev.lg||{})) rec.lg[k] = prev.lg[k];
+    var day = String(Math.floor(Date.now()/86400000)); if (n) rec.lg[day] = (rec.lg[day]||0) + n;
+    var ks = Object.keys(rec.lg).sort(function(a,b){return a-b;}); while (ks.length > 120) delete rec.lg[ks.shift()];
     localStorage.setItem("bba-scores", JSON.stringify(all));
   }catch(e){}
 }
@@ -792,23 +798,42 @@ function check(msg){
   var F = fields();
   if(!F.__withAnswers){
     LAST_RESULT = null;
+    /* an open task (no answer key) is not marked, but what the student wrote
+       still counts as questions answered — kept apart from the marks */
+    try{
+      S.cnt = S.cnt || {}; var nOpen = 0;
+      F.forEach(function(f){ var v = String(f.value||"").trim(); if(v && S.cnt[f.key] !== f.value){ nOpen++; S.cnt[f.key] = f.value; } });
+      saveState(true);
+      if(nOpen){
+        var A = JSON.parse(localStorage.getItem("bba-answers") || "{}");
+        var fn = decodeURIComponent(location.pathname.split("/").pop() || "index"), r0 = A[fn] || {};
+        var r1 = {title:(document.title||"").slice(0,120), ans:(r0.ans||0)+nOpen, t:Date.now(), lg:{}};
+        for (var k0 in (r0.lg||{})) r1.lg[k0] = r0.lg[k0];
+        var dd = String(Math.floor(Date.now()/86400000)); r1.lg[dd] = (r1.lg[dd]||0) + nOpen;
+        A[fn] = r1; localStorage.setItem("bba-answers", JSON.stringify(A));
+      }
+    }catch(e){}
     msg.innerHTML = "<b>"+T.noKeyTitle+"</b> "+T.noKey;
     say(T.noKeyTitle);
     return null;
   }
-  var ok=0,acc=0,typo=0,bad=0,blank=0,rows=[];
+  var ok=0,acc=0,typo=0,bad=0,blank=0,rows=[],answered=0;
+  S.cnt = S.cnt || {};
   F.forEach(function(f){
     if(f.want==null) return;
     var before = S.tries[f.key] || 0;
     var v = checkOne(f.el, f.want);
     rows.push({label:f.label, given:f.value, want:v.want, code:v.code, note:v.note,
                tries:(v.code==="ok"||v.code==="accent"||v.code==="typo") ? before+1 : (S.tries[f.key]||before)||""});
+    /* a question counts as answered once per answer given: checking the same
+       answer again does not count twice, changing it does */
+    if(v.code!=="empty" && S.cnt[f.key] !== f.value){ answered++; S.cnt[f.key] = f.value; }
     if(v.code==="ok")ok++; else if(v.code==="accent")acc++; else if(v.code==="typo")typo++;
     else if(v.code==="empty")blank++; else bad++;
   });
   var scored = ok+acc+typo, total = rows.length-blank;
   LAST_RESULT = {rows:rows, ok:ok, acc:acc, typo:typo, bad:bad, blank:blank, scored:scored, total:total};
-  publishScore(scored, rows.length);
+  publishScore(scored, rows.length, answered);
   var line = "<b>"+scored+" / "+(rows.length)+"</b> · "
     + T.exact+": "+ok+" · "+T.accSlip+": "+acc+" · "+T.typoSlip+": "+typo
     + " · "+T.wrongN+": "+bad + (blank?" · "+T.blankN+": "+blank:"");

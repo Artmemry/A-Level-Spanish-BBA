@@ -39,6 +39,20 @@ function fileOf(name) {
   return decodeURIComponent((location.pathname.split("/").pop() || "index.html"));
 }
 
+/* QUESTIONS ANSWERED — the department's first measure. Each record keeps
+   the running total of questions answered (ans) and a per-day tally (lg) so
+   "since the task was set" can be counted. Kept small: 120 days at most. */
+function addAnswers(rec, prev, n){
+  n = Math.max(0, +n || 0);
+  rec.ans = (prev.ans || 0) + n;
+  var lg = {}, k, d = String(Math.floor(Date.now() / 86400000));
+  for (k in (prev.lg || {})) lg[k] = prev.lg[k];
+  if (n) lg[d] = (lg[d] || 0) + n;
+  var keys = Object.keys(lg).sort(function(a, b){ return a - b; });
+  while (keys.length > 120) delete lg[keys.shift()];
+  rec.lg = lg;
+  return rec;
+}
 /* ------------------------------------------------------------- record */
 /* record({score, total})                  the common case
    record({score, total, file, title})     when a page reports for another
@@ -64,6 +78,8 @@ function record(opts) {
   };
   /* best is stored as a fraction so a later change of total cannot corrupt it */
   if (opts.parts) rec.parts = opts.parts;
+  /* a page that marks itself answers the whole set unless it says otherwise */
+  addAnswers(rec, prev, opts.answered != null ? opts.answered : total);
   all[file] = rec;
   writeAll(all);
   return rec;
@@ -78,6 +94,13 @@ function pctOf(rec) {
   var best = typeof rec.best === "number" ? rec.best : (rec.score / rec.total);
   if (best > 1) best = best / rec.total;              // tolerate an older raw-mark best
   return Math.round(best * 100);
+}
+/* answered since a date (ms), from the per-day tally */
+function answeredSince(rec, since){
+  if (!rec || !rec.lg) return 0;
+  var d0 = Math.floor((since || 0) / 86400000), n = 0, k;
+  for (k in rec.lg) if (+k >= d0) n += rec.lg[k];
+  return n;
 }
 function clear() { try { localStorage.removeItem(KEY); } catch (e) {} }
 
@@ -153,6 +176,8 @@ window.BBAProgress = {
   KEY: KEY,
   read: readAll,
   record: record,
+  answeredSince: answeredSince,
+  addAnswers: addAnswers,
   forFile: forFile,
   pct: pctOf,
   clear: clear,
