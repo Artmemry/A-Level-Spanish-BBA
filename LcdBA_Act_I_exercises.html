@@ -3,287 +3,710 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>La casa de Bernarda Alba · Acto I</title>
-<meta name="description" content="A-Level Spanish set text: La casa de Bernarda Alba, Act I — characters, comprehension, quotations, vocabulary, gapped translation and a written paragraph.">
+<title>La casa de Bernarda Alba · Acto primero</title>
+<meta name="description" content="A-Level Spanish set text: La casa de Bernarda Alba, Act One. Comprehension scene by scene, quotations and themes, symbols of vitality and sterility, Lorca's animal imagery, gapped translation and an essay paragraph with a quotation checker.">
 <style>
 :root{
-  --paper:#f7f2e8; --card:#fffdf8; --ink:#2b2420; --soft:#6b5b4e; --line:#d9cdb8;
-  --ox:#6e1f2a; --ox-soft:#f3e3e3; --green:#1f4d3a; --green-soft:#e2eee7; --gold:#a8843a;
+  --paper:#f6f1e7; --card:#fffdf8; --ink:#2a2320; --soft:#6a5a4c; --line:#dcd0bb;
+  --ox:#6e1f2a; --ox2:#8f3340; --oxs:#f4e4e4; --green:#1f4d3a; --gs:#e3efe8;
+  --gold:#a8843a; --golds:#f7efd9; --bad:#a23b2a; --bads:#fbe9e5; --ok:#226a43;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
-.wrap{max-width:900px;margin:0 auto;padding:22px 16px 140px}
-header{border-bottom:3px double var(--ox);padding-bottom:12px;margin-bottom:18px}
-.kicker{font:600 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--ox)}
-h1{font-size:30px;line-height:1.15;margin:6px 0 4px;color:var(--ox)}
-.lead{color:var(--soft);margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15px}
-nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 10px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5}
-nav.tabs button{font:600 14px system-ui,-apple-system,"Segoe UI",sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 13px;cursor:pointer}
+.ui{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:22px 16px 160px}
+header{border-bottom:3px double var(--ox);padding-bottom:14px;margin-bottom:8px}
+.kicker{font:600 12px/1.2 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ox)}
+h1{font-size:31px;line-height:1.15;margin:6px 0 6px;color:var(--ox)}
+.lead{color:var(--soft);margin:0 0 4px;font:15px/1.55 system-ui,sans-serif}
+.score{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:10px;font:14px system-ui,sans-serif;color:var(--soft)}
+.score b{color:var(--ink);font-size:16px}
+.meter{flex:1 1 180px;height:8px;background:#e8dfcf;border-radius:99px;overflow:hidden;min-width:140px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#2f7a58);transition:width .4s}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 12px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+nav.tabs button{font:600 13.5px system-ui,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 12px;cursor:pointer;display:flex;gap:6px;align-items:center}
+nav.tabs button .n{font-weight:500;color:var(--soft);font-size:12px}
 nav.tabs button[aria-selected="true"]{background:var(--ox);border-color:var(--ox);color:#fff}
-section.ex{display:none;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 18px 8px;margin-bottom:16px}
+nav.tabs button[aria-selected="true"] .n{color:#f1d7d9}
+nav.tabs button.done:not([aria-selected="true"]){border-color:var(--green);color:var(--green)}
+section.ex{display:none}
 section.ex.active{display:block}
-h2{font-size:22px;margin:0 0 4px;color:var(--green)}
-.how{font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--soft);margin:0 0 14px}
-.item{padding:12px 0;border-top:1px solid var(--line)}
-.item:first-of-type{border-top:none}
-.num{display:inline-block;min-width:1.6em;font-weight:bold;color:var(--ox)}
+h2{font-size:24px;margin:4px 0 6px;color:var(--green)}
+h3{font:700 13px system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ox);margin:22px 0 8px}
+.how{font:15px/1.55 system-ui,sans-serif;color:var(--soft);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;position:relative}
+.card.ok{border-color:#9cc7ae;background:#fbfefc}
+.card.rev{border-color:#e3b6ad}
+.card .qn{font:700 13px system-ui,sans-serif;color:var(--ox);margin-right:6px}
 .quote{font-style:italic}
-select,input[type=text],textarea{font:16px Georgia,serif;color:var(--ink);background:#fff;border:1px solid #bfb19a;border-radius:6px;padding:7px 9px;max-width:100%}
-input[type=text]{width:16em}
-input.short{width:9em}
-textarea{width:100%;min-height:90px;margin-top:6px;resize:vertical}
-.row{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-top:8px}
-.row label{font:14px system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--soft)}
-.bank{background:var(--green-soft);border:1px solid #bcd3c5;border-radius:8px;padding:10px 12px;margin:0 0 12px;font-size:16px}
-.bank b{font:600 13px system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--green);margin-right:6px}
-.cast{width:100%;border-collapse:collapse;margin:4px 0 6px}
-.cast td{padding:8px 6px;border-top:1px solid var(--line);vertical-align:middle}
-.cast td:first-child{width:52%}
-.tr{background:#faf6ee;border-left:3px solid var(--gold);padding:8px 10px;margin:6px 0;border-radius:4px}
-.en{line-height:2.1}
-.reto{margin-top:6px;border-top:2px solid var(--ox);padding-top:12px}
-.reto .tag{font:700 12px system-ui,sans-serif;letter-spacing:.14em;color:var(--ox);text-transform:uppercase}
-.tip{background:var(--ox-soft);border-radius:8px;padding:10px 12px;font:14.5px/1.5 system-ui,sans-serif;margin:10px 0}
-details{margin-top:8px;font:14.5px/1.5 system-ui,sans-serif}
-details summary{cursor:pointer;color:var(--green);font-weight:600}
-.src{font:13px system-ui,sans-serif;color:var(--soft);margin-top:18px}
-.navbtns{display:flex;justify-content:space-between;margin:6px 0 16px}
-.navbtns button{font:600 14px system-ui,sans-serif;background:none;border:1px solid var(--line);border-radius:6px;padding:7px 12px;cursor:pointer;color:var(--green)}
-@media (max-width:600px){h1{font-size:25px}.cast td{display:block;width:100%!important;border-top:none;padding:4px 0}.cast tr{display:block;border-top:1px solid var(--line);padding:6px 0}input[type=text]{width:100%}}
-@media print{nav.tabs,.navbtns{display:none}section.ex{display:block!important;page-break-inside:avoid}}
+blockquote{margin:2px 0 10px;padding:6px 0 6px 14px;border-left:3px solid var(--gold);font-style:italic;font-size:18px}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:10px}
+input[type=text],select,textarea{font:16px Georgia,serif;color:var(--ink);background:#fff;border:1px solid #bdae95;border-radius:7px;padding:7px 10px;max-width:100%}
+input[type=text]{width:15em}
+input.w8{width:8.5em} input.w6{width:7em}
+input.okf{border-color:var(--ok);background:#f2faf5} input.badf{border-color:var(--bad);background:var(--bads)}
+textarea{width:100%;min-height:200px;resize:vertical;line-height:1.6}
+button.b{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 13px;cursor:pointer;border:1px solid var(--ox);background:var(--ox);color:#fff}
+button.b:disabled{opacity:.45;cursor:default}
+button.g{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--green)}
+button.g:disabled{opacity:.45;cursor:default}
+.opts{display:grid;gap:7px;margin-top:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;font:15.5px/1.45 system-ui,sans-serif;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 12px;cursor:pointer;color:var(--ink)}
+.opt:before{content:"";flex:0 0 16px;height:16px;border:2px solid #b8a98f;border-radius:50%;margin-top:2px}
+.opt.sel{border-color:var(--ox);background:var(--oxs)}
+.opt.sel:before{border-color:var(--ox);background:radial-gradient(var(--ox) 45%,transparent 50%)}
+.opt.right{border-color:var(--ok);background:#eef8f2}
+.opt.wrong{border-color:var(--bad);background:var(--bads)}
+.opt:disabled{cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font:600 13px system-ui,sans-serif;border:1px solid #c9bba3;background:#fff;color:var(--soft);border-radius:999px;padding:6px 11px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.chip.core{outline:2px solid var(--ok);outline-offset:1px}
+.chip.acc{outline:2px dashed var(--gold);outline-offset:1px}
+.chip.wrongc{background:var(--bad);border-color:var(--bad);color:#fff}
+.chip:disabled{cursor:default}
+.fb{margin-top:10px;font:14.5px/1.55 system-ui,sans-serif;border-radius:8px;padding:9px 12px;display:none}
+.fb.show{display:block}
+.fb.okb{background:var(--gs);color:#163a2b}
+.fb.hint{background:var(--golds);color:#4d3c14}
+.fb.revb{background:var(--bads);color:#5a1d12}
+.fb .why{margin-top:6px;color:#2b2a26}
+.tag{display:inline-block;font:700 11px system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-right:6px}
+.tag.okt{background:var(--ok);color:#fff}.tag.ht{background:var(--gold);color:#fff}.tag.rt{background:var(--bad);color:#fff}
+.legend{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:14.5px/1.55 system-ui,sans-serif;margin-bottom:10px}
+.legend b{color:var(--ox)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}
+.who{font:13px system-ui,sans-serif;color:var(--soft)}
+.tr{line-height:2.25;font-size:17px;background:#faf6ee;border-left:3px solid var(--gold);padding:6px 12px;border-radius:4px;margin-top:6px}
+.secfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0 6px;flex-wrap:wrap}
+.reto{border:2px solid var(--ox);background:#fff}
+.reto .rt2{font:700 12px system-ui,sans-serif;letter-spacing:.16em;color:var(--ox)}
+.check li{margin:4px 0;list-style:none;padding-left:0}
+.check{padding:0;margin:10px 0 0;font:14.5px/1.5 system-ui,sans-serif}
+.check li:before{content:"○ ";color:#b8a98f;font-weight:700}
+.check li.on:before{content:"● ";color:var(--ok)}
+.check li.warn:before{content:"● ";color:var(--bad)}
+.qcheck{font:14px/1.5 system-ui,sans-serif;margin-top:8px}
+.qcheck div{padding:3px 0}
+.qcheck .y{color:var(--ok)} .qcheck .n{color:var(--bad)}
+.titles label{display:flex;gap:8px;align-items:flex-start;font:15.5px/1.45 Georgia,serif;margin:6px 0;cursor:pointer}
+.tips{font:14.5px/1.55 system-ui,sans-serif;background:var(--oxs);border-radius:8px;padding:10px 12px;margin:10px 0}
+.res{font:15px/1.6 system-ui,sans-serif}
+.res table{border-collapse:collapse;width:100%;margin:8px 0}
+.res td,.res th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+.src{font:13px/1.5 system-ui,sans-serif;color:var(--soft);margin-top:22px}
+@media (max-width:640px){h1{font-size:25px}.cols{grid-template-columns:1fr}input[type=text]{width:100%}input.w8,input.w6{width:8em}nav.tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}nav.tabs::-webkit-scrollbar{display:none}nav.tabs button{padding:6px 10px;font-size:12.5px;flex:0 0 auto;white-space:nowrap}}
+@media print{nav.tabs,.secfoot,button{display:none!important}section.ex{display:block!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-  <div class="kicker">Set text · Federico García Lorca</div>
-  <h1>La casa de Bernarda Alba — Acto I</h1>
-  <p class="lead">Read Act I in your own copy of the play first. Every answer here comes from Act I. Type your name in the bar, press Enter to check a box, and use « Descargar » to hand your work in.</p>
+  <div class="kicker">Lectura obligatoria · Federico García Lorca</div>
+  <h1>La casa de Bernarda Alba — Acto primero</h1>
+  <p class="lead">Read Act One in your copy of the play first. Every answer and every quotation here comes from Act One. Press <b>Enter</b> or « Comprobar » to check an answer. If you're wrong the first time, you get a <i>pista</i> made for that question; the second time, you see the answer and why. Your work saves itself on this device.</p>
+  <div class="score" aria-live="polite"><span>Puntos <b id="sc">0</b> / <b id="tot">0</b></span><span>a la primera <b id="first">0</b></span><div class="meter"><i id="bar"></i></div></div>
 </header>
 
-<nav class="tabs" role="tablist" aria-label="Ejercicios">
-  <button role="tab" aria-selected="true" data-go="ex1">1 · Personajes</button>
-  <button role="tab" aria-selected="false" data-go="ex2">2 · Comprensión</button>
-  <button role="tab" aria-selected="false" data-go="ex3">3 · Citas</button>
-  <button role="tab" aria-selected="false" data-go="ex4">4 · Vocabulario</button>
-  <button role="tab" aria-selected="false" data-go="ex5">5 · Traducción</button>
-  <button role="tab" aria-selected="false" data-go="ex6">6 · Escribir</button>
-</nav>
-
-<!-- ============================================================ 1 -->
-<section class="ex active" id="ex1" role="tabpanel">
-  <h2>1 · ¿Quién es quién?</h2>
-  <p class="how">Match each description to the right character. Ages come from Lorca's cast list.</p>
-  <table class="cast">
-    <tr class="item"><td>La madre, 60 años. Acaba de enterrar a su segundo marido.</td>
-      <td><select data-answer="Bernarda" aria-label="La madre, 60 años"><option></option><option>Bernarda</option><option>Angustias</option><option>Magdalena</option><option>Amelia</option><option>Martirio</option><option>Adela</option><option>María Josefa</option><option>La Poncia</option><option>Pepe el Romano</option></select></td></tr>
-    <tr class="item"><td>La hija mayor, 39 años, hija del primer marido. Hereda más dinero.</td>
-      <td><select data-answer="Angustias" aria-label="La hija mayor"><option></option><option>Bernarda</option><option>Angustias</option><option>Magdalena</option><option>Amelia</option><option>Martirio</option><option>Adela</option><option>María Josefa</option><option>La Poncia</option><option>Pepe el Romano</option></select></td></tr>
-    <tr class="item"><td>30 años. Llora de verdad por su padre y prefiere «llevar sacos al molino».</td>
-      <td><select data-answer="Magdalena" aria-label="30 años, llora por su padre"><option></option><option>Bernarda</option><option>Angustias</option><option>Magdalena</option><option>Amelia</option><option>Martirio</option><option>Adela</option><option>María Josefa</option><option>La Poncia</option><option>Pepe el Romano</option></select></td></tr>
-    <tr class="item"><td>24 años. Enfermiza y resentida; cuenta que un pretendiente, Enrique Humanes, nunca llegó a su ventana.</td>
-      <td><select data-answer="Martirio" aria-label="24 años, Enrique Humanes"><option></option><option>Bernarda</option><option>Angustias</option><option>Magdalena</option><option>Amelia</option><option>Martirio</option><option>Adela</option><option>María Josefa</option><option>La Poncia</option><option>Pepe el Romano</option></select></td></tr>
-    <tr class="item"><td>La menor, 20 años. Se pone un vestido verde en pleno luto.</td>
-      <td><select data-answer="Adela" aria-label="La menor, 20 años"><option></option><option>Bernarda</option><option>Angustias</option><option>Magdalena</option><option>Amelia</option><option>Martirio</option><option>Adela</option><option>María Josefa</option><option>La Poncia</option><option>Pepe el Romano</option></select></td></tr>
-    <tr class="item"><td>27 años. Teme el qué dirán y repite lo que dicen las demás.</td>
-      <td><select data-answer="Amelia" aria-label="27 años"><option></option><option>Bernarda</option><option>Angustias</option><option>Magdalena</option><option>Amelia</option><option>Martirio</option><option>Adela</option><option>María Josefa</option><option>La Poncia</option><option>Pepe el Romano</option></select></td></tr>
-    <tr class="item"><td>La abuela, 80 años. Está encerrada y se escapa vestida para casarse.</td>
-      <td><select data-answer="María Josefa" aria-label="La abuela, 80 años"><option></option><option>Bernarda</option><option>Angustias</option><option>Magdalena</option><option>Amelia</option><option>Martirio</option><option>Adela</option><option>María Josefa</option><option>La Poncia</option><option>Pepe el Romano</option></select></td></tr>
-    <tr class="item"><td>La criada mayor, 60 años. Lleva treinta años en la casa y odia a su señora.</td>
-      <td><select data-answer="La Poncia" aria-label="La criada mayor"><option></option><option>Bernarda</option><option>Angustias</option><option>Magdalena</option><option>Amelia</option><option>Martirio</option><option>Adela</option><option>María Josefa</option><option>La Poncia</option><option>Pepe el Romano</option></select></td></tr>
-    <tr class="item"><td>Tiene 25 años y quiere casarse con la hija que tiene dinero. Nunca aparece en escena.</td>
-      <td><select data-answer="Pepe el Romano" aria-label="25 años, nunca aparece"><option></option><option>Bernarda</option><option>Angustias</option><option>Magdalena</option><option>Amelia</option><option>Martirio</option><option>Adela</option><option>María Josefa</option><option>La Poncia</option><option>Pepe el Romano</option></select></td></tr>
-  </table>
-  <div class="reto item"><span class="tag">Reto</span>
-    <p>Pepe el Romano never comes on stage, yet the whole act turns on him. Why do you think Lorca keeps him off stage? Answer in Spanish, two or three sentences.</p>
-    <textarea aria-label="Reto 1: Pepe el Romano fuera de escena"></textarea>
-  </div>
-  <div class="navbtns"><span></span><button data-go="ex2">Siguiente →</button></div>
-</section>
-
-<!-- ============================================================ 2 -->
-<section class="ex" id="ex2" role="tabpanel">
-  <h2>2 · Comprensión del Acto I</h2>
-  <p class="how">The questions follow the order of the act. Choose the answer that matches the play, then press « Comprobar ».</p>
-
-  <div class="item"><span class="num">1</span>¿Qué se oye al levantarse el telón?
-    <div class="row"><select data-answer="Las campanas del entierro" aria-label="¿Qué se oye al principio?"><option></option><option>Las campanas del entierro</option><option>Los gritos de Bernarda</option><option>Una canción de los segadores</option><option>Los golpes del caballo</option></select></div></div>
-
-  <div class="item"><span class="num">2</span>¿Cuánto tiempo lleva la Poncia sirviendo a Bernarda?
-    <div class="row"><input type="text" class="short" data-answer="treinta años|30 años|treinta|30" aria-label="Años de la Poncia en la casa"></div></div>
-
-  <div class="item"><span class="num">3</span>¿Qué hace la Criada cuando la Mendiga pide las sobras?
-    <div class="row"><select data-answer="La echa y no le da nada" aria-label="La Criada y la Mendiga"><option></option><option>La echa y no le da nada</option><option>Le da pan y chorizo</option><option>La invita a entrar al velorio</option><option>Llama a Bernarda</option></select></div></div>
-
-  <div class="item"><span class="num">4</span>¿Cuál es la primera palabra que dice Bernarda en la obra?
-    <div class="row"><input type="text" class="short" data-answer="silencio|¡silencio!" aria-label="Primera palabra de Bernarda"></div></div>
-
-  <div class="item"><span class="num">5</span>¿Cuántos años de luto impone Bernarda?
-    <div class="row"><input type="text" class="short" data-answer="ocho|8|ocho años|8 años" aria-label="Años de luto"></div></div>
-
-  <div class="item"><span class="num">6</span>¿Cómo es el abanico que Adela le ofrece a su madre, y qué pide Bernarda a cambio?
-    <div class="row"><select data-answer="De flores rojas y verdes; pide uno negro" aria-label="El abanico"><option></option><option>De flores rojas y verdes; pide uno negro</option><option>Negro; pide uno de colores</option><option>Blanco; no quiere ninguno</option><option>De encaje; se lo da a Angustias</option></select></div></div>
-
-  <div class="item"><span class="num">7</span>¿Por qué castiga Bernarda a Angustias el día del entierro?
-    <div class="row"><select data-answer="Porque estaba escuchando la conversación de los hombres" aria-label="Castigo de Angustias"><option></option><option>Porque estaba escuchando la conversación de los hombres</option><option>Porque se había puesto un vestido verde</option><option>Porque no lloró en la iglesia</option><option>Porque dejó salir a su abuela</option></select></div></div>
-
-  <div class="item"><span class="num">8</span>Según Bernarda, ¿por qué no tienen novio sus hijas?
-    <div class="row"><select data-answer="Porque los hombres del pueblo no son de su clase" aria-label="Por qué no tienen novio"><option></option><option>Porque los hombres del pueblo no son de su clase</option><option>Porque ellas no quieren casarse</option><option>Porque no tienen dinero para la dote</option><option>Porque son demasiado jóvenes</option></select></div></div>
-
-  <div class="item"><span class="num">9</span>¿Qué historia cuenta la Poncia sobre Paca la Roseta?
-    <div class="row"><select data-answer="Que unos hombres se la llevaron al olivar" aria-label="Paca la Roseta"><option></option><option>Que unos hombres se la llevaron al olivar</option><option>Que se casó con Pepe el Romano</option><option>Que mató a su hijo</option><option>Que trabajó treinta años en la casa</option></select></div></div>
-
-  <div class="item"><span class="num">10</span>¿Qué hizo Adela con el vestido verde que se había hecho para su cumpleaños?
-    <div class="row"><select data-answer="Se lo puso para enseñárselo a las gallinas del corral" aria-label="El vestido verde"><option></option><option>Se lo puso para enseñárselo a las gallinas del corral</option><option>Se lo regaló a Angustias para la boda</option><option>Lo tiñó de negro</option><option>Lo escondió debajo de la cama</option></select></div></div>
-
-  <div class="item"><span class="num">11</span>¿Por qué quiere Pepe el Romano casarse con Angustias, según sus hermanas?
-    <div class="row"><select data-answer="Por su dinero" aria-label="Por qué Pepe y Angustias"><option></option><option>Por su dinero</option><option>Porque es la más guapa</option><option>Porque es la más joven</option><option>Porque Bernarda lo obliga</option></select></div></div>
-
-  <div class="item"><span class="num">12</span>¿Cómo reacciona Adela cuando se entera del noviazgo de Pepe y Angustias?
-    <div class="row"><select data-answer="Dice que quiere salir y que no se va a quedar encerrada como sus hermanas" aria-label="Reacción de Adela"><option></option><option>Dice que quiere salir y que no se va a quedar encerrada como sus hermanas</option><option>Se alegra mucho por su hermana</option><option>Se lo cuenta enseguida a su madre</option><option>Decide ingresar en un convento</option></select></div></div>
-
-  <div class="item"><span class="num">13</span>¿Cómo termina el Acto I?
-    <div class="row"><select data-answer="Bernarda manda encerrar a María Josefa" aria-label="Final del Acto I"><option></option><option>Bernarda manda encerrar a María Josefa</option><option>Pepe el Romano entra en la casa</option><option>Adela sale a la calle</option><option>La Poncia se despide de Bernarda</option></select></div></div>
-
-  <div class="reto item"><span class="tag">Reto</span>
-    <p>The act opens and closes with someone being shut away or silenced: the bells and « ¡Silencio! » at the start, María Josefa locked up at the end. What does this framing tell the audience about the house? Answer in Spanish.</p>
-    <textarea aria-label="Reto 2: el principio y el final del acto"></textarea>
-  </div>
-  <div class="navbtns"><button data-go="ex1">← Atrás</button><button data-go="ex3">Siguiente →</button></div>
-</section>
-
-<!-- ============================================================ 3 -->
-<section class="ex" id="ex3" role="tabpanel">
-  <h2>3 · Citas: ¿quién lo dice y qué revela?</h2>
-  <p class="how">For each quotation from Act I, choose who says it and the theme it shows most clearly. Some quotations fit two themes, and either is accepted. Then explain one quotation in Spanish in the box at the end.</p>
-
-  <div class="item"><span class="num">1</span><span class="quote">«Tirana de todos los que la rodean.»</span>
-    <div class="row"><label>Quién <select data-answer="La Poncia" aria-label="Cita 1 quién"><option></option><option>Bernarda</option><option>La Poncia</option><option>Adela</option><option>Amelia</option><option>Martirio</option><option>María Josefa</option></select></label>
-    <label>Tema <select data-answer="La autoridad y la tiranía" aria-label="Cita 1 tema"><option></option><option>La autoridad y la tiranía</option><option>El encierro</option><option>Las apariencias y el qué dirán</option><option>El papel de la mujer</option><option>La clase social</option><option>El deseo y la libertad</option></select></label></div></div>
-
-  <div class="item"><span class="num">2</span><span class="quote">«En ocho años que dure el luto no ha de entrar en esta casa el viento de la calle.»</span>
-    <div class="row"><label>Quién <select data-answer="Bernarda" aria-label="Cita 2 quién"><option></option><option>Bernarda</option><option>La Poncia</option><option>Adela</option><option>Amelia</option><option>Martirio</option><option>María Josefa</option></select></label>
-    <label>Tema <select data-answer="El encierro|La autoridad y la tiranía" aria-label="Cita 2 tema"><option></option><option>La autoridad y la tiranía</option><option>El encierro</option><option>Las apariencias y el qué dirán</option><option>El papel de la mujer</option><option>La clase social</option><option>El deseo y la libertad</option></select></label></div></div>
-
-  <div class="item"><span class="num">3</span><span class="quote">«Hilo y aguja para las hembras. Látigo y mula para el varón.»</span>
-    <div class="row"><label>Quién <select data-answer="Bernarda" aria-label="Cita 3 quién"><option></option><option>Bernarda</option><option>La Poncia</option><option>Adela</option><option>Amelia</option><option>Martirio</option><option>María Josefa</option></select></label>
-    <label>Tema <select data-answer="El papel de la mujer" aria-label="Cita 3 tema"><option></option><option>La autoridad y la tiranía</option><option>El encierro</option><option>Las apariencias y el qué dirán</option><option>El papel de la mujer</option><option>La clase social</option><option>El deseo y la libertad</option></select></label></div></div>
-
-  <div class="item"><span class="num">4</span><span class="quote">«Los hombres de aquí no son de su clase.»</span>
-    <div class="row"><label>Quién <select data-answer="Bernarda" aria-label="Cita 4 quién"><option></option><option>Bernarda</option><option>La Poncia</option><option>Adela</option><option>Amelia</option><option>Martirio</option><option>María Josefa</option></select></label>
-    <label>Tema <select data-answer="La clase social" aria-label="Cita 4 tema"><option></option><option>La autoridad y la tiranía</option><option>El encierro</option><option>Las apariencias y el qué dirán</option><option>El papel de la mujer</option><option>La clase social</option><option>El deseo y la libertad</option></select></label></div></div>
-
-  <div class="item"><span class="num">5</span><span class="quote">«Las vecinas pueden verla desde sus ventanas.»</span>
-    <div class="row"><label>Quién <select data-answer="Bernarda" aria-label="Cita 5 quién"><option></option><option>Bernarda</option><option>La Poncia</option><option>Adela</option><option>Amelia</option><option>Martirio</option><option>María Josefa</option></select></label>
-    <label>Tema <select data-answer="Las apariencias y el qué dirán" aria-label="Cita 5 tema"><option></option><option>La autoridad y la tiranía</option><option>El encierro</option><option>Las apariencias y el qué dirán</option><option>El papel de la mujer</option><option>La clase social</option><option>El deseo y la libertad</option></select></label></div></div>
-
-  <div class="item"><span class="num">6</span><span class="quote">«De todo tiene la culpa esta crítica que no nos deja vivir.»</span>
-    <div class="row"><label>Quién <select data-answer="Amelia" aria-label="Cita 6 quién"><option></option><option>Bernarda</option><option>La Poncia</option><option>Adela</option><option>Amelia</option><option>Martirio</option><option>María Josefa</option></select></label>
-    <label>Tema <select data-answer="Las apariencias y el qué dirán" aria-label="Cita 6 tema"><option></option><option>La autoridad y la tiranía</option><option>El encierro</option><option>Las apariencias y el qué dirán</option><option>El papel de la mujer</option><option>La clase social</option><option>El deseo y la libertad</option></select></label></div></div>
-
-  <div class="item"><span class="num">7</span><span class="quote">«Mañana me pondré mi vestido verde y me echaré a andar por la calle.»</span>
-    <div class="row"><label>Quién <select data-answer="Adela" aria-label="Cita 7 quién"><option></option><option>Bernarda</option><option>La Poncia</option><option>Adela</option><option>Amelia</option><option>Martirio</option><option>María Josefa</option></select></label>
-    <label>Tema <select data-answer="El deseo y la libertad" aria-label="Cita 7 tema"><option></option><option>La autoridad y la tiranía</option><option>El encierro</option><option>Las apariencias y el qué dirán</option><option>El papel de la mujer</option><option>La clase social</option><option>El deseo y la libertad</option></select></label></div></div>
-
-  <div class="item"><span class="num">8</span><span class="quote">«Me escapé porque me quiero casar…»</span>
-    <div class="row"><label>Quién <select data-answer="María Josefa" aria-label="Cita 8 quién"><option></option><option>Bernarda</option><option>La Poncia</option><option>Adela</option><option>Amelia</option><option>Martirio</option><option>María Josefa</option></select></label>
-    <label>Tema <select data-answer="El deseo y la libertad" aria-label="Cita 8 tema"><option></option><option>La autoridad y la tiranía</option><option>El encierro</option><option>Las apariencias y el qué dirán</option><option>El papel de la mujer</option><option>La clase social</option><option>El deseo y la libertad</option></select></label></div></div>
-
-  <div class="tip"><b>Phrases you can use:</b> Esta cita revela… · Con esto, Lorca muestra que… · Se refiere a… · Esto demuestra hasta qué punto… · Aquí vemos que… · El autor sugiere que…</div>
-  <div class="item">Choose ONE quotation above and explain in Spanish what it reveals about the character and the theme (40–60 words).
-    <textarea aria-label="Análisis de una cita"></textarea></div>
-
-  <div class="reto item"><span class="tag">Reto</span>
-    <p>Quotations 2 and 7 both mention the street (« la calle »). Compare what the street means for Bernarda and for Adela. Answer in Spanish.</p>
-    <textarea aria-label="Reto 3: la calle para Bernarda y Adela"></textarea>
-  </div>
-  <div class="navbtns"><button data-go="ex2">← Atrás</button><button data-go="ex4">Siguiente →</button></div>
-</section>
-
-<!-- ============================================================ 4 -->
-<section class="ex" id="ex4" role="tabpanel">
-  <h2>4 · Vocabulario en contexto</h2>
-  <p class="how">Complete each sentence about Act I with a word from the bank. There are two extra words you won't need.</p>
-  <div class="bank"><b>Banco</b> pozos · abanico · boda · herencia · mendiga · luto · ventana · criada · anzuelo · enlutadas · viuda · corral</div>
-
-  <div class="item"><span class="num">a</span>Bernarda impone a sus hijas ocho años de <input type="text" class="short" data-answer="luto" aria-label="a: ocho años de ..."> .</div>
-  <div class="item"><span class="num">b</span>Al principio, una <input type="text" class="short" data-answer="mendiga" aria-label="b: pide las sobras"> con una niña pide las sobras de la comida.</div>
-  <div class="item"><span class="num">c</span>La Poncia lleva treinta años de <input type="text" class="short" data-answer="criada" aria-label="c: treinta años de ..."> en la casa.</div>
-  <div class="item"><span class="num">d</span>Adela le ofrece a su madre un <input type="text" class="short" data-answer="abanico" aria-label="d: de flores rojas y verdes"> de flores rojas y verdes.</div>
-  <div class="item"><span class="num">e</span>Con la muerte de Antonio María Benavides, Bernarda se queda <input type="text" class="short" data-answer="viuda" aria-label="e: se queda ..."> por segunda vez.</div>
-  <div class="item"><span class="num">f</span>En el pueblo no hay río: el agua se saca de los <input type="text" class="short" data-answer="pozos" aria-label="f: el agua se saca de los ..."> .</div>
-  <div class="item"><span class="num">g</span>Bernarda acusa a Angustias de ir «con el <input type="text" class="short" data-answer="anzuelo" aria-label="g: ir con el ..."> detrás de un hombre».</div>
-  <div class="item"><span class="num">h</span>Angustias recibe la mayor parte de la <input type="text" class="short" data-answer="herencia" aria-label="h: la mayor parte de la ..."> .</div>
-  <div class="item"><span class="num">i</span>Adela sale al <input type="text" class="short" data-answer="corral" aria-label="i: sale al ..."> con el vestido verde y se lo enseña a las gallinas.</div>
-  <div class="item"><span class="num">j</span>Al volver del entierro, la sala se llena de mujeres <input type="text" class="short" data-answer="enlutadas" aria-label="j: mujeres ..."> .</div>
-
-  <div class="reto item"><span class="tag">Reto</span>
-    <p>« Ir con el anzuelo » is a fishing image. Explain in Spanish what Bernarda means by it, and why the image is insulting to Angustias.</p>
-    <textarea aria-label="Reto 4: ir con el anzuelo"></textarea>
-  </div>
-  <div class="navbtns"><button data-go="ex3">← Atrás</button><button data-go="ex5">Siguiente →</button></div>
-</section>
-
-<!-- ============================================================ 5 -->
-<section class="ex" id="ex5" role="tabpanel">
-  <h2>5 · Traducción de citas clave</h2>
-  <p class="how">Complete the English translation of each line. Only the key words are missing, and each box takes one or two words. Think about register: Lorca's language is plain and hard, not flowery.</p>
-
-  <div class="item"><span class="num">1</span><span class="quote">«Hilo y aguja para las hembras. Látigo y mula para el varón. Eso tiene la gente que nace con posibles.»</span> <i>(Bernarda)</i>
-    <div class="tr en">Needle and <input type="text" class="short" data-answer="thread" aria-label="T1 hilo"> for the women. The <input type="text" class="short" data-answer="whip" aria-label="T1 látigo"> and the mule for the man. That's what comes of being born with <input type="text" class="short" data-answer="means|money|wealth|property" aria-label="T1 posibles"> .</div></div>
-
-  <div class="item"><span class="num">2</span><span class="quote">«¿Es éste el abanico que se da a una viuda? Dame uno negro y aprende a respetar el luto de tu padre.»</span> <i>(Bernarda)</i>
-    <div class="tr en">Is this the fan you give to a <input type="text" class="short" data-answer="widow" aria-label="T2 viuda">? Give me a black one and learn to respect your father's <input type="text" class="short" data-answer="mourning" aria-label="T2 luto"> .</div></div>
-
-  <div class="item"><span class="num">3</span><span class="quote">«…este maldito pueblo sin río, pueblo de pozos, donde siempre se bebe el agua con el miedo de que esté envenenada.»</span> <i>(Bernarda)</i>
-    <div class="tr en">…this cursed village with no river, a village of <input type="text" class="short" data-answer="wells" aria-label="T3 pozos">, where you always drink the water afraid that it might be <input type="text" class="short" data-answer="poisoned" aria-label="T3 envenenada"> .</div></div>
-
-  <div class="item"><span class="num">4</span><span class="quote">«¿Es decente que una mujer de tu clase vaya con el anzuelo detrás de un hombre el día de la misa de su padre?»</span> <i>(Bernarda)</i>
-    <div class="tr en">Is it decent for a woman of your <input type="text" class="short" data-answer="class|station|standing" aria-label="T4 clase"> to go <input type="text" class="short" data-answer="fishing|angling|chasing|hunting" aria-label="T4 con el anzuelo"> after a man on the day of her father's <input type="text" class="short" data-answer="mass|funeral mass|funeral" aria-label="T4 misa"> ?</div></div>
-
-  <div class="item"><span class="num">5</span><span class="quote">«Mañana me pondré mi vestido verde y me echaré a andar por la calle.»</span> <i>(Adela)</i>
-    <div class="tr en">Tomorrow I'll <input type="text" class="short" data-answer="put on|wear" aria-label="T5 me pondré"> my green dress and <input type="text" class="short" data-answer="go walking|set off walking|walk|go out|start walking|go" aria-label="T5 me echaré a andar"> down the street.</div></div>
-
-  <div class="reto item"><span class="tag">Reto</span>
-    <p>Translate « Eso tiene la gente que nace con posibles » in two different ways: one literal, one natural. Which loses more of Bernarda's voice?</p>
-    <textarea aria-label="Reto 5: dos traducciones"></textarea>
-  </div>
-  <div class="navbtns"><button data-go="ex4">← Atrás</button><button data-go="ex6">Siguiente →</button></div>
-</section>
-
-<!-- ============================================================ 6 -->
-<section class="ex" id="ex6" role="tabpanel">
-  <h2>6 · Escribir: el poder de Bernarda en el Acto I</h2>
-  <p class="how">Write one essay paragraph in Spanish (120–150 words) answering the question below. Use at least two quotations from exercise 3 and say what each one reveals.</p>
-  <div class="item"><b>¿Cómo presenta Lorca la autoridad de Bernarda en el primer acto?</b>
-    <div class="tip"><b>Plan:</b> point (tu idea) → quotation (la cita) → explanation (qué revela y por qué importa) → link back to the question.<br>
-    <b>Andamio:</b> Desde su primera palabra, Bernarda… · Lorca utiliza la palabra «…» para… · Esta cita demuestra hasta qué punto… · No solo… sino también… · Por consiguiente…</div>
-    <textarea style="min-height:220px" aria-label="Párrafo: la autoridad de Bernarda"></textarea></div>
-
-  <div class="reto item"><span class="tag">Reto</span>
-    <p>For an A*: add a sentence on how a symbol (the colours black and green, the fan, or the well and the water) reinforces Bernarda's power, or shows the cracks in it.</p>
-    <textarea aria-label="Reto 6: símbolo"></textarea>
-  </div>
-  <div class="navbtns"><button data-go="ex5">← Atrás</button><span></span></div>
-  <p class="src">Quotations: Federico García Lorca, <i>La casa de Bernarda Alba</i> (1936), Act I. Short extracts for study only. Work from your own copy of the play.</p>
-</section>
+<nav class="tabs" role="tablist" aria-label="Ejercicios" id="tabs"></nav>
+<main id="main"></main>
+<p class="src">Quotations: Federico García Lorca, <i>La casa de Bernarda Alba</i> (1936), «Acto primero», short extracts quoted for study. Work from your own copy of the play.</p>
 </div>
 
+<script>window.BBA_KIT = {check:false, download:false, save:false, enter:false};</script>
+<script>
+/* ================================================================ DATA */
+var D = {"speakers": ["Bernarda", "La Poncia", "La Criada", "Angustias", "Magdalena", "Amelia", "Martirio", "Adela", "María Josefa"], "themes": [["deseo", "El deseo"], ["libertad", "La libertad"], ["represion", "Represión y encierro"], ["vitalidad", "Vitalidad"], ["esterilidad", "Esterilidad"], ["autoridad", "Autoridad y poder"], ["apariencias", "Apariencias y el qué dirán"], ["clase", "Clase social y dinero"], ["mujer", "La condición de la mujer"], ["destino", "Destino y repetición"]], "cast": [["60 años. Impone ocho años de luto y manda a golpe de bastón.", "Bernarda", "The mother: the play is named after her."], ["80 años. La tienen encerrada; quiere casarse y huir «a la orilla del mar».", "María Josefa", "Bernarda's mother: the one they call mad."], ["39 años. Hija del primer marido y la única rica: por eso la pretende Pepe el Romano.", "Angustias", "The eldest, and the only daughter whose father was the first husband."], ["30 años. La que más quería al padre; maldice su condición: «Malditas sean las mujeres».", "Magdalena", "She would rather carry sacks to the mill than sit and embroider."], ["27 años. Tímida y conformista; culpa de todo a «esta crítica que no nos deja vivir».", "Amelia", "She says what everyone thinks but never acts."], ["24 años. Enfermiza y resentida; teme a los hombres y cree que «las cosas se repiten».", "Martirio", "Her one suitor, Enrique Humanes, never came: in Act II we learn Bernarda sent him away."], ["20 años. La menor: se pone el vestido verde en pleno luto y grita «¡Yo quiero salir!».", "Adela", "The youngest, the one with «ilusión»."], ["60 años. Lleva treinta años sirviendo a Bernarda: la obedece y la odia a la vez.", "La Poncia", "She knows all the family's secrets."], ["50 años. Explotada, desprecia a la vez a la Mendiga y llora en público a un amo que abusaba de ella.", "La Criada", "Not La Poncia: the younger servant, who has a little girl of her own."]], "scenes": [["Escena 1 · Las criadas, antes del duelo", [{"t": "mc", "q": "¿Por qué come la Poncia a escondidas mientras Bernarda está en la iglesia?", "opts": ["Porque Bernarda, que no come durante el duelo, quiere que todas pasen hambre: es tacaña y controladora", "Porque tiene prisa por volver al funeral", "Porque Bernarda le ha dado permiso", "Porque la comida es para los invitados"], "a": 0, "hint": "Read what La Poncia says about Bernarda «como no come ella…», and how she names her.", "why": "«¡Quisiera que ahora, como no come ella, que todas nos muriéramos de hambre! ¡Mandona! ¡Dominanta!» Before Bernarda even appears, we see her through hunger and fear. Her control reaches the larder, and her servants only eat behind her back. The Criada asks for food «para mi niña»: in this house, poverty and Bernarda's meanness go together."}, {"t": "mc", "q": "«Treinta años lavando sus sábanas, treinta años comiendo sus sobras…» ¿Qué relación tiene la Poncia con Bernarda?", "opts": ["Una dependencia llena de rencor: la sirve, conoce sus secretos y la odia", "Una amistad sincera entre iguales", "Una relación nueva, de pocos meses", "Una relación de madre e hija"], "a": 0, "hint": "«…vida sin secretos una con otra, y sin embargo, ¡maldita sea!»", "why": "Thirty years of intimacy without equality. La Poncia knows everything and spies for Bernarda, but she stays a servant who eats «sus sobras». Later Bernarda confirms it: «Me sirves y te pago. ¡Nada más!»"}, {"t": "mc", "q": "La Criada echa a la Mendiga: «Las sobras de hoy son para mí.» ¿Qué muestra Lorca con esta escena?", "opts": ["Que el desprecio baja por la escala social: la explotada explota a la más pobre", "Que la Criada es generosa", "Que la Mendiga es una vecina rica", "Que Bernarda prohíbe dar limosna"], "a": 0, "hint": "The Criada has just been insulted and exploited. What does she do to someone below her?", "why": "«También están solos los perros y viven.» Each character passes the contempt they receive on to someone weaker. Bernarda will then say «Los pobres son como los animales»."}, {"t": "mc", "q": "Sola, la Criada dice: «¡Ya no volverás a levantarme las enaguas detrás de la puerta de tu corral!» Luego llora a gritos por su amo delante de las vecinas. ¿Qué revela este contraste?", "opts": ["La hipocresía: en público se finge dolor por un hombre que en privado abusaba de ella", "Que la Criada estaba enamorada de Antonio María", "Que Bernarda quería mucho a su marido", "Que la Criada se va a casar"], "a": 0, "hint": "Compare what she says alone with what she says in front of the mourners.", "why": "The public mourning hides private abuse by the master. From the first scene, Lorca shows the gap between appearances and the truth, and male power over the women who serve."}]], ["Escena 2 · El duelo", [{"t": "txt", "q": "¿Cuál es la primera palabra que dice Bernarda en la obra?", "acc": ["silencio", "¡silencio!"], "kw": [["silencio"]], "hint": "It's an order, and the last word of the play is the same one.", "why": "Bernarda enters with «¡Silencio!» and the play ends on «¡Silencio!». Her power is the power to silence others."}, {"t": "txt", "q": "Según Bernarda, ¿a qué hombre pueden mirar las mujeres en la iglesia?", "acc": ["al oficiante", "el oficiante", "oficiante", "al cura", "el cura", "al sacerdote", "el sacerdote"], "kw": [["oficiante", "cura", "sacerdote", "parroco"]], "hint": "«…y a ése porque tiene faldas.»", "why": "«Las mujeres en la iglesia no deben mirar más hombre que al oficiante, y a ése porque tiene faldas.» Even women's eyes are policed. Her image «buscar el calor de la pana» shows she knows exactly what desire is."}, {"t": "txt", "q": "Al irse las vecinas, Bernarda les grita: «¡Andar a vuestras cuevas a ___ todo lo que habéis visto!» ¿Qué verbo falta?", "acc": ["criticar"], "kw": [["critic"]], "hint": "What the village does best, according to Bernarda.", "why": "«…a criticar todo lo que habéis visto!» Bernarda despises gossip and fears it: the neighbours come «para llenar mi casa con el sudor de sus refajos y el veneno de sus lenguas». The fear of «el qué dirán» runs through the whole play."}]], ["Escena 3 · Bernarda impone el luto", [{"t": "mc", "q": "Adela le da a su madre un abanico «con flores rojas y verdes». ¿Cómo reacciona Bernarda y qué significa?", "opts": ["Lo tira al suelo y pide uno negro: no tolera el color, la vida, en su casa de luto", "Lo acepta y se lo agradece", "Se lo regala a Angustias", "Le pide a Adela que se lo guarde para la boda"], "a": 0, "hint": "Look at the stage direction: «Arrojando el abanico al suelo».", "why": "«¿Es éste el abanico que se da a una viuda? Dame uno negro y aprende a respetar el luto de tu padre.» Adela's colour, life and youth meet Bernarda's black: the conflict of the play in one gesture."}, {"t": "txt", "q": "¿Cuántos años va a durar el luto?", "acc": ["ocho", "8", "ocho años", "8 años"], "kw": [["ocho", "8"]], "hint": "«En ___ años que dure el luto no ha de entrar en esta casa el viento de la calle.»", "why": "Eight years: for the daughters (the eldest is 39) the mourning is a life sentence. «Haceros cuenta que hemos tapiado con ladrillos puertas y ventanas.»"}, {"t": "txt", "q": "Magdalena: «Prefiero llevar sacos al molino. Todo menos estar sentada días y días dentro de esta sala oscura.» ¿Qué le contesta Bernarda? «Eso tiene ___ ___.»", "acc": ["ser mujer"], "kw": [["ser mujer"]], "hint": "Three words in Bernarda's reply: «Eso tiene…» (two missing).", "why": "«Eso tiene ser mujer.» Magdalena answers «Malditas sean las mujeres», and Bernarda lays down the law: «Hilo y aguja para las hembras. Látigo y mula para el varón.» Confinement is presented as women's natural destiny."}, {"t": "mc", "q": "¿Por qué no quiere Bernarda que su madre se acerque al pozo?", "opts": ["Porque las vecinas pueden verla desde su ventana", "Porque teme que se tire", "Porque el agua está envenenada", "Porque el pozo está roto"], "a": 0, "hint": "The Criada suggests one reason and Bernarda says «No es por eso».", "why": "«No es por eso. Pero desde aquel sitio las vecinas pueden verla desde su ventana.» She worries more about the neighbours seeing her mother than about her mother's safety."}, {"t": "mc", "q": "¿Por qué pega Bernarda a Angustias?", "opts": ["Porque estaba mirando a los hombres por el portón el día del entierro", "Porque se ha puesto el vestido verde", "Porque ha dejado salir a la abuela", "Porque no quiere bordar el ajuar"], "a": 0, "hint": "Adela says, «con retintín», where she saw her.", "why": "Adela: «La he visto asomada a la rendija del portón.» Bernarda: «¿Es decente que una mujer de tu clase vaya con el anzuelo detrás de un hombre el día de la misa de su padre?» Then she hits her with the stick: desire is punished with violence."}, {"t": "mc", "q": "¿Qué nos enseña la historia de Paca la Roseta, que la Poncia cuenta y Bernarda escucha «con curiosidad»?", "opts": ["Que el deseo libre es un escándalo para el pueblo, pero todos disfrutan contándolo", "Que Paca la Roseta es la vecina más decente", "Que los hombres del pueblo la defendieron", "Que Bernarda no quiere saber nada de ella"], "a": 0, "hint": "Bernarda asks «¿De qué hablaban?» and «¿Y qué pasó?»: what does her curiosity show?", "why": "Bernarda: «Es la única mujer mala que tenemos en el pueblo» — but she wants every detail, and says the men «se chupan los dedos de que esto ocurra». Desire is condemned in public and devoured in private."}, {"t": "mc", "q": "«No hay en cien leguas a la redonda quien se pueda acercar a ellas. Los hombres de aquí no son de su clase.» ¿Qué consecuencia tiene este orgullo de clase?", "opts": ["Condena a sus hijas a quedarse solteras", "Asegura buenos matrimonios a sus hijas", "Hace que Pepe el Romano se aleje", "Obliga a la familia a mudarse"], "a": 0, "hint": "La Poncia answers: «Debías haberte ido a otro pueblo».", "why": "Pride of class leads to sterility: no man is good enough, so no daughter marries. La Poncia adds the sting: «¡Claro que en otros sitios ellas resultan las pobres!»"}, {"t": "mc", "q": "La Poncia propone dar algunas cosas del muerto. Bernarda contesta: «Nada. ¡Ni un botón!» ¿Qué rasgo de Bernarda confirma?", "opts": ["Su tacañería y su control absoluto sobre todo lo que hay en la casa", "Su amor por su marido", "Su generosidad con los pobres", "Su miedo a la Poncia"], "a": 0, "hint": "Remember why La Poncia had to eat in secret in the first scene.", "why": "«¡Ni un botón! ¡Ni el pañuelo con que le hemos tapado la cara!» The meanness La Poncia complained about at the start is now seen directly. Just before, Bernarda tells her: «Me sirves y te pago. ¡Nada más!»"}]], ["Escena 4 · Las hermanas", [{"t": "mc", "q": "Martirio cuenta que el padre de Adelaida mató en Cuba a un hombre y nunca fue a la cárcel. ¿Qué muestra esta historia?", "opts": ["Que los hombres se cubren unos a otros y la culpa la pagan las mujeres", "Que Cuba era peligrosa", "Que Bernarda es amiga de Adelaida", "Que la justicia del pueblo funciona bien"], "a": 0, "hint": "Amelia asks why he is not in prison. What does Martirio answer?", "why": "«Porque los hombres se tapan unos a otros las cosas de esta índole y nadie es capaz de delatar.» Men's crimes go unpunished, while Adelaida «tiene el mismo sino de su madre y de su abuela»."}, {"t": "mc", "q": "Martirio cuenta que esperó toda una noche a Enrique Humanes y que no vino: «Fue todo cosa de lenguas». En el Acto segundo, La Poncia revela la verdadera causa. ¿Cuál es?", "opts": ["Bernarda le mandó recado de que no viniera, porque el padre de Enrique había sido gañán", "Enrique prefirió a otra mujer que tenía más dinero", "Las vecinas inventaron que Enrique la quería", "Martirio tuvo miedo y no se asomó a la ventana"], "a": 0, "hint": "Martirio blames gossip and men's greed. But who decides whom Bernarda's daughters may marry? Think of «Los hombres de aquí no son de su clase».", "why": "Act II, La Poncia to Bernarda: «¿Por qué el mismo día que iba a venir a la ventana le mandaste recado que no viniera?» Bernarda: «¡Mi sangre no se junta con la de los Humanes mientras yo viva! Su padre fue gañán.» Martirio's one chance of marriage was destroyed by her mother's class pride. In Act I she reads the failure after the event as «cosa de lenguas» and as proof that men want only «la tierra, las yuntas y una perra sumisa». Her bitterness, and her later jealousy of Adela, grow from a match Bernarda killed."}, {"t": "txt", "q": "Según Magdalena, ¿por qué viene Pepe el Romano a casarse con Angustias?", "acc": ["por el dinero", "por dinero", "el dinero", "dinero", "por su dinero"], "kw": [["dinero"]], "hint": "«Si viniera por el tipo de Angustias, por Angustias como mujer, yo me alegraría; pero viene por…»", "why": "«…pero viene por el dinero.» Pepe is 25; Angustias is 39 and the only rich daughter. «¡El dinero lo puede todo!»"}, {"t": "mc", "q": "Al saber lo de Pepe, Adela pregunta: «¿Por eso ha salido detrás del duelo y estuvo mirando por el portón?» ¿Qué deja ver su reacción?", "opts": ["Que Pepe le importa a ella: es el primer indicio del conflicto entre Adela y Angustias", "Que se alegra por su hermana", "Que no conoce a Pepe", "Que quiere contárselo a su madre"], "a": 0, "hint": "Look at the stage direction: «Con emoción contenida».", "why": "Adela reacts «con emoción contenida» and then breaks down: «¡No, no me acostumbraré!». Lorca plants the rivalry over Pepe that will drive the rest of the play."}]], ["Escena 5 · Las particiones y María Josefa", [{"t": "mc", "q": "Bernarda le quita a Angustias los polvos de la cara con su pañuelo. ¿Por qué?", "opts": ["Porque arreglarse para Pepe el día de la misa de su padre es indecente a sus ojos", "Porque los polvos son caros", "Porque Angustias está enferma", "Porque quiere que Angustias vaya a la iglesia"], "a": 0, "hint": "«¿Has tenido valor de lavarte la cara el día de la misa de tu padre?»", "why": "Bernarda controls even her daughters' faces. Making yourself attractive during mourning shows desire, and must be wiped away: «¡Espejo de tus tías!»"}, {"t": "mc", "q": "Angustias responde: «No era mi padre.» ¿Qué quiere decir?", "opts": ["Que su padre era el primer marido de Bernarda, no Antonio María Benavides", "Que no conoce a su padre", "Que Pepe el Romano no es su novio", "Que su padre vive en otro pueblo"], "a": 0, "hint": "She's the daughter of the first husband.", "why": "Angustias stands apart: her money comes from her own father. Bernarda answers: «¡Más debes a este hombre, padre de tus hermanas, que al tuyo!»"}, {"t": "mc", "q": "María Josefa no quiere dejar sus joyas a sus nietas. ¿Qué razón da?", "opts": ["Que ninguna de ellas se va a casar", "Que son unas desagradecidas", "Que las joyas son falsas", "Que se las ha prometido a la Poncia"], "a": 0, "hint": "«Nada de lo que tengo quiero que sea para vosotras: ni mis anillos ni mi traje negro de moaré. Porque…»", "why": "«Porque ninguna de vosotras se va a casar. ¡Ninguna!» The madwoman's prophecy: she says out loud the sterility everyone else hides."}, {"t": "txt", "q": "¿Cuál es la última orden de Bernarda en el Acto primero?", "acc": ["encerradla", "¡encerradla!", "encerrarla"], "kw": [["encerradla", "encerrarla"]], "hint": "One word, an imperative.", "why": "«¡Encerradla!» The act begins with María Josefa locked up and ends with her locked up again. The only character who says out loud what everyone wants is the one they call mad."}]]], "quotes": [{"q": "Es capaz de sentarse encima de tu corazón y ver cómo te mueres durante un año sin que se le cierre esa sonrisa fría que lleva en su maldita cara.", "s": "La Poncia", "core": ["autoridad"], "ok": ["esterilidad", "represion"], "hint": "Who has the power to sit on someone's heart?", "why": "La Poncia describes cruelty as a form of power. The «sonrisa fría» also makes Bernarda emotionally sterile: she watches others die without feeling."}, {"q": "Nosotras tenemos nuestras manos y un hoyo en la tierra de la verdad.", "s": "La Poncia", "core": ["clase"], "ok": ["destino", "esterilidad"], "hint": "What do servants own? Only their hands, and a grave («un hoyo en la tierra»).", "why": "The only land the poor will ever own is their grave. The Criada answers: «Ésa es la única tierra que nos dejan a los que no tenemos nada.»"}, {"q": "Los pobres son como los animales. Parece como si estuvieran hechos de otras sustancias.", "s": "Bernarda", "core": ["clase"], "ok": ["autoridad"], "hint": "She speaks of the poor as if they were another species.", "why": "Class turned into nature: for Bernarda, social hierarchy is a natural law, and that justifies her contempt."}, {"q": "Las mujeres en la iglesia no deben mirar más hombre que al oficiante, y a ése porque tiene faldas. Volver la cabeza es buscar el calor de la pana.", "s": "Bernarda", "core": ["mujer", "represion"], "ok": ["deseo", "apariencias", "autoridad"], "hint": "It's about what women may not do, and about the desire behind «el calor de la pana» (corduroy: men's clothing).", "why": "Bernarda polices women's eyes, but the image she uses («el calor de la pana») shows she knows exactly what desire is. Repression always points to the very thing it represses."}, {"q": "Es así como se tiene que hablar en este maldito pueblo sin río, pueblo de pozos, donde siempre se bebe el agua con el miedo de que esté envenenada.", "s": "Bernarda", "core": ["esterilidad", "apariencias"], "ok": ["represion"], "hint": "Two layers: still water (no river) and poison (the neighbours' «veneno de sus lenguas»).", "why": "The stagnant wells sum up the village: no movement and no life, and gossip poisons everything. Compare the sea María Josefa longs for at the end."}, {"q": "En ocho años que dure el luto no ha de entrar en esta casa el viento de la calle.", "s": "Bernarda", "core": ["represion", "autoridad"], "ok": ["esterilidad", "apariencias"], "hint": "An order that seals the house off from the outside world.", "why": "Mourning becomes imprisonment. Even the wind, a symbol of life and movement, is kept out. «Haceros cuenta que hemos tapiado con ladrillos puertas y ventanas.»"}, {"q": "Hilo y aguja para las hembras. Látigo y mula para el varón. Eso tiene la gente que nace con posibles.", "s": "Bernarda", "core": ["mujer"], "ok": ["autoridad", "clase", "represion"], "hint": "Thread and needle against whip and mule: who does what?", "why": "Gender roles stated as law. Note «hembras»/«varón», words used for animals as much as people, and the final class marker «con posibles» (with means): this order belongs to the landowning class."}, {"q": "Prefiero llevar sacos al molino. Todo menos estar sentada días y días dentro de esta sala oscura.", "s": "Magdalena", "core": ["represion", "mujer"], "ok": ["libertad", "esterilidad"], "hint": "She would rather do a man's heavy work than sit indoors.", "why": "Magdalena chooses physical labour over confinement. The «sala oscura» contrasts with the «habitación blanquísima» of the stage directions: the house is both a tomb and a prison."}, {"q": "No es por eso. Pero desde aquel sitio las vecinas pueden verla desde su ventana.", "s": "Bernarda", "core": ["apariencias"], "ok": ["autoridad", "represion"], "hint": "What worries her: her mother's safety, or the neighbours?", "why": "The neighbours' gaze matters more than her mother's wellbeing. Honour is a matter of being seen."}, {"q": "¡Cuánto hay que sufrir y luchar para hacer que las personas sean decentes y no tiren al monte demasiado!", "s": "Bernarda", "core": ["represion", "deseo"], "ok": ["apariencias", "autoridad"], "hint": "«…no tiren al monte demasiado»: to run wild, like goats heading for the hills.", "why": "Bernarda sees desire as a natural pull («tiren al monte») that must be fought. Decency means constant repression."}, {"q": "No hay en cien leguas a la redonda quien se pueda acercar a ellas. Los hombres de aquí no son de su clase.", "s": "Bernarda", "core": ["clase"], "ok": ["esterilidad", "represion", "autoridad"], "hint": "Her reason for keeping her daughters single.", "why": "Class pride condemns the daughters to remain single: Bernarda's snobbery leads straight to sterility."}, {"q": "Ya hago las cosas sin fe pero como un reloj.", "s": "Martirio", "core": ["esterilidad"], "ok": ["represion", "destino"], "hint": "A clock: mechanical, with no life.", "why": "Martirio lives mechanically, like a clock, without faith or hope. It's an image of inner sterility."}, {"q": "No, pero las cosas se repiten. Yo veo que todo es una terrible repetición.", "s": "Martirio", "core": ["destino"], "ok": ["mujer", "esterilidad"], "hint": "Grandmother, mother and daughter suffer the same fate.", "why": "Women's fate as an inherited cycle. Martirio's fatalism sets up the tragedy."}, {"q": "Una noche estuve en camisa detrás de la ventana hasta que fue de día porque me avisó con la hija de su gañán que iba a venir, y no vino. Fue todo cosa de lenguas.", "s": "Martirio", "core": ["deseo", "esterilidad"], "ok": ["clase", "autoridad", "apariencias", "represion"], "hint": "A whole night at the window, waiting for a man. What does she want, and what does she get?", "why": "Martirio's one chance of love and marriage, waited for in secret all night, comes to nothing. She blames gossip («cosa de lenguas»), but in Act II La Poncia reveals that Bernarda sent Enrique Humanes word not to come: «Su padre fue gañán». Desire is crushed by the mother's class pride, and the frustration feeds Martirio's bitterness and her jealousy of Adela."}, {"q": "¡Qué les importa a ellos la fealdad! A ellos les importa la tierra, las yuntas y una perra sumisa que les dé de comer.", "s": "Martirio", "core": ["mujer", "clase"], "ok": ["represion"], "hint": "What do men want, according to Martirio? Land, oxen… and what kind of woman?", "why": "Marriage as a property deal: the wife is listed with the land and the oxen, as an obedient animal («perra sumisa»). Compare La Poncia's «yo soy buena perra»."}, {"q": "Hoy hay más finura, las novias se ponen velo blanco como en las poblaciones y se bebe vino de botella, pero nos pudrimos por el qué dirán.", "s": "Magdalena", "core": ["apariencias"], "ok": ["esterilidad", "represion"], "hint": "«Nos pudrimos»: we are rotting. Because of what?", "why": "Modern refinement on the surface, rot underneath: life stagnates under the pressure of what people will say."}, {"q": "¡No quiero perder mi blancura en estas habitaciones! ¡Mañana me pondré mi vestido verde y me echaré a pasear por la calle! ¡Yo quiero salir!", "s": "Adela", "core": ["libertad", "vitalidad"], "ok": ["deseo", "represion"], "hint": "Green dress, the street, «¡Yo quiero salir!»", "why": "Adela claims her body («mi blancura»), colour (green) and public space (the street). She embodies life against the house's sterility."}, {"q": "Pienso que este luto me ha cogido en la peor época de mi vida para pasarlo.", "s": "Adela", "core": ["vitalidad", "represion"], "ok": ["deseo"], "hint": "Why is twenty the worst age for eight years of mourning?", "why": "The clash between Adela's youth and the mourning: the house's time (eight years) devours the time of her life."}, {"q": "¡El dinero lo puede todo!", "s": "Magdalena", "core": ["clase"], "ok": [], "hint": "Why does Pepe want Angustias?", "why": "The cynical summary of the courtship: Pepe chooses money over youth and desire."}, {"q": "¡No os hagáis ilusiones de que vais a poder conmigo! ¡Hasta que salga de esta casa con los pies adelante mandaré en lo mío y en lo vuestro!", "s": "Bernarda", "core": ["autoridad"], "ok": ["represion"], "hint": "«Con los pies adelante»: in a coffin.", "why": "Bernarda claims absolute power, which only death can end: «en lo mío y en lo vuestro»: everything is hers."}, {"q": "Me escapé porque me quiero casar, porque quiero casarme con un varón hermoso de la orilla del mar, ya que aquí los hombres huyen de las mujeres.", "s": "María Josefa", "core": ["deseo", "vitalidad"], "ok": ["libertad", "esterilidad"], "hint": "Marriage, a handsome man, the sea… and what is missing «aquí»?", "why": "The madwoman speaks the truth: desire, the sea (life, freedom), and the diagnosis «aquí los hombres huyen de las mujeres»."}, {"q": "No quiero ver a estas mujeres solteras rabiando por la boda, haciéndose polvo el corazón", "s": "María Josefa", "core": ["esterilidad", "mujer"], "ok": ["deseo", "represion"], "hint": "«Solteras rabiando por la boda»: what will become of them?", "why": "María Josefa foresees her granddaughters' sterile future: single, desperate to marry, their hearts turned to dust."}], "symbols": [["El abanico de Adela", "un abanico redondo con flores rojas y verdes", "Vitalidad", "Red and green, rejected for a black one.", "Colour and flowers stand for life and passion. Bernarda throws it on the floor and asks for a black one."], ["El abanico negro y el luto", "Dame uno negro y aprende a respetar el luto de tu padre", "Esterilidad", "Black: the colour of the eight years ahead.", "Mourning is death imposed on the living."], ["El vestido verde", "Tenía mucha ilusión con el vestido", "Vitalidad", "Adela's colour, against the black of mourning.", "Green means youth, hope and rebellion against eight years of black. Martirio suggests: «Lo que puedes hacer es teñirlo de negro»."], ["Los pozos", "pueblo sin río, pueblo de pozos", "Esterilidad", "Still water, possibly poisoned.", "No river, no current: the village stagnates."], ["La orilla del mar", "un varón hermoso de la orilla del mar", "Vitalidad", "Open, moving water.", "The sea stands for freedom and sexual fulfilment, far from the village."], ["La «habitación blanquísima»", "Habitación blanquísima del interior de la casa de Bernarda. Muros gruesos.", "Esterilidad", "Thick walls, very white: clean, cold, closed.", "The whiteness of the set is lime and cleanliness: a sealed space, like a tomb. Compare Adela's «blancura»."], ["La blancura de Adela", "¡No quiero perder mi blancura en estas habitaciones!", "Vitalidad", "This whiteness belongs to a young body.", "The same colour turned around: here white is youthful skin, the body's life, which the house threatens to wither."], ["El calor", "Cae el sol como plomo.", "Las dos cosas", "Heat that crushes, and heat that is desire («el calor de la pana»).", "Ambivalent: the summer heat weighs down like lead (oppression), but «calor» is also desire, here frustrated."], ["Las flores de María Josefa", "ataviada con flores en la cabeza y en el pecho", "Las dos cosas", "Flowers, but on an eighty-year-old woman they lock up.", "Flowers suggest a bride and life, but on an old woman called mad they are also grotesque, a desire that comes too late."], ["Bordar el ajuar", "podéis empezar a bordar el ajuar", "Esterilidad", "A trousseau… for which weddings?", "Embroidering sheets for weddings that will never happen: preparing for a life that is denied."], ["La corona de flores de Paca la Roseta", "una corona de flores en la cabeza", "Vitalidad", "She came back at dawn: «traía el pelo suelto».", "Loose hair and a crown of flowers: free sexuality, celebrated by nature and condemned by the village."]], "animals": [["Pero yo soy buena perra: ladro cuando me lo dice y muerdo los talones de los que piden limosna cuando ella me azuza; mis hijos trabajan en sus tierras y ya están los dos casados, pero un día me hartaré.", "La Poncia, de sí misma", ["Se ve como el perro guardián de Bernarda: obedece y ataca a los pobres por orden suya, pero acumula rencor", "Expresa un cariño sincero hacia Bernarda", "Presume de ser la más fuerte de la casa"], 0, "Who gives the order to bite, whose heels get bitten, and what does she promise at the end?", "La Poncia is the house dog: she barks when told and bites the beggars. But the image carries a threat, «un día me hartaré», and a dog can turn on its owner. Martirio uses the same animal for wives: men want «una perra sumisa que les dé de comer». In Bernarda's world, servant and wife are both cast as obedient dogs."], ["Hilo y aguja para las hembras. Látigo y mula para el varón. Eso tiene la gente que nace con posibles.", "Bernarda, a Magdalena", ["Al hombre le tocan el campo, la fuerza y el mando del látigo; a la mujer, el encierro de la aguja", "Los hombres de la familia cuidan de las mulas del corral", "Bernarda quiere que Magdalena aprenda a montar"], 0, "Compare the two halves: what does each sex hold in its hands?", "The mule is the working animal of rural Spain: ploughing, carting and threshing, men's work out in the fields, with the whip to drive it. The woman's lot is the needle, indoors. «Hembras»/«varón» are words used for animals as much as people. In Act II the image is turned round: Martirio repeats «una mulilla sin desbravar» about the night noise in the corral, «llena de segunda intención». She means Adela, a young female animal no one has broken in."], ["Anoche ataron a su marido a un pesebre y a ella se la llevaron a la grupa del caballo hasta lo alto del olivar.", "La Poncia, sobre Paca la Roseta", ["El caballo lleva la fuerza del deseo sexual masculino, libre y fuera de la casa", "El caballo es el medio de transporte del pueblo", "Paca la Roseta tiene una granja de caballos"], 0, "Who rides, who is carried, and where do they go: inside the village, or out into nature?", "The horse carries male sexual energy and desire outside the law: the husband is tied to a manger like an animal, the woman is carried off to the olive grove and comes back with «el pelo suelto y una corona de flores en la cabeza». In Act III the image returns as the «caballo garañón» locked in the stable, kicking at the walls."]], "animal_sort": [["Pero yo soy buena perra", "La Poncia, de sí misma", "Símbolo de la obra", "It defines La Poncia's role in the house and links to Martirio's «perra sumisa»: a symbol of female servitude."], ["Látigo y mula para el varón", "Bernarda", "Símbolo de la obra", "The mule stands for men's work on the land; the image returns in Act II as «una mulilla sin desbravar», Martirio's veiled jibe at Adela."], ["se la llevaron a la grupa del caballo", "La Poncia, sobre Paca la Roseta", "Símbolo de la obra", "The horse is the play's great symbol of male desire: it returns as the «caballo garañón» in Act III."], ["¡Vieja lagarta recocida!", "Mujer 1.ª, de Bernarda", "Habla popular", "A colloquial village insult: it shows how people speak about Bernarda, but don't build an essay on «lagarta»."], ["siempre cabeza con cabeza como dos ovejitas", "Magdalena, de Amelia y Martirio", "Habla popular", "A colloquial comparison. Don't confuse it with the lamb María Josefa carries in Act III («Ovejita, niño mío»), which is a real symbol of thwarted motherhood."], ["Igual que si hubiese pasado por ella una manada de cabras", "Bernarda, del suelo", "Habla popular", "An everyday expression about a dirty floor: colourful, not symbolic."], ["ponían ojos de carnero al piropo de cualquier barberillo", "Bernarda, de las tías de Angustias", "Habla popular", "A popular idiom («ojos de carnero»: a soppy look). It characterises Bernarda's contempt, but it isn't a symbol of the play."]], "retos": {"s1": [[["Says the house is a closed world of women, and men stay outside", ["fuera", "calle", "mundo de mujeres", "solo mujeres", "cerrad", "exterior", "encerrad"]], ["Notes that Pepe exists through looks and talk: the «portón», the window, gossip", ["mira", "portón", "porton", "rendija", "ventana", "se comenta", "hablan", "rumor"]], ["Sees him as a projection of each sister's desire", ["deseo", "desean", "ilusión", "ilusion", "obsesi", "sueño", "quieren"]], ["Mentions money as the reason he comes", ["dinero", "rica", "herencia"]]], "Pepe nunca aparece porque la casa de Bernarda es un mundo cerrado de mujeres: los hombres están fuera, en la calle, y solo se les ve por la rendija del portón o por la ventana. Así Pepe se convierte en la proyección del deseo de las hermanas: Angustias lo quiere para casarse, Adela para vivir. Además, importa más lo que se dice de él que lo que es: viene «por el dinero», pero todas lo miran."], "s2": [[["Links the beginning and the end: locked up at the start, «¡Encerradla!» at the end", ["encerrad", "llave", "principio", "final", "empieza", "termina"]], ["Sees the house as a prison", ["cárcel", "carcel", "prisión", "prision", "encierro", "encerrad"]], ["Connects it to silence and Bernarda's control", ["silencio", "callar", "control", "autoridad", "manda"]], ["Notes that the «mad» character speaks the truth or desire", ["loca", "locura", "verdad", "deseo", "casarse"]]], "El acto empieza con María Josefa encerrada «con dos vueltas de llave» y termina con «¡Encerradla!»: es un círculo sin salida. Antes de que pase nada, el público ya sabe que la casa es una cárcel donde manda el silencio de Bernarda. Además, la única que grita su deseo de libertad es la abuela «loca», y por eso hay que encerrarla."], "s3": [[["Quotes a line in «…»", ["«"]], ["Uses lens 1: desire/freedom vs repression", ["deseo", "libertad", "represi", "encierro"]], ["Uses lens 2: vitality vs sterility", ["vitalidad", "esterilidad", "vida", "estéril", "esteril", "muerte"]], ["Explains how the same words work both ways", ["a la vez", "también", "tambien", "al mismo tiempo", "doble", "ambos", "no solo"]]], "«Me escapé porque me quiero casar…»: María Josefa expresa a la vez el deseo reprimido (quiere un varón y escapa del encierro) y la vitalidad frente a la esterilidad (el mar, el agua viva, contra el pueblo de pozos y unas nietas que no se casarán). La misma frase es una fuga y una profecía."], "s4": [[["The white room as death, a tomb, cold cleanliness or confinement", ["tumba", "muerte", "frío", "frio", "cal", "limpi", "encierro", "estéril", "esteril", "muro"]], ["Adela's whiteness as the young body, the skin, life", ["cuerpo", "juventud", "joven", "piel", "belleza", "carne", "vida"]], ["Makes the contrast explicit", ["contraste", "mismo color", "opuest", "en cambio", "mientras", "sin embargo"]]], "Lorca usa el blanco en dos sentidos opuestos. La «habitación blanquísima» de muros gruesos es blanco de cal: limpieza fría, una casa cerrada como una tumba. En cambio, la «blancura» de Adela es su piel, su cuerpo joven y vivo. Adela teme perderla «en estas habitaciones»: el blanco estéril de la casa amenaza con devorar el blanco vivo de la juventud."], "s5": [[["Uses the Act One image: Paca la Roseta «a la grupa del caballo»", ["paca", "roseta", "grupa", "olivar"]], ["Uses the Act Three image: the «caballo garañón», locked up, kicking the wall", ["garañón", "garanon", "coces", "encerrado", "muro"]], ["Links the horse to male desire or sexual energy", ["deseo", "sexual", "masculin", "pasión", "pasion", "fuerza"]], ["Notes the movement: from outside (free) to inside (locked in, pushing the walls)", ["fuera", "dentro", "encerrado", "paredes", "muro", "libre", "casa"]]], "En el Acto primero el caballo aparece en la historia de Paca la Roseta, que se marcha «a la grupa del caballo»: es el deseo masculino libre, fuera de la casa. En el Acto tercero vuelve como el «caballo garañón» encerrado que da coces contra el muro: el deseo ya no está fuera, está dentro de la casa y quiere romper las paredes, igual que Adela."], "s6": [[["Gives a literal version", ["literal", "born with"]], ["Gives a natural version", ["natural", "comes of", "that's what", "that is what"]], ["Translates «posibles» as means, money or property", ["means", "money", "wealth", "property", "dinero", "medios"]], ["Comments on Bernarda's voice: a hard, proverb-like sentence", ["proverb", "refrán", "refran", "sentencia", "dura", "seco", "ley", "voice", "voz", "tone", "tono"]]], null], "s7": [[["Brings in María Josefa", ["maría josefa", "maria josefa", "abuela"]], ["Uses the sea («la orilla del mar»)", ["mar", "orilla"]], ["Uses «¡Encerradla!» or the locking up", ["encerrad", "encierro", "encerrad"]], ["Makes the madness and truth point: she says what the others silence", ["loca", "locura", "verdad", "dice lo que", "nadie se atreve"]]], "Al final del acto, María Josefa dice en voz alta lo que las nietas callan: quiere casarse «a la orilla del mar» y anuncia que «ninguna de vosotras se va a casar». Que la «loca» sea la única que dice la verdad, y que Bernarda responda «¡Encerradla!», muestra que en esta casa el deseo solo puede expresarse como locura."]}, "para": [[["Colour against black: the fan, the green dress, mourning", ["verde", "negro", "abanico", "color", "luto"]], ["Water: the «pueblo de pozos» against the sea", ["pozo", "mar", "río", "rio", "agua"]], ["Adela as vitality: «¡Yo quiero salir!», «mi blancura»", ["adela", "blancura", "salir", "calle"]], ["Sterility: eight years of mourning, single daughters, embroidering a trousseau", ["ocho años", "solteras", "ajuar", "esterilidad", "estéril", "esteril", "casarse"]], ["María Josefa's prophecy and her escape to the sea", ["maría josefa", "maria josefa", "abuela", "ninguna"]]], [["«¡Silencio!» and the power to silence", ["silencio", "callar"]], ["The stick, the blow to Angustias, physical violence", ["bastón", "baston", "golpe", "pega", "violencia"]], ["Eight years of mourning: the house sealed off", ["luto", "ocho", "tapiado", "encierro", "calle"]], ["Fear of the neighbours: «el qué dirán», the well, the window", ["vecinas", "qué dirán", "que diran", "apariencias", "ventana", "pozo"]], ["Class and money: «no son de su clase», «¡Ni un botón!», the inheritance", ["clase", "dinero", "botón", "boton", "particiones", "tacañ", "tacan"]], ["The cracks in her power: La Poncia, Adela, María Josefa", ["poncia", "adela", "maría josefa", "maria josefa", "rebel", "resist"]]]], "trans": [{"src": "Hilo y aguja para las hembras. Látigo y mula para el varón. Eso tiene la gente que nace con posibles.", "who": "Bernarda", "parts": [["Needle and ", null], ["thread", ["thread"]], [" for the women. The ", null], ["whip", ["whip", "lash"]], [" and the mule for the man. That's what comes of being born with ", null], ["means", ["means", "money", "wealth", "property"]], [".", null]], "hint": "«Con posibles»: with money, with land."}, {"src": "Ella, la más aseada, ella, la más decente, ella, la más alta. Buen descanso ganó su pobre marido.", "who": "La Poncia", "parts": [["She, the cleanest; she, the most ", null], ["decent", ["decent", "respectable", "proper", "virtuous"]], ["; she, the ", null], ["highest", ["highest", "loftiest", "haughtiest", "grandest", "most superior", "proudest"]], [". Her poor husband has earned a good ", null], ["rest", ["rest", "repose"]], [".", null]], "hint": "«La más alta»: not her height, her social position (and her pride)."}, {"src": "…en este maldito pueblo sin río, pueblo de pozos, donde siempre se bebe el agua con el miedo de que esté envenenada.", "who": "Bernarda", "parts": [["…in this cursed village with no river, a village of ", null], ["wells", ["wells"]], [", where you always drink the water afraid that it might be ", null], ["poisoned", ["poisoned"]], [".", null]], "hint": "Not «a village with no wells»: «de pozos» means made of wells."}, {"src": "¿Es decente que una mujer de tu clase vaya con el anzuelo detrás de un hombre el día de la misa de su padre?", "who": "Bernarda", "parts": [["Is it decent for a woman of your ", null], ["class", ["class", "station", "standing", "rank"]], [" to go ", null], ["fishing", ["fishing", "angling", "chasing", "hunting", "trawling"]], [" after a man on the day of her father's ", null], ["mass", ["mass", "funeral mass", "funeral", "requiem"]], ["?", null]], "hint": "«Ir con el anzuelo»: the fishing hook."}, {"src": "¡Mañana me pondré mi vestido verde y me echaré a pasear por la calle!", "who": "Adela", "parts": [["Tomorrow I'll ", null], ["put on", ["put on", "wear"]], [" my green dress and ", null], ["go walking", ["go walking", "go for a walk", "walk", "stroll", "parade", "set off walking", "go strolling", "take a walk", "go out walking"]], [" down the street!", null]], "hint": "«Echarse a + infinitivo»: to set off doing something."}], "titles": ["«Vitalidad frente a esterilidad»: ¿cómo construye Lorca este contraste en el Acto primero?", "¿Cómo presenta Lorca la autoridad de Bernarda en el Acto primero?"]};
+var FP = "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";
+</script>
 <script>
 (function(){
-  var tabs = document.querySelectorAll('nav.tabs button');
-  function go(id){
-    document.querySelectorAll('section.ex').forEach(function(s){ s.classList.toggle('active', s.id === id); });
-    tabs.forEach(function(b){ b.setAttribute('aria-selected', b.getAttribute('data-go') === id ? 'true' : 'false'); });
-    try{ sessionStorage.setItem('lcdba1-tab', id); }catch(e){}
-    var top = document.querySelector('nav.tabs'); if (top && window.scrollY > top.offsetTop) window.scrollTo({top: top.offsetTop, behavior: 'smooth'});
+"use strict";
+var KEY = "lcdba-acto1-v3";
+var S = {v:3, it:{}, w:{t:0, txt:""}, tab:"s1", pub:false};
+try{ var raw = localStorage.getItem(KEY); if(raw){ var o = JSON.parse(raw); if(o && o.v===3) S = o; } }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+/* ------------------------------------------------------------- text tools */
+function nfc(s){ return (s||"").normalize ? s.normalize("NFC") : (s||""); }
+function deacc(s){ return nfc(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function clean(s){
+  return nfc(s).toLowerCase().replace(/[¡!¿?.,;:«»"“”'’()\[\]…\-–—]/g," ").replace(/\s+/g," ").trim();
+}
+var ARTS = /^(el|la|los|las|un|una|unos|unas|al|a|del|de|lo|mi|mis|su|sus|por|en|se|the|a|an|to)\s+/;
+function strip(s){ var p; do{ p=s; s=s.replace(ARTS,""); }while(s!==p); return s; }
+function lev(a,b){
+  if(Math.abs(a.length-b.length)>2) return 9;
+  var m=[],i,j; for(i=0;i<=b.length;i++) m[i]=[i];
+  for(j=0;j<=a.length;j++) m[0][j]=j;
+  for(i=1;i<=b.length;i++) for(j=1;j<=a.length;j++)
+    m[i][j]=Math.min(m[i-1][j]+1,m[i][j-1]+1,m[i-1][j-1]+(b.charAt(i-1)===a.charAt(j-1)?0:1));
+  return m[b.length][a.length];
+}
+/* returns {ok:bool, note:"", kind:"exact|accent|typo|key"} */
+function judgeText(given, acc, kw){
+  var g = clean(given); if(!g) return {ok:false, blank:true};
+  var gs = strip(g), gd = deacc(gs);
+  for(var i=0;i<acc.length;i++){
+    var a = clean(acc[i]), as = strip(a);
+    if(g===a || gs===as) return {ok:true, kind:"exact"};
+    if(gd===deacc(as)) return {ok:true, kind:"accent", note:"Correct, but check the accent: «"+acc[0]+"»."};
   }
-  document.addEventListener('click', function(e){
-    var b = e.target.closest('[data-go]'); if (!b) return;
-    e.preventDefault(); go(b.getAttribute('data-go'));
+  for(i=0;i<acc.length;i++){
+    var ad = deacc(strip(clean(acc[i])));
+    /* a slip is forgiven only in a long word, and never at the end, where Spanish marks gender, number and tense (perra/perro, cabras/cabra); never between two real words like pasar/pasear */
+    if(ad.length>=8 && gd.length>=7 && lev(gd,ad)===1 && gd.slice(-2)===ad.slice(-2)) return {ok:true, kind:"typo", note:"Accepted, but watch the spelling: «"+acc[0]+"»."};
+  }
+  if(kw && kw.length){
+    var all = kw.every(function(grp){ return grp.some(function(k){ return (" "+deacc(g)+" ").indexOf(deacc(k))>=0; }); });
+    if(all) return {ok:true, kind:"key", note:"Accepted. The exact words in the play: «"+acc[0]+"»."};
+  }
+  return {ok:false};
+}
+
+/* ------------------------------------------------------------- build items */
+var RETOS = [];
+var ITEMS = [];          // {id, sec, el, check(), reveal(), answerText(), given()}
+var SECS = [];
+function h(tag, attrs, html){
+  var e=document.createElement(tag);
+  if(attrs) for(var k in attrs){ if(k==="class") e.className=attrs[k]; else e.setAttribute(k,attrs[k]); }
+  if(html!=null) e.innerHTML=html;
+  return e;
+}
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function feedbackBox(card){ var f=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(f); return f; }
+function showFb(f, kind, head, body){
+  f.className = "fb ui show " + (kind==="ok"?"okb":kind==="hint"?"hint":"revb");
+  var t = kind==="ok"?'<span class="tag okt">Correcto</span>':kind==="hint"?'<span class="tag ht">Pista</span>':'<span class="tag rt">Respuesta</span>';
+  f.innerHTML = t + head + (body?'<div class="why">'+body+'</div>':"");
+}
+
+/* generic item engine: each item supplies read(), test(val) -> {ok, note, diag}, lock(), solve() */
+function wire(it){
+  var st = S.it[it.id] || (S.it[it.id] = {tries:0, st:"", v:null, hintUsed:false});
+  it.state = st;
+  function finish(kind, head, body){
+    st.st = kind; it.card.classList.toggle("ok", kind==="ok"); it.card.classList.toggle("rev", kind==="rev");
+    showFb(it.fb, kind, head, body); it.lock(); if(it.btn) it.btn.disabled=true; if(it.hbtn) it.hbtn.disabled=true;
+    save(); refresh(); schedulePublish();
+  }
+  it.run = function(){
+    if(st.st==="ok"||st.st==="rev") return;
+    var v = it.read(); st.v = v; save();
+    var r = it.test(v);
+    if(r.blank){ showFb(it.fb,"hint"," Write or choose an answer first.",""); return; }
+    st.tries++;
+    if(r.ok){
+      var head = st.tries===1 && !st.hintUsed ? " First time." : " Well done.";
+      if(r.note) head += " " + r.note;
+      st.first = (st.tries===1 && !st.hintUsed);
+      it.mark && it.mark(true);
+      finish("ok", head, it.why);
+    } else if(st.tries===1){
+      st.hintUsed = true; save();
+      it.mark && it.mark(false);
+      showFb(it.fb,"hint"," Not yet. " + (r.diag ? r.diag+" " : "") , esc(it.hint));
+    } else {
+      it.solve(); it.mark && it.mark(false, true);
+      finish("rev", " " + it.answerHTML(), it.why);
+    }
+  };
+  it.restore = function(){
+    if(st.v!=null) it.write(st.v);
+    if(st.st==="ok"){ it.mark && it.mark(true); it.card.classList.add("ok"); showFb(it.fb,"ok", st.first?" First time.":" Well done.", it.why); it.lock(); if(it.btn) it.btn.disabled=true; if(it.hbtn) it.hbtn.disabled=true; }
+    else if(st.st==="rev"){ it.solve(); it.mark && it.mark(false,true); it.card.classList.add("rev"); showFb(it.fb,"rev"," "+it.answerHTML(), it.why); it.lock(); if(it.btn) it.btn.disabled=true; if(it.hbtn) it.hbtn.disabled=true; }
+    else if(st.tries===1 || st.hintUsed){ showFb(it.fb,"hint"," ", esc(it.hint)); }
+  };
+  if(it.btn) it.btn.addEventListener("click", it.run);
+  if(it.hbtn) it.hbtn.addEventListener("click", function(){
+    st.hintUsed = true; save(); showFb(it.fb,"hint"," ", esc(it.hint));
   });
-  try{ var t = sessionStorage.getItem('lcdba1-tab'); if (t && document.getElementById(t)) go(t); }catch(e){}
+  ITEMS.push(it);
+}
+function controls(card, withHint){
+  var c = h("div",{"class":"ctl"});
+  var b = h("button",{"class":"b",type:"button"},"Comprobar");
+  c.appendChild(b);
+  var hb=null;
+  if(withHint!==false){ hb = h("button",{"class":"g",type:"button"},"Pista"); c.appendChild(hb); }
+  return {row:c, btn:b, hbtn:hb};
+}
+function enterKey(input, it){ input.addEventListener("keydown", function(e){ if(e.key==="Enter"){ e.preventDefault(); it.run(); } }); }
+
+/* --- select item */
+function selectItem(sec, id, label, options, answer, hint, why, inline){
+  var card = h("div",{"class":"card"});
+  card.innerHTML = label;
+  var sel = h("select",{"aria-label":label.replace(/<[^>]+>/g,"")});
+  sel.appendChild(h("option",{value:""},""));
+  options.forEach(function(o){ var op=h("option",{value:o},esc(o)); sel.appendChild(op); });
+  var cs = controls(card); cs.row.insertBefore(sel, cs.btn); card.appendChild(cs.row);
+  var it = {id:id, sec:sec, card:card, btn:cs.btn, hbtn:cs.hbtn, hint:hint, why:why, qtext:inline,
+    read:function(){ return sel.value; }, write:function(v){ sel.value=v; },
+    test:function(v){ return v ? {ok: v===answer} : {blank:true}; },
+    lock:function(){ sel.disabled=true; },
+    solve:function(){ },
+    mark:function(ok){ sel.className = ok?"okf":"badf"; },
+    answerHTML:function(){ return "The answer is <b>"+esc(answer)+"</b>."; },
+    q:inline||label.replace(/<[^>]+>/g,""), ans:answer, given:function(){ return sel.value; }};
+  it.fb = feedbackBox(card);
+  sel.addEventListener("change", function(){ if(sel.value) it.run(); });
+  wire(it); return card;
+}
+/* --- multiple choice */
+function mcItem(sec, id, n, q, opts, a, hint, why){
+  var card = h("div",{"class":"card"});
+  card.innerHTML = '<span class="qn">'+n+'</span>'+esc(q);
+  // stable shuffle by id
+  var order = opts.map(function(_,i){return i;});
+  var seed=0; for(var k=0;k<id.length;k++) seed=(seed*31+id.charCodeAt(k))>>>0;
+  for(var i=order.length-1;i>0;i--){ seed=(seed*1103515245+12345)>>>0; var j=seed%(i+1); var t=order[i]; order[i]=order[j]; order[j]=t; }
+  var box = h("div",{"class":"opts",role:"radiogroup","aria-label":q});
+  var btns=[]; var chosen=null;
+  order.forEach(function(oi){
+    var b=h("button",{"class":"opt",type:"button",role:"radio","aria-checked":"false"},esc(opts[oi]));
+    b._i=oi; btns.push(b); box.appendChild(b);
+    b.addEventListener("click",function(){ if(b.disabled) return; chosen=oi; btns.forEach(function(x){ x.classList.toggle("sel",x===b); x.setAttribute("aria-checked",x===b?"true":"false"); }); it.run(); });
+  });
+  card.appendChild(box);
+  var cs = controls(card); cs.btn.style.display="none"; card.appendChild(cs.row);
+  var it = {id:id, sec:sec, card:card, btn:null, hbtn:cs.hbtn, hint:hint, why:why,
+    read:function(){ return chosen; }, write:function(v){ chosen=v; btns.forEach(function(x){ x.classList.toggle("sel",x._i===v); }); },
+    test:function(v){ return v==null ? {blank:true} : {ok: v===a}; },
+    lock:function(){ btns.forEach(function(x){ x.disabled=true; }); },
+    solve:function(){ btns.forEach(function(x){ if(x._i===a) x.classList.add("right"); }); },
+    mark:function(ok,final){ btns.forEach(function(x){ x.classList.remove("wrong"); if(x._i===chosen) x.classList.add(ok?"right":"wrong"); if(!ok && !final && x._i===chosen){ /* allow retry */ } }); },
+    answerHTML:function(){ return "The answer is: <b>"+esc(opts[a])+"</b>"; },
+    q:q, ans:opts[a], given:function(){ return chosen==null?"":opts[chosen]; }};
+  it.fb = feedbackBox(card);
+  wire(it); return card;
+}
+/* --- typed item */
+function txtItem(sec, id, n, q, acc, kw, hint, why, cls){
+  var card = h("div",{"class":"card"});
+  card.innerHTML = '<span class="qn">'+n+'</span>'+esc(q);
+  var inp = h("input",{type:"text","class":cls||"","aria-label":q,autocomplete:"off",spellcheck:"false"});
+  var cs = controls(card); cs.row.insertBefore(inp, cs.btn); card.appendChild(cs.row);
+  var it = {id:id, sec:sec, card:card, btn:cs.btn, hbtn:cs.hbtn, hint:hint, why:why,
+    read:function(){ return inp.value; }, write:function(v){ inp.value=v||""; },
+    test:function(v){ var r=judgeText(v,acc,kw); return r.blank?{blank:true}:r; },
+    lock:function(){ inp.readOnly=true; },
+    solve:function(){},
+    mark:function(ok){ inp.className=(cls||"")+" "+(ok?"okf":"badf"); },
+    answerHTML:function(){ return "The answer is <b>"+esc(acc[0])+"</b>."; },
+    q:q, ans:acc[0], given:function(){ return inp.value; }};
+  it.fb = feedbackBox(card); enterKey(inp,it);
+  wire(it); return card;
+}
+/* --- quotation: speaker + themes */
+function quoteItem(sec, id, n, Q){
+  var card = h("div",{"class":"card"});
+  card.innerHTML = '<span class="qn">'+n+'</span><blockquote>«'+esc(Q.q)+'»</blockquote>';
+  var row = h("div",{"class":"ctl ui"});
+  var lab = h("label",{"class":"who"},"¿Quién lo dice? ");
+  var sel = h("select",{"aria-label":"¿Quién lo dice? Cita "+n}); sel.appendChild(h("option",{value:""},""));
+  D.speakers.forEach(function(s){ sel.appendChild(h("option",{value:s},esc(s))); });
+  lab.appendChild(sel); row.appendChild(lab); card.appendChild(row);
+  var cl = h("div",{"class":"who ui",style:"margin-top:8px"},"Temas (choose every theme that applies):");
+  card.appendChild(cl);
+  var chips = h("div",{"class":"chips"}); var cmap={};
+  D.themes.forEach(function(t){
+    var c=h("button",{"class":"chip",type:"button","aria-pressed":"false"},esc(t[1])); c._k=t[0]; cmap[t[0]]=c;
+    c.addEventListener("click",function(){ if(c.disabled) return; c.setAttribute("aria-pressed", c.getAttribute("aria-pressed")==="true"?"false":"true"); });
+    chips.appendChild(c);
+  });
+  card.appendChild(chips);
+  var cs = controls(card); card.appendChild(cs.row);
+  function picked(){ return Object.keys(cmap).filter(function(k){ return cmap[k].getAttribute("aria-pressed")==="true"; }); }
+  var TN = {}; D.themes.forEach(function(t){ TN[t[0]]=t[1]; });
+  var it = {id:id, sec:sec, card:card, btn:cs.btn, hbtn:cs.hbtn, hint:Q.hint, why:Q.why,
+    read:function(){ return {s:sel.value, t:picked()}; },
+    write:function(v){ if(!v) return; sel.value=v.s||""; Object.keys(cmap).forEach(function(k){ cmap[k].setAttribute("aria-pressed", v.t && v.t.indexOf(k)>=0 ? "true":"false"); }); },
+    test:function(v){
+      if(!v.s && !v.t.length) return {blank:true};
+      var spOk = v.s===Q.s;
+      var missing = Q.core.filter(function(k){ return v.t.indexOf(k)<0; });
+      var extra = v.t.filter(function(k){ return Q.core.indexOf(k)<0 && Q.ok.indexOf(k)<0; });
+      if(spOk && !missing.length && !extra.length && v.t.length) return {ok:true, note: v.t.length>Q.core.length ? "Your extra theme(s) can be argued too." : ""};
+      var d=[];
+      if(!v.s) d.push("Choose who says it."); else if(!spOk) d.push("The speaker isn't right.");
+      else d.push("The speaker is right.");
+      if(!v.t.length) d.push("Choose at least one theme.");
+      else {
+        if(missing.length) d.push(missing.length===1 ? "One key theme is missing." : missing.length+" key themes are missing.");
+        if(extra.length) d.push(extra.length===1 ? "One of your themes is hard to defend for this line." : extra.length+" of your themes are hard to defend here.");
+      }
+      return {ok:false, diag:d.join(" ")};
+    },
+    lock:function(){ sel.disabled=true; Object.keys(cmap).forEach(function(k){ cmap[k].disabled=true; }); },
+    solve:function(){
+      sel.value = Q.s;
+      Object.keys(cmap).forEach(function(k){
+        var c=cmap[k]; c.classList.remove("core","acc","wrongc");
+        if(Q.core.indexOf(k)>=0){ c.classList.add("core"); c.setAttribute("aria-pressed","true"); }
+        else if(Q.ok.indexOf(k)>=0) c.classList.add("acc");
+        else if(c.getAttribute("aria-pressed")==="true") c.classList.add("wrongc");
+      });
+    },
+    mark:function(ok,final){ sel.className = (sel.value===Q.s)?"okf":(sel.value?"badf":""); if(ok||final) it.solve(); },
+    answerHTML:function(){
+      return "<b>"+esc(Q.s)+"</b> · key theme(s): <b>"+Q.core.map(function(k){return esc(TN[k]);}).join(", ")+"</b>"+
+        (Q.ok.length? " · also defensible: "+Q.ok.map(function(k){return esc(TN[k]);}).join(", "):"");
+    },
+    q:"«"+Q.q+"»", ans:Q.s+" · "+Q.core.map(function(k){return TN[k];}).join(", "),
+    given:function(){ var v=it.read(); return (v.s||"—")+" · "+v.t.map(function(k){return TN[k];}).join(", "); }};
+  it.fb = feedbackBox(card);
+  sel.addEventListener("change", function(){ sel.className=""; });
+  wire(it); return card;
+}
+/* --- translation with several gaps */
+function transItem(sec, id, n, T){
+  var card = h("div",{"class":"card"});
+  card.innerHTML = '<span class="qn">'+n+'</span><span class="quote">«'+esc(T.src)+'»</span> <span class="who">('+esc(T.who)+')</span>';
+  var tr = h("div",{"class":"tr"}); var ins=[];
+  T.parts.forEach(function(p){
+    if(p[1]==null){ tr.appendChild(document.createTextNode(p[0])); }
+    else { var i=h("input",{type:"text","class":"w8","aria-label":"Gap: "+p[0],autocomplete:"off",spellcheck:"false"}); i._acc=p[1]; ins.push(i); tr.appendChild(i); }
+  });
+  card.appendChild(tr);
+  var cs = controls(card); card.appendChild(cs.row);
+  var it = {id:id, sec:sec, card:card, btn:cs.btn, hbtn:cs.hbtn, hint:T.hint, why:"",
+    read:function(){ return ins.map(function(i){return i.value;}); },
+    write:function(v){ if(v) ins.forEach(function(i,k){ i.value=v[k]||""; }); },
+    test:function(v){
+      if(!v.some(function(x){return clean(x);})) return {blank:true};
+      var res = ins.map(function(i,k){ return judgeText(v[k], i._acc, null).ok; });
+      ins.forEach(function(i,k){ i.className="w8 "+(res[k]?"okf":"badf"); });
+      var bad = res.filter(function(x){return !x;}).length;
+      return bad? {ok:false, diag: bad===1?"One gap still needs work (in red).":bad+" gaps still need work (in red)."} : {ok:true};
+    },
+    lock:function(){ ins.forEach(function(i){ i.readOnly=true; }); },
+    solve:function(){ ins.forEach(function(i){ if(!judgeText(i.value,i._acc,null).ok){ i.className="w8 badf"; i.title="Accepted: "+i._acc.join(" / "); } }); },
+    answerHTML:function(){ return "Accepted words: "+ins.map(function(i){ return "<b>"+esc(i._acc.slice(0,3).join(" / "))+"</b>"; }).join(" · ")+". There is no single model translation: discuss the full sentence in class."; },
+    q:T.src, ans:ins.map(function(i){return i._acc[0];}).join(" | "), given:function(){ return ins.map(function(i){return i.value||"—";}).join(" | "); }};
+  it.fb = feedbackBox(card);
+  ins.forEach(function(i){ enterKey(i,it); });
+  wire(it); return card;
+}
+
+/* ------------------------------------------------------------- sections */
+var MAIN = document.getElementById("main"), TABS = document.getElementById("tabs");
+function section(id, tabLabel, title, how){
+  var s = h("section",{"class":"ex",id:id,role:"tabpanel"});
+  s.appendChild(h("h2",null,esc(title)));
+  if(how) s.appendChild(h("p",{"class":"how"},how));
+  MAIN.appendChild(s);
+  var b = h("button",{role:"tab",type:"button","aria-selected":"false","data-go":id},esc(tabLabel)+' <span class="n" data-n="'+id+'"></span>');
+  TABS.appendChild(b);
+  SECS.push({id:id, el:s, tab:b});
+  return s;
+}
+function foot(s, prev, next){
+  var f = h("div",{"class":"secfoot ui"});
+  var l = h("div"); var r=h("div");
+  if(prev){ var p=h("button",{"class":"g",type:"button","data-go":prev},"← Atrás"); l.appendChild(p); }
+  var rs = h("button",{"class":"g",type:"button"},"Reintentar esta sección");
+  rs.addEventListener("click", function(e){ confirmReset(s.id, rs); });
+  l.appendChild(document.createTextNode(" ")); l.appendChild(rs);
+  if(next){ var nx=h("button",{"class":"b",type:"button","data-go":next},"Siguiente →"); r.appendChild(nx); }
+  f.appendChild(l); f.appendChild(r); s.appendChild(f);
+}
+function confirmReset(sid, btn){
+  if(btn && !btn._armed){ btn._armed=true; btn.textContent="Pulsa otra vez para borrar"; setTimeout(function(){ btn._armed=false; btn.textContent="Reintentar esta sección"; },3000); return false; }
+  ITEMS.filter(function(it){ return it.sec===sid; }).forEach(function(it){ delete S.it[it.id]; });
+  save(); location.reload(); return true;
+}
+
+/* 1 Personas */
+var s1 = section("s1","1 · Personas","1 · Las personas del drama",
+  "Who is who? The descriptions combine Lorca's cast list with what happens in Act One. Choose a name: the answer is checked as soon as you choose.");
+var castNames = D.speakers.slice();
+D.cast.forEach(function(c,i){
+  s1.appendChild(selectItem("s1","c"+i,'<span class="qn">'+(i+1)+' ·</span>'+esc(c[0])+"<br>", castNames, c[1], c[2], "", c[0]));
+});
+s1.appendChild(retoCard("s1","El personaje que nunca aparece",
+  "Pepe el Romano never comes on stage, yet the whole act turns on him: Angustias spies on the men's group, the sisters argue about him, Adela loses her temper. Why might Lorca keep him off stage? Answer in Spanish, three or four sentences."));
+foot(s1,null,"s2");
+
+/* 2 Comprensión */
+var s2 = section("s2","2 · Comprensión","2 · Comprensión, escena por escena",
+  "The questions follow the order of the act. Typed answers forgive a missing accent or a small slip and tell you about it; answers with the right key words are accepted too.");
+var qn=0;
+D.scenes.forEach(function(sc,si){
+  s2.appendChild(h("h3",null,esc(sc[0])));
+  sc[1].forEach(function(q,qi){
+    qn++; var id="q"+si+"_"+qi;
+    s2.appendChild(q.t==="mc" ? mcItem("s2",id,qn,q.q,q.opts,q.a,q.hint,q.why) : txtItem("s2",id,qn,q.q,q.acc,q.kw,q.hint,q.why));
+  });
+});
+s2.appendChild(retoCard("s2","El marco del acto",
+  "The act opens with funeral bells and a grandmother locked up «con dos vueltas de llave», and ends with «¡Encerradla!». What does this framing tell the audience about the house before anything has «happened»? Answer in Spanish."));
+foot(s2,"s1","s3");
+
+/* 3 Citas y temas */
+var s3 = section("s3","3 · Citas y temas","3 · Citas: ¿quién lo dice y qué temas toca?",
+  "Most lines in Lorca touch more than one theme. For each quotation choose the speaker and every theme you could defend in an essay. You must include the key theme(s) and avoid themes that don't fit. Extra themes that can be argued are fine. After you answer, the analysis shows the key themes (solid outline) and the other defensible ones (dashed).");
+s3.appendChild(h("div",{"class":"legend"},
+  "<b>Two ways of reading the same tension.</b> Lens 1: <i>el deseo</i> and <i>la libertad</i> against <i>represión y encierro</i>. Lens 2: <i>vitalidad</i> (youth, colour, the body, moving water) against <i>esterilidad</i> (mourning, stagnation, single women with no future). A line can belong to both lenses. The other themes are the forces that keep the house closed: <i>autoridad</i>, <i>apariencias y el qué dirán</i>, <i>clase social y dinero</i>, <i>la condición de la mujer</i>, <i>destino y repetición</i>."));
+D.quotes.forEach(function(Q,i){ s3.appendChild(quoteItem("s3","t"+i,i+1,Q)); });
+s3.appendChild(retoCard("s3","Las dos lentes",
+  "Choose ONE quotation that you would place under both lenses (deseo/represión AND vitalidad/esterilidad). Explain in Spanish how the same line works in both ways (60–80 words)."));
+foot(s3,"s2","s4");
+
+/* 4 Símbolos */
+var s4 = section("s4","4 · Símbolos","4 · Vitalidad frente a esterilidad: los símbolos",
+  "Lorca builds the contrast through objects, colours and water. For each symbol, read the evidence from Act One and decide: does it stand for vitality, for sterility, or for both at once?");
+D.symbols.forEach(function(y,i){
+  var lab = '<span class="qn">'+(i+1)+'</span><b>'+esc(y[0])+'</b><blockquote>«'+esc(y[1])+'»</blockquote>';
+  s4.appendChild(selectItem("s4","y"+i, lab, ["Vitalidad","Esterilidad","Las dos cosas"], y[2], y[3], esc(y[4]), y[0]+" — «"+y[1]+"»"));
+});
+s4.appendChild(retoCard("s4","Dos blancos",
+  "The stage directions say «Habitación blanquísima»; Adela says «¡No quiero perder mi blancura…!». Explain in Spanish how Lorca uses the same colour with opposite meanings."));
+foot(s4,"s3","s5");
+
+/* 5 Lenguaje */
+var s5 = section("s5","5 · Animales","5 · Los animales: símbolo o habla popular",
+  "Lorca's characters talk about animals all the time, but only some of these images are symbols of the play. Most are simply how people speak in a village. First, read three images that matter and decide what each one shows. Then sort a set of expressions: symbol of the play, or popular speech? In an essay, build on the symbols, not on everyday insults.");
+s5.appendChild(h("h3",null,"Tres imágenes que importan"));
+D.animals.forEach(function(A,i){
+  var card = mcItem("s5","an"+i,i+1,"¿Qué muestra esta imagen?",A[2],A[3],A[4],esc(A[5]));
+  var bq = h("div",null,'<blockquote>«'+esc(A[0])+'»</blockquote><div class="who ui" style="margin:-4px 0 6px">'+esc(A[1])+'</div>');
+  card.insertBefore(bq, card.children[1]);
+  s5.appendChild(card);
+});
+s5.appendChild(h("h3",null,"¿Símbolo de la obra o habla popular?"));
+D.animal_sort.forEach(function(A,i){
+  var lab = '<span class="qn">'+(i+1)+' ·</span><span class="quote">«'+esc(A[0])+'»</span> <span class="who">— '+esc(A[1])+'</span><br>';
+  s5.appendChild(selectItem("s5","as"+i, lab, ["Símbolo de la obra","Habla popular"], A[2],
+    A[2]==="Símbolo de la obra" ? "Does the image come back in the play, or tie into its themes of desire, work and power?" : "Is this just how people talk: a colourful insult or comparison, not a pattern in the play?",
+    esc(A[3]), "«"+A[0]+"» — "+A[1]));
+});
+s5.appendChild(retoCard("s5","Del caballo de Paca la Roseta al caballo garañón",
+  "In Act One the horse carries Paca la Roseta away «a la grupa del caballo». In Act Three Bernarda speaks of «el caballo garañón, que está encerrado y da coces contra el muro». How has the image changed, and what does that change say about desire in the house? Answer in Spanish (if you have not read Act Three yet, come back to this later)."));
+foot(s5,"s4","s6");
+
+/* 6 Traducción */
+var s6 = section("s6","6 · Traducción","6 · Traducción de citas clave",
+  "Complete the English version of each line. Only the key words are missing, and several translations are accepted. There is no model translation of the whole sentence: compare yours in class.");
+D.trans.forEach(function(T,i){ s6.appendChild(transItem("s6","tr"+i,i+1,T)); });
+s6.appendChild(retoCard("s6","Traducir la voz de Bernarda",
+  "Translate «Eso tiene la gente que nace con posibles» twice: once literally, once naturally. Which version keeps more of Bernarda's voice, and why?"));
+foot(s6,"s5","s7");
+
+/* 7 Escribir */
+var s7 = section("s7","7 · Escribir","7 · Escribir un párrafo de ensayo",
+  "Choose a title and write one essay paragraph in Spanish (150–200 words). The checklist updates as you write. It checks that your quotations really come from Act One, word for word.");
+var tbox = h("div",{"class":"card titles"});
+D.titles.forEach(function(t,i){
+  var l=h("label"); var r=h("input",{type:"radio",name:"wtitle",value:String(i)}); if(S.w.t===i) r.checked=true;
+  r.addEventListener("change",function(){ S.w.t=i; save(); });
+  l.appendChild(r); l.appendChild(document.createTextNode(" "+t)); tbox.appendChild(l);
+});
+s7.appendChild(tbox);
+s7.appendChild(h("div",{"class":"tips"},"<b>Plan:</b> topic sentence that answers the question → quotation in «…» → analysis (what the words reveal, and why it matters) → second quotation or symbol → link back to the title.<br><b>Andamio:</b> Desde el principio del acto, Lorca… · La palabra «…» sugiere… · No solo… sino también… · Esta imagen pone de relieve… · Por consiguiente…"));
+var wcard = h("div",{"class":"card"});
+var ta = h("textarea",{"aria-label":"Párrafo de ensayo",spellcheck:"true",placeholder:"Escribe aquí tu párrafo…"}); ta.value = S.w.txt||"";
+wcard.appendChild(ta);
+var ul = h("ul",{"class":"check"}); wcard.appendChild(ul);
+var qc = h("div",{"class":"qcheck"}); wcard.appendChild(qc);
+var prow = h("div",{"class":"ctl"}); var pbtn = h("button",{"class":"b",type:"button"},"Comprobar mi párrafo"); prow.appendChild(pbtn); wcard.appendChild(prow);
+var pfb = h("div",{"class":"fb ui","aria-live":"polite"}); wcard.appendChild(pfb);
+pbtn.addEventListener("click", function(){
+  runCheck();
+  var t = ta.value.trim(), words=(t.match(/[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+/g)||[]).length;
+  var pts = D.para[S.w.t||0], cv = covered(pts, t), n = cv.filter(function(x){return x.ok;}).length;
+  var form = Array.prototype.filter.call(ul.children,function(li){return li.className==="on";}).length;
+  var qs=[]; t.replace(/«([^»]{6,})»/g,function(_,q){ qs.push(q); });
+  var badq = qs.filter(function(q){ return quoteOk(q)===false; }).length;
+  if(words<40){ pfb.className="fb ui show hint"; pfb.innerHTML='<span class="tag ht">Pista</span> Write more before checking. For this title, a strong paragraph draws on these ideas (choose two or three, don\'t list them all):<ul class="check">'+pts.map(function(p){return '<li>'+esc(p[0])+'</li>';}).join("")+'</ul>'; return; }
+  var adv = [];
+  if(badq) adv.push(badq===1 ? "One quotation is not word for word from Act One: correct it from your copy." : badq+" quotations are not word for word from Act One.");
+  if(qs.length<2) adv.push("Add a second quotation in «…» and analyse it.");
+  if(n<2) adv.push("Bring in more of the key ideas below: a good paragraph develops two or three in depth.");
+  if(words<150) adv.push("Develop your analysis: you have "+words+" words; aim for 150–200.");
+  if(words>220) adv.push("Tighten it: "+words+" words is more than one paragraph.");
+  var good = !adv.length;
+  pfb.className = "fb ui show " + (good?"okb":"hint");
+  pfb.innerHTML = '<span class="tag '+(good?"okt":"ht")+'">Comentarios</span>'+(good?"A well-built paragraph: form, quotations and content are all there.":"What to improve:")+
+    (adv.length?'<ul style="margin:6px 0 0 18px;padding:0">'+adv.map(function(a){return '<li>'+esc(a)+'</li>';}).join("")+'</ul>':"")+
+    '<div class="why"><b>Key ideas for this title</b> ('+n+' touched on, based on key words; a guide, not a mark):</div><ul class="check">'+cv.map(function(x){ return '<li class="'+(x.ok?"on":"")+'">'+esc(x.label)+'</li>'; }).join("")+'</ul>'+
+    '<div class="why">Form: '+form+' of 6 checklist points met.</div>';
+  S.pc = n+"/"+cv.length; save();
+});
+s7.appendChild(wcard);
+s7.appendChild(retoCard("s7","Para un A*",
+  "Add one sentence that connects your paragraph to the end of the act: María Josefa, «la orilla del mar», «¡Encerradla!». What does the madwoman see that the others won't say?"));
+var resCard = h("div",{"class":"card res"}); s7.appendChild(resCard);
+foot(s7,"s6",null);
+
+/* --- writing checker */
+var FPS = (function(){ var set={}; try{ var bin=atob(FP); for(var i=0;i+3<bin.length;i+=4){ var v=(bin.charCodeAt(i)|(bin.charCodeAt(i+1)<<8)|(bin.charCodeAt(i+2)<<16)|(bin.charCodeAt(i+3)<<24))>>>0; set[v]=1; } }catch(e){} return set; })();
+function fnv(s){ var h=0x811c9dc5>>>0, b=unescape(encodeURIComponent(s)); for(var i=0;i<b.length;i++){ h^=b.charCodeAt(i); h=Math.imul(h,0x01000193)>>>0; } return h>>>0; }
+function wds(s){ return deacc(s).replace(/(\w)-\s+(\w)/g,"$1$2").match(/[a-zñ0-9]+/g)||[]; }
+function quoteOk(q){
+  var w = wds(q); if(w.length<3) return null;
+  var miss=0; for(var i=0;i+2<w.length;i++){ if(!FPS[fnv(w.slice(i,i+3).join(" "))]) miss++; }
+  return miss===0;
+}
+var CONN = ["sin embargo","no obstante","además","por consiguiente","por lo tanto","en cambio","mientras que","es decir","por un lado","por otro lado","de hecho","así","asimismo","no solo","sino también","por eso","aunque"];
+var VERBS = ["revela","sugiere","muestra","demuestra","simboliza","refleja","subraya","pone de relieve","evoca","representa","expresa","encarna","critica","denuncia","contrasta"];
+var THEMEW = ["deseo","libertad","represión","encierro","vitalidad","esterilidad","autoridad","poder","apariencias","qué dirán","clase","dinero","mujer","destino","luto","honra"];
+function count(list, txt){ var d=deacc(txt); return list.filter(function(x){ return d.indexOf(deacc(x))>=0; }).length; }
+function runCheck(){
+  var t = ta.value; S.w.txt=t; save();
+  var words = (t.match(/[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+/g)||[]).length;
+  var qs = []; t.replace(/«([^»]{6,})»/g,function(_,q){ qs.push(q); }); t.replace(/"([^"]{6,})"/g,function(_,q){ qs.push(q); });
+  var checks = [
+    [words>=150 && words<=220, words+" words (aim for 150–200)", words>220],
+    [qs.length>=2, qs.length+" quotation(s) in «…» (at least 2)"],
+    [count(VERBS,t)>=2, "Analytical verbs: "+count(VERBS,t)+" (revela, sugiere, simboliza… at least 2)"],
+    [count(CONN,t)>=3, "Connectors: "+count(CONN,t)+" (sin embargo, por consiguiente… at least 3)"],
+    [count(THEMEW,t)>=2, "Theme words: "+count(THEMEW,t)+" (at least 2)"],
+    [/lorca/i.test(t), "You name the author: «Lorca»"]
+  ];
+  ul.innerHTML = checks.map(function(c){ return '<li class="'+(c[0]?"on":(c[2]?"warn":""))+'">'+esc(c[1])+'</li>'; }).join("");
+  qc.innerHTML = qs.length ? "<b>Quotation check against Act One:</b>" + qs.map(function(q){
+    var r = quoteOk(q);
+    return r===null ? '<div>«'+esc(q)+'» — too short to check (3+ words)</div>'
+      : r ? '<div class="y">✓ «'+esc(q)+'» — word for word in Act One</div>'
+          : '<div class="n">✗ «'+esc(q)+'» — not found as written in Act One. Check every word in your copy (and don\'t quote from Acts II or III here).</div>';
+  }).join("") : "";
+}
+ta.addEventListener("input", function(){ clearTimeout(ta._t); ta._t=setTimeout(runCheck,250); });
+runCheck();
+
+/* --- Reto cards (open, saved, not scored) with feedback on click */
+function covered(points, txt){
+  var d = " "+deacc(txt)+" ";
+  return points.map(function(pt){ return {label:pt[0], ok: pt[1].some(function(k){ return d.indexOf(deacc(k))>=0; })}; });
+}
+function retoCard(sec, title, prompt){
+  var c = h("div",{"class":"card reto"});
+  c.innerHTML = '<div class="rt2 ui">RETO · '+esc(title)+'</div><p class="ui" style="margin:6px 0 4px;font-size:15px">'+esc(prompt)+'</p>';
+  var key = "r_"+sec; var t = h("textarea",{"aria-label":"Reto: "+title,style:"min-height:110px"});
+  t.value = (S.r && S.r[key]) || "";
+  t.addEventListener("input",function(){ S.r = S.r||{}; S.r[key]=t.value; save(); });
+  t._title = title; RETOS.push(t);
+  c.appendChild(t);
+  var R = D.retos[sec];
+  if(R){
+    var row = h("div",{"class":"ctl"}); var b = h("button",{"class":"b",type:"button"},"Comentarios"); row.appendChild(b); c.appendChild(row);
+    var fb = h("div",{"class":"fb ui","aria-live":"polite"}); c.appendChild(fb);
+    b.addEventListener("click", function(){
+      var txt = t.value.trim();
+      var words = (txt.match(/[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+/g)||[]).length;
+      if(words < 12){ fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span> Write at least two full sentences first, then ask for comments. A strong answer covers these points:<ul class="check">'+R[0].map(function(p){return '<li>'+esc(p[0])+'</li>';}).join("")+'</ul>'; return; }
+      var cv = covered(R[0], txt), n = cv.filter(function(x){return x.ok;}).length;
+      var head = n===cv.length ? "You cover every key point." : n>=Math.ceil(cv.length/2) ? "Good start: "+n+" of "+cv.length+" key points." : "Only "+n+" of "+cv.length+" key points so far.";
+      fb.className = "fb ui show " + (n===cv.length ? "okb" : "hint");
+      fb.innerHTML = '<span class="tag '+(n===cv.length?"okt":"ht")+'">Comentarios</span>'+esc(head)+
+        '<ul class="check">'+cv.map(function(x){ return '<li class="'+(x.ok?"on":"")+'">'+esc(x.label)+'</li>'; }).join("")+'</ul>'+
+        '<div class="why" style="font-size:13px;color:#6a5a4c">The check looks for the key words of each point, so it is a guide, not a mark. Reread your answer against the points left empty.</div>'+
+        (R[1] ? '<details style="margin-top:8px"><summary>Una respuesta posible</summary><p style="font-family:Georgia,serif;font-size:16px;margin:8px 0 0">'+esc(R[1])+'</p></details>' : '<div class="why">There is no model translation: compare your two versions in class.</div>');
+      S.rc = S.rc||{}; S.rc[key]=n+"/"+cv.length; save();
+    });
+  }
+  return c;
+}
+
+/* ------------------------------------------------------------- scoring */
+function totals(){
+  var tot=ITEMS.length, sc=0, first=0, done=0;
+  ITEMS.forEach(function(it){ var st=it.state; if(st.st==="ok"){ sc++; done++; if(st.first) first++; } else if(st.st==="rev") done++; });
+  return {tot:tot, sc:sc, first:first, done:done};
+}
+function refresh(){
+  var T = totals();
+  document.getElementById("sc").textContent=T.sc; document.getElementById("tot").textContent=T.tot;
+  document.getElementById("first").textContent=T.first;
+  document.getElementById("bar").style.width = (T.tot? Math.round(100*T.sc/T.tot):0)+"%";
+  SECS.forEach(function(s){
+    var its = ITEMS.filter(function(it){ return it.sec===s.id; });
+    var n = s.tab.querySelector(".n");
+    if(its.length){
+      var d = its.filter(function(it){ return it.state.st; }).length, ok = its.filter(function(it){ return it.state.st==="ok"; }).length;
+      n.textContent = ok+"/"+its.length; s.tab.classList.toggle("done", d===its.length);
+    }
+  });
+  renderResults(T);
+}
+function renderResults(T){
+  if(!resCard) return;
+  resCard.innerHTML = "<b>Tus resultados</b><div>"+T.sc+" / "+T.tot+" correct · "+T.first+" first time · "+(T.tot-T.done)+" not answered yet.</div>"+
+    "<div style='margin-top:6px'>"+SECS.filter(function(s){ return ITEMS.some(function(it){return it.sec===s.id;}); }).map(function(s){
+      var its=ITEMS.filter(function(it){return it.sec===s.id;}); var ok=its.filter(function(it){return it.state.st==="ok";}).length;
+      return esc(s.tab.textContent.replace(/\d+\/\d+$/,"").trim())+": "+ok+"/"+its.length;
+    }).join(" · ")+"</div>";
+  var b = h("button",{"class":"b",type:"button",style:"margin-top:10px"},"Descargar mi trabajo");
+  b.addEventListener("click", download); resCard.appendChild(b);
+}
+var pubT=null;
+function schedulePublish(){ clearTimeout(pubT); pubT=setTimeout(publish,1200); }
+function publish(){
+  try{
+    var T = totals();
+    var all = JSON.parse(localStorage.getItem("bba-scores")||"{}");
+    var f = decodeURIComponent(location.pathname.split("/").pop()||"index");
+    var prev = all[f]||{};
+    var rec = {title:(document.title||"").slice(0,120), score:T.sc, total:T.tot, best:Math.max(T.sc, prev.best||0),
+               attempts:(prev.attempts||0)+(S.pub?0:1), t:Date.now()};
+    var n = Math.max(0, T.done - (S.pubDone||0));
+    rec.ans=(prev.ans||0)+n; rec.lg={}; for(var k in (prev.lg||{})) rec.lg[k]=prev.lg[k];
+    var day=String(Math.floor(Date.now()/86400000)); if(n) rec.lg[day]=(rec.lg[day]||0)+n;
+    all[f]=rec; localStorage.setItem("bba-scores", JSON.stringify(all));
+    S.pub=true; S.pubDone=T.done; save();
+  }catch(e){}
+}
+
+/* ------------------------------------------------------------- download */
+function studentName(){
+  var nm = document.querySelector("#bba-kit .nm");
+  var v = nm && nm.value.trim(); if(!v){ try{ v = localStorage.getItem("bba-name")||""; }catch(e){} }
+  return v || "";
+}
+function download(){
+  publish();
+  var T = totals(), name = studentName();
+  var L = [];
+  L.push("LA CASA DE BERNARDA ALBA — ACTO PRIMERO");
+  L.push("Nombre: "+(name||"(sin nombre)"));
+  L.push("Fecha: "+new Date().toLocaleString("es-ES"));
+  L.push("Puntos: "+T.sc+" / "+T.tot+"  ·  a la primera: "+T.first);
+  L.push("");
+  SECS.forEach(function(s){
+    var its = ITEMS.filter(function(it){return it.sec===s.id;});
+    L.push("== "+s.el.querySelector("h2").textContent+" ==");
+    its.forEach(function(it,i){
+      var st=it.state, mark = st.st==="ok" ? (st.first?"✓":"✓ (2.º intento/pista)") : st.st==="rev" ? "✗ → "+it.ans : "— sin responder";
+      L.push((i+1)+". "+it.q.replace(/\s+/g," ").slice(0,140));
+      L.push("   Respuesta: "+(it.given()||"—")+"   ["+mark+"]");
+    });
+    RETOS.filter(function(t){ return s.el.contains(t); }).forEach(function(t){ var k="r_"+s.id; L.push("   RETO ("+t._title+"): "+(t.value.trim()||"—")+((S.rc&&S.rc[k])?"   [puntos clave: "+S.rc[k]+"]":"")); });
+    if(s.id==="s7"){ L.push("   Título: "+D.titles[S.w.t||0]); L.push("   Párrafo:"); L.push(ta.value.trim()||"—"); L.push("   Lista de control: "+Array.prototype.map.call(ul.children,function(li){return (li.className==="on"?"✓ ":"○ ")+li.textContent;}).join(" | ")); }
+    L.push("");
+  });
+  var blob = new Blob([L.join("\r\n")],{type:"text/plain;charset=utf-8"});
+  var a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = "Bernarda_Acto_primero_"+(name||"sin_nombre").replace(/[^\wÁÉÍÓÚÑáéíóúñ-]+/g,"_")+".txt";
+  document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },500);
+}
+
+/* ------------------------------------------------------------- tabs */
+function go(id){
+  SECS.forEach(function(s){ var on=s.id===id; s.el.classList.toggle("active",on); s.tab.setAttribute("aria-selected",on?"true":"false"); });
+  S.tab=id; save();
+  SECS.forEach(function(s){ if(s.id===id && s.tab.scrollIntoView) try{ s.tab.scrollIntoView({inline:"center",block:"nearest"}); }catch(e){} });
+  var nav=document.getElementById("tabs"); if(window.scrollY>nav.offsetTop) window.scrollTo({top:nav.offsetTop,behavior:"smooth"});
+}
+document.addEventListener("click", function(e){ var b=e.target.closest("[data-go]"); if(b){ e.preventDefault(); go(b.getAttribute("data-go")); } });
+
+ITEMS.forEach(function(it){ it.restore(); });
+go(S.tab && document.getElementById(S.tab) ? S.tab : "s1");
+refresh();
+window.LCDBA = {totals:totals, items:ITEMS, judge:judgeText, quoteOk:quoteOk};
 })();
 </script>
 <script src="bba-kit-es.js" defer></script>
