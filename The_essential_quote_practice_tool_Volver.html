@@ -1,1147 +1,306 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Volver – Quote Trainer (Lenient Mode)</title>
-  <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #111827;
-      color: #e5e7eb;
-    }
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 1.5rem 1rem 3rem;
-    }
-    h1 {
-      font-size: 1.6rem;
-      margin-bottom: 0.25rem;
-    }
-    h2 {
-      font-size: 1.2rem;
-      margin: 0.5rem 0;
-    }
-    .subtitle {
-      font-size: 0.9rem;
-      color: #9ca3af;
-      margin-bottom: 1rem;
-    }
-    .layout {
-      display: grid;
-      grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
-      gap: 1rem;
-    }
-    @media (max-width: 900px) {
-      .layout {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-    .card {
-      background: #020617;
-      border-radius: 0.75rem;
-      border: 1px solid #1f2937;
-      padding: 1rem;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-    }
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.75rem;
-    }
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-      font-size: 0.75rem;
-      padding: 0.15rem 0.5rem;
-      border-radius: 999px;
-      background: rgba(59,130,246,0.1);
-      color: #93c5fd;
-      border: 1px solid rgba(59,130,246,0.4);
-    }
-    .small-muted {
-      font-size: 0.75rem;
-      color: #9ca3af;
-    }
-    .controls-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
-    }
-    select, input, textarea, button {
-      font-family: inherit;
-    }
-    select, input {
-      background: #020617;
-      color: #e5e7eb;
-      border-radius: 0.5rem;
-      border: 1px solid #374151;
-      padding: 0.3rem 0.5rem;
-      font-size: 0.85rem;
-    }
-    input::placeholder {
-      color: #6b7280;
-    }
-    textarea {
-      width: 100%;
-      min-height: 130px;
-      background: #020617;
-      color: #e5e7eb;
-      border-radius: 0.5rem;
-      border: 1px solid #374151;
-      padding: 0.5rem;
-      font-size: 0.9rem;
-      resize: vertical;
-      box-sizing: border-box;
-    }
-    button {
-      border-radius: 999px;
-      border: 1px solid #374151;
-      background: #111827;
-      color: #e5e7eb;
-      font-size: 0.8rem;
-      padding: 0.3rem 0.75rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-    button.primary {
-      background: linear-gradient(to right, #dc2626, #b91c1c);
-      border-color: #991b1b;
-      font-weight: 600;
-    }
-    button.green {
-      background: linear-gradient(to right, #16a34a, #15803d);
-      border-color: #15803d;
-    }
-    button.yellow {
-      background: linear-gradient(to right, #eab308, #ca8a04);
-      border-color: #ca8a04;
-      color: #111827;
-    }
-    button.gray-soft {
-      background: #020617;
-    }
-    button.outline {
-      background: transparent;
-    }
-    button:disabled {
-      opacity: 0.5;
-      cursor: default;
-    }
-    .pill-toggle {
-      display: inline-flex;
-      border-radius: 999px;
-      border: 1px solid #374151;
-      overflow: hidden;
-      font-size: 0.75rem;
-    }
-    .pill-toggle button {
-      border: none;
-      border-radius: 0;
-      background: transparent;
-      padding: 0.25rem 0.75rem;
-    }
-    .pill-toggle button.active {
-      background: #111827;
-      font-weight: 600;
-    }
-    .stats-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      font-size: 0.75rem;
-      color: #9ca3af;
-      margin-top: 0.25rem;
-    }
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-      padding: 0.15rem 0.5rem;
-      border-radius: 999px;
-      background: #020617;
-      border: 1px solid #374151;
-    }
-    .pill.green {
-      border-color: #16a34a;
-      color: #bbf7d0;
-    }
-    .pill.red {
-      border-color: #dc2626;
-      color: #fecaca;
-    }
-    .pill.blue {
-      border-color: #3b82f6;
-      color: #bfdbfe;
-    }
-    .pill.yellow {
-      border-color: #facc15;
-      color: #fef9c3;
-    }
-    .quote-list {
-      max-height: 320px;
-      overflow-y: auto;
-      border-radius: 0.5rem;
-      border: 1px solid #111827;
-      background: radial-gradient(circle at top left, rgba(59,130,246,0.1), #020617 45%);
-      padding: 0.35rem;
-    }
-    .quote-item {
-      padding: 0.4rem 0.45rem;
-      border-radius: 0.4rem;
-      cursor: pointer;
-      margin-bottom: 0.2rem;
-      border: 1px solid transparent;
-      display: flex;
-      flex-direction: column;
-      gap: 0.15rem;
-    }
-    .quote-item:hover {
-      background: #030712;
-      border-color: #1f2937;
-    }
-    .quote-item.active {
-      border-color: #f97316;
-      background: radial-gradient(circle at top left, rgba(249,115,22,0.25), #030712 60%);
-    }
-    .quote-main-line {
-      font-size: 0.82rem;
-      color: #e5e7eb;
-    }
-    .quote-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.7rem;
-      color: #9ca3af;
-    }
-    .theme-tag {
-      padding: 0.1rem 0.4rem;
-      border-radius: 999px;
-      background: rgba(107,114,128,0.2);
-    }
-    .status-dots {
-      font-size: 0.85rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.15rem;
-    }
-    .status-dots span {
-      width: 0.55rem;
-      height: 0.55rem;
-      border-radius: 999px;
-      display: inline-block;
-    }
-    .dot-mastered {
-      background: #16a34a;
-    }
-    .dot-practiced {
-      background: #f59e0b;
-    }
-    .accent-keyboard {
-      position: sticky;
-      bottom: 0.35rem;
-      margin-top: 0.4rem;
-      background: #020617;
-      border-radius: 999px;
-      border: 1px solid #374151;
-      padding: 0.15rem 0.4rem;
-      display: inline-flex;
-      flex-wrap: wrap;
-      gap: 0.15rem;
-      align-items: center;
-    }
-    .accent-keyboard span {
-      font-size: 0.7rem;
-      color: #9ca3af;
-      margin-right: 0.35rem;
-      white-space: nowrap;
-    }
-    .accent-btn {
-      border-radius: 999px;
-      border: 1px solid #374151;
-      background: #020617;
-      color: #e5e7eb;
-      font-size: 0.8rem;
-      padding: 0.15rem 0.45rem;
-      cursor: pointer;
-    }
-    .accent-btn:hover {
-      background: #111827;
-    }
-    .essay-box {
-      margin-top: 0.6rem;
-      padding: 0.5rem;
-      border-radius: 0.5rem;
-      background: rgba(56,189,248,0.08);
-      border: 1px dashed rgba(56,189,248,0.5);
-      font-size: 0.78rem;
-      color: #e0f2fe;
-    }
-    .essay-box h3 {
-      font-size: 0.8rem;
-      margin: 0 0 0.3rem 0;
-    }
-    .essay-box p {
-      margin: 0;
-    }
-    .tab-note {
-      font-size: 0.75rem;
-      color: #9ca3af;
-      margin-bottom: 0.5rem;
-    }
-    .context-text {
-      font-size: 0.8rem;
-      color: #e5e7eb;
-      margin-bottom: 0.3rem;
-    }
-    .context-text span {
-      color: #9ca3af;
-    }
-    .download-block {
-      margin-top: 0.75rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
-    .danger {
-      color: #fca5a5;
-    }
-    .feedback-box {
-      margin-top: 0.75rem;
-      padding: 0.75rem;
-      border-radius: 0.5rem;
-      font-size: 0.85rem;
-      display: none;
-    }
-    .feedback-box.correct {
-      background: rgba(34, 197, 94, 0.15);
-      border: 1px solid rgba(34, 197, 94, 0.4);
-      color: #86efac;
-    }
-    .feedback-box.incorrect {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.4);
-      color: #fca5a5;
-    }
-    .feedback-box.partial {
-      background: rgba(234, 179, 8, 0.15);
-      border: 1px solid rgba(234, 179, 8, 0.4);
-      color: #fde047;
-    }
-    .feedback-header {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-    }
-    .match-details {
-      font-size: 0.8rem;
-      color: #cbd5e1;
-      margin-top: 0.5rem;
-      padding-top: 0.5rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volver · Citas esenciales</title>
+<meta name="description" content="A-Level Spanish: essential quotations from Volver (Almodóvar, 2006) by theme, with speaker, meaning and exact wording, all checked against the dialogue.">
+<style>
+:root{
+  --paper:#f6f1e7; --card:#fffdf8; --ink:#2a2320; --soft:#6a5a4c; --line:#dcd0bb;
+  --ox:#6e1f2a; --ox2:#8f3340; --oxs:#f4e4e4; --green:#1f4d3a; --gs:#e3efe8;
+  --gold:#a8843a; --golds:#f7efd9; --bad:#a23b2a; --bads:#fbe9e5; --ok:#226a43;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+.ui{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:22px 16px 160px}
+header{border-bottom:3px double var(--ox);padding-bottom:14px;margin-bottom:8px}
+.kicker{font:600 12px/1.2 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ox)}
+h1{font-size:31px;line-height:1.15;margin:6px 0 6px;color:var(--ox)}
+.lead{color:var(--soft);margin:0 0 4px;font:15px/1.55 system-ui,sans-serif}
+.score{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:10px;font:14px system-ui,sans-serif;color:var(--soft)}
+.score b{color:var(--ink);font-size:16px}
+.meter{flex:1 1 180px;height:8px;background:#e8dfcf;border-radius:99px;overflow:hidden;min-width:140px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#2f7a58);transition:width .4s}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 12px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+nav.tabs button{font:600 13.5px system-ui,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 12px;cursor:pointer;display:flex;gap:6px;align-items:center}
+nav.tabs button .n{font-weight:500;color:var(--soft);font-size:12px}
+nav.tabs button[aria-selected="true"]{background:var(--ox);border-color:var(--ox);color:#fff}
+nav.tabs button[aria-selected="true"] .n{color:#f1d7d9}
+nav.tabs button.done:not([aria-selected="true"]){border-color:var(--green);color:var(--green)}
+section.ex{display:none}
+section.ex.active{display:block}
+h2{font-size:24px;margin:4px 0 6px;color:var(--green)}
+h3{font:700 13px system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ox);margin:22px 0 8px}
+.how{font:15px/1.55 system-ui,sans-serif;color:var(--soft);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;position:relative}
+.card.ok{border-color:#9cc7ae;background:#fbfefc}
+.card.rev{border-color:#e3b6ad}
+.card .qn{font:700 13px system-ui,sans-serif;color:var(--ox);margin-right:6px}
+.quote{font-style:italic}
+blockquote{margin:2px 0 10px;padding:6px 0 6px 14px;border-left:3px solid var(--gold);font-style:italic;font-size:18px}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:10px}
+input[type=text],select,textarea{font:16px Georgia,serif;color:var(--ink);background:#fff;border:1px solid #bdae95;border-radius:7px;padding:7px 10px;max-width:100%}
+input[type=text]{width:15em}
+input.w8{width:8.5em} input.w6{width:7em}
+input.okf{border-color:var(--ok);background:#f2faf5} input.badf{border-color:var(--bad);background:var(--bads)}
+textarea{width:100%;min-height:200px;resize:vertical;line-height:1.6}
+button.b{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 13px;cursor:pointer;border:1px solid var(--ox);background:var(--ox);color:#fff}
+button.b:disabled{opacity:.45;cursor:default}
+button.g{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--green)}
+button.g:disabled{opacity:.45;cursor:default}
+.opts{display:grid;gap:7px;margin-top:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;font:15.5px/1.45 system-ui,sans-serif;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 12px;cursor:pointer;color:var(--ink)}
+.opt:before{content:"";flex:0 0 16px;height:16px;border:2px solid #b8a98f;border-radius:50%;margin-top:2px}
+.opt.sel{border-color:var(--ox);background:var(--oxs)}
+.opt.sel:before{border-color:var(--ox);background:radial-gradient(var(--ox) 45%,transparent 50%)}
+.opt.right{border-color:var(--ok);background:#eef8f2}
+.opt.wrong{border-color:var(--bad);background:var(--bads)}
+.opt:disabled{cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font:600 13px system-ui,sans-serif;border:1px solid #c9bba3;background:#fff;color:var(--soft);border-radius:999px;padding:6px 11px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.chip.core{outline:2px solid var(--ok);outline-offset:1px}
+.chip.acc{outline:2px dashed var(--gold);outline-offset:1px}
+.chip.wrongc{background:var(--bad);border-color:var(--bad);color:#fff}
+.chip:disabled{cursor:default}
+.fb{margin-top:10px;font:14.5px/1.55 system-ui,sans-serif;border-radius:8px;padding:9px 12px;display:none}
+.fb.show{display:block}
+.fb.okb{background:var(--gs);color:#163a2b}
+.fb.hint{background:var(--golds);color:#4d3c14}
+.fb.revb{background:var(--bads);color:#5a1d12}
+.fb .why{margin-top:6px;color:#2b2a26}
+.tag{display:inline-block;font:700 11px system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-right:6px}
+.tag.okt{background:var(--ok);color:#fff}.tag.ht{background:var(--gold);color:#fff}.tag.rt{background:var(--bad);color:#fff}
+.legend{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:14.5px/1.55 system-ui,sans-serif;margin-bottom:10px}
+.legend b{color:var(--ox)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}
+.who{font:13px system-ui,sans-serif;color:var(--soft)}
+.tr{line-height:2.25;font-size:17px;background:#faf6ee;border-left:3px solid var(--gold);padding:6px 12px;border-radius:4px;margin-top:6px}
+.secfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0 6px;flex-wrap:wrap}
+.reto{border:2px solid var(--ox);background:#fff}
+.reto .rt2{font:700 12px system-ui,sans-serif;letter-spacing:.16em;color:var(--ox)}
+.check li{margin:4px 0;list-style:none;padding-left:0}
+.check{padding:0;margin:10px 0 0;font:14.5px/1.5 system-ui,sans-serif}
+.check li:before{content:"○ ";color:#b8a98f;font-weight:700}
+.check li.on:before{content:"● ";color:var(--ok)}
+.check li.warn:before{content:"● ";color:var(--bad)}
+.qcheck{font:14px/1.5 system-ui,sans-serif;margin-top:8px}
+.qcheck div{padding:3px 0}
+.qcheck .y{color:var(--ok)} .qcheck .n{color:var(--bad)}
+.titles label{display:flex;gap:8px;align-items:flex-start;font:15.5px/1.45 Georgia,serif;margin:6px 0;cursor:pointer}
+.tips{font:14.5px/1.55 system-ui,sans-serif;background:var(--oxs);border-radius:8px;padding:10px 12px;margin:10px 0}
+.res{font:15px/1.6 system-ui,sans-serif}
+.res table{border-collapse:collapse;width:100%;margin:8px 0}
+.res td,.res th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+.src{font:13px/1.5 system-ui,sans-serif;color:var(--soft);margin-top:22px}
+@media (max-width:640px){h1{font-size:25px}.cols{grid-template-columns:1fr}input[type=text]{width:100%}input.w8,input.w6{width:8em}nav.tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}nav.tabs::-webkit-scrollbar{display:none}nav.tabs button{padding:6px 10px;font-size:12.5px;flex:0 0 auto;white-space:nowrap}}
+@media print{nav.tabs,.secfoot,button{display:none!important}section.ex{display:block!important}}
+</style>
+<style>
+.sent{font-size:18px;line-height:2.1}
+.sent input{width:9em;font-size:16px;padding:4px 8px;margin:0 2px}
+.en{font:14px/1.45 system-ui,sans-serif;color:var(--soft);margin:0 0 4px}
+.cue{font:13px system-ui,sans-serif;color:var(--soft)}
+.rule{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:8px;padding:10px 14px;font:14.5px/1.55 system-ui,sans-serif;margin:6px 0 12px}
+</style>
 </head>
 <body>
-<div class="container">
-  <h1>Volver – Citas clave (Modo Flexible)</h1>
-  <p class="subtitle">
-    Memorise key quotes for A‑Level essays / Memoriza citas clave para ensayos. <strong>✓ Acepta versiones parciales y aproximadas</strong>
-  </p>
-
-  <div class="layout">
-    <!-- LEFT: Practice -->
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <h2>Práctica de citas (Modo Flexible)</h2>
-          <div class="small-muted">
-            Acepta versiones aproximadas y fragmentarias. Lo importante es captar la idea clave.
-          </div>
-        </div>
-        <div class="badge">
-          ✍️ Practice mode
-        </div>
-      </div>
-
-      <div class="controls-row">
-        <label style="font-size:0.8rem;display:flex;align-items:center;gap:0.35rem;">
-          Tema:
-          <select id="themeSelect">
-            <option value="all">Todos los temas</option>
-          </select>
-        </label>
-
-        <div style="flex:1;min-width:160px;display:flex;align-items:center;gap:0.3rem;">
-          <input id="searchPractice" type="text" placeholder="Filtrar por palabra clave / tema..." style="flex:1;" />
-        </div>
-
-        <button id="randomBtn" class="gray-soft" type="button" title="Cita aleatoria">
-          🔀 Aleatoria
-        </button>
-      </div>
-
-      <div class="stats-row">
-        <span class="pill blue">Intentos: <span id="statsAttempts">0</span></span>
-        <span class="pill green">Aciertos: <span id="statsCorrect">0</span></span>
-        <span class="pill yellow">Precisión: <span id="statsAccuracy">0</span>%</span>
-        <span class="pill">Practicadas: <span id="statsPracticed">0</span></span>
-        <span class="pill">Dominadas: <span id="statsMastered">0</span></span>
-      </div>
-
-      <div style="margin-top:0.75rem;">
-        <div style="font-size:0.8rem;color:#9ca3af;margin-bottom:0.25rem;">
-          1. Selecciona una cita de la lista o pulsa «Aleatoria».
-        </div>
-        <div id="practiceInfo" style="font-size:0.8rem;color:#e5e7eb;margin-bottom:0.35rem;">
-          Ninguna cita seleccionada. Escoge una para empezar.
-        </div>
-
-        <textarea id="answerBox" placeholder="Escribe aquí la cita (versión exacta o aproximada)..."></textarea>
-
-        <div class="accent-keyboard">
-          <span>Teclado de acentos:</span>
-          <button type="button" class="accent-btn" data-char="á">á</button>
-          <button type="button" class="accent-btn" data-char="é">é</button>
-          <button type="button" class="accent-btn" data-char="í">í</button>
-          <button type="button" class="accent-btn" data-char="ó">ó</button>
-          <button type="button" class="accent-btn" data-char="ú">ú</button>
-          <button type="button" class="accent-btn" data-char="ñ">ñ</button>
-          <button type="button" class="accent-btn" data-char="ü">ü</button>
-          <button type="button" class="accent-btn" data-char="¿">¿</button>
-          <button type="button" class="accent-btn" data-char="¡">¡</button>
-          <button type="button" class="accent-btn" data-char="«">«</button>
-          <button type="button" class="accent-btn" data-char="»">»</button>
-          <button type="button" class="accent-btn" data-char="—">—</button>
-        </div>
-
-        <div class="controls-row" style="margin-top:0.6rem;">
-          <button id="checkBtn" class="primary" type="button">✅ Comprobar / Check</button>
-          <button id="hintBtn" class="yellow" type="button">💡 Pista</button>
-          <button id="revealBtn" class="green" type="button">👁️ Revelar</button>
-          <button id="masteredBtn" class="gray-soft" type="button">⭐ Marcar dominada</button>
-          <button id="resetBtn" class="outline danger" type="button">♻️ Reiniciar progreso</button>
-        </div>
-      </div>
-
-      <div id="feedbackBox" class="feedback-box"></div>
-
-      <div id="essayBox" class="essay-box" style="display:none;">
-        <h3>Uso en ensayo / Essay use</h3>
-        <p id="essayText"></p>
-      </div>
-    </div>
-
-    <!-- RIGHT: Quote browser + downloads -->
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <h2>Citas y contexto</h2>
-          <div class="small-muted">
-            Explora todas las citas, por tema, con contexto y sugerencias para ensayos.
-          </div>
-        </div>
-      </div>
-
-      <div class="tab-note">
-        Vista filtrada por tema / búsqueda. Use el buscador para todas las citas.
-      </div>
-
-      <div style="display:flex;gap:0.4rem;margin-bottom:0.4rem;">
-        <input id="searchAll" type="text" placeholder="Buscar en todas las citas (concepto, contexto, tema)..." style="flex:1;" />
-      </div>
-
-      <div id="quoteList" class="quote-list"></div>
-
-      <div id="contextBox" style="margin-top:0.6rem;display:none;">
-        <div class="context-text" id="contextSpanish"></div>
-        <div class="context-text" id="contextDetails"></div>
-      </div>
-
-      <div class="download-block">
-        <button id="downloadMastered" type="button" class="gray-soft">
-          📥 Descargar citas dominadas (.txt)
-        </button>
-        <button id="downloadAll" type="button" class="gray-soft">
-          📥 Descargar todas las citas (.txt)
-        </button>
-      </div>
-    </div>
-  </div>
+<div class="wrap">
+<header>
+  <div class="kicker">Película · Citas</div>
+  <h1>Volver — citas esenciales</h1>
+  <p class="lead">Every quotation and speaker here has been checked against the film's dialogue. For each theme: who says it, what it reveals, and the exact words. If you are wrong the first time you get a <i>pista</i>; the second time you see the answer and why. Your work saves itself on this device.</p>
+  <div class="score" aria-live="polite"><span>Puntos <b id="sc">0</b> / <b id="tot">0</b></span><span>a la primera <b id="first">0</b></span><div class="meter"><i id="bar"></i></div></div>
+</header>
+<nav class="tabs" role="tablist" aria-label="Ejercicios" id="tabs"></nav>
+<main id="main"></main>
+<p class="src">Dialogue: Pedro Almodóvar, <i>Volver</i> (2006), short extracts quoted for study.</p>
 </div>
-
+<script>window.BBA_KIT = {check:false, download:false, save:false, enter:false};</script>
+<script>var D = {"key": "volver-citas-v2", "dlhead": "VOLVER — CITAS ESENCIALES", "dlfile": "Volver_citas_", "sections": [{"tab": "1 · Madres e hijas", "h2": "1 · Madres e hijas", "intro": "Three generations: Irene, Raimunda, Paula. What separates them, and what brings them back together?", "items": [{"t": "mc", "q": "¿Quién lo dice? «Tu madre no me quería»", "opts": ["Irene", "Sole", "Paco", "Tía Paula"], "a": 0, "pista": "Think about who would speak like this, and to whom.", "why": "**Irene**. To Paula, before Raimunda knows her mother is alive. Irene does not yet know why her daughter turned away from her."}, {"t": "mc", "q": "«Yo te odiaba por no haberte dado cuenta de nada mamá.» (Raimunda)<br>¿Por qué se había alejado Raimunda de su madre?", "opts": ["Porque la culpaba por no haber visto que su padre abusaba de ella", "Porque Irene prefería a Sole", "Porque Irene se fue a vivir a Madrid", "Porque Irene no quería a Paula"], "a": 0, "pista": "What did Irene fail to notice?", "why": "The estrangement has a cause: Raimunda blamed her mother for not seeing the abuse. Irene: «Estaba ciega. Me enteré el mismo día del incendio»."}, {"t": "mc", "q": "«Recuerda que fui yo quien lo mató» (Raimunda)<br>¿Qué hace Raimunda con esta frase?", "opts": ["Protege a Paula cargando ella con la culpa: hace lo que su madre no pudo hacer por ella", "Confiesa a la policía", "Acusa a Paula", "Miente a Sole"], "a": 0, "pista": "Who really killed Paco, and why would Raimunda say this?", "why": "Raimunda takes the crime on herself to shield her daughter. The film's cycle: a mother who failed to protect, a daughter who protects at any cost."}, {"t": "gap", "en": null, "es": "«Te {0} mamá. No sé cómo he podido vivir todos estos años sin ti.» (Raimunda)", "gaps": [{"acc": ["necesito"], "cue": null}], "pista": "Remember the scene, and the image the line turns on.", "why": "«Te necesito mamá. No sé cómo he podido vivir todos estos años sin ti.» The reconciliation in the village, at the end."}, {"t": "mc", "q": "¿Quién lo dice? «Y los fantasmas no lloran.»", "opts": ["Irene", "Emilio", "Paula", "Paco"], "a": 0, "pista": "Think about who would speak like this, and to whom.", "why": "**Irene**. Irene's last line: humour and tears together, and the «ghost» admits she is a living woman."}, {"t": "gap", "en": null, "es": "«Mi madre ha muerto. De ser, serás su {0} o su espíritu.» (Sole)", "gaps": [{"acc": ["fantasma"], "cue": null}], "pista": "Remember the scene, and the image the line turns on.", "why": "«Mi madre ha muerto. De ser, serás su fantasma o su espíritu.» Sole, when the voice from her car boot says it is her mother."}]}, {"tab": "2 · Secretos", "h2": "2 · Secretos y mentiras", "intro": "Almost every character lies to protect someone. Who lies, to whom, and why?", "items": [{"t": "mc", "q": "«Por fin le ha salido un trabajo al pobre; empieza mañana mismo.» (Raimunda)<br>Raimunda se lo dice a Emilio sobre Paco. ¿Qué es?", "opts": ["Su primera mentira para ocultar la muerte de Paco, dicha con humor negro", "Una noticia verdadera", "Una broma sobre Emilio", "Un consejo a Paula"], "a": 0, "pista": "Where is Paco when she says this?", "why": "Paco is dead on the kitchen floor. Raimunda lies at once and smoothly: the film mixes horror and comedy from the first crime."}, {"t": "mc", "q": "¿Quién lo dice? «Si te pregunta algo de Paco tú no sabes nada.»", "opts": ["Raimunda", "Paco", "Paula", "Emilio"], "a": 0, "pista": "Think about who would speak like this, and to whom.", "why": "**Raimunda**. Raimunda to Paula, about Sole. The secret of Paco's death must stay between mother and daughter."}, {"t": "mc", "q": "«Paco te reconoció como hija pero sabía que no era tu padre biológico.» (Raimunda)<br>¿Qué revela Raimunda aquí, y qué calla todavía?", "opts": ["Que Paco no era el padre de Paula, pero no dice quién es", "Que Paco era el padre de Paula", "Que Paula es hija de Emilio", "Que Paula es adoptada"], "a": 0, "pista": "She promises to tell «todo» later. What is she still hiding?", "why": "A half-truth: Paco was not Paula's father. The rest, that Paula's father is Raimunda's own father, she cannot say yet."}, {"t": "gap", "en": null, "es": "«Sole mírame. ¿Hay más {0} que yo debería saber y que no sé?» (Raimunda)", "gaps": [{"acc": ["cosas"], "cue": null}], "pista": "Remember the scene, and the image the line turns on.", "why": "«Sole mírame. ¿Hay más cosas que yo debería saber y que no sé?» Sole answers «Mogollón»: the secrets pour out."}, {"t": "mc", "q": "¿Quién lo dice? «La he recogido por caridad. Cuando la vi pidiendo en la calle me recordó a mi madre.»", "opts": ["Sole", "Emilio", "Paula", "Raimunda"], "a": 0, "pista": "Think about who would speak like this, and to whom.", "why": "**Sole**. Sole to her clients, about «la rusa». The lie is funny, and also true: the woman reminds her of her mother because she is her mother."}, {"t": "gap", "en": null, "es": "«Y los {0} sucios debemos lavarlos entre nosotras.» (Agustina)", "gaps": [{"acc": ["trapos"], "cue": null}], "pista": "Remember the scene, and the image the line turns on.", "why": "«Y los trapos sucios debemos lavarlos entre nosotras.» Agustina's reason for not going to the police: secrets are dealt with among women."}]}, {"tab": "3 · Muerte", "h2": "3 · La muerte, los fantasmas y la superstición", "intro": "In the village, the dead are close and ghosts are believable. How does Almodóvar use that?", "items": [{"t": "mc", "q": "«Se compran primero su terrenico y lo cuidan en vida. Como si fuera un chalé.» (Raimunda)<br>¿Qué muestra sobre el pueblo?", "opts": ["Una relación natural, casi doméstica, con la muerte", "Que los terrenos son muy caros", "Que nadie cuida el cementerio", "Que la gente quiere irse a Madrid"], "a": 0, "pista": "Paula has asked about Agustina cleaning her own grave.", "why": "Death is part of daily life: people buy and tend their own graves, like a holiday home. The opening sets the film's tone."}, {"t": "mc", "q": "¿Quién lo dice? «Me da como paz cuidarla.»", "opts": ["Agustina", "Inés", "Sole", "Regina"], "a": 0, "pista": "Think about who would speak like this, and to whom.", "why": "**Agustina**. About her own grave, in the opening scene."}, {"t": "mc", "q": "«Eso es lo bueno en esos pueblos tan supersticiosos. Para mí ha sido más fácil seguirles la corriente» (Irene)<br>¿Cómo ha sobrevivido Irene escondida?", "opts": ["Dejando que el pueblo creyera que era un fantasma", "Huyendo al extranjero", "Cambiando de nombre en Madrid", "Con la ayuda de la policía"], "a": 0, "pista": "What did the village believe it saw?", "why": "Superstition shelters the secret: it was easier to be a ghost than to explain a crime."}, {"t": "gap", "en": null, "es": "«Es el viento. El maldito viento {0}, que saca a la gente de quicio.» (Raimunda)", "gaps": [{"acc": ["solano"], "cue": null}], "pista": "Remember the scene, and the image the line turns on.", "why": "«Es el viento. El maldito viento solano, que saca a la gente de quicio.» The east wind of La Mancha, blamed for madness and fires."}, {"t": "mc", "q": "¿Quién lo dice? «Dicen que ha vuelto para cuidar de tu tía Paula.»", "opts": ["Agustina", "Sole", "Irene", "Tía Paula"], "a": 0, "pista": "Think about who would speak like this, and to whom.", "why": "**Agustina**. To Sole, at the wake. The village rumour about Irene's «ghost»."}, {"t": "mc", "q": "«Murió abrazada a papá, que era lo que más quería.» (Raimunda)<br>¿Qué tiene de irónico esta frase al principio de la película?", "opts": ["La verdad es la contraria: Irene está viva y el padre murió con otra mujer en un fuego que ella provocó", "Que Irene murió de vieja", "Que el padre está vivo en Venezuela", "Que Raimunda no quería a su padre"], "a": 0, "pista": "Who really died in the fire?", "why": "Dramatic irony: «Las cenizas que hay en tu lugar son de la madre de la Agustina». The opening line is a lie Raimunda believes."}]}, {"tab": "4 · Hombres", "h2": "4 · Los hombres", "intro": "The men are absent, dead or dangerous. What does the film say through them?", "items": [{"t": "mc", "q": "«No lo puede ocultar, tiene los ojos de tu padre.» (Agustina)<br>Agustina se lo dice a Raimunda sobre Paula. ¿Qué pista esconde?", "opts": ["Que Paula es hija del padre de Raimunda: el secreto del incesto", "Que Paula se parece a Paco", "Que Paula necesita gafas", "Que Agustina conoce bien a Paco"], "a": 0, "pista": "Whose father? «Tu padre», said to Raimunda.", "why": "A clue hidden in a compliment: Paula has her grandfather's eyes because he is also her father. Neither the audience nor Agustina knows yet."}, {"t": "mc", "q": "¿Quién lo dice? «Las mujeres de aquí viven más que los hombres.»", "opts": ["Sole", "Inés", "Paula", "Emilio"], "a": 0, "pista": "Think about who would speak like this, and to whom.", "why": "**Sole**. In the cemetery, at the very start."}, {"t": "mc", "q": "«Yo le grité que qué hacía y él me dijo que no era mi padre.» (Paula)<br>¿Qué usa Paco para justificar el abuso?", "opts": ["El secreto de que no es el padre biológico de Paula", "Que estaba borracho", "Que Raimunda no estaba", "Que Paula le había provocado"], "a": 0, "pista": "What did Paco tell her?", "why": "Paco turns the family secret into an excuse. Raimunda: «Pero eso no justifica lo que hizo»."}, {"t": "gap", "en": null, "es": "«Yo estaba {0} con tu padre y él se aprovechó. Me puso los cuernos hasta el último día de su vida.» (Irene)", "gaps": [{"acc": ["ciega"], "cue": null}], "pista": "Remember the scene, and the image the line turns on.", "why": "«Yo estaba ciega con tu padre y él se aprovechó. Me puso los cuernos hasta el último día de su vida.» Irene to Sole: the husband's betrayal."}, {"t": "mc", "q": "¿Quién lo dice? «No hemos tenido suerte con los hombres ninguna de las tres.»", "opts": ["Irene", "Paco", "Tía Paula", "Regina"], "a": 0, "pista": "Think about who would speak like this, and to whom.", "why": "**Irene**. To Sole: three women, three bad marriages."}, {"t": "gap", "en": null, "es": "«Pero eso no {0} lo que hizo.» (Raimunda)", "gaps": [{"acc": ["justifica"], "cue": null}], "pista": "Remember the scene, and the image the line turns on.", "why": "«Pero eso no justifica lo que hizo.» Raimunda to Paula, after telling her Paco was not her father."}]}, {"tab": "5 · Solidaridad", "h2": "5 · Solidaridad entre mujeres", "intro": "The women help each other without asking questions. How, and at what price?", "items": [{"t": "mc", "q": "¿Quién lo dice? «Cuenta conmigo pa' lo que sea. Se me da bien la repostería.»", "opts": ["Inés", "Paula", "Paco", "Regina"], "a": 0, "pista": "Think about who would speak like this, and to whom.", "why": "**Inés**. The neighbour, when Raimunda opens the restaurant."}, {"t": "mc", "q": "«Oye con tu escote y mis mojitos podemos hacernos de oro Mundita.» (Regina)<br>¿Qué muestra esta frase?", "opts": ["Una alianza económica entre mujeres, con humor", "Que Regina quiere quedarse con el restaurante", "Que Raimunda trabaja de camarera", "Que Regina no sabe hacer cócteles"], "a": 0, "pista": "Regina is making mojitos at the party.", "why": "Women build an economy of their own: cooking, cocktails, the hairdresser's at home. Almodóvar's humour comes with it."}, {"t": "mc", "q": "¿Quién lo dice? «¡Qué remedio! Ahora soy tu cómplice.»", "opts": ["Regina", "Paula", "Tía Paula", "Sole"], "a": 0, "pista": "Think about who would speak like this, and to whom.", "why": "**Regina**. On the way to the river Júcar to bury the freezer."}, {"t": "mc", "q": "«Me dais una envidia... Vosotras tan unidas...» (Agustina)<br>¿Qué siente Agustina al ver a las hermanas?", "opts": ["Soledad: ella no tiene a nadie, y su hermana la ha dejado sola", "Celos de Raimunda por el restaurante", "Envidia del dinero de Sole", "Ganas de irse a Madrid"], "a": 0, "pista": "Think of Brígida and the TV programme.", "why": "Agustina is alone: her mother vanished and her sister uses her illness on TV. The sisters' unity is what she lacks."}, {"t": "mc", "q": "«Después de lo que le hice a su madre lo menos que puedo hacer es cuidarla» (Irene)<br>¿Por qué se queda Irene con Agustina?", "opts": ["Para expiar su crimen: mató a la madre de Agustina en el incendio", "Porque Agustina le paga", "Porque no tiene casa", "Porque Raimunda se lo pide"], "a": 0, "pista": "What did Irene do to Agustina's mother?", "why": "Care as penance. Irene says she will stay «hasta el final»."}, {"t": "gap", "en": null, "es": "«Entre nosotras nos {0}.» (Irene)", "gaps": [{"acc": ["apañamos"], "cue": null}], "pista": "Remember the scene, and the image the line turns on.", "why": "«Entre nosotras nos apañamos.» Irene to Raimunda: women manage among themselves."}]}, {"tab": "6 · Pueblo y ciudad", "h2": "6 · Pueblo, ciudad y televisión", "intro": "La Mancha and Madrid, real community and the false community of television.", "items": [{"t": "mc", "q": "«Pero en la policía es donde hay que denunciarlo, no en TV.» (Raimunda)<br>¿Qué critica Raimunda?", "opts": ["Que la familia de Agustina haya llevado la desaparición a la televisión en vez de a la policía", "La policía del pueblo", "Que Agustina no vea la tele", "Que Brígida cante"], "a": 0, "pista": "Agustina's sister has talked about it on TV many times.", "why": "First hint of the film's satire of «telebasura». Later the programme exploits Agustina's cancer."}, {"t": "mc", "q": "«Cuando Agustina habla de su pueblo se refiere a la maravillosa localidad de Alcanfor de las Infantas. Un pueblo que según las estadísticas posee el mayor índice de locura por habitante.» (Presentadora TV)<br>¿Qué muestra el programa de televisión?", "opts": ["Desprecio por la gente del pueblo y uso del dolor ajeno como espectáculo", "Interés sincero por Agustina", "Información sobre La Mancha", "Una campaña contra el cáncer"], "a": 0, "pista": "Listen to the tone: «maravillosa»… «locura».", "why": "The presenter mocks the village and then announces Agustina's cancer for applause. Television is the false community; the women's network is the real one."}, {"t": "gap", "en": null, "es": "«mañana os voy a poner de {0} que os vais a caer de culo.» (Raimunda)", "gaps": [{"acc": ["comida"], "cue": null}], "pista": "Remember the scene, and the image the line turns on.", "why": "«mañana os voy a poner de comida que os vais a caer de culo.» To the film crew: Raimunda's energy and the film's comedy."}, {"t": "mc", "q": "¿Quién lo dice? «Sólo quiero saber si está viva o muerta.»", "opts": ["Agustina", "Irene", "Emilio", "Raimunda"], "a": 0, "pista": "Think about who would speak like this, and to whom.", "why": "**Agustina**. About her mother, to Raimunda."}, {"t": "gap", "en": null, "es": "«Ya no es lo que era mamá. Está {0}.» (Raimunda)", "gaps": [{"acc": ["seco"], "cue": null}], "pista": "Remember the scene, and the image the line turns on.", "why": "«Ya no es lo que era mamá. Está seco.» The river at the end: the past cannot be returned to as it was."}]}]};</script>
 <script>
-  // THEMES: cover all theme keys used in your QUOTES
-  const THEMES = [
-    { key: "secreto_familia", label: "Secretos / familia", labelEn: "Secrets / family", icon: "🔒" },
-    { key: "secreto-familia-volver", label: "Secretos / Volver", labelEn: "Secrets / Volver", icon: "🗝️" },
-    { key: "secretos_familia_trauma", label: "Secretos / trauma", labelEn: "Family secrets / trauma", icon: "💔" },
-    { key: "secretos_familia_humour", label: "Secretos / humor", labelEn: "Family secrets / humour", icon: "😂" },
-    { key: "secreto_familia_La Mancha", label: "Secretos / La Mancha", labelEn: "Secrets / La Mancha", icon: "🌾" },
-    { key: "secreto_familia_males", label: "Secretos / figuras masculinas", labelEn: "Secrets / male figures", icon: "🚫" },
-    { key: "secreto_familia_técnica narrativa_presagio", label: "Secretos / presagio", labelEn: "Secrets / foreshadowing", icon: "🔮" },
-
-    { key: "pueblo_supersticion", label: "Pueblo / superstición", labelEn: "Village / superstition", icon: "🏘️" },
-    { key: "pueblo_supersticion_humor", label: "Pueblo / superstición / humor", labelEn: "Village / superstition / humour", icon: "😄" },
-    { key: "pueblo_humor", label: "Pueblo / humor", labelEn: "Village / humour", icon: "🤣" },
-
-    { key: "maternidad_fantasma", label: "Madre / fantasma", labelEn: "Mother / ghost", icon: "👻" },
-    { key: "maternidad_fantasma_superstición", label: "Madre / fantasma / superstición", labelEn: "Mother / ghost / superstition", icon: "👻" },
-    { key: "maternidad_fantasma_La Mancha", label: "Madre / La Mancha", labelEn: "Mother / La Mancha", icon: "🌾" },
-    { key: "maternidad_fantasma_reconciliación", label: "Madre / reconciliación", labelEn: "Mother / reconciliation", icon: "🤝" },
-    { key: "maternidad_fantasma_melodrama/tragicomedia", label: "Madre / melodrama", labelEn: "Mother / tragicomedy", icon: "🎭" },
-
-    { key: "tele_agustina", label: "Telebasura / Agustina", labelEn: "Trash TV / Agustina", icon: "📺" },
-
-    { key: "comunidad_mujeres", label: "Comunidad de mujeres", labelEn: "Women's community", icon: "👭" },
-    { key: "Comunidad de mujeres_muerte", label: "Comunidad / muerte", labelEn: "Community / death", icon: "💀" },
-    { key: "comunidad_mujeres_humor", label: "Comunidad / humor", labelEn: "Community / humour", icon: "😄" },
-    { key: "humor_cotidiano", label: "Humor / cotidiano", labelEn: "Everyday humour", icon: "😄" },
-    { key: "humor_cotidiano_mujeres fuertes", label: "Humor / mujeres fuertes", labelEn: "Humour / strong women", icon: "💪" },
-    { key: "humor_cotidiano_comunidad mujeres", label: "Humor / comunidad de mujeres", labelEn: "Humour / women's community", icon: "👭" },
-
-    { key: "mentiras_humor_mujeres fuertes", label: "Mentiras / humor / mujeres fuertes", labelEn: "Lies / humour / strong women", icon: "🎭" },
-
-    { key: "creencias_La Mancha", label: "Creencias / La Mancha", labelEn: "Beliefs / La Mancha", icon: "🌬️" },
-
-    { key: "cancion_volver", label: "Canción «Volver»", labelEn: "Song 'Volver'", icon: "🎵" }
-  ];
-
-  // QUOTES: your original quotes - UNCHANGED
-  const QUOTES = [
-    { id:"Q1", theme:"secreto_familia", spanish:"Recuerda que fui yo quien lo mató, y que tú no lo viste porque estabas en la calle. Es muy importante que recuerdes eso", context:"Raimunda tells Paula to repeat this version: she (Raimunda) killed Paco and Paula did not see anything.", essayUse:"Use when discussing family secrets, protection, and how characters construct alternative narratives." },
-    { id:"Q2", theme:"secreto_familia", spanish:"La policía pregunta mucho y los trapos sucios debemos lavarlos entre nosotras", context:"Agustina insists family problems must be solved 'between us', not with the police.", essayUse:"Key quote for female solidarity and keeping problems within the family unit." },
-    { id:"Q3", theme:"secreto-familia-volver", spanish:"¿Hay una cosa que yo debería saber y que no sé? ¡Mogollón!", context:"Raimundo asks Sole about whether she missed some of the things which have been going on.", essayUse:"Mogollón means \"a lot\"/loads/a great deal. Raimunda and Sole are starting to talk." },
-    { id:"Q4", theme:"pueblo_supersticion", spanish:"¿Mamá, es verdad que Agustina viene a arreglar su propia tumba? Raimunda: Sí aquí es costumbre.", context:"Conversation about village customs: people look after their own graves in advance.", essayUse:"Illustrates rural traditions and attitudes toward death in Spanish villages." },
-    { id:"Q5", theme:"secretos_familia_trauma", spanish:"Estaba ciega con tu padre. Y se aprovechó y me puso los cuernos hasta el último día de su vida.", context:"Irene admits she was 'blind' about her husband and he cheated on her until he died.", essayUse:"Reveals betrayal and the Irene's regret blindness regarding male infidelity." },
-    { id:"Q6", theme:"maternidad_fantasma", spanish:"Esta casa sigue oliéndome a mamá", context:"The house still 'smells of mum'; memory is linked to physical sensations.", essayUse:"Demonstrates how memory and maternal presence are evoked through sensory details." },
-    { id:"Q7", theme:"maternidad_fantasma", spanish:"Mi madre ha muerto. De ser, serás su fantasma o su espíritu", context:"Sole tells her mother she can only be a ghost or spirit, because the real mother is dead.", essayUse:"Key moment of confrontation between reality and supernatural elements." },
-    { id:"Q8", theme:"maternidad_fantasma", spanish:"Mamá, en el pueblo creen que eres un fantasma.", context:"Raimunda explains that in the village everybody thinks Irene is literally a ghost.", essayUse:"Shows how superstition shapes village perception and gossip." },
-    { id:"Q9", theme:"maternidad_fantasma_superstición", spanish:"Dicen que ha vuelto para cuidar de tu tía Paula.", context:"Rumour in the village: Irene has returned from the dead to look after Aunt Paula.", essayUse:"Family duties beyond the grave, topic of rural superstition" },
-    { id:"Q10", theme:"secreto_familia_La Mancha", spanish:"¿Quién crees que hacía los barquillos y los ponía en un tupperware, uno para ti y otro para mi? ¿Quién crees que se trajo las muñecas y las cosas de valor de la tía?", context:"Sole tells Raimunda that Irene secretly prepared food and rescued valuable objects while hiding.", essayUse:"Women's community, superstition, secrets are being revealed." },
-    { id:"Q11", theme:"secreto_familia", spanish:"Tengo miedo del encuentro con el pasado que vuelve a enfrentarse con mi vida", context:"Raimunda and her traumatic past.", essayUse:"Central theme of 'Volver' - the return of the past and facing trauma." },
-    { id:"Q12", theme:"secretos_familia_humour", spanish:"Cada vez que me fumo un porro me acuerdo de ella.", context:"Every time Agustina smokes a joint she remembers her missing mother.", essayUse:"Links memory with daily rituals; Joke about the hippie mother." },
-    { id:"Q13", theme:"secreto_familia_males", spanish:"Tu padre había nacido para hacer sufrir a las mujeres que le querían", context:"Irene describes the father as someone 'born to make women suffer'.", essayUse:"Direct condemnation of toxic masculinity and machismo in Spanish society." },
-    { id:"Q14", theme:"pueblo_supersticion_humor", spanish:"Eso es lo bueno de estos pueblos tan supersticiosos. Para mí ha sido más fácil...", context:"Irene says superstition helped her hide — people accept strange things more easily.", essayUse:"Superstition as as protection; village mentality enables Irene's secret." },
-    { id:"Q15", theme:"tele_agustina", spanish:"Es que la telebasura tiene algo, ¿eh? Yo, cuando me siento delante del televisor, no puedo dejarlo. Me voy sintiendo cada vez peor, pero no me puedo levantar.", context:"Self-critical comment on 'trash TV': addictive but makes you feel worse and worse.", essayUse:"Almodovar's commentary on reality TV's addictive nature despite its negative emotional impact." },
-    { id:"Q16", theme:"secreto_familia_males", spanish:"Mamá, tú no sabes lo que es haber matado a tu padre. — Paco no era tu padre.", context:"Dialogue where Raimunda reveals to Paula that Paco was not her real father.", essayUse:"Revelation of incest and family trauma. Key moment for discussing abuse." },
-    { id:"Q17", theme:"maternidad_fantasma", spanish:"¡Habla de nuestra madre como si siguiera viva!", context:"Someone complains that Irene is spoken about as if she were still alive.", essayUse:"Blurred boundaries between life and death; mother's presence transcends mortality. Tía Paula makes sense while not making sense." },
-    { id:"Q18", theme:"maternidad_fantasma", spanish:"Es que para ella no ha muerto y no se hace a la idea", context:"Comment explaining that for Paula, her sister has not really 'died' yet.", essayUse:"Sole and Raimunda, as well as the spectator not aware of Irene's whereabouts." },
-    { id:"Q19", theme:"maternidad_fantasma_reconciliación", spanish:"¿Pero no estabas muerta? — He vuelto para pedirte perdón. Yo no sabía nada, hija mía. Ni me lo podía imaginar", context:"Raimunda and Irene meet; Irene returns 'to ask for forgiveness'.", essayUse:"Key reconciliation scene. Mother returns to heal trauma and seek forgiveness." },
-    { id:"Q20", theme:"tele_agustina", spanish:"Agustina tiene cáncer, tienes cáncer Agustina, ¡venga un fuerte aplauso para Agustina!", context:"Cruel moment on the TV show where the presenter announces Agustina's cancer to get applause.", essayUse:"Exploitation of human suffering for entertainment. Contrast with genuine community." },
-    { id:"Q21", theme:"tele_agustina", spanish:"pero no debes estar nerviosa que estás entre amigos", context:"Fake reassurance from the TV presenter — she is clearly not among real friends.", essayUse:"False community of TV versus genuine female solidarity shown elsewhere in film. Almodóvar se burla o crítica de la telerealidad" },
-    { id:"Q22", theme:"secreto_familia_técnica narrativa_presagio", spanish:"No lo puede ocultar tiene los ojos de tu padre.", context:"Someone comments that a character cannot hide who her father is, because of her eyes.", essayUse:"Agustina is talking about Paco and does not realise that she is talking about physical traces of trauma and abuse that cannot be hidden. Spectators at this point not aware of the trauma either. " },
-    { id:"Q23", theme:"maternidad_fantasma_La Mancha", spanish:"Mira los barquillos. Igualicos que los de mamá, coged.", context:"Food (barquillos) is used to evoke the memory of the mother.", essayUse:"Food as vehicle for memory and maternal love; domestic details carry emotional weight, local language, La Mancha food" },
-    { id:"Q24", theme:"pueblo_humor", spanish:"¿Ves qué moderna era? La única hippie del pueblo. Mira las joyas de plástico.", context:"Comment about Agustina's mother being 'modern' and different from the rest of the village.", essayUse:"Contrast between traditional village values and individual modernity." },
-    { id:"Q25", theme:"humor_cotidiano_mujeres fuertes", spanish:"Mañana os voy a poner de comida que os vais a caer de culo.", context:"Humorous promise about serving such good food that guests will 'fall on their arse'.", essayUse:"Almodóvar's signature crude humor. Working-class speech patterns." },
-    { id:"Q26", theme:"humor_cotidiano_mujeres fuertes", spanish:"¿Sigues teniendo la peluquería ilegal? — Claro, de eso vivo.", context:"Joke about earning a living with an illegal hairdressing business.", essayUse:"Surviving in the informal economy in Madrid, female entrepreneurship." },
-    { id:"Q27", theme:"humor_cotidiano", spanish:"¡Huy, qué olor a pedo! ¡Si es como si acabara de estar mamá peyéndose a culo lleno!", context:"Crude but affectionate memory of the mother — typical Almodóvar humour.", essayUse:"Scatological humor as sign of intimacy. Memory through maternal smells." },
-    { id:"Q28", theme:"humor_cotidiano_comunidad mujeres", spanish:"Oye, con tu escote y mis mojitos podemos hacernos de oro, Mundita.", context:"Plan to make money with sex appeal and cocktails; shows entrepreneurial humour.", essayUse:"Female sexual agency used for economic gain. Humor in commodifying appearance." },
-    { id:"Q29", theme:"maternidad_fantasma_melodrama/tragicomedia", spanish:"— No sé cómo he podido vivir todos estos años sin ti. — No me digas eso, Raimunda, que me pongo a llorar. Y los fantasmas no lloran.", context:"Final reconciliation between mother and daughter; Irene mixes emotion and humour.", essayUse:"Resolution of mother-daughter trauma. Humour tempers pathos. Melodrama/tragicomedia" },
-    { id:"Q30", theme:"comunidad_mujeres", spanish:"Los trapos sucios debemos lavarlos entre nosotras", context:"Women must handle their own problems without involving authorities.", essayUse:"Female solidarity excludes patriarchal institutions. Women protect each other." },
-    { id:"Q31", theme:"mentiras_humor_mujeres fuertes", spanish:"Cosa de mujeres", context:"Raimunda explains the blood on her neck to her neighbour as Women's Troubles/TOM, at the same time she alludes to one of the key themes of the film: '.", essayUse:"Women create exclusive space; men are literally locked out after their bad blood is removed with a mop and kitchen paper" },
-    { id:"Q32", theme:"creencias_La Mancha", spanish:"Es el viento. El maldito viento solano que saca a la gente de quicio.", context:"Description of how the wind drives village women mad - shared experience.", essayUse:"Shared environmental hardship creates bonds between women. La Mancha and the wind." },
-    { id:"Q33", theme:"Comunidad de mujeres_muerte", spanish:"Todas las mujeres del pueblo cuidan sus tumbas", context:"Cemetery opening scene - women collectively tend graves.", essayUse:"Rural customs and beliefs, superstition, natural relationship with death." },
-    { id:"Q34", theme:"comunidad_mujeres_humor", spanish:"Con tu escote y mis mojitos podemos hacernos de oro, Mundita", context:"Plan to make money with sex appeal and cocktails; shows entrepreneurial cooperation.", essayUse:"Female economic cooperation and mutual support." },
-    { id:"Q35", theme:"comunidad_mujeres", spanish:"Regina me ha ayudado con el restaurante", context:"The Dominican prostitute Regina helps Raimunda run the restaurant.", essayUse:"Cross-cultural female solidarity. Immigrant women included in community bonds." },
-    { id:"Q36", theme:"comunidad_mujeres", spanish:"Las vecinas me ayudaron a subir el congelador", context:"Neighbours help Raimunda move the heavy freezer (containing Paco's body).", essayUse:"Literal representation of shared burdens. Women help without questions. Women get rid of Paco's body who even as a corpse represents a threat" },
-    { id:"Q40", theme:"canción_volver", spanish:"Volver, con la frente marchita, las nieves del tiempo platearon mi sien", context:"Opening lyrics: 'To return, with withered brow, the snows of time have whitened my temples'.", essayUse:"Announces film's preoccupation with aging, return, and the passage of time." },
-    { id:"Q41", theme:"cancion_volver", spanish:"Sentir que es un soplo la vida, que veinte años no es nada", context:"'To feel that life is a puff of wind, that twenty years is nothing...'", essayUse:"Time collapses; wounds remain fresh despite years passing." },
-    { id:"Q42", theme:"cancion_volver", spanish:"Que febril la mirada, errante en las sombras, te busca y te nombra", context:"'That the feverish look, wandering in the shadow, looks for you and names you'.", essayUse:"Yearning and loss. Raimunda's search for maternal connection." },
-    { id:"Q43", theme:"cancion_volver", spanish:"Tengo miedo del encuentro con el pasado que vuelve a enfrentarse con mi vida", context:"'I am afraid of the encounter, of the past that returns, to confront my life'.", essayUse:"Fear of reckoning with trauma. Central to Raimunda's arc." },
-    { id:"Q44", theme:"cancion_volver", spanish:"Vivir, con el alma aferrada a un dulce recuerdo", context:"'To live, with the soul clutched to a sweet memory'.", essayUse:"Melancholic attachment to past. Memory as both comfort and prison." },
-    { id:"Q45", theme:"cancion_volver", spanish:"El viajero que huye tarde o temprano detiene su andar", context:"'The traveler that flees sooner or later stops his walking'.", essayUse:"Inevitability of confronting one's origins. Migration and return." }
-  ];
-
-  const state = {
-    theme: "all",
-    currentId: null,
-    mastered: new Set(),
-    practiced: new Set(),
-    attempts: 0,
-    correct: 0
+(function(){
+"use strict";
+var KEY = D.key;
+var S = {v:1, it:{}, tab:null, pub:false};
+try{ var raw=localStorage.getItem(KEY); if(raw){ var o=JSON.parse(raw); if(o&&o.v===1) S=o; } }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function nfc(s){ return (s||"").normalize ? s.normalize("NFC") : (s||""); }
+function deacc(s){ return nfc(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function clean(s){ return nfc(s).toLowerCase().replace(/[¡!¿?.,;:«»"“”()\[\]…]/g," ").replace(/\s+/g," ").trim(); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmt(s){ return esc(s).replace(/&lt;br&gt;/g,"<br>").replace(/\*\*(.+?)\*\*/g,"<b>$1</b>"); }
+function h(tag, attrs, html){ var e=document.createElement(tag); if(attrs) for(var k in attrs){ if(k==="class") e.className=attrs[k]; else e.setAttribute(k,attrs[k]); } if(html!=null) e.innerHTML=html; return e; }
+/* strict judge: exact (case, spacing, punctuation ignored) or accent-only slip */
+function judge(given, acc){
+  var g=clean(given); if(!g) return "blank";
+  for(var i=0;i<acc.length;i++){ if(g===clean(acc[i])) return "ok"; }
+  for(i=0;i<acc.length;i++){ if(deacc(g)===deacc(clean(acc[i]))) return "accent"; }
+  return "no";
+}
+var ITEMS=[], SECS=[];
+function fbBox(card){ var f=card.querySelector(".fb"); if(!f){ f=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(f); } return f; }
+function wire(it){
+  var st = S.it[it.id] || (S.it[it.id]={st:null, tries:0, first:false, given:null});
+  it.state = st;
+  it.run = function(){
+    if(st.st) return;
+    var r = it.check(); if(r==="blank") return;
+    st.tries++; st.given = it.given();
+    var fb = fbBox(it.card);
+    if(r==="ok"){ st.st="ok"; st.first=(st.tries===1); it.lock(true);
+      fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correcto</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+      it.card.classList.add("ok"); save(); refresh(); return; }
+    if(st.tries<2){
+      fb.className="fb ui show hint";
+      fb.innerHTML='<span class="tag ht">Pista</span>'+(r==="accent"?"Almost: the right form, but check the accent. ":"Not yet. ")+fmt(it.pista||"");
+      it.mark(); save(); return; }
+    st.st="rev"; it.lock(false); it.reveal();
+    fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Respuesta</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+    it.card.classList.add("rev"); save(); refresh();
   };
-  const STORAGE_KEY = "volver_quotes_state_v3_flexible";
-
-  function themeLabel(key) {
-    const t = THEMES.find(x => x.key === key);
-    return t ? (t.icon + " " + t.label) : key;
+  it.restore = function(){
+    if(!st.st) return; it.setGiven(st.given);
+    var fb=fbBox(it.card);
+    if(st.st==="ok"){ it.lock(true); it.card.classList.add("ok"); fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correcto</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+    else { it.lock(false); it.reveal(); it.card.classList.add("rev"); fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Respuesta</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+  };
+  ITEMS.push(it);
+}
+function controls(card, it){
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Comprobar");
+  var p=h("button",{"class":"g",type:"button"},"Pista");
+  b.addEventListener("click", function(){ it.run(); });
+  p.addEventListener("click", function(){ var fb=fbBox(card); if(it.state.st) return; fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>'+fmt(it.pista||""); });
+  row.appendChild(b); row.appendChild(p); card.appendChild(row);
+  it.btns=[b,p];
+}
+function gapItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  var parts=Q.es.split(/\{(\d+)\}/), html='<span class="qn">'+n+' ·</span>';
+  for(var i=0;i<parts.length;i++){
+    if(i%2===0) html+=fmt(parts[i]);
+    else { var g=Q.gaps[+parts[i]]; html+='<input type="text" data-g="'+parts[i]+'" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="hueco '+(+parts[i]+1)+'">'+(g.cue?' <span class="cue">('+esc(g.cue)+')</span>':""); }
   }
-
-  function saveState() {
-    const obj = {
-      theme: state.theme,
-      currentId: state.currentId,
-      mastered: Array.from(state.mastered),
-      practiced: Array.from(state.practiced),
-      attempts: state.attempts,
-      correct: state.correct
-    };
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
-    } catch (e) {}
-  }
-
-  function loadState() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
-      const obj = JSON.parse(raw);
-      state.theme = obj.theme || "all";
-      state.currentId = obj.currentId || null;
-      state.mastered = new Set(obj.mastered || []);
-      state.practiced = new Set(obj.practiced || []);
-      state.attempts = obj.attempts || 0;
-      state.correct = obj.correct || 0;
-    } catch (e) {}
-  }
-
-  // ==================== ENHANCED LENIENT NORMALIZATION ====================
-  function superNormalize(str) {
-    if (!str) return '';
-    
-    // Step 1: Convert to lowercase
-    let normalized = str.toLowerCase().trim();
-    
-    // Step 2: Remove ALL punctuation and special characters (very permissive)
-    normalized = normalized.replace(/[.,;:!?¿¡«»"'"´—\-–()]/g, " ");
-    
-    // Step 3: Replace multiple spaces with single space
-    normalized = normalized.replace(/\s+/g, " ");
-    
-    // Step 4: Remove accents for comparison (but keep original for display)
-    const withoutAccents = normalized
-      .replace(/[áàäâ]/g, "a")
-      .replace(/[éèëê]/g, "e")
-      .replace(/[íìïî]/g, "i")
-      .replace(/[óòöô]/g, "o")
-      .replace(/[úùüû]/g, "u")
-      .replace(/ñ/g, "n")
-      .replace(/ç/g, "c");
-    
-    // Step 5: Remove common filler words that don't affect meaning
-    const fillerWords = ["que", "y", "de", "la", "el", "los", "las", "un", "una", "unos", "unas", "con", "por", "para", "en", "a", "es", "son", "era", "fue", "soy", "eres", "se", "me", "te", "lo", "le", "nos", "os", "les"];
-    const words = withoutAccents.split(" ");
-    const meaningfulWords = words.filter(word => 
-      word.length > 0 && !fillerWords.includes(word)
-    );
-    
-    return meaningfulWords.join(" ");
-  }
-
-  // ==================== LENIENT MATCHING FUNCTION ====================
-  function isLenientMatch(targetRaw, userRaw) {
-    const target = superNormalize(targetRaw);
-    const user = superNormalize(userRaw);
-    
-    if (!user) return false;
-    
-    // Perfect match after normalization
-    if (user === target) return { match: "perfect", score: 100 };
-    
-    // Count overlapping meaningful words
-    const targetWords = target.split(" ");
-    const userWords = user.split(" ");
-    
-    // Find how many target words appear in user's answer (in any order)
-    let matchedWords = 0;
-    userWords.forEach(userWord => {
-      if (userWord && targetWords.some(targetWord => 
-        targetWord.includes(userWord) || userWord.includes(targetWord)
-      )) {
-        matchedWords++;
-      }
-    });
-    
-    // Calculate match percentage
-    const matchPercentage = (matchedWords / targetWords.length) * 100;
-    
-    // Very lenient thresholds for A-Level
-    if (matchPercentage >= 60) {
-      return { match: "excellent", score: matchPercentage };
-    } else if (matchPercentage >= 40) {
-      return { match: "good", score: matchPercentage };
-    } else if (matchPercentage >= 25) {
-      return { match: "partial", score: matchPercentage };
-    }
-    
-    // Check for key phrase inclusion (even if word order is wrong)
-    const keyPhrases = extractKeyPhrases(targetRaw);
-    const userText = user.toLowerCase();
-    let keyPhraseMatches = 0;
-    
-    keyPhrases.forEach(phrase => {
-      if (userText.includes(phrase.toLowerCase())) {
-        keyPhraseMatches++;
-      }
-    });
-    
-    if (keyPhraseMatches >= 2 || (keyPhraseMatches === 1 && userWords.length >= 3)) {
-      return { match: "key_phrases", score: 50 };
-    }
-    
-    return { match: "low", score: matchPercentage };
-  }
-
-  // Extract key phrases from quotes
-  function extractKeyPhrases(text) {
-    const words = text.toLowerCase().split(" ");
-    const phrases = [];
-    
-    // Take 3-5 word chunks that are likely important
-    for (let i = 0; i < words.length - 2; i++) {
-      const phrase = words.slice(i, i + 3).join(" ");
-      if (phrase.length > 10) { // Only meaningful phrases
-        phrases.push(phrase);
-      }
-    }
-    
-    return phrases.slice(0, 5); // Return top 5 phrases
-  }
-
-  // ==================== FEEDBACK FUNCTION ====================
-  function showFeedback(matchResult, target, user) {
-    const feedbackBox = document.getElementById("feedbackBox");
-    feedbackBox.style.display = "block";
-    feedbackBox.innerHTML = "";
-    
-    const targetWords = superNormalize(target).split(" ").length;
-    const userWords = superNormalize(user).split(" ").length;
-    
-    let header = "";
-    let message = "";
-    let className = "";
-    let details = "";
-    
-    switch (matchResult.match) {
-      case "perfect":
-        header = "✅ ¡Perfecto!";
-        message = "Cita completamente correcta. Excelente memorización.";
-        className = "correct";
-        break;
-        
-      case "excellent":
-        header = "✅ ¡Muy bien!";
-        message = `Captaste ${Math.round(matchResult.score)}% de las palabras clave. Esto es más que suficiente para el examen.`;
-        className = "correct";
-        details = `Has captado ${userWords} de aproximadamente ${targetWords} palabras importantes.`;
-        break;
-        
-      case "good":
-        header = "👍 Bien hecho";
-        message = `Captaste ${Math.round(matchResult.score)}% de las palabras clave. Es una versión válida para citar en ensayos.`;
-        className = "partial";
-        details = `Recuerda: en el examen puedes usar fragmentos de citas. Has captado ${userWords} palabras clave.`;
-        break;
-        
-      case "partial":
-        header = "⚠️ Aceptable (pero practica más)";
-        message = `Captaste ${Math.round(matchResult.score)}% de las palabras clave. Es un buen comienzo, pero intenta recordar más detalles.`;
-        className = "partial";
-        details = `Para el examen: necesitas al menos las frases clave. Has recordado ${userWords} palabras.`;
-        break;
-        
-      case "key_phrases":
-        header = "🔑 Tienes las frases clave";
-        message = "Has captado algunas frases importantes. Eso puede ser suficiente para referenciar la cita en un ensayo.";
-        className = "partial";
-        details = "En ensayos de A-Level, mencionar fragmentos de citas con análisis es perfectamente aceptable.";
-        break;
-        
-      default:
-        header = "❌ Necesitas más práctica";
-        message = "Intenta recordar al menos 3-4 palabras clave de esta cita.";
-        className = "incorrect";
-        details = `Consejo: concéntrate en memorizar las frases más importantes. La cita original tiene ${targetWords} palabras clave.`;
-    }
-    
-    const headerDiv = document.createElement("div");
-    headerDiv.className = "feedback-header";
-    headerDiv.innerHTML = header;
-    
-    const messageDiv = document.createElement("div");
-    messageDiv.textContent = message;
-    
-    feedbackBox.appendChild(headerDiv);
-    feedbackBox.appendChild(messageDiv);
-    
-    if (details) {
-      const detailsDiv = document.createElement("div");
-      detailsDiv.className = "match-details";
-      detailsDiv.textContent = details;
-      feedbackBox.appendChild(detailsDiv);
-    }
-    
-    feedbackBox.className = `feedback-box ${className}`;
-    
-    // Auto-hide feedback after 8 seconds
-    setTimeout(() => {
-      if (feedbackBox.innerHTML.includes(header)) {
-        feedbackBox.style.display = "none";
-      }
-    }, 8000);
-  }
-
-  // ==================== CHECK ANSWER FUNCTION ====================
-  function checkAnswer() {
-    const q = currentQuote();
-    if (!q) {
-      alert("Selecciona una cita primero / Select a quote first");
-      return;
-    }
-    const text = answerBox.value || "";
-    if (!text.trim()) {
-      alert("Escribe algo primero / Type something first");
-      return;
-    }
-
-    const matchResult = isLenientMatch(q.spanish, text);
-    
-    // VERY LENIENT: Accept anything that's not "low" match
-    const isAccepted = matchResult.match !== "low";
-    
-    state.attempts += 1;
-    if (isAccepted) state.correct += 1;
-    state.practiced.add(q.id);
-    
-    // Show detailed feedback
-    showFeedback(matchResult, q.spanish, text);
-    
-    updateStats();
-    renderQuoteList();
-    saveState();
-  }
-
-  // ==================== REMAINING FUNCTIONS (unchanged except for feedback) ====================
-  function filteredQuotes(forAll) {
-    const searchPractice = document.getElementById("searchPractice").value.toLowerCase();
-    const searchAll = document.getElementById("searchAll").value.toLowerCase();
-    const term = forAll ? searchAll : searchPractice;
-    let list = QUOTES.slice();
-    if (!forAll && state.theme !== "all") {
-      list = list.filter(q => q.theme === state.theme);
-    }
-    if (term) {
-      list = list.filter(q =>
-        q.spanish.toLowerCase().includes(term) ||
-        q.context.toLowerCase().includes(term) ||
-        q.essayUse.toLowerCase().includes(term) ||
-        themeLabel(q.theme).toLowerCase().includes(term)
-      );
-    }
-    return list;
-  }
-
-  function currentQuote() {
-    return QUOTES.find(q => q.id === state.currentId) || null;
-  }
-
-  // DOM elements
-  const themeSelect = document.getElementById("themeSelect");
-  const searchPracticeInput = document.getElementById("searchPractice");
-  const searchAllInput = document.getElementById("searchAll");
-  const quoteListDiv = document.getElementById("quoteList");
-  const answerBox = document.getElementById("answerBox");
-  const practiceInfo = document.getElementById("practiceInfo");
-  const essayBox = document.getElementById("essayBox");
-  const essayText = document.getElementById("essayText");
-  const statsAttempts = document.getElementById("statsAttempts");
-  const statsCorrect = document.getElementById("statsCorrect");
-  const statsAccuracy = document.getElementById("statsAccuracy");
-  const statsPracticed = document.getElementById("statsPracticed");
-  const statsMastered = document.getElementById("statsMastered");
-  const contextBox = document.getElementById("contextBox");
-  const contextSpanish = document.getElementById("contextSpanish");
-  const contextDetails = document.getElementById("contextDetails");
-  const randomBtn = document.getElementById("randomBtn");
-  const checkBtn = document.getElementById("checkBtn");
-  const hintBtn = document.getElementById("hintBtn");
-  const revealBtn = document.getElementById("revealBtn");
-  const masteredBtn = document.getElementById("masteredBtn");
-  const resetBtn = document.getElementById("resetBtn");
-  const downloadMasteredBtn = document.getElementById("downloadMastered");
-  const downloadAllBtn = document.getElementById("downloadAll");
-  const feedbackBox = document.getElementById("feedbackBox");
-
-  function initThemeSelect() {
-    THEMES.forEach(t => {
-      const opt = document.createElement("option");
-      opt.value = t.key;
-      opt.textContent = t.icon + " " + t.label;
-      themeSelect.appendChild(opt);
-    });
-  }
-
-  function setThemeFromState() {
-    themeSelect.value = state.theme || "all";
-  }
-
-  function updateStats() {
-    statsAttempts.textContent = state.attempts;
-    statsCorrect.textContent = state.correct;
-    statsPracticed.textContent = state.practiced.size;
-    statsMastered.textContent = state.mastered.size;
-    const acc = state.attempts ? Math.round((state.correct / state.attempts) * 100) : 0;
-    statsAccuracy.textContent = acc;
-  }
-
-  function renderQuoteList() {
-    quoteListDiv.innerHTML = "";
-    const list = filteredQuotes(true);
-    if (!list.length) {
-      const p = document.createElement("p");
-      p.style.fontSize = "0.8rem";
-      p.style.color = "#9ca3af";
-      p.textContent = "No hay citas que coincidan con la búsqueda / tema.";
-      quoteListDiv.appendChild(p);
-      return;
-    }
-    list.forEach(q => {
-      const div = document.createElement("div");
-      div.className = "quote-item" + (q.id === state.currentId ? " active" : "");
-      div.dataset.id = q.id;
-
-      const line = document.createElement("div");
-      line.className = "quote-main-line";
-      line.textContent = q.id + " — " + q.spanish;
-      div.appendChild(line);
-
-      const meta = document.createElement("div");
-      meta.className = "quote-meta";
-
-      const themeSpan = document.createElement("span");
-      themeSpan.className = "theme-tag";
-      themeSpan.textContent = themeLabel(q.theme);
-      meta.appendChild(themeSpan);
-
-      const dots = document.createElement("div");
-      dots.className = "status-dots";
-      if (state.mastered.has(q.id)) {
-        const s = document.createElement("span");
-        s.className = "dot-mastered";
-        dots.appendChild(s);
-      }
-      if (state.practiced.has(q.id)) {
-        const s2 = document.createElement("span");
-        s2.className = "dot-practiced";
-        dots.appendChild(s2);
-      }
-      meta.appendChild(dots);
-
-      div.appendChild(meta);
-
-      div.addEventListener("click", () => {
-        selectQuote(q.id);
-      });
-
-      quoteListDiv.appendChild(div);
-    });
-  }
-
-  function updatePracticeInfo() {
-    const q = currentQuote();
-    if (!q) {
-      practiceInfo.textContent = "Ninguna cita seleccionada. Escoge una para empezar.";
-      essayBox.style.display = "none";
-      contextBox.style.display = "none";
-      masteredBtn.textContent = "⭐ Marcar dominada";
-      return;
-    }
-    practiceInfo.textContent =
-      q.id + " — " + themeLabel(q.theme) + " | Contexto breve: " + q.context;
-    essayBox.style.display = "block";
-    essayText.textContent = q.essayUse;
-
-    contextBox.style.display = "block";
-    contextSpanish.innerHTML = "<span>Cita completa:</span> " + q.spanish;
-    contextDetails.innerHTML = "<span>Contexto / Essay use:</span> " + q.context + " — " + q.essayUse;
-
-    masteredBtn.textContent = state.mastered.has(q.id)
-      ? "⭐ Quitar de dominadas"
-      : "⭐ Marcar dominada";
-  }
-
-  function selectQuote(id) {
-    state.currentId = id;
-    state.practiced.add(id);
-    answerBox.value = "";
-    feedbackBox.style.display = "none";
-    updateStats();
-    updatePracticeInfo();
-    renderQuoteList();
-    saveState();
-  }
-
-  function randomQuote() {
-    let list = QUOTES.slice();
-    if (state.theme !== "all") {
-      list = list.filter(q => q.theme === state.theme);
-    }
-    if (!list.length) return;
-    const q = list[Math.floor(Math.random() * list.length)];
-    selectQuote(q.id);
-  }
-
-  function showHint() {
-    const q = currentQuote();
-    if (!q) {
-      alert("Selecciona una cita primero / Select a quote first");
-      return;
-    }
-    // Show first 5-7 words for longer quotes
-    const words = q.spanish.split(" ");
-    const hintLength = Math.min(7, Math.max(3, Math.floor(words.length * 0.3)));
-    const hintWords = words.slice(0, hintLength).join(" ");
-    alert("💡 Pista / Hint: \"" + hintWords + "...\"\n\nRecuerda: para el examen solo necesitas recordar las palabras clave.");
-  }
-
-  function revealQuote() {
-    const q = currentQuote();
-    if (!q) return;
-    answerBox.value = q.spanish;
-  }
-
-  function toggleMastered() {
-    const q = currentQuote();
-    if (!q) return;
-    if (state.mastered.has(q.id)) {
-      state.mastered.delete(q.id);
-    } else {
-      state.mastered.add(q.id);
-    }
-    updateStats();
-    updatePracticeInfo();
-    renderQuoteList();
-    saveState();
-  }
-
-  function resetProgress() {
-    if (!confirm("¿Reiniciar todo el progreso? / Reset all progress?")) return;
-    state.mastered = new Set();
-    state.practiced = new Set();
-    state.attempts = 0;
-    state.correct = 0;
-    updateStats();
-    renderQuoteList();
-    saveState();
-  }
-
-  function insertCharAtCursor(char) {
-    const el = answerBox;
-    const start = el.selectionStart;
-    const end = el.selectionEnd;
-    const text = el.value;
-    el.value = text.slice(0, start) + char + text.slice(end);
-    const newPos = start + char.length;
-    el.selectionStart = el.selectionEnd = newPos;
-    el.focus();
-  }
-
-  function downloadFile(filename, content) {
-    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-  }
-
-  function downloadMastered() {
-    if (!state.mastered.size) {
-      alert("No hay citas dominadas todavía / No mastered quotes yet");
-      return;
-    }
-    const lines = [
-      "VOLVER — CITAS DOMINADAS / MASTERED QUOTES",
-      "(Spanish + English context + Essay use)",
-      ""
-    ];
-    QUOTES.filter(q => state.mastered.has(q.id)).forEach(q => {
-      lines.push(q.id + " — " + q.spanish);
-      lines.push("Tema / Theme: " + themeLabel(q.theme));
-      lines.push("Contexto / Context: " + q.context);
-      lines.push("Uso en ensayo / Essay use: " + q.essayUse);
-      lines.push("");
-    });
-    downloadFile("volver_mastered_quotes.txt", lines.join("\n"));
-  }
-
-  function downloadAll() {
-    const lines = [
-      "VOLVER — TODAS LAS CITAS / ALL QUOTES",
-      "(Organized by theme for A-Level revision)",
-      ""
-    ];
-    THEMES.forEach(theme => {
-      const themeQuotes = QUOTES.filter(q => q.theme === theme.key);
-      if (themeQuotes.length) {
-        lines.push("═══ " + theme.icon + " " + theme.label + " / " + theme.labelEn + " ═══");
-        lines.push("");
-        themeQuotes.forEach(q => {
-          lines.push(q.id + " — " + q.spanish);
-          lines.push("Context: " + q.context);
-          lines.push("Essay use: " + q.essayUse);
-          lines.push("");
-        });
-      }
-    });
-    downloadFile("volver_all_quotes_by_theme.txt", lines.join("\n"));
-  }
-
-  // Event listeners
-  themeSelect.addEventListener("change", () => {
-    state.theme = themeSelect.value;
-    renderQuoteList();
-    saveState();
+  var s=h("div",{"class":"sent"},html); card.appendChild(s);
+  var inputs=[].slice.call(s.querySelectorAll("input"));
+  var it={id:id, sec:sec, card:card, q:Q.es.replace(/\{\d+\}/g,"___"), pista:Q.pista, why:Q.why};
+  it.given=function(){ return inputs.map(function(x){return x.value.trim();}).join(" | "); };
+  it.setGiven=function(v){ (v||"").split(" | ").forEach(function(x,i){ if(inputs[i]) inputs[i].value=x; }); };
+  it.res=function(){ return inputs.map(function(x){ return judge(x.value, Q.gaps[+x.getAttribute("data-g")].acc); }); };
+  it.check=function(){ var r=it.res(); if(r.some(function(x){return x==="blank";})) { var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML="Fill in every gap first."; return "blank"; }
+    if(r.every(function(x){return x==="ok";})) return "ok"; if(r.every(function(x){return x==="ok"||x==="accent";})) return "accent"; return "no"; };
+  it.mark=function(){ var r=it.res(); inputs.forEach(function(x,i){ x.classList.toggle("okf",r[i]==="ok"); x.classList.toggle("badf",r[i]!=="ok"); }); };
+  it.lock=function(good){ inputs.forEach(function(x){ x.disabled=true; x.classList.toggle("okf",good); }); it.btns.forEach(function(b){ b.disabled=true; }); };
+  it.reveal=function(){ it.mark(); };
+  it.answerText=function(){ return "**"+Q.gaps.map(function(g){return g.acc[0];}).join(" … ")+"**"+(Q.gaps.some(function(g){return g.acc.length>1;})?" (also accepted: "+Q.gaps.map(function(g){return g.acc.slice(1).join(", ");}).filter(Boolean).join("; ")+")":"")+"."; };
+  it.ans=Q.gaps.map(function(g){return g.acc[0];}).join(" | ");
+  inputs.forEach(function(x){ x.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); it.run(); } }); });
+  controls(card,it); wire(it); return card;
+}
+function seeded(n,seed){ var a=[]; for(var i=0;i<n;i++) a.push(i); var x=seed; for(i=n-1;i>0;i--){ x=(x*9301+49297)%233280; var j=Math.floor(x/233280*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function mcItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  card.appendChild(h("div",null,'<span class="qn">'+n+' ·</span>'+fmt(Q.q)));
+  var box=h("div",{"class":"opts"}); var order=seeded(Q.opts.length, id.length*31+n*7), btns=[], sel=null;
+  order.forEach(function(k){ var b=h("button",{"class":"opt",type:"button"},fmt(Q.opts[k])); b._i=k; b.addEventListener("click",function(){ if(it.state.st) return; sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); it.run(); }); btns.push(b); box.appendChild(b); });
+  card.appendChild(box);
+  var it={id:id, sec:sec, card:card, q:Q.q, pista:Q.pista, why:Q.why};
+  it.given=function(){ return sel==null?"":Q.opts[sel]; };
+  it.setGiven=function(v){ var k=Q.opts.indexOf(v); if(k>=0){ sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); } };
+  it.check=function(){ return sel==null?"blank":(sel===Q.a?"ok":"no"); };
+  it.mark=function(){ btns.forEach(function(x){ if(x._i===sel) x.classList.add("wrong"); }); };
+  it.lock=function(){ btns.forEach(function(x){ x.disabled=true; if(x._i===Q.a) x.classList.add("right"); }); if(it.pb) it.pb.disabled=true; };
+  it.reveal=function(){};
+  it.answerText=function(){ return "**"+Q.opts[Q.a]+"**."; };
+  it.ans=Q.opts[Q.a];
+  var row=h("div",{"class":"ctl ui"}); var p=h("button",{"class":"g",type:"button"},"Pista"); it.pb=p;
+  p.addEventListener("click",function(){ if(it.state.st) return; var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>'+fmt(Q.pista||""); });
+  row.appendChild(p); card.appendChild(row);
+  wire(it); return card;
+}
+var WRITES=[];
+function covered(points, txt){ var d=" "+deacc(txt)+" "; return points.map(function(pt){ return {label:pt[0], ok: pt[1].some(function(k){ return d.indexOf(deacc(k))>=0; })}; }); }
+function wItem(sec, id, n, Q){
+  var card=h("div",{"class":"card reto"});
+  card.innerHTML='<div class="rt2 ui">'+(Q.label||"ESCRIBE")+'</div><p class="ui" style="margin:6px 0 4px;font-size:15px">'+fmt(Q.q)+'</p>';
+  S.w=S.w||{}; var t=h("textarea",{"aria-label":Q.label||"Escribe",style:"min-height:120px"}); t.value=S.w[id]||"";
+  t.addEventListener("input",function(){ S.w[id]=t.value; save(); });
+  card.appendChild(t);
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Comentarios"); row.appendChild(b); card.appendChild(row);
+  var fb=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(fb);
+  b.addEventListener("click",function(){
+    var txt=t.value.trim(), words=(txt.match(/[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+/g)||[]).length;
+    if(words<25){ fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>Write at least '+(Q.min||40)+' words first, then ask for comments. A strong answer covers:<ul class="check">'+Q.points.map(function(p){return "<li>"+esc(p[0])+"</li>";}).join("")+'</ul>'; return; }
+    var cv=covered(Q.points,txt), k=cv.filter(function(x){return x.ok;}).length;
+    fb.className="fb ui show "+(k>=Q.points.length-1?"okb":"hint");
+    fb.innerHTML='<span class="tag '+(k>=Q.points.length-1?"okt":"ht")+'">Comentarios</span>'+k+' of '+cv.length+' key points ('+words+' words).<ul class="check">'+cv.map(function(x){return '<li class="'+(x.ok?"on":"")+'">'+esc(x.label)+'</li>';}).join("")+'</ul><div class="why">The check looks for the key words of each point: a guide, not a mark.</div>'+(Q.model?'<details style="margin-top:8px"><summary>Una respuesta posible</summary><p style="margin:6px 0 0">'+fmt(Q.model)+'</p></details>':"");
   });
-
-  searchPracticeInput.addEventListener("input", () => {
-    renderQuoteList();
-  });
-
-  searchAllInput.addEventListener("input", () => {
-    renderQuoteList();
-  });
-
-  randomBtn.addEventListener("click", randomQuote);
-  checkBtn.addEventListener("click", checkAnswer);
-  hintBtn.addEventListener("click", showHint);
-  revealBtn.addEventListener("click", revealQuote);
-  masteredBtn.addEventListener("click", toggleMastered);
-  resetBtn.addEventListener("click", resetProgress);
-  downloadMasteredBtn.addEventListener("click", downloadMastered);
-  downloadAllBtn.addEventListener("click", downloadAll);
-
-  document.querySelectorAll(".accent-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      insertCharAtCursor(btn.dataset.char);
-    });
-  });
-
-  // Initialize
-  loadState();
-  initThemeSelect();
-  setThemeFromState();
-  updateStats();
-  renderQuoteList();
-  updatePracticeInfo();
+  WRITES.push({sec:sec,q:Q.q,get:function(){return t.value.trim();}});
+  return card;
+}
+var main=document.getElementById("main"), tabs=document.getElementById("tabs");
+D.sections.forEach(function(sx, si){
+  var id="s"+(si+1);
+  var s=h("section",{"class":"ex",id:id}); s.appendChild(h("h2",null,esc(sx.h2)));
+  if(sx.intro) s.appendChild(h("p",{"class":"how ui"},fmt(sx.intro)));
+  if(sx.rule) s.appendChild(h("div",{"class":"rule"},fmt(sx.rule)));
+  var n=0;
+  sx.items.forEach(function(Q,qi){ n++; if(Q.h3) s.appendChild(h("h3",null,esc(Q.h3)));
+    s.appendChild(Q.t==="mc" ? mcItem(id,id+"_"+qi,n,Q) : Q.t==="w" ? wItem(id,id+"_"+qi,n,Q) : gapItem(id,id+"_"+qi,n,Q)); });
+  var f=h("div",{"class":"secfoot ui"}), l=h("div"), r=h("div");
+  if(si>0) l.appendChild(h("button",{"class":"g",type:"button","data-go":"s"+si},"← Atrás"));
+  var rs=h("button",{"class":"g",type:"button"},"Reintentar esta sección");
+  rs.addEventListener("click",function(){ if(!rs._a){ rs._a=true; rs.textContent="Pulsa otra vez para borrar"; setTimeout(function(){ rs._a=false; rs.textContent="Reintentar esta sección"; },3000); return; }
+    ITEMS.filter(function(it){return it.sec===id;}).forEach(function(it){ delete S.it[it.id]; }); save(); location.reload(); });
+  l.appendChild(document.createTextNode(" ")); l.appendChild(rs);
+  if(si<D.sections.length-1) r.appendChild(h("button",{"class":"b",type:"button","data-go":"s"+(si+2)},"Siguiente →"));
+  else { var dl=h("button",{"class":"b",type:"button"},"Descargar mis respuestas"); dl.addEventListener("click",download); r.appendChild(dl); }
+  f.appendChild(l); f.appendChild(r); s.appendChild(f);
+  main.appendChild(s);
+  var tb=h("button",{type:"button",role:"tab","data-go":id},esc(sx.tab)+' <span class="n"></span>'); tabs.appendChild(tb);
+  SECS.push({id:id, el:s, tab:tb});
+});
+function totals(){ var tot=ITEMS.length, sc=0, first=0, done=0; ITEMS.forEach(function(it){ var st=it.state; if(st.st==="ok"){ sc++; done++; if(st.first) first++; } else if(st.st==="rev") done++; }); return {tot:tot,sc:sc,first:first,done:done}; }
+function refresh(){
+  var T=totals(); document.getElementById("sc").textContent=T.sc; document.getElementById("tot").textContent=T.tot; document.getElementById("first").textContent=T.first;
+  document.getElementById("bar").style.width=(T.tot?Math.round(100*T.sc/T.tot):0)+"%";
+  SECS.forEach(function(s){ var its=ITEMS.filter(function(it){return it.sec===s.id;}); var d=its.filter(function(it){return it.state.st;}).length, ok=its.filter(function(it){return it.state.st==="ok";}).length; s.tab.querySelector(".n").textContent=ok+"/"+its.length; s.tab.classList.toggle("done",d===its.length); });
+  publish();
+}
+function publish(){
+  try{ var T=totals(); var all=JSON.parse(localStorage.getItem("bba-scores")||"{}"); var f=decodeURIComponent(location.pathname.split("/").pop()||"index"); var prev=all[f]||{};
+    var rec={title:(document.title||"").slice(0,120), score:T.sc, total:T.tot, best:Math.max(T.sc,prev.best||0), attempts:(prev.attempts||0)+(S.pub?0:1), t:Date.now()};
+    var n=Math.max(0,T.done-(S.pubDone||0)); rec.ans=(prev.ans||0)+n; rec.lg={}; for(var k in (prev.lg||{})) rec.lg[k]=prev.lg[k];
+    var day=String(Math.floor(Date.now()/86400000)); if(n) rec.lg[day]=(rec.lg[day]||0)+n;
+    all[f]=rec; localStorage.setItem("bba-scores",JSON.stringify(all)); S.pub=true; S.pubDone=T.done; save(); }catch(e){}
+}
+function studentName(){ var nm=document.querySelector("#bba-kit .nm"); var v=nm&&nm.value.trim(); if(!v){ try{ v=localStorage.getItem("bba-name")||""; }catch(e){} } return v||""; }
+function download(){
+  var T=totals(), name=studentName(), L=[];
+  L.push(D.dlhead); L.push("Nombre: "+(name||"(sin nombre)")); L.push("Fecha: "+new Date().toLocaleString("es-ES")); L.push("Puntos: "+T.sc+" / "+T.tot+"  ·  a la primera: "+T.first); L.push("");
+  SECS.forEach(function(s){ L.push("== "+s.el.querySelector("h2").textContent+" ==");
+    ITEMS.filter(function(it){return it.sec===s.id;}).forEach(function(it,i){ var st=it.state;
+      var mark=st.st==="ok"?(st.first?"✓":"✓ (2.º intento)"):st.st==="rev"?"✗ → "+it.ans:"— sin responder";
+      L.push((i+1)+". "+it.q.replace(/\*\*/g,"").replace(/\s+/g," ").slice(0,160)); L.push("   Respuesta: "+(it.given()||"—")+"   ["+mark+"]"); });
+    WRITES.filter(function(w){return w.sec===s.id;}).forEach(function(w){ L.push("ESCRITO: "+w.q.replace(/\*\*/g,"")); L.push(w.get()||"—"); });
+    L.push(""); });
+  var blob=new Blob([L.join("\r\n")],{type:"text/plain;charset=utf-8"}); var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download=D.dlfile+(name||"sin_nombre").replace(/[^\wÁÉÍÓÚÑáéíóúñ-]+/g,"_")+".txt"; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },500);
+}
+function go(id){ SECS.forEach(function(s){ var on=s.id===id; s.el.classList.toggle("active",on); s.tab.setAttribute("aria-selected",on?"true":"false"); }); S.tab=id; save();
+  var nav=document.getElementById("tabs"); if(window.scrollY>nav.offsetTop) window.scrollTo({top:nav.offsetTop,behavior:"smooth"}); }
+document.addEventListener("click",function(e){ var b=e.target.closest("[data-go]"); if(b){ e.preventDefault(); go(b.getAttribute("data-go")); } });
+ITEMS.forEach(function(it){ it.restore(); });
+go(S.tab && document.getElementById(S.tab) ? S.tab : "s1"); refresh();
+window.LCDBA={items:ITEMS, totals:totals, judge:judge};
+})();
 </script>
-<script>window.BBA_KIT = {check:false};</script>
 <script src="bba-kit-es.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
 </body>

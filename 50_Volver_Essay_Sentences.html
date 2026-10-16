@@ -1,735 +1,306 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Volver - Práctica de frases para ensayo</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
-    <style>
-        :root {
-            --primary: #8e44ad;
-            --secondary: #3498db;
-            --success: #2ecc71;
-            --warning: #f39c12;
-            --danger: #e74c3c;
-            --light: #ecf0f1;
-            --dark: #2c3e50;
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: var(--dark);
-            line-height: 1.6;
-            padding: 20px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            padding: 30px;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            padding: 30px;
-            margin: -30px -30px 30px -30px;
-            border-radius: 0 0 15px 15px;
-        }
-        
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-        }
-        
-        .subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.4;
-        }
-        
-        .instructions {
-            background: var(--light);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            border-left: 5px solid var(--secondary);
-        }
-        
-        .instructions h2 {
-            color: var(--secondary);
-            margin-bottom: 10px;
-            font-size: 1.3rem;
-        }
-        
-        .instructions ul {
-            padding-left: 20px;
-        }
-        
-        .instructions li {
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-        }
-        
-        .progress-container {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            border: 1px solid #e0e0e0;
-        }
-        
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-weight: bold;
-            color: var(--dark);
-            font-size: 0.95rem;
-        }
-        
-        .progress-bar {
-            height: 18px;
-            background: #e0e0e0;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(to right, var(--secondary), var(--primary));
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-        
-        .question {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-            border: 1px solid #e0e0e0;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .question:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .question-number {
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.05rem;
-        }
-        
-        .sentence {
-            font-size: 1.05rem;
-            margin-bottom: 15px;
-            line-height: 1.8;
-        }
-        
-        .input-container {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-        
-        input {
-            min-width: 150px;
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-            flex: 1;
-        }
-        
-        input:focus {
-            outline: none;
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-        }
-        
-        button {
-            padding: 12px 18px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-        }
-        
-        .check-btn {
-            background: var(--secondary);
-            color: white;
-            flex: 1;
-        }
-        
-        .check-btn:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-        }
-        
-        .hint-btn {
-            background: var(--warning);
-            color: white;
-            flex: 1;
-        }
-        
-        .hint-btn:hover {
-            background: #e67e22;
-            transform: translateY(-2px);
-        }
-        
-        .hint {
-            background: #fff9e6;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            border-left: 4px solid var(--warning);
-            display: none;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-        
-        .hint.show {
-            display: block;
-        }
-        
-        .status {
-            font-weight: 500;
-            padding: 8px 12px;
-            border-radius: 6px;
-            margin-top: 10px;
-            display: inline-block;
-            font-size: 0.95rem;
-        }
-        
-        .correct {
-            background: rgba(46, 204, 113, 0.15);
-            color: #27ae60;
-        }
-        
-        .incorrect {
-            background: rgba(231, 76, 60, 0.15);
-            color: #c0392b;
-        }
-        
-        .attempts {
-            font-size: 0.9rem;
-            color: #7f8c8d;
-            font-style: italic;
-        }
-        
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .pdf-btn {
-            background: var(--primary);
-            color: white;
-            padding: 14px 25px;
-            font-size: 1rem;
-        }
-        
-        .pdf-btn:hover {
-            background: #9b59b6;
-            transform: translateY(-2px);
-        }
-        
-        .reset-btn {
-            background: var(--dark);
-            color: white;
-            padding: 14px 25px;
-            font-size: 1rem;
-        }
-        
-        .reset-btn:hover {
-            background: #34495e;
-            transform: translateY(-2px);
-        }
-        
-        .question.correct-border {
-            border: 2px solid var(--success);
-        }
-        
-        .question.incorrect-border {
-            border: 2px solid var(--danger);
-        }
-        
-        .completion-message {
-            text-align: center;
-            padding: 20px;
-            background: rgba(46, 204, 113, 0.1);
-            border-radius: 10px;
-            margin-top: 20px;
-            border: 2px dashed var(--success);
-            display: none;
-        }
-        
-        .completion-message.show {
-            display: block;
-        }
-        
-        .answer-reveal {
-            background: rgba(52, 152, 219, 0.1);
-            padding: 10px 15px;
-            border-radius: 6px;
-            margin-top: 10px;
-            color: var(--secondary);
-            border-left: 3px solid var(--secondary);
-            display: none;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-        
-        .answer-reveal.show {
-            display: block;
-        }
-        
-        .input-wrapper {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-            
-            header {
-                padding: 20px;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .input-container {
-                flex-direction: column;
-            }
-            
-            input {
-                width: 100%;
-            }
-            
-            .controls {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .pdf-btn, .reset-btn {
-                width: 100%;
-                text-align: center;
-            }
-            
-            .progress-header {
-                flex-direction: column;
-                gap: 5px;
-                align-items: flex-start;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volver · 50 frases para el ensayo</title>
+<meta name="description" content="A-Level Spanish: fifty essay sentences on Volver with the key verb, structure or connector missing, with pistas and explanations.">
+<style>
+:root{
+  --paper:#f6f1e7; --card:#fffdf8; --ink:#2a2320; --soft:#6a5a4c; --line:#dcd0bb;
+  --ox:#6e1f2a; --ox2:#8f3340; --oxs:#f4e4e4; --green:#1f4d3a; --gs:#e3efe8;
+  --gold:#a8843a; --golds:#f7efd9; --bad:#a23b2a; --bads:#fbe9e5; --ok:#226a43;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+.ui{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:22px 16px 160px}
+header{border-bottom:3px double var(--ox);padding-bottom:14px;margin-bottom:8px}
+.kicker{font:600 12px/1.2 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ox)}
+h1{font-size:31px;line-height:1.15;margin:6px 0 6px;color:var(--ox)}
+.lead{color:var(--soft);margin:0 0 4px;font:15px/1.55 system-ui,sans-serif}
+.score{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:10px;font:14px system-ui,sans-serif;color:var(--soft)}
+.score b{color:var(--ink);font-size:16px}
+.meter{flex:1 1 180px;height:8px;background:#e8dfcf;border-radius:99px;overflow:hidden;min-width:140px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#2f7a58);transition:width .4s}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 12px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+nav.tabs button{font:600 13.5px system-ui,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 12px;cursor:pointer;display:flex;gap:6px;align-items:center}
+nav.tabs button .n{font-weight:500;color:var(--soft);font-size:12px}
+nav.tabs button[aria-selected="true"]{background:var(--ox);border-color:var(--ox);color:#fff}
+nav.tabs button[aria-selected="true"] .n{color:#f1d7d9}
+nav.tabs button.done:not([aria-selected="true"]){border-color:var(--green);color:var(--green)}
+section.ex{display:none}
+section.ex.active{display:block}
+h2{font-size:24px;margin:4px 0 6px;color:var(--green)}
+h3{font:700 13px system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ox);margin:22px 0 8px}
+.how{font:15px/1.55 system-ui,sans-serif;color:var(--soft);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;position:relative}
+.card.ok{border-color:#9cc7ae;background:#fbfefc}
+.card.rev{border-color:#e3b6ad}
+.card .qn{font:700 13px system-ui,sans-serif;color:var(--ox);margin-right:6px}
+.quote{font-style:italic}
+blockquote{margin:2px 0 10px;padding:6px 0 6px 14px;border-left:3px solid var(--gold);font-style:italic;font-size:18px}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:10px}
+input[type=text],select,textarea{font:16px Georgia,serif;color:var(--ink);background:#fff;border:1px solid #bdae95;border-radius:7px;padding:7px 10px;max-width:100%}
+input[type=text]{width:15em}
+input.w8{width:8.5em} input.w6{width:7em}
+input.okf{border-color:var(--ok);background:#f2faf5} input.badf{border-color:var(--bad);background:var(--bads)}
+textarea{width:100%;min-height:200px;resize:vertical;line-height:1.6}
+button.b{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 13px;cursor:pointer;border:1px solid var(--ox);background:var(--ox);color:#fff}
+button.b:disabled{opacity:.45;cursor:default}
+button.g{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--green)}
+button.g:disabled{opacity:.45;cursor:default}
+.opts{display:grid;gap:7px;margin-top:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;font:15.5px/1.45 system-ui,sans-serif;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 12px;cursor:pointer;color:var(--ink)}
+.opt:before{content:"";flex:0 0 16px;height:16px;border:2px solid #b8a98f;border-radius:50%;margin-top:2px}
+.opt.sel{border-color:var(--ox);background:var(--oxs)}
+.opt.sel:before{border-color:var(--ox);background:radial-gradient(var(--ox) 45%,transparent 50%)}
+.opt.right{border-color:var(--ok);background:#eef8f2}
+.opt.wrong{border-color:var(--bad);background:var(--bads)}
+.opt:disabled{cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font:600 13px system-ui,sans-serif;border:1px solid #c9bba3;background:#fff;color:var(--soft);border-radius:999px;padding:6px 11px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.chip.core{outline:2px solid var(--ok);outline-offset:1px}
+.chip.acc{outline:2px dashed var(--gold);outline-offset:1px}
+.chip.wrongc{background:var(--bad);border-color:var(--bad);color:#fff}
+.chip:disabled{cursor:default}
+.fb{margin-top:10px;font:14.5px/1.55 system-ui,sans-serif;border-radius:8px;padding:9px 12px;display:none}
+.fb.show{display:block}
+.fb.okb{background:var(--gs);color:#163a2b}
+.fb.hint{background:var(--golds);color:#4d3c14}
+.fb.revb{background:var(--bads);color:#5a1d12}
+.fb .why{margin-top:6px;color:#2b2a26}
+.tag{display:inline-block;font:700 11px system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-right:6px}
+.tag.okt{background:var(--ok);color:#fff}.tag.ht{background:var(--gold);color:#fff}.tag.rt{background:var(--bad);color:#fff}
+.legend{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:14.5px/1.55 system-ui,sans-serif;margin-bottom:10px}
+.legend b{color:var(--ox)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}
+.who{font:13px system-ui,sans-serif;color:var(--soft)}
+.tr{line-height:2.25;font-size:17px;background:#faf6ee;border-left:3px solid var(--gold);padding:6px 12px;border-radius:4px;margin-top:6px}
+.secfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0 6px;flex-wrap:wrap}
+.reto{border:2px solid var(--ox);background:#fff}
+.reto .rt2{font:700 12px system-ui,sans-serif;letter-spacing:.16em;color:var(--ox)}
+.check li{margin:4px 0;list-style:none;padding-left:0}
+.check{padding:0;margin:10px 0 0;font:14.5px/1.5 system-ui,sans-serif}
+.check li:before{content:"○ ";color:#b8a98f;font-weight:700}
+.check li.on:before{content:"● ";color:var(--ok)}
+.check li.warn:before{content:"● ";color:var(--bad)}
+.qcheck{font:14px/1.5 system-ui,sans-serif;margin-top:8px}
+.qcheck div{padding:3px 0}
+.qcheck .y{color:var(--ok)} .qcheck .n{color:var(--bad)}
+.titles label{display:flex;gap:8px;align-items:flex-start;font:15.5px/1.45 Georgia,serif;margin:6px 0;cursor:pointer}
+.tips{font:14.5px/1.55 system-ui,sans-serif;background:var(--oxs);border-radius:8px;padding:10px 12px;margin:10px 0}
+.res{font:15px/1.6 system-ui,sans-serif}
+.res table{border-collapse:collapse;width:100%;margin:8px 0}
+.res td,.res th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+.src{font:13px/1.5 system-ui,sans-serif;color:var(--soft);margin-top:22px}
+@media (max-width:640px){h1{font-size:25px}.cols{grid-template-columns:1fr}input[type=text]{width:100%}input.w8,input.w6{width:8em}nav.tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}nav.tabs::-webkit-scrollbar{display:none}nav.tabs button{padding:6px 10px;font-size:12.5px;flex:0 0 auto;white-space:nowrap}}
+@media print{nav.tabs,.secfoot,button{display:none!important}section.ex{display:block!important}}
+</style>
+<style>
+.sent{font-size:18px;line-height:2.1}
+.sent input{width:9em;font-size:16px;padding:4px 8px;margin:0 2px}
+.en{font:14px/1.45 system-ui,sans-serif;color:var(--soft);margin:0 0 4px}
+.cue{font:13px system-ui,sans-serif;color:var(--soft)}
+.rule{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:8px;padding:10px 14px;font:14.5px/1.55 system-ui,sans-serif;margin:6px 0 12px}
+</style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Volver – Práctica de frases</h1>
-            <p class="subtitle">Completa cada frase con la palabra o expresión correcta. Tendrás dos intentos para cada frase.</p>
-        </header>
-        
-        <div class="instructions">
-            <h2>Instrucciones:</h2>
-            <ul>
-                <li>Completa cada frase con la palabra o expresión correcta.</li>
-                <li>Tienes <strong>dos intentos</strong> para cada pregunta.</li>
-                <li>Después de dos intentos incorrectos, se revelará la respuesta correcta.</li>
-                <li>Utiliza el botón <strong>"Mostrar pista"</strong> si necesitas ayuda.</li>
-                <li>Tu progreso se guarda automáticamente.</li>
-                <li>Al finalizar, genera un PDF con tus resultados usando el botón <strong>"Generar PDF"</strong>.</li>
-            </ul>
-        </div>
-        
-        <div class="progress-container">
-            <div class="progress-header">
-                <span>Progreso: <span id="progress-text">0%</span></span>
-                <span>Respuestas correctas: <span id="score-text">0/50</span></span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill"></div>
-            </div>
-        </div>
-        
-        <div id="questions-container"></div>
-        
-        <div class="completion-message" id="completion-message">
-            <h2>¡Felicidades! Has completado todas las preguntas.</h2>
-            <p>Genera tu reporte en PDF para ver tus resultados detallados.</p>
-        </div>
-        
-        <div class="controls">
-            <button class="pdf-btn" id="generate-pdf">Generar PDF con resultados</button>
-            <button class="reset-btn" id="reset-btn">Reiniciar práctica</button>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Questions data with hints and answers - Grammar fixed
-            const questions = [
-                { id: 1, text: "La película destaca la importancia de la solidaridad femenina, lo cual se ve cuando Raimunda ________ a su madre.", hint: "Hint: This verb means 'reconciles' or 'makes peace' and is in the present tense.", answer: "se reconcilia, concilia, se arregla, se encuentra" },
-                { id: 2, text: "Es esencial que se ________ el contexto social de la España rural para entender los personajes.", hint: "Hint: This verb means 'to consider' and is in the present subjunctive.", answer: "considere, tome en cuenta" },
-                { id: 3, text: "Una escena que ________ la superstición es cuando Sole ve a su madre por primera vez.", hint: "Hint: This verb means 'represents' and is in the present indicative.", answer: "representa" },
-                { id: 4, text: "Raimunda actúa como si ________ todo bajo control, a pesar de las dificultades.", hint: "Hint: This verb means 'to have' and is in the imperfect subjunctive.", answer: "tuviera" },
-                { id: 5, text: "Volver muestra una sociedad en la que las mujeres ________ entre sí para sobrevivir.", hint: "Hint: This reflexive verb means 'help each other' and is in the present indicative.", answer: "se ayudan, se apoyan" },
-                { id: 6, text: "Aunque ________ muchos secretos, las protagonistas logran mantenerse unidas.", hint: "Hint: This verb means 'there are' and is in the present subjunctive.", answer: "haya" },
-                { id: 7, text: "Es probable que Almodóvar ________ incluir elementos sobrenaturales para reforzar el vínculo madre-hija.", hint: "Hint: This verb means 'to want' and is in the present subjunctive.", answer: "quiera" },
-                { id: 8, text: "La relación entre Raimunda y Paula evoluciona hasta que ________ casi como hermanas.", hint: "Hint: This verb means 'to become' and is in the present subjunctive.", answer: "sean, vuelvan ser, se conviertan" },
-                { id: 9, text: "Es importante que el espectador ________ la transformación de Raimunda como símbolo de resiliencia.", hint: "Hint: This verb means 'to understand' and is in the present subjunctive.", answer: "comprenda" },
-                { id: 10, text: "La cámara en primer plano enfoca constantemente los rostros para que ________ las emociones con intensidad.", hint: "Hint: This verb means 'to perceive' and is in the present subjunctive.", answer: "percibamos, veamos, observemos, comprendamos" },
-                { id: 11, text: "Almodóvar utiliza colores vivos para que las escenas ________ un aire más teatral.", hint: "Hint: This verb means 'to have' and is in the present subjunctive.", answer: "tengan" },
-                { id: 12, text: "No cabe duda de que el director ________ homenajear a las mujeres de su infancia.", hint: "Hint: This verb means 'to want' and is in the present indicative.", answer: "quiere" },
-                { id: 13, text: "A pesar de que Irene ________ durante años, Raimunda logra perdonarla.", hint: "Hint: This verb means 'to be absent' and is in the imperfect subjunctive.", answer: "estuviera ausente, se fuera" },
-                { id: 14, text: "Me sorprende que Irene ________ viva todo este tiempo sin ser descubierta.", hint: "Hint: This verb means 'to remain' and is in the present subjunctive.", answer: "permanezca, fuera" },
-                { id: 15, text: "Lo que más me llama la atención es que las mujeres ________ con tanta entereza.", hint: "Hint: This verb means 'to act' and is in the present subjunctive.", answer: "actúen" },
-                { id: 16, text: "Es difícil que los hombres en la película ________ un papel relevante.", hint: "Hint: This verb phrase means 'to play a role' and is in the present subjunctive.", answer: "desempeñen, tengan" },
-                { id: 17, text: "Es posible que la escena del asesinato ________ la más impactante de la película.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" },
-                { id: 18, text: "Volver no solo cuenta una historia familiar, sino que también ________ una crítica social.", hint: "Hint: This verb means 'to represent' and is in the present indicative.", answer: "representa" },
-                { id: 19, text: "Almodóvar quiere que el espectador ________ empatía hacia sus personajes.", hint: "Hint: This verb means 'to feel' and is in the present subjunctive.", answer: "sienta" },
-                { id: 20, text: "El hecho de que Irene ________ en casa de Sole demuestra la normalización de lo extraño.", hint: "Hint: This verb means 'to live' and is in the present subjunctive.", answer: "viva" },
-                { id: 21, text: "No es que la superstición ________ el tema principal, pero sí influye en el tono del largometraje.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" },
-                { id: 22, text: "Paula actúa con naturalidad cuando confiesa que ________ a su padre.", hint: "Hint: This verb means 'to kill' and is in the preterite tense.", answer: "mató" },
-                { id: 23, text: "Se puede argumentar que Raimunda ________ una heroína moderna.", hint: "Hint: This verb means 'to be' and is in the present indicative.", answer: "es" },
-                { id: 24, text: "Es necesario que los espectadores ________ el simbolismo del río y el agua.", hint: "Hint: This verb means 'to understand' and is in the present subjunctive.", answer: "comprendan, entiendan, perciban, capten" },
-                { id: 25, text: "Aunque ________ aspectos inverosímiles, la historia resulta creíble.", hint: "Hint: This verb means 'there are' and is in the present subjunctive.", answer: "haya" },
-                { id: 26, text: "Una escena que me parece emotiva es cuando Raimunda ________ la canción 'Volver'.", hint: "Hint: This verb means 'to sing' and is in the present indicative.", answer: "canta" },
-                { id: 27, text: "Es lógico que Almodóvar ________ referencias a la muerte y la maternidad.", hint: "Hint: This verb means 'to include' and is in the present subjunctive.", answer: "incluya" },
-                { id: 28, text: "La película sugiere que el pasado ________ oculto pero siempre regresa.", hint: "Hint: This verb means 'to remain' and is in the present indicative.", answer: "permanece, queda" },
-                { id: 29, text: "A menudo, los planos utilizados por Almodóvar ________ el aislamiento de los personajes femeninos.", hint: "Hint: This verb means 'to highlight' and is in the present indicative.", answer: "destacan, muestran, indican, subrayan" },
-                { id: 30, text: "Irene vuelve no solo para pedir perdón, sino para que ________ justicia.", hint: "Hint: This verb means 'to do' and is in the present subjunctive.", answer: "se haga, haya, se establezca" },
-                { id: 31, text: "Volver no sería lo mismo si no ________ ambientada en La Mancha.", hint: "Hint: This verb phrase means 'were set' and is in the imperfect subjunctive.", answer: "estuviera, fuera" },
-                { id: 32, text: "Se nota que Almodóvar ________ influencias del cine clásico español e italiano.", hint: "Hint: This verb means 'to have' and is in the present indicative.", answer: "tiene" },
-                { id: 33, text: "Es evidente que los hombres ________ ausentes o problemáticos.", hint: "Hint: This verb means 'to be' and is in the present indicative.", answer: "son" },
-                { id: 34, text: "Una de las técnicas que el director ________ es el uso del color rojo.", hint: "Hint: This verb means 'to use' and is in the present indicative.", answer: "utiliza, usa, se sirve, emplea" },
-                { id: 35, text: "Es una película que ________ entre lo real y lo fantástico.", hint: "Hint: This verb means 'to oscillate, to move' and is in the present indicative.", answer: "oscila, se mueve" },
-                { id: 36, text: "El título sugiere que todo ________ a repetirse: los secretos, los abusos, el perdón.", hint: "Hint: This verb means 'to come back' and is in the present indicative.", answer: "vuelve, continua, sigue" },
-                { id: 37, text: "Es significativo que la historia ________ contada desde el punto de vista femenino.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" },
-                { id: 38, text: "No pienso que la historia ________ simple; al contrario, tiene muchas capas.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" },
-                { id: 39, text: "Es probable que Raimunda ________ la figura más compleja de la película.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" },
-                { id: 40, text: "No me extraña que Volver ________ tantos premios.", hint: "Hint: This verb means 'to win' and is in the present subjunctive.", answer: "haya ganado, ganara" },
-                { id: 41, text: "Parece mentira que Irene ________ el asesinato sin remordimientos.", hint: "Hint: This verb means 'to commit' and is in the present subjunctive.", answer: "cometa" },
-                { id: 42, text: "Me emociona que las mujeres ________ fuerza en la adversidad.", hint: "Hint: This verb means 'to find' and is in the present subjunctive.", answer: "encuentren" },
-                { id: 43, text: "Sole actúa como si no ________ sorprendida por la presencia de su madre.", hint: "Hint: This verb means 'to be' and is in the imperfect subjunctive.", answer: "estuviera" },
-                { id: 44, text: "Es importante destacar que Raimunda ________ el rol de madre y padre.", hint: "Hint: This verb phrase means 'fulfills/takes the role' and is in the present indicative.", answer: "desempeña, toma" },
-                { id: 45, text: "La música tradicional hace que la película ________ aún más arraigada en su cultura.", hint: "Hint: This verb means 'to feel' and is in the present subjunctive.", answer: "se sienta" },
-                { id: 46, text: "Es sorprendente que Paula ________ tan poco afectada por los eventos traumáticos.", hint: "Hint: This verb means 'to seem' and is in the present subjunctive.", answer: "parezca" },
-                { id: 47, text: "Uno de los temas más potentes es que el pasado siempre ________ presente.", hint: "Hint: This verb means 'to be' and is in the present indicative.", answer: "está" },
-                { id: 48, text: "En mi opinión, es imprescindible que el espectador ________ el simbolismo.", hint: "Hint: This verb means 'to capture/understand' and is in the present subjunctive.", answer: "capte, comprenda, entienda" },
-                { id: 49, text: "Me parece que Almodóvar ________ muy bien el equilibrio entre drama y humor.", hint: "Hint: This verb means 'to handle' and is in the present indicative.", answer: "maneja" },
-                { id: 50, text: "No dudo que Volver ________ una obra profundamente femenina.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" }
-            ];
-
-            let userAnswers = Array(questions.length).fill().map(() => ({
-                attempts: 0,
-                correct: false,
-                answers: []
-            }));
-            
-            // Initialize the application
-            function init() {
-                renderQuestions();
-                updateProgress();
-                setupEventListeners();
-            }
-            
-            // Render all questions
-            function renderQuestions() {
-                const container = document.getElementById('questions-container');
-                container.innerHTML = '';
-                
-                questions.forEach((q, index) => {
-                    const questionEl = document.createElement('div');
-                    questionEl.className = 'question';
-                    
-                    // Create input field
-                    const inputHtml = `<input type="text" class="answer-input" data-id="${q.id}" 
-                        placeholder="escribe aquí" value="${userAnswers[index].answers.length > 0 ? 
-                        userAnswers[index].answers[userAnswers[index].answers.length - 1] : ''}">`;
-                    
-                    // Create sentence with proper grammar structure
-                    let sentenceHtml = q.text;
-                    
-                    // Special handling for questions that need a preposition
-                    if (q.id === 1) {
-                        sentenceHtml = `La película destaca la importancia de la solidaridad femenina, lo cual se ve cuando Raimunda <span class="input-wrapper">${inputHtml} a</span> su madre.`;
-                    } else {
-                        sentenceHtml = q.text.replace('________', inputHtml);
-                    }
-                    
-                    questionEl.innerHTML = `
-                        <div class="question-number">
-                            <span>Pregunta ${q.id}</span>
-                            <span class="attempts">Intentos: ${userAnswers[index].attempts}/2</span>
-                        </div>
-                        <div class="sentence">${sentenceHtml}</div>
-                        <div class="input-container">
-                            <button class="check-btn" data-id="${q.id}">Comprobar respuesta</button>
-                            <button class="hint-btn" data-id="${q.id}">Mostrar pista</button>
-                        </div>
-                        <div class="hint" data-id="${q.id}">${q.hint}</div>
-                        <div class="status" data-id="${q.id}"></div>
-                        <div class="answer-reveal" data-id="${q.id}">Respuesta correcta: <strong>${q.answer}</strong></div>
-                    `;
-                    container.appendChild(questionEl);
-                    
-                    // Get the input and buttons for this question
-                    const input = questionEl.querySelector('.answer-input');
-                    const checkBtn = questionEl.querySelector('.check-btn');
-                    const statusEl = questionEl.querySelector('.status');
-                    
-                    // Disable input if already answered correctly or used both attempts
-                    if (userAnswers[index].correct || userAnswers[index].attempts >= 2) {
-                        input.disabled = true;
-                        checkBtn.disabled = true;
-                        checkBtn.textContent = userAnswers[index].correct ? '✓ Correcto' : '✗ Incorrecto';
-                        checkBtn.style.background = userAnswers[index].correct ? 'var(--success)' : 'var(--danger)';
-                    }
-                    
-                    // Show status if it exists
-                    if (userAnswers[index].answers.length > 0) {
-                        const lastAnswer = userAnswers[index].answers[userAnswers[index].answers.length - 1];
-                        const possibleAnswers = q.answer.split(',').map(a => a.trim().toLowerCase());
-                        const isCorrect = possibleAnswers.includes(lastAnswer.toLowerCase());
-                        
-                        if (isCorrect) {
-                            statusEl.textContent = `✓ Correcto!`;
-                            statusEl.className = 'status correct';
-                            questionEl.classList.add('correct-border');
-                        } else if (userAnswers[index].attempts >= 2) {
-                            statusEl.textContent = `✗ Incorrecto.`;
-                            statusEl.className = 'status incorrect';
-                            questionEl.classList.add('incorrect-border');
-                            
-                            // Show correct answer after 2 attempts
-                            const answerReveal = questionEl.querySelector('.answer-reveal');
-                            answerReveal.classList.add('show');
-                        } else {
-                            statusEl.textContent = `✗ Inténtalo de nuevo. Te queda ${2 - userAnswers[index].attempts} intento${userAnswers[index].attempts === 1 ? '' : 's'}.`;
-                            statusEl.className = 'status incorrect';
-                        }
-                    }
-                });
-            }
-            
-            // Update progress bar and score
-            function updateProgress() {
-                const answeredCount = userAnswers.filter(a => a.attempts > 0).length;
-                const correctCount = userAnswers.filter(a => a.correct).length;
-                const progress = (answeredCount / questions.length) * 100;
-                
-                document.getElementById('progress-text').textContent = `${Math.round(progress)}%`;
-                document.getElementById('score-text').textContent = `${correctCount}/${questions.length}`;
-                document.getElementById('progress-fill').style.width = `${progress}%`;
-                
-                // Show completion message if all questions answered
-                if (answeredCount === questions.length) {
-                    document.getElementById('completion-message').classList.add('show');
-                }
-            }
-            
-            // Check answer for a question
-            function checkAnswer(questionId) {
-                const index = questionId - 1;
-                const input = document.querySelector(`.answer-input[data-id="${questionId}"]`);
-                const answer = input.value.trim();
-                
-                if (!answer) return;
-                
-                const question = questions[index];
-                const userAnswer = userAnswers[index];
-                
-                // If already answered correctly or used both attempts, do nothing
-                if (userAnswer.correct || userAnswer.attempts >= 2) return;
-                
-                // Record the attempt
-                userAnswer.attempts++;
-                userAnswer.answers.push(answer);
-                
-                // Check if answer is correct
-                const possibleAnswers = question.answer.split(',').map(a => a.trim().toLowerCase());
-                const isCorrect = possibleAnswers.includes(answer.toLowerCase());
-                
-                if (isCorrect) {
-                    userAnswer.correct = true;
-                }
-                
-                // Update UI
-                renderQuestions();
-                updateProgress();
-            }
-            
-            // Show hint for a question
-            function showHint(questionId) {
-                const hint = document.querySelector(`.hint[data-id="${questionId}"]`);
-                hint.classList.toggle('show');
-            }
-            
-            // Generate PDF report
-            function generatePDF() {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
-                
-                // Title
-                doc.setFontSize(20);
-                doc.text("Resultados - Volver – Práctica de frases", 105, 20, null, null, 'center');
-                doc.setFontSize(12);
-                doc.text("Fecha: " + new Date().toLocaleDateString(), 105, 28, null, null, 'center');
-                
-                // Summary statistics
-                const answeredCount = userAnswers.filter(a => a.attempts > 0).length;
-                const correctCount = userAnswers.filter(a => a.correct).length;
-                const incorrectCount = answeredCount - correctCount;
-                const unansweredCount = questions.length - answeredCount;
-                const score = Math.round((correctCount / questions.length) * 100);
-                
-                doc.setFontSize(14);
-                doc.text("Resumen de resultados", 20, 40);
-                doc.setFontSize(11);
-                doc.text(`Preguntas totales: ${questions.length}`, 20, 50);
-                doc.text(`Respuestas correctas: ${correctCount} (${score}%)`, 20, 60);
-                doc.text(`Respuestas incorrectas: ${incorrectCount}`, 20, 70);
-                doc.text(`Preguntas sin contestar: ${unansweredCount}`, 20, 80);
-                
-                // Detailed results table
-                doc.setFontSize(14);
-                doc.text("Detalle de respuestas", 20, 95);
-                
-                const tableData = [];
-                questions.forEach((q, index) => {
-                    const userAnswer = userAnswers[index];
-                    const lastAnswer = userAnswer.answers.length > 0 ? userAnswer.answers[userAnswer.answers.length - 1] : '';
-                    const status = userAnswer.correct ? 'Correcto' : 
-                                  userAnswer.attempts >= 2 ? 'Incorrecto' : 'No contestada';
-                    
-                    // Special handling for question 1 to show proper grammar
-                    let userSentence = q.text;
-                    if (q.id === 1) {
-                        userSentence = `La película destaca la importancia de la solidaridad femenina, lo cual se ve cuando Raimunda ${lastAnswer || '________'} a su madre.`;
-                    } else {
-                        userSentence = q.text.replace('________', lastAnswer || '________');
-                    }
-                    
-                    tableData.push([
-                        q.id,
-                        userSentence,
-                        q.answer,
-                        status
-                    ]);
-                });
-                
-                doc.autoTable({
-                    startY: 100,
-                    head: [['Pregunta', 'Tu respuesta', 'Respuesta correcta', 'Estado']],
-                    body: tableData,
-                    theme: 'grid',
-                    headStyles: { fillColor: [142, 68, 173] },
-                    styles: { fontSize: 9, cellPadding: 3, overflow: 'linebreak' },
-                    columnStyles: {
-                        0: { cellWidth: 15 },
-                        1: { cellWidth: 60 },
-                        2: { cellWidth: 50 },
-                        3: { cellWidth: 25 }
-                    },
-                    margin: { left: 15 }
-                });
-                
-                // Save the PDF
-                doc.save(`Resultados_Volver_${new Date().toISOString().slice(0,10)}.pdf`);
-            }
-            
-            // Reset all answers
-            function resetAnswers() {
-                if (confirm('¿Estás seguro de que quieres reiniciar toda la práctica? Se perderán todas tus respuestas.')) {
-                    userAnswers = Array(questions.length).fill().map(() => ({
-                        attempts: 0,
-                        correct: false,
-                        answers: []
-                    }));
-                    renderQuestions();
-                    updateProgress();
-                    document.getElementById('completion-message').classList.remove('show');
-                }
-            }
-            
-            // Set up event listeners using delegation
-            function setupEventListeners() {
-                // Check answer buttons
-                document.addEventListener('click', function(e) {
-                    if (e.target && e.target.classList.contains('check-btn')) {
-                        const questionId = parseInt(e.target.dataset.id);
-                        checkAnswer(questionId);
-                    }
-                });
-                
-                // Hint buttons
-                document.addEventListener('click', function(e) {
-                    if (e.target && e.target.classList.contains('hint-btn')) {
-                        const questionId = parseInt(e.target.dataset.id);
-                        showHint(questionId);
-                    }
-                });
-                
-                // Enter key in input fields
-                document.addEventListener('keypress', function(e) {
-                    if (e.target && e.target.classList.contains('answer-input') && e.key === 'Enter') {
-                        const questionId = parseInt(e.target.dataset.id);
-                        checkAnswer(questionId);
-                    }
-                });
-                
-                // Generate PDF button
-                document.getElementById('generate-pdf').addEventListener('click', generatePDF);
-                
-                // Reset button
-                document.getElementById('reset-btn').addEventListener('click', resetAnswers);
-            }
-            
-            // Initialize the app
-            init();
-        });
-    </script>
-<script>window.BBA_KIT = {check:false};</script>
+<div class="wrap">
+<header>
+  <div class="kicker">Película · Redacción</div>
+  <h1>Volver — 50 frases para el ensayo</h1>
+  <p class="lead">Fifty sentences you could write in an essay on Volver, each with one key word or structure missing. Every sentence is true to the film. Use the English cue, type the form and press <b>Enter</b> or « Comprobar ». Spelling and accents count. If you are wrong the first time you get a <i>pista</i>; the second time you see the answer and why. Your work saves itself on this device.</p>
+  <div class="score" aria-live="polite"><span>Puntos <b id="sc">0</b> / <b id="tot">0</b></span><span>a la primera <b id="first">0</b></span><div class="meter"><i id="bar"></i></div></div>
+</header>
+<nav class="tabs" role="tablist" aria-label="Ejercicios" id="tabs"></nav>
+<main id="main"></main>
+<p class="src">Dialogue: Pedro Almodóvar, <i>Volver</i> (2006), short extracts quoted for study.</p>
+</div>
+<script>window.BBA_KIT = {check:false, download:false, save:false, enter:false};</script>
+<script>var D = {"key": "volver-50-v2", "dlhead": "VOLVER — 50 FRASES PARA EL ENSAYO", "dlfile": "Volver_50_frases_", "sections": [{"tab": "1 · Verbos de análisis", "h2": "1 · Verbos para analizar", "intro": "Replace “shows” with the precise verb in the cue.", "items": [{"t": "gap", "en": null, "es": "El congelador donde Raimunda esconde a Paco {0} el peso del secreto familiar.", "gaps": [{"acc": ["simboliza", "representa"], "cue": "symbolises"}], "pista": "An object standing for an idea.", "why": "**simboliza**."}, {"t": "gap", "en": null, "es": "La frase «tiene los ojos de tu padre» {0} el incesto mucho antes de que se descubra.", "gaps": [{"acc": ["anticipa", "presagia", "anuncia", "prefigura"], "cue": "foreshadows"}], "pista": "It points forward.", "why": "**anticipa**."}, {"t": "gap", "en": null, "es": "Raimunda {0} la fuerza y la capacidad de supervivencia de las mujeres de La Mancha.", "gaps": [{"acc": ["encarna", "personifica", "representa"], "cue": "embodies"}], "pista": "A character as the body of an idea.", "why": "**encarna**."}, {"t": "gap", "en": null, "es": "Con el programa de televisión, Almodóvar {0} la explotación del dolor ajeno.", "gaps": [{"acc": ["denuncia", "critica", "satiriza"], "cue": "denounces"}], "pista": "A critical verb.", "why": "**denuncia**."}, {"t": "gap", "en": null, "es": "La canción «Volver» {0} el miedo a reencontrarse con el pasado.", "gaps": [{"acc": ["expresa", "evoca", "refleja", "transmite"], "cue": "expresses"}], "pista": "What does the song put into words?", "why": "**expresa** (evoca)."}, {"t": "gap", "en": null, "es": "El viento solano {0} la sensación de locura y de amenaza en el pueblo.", "gaps": [{"acc": ["intensifica", "refuerza", "acentúa"], "cue": "intensifies"}], "pista": "Makes stronger.", "why": "**intensifica**."}, {"t": "gap", "en": null, "es": "El final en el pueblo {0} la reconciliación entre madre e hija.", "gaps": [{"acc": ["sella", "confirma", "consolida"], "cue": "seals"}], "pista": "It confirms and closes.", "why": "**sella** (confirma)."}, {"t": "gap", "en": null, "es": "Los primeros planos {0} el dolor contenido de Raimunda.", "gaps": [{"acc": ["revelan", "muestran", "captan", "subrayan"], "cue": "reveal"}], "pista": "Plural subject.", "why": "**revelan**."}, {"t": "gap", "en": null, "es": "El humor {0} la tensión de las escenas más duras.", "gaps": [{"acc": ["alivia", "suaviza", "atenúa", "rebaja"], "cue": "relieves"}], "pista": "Makes it lighter.", "why": "**alivia**."}, {"t": "gap", "en": null, "es": "La escena del cementerio {0} el tono de toda la película.", "gaps": [{"acc": ["establece", "marca", "fija"], "cue": "sets"}], "pista": "From the very beginning.", "why": "**establece**."}]}, {"tab": "2 · Subjuntivo", "h2": "2 · El subjuntivo en el comentario", "intro": "Judgements, possibilities and purposes take the subjunctive; certainties take the indicative.", "items": [{"t": "gap", "en": null, "es": "Es significativo que Almodóvar {0} la película en su propia tierra, La Mancha.", "gaps": [{"acc": ["sitúe", "ambiente", "localice", "situara", "ambientara"], "cue": "set"}], "pista": "A judgement about the director's choice.", "why": "Es significativo que → **sitúe** (ambiente)."}, {"t": "gap", "en": null, "es": "No es casual que la película {0} y termine en el pueblo.", "gaps": [{"acc": ["empiece", "comience"], "cue": "begin"}], "pista": "Empezar: e → ie, and z → c before e.", "why": "**empiece**."}, {"t": "gap", "en": null, "es": "Almodóvar hace que el espectador {0} a Irene por un fantasma durante media película.", "gaps": [{"acc": ["tome"], "cue": "take"}], "pista": "Hacer que + another subject.", "why": "**tome**."}, {"t": "gap", "en": null, "es": "Es posible que Paula no {0} nunca toda la verdad sobre su padre.", "gaps": [{"acc": ["conozca", "sepa"], "cue": "know"}], "pista": "Possibility.", "why": "**conozca / sepa**."}, {"t": "gap", "en": null, "es": "Es evidente que Raimunda {0} a su hija por encima de todo.", "gaps": [{"acc": ["protege"], "cue": "protect"}], "pista": "A certainty.", "why": "Es evidente que → indicative: **protege**."}, {"t": "gap", "en": null, "es": "No creo que Irene {0} perdón para su crimen.", "gaps": [{"acc": ["busque", "pida"], "cue": "look for"}], "pista": "Careful: think about what Irene says she came back for.", "why": "**busque** (subjunctive). In fact she says «He vuelto para pedirte perdón»: forgiveness for not seeing the abuse."}, {"t": "gap", "en": null, "es": "Raimunda miente para que nadie {0} a Paula.", "gaps": [{"acc": ["culpe", "acuse", "detenga"], "cue": "blame"}], "pista": "Para que + another subject.", "why": "**culpe**."}, {"t": "gap", "en": null, "es": "Sole actúa como si su madre {0} una inmigrante rusa.", "gaps": [{"acc": ["fuera", "fuese"], "cue": "be"}], "pista": "Como si → ?", "why": "**fuera / fuese**."}, {"t": "gap", "en": null, "es": "Me sorprende que la policía nunca {0} el incendio.", "gaps": [{"acc": ["investigara", "investigase", "haya investigado"], "cue": "investigate"}], "pista": "Present emotion about a past fact.", "why": "**investigara** (haya investigado). Irene: «No podía imaginarme que nadie investigaría»."}, {"t": "gap", "en": null, "es": "No cabe duda de que Volver {0} un homenaje a las mujeres del pueblo de Almodóvar.", "gaps": [{"acc": ["es"], "cue": "be"}], "pista": "Certainty.", "why": "**es** (indicative)."}]}, {"tab": "3 · Conectores", "h2": "3 · Conectores y matices", "intro": "Choose the connector that fits the logic.", "items": [{"t": "gap", "en": null, "es": "Raimunda esconde un cadáver; {0}, monta un negocio con éxito.", "gaps": [{"acc": ["sin embargo", "no obstante", "aun así"], "cue": "nevertheless"}], "pista": "Contrast.", "why": "**sin embargo**."}, {"t": "gap", "en": null, "es": "Paco intenta abusar de Paula; {0}, ella lo mata.", "gaps": [{"acc": ["por consiguiente", "por lo tanto", "en consecuencia", "por eso", "así que"], "cue": "consequently"}], "pista": "Consequence.", "why": "**por consiguiente**."}, {"t": "gap", "en": null, "es": "Irene no solo vuelve para pedir perdón, {0} también para cuidar a Agustina.", "gaps": [{"acc": ["sino"], "cue": "but"}], "pista": "No solo… ___ también.", "why": "**sino**."}, {"t": "gap", "en": null, "es": "Raimunda lo resuelve todo sola, {0} Sole necesita ayuda para todo.", "gaps": [{"acc": ["mientras que", "en cambio"], "cue": "whereas"}], "pista": "Two sisters, two ways.", "why": "**mientras que**."}, {"t": "gap", "en": null, "es": "Paula es hija y hermana de Raimunda; {0}, es fruto del incesto.", "gaps": [{"acc": ["es decir", "o sea"], "cue": "that is to say"}], "pista": "Reformulation.", "why": "**es decir**."}, {"t": "gap", "en": null, "es": "{0} su crimen, Irene recupera el cariño de sus hijas.", "gaps": [{"acc": ["A pesar de", "Pese a"], "cue": "Despite"}], "pista": "Followed by a noun.", "why": "**A pesar de**."}, {"t": "gap", "en": null, "es": "{0} Agustina sabe muchas cosas, prefiere no hablar en la televisión.", "gaps": [{"acc": ["Aunque", "Si bien", "A pesar de que"], "cue": "Although"}], "pista": "A concession with a verb.", "why": "**Aunque** + fact."}, {"t": "gap", "en": null, "es": "{0}, la película trata de la muerte; por otro, celebra la vida.", "gaps": [{"acc": ["Por un lado"], "cue": "On the one hand"}], "pista": "Pairs with “por otro”.", "why": "**Por un lado**."}, {"t": "gap", "en": null, "es": "Los hombres casi no aparecen. {0}, su violencia lo explica todo.", "gaps": [{"acc": ["Sin embargo", "No obstante", "Aun así"], "cue": "However"}], "pista": "Contrast between absence and impact.", "why": "**Sin embargo**."}, {"t": "gap", "en": null, "es": "Irene vive escondida {0} todos creen que ha muerto.", "gaps": [{"acc": ["porque", "ya que", "puesto que", "dado que"], "cue": "because"}], "pista": "Cause.", "why": "**ya que** (porque)."}]}, {"tab": "4 · Citar", "h2": "4 · Introducir y comentar citas", "intro": "Weave the line into your sentence, then comment on it.", "items": [{"t": "gap", "en": null, "es": "{0} dice Raimunda a Paula, «Recuerda que fui yo quien lo mató».", "gaps": [{"acc": ["Como"], "cue": "As"}], "pista": "As Raimunda says…", "why": "**Como** dice Raimunda…"}, {"t": "gap", "en": null, "es": "Irene confiesa: «Prendí fuego a la casilla», {0} revela el gran secreto de la película.", "gaps": [{"acc": ["lo cual", "lo que"], "cue": "which"}], "pista": "Refers to the whole idea.", "why": "**lo cual / lo que**."}, {"t": "gap", "en": null, "es": "Cuando Agustina {0} «Me dais una envidia… Vosotras tan unidas», expresa su soledad.", "gaps": [{"acc": ["dice", "comenta", "confiesa"], "cue": "says"}], "pista": "A verb of saying.", "why": "**dice** (confiesa)."}, {"t": "gap", "en": null, "es": "La palabra «fantasma» {0} el juego entre la vida y la muerte.", "gaps": [{"acc": ["resume", "sintetiza", "condensa"], "cue": "sums up"}], "pista": "One word that gathers the theme.", "why": "**resume**."}, {"t": "gap", "en": null, "es": "{0} de esta escena, Almodóvar muestra la solidaridad entre vecinas.", "gaps": [{"acc": ["A través", "Por medio", "Mediante"], "cue": "Through"}], "pista": "Through + de.", "why": "**A través** de."}, {"t": "gap", "en": null, "es": "Esta cita es {0} porque muestra que Raimunda protege a su hija a cualquier precio.", "gaps": [{"acc": ["significativa", "reveladora", "clave"], "cue": "significant"}], "pista": "Agree with “cita”.", "why": "**significativa**."}, {"t": "gap", "en": null, "es": "Cabe {0} que Paco nunca recibe un entierro digno.", "gaps": [{"acc": ["destacar", "señalar", "subrayar"], "cue": "point out"}], "pista": "Cabe + infinitive.", "why": "Cabe **destacar**."}, {"t": "gap", "en": null, "es": "Es importante tener en {0} que Irene no sabía nada del abuso.", "gaps": [{"acc": ["cuenta"], "cue": "account"}], "pista": "Tener en ___: to bear in mind.", "why": "tener en **cuenta**. Irene: «Yo no sabía nada hija mía»."}, {"t": "gap", "en": null, "es": "El uso del humor en esta escena {0} que la tragedia no domine.", "gaps": [{"acc": ["impide", "evita"], "cue": "prevents"}], "pista": "Stops something from happening.", "why": "**impide**."}, {"t": "gap", "en": null, "es": "Esta escena pone de {0} la doble vida de las protagonistas.", "gaps": [{"acc": ["manifiesto", "relieve"], "cue": "manifest"}], "pista": "Poner de ___: to reveal.", "why": "pone de **manifiesto** (de relieve)."}]}, {"tab": "5 · Juicios", "h2": "5 · Matizar y concluir", "intro": "Weigh up and conclude.", "items": [{"t": "gap", "en": null, "es": "{0} cierto punto, Irene también es víctima de su marido.", "gaps": [{"acc": ["Hasta"], "cue": "To a"}], "pista": "To a certain extent.", "why": "**Hasta** cierto punto."}, {"t": "gap", "en": null, "es": "Se podría {0} que Raimunda repite, al revés, la historia de su madre.", "gaps": [{"acc": ["argumentar", "afirmar", "sostener", "decir"], "cue": "argue"}], "pista": "Se podría + infinitive.", "why": "Se podría **argumentar**."}, {"t": "gap", "en": null, "es": "{0} mi juicio, la solidaridad femenina es el verdadero tema de Volver.", "gaps": [{"acc": ["A"], "cue": "In"}], "pista": "A mi juicio.", "why": "**A** mi juicio."}, {"t": "gap", "en": null, "es": "{0}, Almodóvar convierte un drama terrible en una historia de reconciliación.", "gaps": [{"acc": ["En definitiva", "En conclusión", "En resumen"], "cue": "In short"}], "pista": "Closing phrase.", "why": "**En definitiva**."}, {"t": "gap", "en": null, "es": "La película {0} siendo actual porque la violencia contra las mujeres no ha desaparecido.", "gaps": [{"acc": ["sigue"], "cue": "continues"}], "pista": "Seguir + gerund.", "why": "**sigue** siendo."}, {"t": "gap", "en": null, "es": "No se trata {0} de una comedia, sino de una tragedia contada con humor.", "gaps": [{"acc": ["solo", "solamente", "sólo", "únicamente"], "cue": "only"}], "pista": "No solo… sino.", "why": "No se trata **solo** de…"}, {"t": "gap", "en": null, "es": "Por mucho que Raimunda lo {0}, no puede borrar el pasado.", "gaps": [{"acc": ["intente"], "cue": "try"}], "pista": "Por mucho que + subjunctive.", "why": "**intente**."}, {"t": "gap", "en": null, "es": "Lo que más {0} es la naturalidad con la que el pueblo acepta a los fantasmas.", "gaps": [{"acc": ["llama la atención", "sorprende", "destaca"], "cue": "is striking"}], "pista": "Catches the attention.", "why": "**llama la atención**."}, {"t": "gap", "en": null, "es": "El título {0} a varios regresos: Irene, el pasado, Almodóvar a La Mancha.", "gaps": [{"acc": ["alude", "remite", "se refiere"], "cue": "alludes"}], "pista": "Alude a…", "why": "**alude** a."}, {"t": "gap", "en": null, "es": "Al final, las mujeres {0} juntas en el pueblo, lejos de los hombres.", "gaps": [{"acc": ["quedan", "se quedan", "están"], "cue": "remain"}], "pista": "Where are they at the end?", "why": "**quedan** (se quedan)."}]}]};</script>
+<script>
+(function(){
+"use strict";
+var KEY = D.key;
+var S = {v:1, it:{}, tab:null, pub:false};
+try{ var raw=localStorage.getItem(KEY); if(raw){ var o=JSON.parse(raw); if(o&&o.v===1) S=o; } }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function nfc(s){ return (s||"").normalize ? s.normalize("NFC") : (s||""); }
+function deacc(s){ return nfc(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function clean(s){ return nfc(s).toLowerCase().replace(/[¡!¿?.,;:«»"“”()\[\]…]/g," ").replace(/\s+/g," ").trim(); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmt(s){ return esc(s).replace(/&lt;br&gt;/g,"<br>").replace(/\*\*(.+?)\*\*/g,"<b>$1</b>"); }
+function h(tag, attrs, html){ var e=document.createElement(tag); if(attrs) for(var k in attrs){ if(k==="class") e.className=attrs[k]; else e.setAttribute(k,attrs[k]); } if(html!=null) e.innerHTML=html; return e; }
+/* strict judge: exact (case, spacing, punctuation ignored) or accent-only slip */
+function judge(given, acc){
+  var g=clean(given); if(!g) return "blank";
+  for(var i=0;i<acc.length;i++){ if(g===clean(acc[i])) return "ok"; }
+  for(i=0;i<acc.length;i++){ if(deacc(g)===deacc(clean(acc[i]))) return "accent"; }
+  return "no";
+}
+var ITEMS=[], SECS=[];
+function fbBox(card){ var f=card.querySelector(".fb"); if(!f){ f=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(f); } return f; }
+function wire(it){
+  var st = S.it[it.id] || (S.it[it.id]={st:null, tries:0, first:false, given:null});
+  it.state = st;
+  it.run = function(){
+    if(st.st) return;
+    var r = it.check(); if(r==="blank") return;
+    st.tries++; st.given = it.given();
+    var fb = fbBox(it.card);
+    if(r==="ok"){ st.st="ok"; st.first=(st.tries===1); it.lock(true);
+      fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correcto</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+      it.card.classList.add("ok"); save(); refresh(); return; }
+    if(st.tries<2){
+      fb.className="fb ui show hint";
+      fb.innerHTML='<span class="tag ht">Pista</span>'+(r==="accent"?"Almost: the right form, but check the accent. ":"Not yet. ")+fmt(it.pista||"");
+      it.mark(); save(); return; }
+    st.st="rev"; it.lock(false); it.reveal();
+    fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Respuesta</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+    it.card.classList.add("rev"); save(); refresh();
+  };
+  it.restore = function(){
+    if(!st.st) return; it.setGiven(st.given);
+    var fb=fbBox(it.card);
+    if(st.st==="ok"){ it.lock(true); it.card.classList.add("ok"); fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correcto</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+    else { it.lock(false); it.reveal(); it.card.classList.add("rev"); fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Respuesta</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+  };
+  ITEMS.push(it);
+}
+function controls(card, it){
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Comprobar");
+  var p=h("button",{"class":"g",type:"button"},"Pista");
+  b.addEventListener("click", function(){ it.run(); });
+  p.addEventListener("click", function(){ var fb=fbBox(card); if(it.state.st) return; fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>'+fmt(it.pista||""); });
+  row.appendChild(b); row.appendChild(p); card.appendChild(row);
+  it.btns=[b,p];
+}
+function gapItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  var parts=Q.es.split(/\{(\d+)\}/), html='<span class="qn">'+n+' ·</span>';
+  for(var i=0;i<parts.length;i++){
+    if(i%2===0) html+=fmt(parts[i]);
+    else { var g=Q.gaps[+parts[i]]; html+='<input type="text" data-g="'+parts[i]+'" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="hueco '+(+parts[i]+1)+'">'+(g.cue?' <span class="cue">('+esc(g.cue)+')</span>':""); }
+  }
+  var s=h("div",{"class":"sent"},html); card.appendChild(s);
+  var inputs=[].slice.call(s.querySelectorAll("input"));
+  var it={id:id, sec:sec, card:card, q:Q.es.replace(/\{\d+\}/g,"___"), pista:Q.pista, why:Q.why};
+  it.given=function(){ return inputs.map(function(x){return x.value.trim();}).join(" | "); };
+  it.setGiven=function(v){ (v||"").split(" | ").forEach(function(x,i){ if(inputs[i]) inputs[i].value=x; }); };
+  it.res=function(){ return inputs.map(function(x){ return judge(x.value, Q.gaps[+x.getAttribute("data-g")].acc); }); };
+  it.check=function(){ var r=it.res(); if(r.some(function(x){return x==="blank";})) { var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML="Fill in every gap first."; return "blank"; }
+    if(r.every(function(x){return x==="ok";})) return "ok"; if(r.every(function(x){return x==="ok"||x==="accent";})) return "accent"; return "no"; };
+  it.mark=function(){ var r=it.res(); inputs.forEach(function(x,i){ x.classList.toggle("okf",r[i]==="ok"); x.classList.toggle("badf",r[i]!=="ok"); }); };
+  it.lock=function(good){ inputs.forEach(function(x){ x.disabled=true; x.classList.toggle("okf",good); }); it.btns.forEach(function(b){ b.disabled=true; }); };
+  it.reveal=function(){ it.mark(); };
+  it.answerText=function(){ return "**"+Q.gaps.map(function(g){return g.acc[0];}).join(" … ")+"**"+(Q.gaps.some(function(g){return g.acc.length>1;})?" (also accepted: "+Q.gaps.map(function(g){return g.acc.slice(1).join(", ");}).filter(Boolean).join("; ")+")":"")+"."; };
+  it.ans=Q.gaps.map(function(g){return g.acc[0];}).join(" | ");
+  inputs.forEach(function(x){ x.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); it.run(); } }); });
+  controls(card,it); wire(it); return card;
+}
+function seeded(n,seed){ var a=[]; for(var i=0;i<n;i++) a.push(i); var x=seed; for(i=n-1;i>0;i--){ x=(x*9301+49297)%233280; var j=Math.floor(x/233280*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function mcItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  card.appendChild(h("div",null,'<span class="qn">'+n+' ·</span>'+fmt(Q.q)));
+  var box=h("div",{"class":"opts"}); var order=seeded(Q.opts.length, id.length*31+n*7), btns=[], sel=null;
+  order.forEach(function(k){ var b=h("button",{"class":"opt",type:"button"},fmt(Q.opts[k])); b._i=k; b.addEventListener("click",function(){ if(it.state.st) return; sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); it.run(); }); btns.push(b); box.appendChild(b); });
+  card.appendChild(box);
+  var it={id:id, sec:sec, card:card, q:Q.q, pista:Q.pista, why:Q.why};
+  it.given=function(){ return sel==null?"":Q.opts[sel]; };
+  it.setGiven=function(v){ var k=Q.opts.indexOf(v); if(k>=0){ sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); } };
+  it.check=function(){ return sel==null?"blank":(sel===Q.a?"ok":"no"); };
+  it.mark=function(){ btns.forEach(function(x){ if(x._i===sel) x.classList.add("wrong"); }); };
+  it.lock=function(){ btns.forEach(function(x){ x.disabled=true; if(x._i===Q.a) x.classList.add("right"); }); if(it.pb) it.pb.disabled=true; };
+  it.reveal=function(){};
+  it.answerText=function(){ return "**"+Q.opts[Q.a]+"**."; };
+  it.ans=Q.opts[Q.a];
+  var row=h("div",{"class":"ctl ui"}); var p=h("button",{"class":"g",type:"button"},"Pista"); it.pb=p;
+  p.addEventListener("click",function(){ if(it.state.st) return; var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>'+fmt(Q.pista||""); });
+  row.appendChild(p); card.appendChild(row);
+  wire(it); return card;
+}
+var WRITES=[];
+function covered(points, txt){ var d=" "+deacc(txt)+" "; return points.map(function(pt){ return {label:pt[0], ok: pt[1].some(function(k){ return d.indexOf(deacc(k))>=0; })}; }); }
+function wItem(sec, id, n, Q){
+  var card=h("div",{"class":"card reto"});
+  card.innerHTML='<div class="rt2 ui">'+(Q.label||"ESCRIBE")+'</div><p class="ui" style="margin:6px 0 4px;font-size:15px">'+fmt(Q.q)+'</p>';
+  S.w=S.w||{}; var t=h("textarea",{"aria-label":Q.label||"Escribe",style:"min-height:120px"}); t.value=S.w[id]||"";
+  t.addEventListener("input",function(){ S.w[id]=t.value; save(); });
+  card.appendChild(t);
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Comentarios"); row.appendChild(b); card.appendChild(row);
+  var fb=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(fb);
+  b.addEventListener("click",function(){
+    var txt=t.value.trim(), words=(txt.match(/[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+/g)||[]).length;
+    if(words<25){ fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>Write at least '+(Q.min||40)+' words first, then ask for comments. A strong answer covers:<ul class="check">'+Q.points.map(function(p){return "<li>"+esc(p[0])+"</li>";}).join("")+'</ul>'; return; }
+    var cv=covered(Q.points,txt), k=cv.filter(function(x){return x.ok;}).length;
+    fb.className="fb ui show "+(k>=Q.points.length-1?"okb":"hint");
+    fb.innerHTML='<span class="tag '+(k>=Q.points.length-1?"okt":"ht")+'">Comentarios</span>'+k+' of '+cv.length+' key points ('+words+' words).<ul class="check">'+cv.map(function(x){return '<li class="'+(x.ok?"on":"")+'">'+esc(x.label)+'</li>';}).join("")+'</ul><div class="why">The check looks for the key words of each point: a guide, not a mark.</div>'+(Q.model?'<details style="margin-top:8px"><summary>Una respuesta posible</summary><p style="margin:6px 0 0">'+fmt(Q.model)+'</p></details>':"");
+  });
+  WRITES.push({sec:sec,q:Q.q,get:function(){return t.value.trim();}});
+  return card;
+}
+var main=document.getElementById("main"), tabs=document.getElementById("tabs");
+D.sections.forEach(function(sx, si){
+  var id="s"+(si+1);
+  var s=h("section",{"class":"ex",id:id}); s.appendChild(h("h2",null,esc(sx.h2)));
+  if(sx.intro) s.appendChild(h("p",{"class":"how ui"},fmt(sx.intro)));
+  if(sx.rule) s.appendChild(h("div",{"class":"rule"},fmt(sx.rule)));
+  var n=0;
+  sx.items.forEach(function(Q,qi){ n++; if(Q.h3) s.appendChild(h("h3",null,esc(Q.h3)));
+    s.appendChild(Q.t==="mc" ? mcItem(id,id+"_"+qi,n,Q) : Q.t==="w" ? wItem(id,id+"_"+qi,n,Q) : gapItem(id,id+"_"+qi,n,Q)); });
+  var f=h("div",{"class":"secfoot ui"}), l=h("div"), r=h("div");
+  if(si>0) l.appendChild(h("button",{"class":"g",type:"button","data-go":"s"+si},"← Atrás"));
+  var rs=h("button",{"class":"g",type:"button"},"Reintentar esta sección");
+  rs.addEventListener("click",function(){ if(!rs._a){ rs._a=true; rs.textContent="Pulsa otra vez para borrar"; setTimeout(function(){ rs._a=false; rs.textContent="Reintentar esta sección"; },3000); return; }
+    ITEMS.filter(function(it){return it.sec===id;}).forEach(function(it){ delete S.it[it.id]; }); save(); location.reload(); });
+  l.appendChild(document.createTextNode(" ")); l.appendChild(rs);
+  if(si<D.sections.length-1) r.appendChild(h("button",{"class":"b",type:"button","data-go":"s"+(si+2)},"Siguiente →"));
+  else { var dl=h("button",{"class":"b",type:"button"},"Descargar mis respuestas"); dl.addEventListener("click",download); r.appendChild(dl); }
+  f.appendChild(l); f.appendChild(r); s.appendChild(f);
+  main.appendChild(s);
+  var tb=h("button",{type:"button",role:"tab","data-go":id},esc(sx.tab)+' <span class="n"></span>'); tabs.appendChild(tb);
+  SECS.push({id:id, el:s, tab:tb});
+});
+function totals(){ var tot=ITEMS.length, sc=0, first=0, done=0; ITEMS.forEach(function(it){ var st=it.state; if(st.st==="ok"){ sc++; done++; if(st.first) first++; } else if(st.st==="rev") done++; }); return {tot:tot,sc:sc,first:first,done:done}; }
+function refresh(){
+  var T=totals(); document.getElementById("sc").textContent=T.sc; document.getElementById("tot").textContent=T.tot; document.getElementById("first").textContent=T.first;
+  document.getElementById("bar").style.width=(T.tot?Math.round(100*T.sc/T.tot):0)+"%";
+  SECS.forEach(function(s){ var its=ITEMS.filter(function(it){return it.sec===s.id;}); var d=its.filter(function(it){return it.state.st;}).length, ok=its.filter(function(it){return it.state.st==="ok";}).length; s.tab.querySelector(".n").textContent=ok+"/"+its.length; s.tab.classList.toggle("done",d===its.length); });
+  publish();
+}
+function publish(){
+  try{ var T=totals(); var all=JSON.parse(localStorage.getItem("bba-scores")||"{}"); var f=decodeURIComponent(location.pathname.split("/").pop()||"index"); var prev=all[f]||{};
+    var rec={title:(document.title||"").slice(0,120), score:T.sc, total:T.tot, best:Math.max(T.sc,prev.best||0), attempts:(prev.attempts||0)+(S.pub?0:1), t:Date.now()};
+    var n=Math.max(0,T.done-(S.pubDone||0)); rec.ans=(prev.ans||0)+n; rec.lg={}; for(var k in (prev.lg||{})) rec.lg[k]=prev.lg[k];
+    var day=String(Math.floor(Date.now()/86400000)); if(n) rec.lg[day]=(rec.lg[day]||0)+n;
+    all[f]=rec; localStorage.setItem("bba-scores",JSON.stringify(all)); S.pub=true; S.pubDone=T.done; save(); }catch(e){}
+}
+function studentName(){ var nm=document.querySelector("#bba-kit .nm"); var v=nm&&nm.value.trim(); if(!v){ try{ v=localStorage.getItem("bba-name")||""; }catch(e){} } return v||""; }
+function download(){
+  var T=totals(), name=studentName(), L=[];
+  L.push(D.dlhead); L.push("Nombre: "+(name||"(sin nombre)")); L.push("Fecha: "+new Date().toLocaleString("es-ES")); L.push("Puntos: "+T.sc+" / "+T.tot+"  ·  a la primera: "+T.first); L.push("");
+  SECS.forEach(function(s){ L.push("== "+s.el.querySelector("h2").textContent+" ==");
+    ITEMS.filter(function(it){return it.sec===s.id;}).forEach(function(it,i){ var st=it.state;
+      var mark=st.st==="ok"?(st.first?"✓":"✓ (2.º intento)"):st.st==="rev"?"✗ → "+it.ans:"— sin responder";
+      L.push((i+1)+". "+it.q.replace(/\*\*/g,"").replace(/\s+/g," ").slice(0,160)); L.push("   Respuesta: "+(it.given()||"—")+"   ["+mark+"]"); });
+    WRITES.filter(function(w){return w.sec===s.id;}).forEach(function(w){ L.push("ESCRITO: "+w.q.replace(/\*\*/g,"")); L.push(w.get()||"—"); });
+    L.push(""); });
+  var blob=new Blob([L.join("\r\n")],{type:"text/plain;charset=utf-8"}); var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download=D.dlfile+(name||"sin_nombre").replace(/[^\wÁÉÍÓÚÑáéíóúñ-]+/g,"_")+".txt"; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },500);
+}
+function go(id){ SECS.forEach(function(s){ var on=s.id===id; s.el.classList.toggle("active",on); s.tab.setAttribute("aria-selected",on?"true":"false"); }); S.tab=id; save();
+  var nav=document.getElementById("tabs"); if(window.scrollY>nav.offsetTop) window.scrollTo({top:nav.offsetTop,behavior:"smooth"}); }
+document.addEventListener("click",function(e){ var b=e.target.closest("[data-go]"); if(b){ e.preventDefault(); go(b.getAttribute("data-go")); } });
+ITEMS.forEach(function(it){ it.restore(); });
+go(S.tab && document.getElementById(S.tab) ? S.tab : "s1"); refresh();
+window.LCDBA={items:ITEMS, totals:totals, judge:judge};
+})();
+</script>
 <script src="bba-kit-es.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
 </body>

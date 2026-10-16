@@ -3,404 +3,304 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Volver — Rellena el verbo: pretérito, imperfecto, subjuntivo y perfecto</title>
+<title>Volver · Contar en pasado</title>
+<meta name="description" content="A-Level Spanish: narrating Volver in the past. Preterite and imperfect, pluperfect, and perfect versus preterite, with lines from the film.">
 <style>
-  :root{
-    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
-    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
-    --line:#c9d4dd;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
-       color:var(--ink);background:var(--bg);padding:24px 16px 120px}
-  .wrap{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
-        border-radius:8px;padding:28px 32px}
-  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
-  h1{font-size:1.6em;color:var(--accent)}
-  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
-  h2{font-size:1.25em;color:var(--accent);margin:28px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
-  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
-  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
-  .name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
-  .name-row input{padding:9px 12px;font-size:1em;border:2px solid var(--accent);border-radius:6px;width:280px;font-family:inherit}
-  .item{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
-  .item p.q{margin-bottom:8px}
-  .item input[type=text],.item textarea{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
-      border:1.5px solid var(--line);border-radius:5px;margin-top:4px}
-  .item textarea{min-height:90px;resize:vertical}
-  .opts label{display:block;padding:7px 10px;margin:5px 0;border:1.5px solid var(--line);border-radius:5px;cursor:pointer}
-  .opts label:hover{background:#f2f7fa}
-  details.aide{margin:8px 0 2px}
-  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
-  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
-  .fb{display:none;margin-top:8px;padding:9px 12px;border-radius:6px;font-size:.95em}
-  .fb.ok{display:block;background:#e9f5ee;border-left:4px solid var(--ok);color:var(--ok)}
-  .fb.almost{display:block;background:#fff8ec;border-left:4px solid var(--warn);color:var(--warn)}
-  .fb.bad{display:block;background:#fbeeee;border-left:4px solid var(--bad);color:var(--bad)}
-  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px;margin:26px 0;background:#fdf7f9}
-  .stretch h2{color:var(--accent2);border-left-color:var(--accent2)}
-  .btn{background:var(--accent);color:#fff;border:none;padding:11px 20px;font-size:1em;font-family:inherit;
-       border-radius:6px;cursor:pointer;margin:6px 6px 6px 0}
-  .btn:hover{filter:brightness(1.15)}
-  .btn.dl{background:var(--ok)}
-  .btn.second{background:#5a6a78}
-  .score-banner{display:none;margin:18px 0;padding:14px;border-radius:8px;background:#f2f7fa;
-       border:2px solid var(--accent);font-size:1.15em;font-weight:bold;color:var(--accent)}
-  /* ---------- Floating accent pad ---------- */
-  #accentPad{position:fixed;bottom:18px;right:18px;background:#fff;border:2px solid var(--accent);
-       border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.25);padding:10px;z-index:1000;
-       display:flex;flex-wrap:wrap;gap:5px;max-width:340px;user-select:none}
-  #accentPad .drag{width:100%;cursor:move;font-size:.8em;color:#5a6a78;text-align:center;padding-bottom:4px}
-  #accentPad button{font-size:1.05em;font-family:inherit;min-width:34px;padding:6px 4px;border:1px solid var(--line);
-       border-radius:5px;background:#f2f7fa;cursor:pointer}
-  #accentPad button:hover{background:var(--accent);color:#fff}
-  #accentPad .maj{font-size:.8em;background:#e6e9ec}
-  #padToggle{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--accent);color:#fff;
-       border:none;border-radius:50px;padding:12px 18px;font-size:1em;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)}
-  @media print{#accentPad,#padToggle{display:none}}
+:root{
+  --paper:#f6f1e7; --card:#fffdf8; --ink:#2a2320; --soft:#6a5a4c; --line:#dcd0bb;
+  --ox:#6e1f2a; --ox2:#8f3340; --oxs:#f4e4e4; --green:#1f4d3a; --gs:#e3efe8;
+  --gold:#a8843a; --golds:#f7efd9; --bad:#a23b2a; --bads:#fbe9e5; --ok:#226a43;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+.ui{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:22px 16px 160px}
+header{border-bottom:3px double var(--ox);padding-bottom:14px;margin-bottom:8px}
+.kicker{font:600 12px/1.2 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ox)}
+h1{font-size:31px;line-height:1.15;margin:6px 0 6px;color:var(--ox)}
+.lead{color:var(--soft);margin:0 0 4px;font:15px/1.55 system-ui,sans-serif}
+.score{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:10px;font:14px system-ui,sans-serif;color:var(--soft)}
+.score b{color:var(--ink);font-size:16px}
+.meter{flex:1 1 180px;height:8px;background:#e8dfcf;border-radius:99px;overflow:hidden;min-width:140px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#2f7a58);transition:width .4s}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 12px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+nav.tabs button{font:600 13.5px system-ui,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 12px;cursor:pointer;display:flex;gap:6px;align-items:center}
+nav.tabs button .n{font-weight:500;color:var(--soft);font-size:12px}
+nav.tabs button[aria-selected="true"]{background:var(--ox);border-color:var(--ox);color:#fff}
+nav.tabs button[aria-selected="true"] .n{color:#f1d7d9}
+nav.tabs button.done:not([aria-selected="true"]){border-color:var(--green);color:var(--green)}
+section.ex{display:none}
+section.ex.active{display:block}
+h2{font-size:24px;margin:4px 0 6px;color:var(--green)}
+h3{font:700 13px system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ox);margin:22px 0 8px}
+.how{font:15px/1.55 system-ui,sans-serif;color:var(--soft);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;position:relative}
+.card.ok{border-color:#9cc7ae;background:#fbfefc}
+.card.rev{border-color:#e3b6ad}
+.card .qn{font:700 13px system-ui,sans-serif;color:var(--ox);margin-right:6px}
+.quote{font-style:italic}
+blockquote{margin:2px 0 10px;padding:6px 0 6px 14px;border-left:3px solid var(--gold);font-style:italic;font-size:18px}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:10px}
+input[type=text],select,textarea{font:16px Georgia,serif;color:var(--ink);background:#fff;border:1px solid #bdae95;border-radius:7px;padding:7px 10px;max-width:100%}
+input[type=text]{width:15em}
+input.w8{width:8.5em} input.w6{width:7em}
+input.okf{border-color:var(--ok);background:#f2faf5} input.badf{border-color:var(--bad);background:var(--bads)}
+textarea{width:100%;min-height:200px;resize:vertical;line-height:1.6}
+button.b{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 13px;cursor:pointer;border:1px solid var(--ox);background:var(--ox);color:#fff}
+button.b:disabled{opacity:.45;cursor:default}
+button.g{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--green)}
+button.g:disabled{opacity:.45;cursor:default}
+.opts{display:grid;gap:7px;margin-top:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;font:15.5px/1.45 system-ui,sans-serif;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 12px;cursor:pointer;color:var(--ink)}
+.opt:before{content:"";flex:0 0 16px;height:16px;border:2px solid #b8a98f;border-radius:50%;margin-top:2px}
+.opt.sel{border-color:var(--ox);background:var(--oxs)}
+.opt.sel:before{border-color:var(--ox);background:radial-gradient(var(--ox) 45%,transparent 50%)}
+.opt.right{border-color:var(--ok);background:#eef8f2}
+.opt.wrong{border-color:var(--bad);background:var(--bads)}
+.opt:disabled{cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font:600 13px system-ui,sans-serif;border:1px solid #c9bba3;background:#fff;color:var(--soft);border-radius:999px;padding:6px 11px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.chip.core{outline:2px solid var(--ok);outline-offset:1px}
+.chip.acc{outline:2px dashed var(--gold);outline-offset:1px}
+.chip.wrongc{background:var(--bad);border-color:var(--bad);color:#fff}
+.chip:disabled{cursor:default}
+.fb{margin-top:10px;font:14.5px/1.55 system-ui,sans-serif;border-radius:8px;padding:9px 12px;display:none}
+.fb.show{display:block}
+.fb.okb{background:var(--gs);color:#163a2b}
+.fb.hint{background:var(--golds);color:#4d3c14}
+.fb.revb{background:var(--bads);color:#5a1d12}
+.fb .why{margin-top:6px;color:#2b2a26}
+.tag{display:inline-block;font:700 11px system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-right:6px}
+.tag.okt{background:var(--ok);color:#fff}.tag.ht{background:var(--gold);color:#fff}.tag.rt{background:var(--bad);color:#fff}
+.legend{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:14.5px/1.55 system-ui,sans-serif;margin-bottom:10px}
+.legend b{color:var(--ox)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}
+.who{font:13px system-ui,sans-serif;color:var(--soft)}
+.tr{line-height:2.25;font-size:17px;background:#faf6ee;border-left:3px solid var(--gold);padding:6px 12px;border-radius:4px;margin-top:6px}
+.secfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0 6px;flex-wrap:wrap}
+.reto{border:2px solid var(--ox);background:#fff}
+.reto .rt2{font:700 12px system-ui,sans-serif;letter-spacing:.16em;color:var(--ox)}
+.check li{margin:4px 0;list-style:none;padding-left:0}
+.check{padding:0;margin:10px 0 0;font:14.5px/1.5 system-ui,sans-serif}
+.check li:before{content:"○ ";color:#b8a98f;font-weight:700}
+.check li.on:before{content:"● ";color:var(--ok)}
+.check li.warn:before{content:"● ";color:var(--bad)}
+.qcheck{font:14px/1.5 system-ui,sans-serif;margin-top:8px}
+.qcheck div{padding:3px 0}
+.qcheck .y{color:var(--ok)} .qcheck .n{color:var(--bad)}
+.titles label{display:flex;gap:8px;align-items:flex-start;font:15.5px/1.45 Georgia,serif;margin:6px 0;cursor:pointer}
+.tips{font:14.5px/1.55 system-ui,sans-serif;background:var(--oxs);border-radius:8px;padding:10px 12px;margin:10px 0}
+.res{font:15px/1.6 system-ui,sans-serif}
+.res table{border-collapse:collapse;width:100%;margin:8px 0}
+.res td,.res th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+.src{font:13px/1.5 system-ui,sans-serif;color:var(--soft);margin-top:22px}
+@media (max-width:640px){h1{font-size:25px}.cols{grid-template-columns:1fr}input[type=text]{width:100%}input.w8,input.w6{width:8em}nav.tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}nav.tabs::-webkit-scrollbar{display:none}nav.tabs button{padding:6px 10px;font-size:12.5px;flex:0 0 auto;white-space:nowrap}}
+@media print{nav.tabs,.secfoot,button{display:none!important}section.ex{display:block!important}}
+</style>
+<style>
+.sent{font-size:18px;line-height:2.1}
+.sent input{width:9em;font-size:16px;padding:4px 8px;margin:0 2px}
+.en{font:14px/1.45 system-ui,sans-serif;color:var(--soft);margin:0 0 4px}
+.cue{font:13px system-ui,sans-serif;color:var(--soft)}
+.rule{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:8px;padding:10px 14px;font:14.5px/1.55 system-ui,sans-serif;margin:6px 0 12px}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <h1>Volver: rellena el verbo</h1>
-    <p class="meta">A-Level Spanish (Edexcel) · <em>Volver</em> (Almodóvar) · Pretérito, imperfecto, subjuntivo y pretérito perfecto · Duración recomendada: 40 min</p>
-  </header>
-
-  <div class="name-row">
-    <label for="studentName"><strong>Tu nombre:</strong></label>
-    <input type="text" id="studentName" placeholder="Nombre APELLIDO" maxlength="60">
-  </div>
-
-  <div class="consigne"><strong>Instrucciones:</strong> Completa cada frase sobre el argumento de <em>Volver</em> con
-  la forma correcta del verbo entre paréntesis, en el tiempo indicado por la sección. Pulsa «Comprobar» y, al final,
-  descarga tus resultados.</div>
-
-  <!-- ============ SECCIÓN 1 : Pretérito ============ -->
-  <h2>Sección 1 · Pretérito — acciones puntuales de la trama <span class="pts">(6 puntos)</span></h2>
-  <div class="consigne">El pretérito narra hechos concretos y completados que hacen avanzar la historia.</div>
-
-  <div class="item" data-type="text" data-a="bWF0w7M=" data-exp="TWF0w7MgKHByZXTDqXJpdG8pOiBhY2Npw7NuIHB1bnR1YWwgeSBjb21wbGV0YWRhIOKAlCBQYXVsYSBhcHXDsWFsYSBhIFBhY28gdW5hIHNvbGEgdmV6LCBlbiB1biBtb21lbnRvIGNvbmNyZXRvIGRlIGxhIHRyYW1hLg==">
-    <p class="q">1. Paula <strong>___</strong> (matar) a Paco para defenderse de su agresión.</p>
-    <input type="text" autocomplete="off" spellcheck="false">
-    <details class="aide"><summary>Pista</summary><div>Acción única y puntual → pretérito.</div></details>
-    <div class="fb"></div>
-  </div>
-
-  <div class="item" data-type="text" data-a="cHJvdm9jw7M=" data-exp="UHJvdm9jw7MgKHByZXTDqXJpdG8pOiBlbCBpbmNlbmRpbyBlcyB1biBzdWNlc28gY29uY3JldG8gZGVsIHBhc2FkbyBkZSBJcmVuZSwgY29uIHByaW5jaXBpbyB5IGZpbiBjbGFyb3Mu">
-    <p class="q">2. Irene <strong>___</strong> (provocar) el incendio que mató a su marido y a la amante de este.</p>
-    <input type="text" autocomplete="off" spellcheck="false">
-    <details class="aide"><summary>Pista</summary><div>Suceso único con principio y fin → pretérito.</div></details>
-    <div class="fb"></div>
-  </div>
-
-  <div class="item" data-type="text" data-a="ZGVzY3VicmnDsw==" data-exp="RGVzY3VicmnDsyAocHJldMOpcml0byk6IGVsIGhhbGxhemdvIGRlIElyZW5lIGVzY29uZGlkYSBlbiBlbCBtYWxldGVybyBlcyB1biBtb21lbnRvIMO6bmljbyB5IHNvcnByZXNpdm8u">
-    <p class="q">3. Sole <strong>___</strong> (descubrir) a su madre escondida en el maletero del coche.</p>
-    <input type="text" autocomplete="off" spellcheck="false">
-    <details class="aide"><summary>Pista</summary><div>Momento único y sorpresivo → pretérito.</div></details>
-    <div class="fb"></div>
-  </div>
-
-  <div class="item" data-type="text" data-a="ZXNjb25kacOz" data-exp="RXNjb25kacOzIChwcmV0w6lyaXRvKTogUmFpbXVuZGEgcmVhbGl6YSBlc3RhIGFjY2nDs24gdW5hIHZleiwgZGUgZm9ybWEgcHVudHVhbCwgdHJhcyBsYSBtdWVydGUgZGUgUGFjby4=">
-    <p class="q">4. Raimunda <strong>___</strong> (esconder) el cuerpo de Paco en el congelador del restaurante vecino.</p>
-    <input type="text" autocomplete="off" spellcheck="false">
-    <details class="aide"><summary>Pista</summary><div>Acción concreta realizada una sola vez → pretérito.</div></details>
-    <div class="fb"></div>
-  </div>
-
-  <div class="item" data-type="text" data-a="ZGVzYXBhcmVjacOz" data-exp="RGVzYXBhcmVjacOzIChwcmV0w6lyaXRvKTogbGEgZGVzYXBhcmljacOzbiBkZSBsYSBtYWRyZSBkZSBBZ3VzdGluYSBlcyB1biBzdWNlc28gcHVudHVhbCBkZWwgcGFzYWRvIGRlbCBwdWVibG8u">
-    <p class="q">5. La madre de Agustina <strong>___</strong> (desaparecer) misteriosamente años atrás.</p>
-    <input type="text" autocomplete="off" spellcheck="false">
-    <details class="aide"><summary>Pista</summary><div>Suceso puntual y sin explicación clara → pretérito.</div></details>
-    <div class="fb"></div>
-  </div>
-
-  <div class="item" data-type="text" data-a="b3JnYW5pesOz" data-exp="T3JnYW5pesOzIChwcmV0w6lyaXRvKTogUmFpbXVuZGEgdG9tYSBlc3RhIGRlY2lzacOzbiBkZSBmb3JtYSBwdW50dWFsLCBhcHJvdmVjaGFuZG8gbGEgYXVzZW5jaWEgZGVsIHZlY2lubyBkdWXDsW8gZGVsIHJlc3RhdXJhbnRlLg==">
-    <p class="q">6. Raimunda <strong>___</strong> (organizar) una comida para un equipo de rodaje usando el restaurante de un vecino ausente.</p>
-    <input type="text" autocomplete="off" spellcheck="false">
-    <details class="aide"><summary>Pista</summary><div>Decisión puntual que da inicio a un nuevo negocio → pretérito.</div></details>
-    <div class="fb"></div>
-  </div>
-
-  <!-- ============ SECCIÓN 2 : Imperfecto ============ -->
-  <h2>Sección 2 · Imperfecto — contexto y descripción <span class="pts">(5 puntos)</span></h2>
-  <div class="consigne">El imperfecto describe el contexto, los estados y las acciones habituales, sin marcar su final.</div>
-
-  <div class="item" data-type="text" data-a="c2Fiw61h" data-exp="U2Fiw61hIChpbXBlcmZlY3RvKTogZGVzY3JpYmUgdW4gZXN0YWRvIGRlIGNvbm9jaW1pZW50byAobyBkZXNjb25vY2ltaWVudG8pIHByb2xvbmdhZG8gZW4gZWwgcGFzYWRvLCBzaW4gbMOtbWl0ZSB0ZW1wb3JhbCBtYXJjYWRvLg==">
-    <p class="q">7. De joven, Raimunda no <strong>___</strong> (saber) que Paula era hija de su propio padre.</p>
-    <input type="text" autocomplete="off" spellcheck="false">
-    <details class="aide"><summary>Pista</summary><div>Estado mental prolongado, sin final marcado → imperfecto.</div></details>
-    <div class="fb"></div>
-  </div>
-
-  <div class="item" data-type="text" data-a="dml2w61hbg==" data-exp="Vml2w61hbiAoaW1wZXJmZWN0byk6IGRlc2NyaWJlIHVuYSBzaXR1YWNpw7NuIGhhYml0dWFsIHkgcHJvbG9uZ2FkYSwgZWwgY29udGV4dG8gZGUgZm9uZG8gYW50ZXMgZGVsIGluY2VuZGlvLg==">
-    <p class="q">8. Irene y su marido <strong>___</strong> (vivir) en el mismo pueblo de La Mancha desde hacía años.</p>
-    <input type="text" autocomplete="off" spellcheck="false">
-    <details class="aide"><summary>Pista</summary><div>Situación habitual de fondo → imperfecto.</div></details>
-    <div class="fb"></div>
-  </div>
-
-  <div class="item" data-type="text" data-a="c29wbGFiYQ==" data-exp="U29wbGFiYSAoaW1wZXJmZWN0byk6IGRlc2NyaWJlIHVuYSBhY2Npw7NuIGhhYml0dWFsIHkgcmVjdXJyZW50ZSwgdMOtcGljYSBkZSBsYSBkZXNjcmlwY2nDs24gZGVsIGNvbnRleHRvIGVuIExhIE1hbmNoYS4=">
-    <p class="q">9. El viento solano <strong>___</strong> (soplar) con frecuencia en la región, según la tradición.</p>
-    <input type="text" autocomplete="off" spellcheck="false">
-    <details class="aide"><summary>Pista</summary><div>Acción habitual y repetida → imperfecto.</div></details>
-    <div class="fb"></div>
-  </div>
-
-  <div class="item" data-type="text" data-a="dHJhYmFqYWJh" data-exp="VHJhYmFqYWJhIChpbXBlcmZlY3RvKTogZGVzY3JpYmUgdW5hIG9jdXBhY2nDs24gaGFiaXR1YWwgZGUgU29sZSwgc2luIGluZGljYXIgY3XDoW5kbyBlbXBlesOzIG8gdGVybWluw7Mu">
-    <p class="q">10. Sole <strong>___</strong> (trabajar) como peluquera clandestina en su propio piso.</p>
-    <input type="text" autocomplete="off" spellcheck="false">
-    <details class="aide"><summary>Pista</summary><div>Ocupación habitual → imperfecto.</div></details>
-    <div class="fb"></div>
-  </div>
-
-  <div class="item" data-type="text" data-a="dmlzaXRhYmFu" data-exp="VmlzaXRhYmFuIChpbXBlcmZlY3RvKTogYWNjacOzbiByZXBldGlkYSB5IGhhYml0dWFsIGRlIGxhcyBoZXJtYW5hcywgdMOtcGljYSBkZSBsYSBjb3N0dW1icmUgbWFuY2hlZ2EgZGUgY3VpZGFyIGxhcyB0dW1iYXMu">
-    <p class="q">11. Raimunda y su hermana <strong>___</strong> (visitar) el cementerio cada cierto tiempo para cuidar las tumbas.</p>
-    <input type="text" autocomplete="off" spellcheck="false">
-    <details class="aide"><summary>Pista</summary><div>Acción repetida en el tiempo → imperfecto.</div></details>
-    <div class="fb"></div>
-  </div>
-
-  <!-- ============ SECCIÓN 3 : Subjuntivo ============ -->
-  <h2>Sección 3 · Subjuntivo — desencadenantes clave <span class="pts">(5 puntos)</span></h2>
-  <div class="consigne">Recuerda los desencadenantes: <em>es posible que, aunque</em> (+ incertidumbre), <em>no querer que,
-  para que, es fundamental que</em>.</div>
-
-  <div class="item" data-type="text" data-a="dnVlbHZh" data-exp="VnVlbHZhIChwcmVzZW50ZSBkZSBzdWJqdW50aXZvKTogwqtlcyBwb3NpYmxlIHF1ZcK7IGV4cHJlc2EgdW5hIHBvc2liaWxpZGFkLCBubyB1biBoZWNobyBjZXJ0ZXJvLCB5IGV4aWdlIHN1Ymp1bnRpdm8u">
-    <p class="q">12. Es posible que Irene <strong>___</strong> (volver) para pedir perdón a sus hijas.</p>
-    <input type="text" autocomplete="off" spellcheck="false">
-    <details class="aide"><summary>Pista</summary><div>«Es posible que» + subjuntivo.</div></details>
-    <div class="fb"></div>
-  </div>
-
-  <div class="item" data-type="text" data-a="dGVuZ2E=" data-exp="VGVuZ2EgKHByZXNlbnRlIGRlIHN1Ymp1bnRpdm8pOiDCq2F1bnF1ZcK7ICsgc3VianVudGl2byBwcmVzZW50YSBlbCBtaWVkbyBkZSBQYXVsYSBjb24gbWF0aXogY29uY2VzaXZvLCBubyBjb21vIHVuIGhlY2hvIG5ldXRyby4=">
-    <p class="q">13. Aunque Paula <strong>___</strong> (tener) miedo, decide contarle la verdad a su madre.</p>
-    <input type="text" autocomplete="off" spellcheck="false">
-    <details class="aide"><summary>Pista</summary><div>«Aunque» + subjuntivo (matiz concesivo).</div></details>
-    <div class="fb"></div>
-  </div>
-
-  <div class="item" data-type="text" data-a="c3VmcmE=" data-exp="U3VmcmEgKHByZXNlbnRlIGRlIHN1Ymp1bnRpdm8pOiDCq25vIHF1ZXJlciBxdWXCuyBleHByZXNhIHVuIGRlc2VvL3ZvbHVudGFkIHNvYnJlIGxhIGFjY2nDs24gZGUgb3RyYSBwZXJzb25hLCBsbyBjdWFsIGV4aWdlIHN1Ymp1bnRpdm8u">
-    <p class="q">14. Raimunda no quiere que Paula <strong>___</strong> (sufrir) las consecuencias de lo ocurrido con Paco.</p>
-    <input type="text" autocomplete="off" spellcheck="false">
-    <details class="aide"><summary>Pista</summary><div>Verbo de voluntad + que + subjuntivo.</div></details>
-    <div class="fb"></div>
-  </div>
-
-  <div class="item" data-type="text" data-a="c2UgYXN1c3Rl" data-exp="U2UgYXN1c3RlIChwcmVzZW50ZSBkZSBzdWJqdW50aXZvLCB2ZXJibyByZWZsZXhpdm8pOiDCq3BhcmEgcXVlwrsgaW50cm9kdWNlIGxhIGZpbmFsaWRhZCBkZSBsYSBhY2Npw7NuIGRlIElyZW5lIHkgc2llbXByZSBleGlnZSBzdWJqdW50aXZvLg==">
-    <p class="q">15. Para que Sole no <strong>___</strong> (asustarse), Irene decide revelarle la verdad poco a poco.</p>
-    <input type="text" autocomplete="off" spellcheck="false">
-    <details class="aide"><summary>Pista</summary><div>«Para que» + subjuntivo. No olvides el pronombre reflexivo «se».</div></details>
-    <div class="fb"></div>
-  </div>
-
-  <div class="item" data-type="text" data-a="cGVyZG9uZW4=" data-exp="UGVyZG9uZW4gKHByZXNlbnRlIGRlIHN1Ymp1bnRpdm8pOiDCq2VzIGZ1bmRhbWVudGFsIHF1ZcK7IGVzIHVuYSBleHByZXNpw7NuIGRlIG5lY2VzaWRhZC92YWxvcmFjacOzbiBxdWUgZXhpZ2Ugc3VianVudGl2by4=">
-    <p class="q">16. Es fundamental que las dos hermanas <strong>___</strong> (perdonar) a su madre para cerrar el ciclo del pasado.</p>
-    <input type="text" autocomplete="off" spellcheck="false">
-    <details class="aide"><summary>Pista</summary><div>«Es fundamental que» + subjuntivo.</div></details>
-    <div class="fb"></div>
-  </div>
-
-  <!-- ============ SECCIÓN 4 : Pretérito perfecto ============ -->
-  <h2>Sección 4 · Pretérito perfecto — el pasado que conecta con el presente <span class="pts">(5 puntos)</span></h2>
-  <div class="consigne">El pretérito perfecto (haber + participio) conecta una acción pasada con el presente: experiencias
-  de vida, acciones recientes o valoraciones actuales sobre la película.</div>
-
-  <div class="item" data-type="text" data-a="aGEgb2N1bHRhZG8=" data-exp="SGEgb2N1bHRhZG8gKHByZXTDqXJpdG8gcGVyZmVjdG8pOiBlbCBzZWNyZXRvIGRlIElyZW5lLCBpbmljaWFkbyBlbiBlbCBwYXNhZG8sIHNpZ3VlIHRlbmllbmRvIGVmZWN0byBlbiBlbCBwcmVzZW50ZSBkZSBsYSBuYXJyYWNpw7NuLg==">
-    <p class="q">17. Irene <strong>___</strong> (ocultar) su verdadera identidad durante años.</p>
-    <input type="text" autocomplete="off" spellcheck="false">
-    <details class="aide"><summary>Pista</summary><div>Haber (presente) + participio: acción pasada con efecto en el presente.</div></details>
-    <div class="fb"></div>
-  </div>
-
-  <div class="item" data-type="text" data-a="aGEgY2FsaWZpY2Fkbw==" data-exp="SGEgY2FsaWZpY2FkbyAocHJldMOpcml0byBwZXJmZWN0byk6IHNlIHJlZmllcmUgYSB1bmEgdmFsb3JhY2nDs24gY3LDrXRpY2EgcmVjaWVudGUgeSB2aWdlbnRlIGVuIGVsIHByZXNlbnRlLCB0w61waWNhIGRlbCBsZW5ndWFqZSBkZSByZXNlw7FhcyBjaW5lbWF0b2dyw6FmaWNhcy4=">
-    <p class="q">18. La crítica <strong>___</strong> (calificar) <em>Volver</em> como una de las mejores películas de Almodóvar.</p>
-    <input type="text" autocomplete="off" spellcheck="false">
-    <details class="aide"><summary>Pista</summary><div>Valoración reciente y vigente en el presente → pretérito perfecto.</div></details>
-    <div class="fb"></div>
-  </div>
-
-  <div class="item" data-type="text" data-a="aGEgaGFibGFkbw==" data-exp="SGEgaGFibGFkbyAocHJldMOpcml0byBwZXJmZWN0byk6IMKrbnVuY2HCuyBjb25lY3RhIHVuYSBleHBlcmllbmNpYSBkZSB2aWRhIHBhc2FkYSBjb24gZWwgcHJlc2VudGUgZGUgUmFpbXVuZGEsIHBhdHLDs24gdMOtcGljbyBkZWwgcHJldMOpcml0byBwZXJmZWN0by4=">
-    <p class="q">19. Raimunda nunca <strong>___</strong> (hablar) abiertamente del abuso que sufrió de joven.</p>
-    <input type="text" autocomplete="off" spellcheck="false">
-    <details class="aide"><summary>Pista</summary><div>«Nunca» + pretérito perfecto: experiencia de vida no realizada hasta el presente.</div></details>
-    <div class="fb"></div>
-  </div>
-
-  <div class="item" data-type="text" data-a="aGFuIGFwcmVuZGlkbw==" data-exp="SGFuIGFwcmVuZGlkbyAocHJldMOpcml0byBwZXJmZWN0byk6IGRlc2NyaWJlIHVuIHByb2Nlc28gcXVlIGNvbWllbnphIGVuIGVsIHBhc2FkbyB5IHNpZ3VlIHZpZ2VudGUgZW4gbGEgdmlkYSBhY3R1YWwgZGUgbGFzIGhlcm1hbmFzLg==">
-    <p class="q">20. Las dos hermanas <strong>___</strong> (aprender) a convivir con los secretos familiares.</p>
-    <input type="text" autocomplete="off" spellcheck="false">
-    <details class="aide"><summary>Pista</summary><div>Proceso iniciado en el pasado y vigente hoy → pretérito perfecto.</div></details>
-    <div class="fb"></div>
-  </div>
-
-  <div class="item" data-type="text" data-a="aGEgbWFudGVuaWRv" data-exp="SGEgbWFudGVuaWRvIChwcmV0w6lyaXRvIHBlcmZlY3RvKTogZGVzY3JpYmUgdW5hIHJlbGFjacOzbiBxdWUgZW1wZXrDsyBlbiBlbCBwYXNhZG8geSBjb250aW7DumEgZW4gZWwgcHJlc2VudGUgZW50cmUgQWd1c3RpbmEgZSBJcmVuZS4=">
-    <p class="q">21. Agustina siempre <strong>___</strong> (mantener) una relación cercana con Irene, su vecina.</p>
-    <input type="text" autocomplete="off" spellcheck="false">
-    <details class="aide"><summary>Pista</summary><div>Relación iniciada en el pasado y aún vigente → pretérito perfecto.</div></details>
-    <div class="fb"></div>
-  </div>
-
-  <button class="btn" onclick="checkAll()">✔ Comprobar mis respuestas</button>
-  <button class="btn second" onclick="resetAll()">↺ Empezar de nuevo</button>
-  <div class="score-banner" id="scoreBanner"></div>
-
-  <!-- ============ DESAFÍO A* (stretch) ============ -->
-  <div class="stretch">
-    <h2>Desafío A* — Para ir más lejos</h2>
-    <div class="consigne">Tarea exigente (C1): reescribe el resumen del argumento de <em>Volver</em> con tus propias
-    palabras (<strong>80 palabras mínimo</strong>), rellenando mentalmente los verbos que faltarían en un resumen como
-    este. Usa <strong>al menos un pretérito, un imperfecto, un subjuntivo y un pretérito perfecto</strong>.</div>
-    <p><em>Amorces:</em> «Raimunda vivía…», «Cuando Paula mató a Paco…», «Es posible que Irene…», «Desde entonces,
-    Raimunda ha…»</p>
-    <div class="item" data-type="free" data-min="80">
-      <textarea placeholder="Escribe aquí tu resumen del argumento (80 palabras mínimo, con los cuatro tiempos indicados)…"></textarea>
-      <div class="fb"></div>
-    </div>
-    <details class="aide"><summary>Ver un modelo de respuesta (después de escribir el tuyo)</summary>
-      <div id="modelAnswer">Modelo: Raimunda vivía en Madrid con su hija Paula cuando su pasado en La Mancha volvió a
-      resurgir. Una noche, Paula mató a Paco al defenderse de su agresión, y Raimunda decidió esconder el cuerpo para
-      proteger a su hija. Mientras tanto, su madre Irene, a quien todos creían muerta desde el incendio, había vuelto
-      en secreto y se escondía en casa de Sole. Es posible que Irene quisiera esperar el momento adecuado para
-      reaparecer, pues aún no había reunido el valor necesario. Finalmente, madre e hijas se han reconciliado, y el
-      pasado silenciado durante años ha salido por fin a la luz.</div></details>
-  </div>
-
-  <button class="btn dl" onclick="downloadResults()">📥 Descargar mis resultados</button>
+<header>
+  <div class="kicker">Película · Gramática</div>
+  <h1>Volver — contar la historia en pasado</h1>
+  <p class="lead">Every sentence is true to the film. Type the missing form and press <b>Enter</b> or « Comprobar ». Spelling and accents count: if only the accent is wrong, you are told so and can try again. If you are wrong the first time you get a <i>pista</i> for that sentence; the second time you see the answer and the rule. Your work saves itself on this device.</p>
+  <div class="score" aria-live="polite"><span>Puntos <b id="sc">0</b> / <b id="tot">0</b></span><span>a la primera <b id="first">0</b></span><div class="meter"><i id="bar"></i></div></div>
+</header>
+<nav class="tabs" role="tablist" aria-label="Ejercicios" id="tabs"></nav>
+<main id="main"></main>
+<p class="src">Dialogue: Pedro Almodóvar, <i>Volver</i> (2006), short extracts quoted for study.</p>
 </div>
-
-<!-- ============ FLOATING ACCENT PAD ============ -->
-<button id="padToggle" onclick="togglePad()">á ñ ¿ — Acentos</button>
-<div id="accentPad" style="display:none">
-  <div class="drag">⋮⋮ mover</div>
-</div>
-
+<script>window.BBA_KIT = {check:false, download:false, save:false, enter:false};</script>
+<script>var D = {"key": "volver-pasado-v2", "dlhead": "VOLVER — CONTAR EN PASADO", "dlfile": "Volver_pasado_", "sections": [{"tab": "1 · Pretérito / imperfecto", "h2": "1 · Pretérito e imperfecto", "intro": "Paula and Irene both tell what happened. Notice which tense they use for the background and which for the events.", "rule": "«Yo estaba en la cocina de espaldas… y de pronto papá se me echó encima. Estaba borracho» (Paula) · «Fui a la casilla dispuesta a arrancarle los ojos. Y lo encontré durmiendo con la madre de Agustina» (Irene).<br>**Imperfecto** (estaba): background, states, habits. **Pretérito** (se echó, fui, encontré): completed events that move the story on.", "items": [{"t": "gap", "en": "When Raimunda got home, Paula was waiting for her in the street, in the rain.", "es": "Cuando Raimunda {0} a casa, Paula la {1} en la calle, bajo la lluvia.", "gaps": [{"acc": ["llegó", "volvió"], "cue": "llegar"}, {"acc": ["esperaba", "estaba esperando"], "cue": "esperar"}], "pista": "One event, and the situation she found.", "why": "**llegó** (event) · **esperaba** (background)."}, {"t": "gap", "en": "Paco was drunk and threw himself on Paula.", "es": "Paco {0} borracho y se {1} encima de Paula.", "gaps": [{"acc": ["estaba"], "cue": "estar"}, {"acc": ["echó"], "cue": "echarse"}], "pista": "A state, then a sudden action.", "why": "**estaba** · se **echó** (Paula's own words)."}, {"t": "gap", "en": "Paula killed him with a knife to defend herself.", "es": "Paula lo {0} con un cuchillo para defenderse.", "gaps": [{"acc": ["mató", "apuñaló"], "cue": "matar"}], "pista": "A single completed act.", "why": "**mató**."}, {"t": "gap", "en": "While Raimunda was cleaning up the blood, Emilio knocked at the door.", "es": "Mientras Raimunda {0} la sangre, Emilio {1} a la puerta.", "gaps": [{"acc": ["limpiaba", "fregaba", "estaba limpiando"], "cue": "limpiar"}, {"acc": ["llamó"], "cue": "llamar"}], "pista": "An action in progress interrupted by another.", "why": "**limpiaba** (in progress) · **llamó** (interrupts)."}, {"t": "gap", "en": "Irene set fire to the hut where her husband and Agustina's mother were sleeping.", "es": "Irene {0} fuego a la casilla donde {1} su marido y la madre de Agustina.", "gaps": [{"acc": ["prendió"], "cue": "prender"}, {"acc": ["dormían", "estaban durmiendo"], "cue": "dormir"}], "pista": "Her action, and what they were doing at the time.", "why": "**prendió** · **dormían**. Irene: «Prendí fuego a la casilla»."}, {"t": "gap", "en": "As girls, Raimunda and Sole used to go for picnics by the river.", "es": "De niñas, Raimunda y Sole {0} de merienda al río.", "gaps": [{"acc": ["iban", "venían"], "cue": "ir"}], "pista": "«De niñas»: a habit in the past.", "why": "**iban**. Irene: «Aquí veníamos muchos días de merienda»."}, {"t": "gap", "en": "For three and a half years, Irene lived hidden in aunt Paula's house.", "es": "Durante tres años y medio, Irene {0} escondida en casa de la tía Paula.", "gaps": [{"acc": ["vivió", "estuvo"], "cue": "vivir"}], "pista": "A long period, but closed: it has a beginning and an end.", "why": "Closed period → pretérito: **vivió**."}, {"t": "gap", "en": "When Sole opened the boot, she found her mother.", "es": "Cuando Sole {0} el maletero, {1} a su madre.", "gaps": [{"acc": ["abrió"], "cue": "abrir"}, {"acc": ["encontró", "vio"], "cue": "encontrar"}], "pista": "Two events, one after the other.", "why": "**abrió** · **encontró**."}]}, {"tab": "2 · Pluscuamperfecto", "h2": "2 · El pluscuamperfecto: el pasado del pasado", "intro": "The film is full of things that had happened before the story began. Use había + participle.", "items": [{"t": "gap", "en": "Raimunda did not know that her mother had found out the truth on the day of the fire.", "es": "Raimunda no sabía que su madre se {0} de la verdad el mismo día del incendio.", "gaps": [{"acc": ["había enterado"], "cue": "enterarse"}], "pista": "Before another past moment: había + participle.", "why": "se **había enterado**. Irene: «Me enteré el mismo día del incendio»."}, {"t": "gap", "en": "Irene learned that her husband had abused Raimunda.", "es": "Irene supo que su marido {0} de Raimunda.", "gaps": [{"acc": ["había abusado"], "cue": "abusar"}], "pista": "Había + participle.", "why": "**había abusado**."}, {"t": "gap", "en": "When Sole arrived in the village, Agustina had already prepared the wake.", "es": "Cuando Sole llegó al pueblo, Agustina ya {0} el velatorio.", "gaps": [{"acc": ["había preparado", "había organizado"], "cue": "preparar"}], "pista": "«Ya»: before Sole arrived.", "why": "**había preparado**."}, {"t": "gap", "en": "Paula did not know that her grandmother had been alive all those years.", "es": "Paula no sabía que su abuela {0} viva todos esos años.", "gaps": [{"acc": ["había estado", "había seguido"], "cue": "estar"}], "pista": "Había + participle of estar.", "why": "**había estado**."}, {"t": "gap", "en": "Raimunda had never told Paula the truth about her father.", "es": "Raimunda nunca le {0} a Paula la verdad sobre su padre.", "gaps": [{"acc": ["había contado", "había dicho"], "cue": "contar"}], "pista": "Before Paco's words to Paula.", "why": "**había contado**. Paula: «No me mientas más»."}]}, {"tab": "3 · Perfecto o pretérito", "h2": "3 · ¿Pretérito perfecto o pretérito?", "intro": "In the dialogue, the characters choose between «he vuelto» and «volví». Complete their lines.", "rule": "**Pretérito perfecto** (he vuelto): a past action linked to now. **Pretérito** (me lo dijeron ayer): a finished moment, often with a time marker (ayer, el lunes, en 2006).", "items": [{"t": "gap", "en": null, "es": "Raimunda a Sole: «Pero esa no es la única novedad Paco nos {0}.»", "gaps": [{"acc": ["ha dejado"], "cue": "dejar"}], "pista": "Recent news, still affecting them.", "why": "**ha dejado** (pretérito perfecto): news that matters now."}, {"t": "gap", "en": null, "es": "Irene a Raimunda: «{0} para pedirte perdón.»", "gaps": [{"acc": ["He vuelto"], "cue": "volver"}], "pista": "She is here now because she came back.", "why": "**He vuelto**: the return explains the present."}, {"t": "gap", "en": null, "es": "Agustina: «Tengo cáncer. Me lo {0} ayer los médicos.»", "gaps": [{"acc": ["dijeron"], "cue": "decir"}], "pista": "Look at the time marker.", "why": "«Ayer» → pretérito: **dijeron**."}, {"t": "gap", "en": null, "es": "Raimunda a Emilio: «me {0} yo con el restaurante.»", "gaps": [{"acc": ["he quedado"], "cue": "quedarse"}], "pista": "A confession about the present situation.", "why": "me **he quedado**: she has it now."}]}]};</script>
 <script>
-/* ================= HOUSE ENGINE — do not weaken ================= */
-/* Answers are base64-encoded (UTF-8 safe) so they never sit in plain text next to the inputs. */
-function d(b){try{return decodeURIComponent(escape(atob(b)))}catch(e){return""}}
-function e64(s){return btoa(unescape(encodeURIComponent(s)))} /* helper for authoring */
-
-function norm(s){return (s||"").toLowerCase().replace(/['']/g,"'").replace(/\s+/g," ").trim()}
-function deacc(s){return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"")}
-
-/* tolerant text check: returns "ok" | "accents" | "bad" ; accepted = array */
-function judge(val, accepted){
-  const v=norm(val);
-  if(accepted.some(a=>norm(a)===v)) return "ok";
-  if(accepted.some(a=>deacc(a)===deacc(val))) return "accents";
-  return "bad";
-}
-
-let results=[]; /* {label, given, ok, expected} */
-
-function checkAll(){
-  results=[]; let score=0, max=0;
-  document.querySelectorAll(".item").forEach((it,idx)=>{
-    const type=it.dataset.type, fb=it.querySelector(".fb");
-    const label=(it.querySelector(".q")?it.querySelector(".q").textContent.trim():("Desafío "+(idx+1))).slice(0,90);
-    if(type==="mcq"){
-      max++;
-      const sel=it.querySelector("input[type=radio]:checked");
-      const correct=d(it.dataset.a), exp=d(it.dataset.exp||"");
-      if(!sel){fb.className="fb bad";fb.textContent="⚠ Responde a la pregunta.";results.push({label,given:"—",ok:false});return}
-      if(sel.value===correct){score++;fb.className="fb ok";fb.textContent="✔ Correcto. "+exp;
-        results.push({label,given:sel.parentElement.textContent.trim(),ok:true});}
-      else{fb.className="fb bad";fb.textContent="✘ Incorrecto. "+exp;
-        results.push({label,given:sel.parentElement.textContent.trim(),ok:false});}
-    }
-    if(type==="text"){
-      max++;
-      const inp=it.querySelector("input,textarea");
-      const accepted=d(it.dataset.a).split("|"), exp=d(it.dataset.exp||"");
-      const r=judge(inp.value,accepted);
-      if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correcto. "+exp;}
-      else if(r==="accents"){fb.className="fb almost";fb.textContent="≈ ¡Casi! Revisa los acentos: "+accepted[0]+". "+exp;}
-      else{fb.className="fb bad";fb.textContent="✘ Respuesta esperada: "+accepted[0]+". "+exp;}
-      results.push({label,given:inp.value||"—",ok:r==="ok"});
-    }
-    if(type==="free"){
-      const ta=it.querySelector("textarea"), min=parseInt(it.dataset.min||"40");
-      const words=(ta.value.trim().match(/\S+/g)||[]).length;
-      if(words===0){fb.className="fb";fb.textContent="";}
-      else if(words<min){fb.className="fb almost";fb.textContent="≈ "+words+" palabras — intenta llegar a "+min+". Desarrolla con un conector (sin embargo, no obstante…).";}
-      else{fb.className="fb ok";fb.textContent="✔ "+words+" palabras. Compara ahora con el modelo y mejora una frase.";}
-      results.push({label,given:ta.value||"—",ok:words>=min});
-    }
-  });
-  const b=document.getElementById("scoreBanner");
-  b.style.display="block";
-  const pct=max?Math.round(100*score/max):0;
-  b.textContent="Puntuación: "+score+" / "+max+" ("+pct+" %) — "+(pct>=80?"¡Excelente!":pct>=60?"Bien — corrige los puntos señalados.":"Relee las pistas e inténtalo otra vez.");
-  window._score={score,max};
-}
-
-function resetAll(){
-  document.querySelectorAll(".item input[type=text], .item textarea").forEach(i=>i.value="");
-  document.querySelectorAll(".item input[type=radio]").forEach(r=>r.checked=false);
-  document.querySelectorAll(".fb").forEach(f=>{f.className="fb";f.textContent=""});
-  document.getElementById("scoreBanner").style.display="none";
-  results=[];window._score=null;window.scrollTo({top:0,behavior:"smooth"});
-}
-
-function downloadResults(){
-  const name=document.getElementById("studentName").value.trim();
-  if(!name){alert("Escribe primero tu nombre al principio de la página.");document.getElementById("studentName").focus();return}
-  if(!window._score){alert("Pulsa primero «Comprobar mis respuestas».");return}
-  let txt="RESULTADOS — "+document.title+"\n";
-  txt+="Alumno/a: "+name+"\nFecha: "+new Date().toLocaleString("es-ES")+"\n";
-  txt+="Puntuación: "+window._score.score+" / "+window._score.max+"\n";
-  txt+="".padEnd(60,"=")+"\n\n";
-  results.forEach((r,i)=>{txt+=(i+1)+". "+r.label+"\n   Respuesta: "+r.given+"\n   "+(r.ok?"✔ correcto":"✘ repasar")+"\n\n";});
-  const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);
-  a.download=(document.title.split("—")[0].trim()||"resultados").replace(/\s+/g,"_")+"_"+name.replace(/\s+/g,"_")+".txt";
-  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
-}
-
-/* ---------- Accent pad ---------- */
-const CHARS=["á","é","í","ó","ú","ü","ñ","¿","¡","«","»","Á","É","Í","Ó","Ú","Ñ"];
-let lastField=null;
-document.addEventListener("focusin",e=>{
-  if(e.target.matches("input[type=text],textarea") && e.target.id!=="studentName") lastField=e.target;
-  if(e.target.id==="studentName") lastField=e.target;
-});
-const pad=document.getElementById("accentPad");
-CHARS.forEach(c=>{
-  const b=document.createElement("button");
-  b.textContent=c; if(c===c.toUpperCase()&&c.toLowerCase()!==c) b.className="maj";
-  b.addEventListener("mousedown",ev=>{
-    ev.preventDefault(); /* keep focus in the field */
-    if(!lastField) return;
-    const s=lastField.selectionStart??lastField.value.length, t=lastField.selectionEnd??s;
-    lastField.value=lastField.value.slice(0,s)+c+lastField.value.slice(t);
-    lastField.selectionStart=lastField.selectionEnd=s+c.length;
-    lastField.focus();
-  });
-  pad.appendChild(b);
-});
-function togglePad(){
-  const show=pad.style.display==="none";
-  pad.style.display=show?"flex":"none";
-  document.getElementById("padToggle").style.display=show?"none":"block";
-  if(show){ /* add close button once */
-    if(!pad.querySelector(".closer")){
-      const x=document.createElement("button");x.textContent="✕";x.className="closer";
-      x.addEventListener("mousedown",ev=>{ev.preventDefault();togglePad()});pad.appendChild(x);
-    }
-  }
-}
-/* drag the pad */
 (function(){
-  const h=pad.querySelector(".drag");let sx,sy,ox,oy,drag=false;
-  h.addEventListener("mousedown",e=>{drag=true;sx=e.clientX;sy=e.clientY;const r=pad.getBoundingClientRect();ox=r.left;oy=r.top;
-    pad.style.right="auto";pad.style.bottom="auto";e.preventDefault()});
-  document.addEventListener("mousemove",e=>{if(!drag)return;pad.style.left=(ox+e.clientX-sx)+"px";pad.style.top=(oy+e.clientY-sy)+"px"});
-  document.addEventListener("mouseup",()=>drag=false);
+"use strict";
+var KEY = D.key;
+var S = {v:1, it:{}, tab:null, pub:false};
+try{ var raw=localStorage.getItem(KEY); if(raw){ var o=JSON.parse(raw); if(o&&o.v===1) S=o; } }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function nfc(s){ return (s||"").normalize ? s.normalize("NFC") : (s||""); }
+function deacc(s){ return nfc(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function clean(s){ return nfc(s).toLowerCase().replace(/[¡!¿?.,;:«»"“”()\[\]…]/g," ").replace(/\s+/g," ").trim(); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmt(s){ return esc(s).replace(/&lt;br&gt;/g,"<br>").replace(/\*\*(.+?)\*\*/g,"<b>$1</b>"); }
+function h(tag, attrs, html){ var e=document.createElement(tag); if(attrs) for(var k in attrs){ if(k==="class") e.className=attrs[k]; else e.setAttribute(k,attrs[k]); } if(html!=null) e.innerHTML=html; return e; }
+/* strict judge: exact (case, spacing, punctuation ignored) or accent-only slip */
+function judge(given, acc){
+  var g=clean(given); if(!g) return "blank";
+  for(var i=0;i<acc.length;i++){ if(g===clean(acc[i])) return "ok"; }
+  for(i=0;i<acc.length;i++){ if(deacc(g)===deacc(clean(acc[i]))) return "accent"; }
+  return "no";
+}
+var ITEMS=[], SECS=[];
+function fbBox(card){ var f=card.querySelector(".fb"); if(!f){ f=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(f); } return f; }
+function wire(it){
+  var st = S.it[it.id] || (S.it[it.id]={st:null, tries:0, first:false, given:null});
+  it.state = st;
+  it.run = function(){
+    if(st.st) return;
+    var r = it.check(); if(r==="blank") return;
+    st.tries++; st.given = it.given();
+    var fb = fbBox(it.card);
+    if(r==="ok"){ st.st="ok"; st.first=(st.tries===1); it.lock(true);
+      fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correcto</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+      it.card.classList.add("ok"); save(); refresh(); return; }
+    if(st.tries<2){
+      fb.className="fb ui show hint";
+      fb.innerHTML='<span class="tag ht">Pista</span>'+(r==="accent"?"Almost: the right form, but check the accent. ":"Not yet. ")+fmt(it.pista||"");
+      it.mark(); save(); return; }
+    st.st="rev"; it.lock(false); it.reveal();
+    fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Respuesta</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+    it.card.classList.add("rev"); save(); refresh();
+  };
+  it.restore = function(){
+    if(!st.st) return; it.setGiven(st.given);
+    var fb=fbBox(it.card);
+    if(st.st==="ok"){ it.lock(true); it.card.classList.add("ok"); fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correcto</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+    else { it.lock(false); it.reveal(); it.card.classList.add("rev"); fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Respuesta</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+  };
+  ITEMS.push(it);
+}
+function controls(card, it){
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Comprobar");
+  var p=h("button",{"class":"g",type:"button"},"Pista");
+  b.addEventListener("click", function(){ it.run(); });
+  p.addEventListener("click", function(){ var fb=fbBox(card); if(it.state.st) return; fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>'+fmt(it.pista||""); });
+  row.appendChild(b); row.appendChild(p); card.appendChild(row);
+  it.btns=[b,p];
+}
+function gapItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  var parts=Q.es.split(/\{(\d+)\}/), html='<span class="qn">'+n+' ·</span>';
+  for(var i=0;i<parts.length;i++){
+    if(i%2===0) html+=fmt(parts[i]);
+    else { var g=Q.gaps[+parts[i]]; html+='<input type="text" data-g="'+parts[i]+'" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="hueco '+(+parts[i]+1)+'">'+(g.cue?' <span class="cue">('+esc(g.cue)+')</span>':""); }
+  }
+  var s=h("div",{"class":"sent"},html); card.appendChild(s);
+  var inputs=[].slice.call(s.querySelectorAll("input"));
+  var it={id:id, sec:sec, card:card, q:Q.es.replace(/\{\d+\}/g,"___"), pista:Q.pista, why:Q.why};
+  it.given=function(){ return inputs.map(function(x){return x.value.trim();}).join(" | "); };
+  it.setGiven=function(v){ (v||"").split(" | ").forEach(function(x,i){ if(inputs[i]) inputs[i].value=x; }); };
+  it.res=function(){ return inputs.map(function(x){ return judge(x.value, Q.gaps[+x.getAttribute("data-g")].acc); }); };
+  it.check=function(){ var r=it.res(); if(r.some(function(x){return x==="blank";})) { var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML="Fill in every gap first."; return "blank"; }
+    if(r.every(function(x){return x==="ok";})) return "ok"; if(r.every(function(x){return x==="ok"||x==="accent";})) return "accent"; return "no"; };
+  it.mark=function(){ var r=it.res(); inputs.forEach(function(x,i){ x.classList.toggle("okf",r[i]==="ok"); x.classList.toggle("badf",r[i]!=="ok"); }); };
+  it.lock=function(good){ inputs.forEach(function(x){ x.disabled=true; x.classList.toggle("okf",good); }); it.btns.forEach(function(b){ b.disabled=true; }); };
+  it.reveal=function(){ it.mark(); };
+  it.answerText=function(){ return "**"+Q.gaps.map(function(g){return g.acc[0];}).join(" … ")+"**"+(Q.gaps.some(function(g){return g.acc.length>1;})?" (also accepted: "+Q.gaps.map(function(g){return g.acc.slice(1).join(", ");}).filter(Boolean).join("; ")+")":"")+"."; };
+  it.ans=Q.gaps.map(function(g){return g.acc[0];}).join(" | ");
+  inputs.forEach(function(x){ x.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); it.run(); } }); });
+  controls(card,it); wire(it); return card;
+}
+function seeded(n,seed){ var a=[]; for(var i=0;i<n;i++) a.push(i); var x=seed; for(i=n-1;i>0;i--){ x=(x*9301+49297)%233280; var j=Math.floor(x/233280*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function mcItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  card.appendChild(h("div",null,'<span class="qn">'+n+' ·</span>'+fmt(Q.q)));
+  var box=h("div",{"class":"opts"}); var order=seeded(Q.opts.length, id.length*31+n*7), btns=[], sel=null;
+  order.forEach(function(k){ var b=h("button",{"class":"opt",type:"button"},fmt(Q.opts[k])); b._i=k; b.addEventListener("click",function(){ if(it.state.st) return; sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); it.run(); }); btns.push(b); box.appendChild(b); });
+  card.appendChild(box);
+  var it={id:id, sec:sec, card:card, q:Q.q, pista:Q.pista, why:Q.why};
+  it.given=function(){ return sel==null?"":Q.opts[sel]; };
+  it.setGiven=function(v){ var k=Q.opts.indexOf(v); if(k>=0){ sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); } };
+  it.check=function(){ return sel==null?"blank":(sel===Q.a?"ok":"no"); };
+  it.mark=function(){ btns.forEach(function(x){ if(x._i===sel) x.classList.add("wrong"); }); };
+  it.lock=function(){ btns.forEach(function(x){ x.disabled=true; if(x._i===Q.a) x.classList.add("right"); }); if(it.pb) it.pb.disabled=true; };
+  it.reveal=function(){};
+  it.answerText=function(){ return "**"+Q.opts[Q.a]+"**."; };
+  it.ans=Q.opts[Q.a];
+  var row=h("div",{"class":"ctl ui"}); var p=h("button",{"class":"g",type:"button"},"Pista"); it.pb=p;
+  p.addEventListener("click",function(){ if(it.state.st) return; var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>'+fmt(Q.pista||""); });
+  row.appendChild(p); card.appendChild(row);
+  wire(it); return card;
+}
+var WRITES=[];
+function covered(points, txt){ var d=" "+deacc(txt)+" "; return points.map(function(pt){ return {label:pt[0], ok: pt[1].some(function(k){ return d.indexOf(deacc(k))>=0; })}; }); }
+function wItem(sec, id, n, Q){
+  var card=h("div",{"class":"card reto"});
+  card.innerHTML='<div class="rt2 ui">'+(Q.label||"ESCRIBE")+'</div><p class="ui" style="margin:6px 0 4px;font-size:15px">'+fmt(Q.q)+'</p>';
+  S.w=S.w||{}; var t=h("textarea",{"aria-label":Q.label||"Escribe",style:"min-height:120px"}); t.value=S.w[id]||"";
+  t.addEventListener("input",function(){ S.w[id]=t.value; save(); });
+  card.appendChild(t);
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Comentarios"); row.appendChild(b); card.appendChild(row);
+  var fb=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(fb);
+  b.addEventListener("click",function(){
+    var txt=t.value.trim(), words=(txt.match(/[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+/g)||[]).length;
+    if(words<25){ fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>Write at least '+(Q.min||40)+' words first, then ask for comments. A strong answer covers:<ul class="check">'+Q.points.map(function(p){return "<li>"+esc(p[0])+"</li>";}).join("")+'</ul>'; return; }
+    var cv=covered(Q.points,txt), k=cv.filter(function(x){return x.ok;}).length;
+    fb.className="fb ui show "+(k>=Q.points.length-1?"okb":"hint");
+    fb.innerHTML='<span class="tag '+(k>=Q.points.length-1?"okt":"ht")+'">Comentarios</span>'+k+' of '+cv.length+' key points ('+words+' words).<ul class="check">'+cv.map(function(x){return '<li class="'+(x.ok?"on":"")+'">'+esc(x.label)+'</li>';}).join("")+'</ul><div class="why">The check looks for the key words of each point: a guide, not a mark.</div>'+(Q.model?'<details style="margin-top:8px"><summary>Una respuesta posible</summary><p style="margin:6px 0 0">'+fmt(Q.model)+'</p></details>':"");
+  });
+  WRITES.push({sec:sec,q:Q.q,get:function(){return t.value.trim();}});
+  return card;
+}
+var main=document.getElementById("main"), tabs=document.getElementById("tabs");
+D.sections.forEach(function(sx, si){
+  var id="s"+(si+1);
+  var s=h("section",{"class":"ex",id:id}); s.appendChild(h("h2",null,esc(sx.h2)));
+  if(sx.intro) s.appendChild(h("p",{"class":"how ui"},fmt(sx.intro)));
+  if(sx.rule) s.appendChild(h("div",{"class":"rule"},fmt(sx.rule)));
+  var n=0;
+  sx.items.forEach(function(Q,qi){ n++; if(Q.h3) s.appendChild(h("h3",null,esc(Q.h3)));
+    s.appendChild(Q.t==="mc" ? mcItem(id,id+"_"+qi,n,Q) : Q.t==="w" ? wItem(id,id+"_"+qi,n,Q) : gapItem(id,id+"_"+qi,n,Q)); });
+  var f=h("div",{"class":"secfoot ui"}), l=h("div"), r=h("div");
+  if(si>0) l.appendChild(h("button",{"class":"g",type:"button","data-go":"s"+si},"← Atrás"));
+  var rs=h("button",{"class":"g",type:"button"},"Reintentar esta sección");
+  rs.addEventListener("click",function(){ if(!rs._a){ rs._a=true; rs.textContent="Pulsa otra vez para borrar"; setTimeout(function(){ rs._a=false; rs.textContent="Reintentar esta sección"; },3000); return; }
+    ITEMS.filter(function(it){return it.sec===id;}).forEach(function(it){ delete S.it[it.id]; }); save(); location.reload(); });
+  l.appendChild(document.createTextNode(" ")); l.appendChild(rs);
+  if(si<D.sections.length-1) r.appendChild(h("button",{"class":"b",type:"button","data-go":"s"+(si+2)},"Siguiente →"));
+  else { var dl=h("button",{"class":"b",type:"button"},"Descargar mis respuestas"); dl.addEventListener("click",download); r.appendChild(dl); }
+  f.appendChild(l); f.appendChild(r); s.appendChild(f);
+  main.appendChild(s);
+  var tb=h("button",{type:"button",role:"tab","data-go":id},esc(sx.tab)+' <span class="n"></span>'); tabs.appendChild(tb);
+  SECS.push({id:id, el:s, tab:tb});
+});
+function totals(){ var tot=ITEMS.length, sc=0, first=0, done=0; ITEMS.forEach(function(it){ var st=it.state; if(st.st==="ok"){ sc++; done++; if(st.first) first++; } else if(st.st==="rev") done++; }); return {tot:tot,sc:sc,first:first,done:done}; }
+function refresh(){
+  var T=totals(); document.getElementById("sc").textContent=T.sc; document.getElementById("tot").textContent=T.tot; document.getElementById("first").textContent=T.first;
+  document.getElementById("bar").style.width=(T.tot?Math.round(100*T.sc/T.tot):0)+"%";
+  SECS.forEach(function(s){ var its=ITEMS.filter(function(it){return it.sec===s.id;}); var d=its.filter(function(it){return it.state.st;}).length, ok=its.filter(function(it){return it.state.st==="ok";}).length; s.tab.querySelector(".n").textContent=ok+"/"+its.length; s.tab.classList.toggle("done",d===its.length); });
+  publish();
+}
+function publish(){
+  try{ var T=totals(); var all=JSON.parse(localStorage.getItem("bba-scores")||"{}"); var f=decodeURIComponent(location.pathname.split("/").pop()||"index"); var prev=all[f]||{};
+    var rec={title:(document.title||"").slice(0,120), score:T.sc, total:T.tot, best:Math.max(T.sc,prev.best||0), attempts:(prev.attempts||0)+(S.pub?0:1), t:Date.now()};
+    var n=Math.max(0,T.done-(S.pubDone||0)); rec.ans=(prev.ans||0)+n; rec.lg={}; for(var k in (prev.lg||{})) rec.lg[k]=prev.lg[k];
+    var day=String(Math.floor(Date.now()/86400000)); if(n) rec.lg[day]=(rec.lg[day]||0)+n;
+    all[f]=rec; localStorage.setItem("bba-scores",JSON.stringify(all)); S.pub=true; S.pubDone=T.done; save(); }catch(e){}
+}
+function studentName(){ var nm=document.querySelector("#bba-kit .nm"); var v=nm&&nm.value.trim(); if(!v){ try{ v=localStorage.getItem("bba-name")||""; }catch(e){} } return v||""; }
+function download(){
+  var T=totals(), name=studentName(), L=[];
+  L.push(D.dlhead); L.push("Nombre: "+(name||"(sin nombre)")); L.push("Fecha: "+new Date().toLocaleString("es-ES")); L.push("Puntos: "+T.sc+" / "+T.tot+"  ·  a la primera: "+T.first); L.push("");
+  SECS.forEach(function(s){ L.push("== "+s.el.querySelector("h2").textContent+" ==");
+    ITEMS.filter(function(it){return it.sec===s.id;}).forEach(function(it,i){ var st=it.state;
+      var mark=st.st==="ok"?(st.first?"✓":"✓ (2.º intento)"):st.st==="rev"?"✗ → "+it.ans:"— sin responder";
+      L.push((i+1)+". "+it.q.replace(/\*\*/g,"").replace(/\s+/g," ").slice(0,160)); L.push("   Respuesta: "+(it.given()||"—")+"   ["+mark+"]"); });
+    WRITES.filter(function(w){return w.sec===s.id;}).forEach(function(w){ L.push("ESCRITO: "+w.q.replace(/\*\*/g,"")); L.push(w.get()||"—"); });
+    L.push(""); });
+  var blob=new Blob([L.join("\r\n")],{type:"text/plain;charset=utf-8"}); var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download=D.dlfile+(name||"sin_nombre").replace(/[^\wÁÉÍÓÚÑáéíóúñ-]+/g,"_")+".txt"; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },500);
+}
+function go(id){ SECS.forEach(function(s){ var on=s.id===id; s.el.classList.toggle("active",on); s.tab.setAttribute("aria-selected",on?"true":"false"); }); S.tab=id; save();
+  var nav=document.getElementById("tabs"); if(window.scrollY>nav.offsetTop) window.scrollTo({top:nav.offsetTop,behavior:"smooth"}); }
+document.addEventListener("click",function(e){ var b=e.target.closest("[data-go]"); if(b){ e.preventDefault(); go(b.getAttribute("data-go")); } });
+ITEMS.forEach(function(it){ it.restore(); });
+go(S.tab && document.getElementById(S.tab) ? S.tab : "s1"); refresh();
+window.LCDBA={items:ITEMS, totals:totals, judge:judge};
 })();
 </script>
-<script>window.BBA_KIT = {check:false, download:false, name:false};</script>
 <script src="bba-kit-es.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
 </body>

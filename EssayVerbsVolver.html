@@ -1,610 +1,304 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Práctica de redacción - Volver</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      padding: 20px;
-      background-color: #f4f7f6;
-      color: #333;
-      line-height: 1.6;
-      max-width: 900px;
-      margin: 20px auto;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      background: linear-gradient(to bottom right, #ffffff, #f0f4f7);
-    }
-    h2 {
-      color: #2c3e50;
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 1.8em;
-      border-bottom: 2px solid #e0e0e0;
-      padding-bottom: 10px;
-    }
-    .category {
-      color: #1a5276;
-      margin-top: 35px;
-      margin-bottom: 15px;
-      font-size: 1.3em;
-      padding-left: 10px;
-      border-left: 4px solid #3498db;
-    }
-    p {
-      margin-bottom: 10px;
-      font-size: 1.1em;
-      display: flex; /* Use flexbox for inline alignment */
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .gap {
-      width: 150px; /* Slightly wider for longer words */
-      padding: 8px 12px;
-      margin: 0 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 1em;
-      transition: all 0.2s ease-in-out;
-      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
-    }
-    .gap:focus {
-      border-color: #3498db;
-      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
-      outline: none;
-    }
-    .correct {
-      background-color: #e6ffe6 !important;
-      border-color: #4CAF50 !important;
-      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3) !important;
-    }
-    .incorrect {
-      background-color: #ffe6e6 !important;
-      border-color: #F44336 !important;
-      box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.3) !important;
-    }
-    .button-container {
-      text-align: center;
-      margin-top: 40px;
-    }
-    button {
-      padding: 12px 25px;
-      margin: 10px 10px;
-      border: none;
-      border-radius: 8px;
-      font-size: 1.1em;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      font-weight: bold;
-    }
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-    }
-    #show-score-btn {
-      background-color: #28a745;
-      color: white;
-    }
-    #show-score-btn:hover {
-      background-color: #218838;
-    }
-    #reset-btn {
-      background-color: #dc3545;
-      color: white;
-    }
-    #reset-btn:hover {
-      background-color: #c82333;
-    }
-    #score-display {
-      font-weight: bold;
-      margin-top: 25px;
-      text-align: center;
-      font-size: 1.5em;
-      color: #2c3e50;
-      padding: 10px 20px;
-      background-color: #eaf2f8;
-      border-radius: 8px;
-      border: 1px solid #d4e6f1;
-      display: inline-block;
-      min-width: 150px;
-      box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.05);
-    }
-    .instructions {
-      background-color: #e0f7fa;
-      border-left: 5px solid #00bcd4;
-      padding: 15px 20px;
-      margin-bottom: 30px;
-      border-radius: 8px;
-      font-size: 0.95em;
-      color: #006064;
-    }
-    .instructions strong {
-      color: #004d40;
-    }
-
-    /* Accent Keyboard Styling */
-    .accent-keyboard {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 30px;
-      padding: 15px;
-      background-color: #f0f8ff;
-      border-radius: 10px;
-      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
-      border: 1px solid #e0eaf5;
-    }
-    .accent-keyboard button {
-      background-color: #5bc0de;
-      color: white;
-      padding: 10px 15px;
-      font-size: 1.1em;
-      min-width: 45px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      margin: 0; /* Override default button margin */
-    }
-    .accent-keyboard button:hover {
-      background-color: #31b0d5;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    }
-
-    /* Hint Display Styling */
-    .hint-inline {
-      display: inline-block; /* Make it flow with text */
-      margin-left: 10px; /* Space from the input */
-      padding: 5px 10px;
-      background-color: #fffde7;
-      border: 1px solid #ffecb3;
-      border-radius: 5px;
-      color: #e65100;
-      font-size: 0.85em;
-      white-space: nowrap; /* Prevent hint from wrapping */
-      opacity: 0;
-      transition: opacity 0.3s ease-in-out, border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    }
-    .hint-inline.visible {
-      opacity: 1;
-      border-color: #ffb300;
-      box-shadow: 0 2px 5px rgba(255, 179, 0, 0.2);
-    }
-
-    @media (max-width: 600px) {
-      body {
-        padding: 15px;
-      }
-      .gap {
-        width: 100%;
-        margin: 5px 0;
-      }
-      p {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .accent-keyboard {
-        gap: 5px;
-      }
-      .accent-keyboard button {
-        padding: 8px 12px;
-        font-size: 1em;
-        min-width: 40px;
-      }
-      .hint-inline {
-        margin-left: 0; /* No margin on small screens */
-        margin-top: 5px; /* Add some top margin if stacked */
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volver · Vocabulario del análisis fílmico</title>
+<meta name="description" content="A-Level Spanish: the vocabulary of film analysis (script, cast, shots, plot, ending) in true sentences about Volver, with a writing task.">
+<style>
+:root{
+  --paper:#f6f1e7; --card:#fffdf8; --ink:#2a2320; --soft:#6a5a4c; --line:#dcd0bb;
+  --ox:#6e1f2a; --ox2:#8f3340; --oxs:#f4e4e4; --green:#1f4d3a; --gs:#e3efe8;
+  --gold:#a8843a; --golds:#f7efd9; --bad:#a23b2a; --bads:#fbe9e5; --ok:#226a43;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+.ui{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:22px 16px 160px}
+header{border-bottom:3px double var(--ox);padding-bottom:14px;margin-bottom:8px}
+.kicker{font:600 12px/1.2 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ox)}
+h1{font-size:31px;line-height:1.15;margin:6px 0 6px;color:var(--ox)}
+.lead{color:var(--soft);margin:0 0 4px;font:15px/1.55 system-ui,sans-serif}
+.score{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:10px;font:14px system-ui,sans-serif;color:var(--soft)}
+.score b{color:var(--ink);font-size:16px}
+.meter{flex:1 1 180px;height:8px;background:#e8dfcf;border-radius:99px;overflow:hidden;min-width:140px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#2f7a58);transition:width .4s}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 12px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+nav.tabs button{font:600 13.5px system-ui,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 12px;cursor:pointer;display:flex;gap:6px;align-items:center}
+nav.tabs button .n{font-weight:500;color:var(--soft);font-size:12px}
+nav.tabs button[aria-selected="true"]{background:var(--ox);border-color:var(--ox);color:#fff}
+nav.tabs button[aria-selected="true"] .n{color:#f1d7d9}
+nav.tabs button.done:not([aria-selected="true"]){border-color:var(--green);color:var(--green)}
+section.ex{display:none}
+section.ex.active{display:block}
+h2{font-size:24px;margin:4px 0 6px;color:var(--green)}
+h3{font:700 13px system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ox);margin:22px 0 8px}
+.how{font:15px/1.55 system-ui,sans-serif;color:var(--soft);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;position:relative}
+.card.ok{border-color:#9cc7ae;background:#fbfefc}
+.card.rev{border-color:#e3b6ad}
+.card .qn{font:700 13px system-ui,sans-serif;color:var(--ox);margin-right:6px}
+.quote{font-style:italic}
+blockquote{margin:2px 0 10px;padding:6px 0 6px 14px;border-left:3px solid var(--gold);font-style:italic;font-size:18px}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:10px}
+input[type=text],select,textarea{font:16px Georgia,serif;color:var(--ink);background:#fff;border:1px solid #bdae95;border-radius:7px;padding:7px 10px;max-width:100%}
+input[type=text]{width:15em}
+input.w8{width:8.5em} input.w6{width:7em}
+input.okf{border-color:var(--ok);background:#f2faf5} input.badf{border-color:var(--bad);background:var(--bads)}
+textarea{width:100%;min-height:200px;resize:vertical;line-height:1.6}
+button.b{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 13px;cursor:pointer;border:1px solid var(--ox);background:var(--ox);color:#fff}
+button.b:disabled{opacity:.45;cursor:default}
+button.g{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--green)}
+button.g:disabled{opacity:.45;cursor:default}
+.opts{display:grid;gap:7px;margin-top:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;font:15.5px/1.45 system-ui,sans-serif;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 12px;cursor:pointer;color:var(--ink)}
+.opt:before{content:"";flex:0 0 16px;height:16px;border:2px solid #b8a98f;border-radius:50%;margin-top:2px}
+.opt.sel{border-color:var(--ox);background:var(--oxs)}
+.opt.sel:before{border-color:var(--ox);background:radial-gradient(var(--ox) 45%,transparent 50%)}
+.opt.right{border-color:var(--ok);background:#eef8f2}
+.opt.wrong{border-color:var(--bad);background:var(--bads)}
+.opt:disabled{cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font:600 13px system-ui,sans-serif;border:1px solid #c9bba3;background:#fff;color:var(--soft);border-radius:999px;padding:6px 11px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.chip.core{outline:2px solid var(--ok);outline-offset:1px}
+.chip.acc{outline:2px dashed var(--gold);outline-offset:1px}
+.chip.wrongc{background:var(--bad);border-color:var(--bad);color:#fff}
+.chip:disabled{cursor:default}
+.fb{margin-top:10px;font:14.5px/1.55 system-ui,sans-serif;border-radius:8px;padding:9px 12px;display:none}
+.fb.show{display:block}
+.fb.okb{background:var(--gs);color:#163a2b}
+.fb.hint{background:var(--golds);color:#4d3c14}
+.fb.revb{background:var(--bads);color:#5a1d12}
+.fb .why{margin-top:6px;color:#2b2a26}
+.tag{display:inline-block;font:700 11px system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-right:6px}
+.tag.okt{background:var(--ok);color:#fff}.tag.ht{background:var(--gold);color:#fff}.tag.rt{background:var(--bad);color:#fff}
+.legend{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:14.5px/1.55 system-ui,sans-serif;margin-bottom:10px}
+.legend b{color:var(--ox)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}
+.who{font:13px system-ui,sans-serif;color:var(--soft)}
+.tr{line-height:2.25;font-size:17px;background:#faf6ee;border-left:3px solid var(--gold);padding:6px 12px;border-radius:4px;margin-top:6px}
+.secfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0 6px;flex-wrap:wrap}
+.reto{border:2px solid var(--ox);background:#fff}
+.reto .rt2{font:700 12px system-ui,sans-serif;letter-spacing:.16em;color:var(--ox)}
+.check li{margin:4px 0;list-style:none;padding-left:0}
+.check{padding:0;margin:10px 0 0;font:14.5px/1.5 system-ui,sans-serif}
+.check li:before{content:"○ ";color:#b8a98f;font-weight:700}
+.check li.on:before{content:"● ";color:var(--ok)}
+.check li.warn:before{content:"● ";color:var(--bad)}
+.qcheck{font:14px/1.5 system-ui,sans-serif;margin-top:8px}
+.qcheck div{padding:3px 0}
+.qcheck .y{color:var(--ok)} .qcheck .n{color:var(--bad)}
+.titles label{display:flex;gap:8px;align-items:flex-start;font:15.5px/1.45 Georgia,serif;margin:6px 0;cursor:pointer}
+.tips{font:14.5px/1.55 system-ui,sans-serif;background:var(--oxs);border-radius:8px;padding:10px 12px;margin:10px 0}
+.res{font:15px/1.6 system-ui,sans-serif}
+.res table{border-collapse:collapse;width:100%;margin:8px 0}
+.res td,.res th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+.src{font:13px/1.5 system-ui,sans-serif;color:var(--soft);margin-top:22px}
+@media (max-width:640px){h1{font-size:25px}.cols{grid-template-columns:1fr}input[type=text]{width:100%}input.w8,input.w6{width:8em}nav.tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}nav.tabs::-webkit-scrollbar{display:none}nav.tabs button{padding:6px 10px;font-size:12.5px;flex:0 0 auto;white-space:nowrap}}
+@media print{nav.tabs,.secfoot,button{display:none!important}section.ex{display:block!important}}
+</style>
+<style>
+.sent{font-size:18px;line-height:2.1}
+.sent input{width:9em;font-size:16px;padding:4px 8px;margin:0 2px}
+.en{font:14px/1.45 system-ui,sans-serif;color:var(--soft);margin:0 0 4px}
+.cue{font:13px system-ui,sans-serif;color:var(--soft)}
+.rule{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:8px;padding:10px 14px;font:14.5px/1.55 system-ui,sans-serif;margin:6px 0 12px}
+</style>
 </head>
 <body>
-  <h2>Completa los huecos y pulsa Enter para corregir cada uno</h2>
-
-  <div class="instructions">
-    <p><strong>Instrucciones:</strong> Escribe la palabra que falta en cada hueco. Pulsa <strong>Enter</strong> en cada campo para verificar tu respuesta y ver si es correcta. Un pequeño <strong>hint (pista)</strong> aparecerá cuando hagas clic en un hueco. Utiliza el teclado de acentos si lo necesitas. Al final, puedes ver tu puntuación total o reiniciar la actividad.</p>
-  </div>
-
-  <div style="text-align: center; margin-bottom: 20px;">
-    <span id="score-display">Puntuación: 0/35</span>
-  </div>
-
-  <!-- Removed the global #hint-display div -->
-
-  <div class="accent-keyboard">
-    <button data-accent="á">á</button>
-    <button data-accent="é">é</button>
-    <button data-accent="í">í</button>
-    <button data-accent="ó">ó</button>
-    <button data-accent="ú">ú</button>
-    <button data-accent="ñ">ñ</button>
-    <button data-accent="ü">ü</button>
-    <button data-accent="¿">¿</button>
-    <button data-accent="¡">¡</button>
-  </div>
-
-  <!-- 1. Subjuntivo y estructuras complejas -->
-  <div class="category"><b>1. Subjuntivo y estructuras complejas</b></div>
-  <p>Es posible que Raimunda no <input class="gap" data-answer="haya perdonado,comprenda,acepte" data-hint="Verb: to have forgiven / to understand / to accept (subjunctive)"></p> a su madre completamente.</p>
-  <p>Almodóvar quiere que los espectadores <input class="gap" data-answer="entiendan,comprendan" data-hint="Verb: to understand (subjunctive)"></p> la importancia de la familia.</p>
-  <p>Aunque Irene <input class="gap" data-answer="haya vuelto" data-hint="Verb: to have returned (subjunctive)"></p>, el pasado sigue presente.</p>
-  <p>No creo que la muerte <input class="gap" data-answer="sea" data-hint="Verb: to be (subjunctive)"></p> el final en la película.</p>
-  <p>Es necesario que las mujeres <input class="gap" data-answer="superen,confronten" data-hint="Verb: to overcome / to confront (subjunctive)"></p> sus traumas.</p>
-
-  <!-- 2. Vocabulario de análisis fílmico -->
-  <div class="category"><b>2. Vocabulario de análisis fílmico</b></div>
-  <p>La <input class="gap" data-answer="narrativa,historia,trama" data-hint="Noun: narrative / story / plot"></p> de la película es circular.</p>
-  <p>El <input class="gap" data-answer="simbolismo,tema" data-hint="Noun: symbolism / theme"></p> de la muerte es fundamental.</p>
-  <p>La <input class="gap" data-answer="banda sonora" data-hint="Noun: soundtrack"></p> refuerza el ambiente emocional.</p>
-  <p>Almodóvar utiliza el <input class="gap" data-answer="primer plano" data-hint="Noun: close-up"></p> para mostrar emociones.</p>
-  <p>El <input class="gap" data-answer="desarrollo del personaje" data-hint="Noun: character development"></p> es notable en Raimunda y Paula.</p>
-
-  <!-- 3. Concordancia y género -->
-  <div class="category"><b>3. Concordancia y género</b></div>
-  <p>Las protagonistas <input class="gap" data-answer="son" data-hint="Verb: to be (present tense)"></p> mujeres fuertes.</p>
-  <p>La relación entre madre e hija es <input class="gap" data-answer="compleja,difícil,un desafío" data-hint="Adjective/Noun: complex / difficult / a challenge"></p>.</p>
-  <p>Raimunda tiene una <input class="gap" data-answer="personalidad" data-hint="Noun: personality"></p> muy marcada.</p>
-  <p>El reencuentro familiar es <input class="gap" data-answer="emocionante" data-hint="Adjective: emotional / moving"></p>.</p>
-  <p>La película muestra la <input class="gap" data-answer="solidaridad" data-hint="Noun: solidarity"></p> femenina.</p>
-
-  <!-- 4. Verbos y tiempos -->
-  <div class="category"><b>4. Verbos y tiempos</b></div>
-  <p>Raimunda <input class="gap" data-answer="ha sufrido" data-hint="Verb: to have suffered (present perfect)"></p> mucho en su vida.</p>
-  <p>Cuando Irene <input class="gap" data-answer="regresa" data-hint="Verb: to return (present tense)"></p>, todo cambia.</p>
-  <p>Paula <input class="gap" data-answer="mata" data-hint="Verb: to kill (present tense)"></p> a Paco en defensa propia.</p>
-  <p>Las mujeres <input class="gap" data-answer="buscan" data-hint="Verb: to look for / to seek (present tense)"></p> nuevas oportunidades.</p>
-  <p>La madre <input class="gap" data-answer="aparece" data-hint="Verb: to appear (present tense)"></p> como un fantasma.</p>
-
-  <!-- 5. Conectores y frases complejas -->
-  <div class="category"><b>5. Conectores y frases complejas</b></div>
-  <p><input class="gap" data-answer="Sin embargo" data-hint="Connector: however"></p>, la reconciliación no es fácil.</p>
-  <p><input class="gap" data-answer="A pesar de que" data-hint="Connector: despite the fact that"></p> sufren, siguen adelante.</p>
-  <p>Por <input class="gap" data-answer="lo tanto" data-hint="Connector: therefore"></p>, la familia es esencial.</p>
-  <p>Además, la película <input class="gap" data-answer="demuestra" data-hint="Verb: to demonstrate / to show (present tense)"></p> la importancia del perdón.</p>
-  <p>En <input class="gap" data-answer="conclusión" data-hint="Connector: in conclusion"></p>, todos pueden empezar de nuevo.</p>
-
-  <!-- 6. Preposiciones y pronombres -->
-  <div class="category"><b>6. Preposiciones y pronombres</b></div>
-  <p>La historia <input class="gap" data-answer="de" data-hint="Preposition: of / about"></p> Raimunda es conmovedora.</p>
-  <p>El regreso <input class="gap" data-answer="de" data-hint="Preposition: of / from"></p> Irene cambia todo.</p>
-  <p>Paula, <input class="gap" data-answer="quien" data-hint="Pronoun: who / whom"></p> es la hija de Raimunda, es valiente.</p>
-  <p>El pueblo <input class="gap" data-answer="donde" data-hint="Adverb/Pronoun: where"></p> viven es tradicional.</p>
-  <p>La razón por <input class="gap" data-answer="la que" data-hint="Phrase: the reason why"></p> Irene vuelve es el amor.</p>
-
-  <!-- 7. Léxico avanzado y sinónimos -->
-  <div class="category"><b>7. Léxico avanzado y sinónimos</b></div>
-  <p>La película trata el <input class="gap" data-answer="empoderamiento" data-hint="Noun: empowerment"></p> femenino.</p>
-  <p>El <input class="gap" data-answer="pasado" data-hint="Noun: past"></p> de las protagonistas influye en su presente.</p>
-  <p>El <input class="gap" data-answer="perdón" data-hint="Noun: forgiveness"></p> es un tema central.</p>
-  <p>La <input class="gap" data-answer="resiliencia" data-hint="Noun: resilience"></p> de las mujeres es admirable.</p>
-  <p>El <input class="gap" data-answer="conflicto" data-hint="Noun: conflict"></p> familiar se resuelve al final.</p>
-
-  <div class="button-container">
-    <button id="show-score-btn" onclick="showTotalScore()">Ver mi puntuación final</button>
-    <button id="reset-btn" onclick="resetActivity()">Reiniciar Actividad</button>
-  </div>
-
-  <script>
-    let activeInput = null; // To keep track of the currently focused input
-    let totalGaps = 0;
-    let correctAnswersCount = 0;
-    let gapInputs = []; // To store all gap input elements
-    let currentHintElement = null; // Reference to the currently displayed hint element
-
-    document.addEventListener('DOMContentLoaded', () => {
-      gapInputs = Array.from(document.querySelectorAll('.gap'));
-      totalGaps = gapInputs.length;
-
-      // Store initial values for reset
-      gapInputs.forEach(input => {
-        input.setAttribute('data-original-value', input.value);
-      });
-
-      // Attach event listeners to each gap input
-      gapInputs.forEach(input => {
-        input.addEventListener('focus', (e) => {
-          activeInput = e.target;
-          showHint(activeInput, activeInput.dataset.hint);
-        });
-        input.addEventListener('blur', () => {
-          activeInput = null; // Set to null on blur
-          hideHint();
-        });
-        input.addEventListener('keydown', handleEnterKey);
-      });
-
-      // Attach event listeners to accent keyboard buttons
-      document.querySelectorAll('.accent-keyboard button').forEach(button => {
-        button.addEventListener('click', handleAccentClick);
-      });
-
-      updateScoreDisplay(); // Initial score display
-    });
-
-    /**
-     * Normalizes a string by converting to lowercase, removing diacritics, and trimming whitespace.
-     * @param {string} str The string to normalize.
-     * @returns {string} The normalized string.
-     */
-    function normalize(str) {
-      if (typeof str !== 'string') return ''; // Handle non-string inputs
-      return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
-    }
-
-    /**
-     * Inserts text at the current cursor position in an input field.
-     * @param {HTMLInputElement} input The input element.
-     * @param {string} textToInsert The text to insert.
-     */
-    function insertAtCursor(input, textToInsert) {
-      const start = input.selectionStart;
-      const end = input.selectionEnd;
-      const value = input.value;
-
-      input.value = value.substring(0, start) + textToInsert + value.substring(end);
-
-      // Move cursor to the end of the inserted text
-      input.selectionStart = input.selectionEnd = start + textToInsert.length;
-      input.focus(); // Keep focus on the input
-    }
-
-    /**
-     * Handles click events on accent keyboard buttons.
-     * @param {Event} event The click event.
-     */
-    function handleAccentClick(event) {
-      if (activeInput) {
-        const accentChar = event.target.dataset.accent;
-        insertAtCursor(activeInput, accentChar);
-      } else {
-        console.log('No input field is focused.');
-        // Optionally, show a visual cue to the user that they need to select an input
-      }
-    }
-
-    /**
-     * Displays a hint message next to the given input element.
-     * @param {HTMLInputElement} inputElement The input element to attach the hint to.
-     * @param {string} hintText The text of the hint to display.
-     */
-    function showHint(inputElement, hintText) {
-      // First, hide any existing hint
-      hideHint();
-
-      if (!hintText) {
-        return; // No hint to show
-      }
-
-      // Create a new hint element if it doesn't exist
-      if (!currentHintElement) {
-        currentHintElement = document.createElement('span');
-        currentHintElement.classList.add('hint-inline');
-      }
-
-      currentHintElement.textContent = `Hint: ${hintText}`;
-      // Insert the hint element right after the input field's parent paragraph
-      // This ensures it stays within the flow of the text
-      inputElement.parentNode.insertBefore(currentHintElement, inputElement.nextSibling);
-      
-      // Make it visible
-      setTimeout(() => { // Small timeout to ensure reflow before transition
-        currentHintElement.classList.add('visible');
-      }, 50);
-    }
-
-    /**
-     * Hides the currently displayed hint message.
-     */
-    function hideHint() {
-      if (currentHintElement && currentHintElement.parentNode) {
-        currentHintElement.classList.remove('visible');
-        // Remove from DOM after transition
-        currentHintElement.addEventListener('transitionend', function handler() {
-          if (currentHintElement && currentHintElement.parentNode) {
-            currentHintElement.parentNode.removeChild(currentHintElement);
-          }
-          currentHintElement.removeEventListener('transitionend', handler);
-        });
-      }
-      currentHintElement = null; // Clear reference
-    }
-
-    /**
-     * Checks a single gap input for correctness.
-     * @param {HTMLInputElement} inputElement The input element to check.
-     * @returns {boolean} True if the answer is correct, false otherwise.
-     */
-    function checkGap(inputElement) {
-      const studentAnswer = normalize(inputElement.value);
-      const correctAnswers = inputElement.dataset.answer.split(',').map(ans => normalize(ans));
-
-      // Check if the student's answer matches any of the possible correct answers
-      const isCorrect = correctAnswers.includes(studentAnswer);
-
-      if (isCorrect) {
-        inputElement.classList.remove('incorrect');
-        inputElement.classList.add('correct');
-      } else {
-        inputElement.classList.remove('correct');
-        inputElement.classList.add('incorrect');
-      }
-      return isCorrect;
-    }
-
-    /**
-     * Handles the Enter key press on an input field.
-     * @param {Event} e The keyboard event.
-     */
-    function handleEnterKey(e) {
-      if (e.key === 'Enter') {
-        e.preventDefault(); // Prevent form submission or newline
-        checkGap(this); // 'this' refers to the input element
-        updateScoreDisplay();
-        hideHint(); // Hide hint after checking
-      }
-    }
-
-    /**
-     * Updates the displayed score based on the current state of all gaps.
-     */
-    function updateScoreDisplay() {
-      let currentCorrect = 0;
-      gapInputs.forEach(input => {
-        // Only count if the input has been "checked" (has a correct/incorrect class)
-        // or if it's already marked as correct from a previous check
-        if (input.classList.contains('correct')) {
-          currentCorrect++;
-        }
-      });
-      correctAnswersCount = currentCorrect;
-      document.getElementById('score-display').textContent = `Puntuación: ${correctAnswersCount}/${totalGaps}`;
-    }
-
-    /**
-     * Shows the total score for all gaps, checking any unchecked ones.
-     */
-    function showTotalScore() {
-      let finalCorrect = 0;
-      gapInputs.forEach(input => {
-        if (checkGap(input)) { // Check each gap and apply classes
-          finalCorrect++;
-        }
-      });
-      correctAnswersCount = finalCorrect;
-      document.getElementById('score-display').textContent = `Puntuación: ${correctAnswersCount}/${totalGaps}`;
-      // Optionally, scroll to the score display
-      document.getElementById('score-display').scrollIntoView({ behavior: 'smooth', block: 'center' });
-      hideHint(); // Hide hint when showing total score
-    }
-
-    /**
-     * Resets the entire activity: clears inputs, removes classes, and resets score.
-     */
-    function resetActivity() {
-      gapInputs.forEach(input => {
-        input.value = input.getAttribute('data-original-value'); // Reset to original empty value
-        input.classList.remove('correct', 'incorrect');
-      });
-      correctAnswersCount = 0;
-      updateScoreDisplay();
-      activeInput = null; // Clear active input
-      hideHint(); // Hide hint on reset
-      // Optionally, focus on the first input
-      if (gapInputs.length > 0) {
-        gapInputs[0].focus();
-      }
-    }
-  </script>
-<!-- ══════════════════════════════════════════════════════════════════════
-     TECLADO DE TILDES — corrección universal
-     Se instala solo. No depende de nada y no toca el resto de la página.
-     Corrige los cinco fallos observados:
-       1. los botones llaman a una función que no existe
-       2. el teclado se abre pero nada escribe
-       3. la casilla se pierde al pulsar una tecla (blur)
-       4. mayúscula equivocada en el nombre de la función
-       5. escribe al final en vez de en el cursor
-     Pegar justo antes de </body>.
-     ══════════════════════════════════════════════════════════════════════ -->
+<div class="wrap">
+<header>
+  <div class="kicker">Película · Vocabulario</div>
+  <h1>Volver — el vocabulario del análisis fílmico</h1>
+  <p class="lead">The vocabulary of film analysis, in sentences that are true of Volver. Use the English cue and type the word with its article if there is a gap for it. Spelling and accents count. If you are wrong the first time you get a <i>pista</i>; the second time you see the answer. Your work saves itself on this device.</p>
+  <div class="score" aria-live="polite"><span>Puntos <b id="sc">0</b> / <b id="tot">0</b></span><span>a la primera <b id="first">0</b></span><div class="meter"><i id="bar"></i></div></div>
+</header>
+<nav class="tabs" role="tablist" aria-label="Ejercicios" id="tabs"></nav>
+<main id="main"></main>
+<p class="src">Dialogue: Pedro Almodóvar, <i>Volver</i> (2006), short extracts quoted for study.</p>
+</div>
+<script>window.BBA_KIT = {check:false, download:false, save:false, enter:false};</script>
+<script>var D = {"key": "volver-cine-v2", "dlhead": "VOLVER — VOCABULARIO DEL ANÁLISIS FÍLMICO", "dlfile": "Volver_vocabulario_cine_", "sections": [{"tab": "1 · El rodaje", "h2": "1 · Quién hace la película", "intro": "The people and the parts of a film.", "items": [{"t": "gap", "en": null, "es": "El {0} de Volver lo escribió el propio Almodóvar.", "gaps": [{"acc": ["guion", "guión"], "cue": "script"}], "pista": "The written text of the film.", "why": "**guion** (also written guión)."}, {"t": "gap", "en": null, "es": "Penélope Cruz, Carmen Maura, Lola Dueñas y Blanca Portillo forman parte del {0}.", "gaps": [{"acc": ["reparto"], "cue": "cast"}], "pista": "All the actors together.", "why": "**reparto**."}, {"t": "gap", "en": null, "es": "Las seis actrices principales compartieron en Cannes el premio a la mejor {0} femenina.", "gaps": [{"acc": ["interpretación", "actuación"], "cue": "performance"}], "pista": "What an actress gives.", "why": "**interpretación**. Cannes 2006 also gave the film the prize for best screenplay."}, {"t": "gap", "en": null, "es": "La {0} de la película es de Alberto Iglesias.", "gaps": [{"acc": ["banda sonora", "música"], "cue": "soundtrack"}], "pista": "The music of a film: two words.", "why": "**banda sonora**."}, {"t": "gap", "en": null, "es": "La canción «Volver» la canta en realidad Estrella Morente: Penélope Cruz hace {0}.", "gaps": [{"acc": ["playback"], "cue": "lip-sync"}], "pista": "An English loan word used in Spanish.", "why": "**playback**."}, {"t": "gap", "en": null, "es": "Volver es un {0} de unas dos horas.", "gaps": [{"acc": ["largometraje"], "cue": "feature film"}], "pista": "Long + footage.", "why": "**largometraje**."}]}, {"tab": "2 · Planos", "h2": "2 · Planos y cámara", "intro": "How the camera looks.", "items": [{"t": "gap", "en": null, "es": "Un {0} muestra la cara de Raimunda y permite ver su emoción.", "gaps": [{"acc": ["primer plano"], "cue": "close-up"}], "pista": "The camera very close to a face.", "why": "**primer plano**."}, {"t": "gap", "en": null, "es": "La película empieza con un {0} del cementerio lleno de mujeres limpiando tumbas.", "gaps": [{"acc": ["plano general"], "cue": "long shot"}], "pista": "The whole scene, wide.", "why": "**plano general**."}, {"t": "gap", "en": null, "es": "Un plano {0} muestra a Raimunda desde arriba, en el fregadero de la cocina.", "gaps": [{"acc": ["cenital"], "cue": "overhead"}], "pista": "Straight down from above.", "why": "plano **cenital**."}, {"t": "gap", "en": null, "es": "Cuando la cámara mira a un personaje desde abajo, es un {0}.", "gaps": [{"acc": ["contrapicado"], "cue": "low-angle shot"}], "pista": "The opposite of «picado».", "why": "**contrapicado**."}, {"t": "gap", "en": null, "es": "El color {0}, en la ropa de Raimunda, en la sangre y en la cocina, domina la película.", "gaps": [{"acc": ["rojo"], "cue": "red"}], "pista": "Almodóvar's colour.", "why": "**rojo**."}, {"t": "gap", "en": null, "es": "El pasado casi no se muestra en {0}: se cuenta con palabras, sobre todo en la confesión de Irene.", "gaps": [{"acc": ["escenas retrospectivas", "flashbacks", "escena retrospectiva"], "cue": "flashbacks"}], "pista": "Scenes that go back in time.", "why": "**escenas retrospectivas** (flashbacks): Volver tells its past in dialogue."}]}, {"tab": "3 · La historia", "h2": "3 · Trama, personajes y estructura", "intro": "Words to talk about the story itself.", "items": [{"t": "gap", "en": null, "es": "La {0} gira en torno a tres generaciones de mujeres.", "gaps": [{"acc": ["trama", "historia", "intriga"], "cue": "plot"}], "pista": "What happens in the story.", "why": "**trama**."}, {"t": "gap", "en": null, "es": "Raimunda es la {0} de la película.", "gaps": [{"acc": ["protagonista"], "cue": "main character"}], "pista": "The main character (same form for both genders).", "why": "**protagonista**."}, {"t": "gap", "en": null, "es": "El {0} de la película tiene lugar en el pueblo, junto a Agustina.", "gaps": [{"acc": ["desenlace", "final"], "cue": "ending"}], "pista": "How the plot ends.", "why": "**desenlace**."}, {"t": "gap", "en": null, "es": "La revelación del incesto es el gran {0} de la película.", "gaps": [{"acc": ["giro", "giro inesperado"], "cue": "twist"}], "pista": "An unexpected turn.", "why": "**giro** (inesperado)."}, {"t": "gap", "en": null, "es": "La película alterna dos {0}: Madrid y el pueblo de La Mancha.", "gaps": [{"acc": ["espacios", "escenarios", "ambientes"], "cue": "settings"}], "pista": "The places where it happens.", "why": "**espacios** (escenarios)."}, {"t": "gap", "en": null, "es": "El {0} de la película es la memoria y el regreso al pasado.", "gaps": [{"acc": ["tema"], "cue": "theme"}], "pista": "A Greek word in -ma: masculine.", "why": "El **tema**."}]}, {"tab": "4 · Escribir", "h2": "4 · Escribir sobre la técnica", "intro": "Write in Spanish, then click « Comentarios ».", "items": [{"t": "w", "label": "PÁRRAFO", "min": 60, "q": "Elige un recurso cinematográfico (el color rojo, los primeros planos, la canción, el plano cenital…) y explica qué aporta a Volver (80–120 palabras).", "points": [["Names the technique precisely", ["rojo", "primer plano", "cenital", "canción", "banda sonora", "plano", "color"]], ["Places it in a specific scene", ["escena", "cocina", "cementerio", "fiesta", "maletero", "río"]], ["Says what it means or suggests", ["simboliza", "sugiere", "representa", "evoca", "refleja", "transmite"]], ["Links it to a theme", ["muerte", "pasión", "violencia", "madre", "memoria", "pasado", "vida", "solidaridad"]]], "model": "El color rojo domina Volver: está en la ropa de Raimunda, en la cocina y en la sangre de Paco. En la escena en que Raimunda limpia la sangre con papel de cocina, el rojo sugiere a la vez la violencia del crimen y la pasión y la energía de la protagonista. Así, Almodóvar asocia el color de la muerte con el de la vida: Raimunda sobrevive a la tragedia sin perder su fuerza."}]}]};</script>
 <script>
-(function () {
-  "use strict";
-
-  var CHARS = "áéíóúüñÁÉÍÓÚÜÑ¿¡";
-  var target = null;      // última casilla enfocada — nunca se borra al perder el foco
-
-  function isField(el) {
-    if (!el || el.disabled || el.readOnly) return false;
-    if (el.tagName === "TEXTAREA") return true;
-    if (el.tagName !== "INPUT") return false;
-    var t = (el.getAttribute("type") || "text").toLowerCase();
-    return t === "text" || t === "search";
+(function(){
+"use strict";
+var KEY = D.key;
+var S = {v:1, it:{}, tab:null, pub:false};
+try{ var raw=localStorage.getItem(KEY); if(raw){ var o=JSON.parse(raw); if(o&&o.v===1) S=o; } }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function nfc(s){ return (s||"").normalize ? s.normalize("NFC") : (s||""); }
+function deacc(s){ return nfc(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function clean(s){ return nfc(s).toLowerCase().replace(/[¡!¿?.,;:«»"“”()\[\]…]/g," ").replace(/\s+/g," ").trim(); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmt(s){ return esc(s).replace(/&lt;br&gt;/g,"<br>").replace(/\*\*(.+?)\*\*/g,"<b>$1</b>"); }
+function h(tag, attrs, html){ var e=document.createElement(tag); if(attrs) for(var k in attrs){ if(k==="class") e.className=attrs[k]; else e.setAttribute(k,attrs[k]); } if(html!=null) e.innerHTML=html; return e; }
+/* strict judge: exact (case, spacing, punctuation ignored) or accent-only slip */
+function judge(given, acc){
+  var g=clean(given); if(!g) return "blank";
+  for(var i=0;i<acc.length;i++){ if(g===clean(acc[i])) return "ok"; }
+  for(i=0;i<acc.length;i++){ if(deacc(g)===deacc(clean(acc[i]))) return "accent"; }
+  return "no";
+}
+var ITEMS=[], SECS=[];
+function fbBox(card){ var f=card.querySelector(".fb"); if(!f){ f=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(f); } return f; }
+function wire(it){
+  var st = S.it[it.id] || (S.it[it.id]={st:null, tries:0, first:false, given:null});
+  it.state = st;
+  it.run = function(){
+    if(st.st) return;
+    var r = it.check(); if(r==="blank") return;
+    st.tries++; st.given = it.given();
+    var fb = fbBox(it.card);
+    if(r==="ok"){ st.st="ok"; st.first=(st.tries===1); it.lock(true);
+      fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correcto</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+      it.card.classList.add("ok"); save(); refresh(); return; }
+    if(st.tries<2){
+      fb.className="fb ui show hint";
+      fb.innerHTML='<span class="tag ht">Pista</span>'+(r==="accent"?"Almost: the right form, but check the accent. ":"Not yet. ")+fmt(it.pista||"");
+      it.mark(); save(); return; }
+    st.st="rev"; it.lock(false); it.reveal();
+    fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Respuesta</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+    it.card.classList.add("rev"); save(); refresh();
+  };
+  it.restore = function(){
+    if(!st.st) return; it.setGiven(st.given);
+    var fb=fbBox(it.card);
+    if(st.st==="ok"){ it.lock(true); it.card.classList.add("ok"); fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correcto</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+    else { it.lock(false); it.reveal(); it.card.classList.add("rev"); fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Respuesta</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+  };
+  ITEMS.push(it);
+}
+function controls(card, it){
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Comprobar");
+  var p=h("button",{"class":"g",type:"button"},"Pista");
+  b.addEventListener("click", function(){ it.run(); });
+  p.addEventListener("click", function(){ var fb=fbBox(card); if(it.state.st) return; fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>'+fmt(it.pista||""); });
+  row.appendChild(b); row.appendChild(p); card.appendChild(row);
+  it.btns=[b,p];
+}
+function gapItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  var parts=Q.es.split(/\{(\d+)\}/), html='<span class="qn">'+n+' ·</span>';
+  for(var i=0;i<parts.length;i++){
+    if(i%2===0) html+=fmt(parts[i]);
+    else { var g=Q.gaps[+parts[i]]; html+='<input type="text" data-g="'+parts[i]+'" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="hueco '+(+parts[i]+1)+'">'+(g.cue?' <span class="cue">('+esc(g.cue)+')</span>':""); }
   }
-
-  /* 1 ─ recordar la casilla. En focusin, y sin borrarla nunca en blur:
-         ese borrado es justamente lo que rompía AO3_Volver y EssayVerbsVolver. */
-  document.addEventListener("focusin", function (e) {
-    if (isField(e.target)) target = e.target;
-  }, true);
-
-  /* ¿es una tecla del teclado de tildes? Un solo carácter acentuado.
-     Se excluyen los botones que abren o cierran el panel: en algunas
-     actividades el botón «á» es el que despliega el teclado. */
-  function isKey(el) {
-    if (!el || !el.textContent) return false;
-    var s = el.textContent.trim();
-    if (s.length !== 1 || CHARS.indexOf(s) < 0) return false;
-    var id = (el.id || "") + " " + (typeof el.className === "string" ? el.className : "");
-    if (/toggle|abrir|cerrar|open|close/i.test(id)) return false;
-    var tag = el.tagName;
-    return tag === "BUTTON" || tag === "SPAN" || tag === "A" || tag === "DIV" || tag === "LI";
-  }
-
-  /* 2 ─ no dejar que la tecla robe el foco a la casilla */
-  document.addEventListener("mousedown", function (e) {
-    var el = e.target;
-    for (var i = 0; i < 3 && el; i++, el = el.parentElement) {
-      if (isKey(el)) { e.preventDefault(); return; }
-    }
-  }, true);
-
-  /* 3 ─ la inserción: en la posición del cursor, no al final */
-  function put(ch) {
-    if (ch == null) return;
-    ch = String(ch);
-    var el = target;
-    if (!el || !document.contains(el)) {
-      el = document.querySelector("textarea, input[type=text], input:not([type])");
-      if (!el) return;
-      target = el;
-    }
-    try { el.focus(); } catch (err) {}
-    var s = el.selectionStart, e = el.selectionEnd;
-    if (typeof s === "number" && typeof e === "number") {
-      var v = el.value;
-      el.value = v.slice(0, s) + ch + v.slice(e);
-      el.selectionStart = el.selectionEnd = s + ch.length;
-    } else {
-      el.value += ch;                       // casillas sin cursor (raro)
-    }
-    /* que lo vean la autocorrección y el autoguardado de la actividad */
-    el.dispatchEvent(new Event("input",  { bubbles: true }));
-    el.dispatchEvent(new Event("change", { bubbles: true }));
-  }
-
-  /* ¿la tecla trae ya su propio onclick que escribe? Entonces ese onclick
-     —ahora que la función existe— ya ha hecho el trabajo y no repetimos.
-     Los teclados averiados por otro motivo (AO3_Volver, EssayVerbsVolver)
-     enlazan por addEventListener, no por atributo, así que sí los cubrimos. */
-  function hasOwnWriter(el) {
-    var a = el.getAttribute && el.getAttribute("onclick");
-    return !!a && /insert|accent|acento|tilde|escrib|typeChar/i.test(a);
-  }
-
-  /* 4 ─ rellenar los nombres que los onclick esperan y no existen.
-         NO se sobrescribe ninguna función que ya funcione: varias actividades
-         hacen algo más en la suya (spanish_music_speaking actualiza el contador
-         de palabras), y pisarla rompería esa parte. Sólo se cubren los huecos. */
-  var NAMES = ["insertChar", "insertchar", "insertAccent", "insertaccent",
-               "addAccent", "addaccent", "insertAtCursor", "insertCharAtCursor",
-               "escribirAcento", "ponerAcento", "typeChar"];
-  for (var i = 0; i < NAMES.length; i++) {
-    try { if (typeof window[NAMES[i]] !== "function") window[NAMES[i]] = put; } catch (err) {}
-  }
-
-  /* 5 ─ delegación para los teclados que no tienen nada conectado */
-  document.addEventListener("click", function (e) {
-    var el = e.target;
-    for (var i = 0; i < 3 && el; i++, el = el.parentElement) {
-      if (isKey(el)) {
-        if (!hasOwnWriter(el)) put(el.textContent.trim());
-        return;
-      }
-    }
-  }, false);
-
+  var s=h("div",{"class":"sent"},html); card.appendChild(s);
+  var inputs=[].slice.call(s.querySelectorAll("input"));
+  var it={id:id, sec:sec, card:card, q:Q.es.replace(/\{\d+\}/g,"___"), pista:Q.pista, why:Q.why};
+  it.given=function(){ return inputs.map(function(x){return x.value.trim();}).join(" | "); };
+  it.setGiven=function(v){ (v||"").split(" | ").forEach(function(x,i){ if(inputs[i]) inputs[i].value=x; }); };
+  it.res=function(){ return inputs.map(function(x){ return judge(x.value, Q.gaps[+x.getAttribute("data-g")].acc); }); };
+  it.check=function(){ var r=it.res(); if(r.some(function(x){return x==="blank";})) { var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML="Fill in every gap first."; return "blank"; }
+    if(r.every(function(x){return x==="ok";})) return "ok"; if(r.every(function(x){return x==="ok"||x==="accent";})) return "accent"; return "no"; };
+  it.mark=function(){ var r=it.res(); inputs.forEach(function(x,i){ x.classList.toggle("okf",r[i]==="ok"); x.classList.toggle("badf",r[i]!=="ok"); }); };
+  it.lock=function(good){ inputs.forEach(function(x){ x.disabled=true; x.classList.toggle("okf",good); }); it.btns.forEach(function(b){ b.disabled=true; }); };
+  it.reveal=function(){ it.mark(); };
+  it.answerText=function(){ return "**"+Q.gaps.map(function(g){return g.acc[0];}).join(" … ")+"**"+(Q.gaps.some(function(g){return g.acc.length>1;})?" (also accepted: "+Q.gaps.map(function(g){return g.acc.slice(1).join(", ");}).filter(Boolean).join("; ")+")":"")+"."; };
+  it.ans=Q.gaps.map(function(g){return g.acc[0];}).join(" | ");
+  inputs.forEach(function(x){ x.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); it.run(); } }); });
+  controls(card,it); wire(it); return card;
+}
+function seeded(n,seed){ var a=[]; for(var i=0;i<n;i++) a.push(i); var x=seed; for(i=n-1;i>0;i--){ x=(x*9301+49297)%233280; var j=Math.floor(x/233280*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function mcItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  card.appendChild(h("div",null,'<span class="qn">'+n+' ·</span>'+fmt(Q.q)));
+  var box=h("div",{"class":"opts"}); var order=seeded(Q.opts.length, id.length*31+n*7), btns=[], sel=null;
+  order.forEach(function(k){ var b=h("button",{"class":"opt",type:"button"},fmt(Q.opts[k])); b._i=k; b.addEventListener("click",function(){ if(it.state.st) return; sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); it.run(); }); btns.push(b); box.appendChild(b); });
+  card.appendChild(box);
+  var it={id:id, sec:sec, card:card, q:Q.q, pista:Q.pista, why:Q.why};
+  it.given=function(){ return sel==null?"":Q.opts[sel]; };
+  it.setGiven=function(v){ var k=Q.opts.indexOf(v); if(k>=0){ sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); } };
+  it.check=function(){ return sel==null?"blank":(sel===Q.a?"ok":"no"); };
+  it.mark=function(){ btns.forEach(function(x){ if(x._i===sel) x.classList.add("wrong"); }); };
+  it.lock=function(){ btns.forEach(function(x){ x.disabled=true; if(x._i===Q.a) x.classList.add("right"); }); if(it.pb) it.pb.disabled=true; };
+  it.reveal=function(){};
+  it.answerText=function(){ return "**"+Q.opts[Q.a]+"**."; };
+  it.ans=Q.opts[Q.a];
+  var row=h("div",{"class":"ctl ui"}); var p=h("button",{"class":"g",type:"button"},"Pista"); it.pb=p;
+  p.addEventListener("click",function(){ if(it.state.st) return; var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>'+fmt(Q.pista||""); });
+  row.appendChild(p); card.appendChild(row);
+  wire(it); return card;
+}
+var WRITES=[];
+function covered(points, txt){ var d=" "+deacc(txt)+" "; return points.map(function(pt){ return {label:pt[0], ok: pt[1].some(function(k){ return d.indexOf(deacc(k))>=0; })}; }); }
+function wItem(sec, id, n, Q){
+  var card=h("div",{"class":"card reto"});
+  card.innerHTML='<div class="rt2 ui">'+(Q.label||"ESCRIBE")+'</div><p class="ui" style="margin:6px 0 4px;font-size:15px">'+fmt(Q.q)+'</p>';
+  S.w=S.w||{}; var t=h("textarea",{"aria-label":Q.label||"Escribe",style:"min-height:120px"}); t.value=S.w[id]||"";
+  t.addEventListener("input",function(){ S.w[id]=t.value; save(); });
+  card.appendChild(t);
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Comentarios"); row.appendChild(b); card.appendChild(row);
+  var fb=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(fb);
+  b.addEventListener("click",function(){
+    var txt=t.value.trim(), words=(txt.match(/[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+/g)||[]).length;
+    if(words<25){ fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>Write at least '+(Q.min||40)+' words first, then ask for comments. A strong answer covers:<ul class="check">'+Q.points.map(function(p){return "<li>"+esc(p[0])+"</li>";}).join("")+'</ul>'; return; }
+    var cv=covered(Q.points,txt), k=cv.filter(function(x){return x.ok;}).length;
+    fb.className="fb ui show "+(k>=Q.points.length-1?"okb":"hint");
+    fb.innerHTML='<span class="tag '+(k>=Q.points.length-1?"okt":"ht")+'">Comentarios</span>'+k+' of '+cv.length+' key points ('+words+' words).<ul class="check">'+cv.map(function(x){return '<li class="'+(x.ok?"on":"")+'">'+esc(x.label)+'</li>';}).join("")+'</ul><div class="why">The check looks for the key words of each point: a guide, not a mark.</div>'+(Q.model?'<details style="margin-top:8px"><summary>Una respuesta posible</summary><p style="margin:6px 0 0">'+fmt(Q.model)+'</p></details>':"");
+  });
+  WRITES.push({sec:sec,q:Q.q,get:function(){return t.value.trim();}});
+  return card;
+}
+var main=document.getElementById("main"), tabs=document.getElementById("tabs");
+D.sections.forEach(function(sx, si){
+  var id="s"+(si+1);
+  var s=h("section",{"class":"ex",id:id}); s.appendChild(h("h2",null,esc(sx.h2)));
+  if(sx.intro) s.appendChild(h("p",{"class":"how ui"},fmt(sx.intro)));
+  if(sx.rule) s.appendChild(h("div",{"class":"rule"},fmt(sx.rule)));
+  var n=0;
+  sx.items.forEach(function(Q,qi){ n++; if(Q.h3) s.appendChild(h("h3",null,esc(Q.h3)));
+    s.appendChild(Q.t==="mc" ? mcItem(id,id+"_"+qi,n,Q) : Q.t==="w" ? wItem(id,id+"_"+qi,n,Q) : gapItem(id,id+"_"+qi,n,Q)); });
+  var f=h("div",{"class":"secfoot ui"}), l=h("div"), r=h("div");
+  if(si>0) l.appendChild(h("button",{"class":"g",type:"button","data-go":"s"+si},"← Atrás"));
+  var rs=h("button",{"class":"g",type:"button"},"Reintentar esta sección");
+  rs.addEventListener("click",function(){ if(!rs._a){ rs._a=true; rs.textContent="Pulsa otra vez para borrar"; setTimeout(function(){ rs._a=false; rs.textContent="Reintentar esta sección"; },3000); return; }
+    ITEMS.filter(function(it){return it.sec===id;}).forEach(function(it){ delete S.it[it.id]; }); save(); location.reload(); });
+  l.appendChild(document.createTextNode(" ")); l.appendChild(rs);
+  if(si<D.sections.length-1) r.appendChild(h("button",{"class":"b",type:"button","data-go":"s"+(si+2)},"Siguiente →"));
+  else { var dl=h("button",{"class":"b",type:"button"},"Descargar mis respuestas"); dl.addEventListener("click",download); r.appendChild(dl); }
+  f.appendChild(l); f.appendChild(r); s.appendChild(f);
+  main.appendChild(s);
+  var tb=h("button",{type:"button",role:"tab","data-go":id},esc(sx.tab)+' <span class="n"></span>'); tabs.appendChild(tb);
+  SECS.push({id:id, el:s, tab:tb});
+});
+function totals(){ var tot=ITEMS.length, sc=0, first=0, done=0; ITEMS.forEach(function(it){ var st=it.state; if(st.st==="ok"){ sc++; done++; if(st.first) first++; } else if(st.st==="rev") done++; }); return {tot:tot,sc:sc,first:first,done:done}; }
+function refresh(){
+  var T=totals(); document.getElementById("sc").textContent=T.sc; document.getElementById("tot").textContent=T.tot; document.getElementById("first").textContent=T.first;
+  document.getElementById("bar").style.width=(T.tot?Math.round(100*T.sc/T.tot):0)+"%";
+  SECS.forEach(function(s){ var its=ITEMS.filter(function(it){return it.sec===s.id;}); var d=its.filter(function(it){return it.state.st;}).length, ok=its.filter(function(it){return it.state.st==="ok";}).length; s.tab.querySelector(".n").textContent=ok+"/"+its.length; s.tab.classList.toggle("done",d===its.length); });
+  publish();
+}
+function publish(){
+  try{ var T=totals(); var all=JSON.parse(localStorage.getItem("bba-scores")||"{}"); var f=decodeURIComponent(location.pathname.split("/").pop()||"index"); var prev=all[f]||{};
+    var rec={title:(document.title||"").slice(0,120), score:T.sc, total:T.tot, best:Math.max(T.sc,prev.best||0), attempts:(prev.attempts||0)+(S.pub?0:1), t:Date.now()};
+    var n=Math.max(0,T.done-(S.pubDone||0)); rec.ans=(prev.ans||0)+n; rec.lg={}; for(var k in (prev.lg||{})) rec.lg[k]=prev.lg[k];
+    var day=String(Math.floor(Date.now()/86400000)); if(n) rec.lg[day]=(rec.lg[day]||0)+n;
+    all[f]=rec; localStorage.setItem("bba-scores",JSON.stringify(all)); S.pub=true; S.pubDone=T.done; save(); }catch(e){}
+}
+function studentName(){ var nm=document.querySelector("#bba-kit .nm"); var v=nm&&nm.value.trim(); if(!v){ try{ v=localStorage.getItem("bba-name")||""; }catch(e){} } return v||""; }
+function download(){
+  var T=totals(), name=studentName(), L=[];
+  L.push(D.dlhead); L.push("Nombre: "+(name||"(sin nombre)")); L.push("Fecha: "+new Date().toLocaleString("es-ES")); L.push("Puntos: "+T.sc+" / "+T.tot+"  ·  a la primera: "+T.first); L.push("");
+  SECS.forEach(function(s){ L.push("== "+s.el.querySelector("h2").textContent+" ==");
+    ITEMS.filter(function(it){return it.sec===s.id;}).forEach(function(it,i){ var st=it.state;
+      var mark=st.st==="ok"?(st.first?"✓":"✓ (2.º intento)"):st.st==="rev"?"✗ → "+it.ans:"— sin responder";
+      L.push((i+1)+". "+it.q.replace(/\*\*/g,"").replace(/\s+/g," ").slice(0,160)); L.push("   Respuesta: "+(it.given()||"—")+"   ["+mark+"]"); });
+    WRITES.filter(function(w){return w.sec===s.id;}).forEach(function(w){ L.push("ESCRITO: "+w.q.replace(/\*\*/g,"")); L.push(w.get()||"—"); });
+    L.push(""); });
+  var blob=new Blob([L.join("\r\n")],{type:"text/plain;charset=utf-8"}); var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download=D.dlfile+(name||"sin_nombre").replace(/[^\wÁÉÍÓÚÑáéíóúñ-]+/g,"_")+".txt"; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },500);
+}
+function go(id){ SECS.forEach(function(s){ var on=s.id===id; s.el.classList.toggle("active",on); s.tab.setAttribute("aria-selected",on?"true":"false"); }); S.tab=id; save();
+  var nav=document.getElementById("tabs"); if(window.scrollY>nav.offsetTop) window.scrollTo({top:nav.offsetTop,behavior:"smooth"}); }
+document.addEventListener("click",function(e){ var b=e.target.closest("[data-go]"); if(b){ e.preventDefault(); go(b.getAttribute("data-go")); } });
+ITEMS.forEach(function(it){ it.restore(); });
+go(S.tab && document.getElementById(S.tab) ? S.tab : "s1"); refresh();
+window.LCDBA={items:ITEMS, totals:totals, judge:judge};
 })();
 </script>
 <script src="bba-kit-es.js" defer></script>

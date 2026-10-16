@@ -206,14 +206,14 @@
   </div>
 
   <div class="item" data-type="text" data-a="ZWwgZmlsbWV8ZmlsbWV8bGEgY2ludGF8Y2ludGF8ZWwgbGFyZ29tZXRyYWplfGxhcmdvbWV0cmFqZXxlc3RhIHByb2R1Y2Npw7NufHByb2R1Y2Npw7Nu" data-exp="wqtFbCBmaWxtZcK7LCDCq2xhIGNpbnRhwrssIMKrZWwgbGFyZ29tZXRyYWplwrsgbyDCq2VzdGEgcHJvZHVjY2nDs27CuyBzdXN0aXR1eWVuIGFkZWN1YWRhbWVudGUgYSDCq2xhIHBlbMOtY3VsYcK7IGFsIHJlZmVyaXJzZSBhIHN1IGVzdHJlbm8u">
-    <p class="q">14. «La película se estrenó en 2006 en el Festival de Cannes.» Sustituye «La película» por un sinónimo formal.</p>
+    <p class="q">14. «La película compitió en el Festival de Cannes en 2006.» Sustituye «La película» por un sinónimo formal.</p>
     <input type="text" autocomplete="off" spellcheck="false">
     <details class="aide"><summary>Pista</summary><div>Recuerda mantener el artículo correcto según el género del sinónimo elegido.</div></details>
     <div class="fb"></div>
   </div>
 
   <div class="item" data-type="text" data-a="ZWwgZmlsbWV8ZmlsbWV8bGEgY2ludGF8Y2ludGF8ZWwgbGFyZ29tZXRyYWplfGxhcmdvbWV0cmFqZXxsYSBwcm9kdWNjacOzbnxwcm9kdWNjacOzbg==" data-exp="QWwgaGFibGFyIGRlIHVuYSBjcsOtdGljYSBzb2NpYWwsIMKrZWwgZmlsbWXCuywgwqtsYSBjaW50YcK7LCDCq2VsIGxhcmdvbWV0cmFqZcK7IG8gwqtsYSBwcm9kdWNjacOzbsK7IGV2aXRhbiBsYSByZXBldGljacOzbiBtYW50ZW5pZW5kbyB1biByZWdpc3RybyBhY2Fkw6ltaWNvLg==">
-    <p class="q">15. «Muchos críticos consideran que esta película ofrece una visión honesta de la posguerra rural española.» Sustituye «esta película» por un sinónimo formal.</p>
+    <p class="q">15. «Muchos críticos consideran que esta película ofrece una visión honesta de la España rural de hoy.» Sustituye «esta película» por un sinónimo formal.</p>
     <input type="text" autocomplete="off" spellcheck="false">
     <details class="aide"><summary>Pista</summary><div>Evita repetir la palabra que ya aparece varias veces en tu ensayo.</div></details>
     <div class="fb"></div>
@@ -371,9 +371,10 @@ function resetAll(){
 }
 
 function downloadResults(){
-  const name=document.getElementById("studentName").value.trim();
-  if(!name){alert("Escribe primero tu nombre al principio de la página.");document.getElementById("studentName").focus();return}
-  if(!window._score){alert("Pulsa primero «Comprobar mis respuestas».");return}
+  let name=document.getElementById("studentName").value.trim();
+  if(!name){ try{ name=localStorage.getItem("bba-name")||""; }catch(e){} }
+  name=name||"(sin nombre)";
+  if(!window._score){ checkAll(); }
   let txt="RESULTADOS — "+document.title+"\n";
   txt+="Alumno/a: "+name+"\nFecha: "+new Date().toLocaleString("es-ES")+"\n";
   txt+="Puntuación: "+window._score.score+" / "+window._score.max+"\n";

@@ -1,801 +1,306 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Volver - Pedro Almodóvar: Ejercicios A-Level</title>
-    <style>
-        body {
-            font-family: 'Georgia', serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background: linear-gradient(135deg, #2c1810 0%, #8b4513 100%);
-            color: #fff;
-            line-height: 1.6;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 30px;
-            background: rgba(139, 69, 19, 0.3);
-            border-radius: 15px;
-            border: 2px solid #d2691e;
-        }
-        
-        .header h1 {
-            color: #ffd700;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-        
-        .header p {
-            font-size: 1.2em;
-            color: #f0e68c;
-            font-style: italic;
-        }
-        
-        .section {
-            margin-bottom: 40px;
-            padding: 25px;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 10px;
-            border-left: 5px solid #ff6b35;
-        }
-        
-        .section h2 {
-            color: #ff6b35;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #ff6b35;
-            padding-bottom: 10px;
-        }
-        
-        .sentence {
-            margin-bottom: 25px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-        
-        .sentence:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-        
-        .original {
-            font-size: 1.1em;
-            margin-bottom: 15px;
-            line-height: 1.7;
-            color: #f5f5f5;
-        }
-        
-        .english {
-            font-style: italic;
-            color: #f0e68c;
-            margin-bottom: 10px;
-            padding: 8px;
-            background: rgba(0,0,0,0.2);
-            border-left: 3px solid #ffd700;
-        }
-        
-        .original strong {
-            background: #ff6b35;
-            color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-        }
-        
-        input[type="text"] {
-            width: 200px;
-            padding: 10px;
-            border: 2px solid #ff6b35;
-            border-radius: 5px;
-            font-size: 16px;
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
-            margin-right: 10px;
-        }
-        
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #ffd700;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-        }
-        
-        .check-btn {
-            background: linear-gradient(45deg, #ff6b35, #ff8c42);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-        
-        .check-btn:hover {
-            background: linear-gradient(45deg, #ff8c42, #ffa500);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        
-        .feedback {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 5px;
-            font-weight: bold;
-            min-height: 20px;
-        }
-        
-        .feedback.correct {
-            background: #2d5a27;
-            color: #90ee90;
-            border: 1px solid #90ee90;
-        }
-        
-        .feedback.incorrect {
-            background: #5a2727;
-            color: #ff6b6b;
-            border: 1px solid #ff6b6b;
-        }
-        
-        .instructions {
-            background: rgba(255, 215, 0, 0.1);
-            border: 2px solid #ffd700;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 30px;
-            color: #ffd700;
-        }
-        
-        .counter {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 15px;
-            border-radius: 10px;
-            border: 2px solid #ff6b35;
-            color: #fff;
-            font-weight: bold;
-            z-index: 1000; /* Ensure it's on top */
-        }
-
-        /* Accent Keyboard Styling */
-        .accent-keyboard {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 30px;
-            padding: 15px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            margin-bottom: 20px; /* Space from first section */
-        }
-        .accent-keyboard button {
-            background-color: #d2691e; /* Earthy tone */
-            color: white;
-            padding: 10px 15px;
-            font-size: 1.1em;
-            min-width: 45px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            margin: 0; /* Override default button margin */
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .accent-keyboard button:hover {
-            background-color: #ff8c42; /* Lighter on hover */
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Custom Alert/Message Box */
-        .custom-message-box {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.9);
-            color: #fff;
-            padding: 30px;
-            border-radius: 15px;
-            border: 3px solid #ffd700;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
-            text-align: center;
-            font-size: 1.5em;
-            z-index: 2000;
-            display: none; /* Hidden by default */
-            animation: fadeInScale 0.3s ease-out;
-            max-width: 80%;
-        }
-
-        .custom-message-box p {
-            margin-bottom: 20px;
-        }
-
-        .custom-message-box button {
-            background: linear-gradient(45deg, #ffd700, #ffec8b);
-            color: #333;
-            padding: 10px 25px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .custom-message-box button:hover {
-            background: linear-gradient(45deg, #ffec8b, #ffd700);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volver · Subjuntivo y tiempos (AO3)</title>
+<meta name="description" content="A-Level Spanish AO3: present and imperfect subjunctive, si and como si, aunque and cuando, through true sentences about Volver.">
+<style>
+:root{
+  --paper:#f6f1e7; --card:#fffdf8; --ink:#2a2320; --soft:#6a5a4c; --line:#dcd0bb;
+  --ox:#6e1f2a; --ox2:#8f3340; --oxs:#f4e4e4; --green:#1f4d3a; --gs:#e3efe8;
+  --gold:#a8843a; --golds:#f7efd9; --bad:#a23b2a; --bads:#fbe9e5; --ok:#226a43;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+.ui{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:22px 16px 160px}
+header{border-bottom:3px double var(--ox);padding-bottom:14px;margin-bottom:8px}
+.kicker{font:600 12px/1.2 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ox)}
+h1{font-size:31px;line-height:1.15;margin:6px 0 6px;color:var(--ox)}
+.lead{color:var(--soft);margin:0 0 4px;font:15px/1.55 system-ui,sans-serif}
+.score{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:10px;font:14px system-ui,sans-serif;color:var(--soft)}
+.score b{color:var(--ink);font-size:16px}
+.meter{flex:1 1 180px;height:8px;background:#e8dfcf;border-radius:99px;overflow:hidden;min-width:140px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#2f7a58);transition:width .4s}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 12px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+nav.tabs button{font:600 13.5px system-ui,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 12px;cursor:pointer;display:flex;gap:6px;align-items:center}
+nav.tabs button .n{font-weight:500;color:var(--soft);font-size:12px}
+nav.tabs button[aria-selected="true"]{background:var(--ox);border-color:var(--ox);color:#fff}
+nav.tabs button[aria-selected="true"] .n{color:#f1d7d9}
+nav.tabs button.done:not([aria-selected="true"]){border-color:var(--green);color:var(--green)}
+section.ex{display:none}
+section.ex.active{display:block}
+h2{font-size:24px;margin:4px 0 6px;color:var(--green)}
+h3{font:700 13px system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ox);margin:22px 0 8px}
+.how{font:15px/1.55 system-ui,sans-serif;color:var(--soft);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;position:relative}
+.card.ok{border-color:#9cc7ae;background:#fbfefc}
+.card.rev{border-color:#e3b6ad}
+.card .qn{font:700 13px system-ui,sans-serif;color:var(--ox);margin-right:6px}
+.quote{font-style:italic}
+blockquote{margin:2px 0 10px;padding:6px 0 6px 14px;border-left:3px solid var(--gold);font-style:italic;font-size:18px}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:10px}
+input[type=text],select,textarea{font:16px Georgia,serif;color:var(--ink);background:#fff;border:1px solid #bdae95;border-radius:7px;padding:7px 10px;max-width:100%}
+input[type=text]{width:15em}
+input.w8{width:8.5em} input.w6{width:7em}
+input.okf{border-color:var(--ok);background:#f2faf5} input.badf{border-color:var(--bad);background:var(--bads)}
+textarea{width:100%;min-height:200px;resize:vertical;line-height:1.6}
+button.b{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 13px;cursor:pointer;border:1px solid var(--ox);background:var(--ox);color:#fff}
+button.b:disabled{opacity:.45;cursor:default}
+button.g{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--green)}
+button.g:disabled{opacity:.45;cursor:default}
+.opts{display:grid;gap:7px;margin-top:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;font:15.5px/1.45 system-ui,sans-serif;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 12px;cursor:pointer;color:var(--ink)}
+.opt:before{content:"";flex:0 0 16px;height:16px;border:2px solid #b8a98f;border-radius:50%;margin-top:2px}
+.opt.sel{border-color:var(--ox);background:var(--oxs)}
+.opt.sel:before{border-color:var(--ox);background:radial-gradient(var(--ox) 45%,transparent 50%)}
+.opt.right{border-color:var(--ok);background:#eef8f2}
+.opt.wrong{border-color:var(--bad);background:var(--bads)}
+.opt:disabled{cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font:600 13px system-ui,sans-serif;border:1px solid #c9bba3;background:#fff;color:var(--soft);border-radius:999px;padding:6px 11px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.chip.core{outline:2px solid var(--ok);outline-offset:1px}
+.chip.acc{outline:2px dashed var(--gold);outline-offset:1px}
+.chip.wrongc{background:var(--bad);border-color:var(--bad);color:#fff}
+.chip:disabled{cursor:default}
+.fb{margin-top:10px;font:14.5px/1.55 system-ui,sans-serif;border-radius:8px;padding:9px 12px;display:none}
+.fb.show{display:block}
+.fb.okb{background:var(--gs);color:#163a2b}
+.fb.hint{background:var(--golds);color:#4d3c14}
+.fb.revb{background:var(--bads);color:#5a1d12}
+.fb .why{margin-top:6px;color:#2b2a26}
+.tag{display:inline-block;font:700 11px system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-right:6px}
+.tag.okt{background:var(--ok);color:#fff}.tag.ht{background:var(--gold);color:#fff}.tag.rt{background:var(--bad);color:#fff}
+.legend{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:14.5px/1.55 system-ui,sans-serif;margin-bottom:10px}
+.legend b{color:var(--ox)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}
+.who{font:13px system-ui,sans-serif;color:var(--soft)}
+.tr{line-height:2.25;font-size:17px;background:#faf6ee;border-left:3px solid var(--gold);padding:6px 12px;border-radius:4px;margin-top:6px}
+.secfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0 6px;flex-wrap:wrap}
+.reto{border:2px solid var(--ox);background:#fff}
+.reto .rt2{font:700 12px system-ui,sans-serif;letter-spacing:.16em;color:var(--ox)}
+.check li{margin:4px 0;list-style:none;padding-left:0}
+.check{padding:0;margin:10px 0 0;font:14.5px/1.5 system-ui,sans-serif}
+.check li:before{content:"○ ";color:#b8a98f;font-weight:700}
+.check li.on:before{content:"● ";color:var(--ok)}
+.check li.warn:before{content:"● ";color:var(--bad)}
+.qcheck{font:14px/1.5 system-ui,sans-serif;margin-top:8px}
+.qcheck div{padding:3px 0}
+.qcheck .y{color:var(--ok)} .qcheck .n{color:var(--bad)}
+.titles label{display:flex;gap:8px;align-items:flex-start;font:15.5px/1.45 Georgia,serif;margin:6px 0;cursor:pointer}
+.tips{font:14.5px/1.55 system-ui,sans-serif;background:var(--oxs);border-radius:8px;padding:10px 12px;margin:10px 0}
+.res{font:15px/1.6 system-ui,sans-serif}
+.res table{border-collapse:collapse;width:100%;margin:8px 0}
+.res td,.res th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+.src{font:13px/1.5 system-ui,sans-serif;color:var(--soft);margin-top:22px}
+@media (max-width:640px){h1{font-size:25px}.cols{grid-template-columns:1fr}input[type=text]{width:100%}input.w8,input.w6{width:8em}nav.tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}nav.tabs::-webkit-scrollbar{display:none}nav.tabs button{padding:6px 10px;font-size:12.5px;flex:0 0 auto;white-space:nowrap}}
+@media print{nav.tabs,.secfoot,button{display:none!important}section.ex{display:block!important}}
+</style>
+<style>
+.sent{font-size:18px;line-height:2.1}
+.sent input{width:9em;font-size:16px;padding:4px 8px;margin:0 2px}
+.en{font:14px/1.45 system-ui,sans-serif;color:var(--soft);margin:0 0 4px}
+.cue{font:13px system-ui,sans-serif;color:var(--soft)}
+.rule{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:8px;padding:10px 14px;font:14.5px/1.55 system-ui,sans-serif;margin:6px 0 12px}
+</style>
 </head>
 <body>
-    <div class="header">
-        <h1>Volver - Pedro Almodóvar</h1>
-        <p>Ejercicios de A-Level Spanish - Edexcel AO3: Range and Accuracy of Language</p>
-    </div>
-    
-    <div class="counter">
-        <div>Correctas: <span id="correct-count">0</span>/<span id="total-questions-display">43</span></div>
-        <div>Progreso: <span id="progress">0%</span></div>
-    </div>
-    
-    <div class="instructions">
-        <h3>📚 Instrucciones:</h3>
-        <p>Completa las frases sobre "Volver" con la forma correcta del verbo, pronombre relativo o conector avanzado. Estas frases están diseñadas para demostrar un rango avanzado de lenguaje apropiado para A-Level Spanish. Usa el teclado de acentos si lo necesitas y pulsa 'Enter' para comprobar cada respuesta.</p>
-    </div>
-
-    <!-- Accent Keyboard -->
-    <div class="accent-keyboard">
-        <button data-accent="á">á</button>
-        <button data-accent="é">é</button>
-        <button data-accent="í">í</button>
-        <button data-accent="ó">ó</button>
-        <button data-accent="ú">ú</button>
-        <button data-accent="ñ">ñ</button>
-        <button data-accent="ü">ü</button>
-        <button data-accent="¿">¿</button>
-        <button data-accent="¡">¡</button>
-    </div>
-
-    <!-- SUBJUNCTIVES SECTION (14 sentences) -->
-    <div class="section">
-        <h2>🎭 Subjuntivos - Advanced Subjunctive Constructions</h2>
-        
-        <div class="sentence" data-answer="revele">
-            <div class="english">It's crucial that the strong wind reveals the hidden secrets of the past.</div>
-            <div class="original">Es crucial que el fuerte viento <strong>___</strong> (revelar) los secretos ocultos del pasado.</div>
-            <input type="text" name="q1" placeholder="Escribe el verbo..." data-inf="revelar" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="establezca">
-            <div class="english">Almodóvar makes sure that each flashback establishes a deep emotional connection with the viewer.</div>
-            <div class="original">Almodóvar logra que cada flashback <strong>___</strong> (establecer) una conexión emocional profunda con el espectador.</div>
-            <input type="text" name="q2" placeholder="Escribe el verbo..." data-inf="establecer" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="hubiera">
-            <div class="english">Raimunda acts as if she had never experienced the trauma of sexual abuse in her youth.</div>
-            <div class="original">Raimunda actúa como si nunca <strong>___</strong> (haber) experimentado el trauma del abuso sexual en su juventud.</div>
-            <input type="text" name="q3" placeholder="Escribe el verbo..." data-inf="haber" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="mantenga">
-            <div class="english">In Volver it's fundamental that the narrative maintains a balance between unrealistic situations and dramatic credibility.</div>
-            <div class="original">En Volver es fundamental que la narrativa <strong>___</strong> (mantener) un equilibrio entre situaciones irrealismo y la credibilidad dramática.</div>
-            <input type="text" name="q4" placeholder="Escribe el verbo..." data-inf="mantener" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="experimenten">
-            <div class="english">The director intends for the viewers to experience an emotional catharsis through maternal forgiveness.</div>
-            <div class="original">El director pretende que los espectadores <strong>___</strong> (experimentar) una catarsis emocional a través del perdón maternal.</div>
-            <input type="text" name="q5" placeholder="Escribe el verbo..." data-inf="experimentar" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="rompa">
-            <div class="english">It's remarkable that the theme of patricide breaks the conventions of traditional Spanish melodrama.</div>
-            <div class="original">Es notable que la temática del patricidio <strong>___</strong> (romper) las convenciones del melodrama tradicional español.</div>
-            <input type="text" name="q6" placeholder="Escribe el verbo..." data-inf="romper" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="sean">
-            <div class="english">I doubt that the cinematographic techniques are enough to convey the intensity of female grief.</div>
-            <div class="original">Dudo que las técnicas cinematográficas <strong>___</strong> (ser) suficientes para transmitir la intensidad del duelo femenino.</div>
-            <input type="text" name="q7" placeholder="Escribe el verbo..." data-inf="ser" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="muestre">
-            <div class="english">Almodóvar uses the color red to show symbolically the latent passion and violence.</div>
-            <div class="original">Almodóvar emplea el color rojo para que <strong>___</strong> (mostrar) simbólicamente la pasión y violencia latente.</div>
-            <input type="text" name="q8" placeholder="Escribe el verbo..." data-inf="mostrar" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="sea">
-            <div class="english">It's not likely that a genuine reconciliation is possible without explicit recognition of the traumatic past.</div>
-            <div class="original">No es probable que una reconciliación auténtica <strong>___</strong> (ser) posible sin un reconocimiento explícito del pasado traumático.</div>
-            <input type="text" name="q9" placeholder="Escribe el verbo..." data-inf="ser" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="comprendan">
-            <div class="english">It's crucial that the critics understand the deconstruction of femininity stereotypes that the film performs.</div>
-            <div class="original">Es crucial que los críticos <strong>___</strong> (comprender) la deconstrucción de estereotipos de feminidad que realiza el filme.</div>
-            <input type="text" name="q10" placeholder="Escribe el verbo..." data-inf="comprender" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="permita">
-            <div class="english">The narrative structure is designed to allow multiple interpretations of the ending.</div>
-            <div class="original">La estructura narrativa es diseñada para que <strong>___</strong> (permitir) múltiples interpretaciones del final.</div>
-            <input type="text" name="q11" placeholder="Escribe el verbo..." data-inf="permitir" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="constituya">
-            <div class="english">It's indisputable that the cemetery constitutes a liminal space between life and death in Almodóvar's worldview.</div>
-            <div class="original">Es indiscutible que el cementerio <strong>___</strong> (constituir) un espacio liminal entre vida y muerte en la cosmovisión almodovariana.</div>
-            <input type="text" name="q12" placeholder="Escribe el verbo..." data-inf="constituir" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="hubiera">
-            <div class="english">Paula reacts as if her grandmother had never died, showing the normalization of the supernatural.</div>
-            <div class="original">Paula reacciona como si su abuela nunca <strong>___</strong> (haber) muerto, evidenciando la normalización de lo sobrenatural.</div>
-            <input type="text" name="q13" placeholder="Escribe el verbo..." data-inf="haber" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="articulen">
-            <div class="english">Almodóvar aims for the performances to articulate a subtle critique of contemporary Spanish patriarchy.</div>
-            <div class="original">Almodóvar busca que las actuaciones <strong>___</strong> (articular) una crítica sutil al patriarcado español contemporáneo.</div>
-            <input type="text" name="q14" placeholder="Escribe el verbo..." data-inf="articular" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-    </div>
-
-    <!-- RELATIVE PRONOUNS SECTION (15 sentences) -->
-    <div class="section">
-        <h2>🔗 Pronombres Relativos - Advanced Relative Constructions</h2>
-        
-        <div class="sentence" data-answer="cuyo">
-            <div class="english">Irene represents the maternal archetype whose return transcends the barriers of mortality.</div>
-            <div class="original">Irene representa el arquetipo materno <strong>___</strong> regreso trasciende las barreras de la mortalidad. (whose) </div>
-            <input type="text" name="q15" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cuyas">
-            <div class="english">The women of La Mancha, whose ancestral traditions remain alive, embody the resistance of regional culture.</div>
-            <div class="original">Las mujeres de La Mancha, <strong>___</strong> tradiciones ancestrales siguen vivas, encarnan la resistencia de la cultura regional.</div>
-            <input type="text" name="q16" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="quienes">
-            <div class="english">The male characters, against whom the feminist criticism is directed, remain narratively marginalized.</div>
-            <div class="original">Los personajes masculinos, contra <strong>___</strong> se dirige la crítica feminista, permanecen marginalizados narrativamente.</div>
-            <input type="text" name="q17" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="lo cual">
-            <div class="english">The restaurant functions as a social microcosm, which facilitates the development of multiple subplots.</div>
-            <div class="original">El restaurante funciona como microcosmos social, <strong>___</strong> facilita el desarrollo de múltiples subtramas.</div>
-            <input type="text" name="q18" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cuanto">
-            <div class="english">Raimunda preserves what her mother taught her about female survival and dignity.</div>
-            <div class="original">Raimunda preserva <strong>___</strong> le enseñó su madre sobre supervivencia y dignidad femenina.</div>
-            <input type="text" name="q19" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cuyo">
-            <div class="english">The wind, whose symbolism permeates the entire narrative, represents the transformative force of destiny.</div>
-            <div class="original">El viento, <strong>___</strong> simbolismo permea toda la narrativa, representa la fuerza transformadora del destino.</div>
-            <input type="text" name="q20" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="las cuales">
-            <div class="english">The folk songs, without which cultural identity would fade, structure the sound universe.</div>
-            <div class="original">Las canciones populares, sin <strong>___</strong> la identidad cultural se desvanecería, estructuran el universo sonoro.</div>
-            <input type="text" name="q21" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="quien">
-            <div class="english">Agustina, who suffers from cancer, symbolizes human vulnerability before inexorable forces.</div>
-            <div class="original">Agustina, <strong>___</strong> padece cáncer, simboliza la vulnerabilidad humana ante fuerzas inexorables.</div>
-            <input type="text" name="q22" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cuya">
-            <div class="english">The cinematography, whose color palette evokes specific emotions, builds complex psychological atmospheres.</div>
-            <div class="original">La cinematografía, <strong>___</strong> paleta cromática evoca emociones específicas, construye atmósferas psicológicas complejas.</div>
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cuanto">
-            <div class="english">Maternal forgiveness encompasses what seemed unforgivable in the context of traditional morality.</div>
-            <div class="original">El perdón maternal abarca <strong>___</strong> parecía imperdonable en el contexto de la moralidad tradicional.</div>
-            <input type="text" name="q24" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="lo cual">
-            <div class="english">Death is presented as a transition, which challenges Western conceptions about finitude.</div>
-            <div class="original">La muerte se presenta como transición, <strong>___</strong> desafía concepciones occidentales sobre la finitud.</div>
-            <input type="text" name="q25" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cuyas">
-            <div class="english">The lead actresses, whose performances transcend naturalism, create universal archetypes.</div>
-            <div class="original">Las actrices principales, <strong>___</strong> interpretaciones trascienden el naturalismo, crean arquetipos universales.</div>
-            <input type="text" name="q26" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="quienes">
-            <div class="english">The viewers, for whom magical realism is familiar, intuitively understand the narrative logic.</div>
-            <div class="original">Los espectadores, para <strong>___</strong> el realismo mágico resulta familiar, comprenden intuitivamente la lógica narrativa.</div>
-            <input type="text" name="q27" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cuyo">
-            <div class="english">The town of La Mancha, whose geographical isolation preserves traditions, functions as a collective character.</div>
-            <div class="original">El pueblo manchego, <strong>___</strong> aislamiento geográfico preserva tradiciones, funciona como personaje colectivo.</div>
-            <input type="text" name="q28" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cuantas">
-            <div class="english">Almodóvar incorporates as many intertextual references as he considers necessary to enrich the film discourse.</div>
-            <div class="original">Almodóvar incorpora <strong>___</strong> referencias intertextuales considera necesarias para enriquecer el discurso fílmico.</div>
-            <input type="text" name="q29" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-    </div>
-
-    <!-- ADVANCED CONNECTORS SECTION (14 sentences) -->
-    <div class="section">
-        <h2>🌉 Conectores Avanzados - Sophisticated Discourse Markers</h2>
-        
-        <div class="sentence" data-answer="No obstante">
-            <div class="english">Despite the apparent simplicity of the plot, the film articulates a complex reflection on gender and memory.</div>
-            <div class="original"><strong>___</strong> la aparente simplicidad argumental, la película articula una compleja reflexión sobre género y memoria.</div>
-            <input type="text" name="q30" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="En consecuencia">
-            <div class="english">Female solidarity constitutes the central thematic core; consequently, all secondary relationships revolve around it.</div>
-            <div class="original">La sororidad femenina constituye el núcleo temático central; <strong>___</strong>, todas las relaciones secundarias orbitan en torno a ella.</div>
-            <input type="text" name="q31" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Por el contrario">
-            <div class="english">Men don't dominate the narrative as in previous films; on the contrary, their presence is almost testimonial.</div>
-            <div class="original">Los personajes masculinos, contra <strong>___</strong> se dirige la crítica feminista, permanecen marginalizados narrativamente.</div>
-            <input type="text" name="q32" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Asimismo">
-            <div class="english">Mourning is ritualized through community ceremonies; likewise, death is socialized and loses individual drama.</div>
-            <div class="original">El luto se ritualiza mediante ceremonias comunitarias; <strong>___</strong>, la muerte se socializa y pierde dramatismo individual.</div>
-            <input type="text" name="q33" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Ahora bien">
-            <div class="english">Magical realism permeates the film atmosphere; however, it never compromises psychological verisimilitude.</div>
-            <div class="original">El realismo mágico permea la atmósfera fílmica; <strong>___</strong>, nunca compromete la verosimilitud psicológica.</div>
-            <input type="text" name="q34" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="En efecto">
-            <div class="english">Motherhood transcends biological limits; indeed, it becomes a social and spiritual institution.</div>
-            <div class="original">La maternidad trasciende los límites biológicos; <strong>___</strong>, se convierte en institución social y espiritual.</div>
-            <input type="text" name="q35" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Sin embargo">
-            <div class="english">Revenge could justify the violence; however, Almodóvar privileges compassion over retribution.</div>
-            <div class="original">La venganza podría justificar la violencia; <strong>___</strong>, Almodóvar privilegia la compasión sobre la retribución.</div>
-            <input type="text" name="q36" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Por tanto">
-            <div class="english">The visual aesthetics reinforces underlying meanings; therefore, each chromatic element has narrative intentionality.</div>
-            <div class="original">La estética visual refuerza significados subyacentes; <strong>___</strong>, cada elemento cromático posee intencionalidad narrativa.</div>
-            <input type="text" name="q37" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Mientras que">
-            <div class="english">While tradition imposes silence about family traumas, the new generations seek emotional transparency.</div>
-            <div class="original"><strong>___</strong> la tradición impone silencio sobre traumas familiares, las nuevas generaciones buscan transparencia emocional.</div>
-            <input type="text" name="q38" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="En cambio">
-            <div class="english">Conventional melodramas punish moral transgression; in contrast, Volver celebrates female autonomy.</div>
-            <div class="original">Los melodramas convencionales castigan la transgresión moral; <strong>___</strong>, Volver celebra la autonomía femenina.</div>
-            <input type="text" name="q39" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="De hecho">
-            <div class="english">The film transcends commercial entertainment; in fact, it constitutes an artistic statement about Spanish identity.</div>
-            <div class="original">La película trasciende el entretenimiento comercial; <strong>___</strong>, constituye una declaración artística sobre identidad española.</div>
-            <input type="text" name="q40" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Así pues">
-            <div class="english">Each female character represents different archetypes; thus, a complete mosaic of femininities is constructed.</div>
-            <div class="original">Cada personaje femenino representa arquetipos distintos; <strong>___</strong>, se construye un mosaico completo de feminidades.</div>
-            <input type="text" name="q41" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="No obstante">
-            <div class="english">The social criticism remains implicit; nevertheless, its impact is more lasting than explicit denunciations.</div>
-            <div class="original">La crítica social permanece implícita; <strong>___</strong>, su impacto resulta más duradero que las denuncias explícitas.</div>
-            <input type="text" name="q42" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="En definitiva">
-            <div class="english">Ultimately, Volver represents the artistic culmination of contemporary Almodovarian cinematic feminism.</div>
-            <div class="original"><strong>___</strong>, Volver representa la culminación artística del feminismo cinematográfico almodovariano contemporáneo.</div>
-            <input type="text" name="q43" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-    </div>
-
-    <!-- Custom Message Box for completion -->
-    <div id="completion-message-box" class="custom-message-box">
-        <p>¡Enhorabuena! Has completado todos los ejercicios con éxito. Tu dominio del español avanzado es excelente para A-Level. ¡Perfecto para conseguir 20 puntos en AO3!</p>
-        <button onclick="hideCompletionMessage()">Cerrar</button>
-    </div>
-
-    <script>
-        let correctCount = 0;
-        const totalQuestions = 43; // Confirmed 43 sentences
-        let activeInput = null; // To keep track of the currently focused input
-
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('total-questions-display').textContent = totalQuestions;
-            updateProgress();
-
-            // Setup accent keyboard
-            document.querySelectorAll('.accent-keyboard button').forEach(button => {
-                button.addEventListener('click', handleAccentClick);
-            });
-
-            // Setup input focus/blur and keypress
-            document.querySelectorAll('input[type="text"]').forEach(input => {
-                input.addEventListener('focus', (e) => {
-                    activeInput = e.target;
-                });
-                input.addEventListener('blur', () => {
-                    activeInput = null;
-                });
-                input.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault(); // Prevent form submission
-                        const button = this.parentElement.querySelector('.check-btn');
-                        if (button && !button.disabled) {
-                            button.click();
-                        }
-                    }
-                });
-                
-                // Reset styling when user starts typing again
-                input.addEventListener('input', function() {
-                    this.style.borderColor = '#ff6b35';
-                    const sentence = this.closest('.sentence');
-                    const feedback = sentence.querySelector('.feedback');
-                    if (feedback.classList.contains('incorrect')) {
-                        feedback.textContent = '';
-                        feedback.className = 'feedback';
-                    }
-                });
-            });
-
-            // Add event listeners to all check buttons
-            document.querySelectorAll('.check-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const sentence = this.closest('.sentence');
-                    const input = sentence.querySelector('input[type="text"]');
-                    const feedback = sentence.querySelector('.feedback');
-                    const correctAnswers = sentence.getAttribute('data-answer').split(','); // Get all possible correct answers
-                    const userAnswer = input.value.trim();
-                    
-                    if (userAnswer === '') {
-                        feedback.textContent = 'Por favor, escribe una respuesta.';
-                        feedback.className = 'feedback incorrect';
-                        return;
-                    }
-                    
-                    let isAnswerCorrect = false;
-                    const normalizedUser = normalizeText(userAnswer);
-
-                    // Check if user answer matches any of the correct answers
-                    for (let i = 0; i < correctAnswers.length; i++) {
-                        if (normalizeText(correctAnswers[i]) === normalizedUser) {
-                            isAnswerCorrect = true;
-                            break;
-                        }
-                    }
-
-                    if (isAnswerCorrect) {
-                        feedback.textContent = '¡Correcto! Excelente dominio del español avanzado.';
-                        feedback.className = 'feedback correct';
-                        input.style.borderColor = '#90ee90';
-                        this.disabled = true;
-                        this.textContent = '✓ Correcto';
-                        this.style.background = '#2d5a27';
-                        
-                        // Only increment if not already counted
-                        if (!sentence.classList.contains('completed')) {
-                            correctCount++;
-                            sentence.classList.add('completed');
-                            updateProgress();
-                        }
-                    } else {
-                        // Display all correct answers if there are multiple
-                        const displayCorrectAnswer = correctAnswers.length > 1 
-                            ? `"${correctAnswers.join('", "')}"` 
-                            : `"${correctAnswers[0]}"`;
-
-                        feedback.innerHTML = `Incorrecto. La respuesta correcta es: <strong>${displayCorrectAnswer}</strong>. Revisa las reglas gramaticales correspondientes.`;
-                        feedback.className = 'feedback incorrect';
-                        input.style.borderColor = '#ff6b6b';
-                    }
-
-                    // Check for overall completion after each answer
-                    checkCompletion();
-                });
-            });
-        });
-        
-        // Normalize text for comparison (removes accents and converts to lowercase)
-        function normalizeText(text) {
-            return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
-        }
-        
-        // Update progress counter
-        function updateProgress() {
-            document.getElementById('correct-count').textContent = correctCount;
-            document.getElementById('progress').textContent = Math.round((correctCount / totalQuestions) * 100) + '%';
-        }
-        
-        // Custom message box functions
-        function showCompletionMessage() {
-            document.getElementById('completion-message-box').style.display = 'block';
-        }
-
-        function hideCompletionMessage() {
-            document.getElementById('completion-message-box').style.display = 'none';
-        }
-
-        // Check for overall completion
-        function checkCompletion() {
-            if (correctCount === totalQuestions) {
-                showCompletionMessage();
-            }
-        }
-
-        // Function to insert accent at cursor position
-        function insertAtCursor(input, textToInsert) {
-            const start = input.selectionStart;
-            const end = input.selectionEnd;
-            const value = input.value;
-
-            input.value = value.substring(0, start) + textToInsert + value.substring(end);
-
-            // Move cursor to the end of the inserted text
-            input.selectionStart = input.selectionEnd = start + textToInsert.length;
-            input.focus(); // Keep focus on the input
-        }
-
-        // Handle accent button clicks
-        function handleAccentClick(event) {
-            if (activeInput) {
-                const accentChar = event.target.dataset.accent;
-                insertAtCursor(activeInput, accentChar);
-            } else {
-                // Optionally, give feedback to the user that they need to select an input
-                console.log('No input field is focused for accent insertion.');
-            }
-        }
-    </script>
-<script>window.BBA_KIT = {check:false};</script>
+<div class="wrap">
+<header>
+  <div class="kicker">Película · Gramática AO3</div>
+  <h1>Volver — el subjuntivo y los tiempos</h1>
+  <p class="lead">Every sentence is true to the film. Type the missing form and press <b>Enter</b> or « Comprobar ». Spelling and accents count: if only the accent is wrong, you are told so and can try again. If you are wrong the first time you get a <i>pista</i> for that sentence; the second time you see the answer and the rule. Your work saves itself on this device.</p>
+  <div class="score" aria-live="polite"><span>Puntos <b id="sc">0</b> / <b id="tot">0</b></span><span>a la primera <b id="first">0</b></span><div class="meter"><i id="bar"></i></div></div>
+</header>
+<nav class="tabs" role="tablist" aria-label="Ejercicios" id="tabs"></nav>
+<main id="main"></main>
+<p class="src">Dialogue: Pedro Almodóvar, <i>Volver</i> (2006), short extracts quoted for study.</p>
+</div>
+<script>window.BBA_KIT = {check:false, download:false, save:false, enter:false};</script>
+<script>var D = {"key": "volver-ao3-v2", "dlhead": "VOLVER — SUBJUNTIVO Y TIEMPOS", "dlfile": "Volver_AO3_", "sections": [{"tab": "1 · Presente de subj.", "h2": "1 · El presente de subjuntivo", "intro": "Read the lines from the film first. What comes just before each subjunctive?", "rule": "«Es muy importante que recuerdes eso» (Raimunda) · «No quiero que se nos eche la noche encima» (Sole) · «Pensaba darte algo al mes, para que le eches un ojo cada día» (Raimunda).<br>Importance, wishes, purpose or emotion + que + **a new subject** → **subjunctive**. Facts you know or state as true → **indicative**.", "items": [{"t": "gap", "en": "Raimunda wants Paula to remember her version: she killed Paco.", "es": "Raimunda quiere que Paula {0} su versión: fue ella quien mató a Paco.", "gaps": [{"acc": ["recuerde"], "cue": "recordar"}], "pista": "Querer que + another subject. Recordar changes o → ue.", "why": "Querer que → subjuntivo: **recuerde**."}, {"t": "gap", "en": "Agustina hopes someone does the same for her mother, wherever she is.", "es": "Agustina espera que alguien {0} lo mismo por su madre, esté donde esté.", "gaps": [{"acc": ["haga"], "cue": "hacer"}], "pista": "Esperar que (to hope) + subjunctive. Hacer → hago → ?", "why": "**haga**. Agustina: «ojalá hagan lo mismo con mi madre… esté donde esté»."}, {"t": "gap", "en": "Raimunda needs Regina to help her bury the freezer.", "es": "Raimunda necesita que Regina la {0} a enterrar el congelador.", "gaps": [{"acc": ["ayude"], "cue": "ayudar"}], "pista": "Necesitar que + ?", "why": "**ayude**."}, {"t": "gap", "en": "It is sad that Agustina has to face cancer alone.", "es": "Es triste que Agustina {0} que enfrentarse sola al cáncer.", "gaps": [{"acc": ["tenga"], "cue": "tener"}], "pista": "Emotion → ?", "why": "**tenga**."}, {"t": "gap", "en": "Irene asks Agustina not to tell anyone she has come back.", "es": "Irene le pide a Agustina que no le {0} a nadie que ha vuelto.", "gaps": [{"acc": ["diga", "cuente"], "cue": "decir"}], "pista": "Pedir que → ? Decir → digo.", "why": "**diga**. Irene: «no le digas a nadie que he vuelto»."}, {"t": "gap", "en": "Raimunda knows now that her mother is alive.", "es": "Ahora Raimunda sabe que su madre {0} viva.", "gaps": [{"acc": ["está"], "cue": "estar"}], "pista": "Saber que + a fact.", "why": "Saber que → indicativo: **está**."}, {"t": "gap", "en": "At first Raimunda does not believe her mother is alive.", "es": "Al principio, Raimunda no cree que su madre {0} viva.", "gaps": [{"acc": ["esté", "siga"], "cue": "estar"}], "pista": "No creer que → ?", "why": "**esté** (subjunctive after a negative opinion)."}]}, {"tab": "2 · Imperfecto de subj.", "h2": "2 · El imperfecto de subjuntivo", "intro": "When the main verb is in the past, the subjunctive moves into the past too.", "rule": "«Te llamé un montón de veces para que compraras el pan» (Paula) · «nunca quise que supierais nada» (Irene).<br>Past main verb (llamé, quise, pidió) + que → **imperfect subjunctive**: compr**ara** / compr**ase**.", "items": [{"t": "gap", "en": "Raimunda asked Paula to say she had been out in the street.", "es": "Raimunda le pidió a Paula que {0} que había estado en la calle.", "gaps": [{"acc": ["dijera", "dijese"], "cue": "decir"}], "pista": "Pidió: past. Decir → dijeron → ?", "why": "**dijera / dijese**."}, {"t": "gap", "en": "Irene did not want her daughters to know anything.", "es": "Irene no quería que sus hijas {0} nada.", "gaps": [{"acc": ["supieran", "supiesen"], "cue": "saber"}], "pista": "Saber → supieron → ?", "why": "**supieran / supiesen**. Irene: «nunca quise que supierais nada»."}, {"t": "gap", "en": "Sole told her mother to keep her mouth shut in front of the clients.", "es": "Sole le dijo a su madre que no {0} la boca delante de las clientas.", "gaps": [{"acc": ["abriera", "abriese"], "cue": "abrir"}], "pista": "Decir que + an order, in the past.", "why": "Decir que (order) → subjunctive: **abriera**. Sole: «ten la boca cerrada»."}, {"t": "gap", "en": "Agustina asked Raimunda to ask Irene about her mother.", "es": "Agustina le pidió a Raimunda que le {0} a Irene por su madre.", "gaps": [{"acc": ["preguntara", "preguntase"], "cue": "preguntar"}], "pista": "Pidió que + ?", "why": "**preguntara / preguntase**."}, {"t": "gap", "en": "Raimunda paid Regina to go with her to the river.", "es": "Raimunda le pagó a Regina para que la {0} hasta el río.", "gaps": [{"acc": ["acompañara", "acompañase", "llevara", "llevase"], "cue": "acompañar"}], "pista": "Para que + past.", "why": "**acompañara / acompañase**. Raimunda: «Por acompañarme hasta el río…»."}, {"t": "gap", "en": "It seemed incredible that aunt Paula could live alone in that state.", "es": "Parecía increíble que la tía Paula {0} sola en esas condiciones.", "gaps": [{"acc": ["viviera", "viviese", "pudiera vivir", "pudiese vivir"], "cue": "vivir"}], "pista": "Parecía increíble que: past emotion.", "why": "**viviera / viviese**. Sole: «te parecía… increíble que la tía pudiese vivir en esas condiciones»."}]}, {"tab": "3 · Si / como si", "h2": "3 · Hipótesis: si y como si", "intro": "Lines about things that are not, or were not, true.", "rule": "«Habla de nuestra madre como si estuviera viva» (Sole) · «Pero si me hubiera muerto… Habría vuelto para pedirte perdón» (Irene) · «Como si fuera un chalé» (Raimunda).<br>**como si** + imperfect subjunctive · **si** + pluperfect subjunctive (hubiera + participle) → **habría** + participle.", "items": [{"t": "gap", "en": "Aunt Paula talks about Irene as if she were alive.", "es": "La tía Paula habla de Irene como si {0} viva.", "gaps": [{"acc": ["estuviera", "estuviese"], "cue": "estar"}], "pista": "Como si → ?", "why": "**estuviera / estuviese**. The irony: she is alive."}, {"t": "gap", "en": "If Irene had died, she would have come back to ask for forgiveness.", "es": "Si Irene se {0} muerto, habría vuelto para pedir perdón.", "gaps": [{"acc": ["hubiera", "hubiese"], "cue": "haber"}], "pista": "Si + pluperfect subjunctive.", "why": "**hubiera / hubiese**. Irene: «Pero si me hubiera muerto… Habría vuelto para pedirte perdón»."}, {"t": "gap", "en": "If Paco had not tried to abuse Paula, she would not have killed him.", "es": "Si Paco no {0} intentado abusar de Paula, ella no lo habría matado.", "gaps": [{"acc": ["hubiera", "hubiese"], "cue": "haber"}], "pista": "Unreal past condition.", "why": "**hubiera / hubiese** intentado."}, {"t": "gap", "en": "If Irene had noticed the abuse, she would have protected her daughter.", "es": "Si Irene se {0} dado cuenta del abuso, habría protegido a su hija.", "gaps": [{"acc": ["hubiera", "hubiese"], "cue": "haber"}], "pista": "Same pattern.", "why": "**hubiera / hubiese**. Raimunda: «Yo te odiaba por no haberte dado cuenta de nada»."}, {"t": "gap", "en": "If the police found the freezer, Raimunda would have a big problem.", "es": "Si la policía {0} el congelador, Raimunda tendría un gran problema.", "gaps": [{"acc": ["encontrara", "encontrase", "descubriera", "descubriese"], "cue": "encontrar"}], "pista": "Unreal present: answered by «tendría».", "why": "Si + imperfect subjunctive → conditional: **encontrara / encontrase**."}, {"t": "gap", "en": "Agustina looks after her grave as if it were a house.", "es": "Agustina cuida su tumba como si {0} una casa.", "gaps": [{"acc": ["fuera", "fuese"], "cue": "ser"}], "pista": "Como si → ?", "why": "**fuera / fuese**. Raimunda: «Como si fuera un chalé»."}]}, {"tab": "4 · Aunque, cuando", "h2": "4 · Aunque, cuando, hasta que, antes de que", "intro": "These words take the indicative for facts and the subjunctive for what is still to happen or is not yet known.", "items": [{"t": "mc", "q": "Raimunda is afraid: a fact. «Aunque Raimunda ___ miedo, protege a Paula.»", "opts": ["tiene: a fact", "tenga: a fact", "tuviera: a fact"], "a": 0, "pista": "Is the speaker presenting her fear as a fact?", "why": "Fact → indicative: aunque **tiene**."}, {"t": "gap", "en": "When Raimunda learns the truth, she forgives her mother.", "es": "Cuando Raimunda {0} la verdad, perdona a su madre.", "gaps": [{"acc": ["descubre", "sabe", "conoce"], "cue": "descubrir"}], "pista": "You narrate what happens in the film, in the present.", "why": "Cuando + a narrated fact → indicative: **descubre**."}, {"t": "gap", "en": "Irene will look after Agustina until she dies.", "es": "Irene cuidará a Agustina hasta que {0}.", "gaps": [{"acc": ["muera", "se muera"], "cue": "morir"}], "pista": "Hasta que + a future event.", "why": "Future → subjunctive: **muera**. Irene: «Sí, hasta el final»."}, {"t": "gap", "en": "Raimunda buries the freezer before anyone finds it.", "es": "Raimunda entierra el congelador antes de que alguien lo {0}.", "gaps": [{"acc": ["encuentre", "descubra", "vea"], "cue": "encontrar"}], "pista": "Antes de que always takes the subjunctive.", "why": "**encuentre**."}, {"t": "mc", "q": "Agustina went on television: a fact. «Aunque Agustina ___ en la tele, no habló de Irene.»", "opts": ["salió: a fact", "saliera: a fact", "salga: a fact"], "a": 0, "pista": "Did it happen?", "why": "A past fact → indicative: aunque **salió**. Irene thanks her: «gracias por no haber hablado de mí en la televisión»."}]}]};</script>
+<script>
+(function(){
+"use strict";
+var KEY = D.key;
+var S = {v:1, it:{}, tab:null, pub:false};
+try{ var raw=localStorage.getItem(KEY); if(raw){ var o=JSON.parse(raw); if(o&&o.v===1) S=o; } }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function nfc(s){ return (s||"").normalize ? s.normalize("NFC") : (s||""); }
+function deacc(s){ return nfc(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function clean(s){ return nfc(s).toLowerCase().replace(/[¡!¿?.,;:«»"“”()\[\]…]/g," ").replace(/\s+/g," ").trim(); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmt(s){ return esc(s).replace(/&lt;br&gt;/g,"<br>").replace(/\*\*(.+?)\*\*/g,"<b>$1</b>"); }
+function h(tag, attrs, html){ var e=document.createElement(tag); if(attrs) for(var k in attrs){ if(k==="class") e.className=attrs[k]; else e.setAttribute(k,attrs[k]); } if(html!=null) e.innerHTML=html; return e; }
+/* strict judge: exact (case, spacing, punctuation ignored) or accent-only slip */
+function judge(given, acc){
+  var g=clean(given); if(!g) return "blank";
+  for(var i=0;i<acc.length;i++){ if(g===clean(acc[i])) return "ok"; }
+  for(i=0;i<acc.length;i++){ if(deacc(g)===deacc(clean(acc[i]))) return "accent"; }
+  return "no";
+}
+var ITEMS=[], SECS=[];
+function fbBox(card){ var f=card.querySelector(".fb"); if(!f){ f=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(f); } return f; }
+function wire(it){
+  var st = S.it[it.id] || (S.it[it.id]={st:null, tries:0, first:false, given:null});
+  it.state = st;
+  it.run = function(){
+    if(st.st) return;
+    var r = it.check(); if(r==="blank") return;
+    st.tries++; st.given = it.given();
+    var fb = fbBox(it.card);
+    if(r==="ok"){ st.st="ok"; st.first=(st.tries===1); it.lock(true);
+      fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correcto</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+      it.card.classList.add("ok"); save(); refresh(); return; }
+    if(st.tries<2){
+      fb.className="fb ui show hint";
+      fb.innerHTML='<span class="tag ht">Pista</span>'+(r==="accent"?"Almost: the right form, but check the accent. ":"Not yet. ")+fmt(it.pista||"");
+      it.mark(); save(); return; }
+    st.st="rev"; it.lock(false); it.reveal();
+    fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Respuesta</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+    it.card.classList.add("rev"); save(); refresh();
+  };
+  it.restore = function(){
+    if(!st.st) return; it.setGiven(st.given);
+    var fb=fbBox(it.card);
+    if(st.st==="ok"){ it.lock(true); it.card.classList.add("ok"); fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correcto</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+    else { it.lock(false); it.reveal(); it.card.classList.add("rev"); fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Respuesta</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+  };
+  ITEMS.push(it);
+}
+function controls(card, it){
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Comprobar");
+  var p=h("button",{"class":"g",type:"button"},"Pista");
+  b.addEventListener("click", function(){ it.run(); });
+  p.addEventListener("click", function(){ var fb=fbBox(card); if(it.state.st) return; fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>'+fmt(it.pista||""); });
+  row.appendChild(b); row.appendChild(p); card.appendChild(row);
+  it.btns=[b,p];
+}
+function gapItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  var parts=Q.es.split(/\{(\d+)\}/), html='<span class="qn">'+n+' ·</span>';
+  for(var i=0;i<parts.length;i++){
+    if(i%2===0) html+=fmt(parts[i]);
+    else { var g=Q.gaps[+parts[i]]; html+='<input type="text" data-g="'+parts[i]+'" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="hueco '+(+parts[i]+1)+'">'+(g.cue?' <span class="cue">('+esc(g.cue)+')</span>':""); }
+  }
+  var s=h("div",{"class":"sent"},html); card.appendChild(s);
+  var inputs=[].slice.call(s.querySelectorAll("input"));
+  var it={id:id, sec:sec, card:card, q:Q.es.replace(/\{\d+\}/g,"___"), pista:Q.pista, why:Q.why};
+  it.given=function(){ return inputs.map(function(x){return x.value.trim();}).join(" | "); };
+  it.setGiven=function(v){ (v||"").split(" | ").forEach(function(x,i){ if(inputs[i]) inputs[i].value=x; }); };
+  it.res=function(){ return inputs.map(function(x){ return judge(x.value, Q.gaps[+x.getAttribute("data-g")].acc); }); };
+  it.check=function(){ var r=it.res(); if(r.some(function(x){return x==="blank";})) { var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML="Fill in every gap first."; return "blank"; }
+    if(r.every(function(x){return x==="ok";})) return "ok"; if(r.every(function(x){return x==="ok"||x==="accent";})) return "accent"; return "no"; };
+  it.mark=function(){ var r=it.res(); inputs.forEach(function(x,i){ x.classList.toggle("okf",r[i]==="ok"); x.classList.toggle("badf",r[i]!=="ok"); }); };
+  it.lock=function(good){ inputs.forEach(function(x){ x.disabled=true; x.classList.toggle("okf",good); }); it.btns.forEach(function(b){ b.disabled=true; }); };
+  it.reveal=function(){ it.mark(); };
+  it.answerText=function(){ return "**"+Q.gaps.map(function(g){return g.acc[0];}).join(" … ")+"**"+(Q.gaps.some(function(g){return g.acc.length>1;})?" (also accepted: "+Q.gaps.map(function(g){return g.acc.slice(1).join(", ");}).filter(Boolean).join("; ")+")":"")+"."; };
+  it.ans=Q.gaps.map(function(g){return g.acc[0];}).join(" | ");
+  inputs.forEach(function(x){ x.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); it.run(); } }); });
+  controls(card,it); wire(it); return card;
+}
+function seeded(n,seed){ var a=[]; for(var i=0;i<n;i++) a.push(i); var x=seed; for(i=n-1;i>0;i--){ x=(x*9301+49297)%233280; var j=Math.floor(x/233280*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function mcItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  card.appendChild(h("div",null,'<span class="qn">'+n+' ·</span>'+fmt(Q.q)));
+  var box=h("div",{"class":"opts"}); var order=seeded(Q.opts.length, id.length*31+n*7), btns=[], sel=null;
+  order.forEach(function(k){ var b=h("button",{"class":"opt",type:"button"},fmt(Q.opts[k])); b._i=k; b.addEventListener("click",function(){ if(it.state.st) return; sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); it.run(); }); btns.push(b); box.appendChild(b); });
+  card.appendChild(box);
+  var it={id:id, sec:sec, card:card, q:Q.q, pista:Q.pista, why:Q.why};
+  it.given=function(){ return sel==null?"":Q.opts[sel]; };
+  it.setGiven=function(v){ var k=Q.opts.indexOf(v); if(k>=0){ sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); } };
+  it.check=function(){ return sel==null?"blank":(sel===Q.a?"ok":"no"); };
+  it.mark=function(){ btns.forEach(function(x){ if(x._i===sel) x.classList.add("wrong"); }); };
+  it.lock=function(){ btns.forEach(function(x){ x.disabled=true; if(x._i===Q.a) x.classList.add("right"); }); if(it.pb) it.pb.disabled=true; };
+  it.reveal=function(){};
+  it.answerText=function(){ return "**"+Q.opts[Q.a]+"**."; };
+  it.ans=Q.opts[Q.a];
+  var row=h("div",{"class":"ctl ui"}); var p=h("button",{"class":"g",type:"button"},"Pista"); it.pb=p;
+  p.addEventListener("click",function(){ if(it.state.st) return; var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>'+fmt(Q.pista||""); });
+  row.appendChild(p); card.appendChild(row);
+  wire(it); return card;
+}
+var WRITES=[];
+function covered(points, txt){ var d=" "+deacc(txt)+" "; return points.map(function(pt){ return {label:pt[0], ok: pt[1].some(function(k){ return d.indexOf(deacc(k))>=0; })}; }); }
+function wItem(sec, id, n, Q){
+  var card=h("div",{"class":"card reto"});
+  card.innerHTML='<div class="rt2 ui">'+(Q.label||"ESCRIBE")+'</div><p class="ui" style="margin:6px 0 4px;font-size:15px">'+fmt(Q.q)+'</p>';
+  S.w=S.w||{}; var t=h("textarea",{"aria-label":Q.label||"Escribe",style:"min-height:120px"}); t.value=S.w[id]||"";
+  t.addEventListener("input",function(){ S.w[id]=t.value; save(); });
+  card.appendChild(t);
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Comentarios"); row.appendChild(b); card.appendChild(row);
+  var fb=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(fb);
+  b.addEventListener("click",function(){
+    var txt=t.value.trim(), words=(txt.match(/[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+/g)||[]).length;
+    if(words<25){ fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>Write at least '+(Q.min||40)+' words first, then ask for comments. A strong answer covers:<ul class="check">'+Q.points.map(function(p){return "<li>"+esc(p[0])+"</li>";}).join("")+'</ul>'; return; }
+    var cv=covered(Q.points,txt), k=cv.filter(function(x){return x.ok;}).length;
+    fb.className="fb ui show "+(k>=Q.points.length-1?"okb":"hint");
+    fb.innerHTML='<span class="tag '+(k>=Q.points.length-1?"okt":"ht")+'">Comentarios</span>'+k+' of '+cv.length+' key points ('+words+' words).<ul class="check">'+cv.map(function(x){return '<li class="'+(x.ok?"on":"")+'">'+esc(x.label)+'</li>';}).join("")+'</ul><div class="why">The check looks for the key words of each point: a guide, not a mark.</div>'+(Q.model?'<details style="margin-top:8px"><summary>Una respuesta posible</summary><p style="margin:6px 0 0">'+fmt(Q.model)+'</p></details>':"");
+  });
+  WRITES.push({sec:sec,q:Q.q,get:function(){return t.value.trim();}});
+  return card;
+}
+var main=document.getElementById("main"), tabs=document.getElementById("tabs");
+D.sections.forEach(function(sx, si){
+  var id="s"+(si+1);
+  var s=h("section",{"class":"ex",id:id}); s.appendChild(h("h2",null,esc(sx.h2)));
+  if(sx.intro) s.appendChild(h("p",{"class":"how ui"},fmt(sx.intro)));
+  if(sx.rule) s.appendChild(h("div",{"class":"rule"},fmt(sx.rule)));
+  var n=0;
+  sx.items.forEach(function(Q,qi){ n++; if(Q.h3) s.appendChild(h("h3",null,esc(Q.h3)));
+    s.appendChild(Q.t==="mc" ? mcItem(id,id+"_"+qi,n,Q) : Q.t==="w" ? wItem(id,id+"_"+qi,n,Q) : gapItem(id,id+"_"+qi,n,Q)); });
+  var f=h("div",{"class":"secfoot ui"}), l=h("div"), r=h("div");
+  if(si>0) l.appendChild(h("button",{"class":"g",type:"button","data-go":"s"+si},"← Atrás"));
+  var rs=h("button",{"class":"g",type:"button"},"Reintentar esta sección");
+  rs.addEventListener("click",function(){ if(!rs._a){ rs._a=true; rs.textContent="Pulsa otra vez para borrar"; setTimeout(function(){ rs._a=false; rs.textContent="Reintentar esta sección"; },3000); return; }
+    ITEMS.filter(function(it){return it.sec===id;}).forEach(function(it){ delete S.it[it.id]; }); save(); location.reload(); });
+  l.appendChild(document.createTextNode(" ")); l.appendChild(rs);
+  if(si<D.sections.length-1) r.appendChild(h("button",{"class":"b",type:"button","data-go":"s"+(si+2)},"Siguiente →"));
+  else { var dl=h("button",{"class":"b",type:"button"},"Descargar mis respuestas"); dl.addEventListener("click",download); r.appendChild(dl); }
+  f.appendChild(l); f.appendChild(r); s.appendChild(f);
+  main.appendChild(s);
+  var tb=h("button",{type:"button",role:"tab","data-go":id},esc(sx.tab)+' <span class="n"></span>'); tabs.appendChild(tb);
+  SECS.push({id:id, el:s, tab:tb});
+});
+function totals(){ var tot=ITEMS.length, sc=0, first=0, done=0; ITEMS.forEach(function(it){ var st=it.state; if(st.st==="ok"){ sc++; done++; if(st.first) first++; } else if(st.st==="rev") done++; }); return {tot:tot,sc:sc,first:first,done:done}; }
+function refresh(){
+  var T=totals(); document.getElementById("sc").textContent=T.sc; document.getElementById("tot").textContent=T.tot; document.getElementById("first").textContent=T.first;
+  document.getElementById("bar").style.width=(T.tot?Math.round(100*T.sc/T.tot):0)+"%";
+  SECS.forEach(function(s){ var its=ITEMS.filter(function(it){return it.sec===s.id;}); var d=its.filter(function(it){return it.state.st;}).length, ok=its.filter(function(it){return it.state.st==="ok";}).length; s.tab.querySelector(".n").textContent=ok+"/"+its.length; s.tab.classList.toggle("done",d===its.length); });
+  publish();
+}
+function publish(){
+  try{ var T=totals(); var all=JSON.parse(localStorage.getItem("bba-scores")||"{}"); var f=decodeURIComponent(location.pathname.split("/").pop()||"index"); var prev=all[f]||{};
+    var rec={title:(document.title||"").slice(0,120), score:T.sc, total:T.tot, best:Math.max(T.sc,prev.best||0), attempts:(prev.attempts||0)+(S.pub?0:1), t:Date.now()};
+    var n=Math.max(0,T.done-(S.pubDone||0)); rec.ans=(prev.ans||0)+n; rec.lg={}; for(var k in (prev.lg||{})) rec.lg[k]=prev.lg[k];
+    var day=String(Math.floor(Date.now()/86400000)); if(n) rec.lg[day]=(rec.lg[day]||0)+n;
+    all[f]=rec; localStorage.setItem("bba-scores",JSON.stringify(all)); S.pub=true; S.pubDone=T.done; save(); }catch(e){}
+}
+function studentName(){ var nm=document.querySelector("#bba-kit .nm"); var v=nm&&nm.value.trim(); if(!v){ try{ v=localStorage.getItem("bba-name")||""; }catch(e){} } return v||""; }
+function download(){
+  var T=totals(), name=studentName(), L=[];
+  L.push(D.dlhead); L.push("Nombre: "+(name||"(sin nombre)")); L.push("Fecha: "+new Date().toLocaleString("es-ES")); L.push("Puntos: "+T.sc+" / "+T.tot+"  ·  a la primera: "+T.first); L.push("");
+  SECS.forEach(function(s){ L.push("== "+s.el.querySelector("h2").textContent+" ==");
+    ITEMS.filter(function(it){return it.sec===s.id;}).forEach(function(it,i){ var st=it.state;
+      var mark=st.st==="ok"?(st.first?"✓":"✓ (2.º intento)"):st.st==="rev"?"✗ → "+it.ans:"— sin responder";
+      L.push((i+1)+". "+it.q.replace(/\*\*/g,"").replace(/\s+/g," ").slice(0,160)); L.push("   Respuesta: "+(it.given()||"—")+"   ["+mark+"]"); });
+    WRITES.filter(function(w){return w.sec===s.id;}).forEach(function(w){ L.push("ESCRITO: "+w.q.replace(/\*\*/g,"")); L.push(w.get()||"—"); });
+    L.push(""); });
+  var blob=new Blob([L.join("\r\n")],{type:"text/plain;charset=utf-8"}); var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download=D.dlfile+(name||"sin_nombre").replace(/[^\wÁÉÍÓÚÑáéíóúñ-]+/g,"_")+".txt"; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },500);
+}
+function go(id){ SECS.forEach(function(s){ var on=s.id===id; s.el.classList.toggle("active",on); s.tab.setAttribute("aria-selected",on?"true":"false"); }); S.tab=id; save();
+  var nav=document.getElementById("tabs"); if(window.scrollY>nav.offsetTop) window.scrollTo({top:nav.offsetTop,behavior:"smooth"}); }
+document.addEventListener("click",function(e){ var b=e.target.closest("[data-go]"); if(b){ e.preventDefault(); go(b.getAttribute("data-go")); } });
+ITEMS.forEach(function(it){ it.restore(); });
+go(S.tab && document.getElementById(S.tab) ? S.tab : "s1"); refresh();
+window.LCDBA={items:ITEMS, totals:totals, judge:judge};
+})();
+</script>
 <script src="bba-kit-es.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
 </body>

@@ -1,603 +1,306 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Volver - Pedro Almodóvar: Ejercicios A-Level</title>
-    <style>
-        body {
-            font-family: 'Georgia', serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background: linear-gradient(135deg, #2c1810 0%, #8b4513 100%);
-            color: #fff;
-            line-height: 1.6;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 30px;
-            background: rgba(139, 69, 19, 0.3);
-            border-radius: 15px;
-            border: 2px solid #d2691e;
-        }
-        
-        .header h1 {
-            color: #ffd700;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-        
-        .header p {
-            font-size: 1.2em;
-            color: #f0e68c;
-            font-style: italic;
-        }
-        
-        .section {
-            margin-bottom: 40px;
-            padding: 25px;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 10px;
-            border-left: 5px solid #ff6b35;
-        }
-        
-        .section h2 {
-            color: #ff6b35;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #ff6b35;
-            padding-bottom: 10px;
-        }
-        
-        .sentence {
-            margin-bottom: 25px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-        
-        .sentence:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-        
-        .original {
-            font-size: 1.1em;
-            margin-bottom: 15px;
-            line-height: 1.7;
-            color: #f5f5f5;
-        }
-        
-        .original strong {
-            background: #ff6b35;
-            color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-        }
-        
-        input[type="text"] {
-            width: 200px;
-            padding: 10px;
-            border: 2px solid #ff6b35;
-            border-radius: 5px;
-            font-size: 16px;
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
-            margin-right: 10px;
-        }
-        
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #ffd700;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-        }
-        
-        .check-btn {
-            background: linear-gradient(45deg, #ff6b35, #ff8c42);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-        
-        .check-btn:hover {
-            background: linear-gradient(45deg, #ff8c42, #ffa500);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        
-        .feedback {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 5px;
-            font-weight: bold;
-            min-height: 20px;
-        }
-        
-        .correct {
-            background: #2d5a27;
-            color: #90ee90;
-            border: 1px solid #90ee90;
-        }
-        
-        .incorrect {
-            background: #5a2727;
-            color: #ff6b6b;
-            border: 1px solid #ff6b6b;
-        }
-        
-        .instructions {
-            background: rgba(255, 215, 0, 0.1);
-            border: 2px solid #ffd700;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 30px;
-            color: #ffd700;
-        }
-        
-        .counter {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 15px;
-            border-radius: 10px;
-            border: 2px solid #ff6b35;
-            color: #fff;
-            font-weight: bold;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volver · Relativos y conectores</title>
+<meta name="description" content="A-Level Spanish AO3: relative pronouns and connectors through true sentences about Volver, with a writing task and feedback.">
+<style>
+:root{
+  --paper:#f6f1e7; --card:#fffdf8; --ink:#2a2320; --soft:#6a5a4c; --line:#dcd0bb;
+  --ox:#6e1f2a; --ox2:#8f3340; --oxs:#f4e4e4; --green:#1f4d3a; --gs:#e3efe8;
+  --gold:#a8843a; --golds:#f7efd9; --bad:#a23b2a; --bads:#fbe9e5; --ok:#226a43;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+.ui{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:22px 16px 160px}
+header{border-bottom:3px double var(--ox);padding-bottom:14px;margin-bottom:8px}
+.kicker{font:600 12px/1.2 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ox)}
+h1{font-size:31px;line-height:1.15;margin:6px 0 6px;color:var(--ox)}
+.lead{color:var(--soft);margin:0 0 4px;font:15px/1.55 system-ui,sans-serif}
+.score{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:10px;font:14px system-ui,sans-serif;color:var(--soft)}
+.score b{color:var(--ink);font-size:16px}
+.meter{flex:1 1 180px;height:8px;background:#e8dfcf;border-radius:99px;overflow:hidden;min-width:140px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#2f7a58);transition:width .4s}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 12px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+nav.tabs button{font:600 13.5px system-ui,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 12px;cursor:pointer;display:flex;gap:6px;align-items:center}
+nav.tabs button .n{font-weight:500;color:var(--soft);font-size:12px}
+nav.tabs button[aria-selected="true"]{background:var(--ox);border-color:var(--ox);color:#fff}
+nav.tabs button[aria-selected="true"] .n{color:#f1d7d9}
+nav.tabs button.done:not([aria-selected="true"]){border-color:var(--green);color:var(--green)}
+section.ex{display:none}
+section.ex.active{display:block}
+h2{font-size:24px;margin:4px 0 6px;color:var(--green)}
+h3{font:700 13px system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ox);margin:22px 0 8px}
+.how{font:15px/1.55 system-ui,sans-serif;color:var(--soft);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;position:relative}
+.card.ok{border-color:#9cc7ae;background:#fbfefc}
+.card.rev{border-color:#e3b6ad}
+.card .qn{font:700 13px system-ui,sans-serif;color:var(--ox);margin-right:6px}
+.quote{font-style:italic}
+blockquote{margin:2px 0 10px;padding:6px 0 6px 14px;border-left:3px solid var(--gold);font-style:italic;font-size:18px}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:10px}
+input[type=text],select,textarea{font:16px Georgia,serif;color:var(--ink);background:#fff;border:1px solid #bdae95;border-radius:7px;padding:7px 10px;max-width:100%}
+input[type=text]{width:15em}
+input.w8{width:8.5em} input.w6{width:7em}
+input.okf{border-color:var(--ok);background:#f2faf5} input.badf{border-color:var(--bad);background:var(--bads)}
+textarea{width:100%;min-height:200px;resize:vertical;line-height:1.6}
+button.b{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 13px;cursor:pointer;border:1px solid var(--ox);background:var(--ox);color:#fff}
+button.b:disabled{opacity:.45;cursor:default}
+button.g{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--green)}
+button.g:disabled{opacity:.45;cursor:default}
+.opts{display:grid;gap:7px;margin-top:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;font:15.5px/1.45 system-ui,sans-serif;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 12px;cursor:pointer;color:var(--ink)}
+.opt:before{content:"";flex:0 0 16px;height:16px;border:2px solid #b8a98f;border-radius:50%;margin-top:2px}
+.opt.sel{border-color:var(--ox);background:var(--oxs)}
+.opt.sel:before{border-color:var(--ox);background:radial-gradient(var(--ox) 45%,transparent 50%)}
+.opt.right{border-color:var(--ok);background:#eef8f2}
+.opt.wrong{border-color:var(--bad);background:var(--bads)}
+.opt:disabled{cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font:600 13px system-ui,sans-serif;border:1px solid #c9bba3;background:#fff;color:var(--soft);border-radius:999px;padding:6px 11px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.chip.core{outline:2px solid var(--ok);outline-offset:1px}
+.chip.acc{outline:2px dashed var(--gold);outline-offset:1px}
+.chip.wrongc{background:var(--bad);border-color:var(--bad);color:#fff}
+.chip:disabled{cursor:default}
+.fb{margin-top:10px;font:14.5px/1.55 system-ui,sans-serif;border-radius:8px;padding:9px 12px;display:none}
+.fb.show{display:block}
+.fb.okb{background:var(--gs);color:#163a2b}
+.fb.hint{background:var(--golds);color:#4d3c14}
+.fb.revb{background:var(--bads);color:#5a1d12}
+.fb .why{margin-top:6px;color:#2b2a26}
+.tag{display:inline-block;font:700 11px system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-right:6px}
+.tag.okt{background:var(--ok);color:#fff}.tag.ht{background:var(--gold);color:#fff}.tag.rt{background:var(--bad);color:#fff}
+.legend{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:14.5px/1.55 system-ui,sans-serif;margin-bottom:10px}
+.legend b{color:var(--ox)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}
+.who{font:13px system-ui,sans-serif;color:var(--soft)}
+.tr{line-height:2.25;font-size:17px;background:#faf6ee;border-left:3px solid var(--gold);padding:6px 12px;border-radius:4px;margin-top:6px}
+.secfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0 6px;flex-wrap:wrap}
+.reto{border:2px solid var(--ox);background:#fff}
+.reto .rt2{font:700 12px system-ui,sans-serif;letter-spacing:.16em;color:var(--ox)}
+.check li{margin:4px 0;list-style:none;padding-left:0}
+.check{padding:0;margin:10px 0 0;font:14.5px/1.5 system-ui,sans-serif}
+.check li:before{content:"○ ";color:#b8a98f;font-weight:700}
+.check li.on:before{content:"● ";color:var(--ok)}
+.check li.warn:before{content:"● ";color:var(--bad)}
+.qcheck{font:14px/1.5 system-ui,sans-serif;margin-top:8px}
+.qcheck div{padding:3px 0}
+.qcheck .y{color:var(--ok)} .qcheck .n{color:var(--bad)}
+.titles label{display:flex;gap:8px;align-items:flex-start;font:15.5px/1.45 Georgia,serif;margin:6px 0;cursor:pointer}
+.tips{font:14.5px/1.55 system-ui,sans-serif;background:var(--oxs);border-radius:8px;padding:10px 12px;margin:10px 0}
+.res{font:15px/1.6 system-ui,sans-serif}
+.res table{border-collapse:collapse;width:100%;margin:8px 0}
+.res td,.res th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+.src{font:13px/1.5 system-ui,sans-serif;color:var(--soft);margin-top:22px}
+@media (max-width:640px){h1{font-size:25px}.cols{grid-template-columns:1fr}input[type=text]{width:100%}input.w8,input.w6{width:8em}nav.tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}nav.tabs::-webkit-scrollbar{display:none}nav.tabs button{padding:6px 10px;font-size:12.5px;flex:0 0 auto;white-space:nowrap}}
+@media print{nav.tabs,.secfoot,button{display:none!important}section.ex{display:block!important}}
+</style>
+<style>
+.sent{font-size:18px;line-height:2.1}
+.sent input{width:9em;font-size:16px;padding:4px 8px;margin:0 2px}
+.en{font:14px/1.45 system-ui,sans-serif;color:var(--soft);margin:0 0 4px}
+.cue{font:13px system-ui,sans-serif;color:var(--soft)}
+.rule{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:8px;padding:10px 14px;font:14.5px/1.55 system-ui,sans-serif;margin:6px 0 12px}
+</style>
 </head>
 <body>
-    <div class="header">
-        <h1>Volver - Pedro Almodóvar</h1>
-        <p>Ejercicios de A-Level Spanish - Edexcel AO3: Range and Accuracy of Language</p>
-    </div>
-    
-    <div class="counter">
-        <div>Correctas: <span id="correct-count">0</span>/43</div>
-        <div>Progreso: <span id="progress">0%</span></div>
-    </div>
-    
-    <div class="instructions">
-        <h3>📚 Instrucciones:</h3>
-        <p>Completa las frases sobre "Volver" con la forma correcta del verbo, pronombre relativo o conector avanzado. Estas frases están diseñadas para demostrar un rango avanzado de lenguaje apropiado para A-Level Spanish.</p>
-    </div>
-
-    <!-- SUBJUNCTIVES SECTION (14 sentences) -->
-    <div class="section">
-        <h2>🎭 Subjuntivos - Advanced Subjunctive Constructions</h2>
-        
-        <div class="sentence" data-answer="revele">
-            <div class="original">Es imprescindible que el simbolismo de los espejos <strong>___</strong> (revelar) la complejidad psicológica de los personajes femeninos.</div>
-            <input type="text" name="q1" placeholder="Escribe el verbo..." data-inf="revelar" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="establezca">
-            <div class="original">Almodóvar logra que cada flashback <strong>___</strong> (establecer) una conexión emocional profunda con el espectador.</div>
-            <input type="text" name="q2" placeholder="Escribe el verbo..." data-inf="establecer" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="hubiera">
-            <div class="original">Raimunda actúa como si nunca <strong>___</strong> (haber) experimentado el trauma del abuso sexual en su juventud.</div>
-            <input type="text" name="q3" placeholder="Escribe el verbo..." data-inf="haber" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="mantenga">
-            <div class="original">En Volver es fundamental que la narrativa <strong>___</strong> (mantener) un equilibrio entre situaciones irrealismo y la credibilidad dramática.</div>
-            <input type="text" name="q4" placeholder="Escribe el verbo..." data-inf="mantener" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="experimenten">
-            <div class="original">El director pretende que los espectadores <strong>___</strong> (experimentar) una catarsis emocional a través del perdón maternal.</div>
-            <input type="text" name="q5" placeholder="Escribe el verbo..." data-inf="experimentar" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="rompa">
-            <div class="original">Es notable que la temática del patricidio <strong>___</strong> (romper) las convenciones del melodrama tradicional español.</div>
-            <input type="text" name="q6" placeholder="Escribe el verbo..." data-inf="romper" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="sean">
-            <div class="original">Dudo que las técnicas cinematográficas <strong>___</strong> (haber) suficientes para transmitir la intensidad del duelo femenino.</div>
-            <input type="text" name="q7" placeholder="Escribe el verbo..." data-inf="ser" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="muestre">
-            <div class="original">Almodóvar emplea el color rojo para que <strong>___</strong> (mostrar) simbólicamente la pasión y violencia latente.</div>
-            <input type="text" name="q8" placeholder="Escribe el verbo..." data-inf="mostrar" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="sea">
-            <div class="original">No es probable que una reconciliación auténtica <strong>___</strong> (ser) posible sin un reconocimiento explícito del pasado traumático.</div>
-            <input type="text" name="q9" placeholder="Escribe el verbo..." data-inf="ser" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="comprendan">
-            <div class="original">Es crucial que los críticos <strong>___</strong> (comprender) la deconstrucción de estereotipos de feminidad que realiza el filme.</div>
-            <input type="text" name="q10" placeholder="Escribe el verbo..." data-inf="comprender" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="permita">
-            <div class="original">La estructura narrativa es diseñada para que <strong>___</strong> (permitir) múltiples interpretaciones del final.</div>
-            <input type="text" name="q11" placeholder="Escribe el verbo..." data-inf="permitir" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="constituya">
-            <div class="original">Es indiscutible que el cementerio <strong>___</strong> (constituir) un espacio liminal entre vida y muerte en la cosmovisión almodovariana.</div>
-            <input type="text" name="q12" placeholder="Escribe el verbo..." data-inf="constituir" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="hubiera">
-            <div class="original">Paula reacciona como si su abuela nunca <strong>___</strong> (haber) muerto, evidenciando la normalización de lo sobrenatural.</div>
-            <input type="text" name="q13" placeholder="Escribe el verbo..." data-inf="haber" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="articulen">
-            <div class="original">Almodóvar busca que las actuaciones <strong>___</strong> (articular) una crítica sutil al patriarcado español contemporáneo.</div>
-            <input type="text" name="q14" placeholder="Escribe el verbo..." data-inf="articular" />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-    </div>
-
-    <!-- RELATIVE PRONOUNS SECTION (15 sentences) -->
-    <div class="section">
-        <h2>🔗 Pronombres Relativos - Advanced Relative Constructions</h2>
-        
-        <div class="sentence" data-answer="cuyo">
-            <div class="original">Irene representa el arquetipo materno <strong>___</strong> regreso trasciende las barreras de la mortalidad. (whose) </div>
-            <input type="text" name="q15" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cuyas">
-            <div class="original">Las mujeres de La Mancha, <strong>___</strong> tradiciones ancestrales siguen vivas, encarnan la resistencia de la cultura regional.</div>
-            <input type="text" name="q16" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="quienes">
-            <div class="original">Los personajes masculinos, contra <strong>___</strong> se dirige la crítica feminista, permanecen marginalizados narrativamente.</div>
-            <input type="text" name="q17" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cual">
-            <div class="original">El restaurante funciona como microcosmos social, lo <strong>___</strong> facilita el desarrollo de múltiples subtramas.</div>
-            <input type="text" name="q18" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cuanto">
-            <div class="original">Raimunda preserva <strong>___</strong> le enseñó su madre sobre supervivencia y dignidad femenina.</div>
-            <input type="text" name="q19" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cuyo">
-            <div class="original">El viento, <strong>___</strong> simbolismo permea toda la narrativa, representa la fuerza transformadora del destino.</div>
-            <input type="text" name="q20" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cuales">
-            <div class="original">Las canciones populares, sin las <strong>___</strong> la identidad cultural se desvanecería, estructuran el universo sonoro.</div>
-            <input type="text" name="q21" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="quien">
-            <div class="original">Agustina, <strong>___</strong> padece cáncer, simboliza la vulnerabilidad humana ante fuerzas inexorables.</div>
-            <input type="text" name="q22" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cuya">
-            <div class="original">La cinematografía, <strong>___</strong> paleta cromática evoca emociones específicas, construye atmósferas psicológicas complejas.</div>
-            <input type="text" name="q23" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cuanto">
-            <div class="original">El perdón maternal abarca <strong>___</strong> parecía imperdonable en el contexto de la moralidad tradicional.</div>
-            <input type="text" name="q24" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cual">
-            <div class="original">La muerte se presenta como transición, lo <strong>___</strong> desafía concepciones occidentales sobre la finitud.</div>
-            <input type="text" name="q25" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cuyas">
-            <div class="original">Las actrices principales, <strong>___</strong> interpretaciones trascienden el naturalismo, crean arquetipos universales.</div>
-            <input type="text" name="q26" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="quienes">
-            <div class="original">Los espectadores, para <strong>___</strong> el realismo mágico resulta familiar, comprenden intuitivamente la lógica narrativa.</div>
-            <input type="text" name="q27" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cuyo">
-            <div class="original">El pueblo manchego, <strong>___</strong> aislamiento geográfico preserva tradiciones, funciona como personaje colectivo.</div>
-            <input type="text" name="q28" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="cuantas">
-            <div class="original">Almodóvar incorpora <strong>___</strong> referencias intertextuales considera necesarias para enriquecer el discurso fílmico.</div>
-            <input type="text" name="q29" placeholder="Escribe el pronombre..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-    </div>
-
-    <!-- ADVANCED CONNECTORS SECTION (14 sentences) -->
-    <div class="section">
-        <h2>🌉 Conectores Avanzados - Sophisticated Discourse Markers</h2>
-        
-        <div class="sentence" data-answer="No obstante">
-            <div class="original"><strong>___</strong> la aparente simplicidad argumental, la película articula una compleja reflexión sobre género y memoria.</div>
-            <input type="text" name="q30" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="En consecuencia">
-            <div class="original">La sororidad femenina constituye el núcleo temático central; <strong>___</strong>, todas las relaciones secundarias orbitan en torno a ella.</div>
-            <input type="text" name="q31" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Por el contrario">
-            <div class="original">Los hombres no dominan la narrativa como en films anteriores; <strong>___</strong>, su presencia resulta casi testimonial.</div>
-            <input type="text" name="q32" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Asimismo">
-            <div class="original">El luto se ritualiza mediante ceremonias comunitarias; <strong>___</strong>, la muerte se socializa y pierde dramatismo individual.</div>
-            <input type="text" name="q33" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Ahora bien">
-            <div class="original">El realismo mágico permea la atmósfera fílmica; <strong>___</strong>, nunca compromete la verosimilitud psicológica.</div>
-            <input type="text" name="q34" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="En efecto">
-            <div class="original">La maternidad trasciende los límites biológicos; <strong>___</strong>, se convierte en institución social y espiritual.</div>
-            <input type="text" name="q35" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Sin embargo">
-            <div class="original">La venganza podría justificar la violencia; <strong>___</strong>, Almodóvar privilegia la compasión sobre la retribución.</div>
-            <input type="text" name="q36" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Por tanto">
-            <div class="original">La estética visual refuerza significados subyacentes; <strong>___</strong>, cada elemento cromático posee intencionalidad narrativa.</div>
-            <input type="text" name="q37" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Mientras que">
-            <div class="original"><strong>___</strong> la tradición impone silencio sobre traumas familiares, las nuevas generaciones buscan transparencia emocional.</div>
-            <input type="text" name="q38" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="En cambio">
-            <div class="original">Los melodramas convencionales castigan la transgresión moral; <strong>___</strong>, Volver celebra la autonomía femenina.</div>
-            <input type="text" name="q39" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="De hecho">
-            <div class="original">La película trasciende el entretenimiento comercial; <strong>___</strong>, constituye una declaración artística sobre identidad española.</div>
-            <input type="text" name="q40" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Así pues">
-            <div class="original">Cada personaje femenino representa arquetipos distintos; <strong>___</strong>, se construye un mosaico completo de feminidades.</div>
-            <input type="text" name="q41" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="No obstante">
-            <div class="original">La crítica social permanece implícita; <strong>___</strong>, su impacto resulta más duradero que las denuncias explícitas.</div>
-            <input type="text" name="q42" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="En definitiva">
-            <div class="original"><strong>___</strong>, Volver representa la culminación artística del feminismo cinematográfico almodovariano contemporáneo.</div>
-            <input type="text" name="q43" placeholder="Escribe el conector..." />
-            <button type="button" class="check-btn">Comprobar</button>
-            <div class="feedback"></div>
-        </div>
-    </div>
-
-    <script>
-        let correctCount = 0;
-        const totalQuestions = 43;
-        
-        // Normalize text for comparison
-        function normalizeText(text) {
-            return text.toLowerCase().trim()
-                      .replace(/á/g, 'a').replace(/é/g, 'e').replace(/í/g, 'i')
-                      .replace(/ó/g, 'o').replace(/ú/g, 'u').replace(/ñ/g, 'n');
-        }
-        
-        // Check if answer is correct (allowing for accent variations)
-        function isCorrect(userAnswer, correctAnswer) {
-            const normalizedUser = normalizeText(userAnswer);
-            const normalizedCorrect = normalizeText(correctAnswer);
-            return normalizedUser === normalizedCorrect;
-        }
-        
-        // Update progress counter
-        function updateProgress() {
-            document.getElementById('correct-count').textContent = correctCount;
-            document.getElementById('progress').textContent = Math.round((correctCount / totalQuestions) * 100) + '%';
-        }
-        
-        // Add event listeners to all check buttons
-        document.querySelectorAll('.check-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const sentence = this.closest('.sentence');
-                const input = sentence.querySelector('input[type="text"]');
-                const feedback = sentence.querySelector('.feedback');
-                const correctAnswer = sentence.getAttribute('data-answer');
-                const userAnswer = input.value.trim();
-                
-                if (userAnswer === '') {
-                    feedback.textContent = 'Por favor, escribe una respuesta.';
-                    feedback.className = 'feedback incorrect';
-                    return;
-                }
-                
-                if (isCorrect(userAnswer, correctAnswer)) {
-                    feedback.textContent = '¡Correcto! Excelente dominio del español avanzado.';
-                    feedback.className = 'feedback correct';
-                    input.style.borderColor = '#90ee90';
-                    this.disabled = true;
-                    this.textContent = '✓ Correcto';
-                    this.style.background = '#2d5a27';
-                    
-                    // Only increment if not already counted
-                    if (!sentence.classList.contains('completed')) {
-                        correctCount++;
-                        sentence.classList.add('completed');
-                        updateProgress();
-                    }
-                } else {
-                    feedback.innerHTML = `Incorrecto. La respuesta correcta es: <strong>"${correctAnswer}"</strong>. Revisa las reglas gramaticales correspondientes.`;
-                    feedback.className = 'feedback incorrect';
-                    input.style.borderColor = '#ff6b6b';
-                }
-            });
-        });
-        
-        // Allow Enter key to check answers
-        document.querySelectorAll('input[type="text"]').forEach(input => {
-            input.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    const button = this.parentElement.querySelector('.check-btn');
-                    if (!button.disabled) {
-                        button.click();
-                    }
-                }
-            });
-            
-            // Reset styling when user starts typing again
-            input.addEventListener('input', function() {
-                this.style.borderColor = '#ff6b35';
-                const sentence = this.closest('.sentence');
-                const feedback = sentence.querySelector('.feedback');
-                if (feedback.classList.contains('incorrect')) {
-                    feedback.textContent = '';
-                    feedback.className = 'feedback';
-                }
-            });
-        });
-        
-        // Congratulations message when all completed
-        function checkCompletion() {
-            if (correctCount === totalQuestions) {
-                setTimeout(() => {
-                    alert('¡Enhorabuena! Has completado todos los ejercicios con éxito. Tu dominio del español avanzado es excelente para A-Level. ¡Perfecto para conseguir 20 puntos en AO3!');
-                }, 500);
-            }
-        }
-        
-        // Call checkCompletion after each correct answer
-        document.querySelectorAll('.check-btn').forEach(button => {
-            const originalClickHandler = button.onclick;
-            button.addEventListener('click', function() {
-                // Small delay to ensure counter is updated first
-                setTimeout(checkCompletion, 100);
-            });
-        });
-        
-        // Initialize progress display
-        updateProgress();
-    </script>
-<script>window.BBA_KIT = {check:false};</script>
+<div class="wrap">
+<header>
+  <div class="kicker">Película · Gramática AO3</div>
+  <h1>Volver — pronombres relativos y conectores</h1>
+  <p class="lead">Every sentence is true to the film. Type the missing form and press <b>Enter</b> or « Comprobar ». Spelling and accents count: if only the accent is wrong, you are told so and can try again. If you are wrong the first time you get a <i>pista</i> for that sentence; the second time you see the answer and the rule. Your work saves itself on this device.</p>
+  <div class="score" aria-live="polite"><span>Puntos <b id="sc">0</b> / <b id="tot">0</b></span><span>a la primera <b id="first">0</b></span><div class="meter"><i id="bar"></i></div></div>
+</header>
+<nav class="tabs" role="tablist" aria-label="Ejercicios" id="tabs"></nav>
+<main id="main"></main>
+<p class="src">Dialogue: Pedro Almodóvar, <i>Volver</i> (2006), short extracts quoted for study.</p>
+</div>
+<script>window.BBA_KIT = {check:false, download:false, save:false, enter:false};</script>
+<script>var D = {"key": "volver-relcon-v2", "dlhead": "VOLVER — RELATIVOS Y CONECTORES", "dlfile": "Volver_relativos_", "sections": [{"tab": "1 · Relativos", "h2": "1 · Pronombres relativos", "intro": "Relatives join two ideas about the same person or thing. Look at how the characters use them.", "rule": "«Murió abrazada a papá, que era lo que más quería» (Raimunda) · «Recuerda que fui yo quien lo mató» (Raimunda) · «Las cenizas que hay en tu lugar son de la madre de la Agustina» (Raimunda).<br>**que** (most cases) · **quien** (people; after a preposition, or “the one who”) · **el / la que, el / la cual** (after prepositions) · **lo que** (what, an idea) · **cuyo / cuya / cuyos / cuyas** (whose: agrees with the thing possessed).", "items": [{"t": "gap", "en": "Irene, whom everyone believed dead, was hiding with aunt Paula.", "es": "Irene, {0} todos creían muerta, vivía escondida con la tía Paula.", "gaps": [{"acc": ["a quien", "a la que"], "cue": "whom"}], "pista": "A person as direct object, between commas: the personal «a» comes first.", "why": "**a quien** (a la que)."}, {"t": "gap", "en": "Agustina, whose mother vanished on the day of the fire, wants the truth.", "es": "Agustina, {0} madre desapareció el día del incendio, quiere saber la verdad.", "gaps": [{"acc": ["cuya"], "cue": "whose"}], "pista": "Agree with «madre».", "why": "**cuya**: agrees with madre, the thing possessed."}, {"t": "gap", "en": "What matters most to Raimunda is protecting Paula.", "es": "{0} más le importa a Raimunda es proteger a Paula.", "gaps": [{"acc": ["Lo que"], "cue": "What"}], "pista": "«What» as an idea.", "why": "**Lo que**."}, {"t": "gap", "en": "The restaurant where Raimunda cooks belonged to Emilio.", "es": "El restaurante {0} Raimunda cocina era de Emilio.", "gaps": [{"acc": ["donde", "en el que", "en el cual"], "cue": "where"}], "pista": "A place.", "why": "**donde** (en el que)."}, {"t": "gap", "en": "Regina, with whose help Raimunda buries the freezer, becomes her partner.", "es": "Regina, con {0} ayuda Raimunda entierra el congelador, se convierte en su socia.", "gaps": [{"acc": ["cuya"], "cue": "whose"}], "pista": "Con + whose + ayuda.", "why": "con **cuya** ayuda. Raimunda: «De acuerdo socia»."}, {"t": "gap", "en": "The ashes in Irene's grave belong to Agustina's mother.", "es": "Las cenizas {0} hay en la tumba de Irene son de la madre de Agustina.", "gaps": [{"acc": ["que"], "cue": "that"}], "pista": "The simplest relative.", "why": "**que**."}, {"t": "gap", "en": "The river Júcar, beside which Raimunda buries the freezer, is 180 km away.", "es": "El río Júcar, junto al {0} Raimunda entierra el congelador, está a 180 kilómetros.", "gaps": [{"acc": ["cual", "que"], "cue": "which"}], "pista": "After «junto al», which word completes «el ___»?", "why": "junto al **cual** (al que)."}, {"t": "gap", "en": "Paco, who was not Paula's biological father, tried to abuse her.", "es": "Paco, {0} no era el padre biológico de Paula, intentó abusar de ella.", "gaps": [{"acc": ["que", "quien"], "cue": "who"}], "pista": "Between commas, a person.", "why": "**que** (quien)."}]}, {"tab": "2 · Conectores", "h2": "2 · Conectores: elige el que encaja", "intro": "Each connector carries a logic: cause, consequence, contrast, concession, reformulation. Choose the one that makes the sentence true.", "items": [{"t": "mc", "q": "Paco intenta abusar de Paula; ___, ella lo mata con un cuchillo.", "opts": ["por consiguiente", "sin embargo", "es decir"], "a": 0, "pista": "Is the second half a result or a contrast?", "why": "Consequence → **por consiguiente**."}, {"t": "mc", "q": "Raimunda tiene un cadáver en el congelador; ___, acepta cocinar para treinta personas.", "opts": ["sin embargo", "por lo tanto", "es decir"], "a": 0, "pista": "Would you expect her to say yes?", "why": "Contrast with what we expect → **sin embargo**."}, {"t": "mc", "q": "Irene se esconde en el pueblo ___ todos creen que ha muerto.", "opts": ["ya que", "aunque", "por consiguiente"], "a": 0, "pista": "Cause or contrast?", "why": "Cause → **ya que** (puesto que)."}, {"t": "mc", "q": "___ la televisión le ofrece un viaje a Houston, Agustina no habla de Irene.", "opts": ["Aunque", "Porque", "Por lo tanto"], "a": 0, "pista": "A concession: she had a reason to talk, but did not.", "why": "Concession → **Aunque** + fact."}, {"t": "mc", "q": "Los hombres apenas aparecen; ___, su violencia lo determina todo.", "opts": ["no obstante", "por eso", "además"], "a": 0, "pista": "Absent… and yet decisive.", "why": "**no obstante** (sin embargo)."}, {"t": "mc", "q": "Paula es hija y hermana de Raimunda; ___, su padre es también su abuelo.", "opts": ["es decir", "sin embargo", "aunque"], "a": 0, "pista": "The second half explains the first.", "why": "Reformulation → **es decir**."}, {"t": "mc", "q": "___ su crimen, Irene recupera el amor de sus hijas.", "opts": ["A pesar de", "Aunque", "Por eso"], "a": 0, "pista": "What follows is a noun, not a verb.", "why": "**A pesar de** + noun."}, {"t": "mc", "q": "Raimunda canta «Volver» ___ su madre la escucha escondida en el coche.", "opts": ["mientras", "por lo tanto", "a pesar de"], "a": 0, "pista": "Two actions at the same time.", "why": "Simultaneity → **mientras**."}]}, {"tab": "3 · Escribir", "h2": "3 · Escribir con relativos y conectores", "intro": "Write in Spanish, then click « Comentarios ».", "items": [{"t": "w", "label": "PÁRRAFO", "min": 60, "q": "¿Cómo presenta Almodóvar la solidaridad entre mujeres en Volver? Escribe 80–120 palabras con **dos pronombres relativos** (cuyo, lo que, quien…) y **tres conectores**.", "points": [["Uses a relative such as cuyo/cuya, lo que, quien", ["cuyo", "cuya", "lo que", "quien", "el cual", "la cual"]], ["Uses connectors of contrast or consequence", ["sin embargo", "no obstante", "por consiguiente", "por lo tanto", "aunque", "a pesar de"]], ["Gives a precise example: Regina, Inés, Sole, Agustina, Irene", ["regina", "inés", "ines", "sole", "agustina", "irene"]], ["Says what the solidarity achieves or costs", ["protege", "sobreviv", "secreto", "cómplice", "complice", "ayuda", "sin preguntas"]]], "model": "En Volver, las mujeres se ayudan sin hacer preguntas. Regina, cuya situación es muy precaria, acompaña a Raimunda hasta el río y se convierte en su «cómplice». Inés ofrece sus dulces y su trabajo, lo que permite abrir el restaurante. Sin embargo, esta solidaridad también guarda secretos: Agustina, que conoce la verdad sobre su madre, prefiere que «los trapos sucios» se laven entre mujeres. Por consiguiente, la comunidad femenina protege, pero también calla."}]}]};</script>
+<script>
+(function(){
+"use strict";
+var KEY = D.key;
+var S = {v:1, it:{}, tab:null, pub:false};
+try{ var raw=localStorage.getItem(KEY); if(raw){ var o=JSON.parse(raw); if(o&&o.v===1) S=o; } }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function nfc(s){ return (s||"").normalize ? s.normalize("NFC") : (s||""); }
+function deacc(s){ return nfc(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function clean(s){ return nfc(s).toLowerCase().replace(/[¡!¿?.,;:«»"“”()\[\]…]/g," ").replace(/\s+/g," ").trim(); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmt(s){ return esc(s).replace(/&lt;br&gt;/g,"<br>").replace(/\*\*(.+?)\*\*/g,"<b>$1</b>"); }
+function h(tag, attrs, html){ var e=document.createElement(tag); if(attrs) for(var k in attrs){ if(k==="class") e.className=attrs[k]; else e.setAttribute(k,attrs[k]); } if(html!=null) e.innerHTML=html; return e; }
+/* strict judge: exact (case, spacing, punctuation ignored) or accent-only slip */
+function judge(given, acc){
+  var g=clean(given); if(!g) return "blank";
+  for(var i=0;i<acc.length;i++){ if(g===clean(acc[i])) return "ok"; }
+  for(i=0;i<acc.length;i++){ if(deacc(g)===deacc(clean(acc[i]))) return "accent"; }
+  return "no";
+}
+var ITEMS=[], SECS=[];
+function fbBox(card){ var f=card.querySelector(".fb"); if(!f){ f=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(f); } return f; }
+function wire(it){
+  var st = S.it[it.id] || (S.it[it.id]={st:null, tries:0, first:false, given:null});
+  it.state = st;
+  it.run = function(){
+    if(st.st) return;
+    var r = it.check(); if(r==="blank") return;
+    st.tries++; st.given = it.given();
+    var fb = fbBox(it.card);
+    if(r==="ok"){ st.st="ok"; st.first=(st.tries===1); it.lock(true);
+      fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correcto</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+      it.card.classList.add("ok"); save(); refresh(); return; }
+    if(st.tries<2){
+      fb.className="fb ui show hint";
+      fb.innerHTML='<span class="tag ht">Pista</span>'+(r==="accent"?"Almost: the right form, but check the accent. ":"Not yet. ")+fmt(it.pista||"");
+      it.mark(); save(); return; }
+    st.st="rev"; it.lock(false); it.reveal();
+    fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Respuesta</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+    it.card.classList.add("rev"); save(); refresh();
+  };
+  it.restore = function(){
+    if(!st.st) return; it.setGiven(st.given);
+    var fb=fbBox(it.card);
+    if(st.st==="ok"){ it.lock(true); it.card.classList.add("ok"); fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correcto</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+    else { it.lock(false); it.reveal(); it.card.classList.add("rev"); fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Respuesta</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+  };
+  ITEMS.push(it);
+}
+function controls(card, it){
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Comprobar");
+  var p=h("button",{"class":"g",type:"button"},"Pista");
+  b.addEventListener("click", function(){ it.run(); });
+  p.addEventListener("click", function(){ var fb=fbBox(card); if(it.state.st) return; fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>'+fmt(it.pista||""); });
+  row.appendChild(b); row.appendChild(p); card.appendChild(row);
+  it.btns=[b,p];
+}
+function gapItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  var parts=Q.es.split(/\{(\d+)\}/), html='<span class="qn">'+n+' ·</span>';
+  for(var i=0;i<parts.length;i++){
+    if(i%2===0) html+=fmt(parts[i]);
+    else { var g=Q.gaps[+parts[i]]; html+='<input type="text" data-g="'+parts[i]+'" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="hueco '+(+parts[i]+1)+'">'+(g.cue?' <span class="cue">('+esc(g.cue)+')</span>':""); }
+  }
+  var s=h("div",{"class":"sent"},html); card.appendChild(s);
+  var inputs=[].slice.call(s.querySelectorAll("input"));
+  var it={id:id, sec:sec, card:card, q:Q.es.replace(/\{\d+\}/g,"___"), pista:Q.pista, why:Q.why};
+  it.given=function(){ return inputs.map(function(x){return x.value.trim();}).join(" | "); };
+  it.setGiven=function(v){ (v||"").split(" | ").forEach(function(x,i){ if(inputs[i]) inputs[i].value=x; }); };
+  it.res=function(){ return inputs.map(function(x){ return judge(x.value, Q.gaps[+x.getAttribute("data-g")].acc); }); };
+  it.check=function(){ var r=it.res(); if(r.some(function(x){return x==="blank";})) { var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML="Fill in every gap first."; return "blank"; }
+    if(r.every(function(x){return x==="ok";})) return "ok"; if(r.every(function(x){return x==="ok"||x==="accent";})) return "accent"; return "no"; };
+  it.mark=function(){ var r=it.res(); inputs.forEach(function(x,i){ x.classList.toggle("okf",r[i]==="ok"); x.classList.toggle("badf",r[i]!=="ok"); }); };
+  it.lock=function(good){ inputs.forEach(function(x){ x.disabled=true; x.classList.toggle("okf",good); }); it.btns.forEach(function(b){ b.disabled=true; }); };
+  it.reveal=function(){ it.mark(); };
+  it.answerText=function(){ return "**"+Q.gaps.map(function(g){return g.acc[0];}).join(" … ")+"**"+(Q.gaps.some(function(g){return g.acc.length>1;})?" (also accepted: "+Q.gaps.map(function(g){return g.acc.slice(1).join(", ");}).filter(Boolean).join("; ")+")":"")+"."; };
+  it.ans=Q.gaps.map(function(g){return g.acc[0];}).join(" | ");
+  inputs.forEach(function(x){ x.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); it.run(); } }); });
+  controls(card,it); wire(it); return card;
+}
+function seeded(n,seed){ var a=[]; for(var i=0;i<n;i++) a.push(i); var x=seed; for(i=n-1;i>0;i--){ x=(x*9301+49297)%233280; var j=Math.floor(x/233280*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function mcItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  card.appendChild(h("div",null,'<span class="qn">'+n+' ·</span>'+fmt(Q.q)));
+  var box=h("div",{"class":"opts"}); var order=seeded(Q.opts.length, id.length*31+n*7), btns=[], sel=null;
+  order.forEach(function(k){ var b=h("button",{"class":"opt",type:"button"},fmt(Q.opts[k])); b._i=k; b.addEventListener("click",function(){ if(it.state.st) return; sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); it.run(); }); btns.push(b); box.appendChild(b); });
+  card.appendChild(box);
+  var it={id:id, sec:sec, card:card, q:Q.q, pista:Q.pista, why:Q.why};
+  it.given=function(){ return sel==null?"":Q.opts[sel]; };
+  it.setGiven=function(v){ var k=Q.opts.indexOf(v); if(k>=0){ sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); } };
+  it.check=function(){ return sel==null?"blank":(sel===Q.a?"ok":"no"); };
+  it.mark=function(){ btns.forEach(function(x){ if(x._i===sel) x.classList.add("wrong"); }); };
+  it.lock=function(){ btns.forEach(function(x){ x.disabled=true; if(x._i===Q.a) x.classList.add("right"); }); if(it.pb) it.pb.disabled=true; };
+  it.reveal=function(){};
+  it.answerText=function(){ return "**"+Q.opts[Q.a]+"**."; };
+  it.ans=Q.opts[Q.a];
+  var row=h("div",{"class":"ctl ui"}); var p=h("button",{"class":"g",type:"button"},"Pista"); it.pb=p;
+  p.addEventListener("click",function(){ if(it.state.st) return; var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>'+fmt(Q.pista||""); });
+  row.appendChild(p); card.appendChild(row);
+  wire(it); return card;
+}
+var WRITES=[];
+function covered(points, txt){ var d=" "+deacc(txt)+" "; return points.map(function(pt){ return {label:pt[0], ok: pt[1].some(function(k){ return d.indexOf(deacc(k))>=0; })}; }); }
+function wItem(sec, id, n, Q){
+  var card=h("div",{"class":"card reto"});
+  card.innerHTML='<div class="rt2 ui">'+(Q.label||"ESCRIBE")+'</div><p class="ui" style="margin:6px 0 4px;font-size:15px">'+fmt(Q.q)+'</p>';
+  S.w=S.w||{}; var t=h("textarea",{"aria-label":Q.label||"Escribe",style:"min-height:120px"}); t.value=S.w[id]||"";
+  t.addEventListener("input",function(){ S.w[id]=t.value; save(); });
+  card.appendChild(t);
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Comentarios"); row.appendChild(b); card.appendChild(row);
+  var fb=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(fb);
+  b.addEventListener("click",function(){
+    var txt=t.value.trim(), words=(txt.match(/[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+/g)||[]).length;
+    if(words<25){ fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>Write at least '+(Q.min||40)+' words first, then ask for comments. A strong answer covers:<ul class="check">'+Q.points.map(function(p){return "<li>"+esc(p[0])+"</li>";}).join("")+'</ul>'; return; }
+    var cv=covered(Q.points,txt), k=cv.filter(function(x){return x.ok;}).length;
+    fb.className="fb ui show "+(k>=Q.points.length-1?"okb":"hint");
+    fb.innerHTML='<span class="tag '+(k>=Q.points.length-1?"okt":"ht")+'">Comentarios</span>'+k+' of '+cv.length+' key points ('+words+' words).<ul class="check">'+cv.map(function(x){return '<li class="'+(x.ok?"on":"")+'">'+esc(x.label)+'</li>';}).join("")+'</ul><div class="why">The check looks for the key words of each point: a guide, not a mark.</div>'+(Q.model?'<details style="margin-top:8px"><summary>Una respuesta posible</summary><p style="margin:6px 0 0">'+fmt(Q.model)+'</p></details>':"");
+  });
+  WRITES.push({sec:sec,q:Q.q,get:function(){return t.value.trim();}});
+  return card;
+}
+var main=document.getElementById("main"), tabs=document.getElementById("tabs");
+D.sections.forEach(function(sx, si){
+  var id="s"+(si+1);
+  var s=h("section",{"class":"ex",id:id}); s.appendChild(h("h2",null,esc(sx.h2)));
+  if(sx.intro) s.appendChild(h("p",{"class":"how ui"},fmt(sx.intro)));
+  if(sx.rule) s.appendChild(h("div",{"class":"rule"},fmt(sx.rule)));
+  var n=0;
+  sx.items.forEach(function(Q,qi){ n++; if(Q.h3) s.appendChild(h("h3",null,esc(Q.h3)));
+    s.appendChild(Q.t==="mc" ? mcItem(id,id+"_"+qi,n,Q) : Q.t==="w" ? wItem(id,id+"_"+qi,n,Q) : gapItem(id,id+"_"+qi,n,Q)); });
+  var f=h("div",{"class":"secfoot ui"}), l=h("div"), r=h("div");
+  if(si>0) l.appendChild(h("button",{"class":"g",type:"button","data-go":"s"+si},"← Atrás"));
+  var rs=h("button",{"class":"g",type:"button"},"Reintentar esta sección");
+  rs.addEventListener("click",function(){ if(!rs._a){ rs._a=true; rs.textContent="Pulsa otra vez para borrar"; setTimeout(function(){ rs._a=false; rs.textContent="Reintentar esta sección"; },3000); return; }
+    ITEMS.filter(function(it){return it.sec===id;}).forEach(function(it){ delete S.it[it.id]; }); save(); location.reload(); });
+  l.appendChild(document.createTextNode(" ")); l.appendChild(rs);
+  if(si<D.sections.length-1) r.appendChild(h("button",{"class":"b",type:"button","data-go":"s"+(si+2)},"Siguiente →"));
+  else { var dl=h("button",{"class":"b",type:"button"},"Descargar mis respuestas"); dl.addEventListener("click",download); r.appendChild(dl); }
+  f.appendChild(l); f.appendChild(r); s.appendChild(f);
+  main.appendChild(s);
+  var tb=h("button",{type:"button",role:"tab","data-go":id},esc(sx.tab)+' <span class="n"></span>'); tabs.appendChild(tb);
+  SECS.push({id:id, el:s, tab:tb});
+});
+function totals(){ var tot=ITEMS.length, sc=0, first=0, done=0; ITEMS.forEach(function(it){ var st=it.state; if(st.st==="ok"){ sc++; done++; if(st.first) first++; } else if(st.st==="rev") done++; }); return {tot:tot,sc:sc,first:first,done:done}; }
+function refresh(){
+  var T=totals(); document.getElementById("sc").textContent=T.sc; document.getElementById("tot").textContent=T.tot; document.getElementById("first").textContent=T.first;
+  document.getElementById("bar").style.width=(T.tot?Math.round(100*T.sc/T.tot):0)+"%";
+  SECS.forEach(function(s){ var its=ITEMS.filter(function(it){return it.sec===s.id;}); var d=its.filter(function(it){return it.state.st;}).length, ok=its.filter(function(it){return it.state.st==="ok";}).length; s.tab.querySelector(".n").textContent=ok+"/"+its.length; s.tab.classList.toggle("done",d===its.length); });
+  publish();
+}
+function publish(){
+  try{ var T=totals(); var all=JSON.parse(localStorage.getItem("bba-scores")||"{}"); var f=decodeURIComponent(location.pathname.split("/").pop()||"index"); var prev=all[f]||{};
+    var rec={title:(document.title||"").slice(0,120), score:T.sc, total:T.tot, best:Math.max(T.sc,prev.best||0), attempts:(prev.attempts||0)+(S.pub?0:1), t:Date.now()};
+    var n=Math.max(0,T.done-(S.pubDone||0)); rec.ans=(prev.ans||0)+n; rec.lg={}; for(var k in (prev.lg||{})) rec.lg[k]=prev.lg[k];
+    var day=String(Math.floor(Date.now()/86400000)); if(n) rec.lg[day]=(rec.lg[day]||0)+n;
+    all[f]=rec; localStorage.setItem("bba-scores",JSON.stringify(all)); S.pub=true; S.pubDone=T.done; save(); }catch(e){}
+}
+function studentName(){ var nm=document.querySelector("#bba-kit .nm"); var v=nm&&nm.value.trim(); if(!v){ try{ v=localStorage.getItem("bba-name")||""; }catch(e){} } return v||""; }
+function download(){
+  var T=totals(), name=studentName(), L=[];
+  L.push(D.dlhead); L.push("Nombre: "+(name||"(sin nombre)")); L.push("Fecha: "+new Date().toLocaleString("es-ES")); L.push("Puntos: "+T.sc+" / "+T.tot+"  ·  a la primera: "+T.first); L.push("");
+  SECS.forEach(function(s){ L.push("== "+s.el.querySelector("h2").textContent+" ==");
+    ITEMS.filter(function(it){return it.sec===s.id;}).forEach(function(it,i){ var st=it.state;
+      var mark=st.st==="ok"?(st.first?"✓":"✓ (2.º intento)"):st.st==="rev"?"✗ → "+it.ans:"— sin responder";
+      L.push((i+1)+". "+it.q.replace(/\*\*/g,"").replace(/\s+/g," ").slice(0,160)); L.push("   Respuesta: "+(it.given()||"—")+"   ["+mark+"]"); });
+    WRITES.filter(function(w){return w.sec===s.id;}).forEach(function(w){ L.push("ESCRITO: "+w.q.replace(/\*\*/g,"")); L.push(w.get()||"—"); });
+    L.push(""); });
+  var blob=new Blob([L.join("\r\n")],{type:"text/plain;charset=utf-8"}); var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download=D.dlfile+(name||"sin_nombre").replace(/[^\wÁÉÍÓÚÑáéíóúñ-]+/g,"_")+".txt"; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },500);
+}
+function go(id){ SECS.forEach(function(s){ var on=s.id===id; s.el.classList.toggle("active",on); s.tab.setAttribute("aria-selected",on?"true":"false"); }); S.tab=id; save();
+  var nav=document.getElementById("tabs"); if(window.scrollY>nav.offsetTop) window.scrollTo({top:nav.offsetTop,behavior:"smooth"}); }
+document.addEventListener("click",function(e){ var b=e.target.closest("[data-go]"); if(b){ e.preventDefault(); go(b.getAttribute("data-go")); } });
+ITEMS.forEach(function(it){ it.restore(); });
+go(S.tab && document.getElementById(S.tab) ? S.tab : "s1"); refresh();
+window.LCDBA={items:ITEMS, totals:totals, judge:judge};
+})();
+</script>
 <script src="bba-kit-es.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
 </body>
