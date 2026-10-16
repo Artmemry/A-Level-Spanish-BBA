@@ -1,1053 +1,285 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lorca - Ejercicios</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Georgia', serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #e0e0e0;
-            padding: 20px;
-            line-height: 1.6;
-        }
-
-        .keyboard-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #f0a500;
-            color: #1a1a2e;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(240, 165, 0, 0.4);
-            z-index: 999;
-            transition: all 0.3s;
-        }
-
-        .keyboard-toggle:hover { transform: scale(1.05); }
-
-        #accentKeyboard {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            background: rgba(240, 165, 0, 0.95);
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            display: none;
-        }
-
-        #accentKeyboard.show { display: block; }
-
-        .accent-btn {
-            background: #1a1a2e;
-            color: #f0a500;
-            border: none;
-            padding: 8px 12px;
-            margin: 3px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: bold;
-            transition: all 0.2s;
-        }
-
-        .accent-btn:hover {
-            background: #f0a500;
-            color: #1a1a2e;
-            transform: scale(1.1);
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-        
-        h1 {
-            text-align: center;
-            color: #f0a500;
-            margin-bottom: 10px;
-            font-size: 2em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        
-        .subtitle {
-            text-align: center;
-            color: #c0c0c0;
-            margin-bottom: 30px;
-            font-style: italic;
-        }
-
-        .download-section {
-            margin-bottom: 20px;
-            text-align: center;
-            background: rgba(156, 39, 176, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-            border: 2px solid #9C27B0;
-        }
-
-        #studentName {
-            width: 300px;
-            padding: 12px;
-            background: rgba(255,255,255,0.1);
-            border: 2px solid rgba(240,165,0,0.5);
-            border-radius: 8px;
-            color: #e0e0e0;
-            font-size: 1em;
-            margin-right: 10px;
-        }
-
-        #studentName::placeholder { color: #a0a0a0; }
-
-        .download-btn {
-            background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: bold;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(156, 39, 176, 0.4);
-        }
-
-        .download-btn:hover {
-            background: linear-gradient(135deg, #7B1FA2 0%, #6A1B9A 100%);
-            transform: scale(1.05);
-        }
-        
-        .exercise-selector {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 30px;
-            justify-content: center;
-        }
-        
-        .exercise-btn {
-            background: rgba(240, 165, 0, 0.2);
-            border: 2px solid #f0a500;
-            color: #f0a500;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.9em;
-            font-weight: bold;
-        }
-        
-        .exercise-btn:hover {
-            background: #f0a500;
-            color: #1a1a2e;
-            transform: translateY(-2px);
-        }
-        
-        .exercise-btn.active {
-            background: #f0a500;
-            color: #1a1a2e;
-        }
-        
-        .exercise-section {
-            display: none;
-            animation: fadeIn 0.5s;
-        }
-        
-        .exercise-section.active { display: block; }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .question {
-            background: rgba(255, 255, 255, 0.08);
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            border-left: 4px solid #f0a500;
-        }
-        
-        .question-text {
-            color: #ffd700;
-            margin-bottom: 15px;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-        
-        input[type="text"], textarea, select {
-            width: 100%;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(240, 165, 0, 0.3);
-            border-radius: 8px;
-            color: #e0e0e0;
-            font-size: 1em;
-            margin-bottom: 10px;
-            transition: border 0.3s;
-        }
-        
-        input[type="text"]:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: #f0a500;
-        }
-        
-        textarea {
-            min-height: 100px;
-            font-family: inherit;
-            resize: vertical;
-        }
-
-        select { cursor: pointer; }
-        option { background: #1a1a2e; color: #e0e0e0; }
-        
-        .check-btn {
-            background: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: all 0.3s;
-            margin-right: 10px;
-            margin-top: 5px;
-        }
-        
-        .check-btn:hover {
-            background: #45a049;
-            transform: scale(1.05);
-        }
-        
-        .answer {
-            display: none;
-            background: rgba(76, 175, 80, 0.2);
-            border: 2px solid #4CAF50;
-            padding: 15px;
-            margin-top: 10px;
-            border-radius: 8px;
-            color: #a5d6a7;
-        }
-        
-        .answer.show {
-            display: block;
-            animation: slideDown 0.3s;
-        }
-        
-        @keyframes slideDown {
-            from { opacity: 0; max-height: 0; }
-            to { opacity: 1; max-height: 1000px; }
-        }
-        
-        .note {
-            background: rgba(255, 193, 7, 0.1);
-            border-left: 4px solid #ffc107;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 5px;
-            font-style: italic;
-            color: #ffe082;
-        }
-
-        .text-passage {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            line-height: 1.8;
-            border-left: 4px solid #6495ED;
-        }
-
-        .blank {
-            display: inline-block;
-            min-width: 80px;
-            padding: 2px 8px;
-            margin: 0 3px;
-            border-bottom: 2px solid #f0a500;
-            background: rgba(240, 165, 0, 0.1);
-        }
-
-        .vocab-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        .vocab-item {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 10px;
-            border-radius: 5px;
-            border-left: 3px solid #f0a500;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lorca y la España de los años 30</title>
+<meta name="description" content="A-Level Spanish: the context of La casa de Bernarda Alba. Lorca's life, Spain in the 1930s, theatre vocabulary, social classes in the play, and gapped translation.">
+<style>
+:root{
+  --paper:#f6f1e7; --card:#fffdf8; --ink:#2a2320; --soft:#6a5a4c; --line:#dcd0bb;
+  --ox:#6e1f2a; --ox2:#8f3340; --oxs:#f4e4e4; --green:#1f4d3a; --gs:#e3efe8;
+  --gold:#a8843a; --golds:#f7efd9; --bad:#a23b2a; --bads:#fbe9e5; --ok:#226a43;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+.ui{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:22px 16px 160px}
+header{border-bottom:3px double var(--ox);padding-bottom:14px;margin-bottom:8px}
+.kicker{font:600 12px/1.2 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ox)}
+h1{font-size:31px;line-height:1.15;margin:6px 0 6px;color:var(--ox)}
+.lead{color:var(--soft);margin:0 0 4px;font:15px/1.55 system-ui,sans-serif}
+.score{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:10px;font:14px system-ui,sans-serif;color:var(--soft)}
+.score b{color:var(--ink);font-size:16px}
+.meter{flex:1 1 180px;height:8px;background:#e8dfcf;border-radius:99px;overflow:hidden;min-width:140px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#2f7a58);transition:width .4s}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 12px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+nav.tabs button{font:600 13.5px system-ui,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 12px;cursor:pointer;display:flex;gap:6px;align-items:center}
+nav.tabs button .n{font-weight:500;color:var(--soft);font-size:12px}
+nav.tabs button[aria-selected="true"]{background:var(--ox);border-color:var(--ox);color:#fff}
+nav.tabs button[aria-selected="true"] .n{color:#f1d7d9}
+nav.tabs button.done:not([aria-selected="true"]){border-color:var(--green);color:var(--green)}
+section.ex{display:none}
+section.ex.active{display:block}
+h2{font-size:24px;margin:4px 0 6px;color:var(--green)}
+h3{font:700 13px system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ox);margin:22px 0 8px}
+.how{font:15px/1.55 system-ui,sans-serif;color:var(--soft);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;position:relative}
+.card.ok{border-color:#9cc7ae;background:#fbfefc}
+.card.rev{border-color:#e3b6ad}
+.card .qn{font:700 13px system-ui,sans-serif;color:var(--ox);margin-right:6px}
+.quote{font-style:italic}
+blockquote{margin:2px 0 10px;padding:6px 0 6px 14px;border-left:3px solid var(--gold);font-style:italic;font-size:18px}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:10px}
+input[type=text],select,textarea{font:16px Georgia,serif;color:var(--ink);background:#fff;border:1px solid #bdae95;border-radius:7px;padding:7px 10px;max-width:100%}
+input[type=text]{width:15em}
+input.w8{width:8.5em} input.w6{width:7em}
+input.okf{border-color:var(--ok);background:#f2faf5} input.badf{border-color:var(--bad);background:var(--bads)}
+textarea{width:100%;min-height:200px;resize:vertical;line-height:1.6}
+button.b{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 13px;cursor:pointer;border:1px solid var(--ox);background:var(--ox);color:#fff}
+button.b:disabled{opacity:.45;cursor:default}
+button.g{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--green)}
+button.g:disabled{opacity:.45;cursor:default}
+.opts{display:grid;gap:7px;margin-top:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;font:15.5px/1.45 system-ui,sans-serif;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 12px;cursor:pointer;color:var(--ink)}
+.opt:before{content:"";flex:0 0 16px;height:16px;border:2px solid #b8a98f;border-radius:50%;margin-top:2px}
+.opt.sel{border-color:var(--ox);background:var(--oxs)}
+.opt.sel:before{border-color:var(--ox);background:radial-gradient(var(--ox) 45%,transparent 50%)}
+.opt.right{border-color:var(--ok);background:#eef8f2}
+.opt.wrong{border-color:var(--bad);background:var(--bads)}
+.opt:disabled{cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font:600 13px system-ui,sans-serif;border:1px solid #c9bba3;background:#fff;color:var(--soft);border-radius:999px;padding:6px 11px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.chip.core{outline:2px solid var(--ok);outline-offset:1px}
+.chip.acc{outline:2px dashed var(--gold);outline-offset:1px}
+.chip.wrongc{background:var(--bad);border-color:var(--bad);color:#fff}
+.chip:disabled{cursor:default}
+.fb{margin-top:10px;font:14.5px/1.55 system-ui,sans-serif;border-radius:8px;padding:9px 12px;display:none}
+.fb.show{display:block}
+.fb.okb{background:var(--gs);color:#163a2b}
+.fb.hint{background:var(--golds);color:#4d3c14}
+.fb.revb{background:var(--bads);color:#5a1d12}
+.fb .why{margin-top:6px;color:#2b2a26}
+.tag{display:inline-block;font:700 11px system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-right:6px}
+.tag.okt{background:var(--ok);color:#fff}.tag.ht{background:var(--gold);color:#fff}.tag.rt{background:var(--bad);color:#fff}
+.legend{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:14.5px/1.55 system-ui,sans-serif;margin-bottom:10px}
+.legend b{color:var(--ox)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}
+.who{font:13px system-ui,sans-serif;color:var(--soft)}
+.tr{line-height:2.25;font-size:17px;background:#faf6ee;border-left:3px solid var(--gold);padding:6px 12px;border-radius:4px;margin-top:6px}
+.secfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0 6px;flex-wrap:wrap}
+.reto{border:2px solid var(--ox);background:#fff}
+.reto .rt2{font:700 12px system-ui,sans-serif;letter-spacing:.16em;color:var(--ox)}
+.check li{margin:4px 0;list-style:none;padding-left:0}
+.check{padding:0;margin:10px 0 0;font:14.5px/1.5 system-ui,sans-serif}
+.check li:before{content:"○ ";color:#b8a98f;font-weight:700}
+.check li.on:before{content:"● ";color:var(--ok)}
+.check li.warn:before{content:"● ";color:var(--bad)}
+.qcheck{font:14px/1.5 system-ui,sans-serif;margin-top:8px}
+.qcheck div{padding:3px 0}
+.qcheck .y{color:var(--ok)} .qcheck .n{color:var(--bad)}
+.titles label{display:flex;gap:8px;align-items:flex-start;font:15.5px/1.45 Georgia,serif;margin:6px 0;cursor:pointer}
+.tips{font:14.5px/1.55 system-ui,sans-serif;background:var(--oxs);border-radius:8px;padding:10px 12px;margin:10px 0}
+.res{font:15px/1.6 system-ui,sans-serif}
+.res table{border-collapse:collapse;width:100%;margin:8px 0}
+.res td,.res th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+.src{font:13px/1.5 system-ui,sans-serif;color:var(--soft);margin-top:22px}
+@media (max-width:640px){h1{font-size:25px}.cols{grid-template-columns:1fr}input[type=text]{width:100%}input.w8,input.w6{width:8em}nav.tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}nav.tabs::-webkit-scrollbar{display:none}nav.tabs button{padding:6px 10px;font-size:12.5px;flex:0 0 auto;white-space:nowrap}}
+@media print{nav.tabs,.secfoot,button{display:none!important}section.ex{display:block!important}}
+</style>
+<style>
+.sent{font-size:18px;line-height:2.1}
+.sent input{width:9em;font-size:16px;padding:4px 8px;margin:0 2px}
+.en{font:14px/1.45 system-ui,sans-serif;color:var(--soft);margin:0 0 4px}
+.cue{font:13px system-ui,sans-serif;color:var(--soft)}
+.rule{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:8px;padding:10px 14px;font:14.5px/1.55 system-ui,sans-serif;margin:6px 0 12px}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>Federico García Lorca y su obra</h1>
-        <p class="subtitle">Ejercicios sobre el autor y La Casa de Bernarda Alba</p>
-        
-        <div class="download-section">
-            <h3 style="color: #9C27B0; margin-bottom: 15px;">💾 Guardar Tu Trabajo</h3>
-            <p style="color: #c0c0c0; margin-bottom: 15px; font-size: 0.9em;">Introduce tu nombre y descarga tus respuestas</p>
-            <input type="text" id="studentName" placeholder="Escribe tu nombre completo aquí">
-            <button class="download-btn" onclick="downloadWork()">📥 DESCARGAR TRABAJO</button>
-        </div>
-
-        <div class="exercise-selector">
-            <button class="exercise-btn active" onclick="showExercise(1)">Ejercicio 1</button>
-            <button class="exercise-btn" onclick="showExercise(2)">Ejercicio 2</button>
-            <button class="exercise-btn" onclick="showExercise(3)">Ejercicio 3</button>
-            <button class="exercise-btn" onclick="showExercise(5)">Ejercicio 5</button>
-            <button class="exercise-btn" onclick="showExercise(6)">Ejercicio 6</button>
-        </div>
-
-        <button class="keyboard-toggle" onclick="toggleKeyboard()">Ñ á é í ó ú</button>
-        <div id="accentKeyboard">
-            <div style="text-align: center; margin-bottom: 10px; color: #1a1a2e; font-weight: bold;">Acentos</div>
-            <button class="accent-btn" onclick="insertChar('á')">á</button>
-            <button class="accent-btn" onclick="insertChar('é')">é</button>
-            <button class="accent-btn" onclick="insertChar('í')">í</button>
-            <button class="accent-btn" onclick="insertChar('ó')">ó</button>
-            <button class="accent-btn" onclick="insertChar('ú')">ú</button>
-            <button class="accent-btn" onclick="insertChar('ñ')">ñ</button>
-            <br>
-            <button class="accent-btn" onclick="insertChar('Á')">Á</button>
-            <button class="accent-btn" onclick="insertChar('É')">É</button>
-            <button class="accent-btn" onclick="insertChar('Í')">Í</button>
-            <button class="accent-btn" onclick="insertChar('Ó')">Ó</button>
-            <button class="accent-btn" onclick="insertChar('Ú')">Ú</button>
-            <button class="accent-btn" onclick="insertChar('Ñ')">Ñ</button>
-            <br>
-            <button class="accent-btn" onclick="insertChar('¿')">¿</button>
-            <button class="accent-btn" onclick="insertChar('¡')">¡</button>
-            <button class="accent-btn" onclick="insertChar('ü')">ü</button>
-            <button class="accent-btn" onclick="insertChar('Ü')">Ü</button>
-        </div>
-
-        <div id="ex1" class="exercise-section active">
-            <h2 style="color: #f0a500; margin-bottom: 20px;">Ejercicio 1: La vida de Lorca</h2>
-            <p style="color: #c0c0c0; margin-bottom: 20px;">Completa los huecos con la forma correcta del verbo:</p>
-            
-            <div class="text-passage">
-                <p>Federico García Lorca <input type="text" class="blank" id="v1" placeholder="(1)"> (nacer) en Fuente Vaqueros, en Granada, el 5 de junio de 1898 y <input type="text" class="blank" id="v2" placeholder="(2)"> (ser) asesinado en 1936. Su padre <input type="text" class="blank" id="v3" placeholder="(3)"> (tener) tierras y su madre <input type="text" class="blank" id="v4" placeholder="(4)"> (ser) profesora.</p>
-                
-                <p>Tras <input type="text" class="blank" id="v5" placeholder="(5)"> (terminar) la educación secundaria, Lorca <input type="text" class="blank" id="v6" placeholder="(6)"> (ir) a la Universidad de Granada, donde <input type="text" class="blank" id="v7" placeholder="(7)"> (estudiar) Derecho, Literatura y Composición.</p>
-                
-                <p>Lorca <input type="text" class="blank" id="v8" placeholder="(8)"> (viajar) por el norte de España en 1916 y 1917, y <input type="text" class="blank" id="v9" placeholder="(9)"> (publicar) un libro en 1918 llamado Impresiones y Paisajes. Un año más tarde, Lorca <input type="text" class="blank" id="v10" placeholder="(10)"> (mudarse) a la Residencia de Estudiantes en Madrid, donde <input type="text" class="blank" id="v11" placeholder="(11)"> (conocer) a distintos intelectuales, tales como Luis Buñuel y Salvador Dalí.</p>
-                
-                <p>El primer libro de poemas de Lorca <input type="text" class="blank" id="v12" placeholder="(12)"> (ser) publicado en 1921, y <input type="text" class="blank" id="v13" placeholder="(13)"> (constar) de poemas que <input type="text" class="blank" id="v14" placeholder="(14)"> (tratar) distintos temas, como la religión y la naturaleza. Sin embargo, el libro de poemas más famoso de Lorca no <input type="text" class="blank" id="v15" placeholder="(15)"> (ver) la luz hasta 1928, y <input type="text" class="blank" id="v16" placeholder="(16)"> (llamarse) Romancero Gitano. Esta publicación le <input type="text" class="blank" id="v17" placeholder="(17)"> (dar) fama a Lorca como poeta.</p>
-                
-                <p>En 1929, Lorca <input type="text" class="blank" id="v18" placeholder="(18)"> (ir) a Nueva York, donde <input type="text" class="blank" id="v19" placeholder="(19)"> (cursar) estudios en la Universidad de Columbia. Las experiencias de su estancia y los sentimientos <input type="text" class="blank" id="v20" placeholder="(20)"> (vivir) allí <input type="text" class="blank" id="v21" placeholder="(21)"> (ser) plasmados en su obra Poeta en Nueva York, que no <input type="text" class="blank" id="v22" placeholder="(22)"> (llegar) a publicarse hasta 1942.</p>
-                
-                <p>Lorca <input type="text" class="blank" id="v23" placeholder="(23)"> (regresar) a España en 1930 cuando <input type="text" class="blank" id="v24" placeholder="(24)"> (instaurarse) la Segunda República Española. En 1931, Lorca <input type="text" class="blank" id="v25" placeholder="(25)"> (comenzar) a trabajar como director de La Barraca, una compañía de teatro <input type="text" class="blank" id="v26" placeholder="(26)"> (encargar) de <input type="text" class="blank" id="v27" placeholder="(27)"> (representar) obras en zonas rurales de España. <input type="text" class="blank" id="v28" placeholder="(28)"> (Ser) durante sus viajes con esta compañía cuando Lorca <input type="text" class="blank" id="v29" placeholder="(29)"> (escribir) sus obras más conocidas, la trilogía de Drama de mujeres en los pueblos de España, <input type="text" class="blank" id="v30" placeholder="(30)"> (formar) por Bodas de sangre, Yerma, y La casa de Bernarda Alba. Las tres obras <input type="text" class="blank" id="v31" placeholder="(31)"> (explorar) el tema del papel de la mujer en la sociedad y la estructura de las clases sociales.</p>
-                
-                <p>Lorca <input type="text" class="blank" id="v32" placeholder="(32)"> (terminar) de escribir La casa de Bernarda Alba poco antes de su asesinato. Hoy en día, su asesinato <input type="text" class="blank" id="v33" placeholder="(33)"> (considerarse) una consecuencia directa de las ideas políticas del autor, aunque hay bastante controversia en cuanto los detalles de su muerte.</p>
-            </div>
-            
-            <button class="check-btn" onclick="checkExercise1()">Verificar respuestas</button>
-            <button class="check-btn" onclick="toggleAnswer('ans1')" style="background: #2196F3;">Ver todas las respuestas</button>
-            
-            <div id="ans1" class="answer">
-                <strong>Respuestas:</strong><br>
-                1.nació 2.fue 3.tenía 4.era 5.terminar 6.fue 7.estudió 8.viajó 9.publicó 10.se mudó 11.conoció 12.fue 13.constaba 14.trataban 15.vio 16.se llamó/se llamaba 17.dio 18.fue 19.cursó 20.vividos 21.fueron 22.llegó 23.regresó 24.se instauró 25.comenzó 26.encargada 27.representar 28.Fue 29.escribió 30.formada 31.exploraban 32.terminó 33.se considera
-            </div>
-        </div>
-
-        <div id="ex2" class="exercise-section">
-            <h2 style="color: #f0a500; margin-bottom: 20px;">Ejercicio 2: Corrección de errores</h2>
-            <p style="color: #c0c0c0; margin-bottom: 20px;">Lee el texto y corrige las palabras en <strong>negrita</strong> solo si es necesario. Si la palabra es correcta, escribe "correcto":</p>
-            
-            <div class="text-passage" style="margin-bottom: 30px;">
-                <p>Lorca terminó de <strong style="color: #FFD700;">escribiendo</strong> La Casa de Bernarda Alba casi dos meses antes de su asesinato. <strong style="color: #FFD700;">Estuvo</strong> la tercera parte de una trilogía llamada Drama de mujeres en los pueblos de España, aunque al contrario <strong style="color: #FFD700;">que</strong> las otras dos obras, esta última era un drama y no alcanzaba el nivel de dolor ni de intensidad de la tragedia.</p>
-
-                <p>Los tiempos revueltos en los que vivió Lorca marcaron fuertemente <strong style="color: #FFD700;">las</strong> temas de sus obras, en donde hizo eco de sus preocupaciones, tanto sociales como políticas. Fuera de España <strong style="color: #FFD700;">había</strong> habido una guerra mundial durante sus años de adolescencia y las dictaduras como la italiana y la portuguesa parecían aflorar <strong style="color: #FFD700;">para</strong> Europa. Dentro de España había también una cierta tensión política. La Segunda República se instauró en 1931, aunque aún había seguidores del antiguo régimen y las tensiones entre republicanos y nacionalistas crecían <strong style="color: #FFD700;">como</strong> se aproximaba la muerte de Lorca. Se podría decir que La Casa de Bernarda Alba es una obra que representa una España dividida, de opresores y oprimidos, de dominadores y dominados, donde había una cierta inseguridad social y un sentimiento incómodo de miedo a lo que <strong style="color: #FFD700;">se veía</strong> venir.</p>
-
-                <p>Además de lo político, también se puede ver en su obra una preocupación por <strong style="color: #FFD700;">la</strong> sistema de clases sociales, por la segregación dentro de una misma sociedad y por los más débiles, como ejemplifica a través <strong style="color: #FFD700;">de la</strong> personaje de la mendiga. En cuanto al papel de la mujer, encontramos una preocupación por su debilidad y por la falta de libertades, <strong style="color: #FFD7700;">la que</strong> está en línea con las ideas sociales y políticas de Lorca.</p>
-
-                <p>Represión, libertad, clases sociales y el papel de la mujer no son solamente temas que encontramos en La Casa de Bernarda Alba, sino también en el contexto social y político en el que Lorca la <strong style="color: #FFD700;">ha escrito</strong>.</p>
-
-                <p>Además de las influencias sociales y políticas que encontramos en Lorca, notamos también grandes influencias culturales de su tierra natal. Las preocupaciones políticas y sociales del autor se presentan <strong style="color: #FFD700;">envueltos</strong> en una atmósfera típicamente andaluza. Las casas blancas tradicionales, el calor duro del verano, las expresiones populares, todo se mezcla con los temas principales para ofrecer a la audiencia un drama de carácter popular altamente influenciado <strong style="color: #FFD700;">para</strong> el folclore de la región.</p>
-            </div>
-            
-            <div class="question">
-                <div class="question-text">1. escribiendo</div>
-                <input type="text" id="e1" placeholder="Escribe la corrección o 'correcto'">
-                <button class="check-btn" onclick="toggleAnswer('ea1')">Verificar</button>
-                <div id="ea1" class="answer"><strong>Respuesta:</strong> escribir</div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">2. Estuvo</div>
-                <input type="text" id="e2" placeholder="Escribe la corrección o 'correcto'">
-                <button class="check-btn" onclick="toggleAnswer('ea2')">Verificar</button>
-                <div id="ea2" class="answer"><strong>Respuesta:</strong> Era</div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">3. que (al contrario que las otras dos obras)</div>
-                <input type="text" id="e3" placeholder="Escribe la corrección o 'correcto'">
-                <button class="check-btn" onclick="toggleAnswer('ea3')">Verificar</button>
-                <div id="ea3" class="answer"><strong>Respuesta:</strong> de</div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">4. las (marcaron fuertemente las temas)</div>
-                <input type="text" id="e4" placeholder="Escribe la corrección o 'correcto'">
-                <button class="check-btn" onclick="toggleAnswer('ea4')">Verificar</button>
-                <div id="ea4" class="answer"><strong>Respuesta:</strong> los</div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">5. había (Fuera de España había habido)</div>
-                <input type="text" id="e5" placeholder="Escribe la corrección o 'correcto'">
-                <button class="check-btn" onclick="toggleAnswer('ea5')">Verificar</button>
-                <div id="ea5" class="answer"><strong>Respuesta:</strong> correcto</div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">6. para (parecían aflorar para Europa)</div>
-                <input type="text" id="e6" placeholder="Escribe la corrección o 'correcto'">
-                <button class="check-btn" onclick="toggleAnswer('ea6')">Verificar</button>
-                <div id="ea6" class="answer"><strong>Respuesta:</strong> por</div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">7. como (las tensiones... crecían como se aproximaba)</div>
-                <input type="text" id="e7" placeholder="Escribe la corrección o 'correcto'">
-                <button class="check-btn" onclick="toggleAnswer('ea7')">Verificar</button>
-                <div id="ea7" class="answer"><strong>Respuesta:</strong> conforme</div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">8. se veía (miedo a lo que se veía venir)</div>
-                <input type="text" id="e8" placeholder="Escribe la corrección o 'correcto'">
-                <button class="check-btn" onclick="toggleAnswer('ea8')">Verificar</button>
-                <div id="ea8" class="answer"><strong>Respuesta:</strong> correcto</div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">9. la (una preocupación por la sistema)</div>
-                <input type="text" id="e9" placeholder="Escribe la corrección o 'correcto'">
-                <button class="check-btn" onclick="toggleAnswer('ea9')">Verificar</button>
-                <div id="ea9" class="answer"><strong>Respuesta:</strong> el</div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">10. de la (a través de la personaje)</div>
-                <input type="text" id="e10" placeholder="Escribe la corrección o 'correcto'">
-                <button class="check-btn" onclick="toggleAnswer('ea10')">Verificar</button>
-                <div id="ea10" class="answer"><strong>Respuesta:</strong> del</div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">11. la que (por la falta de libertades, la que está en línea)</div>
-                <input type="text" id="e11" placeholder="Escribe la corrección o 'correcto'">
-                <button class="check-btn" onclick="toggleAnswer('ea11')">Verificar</button>
-                <div id="ea11" class="answer"><strong>Respuesta:</strong> lo que</div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">12. ha escrito (en el que Lorca la ha escrito)</div>
-                <input type="text" id="e12" placeholder="Escribe la corrección o 'correcto'">
-                <button class="check-btn" onclick="toggleAnswer('ea12')">Verificar</button>
-                <div id="ea12" class="answer"><strong>Respuesta:</strong> escribió</div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">13. envueltos (se presentan envueltos en una atmósfera)</div>
-                <input type="text" id="e13" placeholder="Escribe la corrección o 'correcto'">
-                <button class="check-btn" onclick="toggleAnswer('ea13')">Verificar</button>
-                <div id="ea13" class="answer"><strong>Respuesta:</strong> envueltas</div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">14. para (altamente influenciado para el folclore)</div>
-                <input type="text" id="e14" placeholder="Escribe la corrección o 'correcto'">
-                <button class="check-btn" onclick="toggleAnswer('ea14')">Verificar</button>
-                <div id="ea14" class="answer"><strong>Respuesta:</strong> por</div>
-            </div>
-        </div>
-
-        <div id="ex3" class="exercise-section">
-            <h2 style="color: #f0a500; margin-bottom: 20px;">Ejercicio 3: Vocabulario teatral</h2>
-            <p style="color: #c0c0c0; margin-bottom: 20px;">Empareja cada término con su definición:</p>
-            
-            <div class="question">
-                <div class="question-text">1. atuendo</div>
-                <select id="m1">
-                    <option value="">-- Selecciona --</option>
-                    <option value="a">a. notas escritas para explicar lo que hace cada personaje</option>
-                    <option value="b">b. el escenario en el que se desarrolla la obra</option>
-                    <option value="c">c. ropa que llevan los personajes</option>
-                    <option value="d">d. algo con un lenguaje demasiado complicado</option>
-                    <option value="e">e. algo con mucho movimiento</option>
-                    <option value="f">f. género literario que cuenta una historia y que suele ser largo</option>
-                    <option value="g">g. las distintas personas que aparecen en una obra</option>
-                    <option value="h">h. emoción de la obra</option>
-                    <option value="i">i. género literario diseñado para representar una historia</option>
-                </select>
-            </div>
-
-            <div class="question">
-                <div class="question-text">2. emotividad</div>
-                <select id="m2">
-                    <option value="">-- Selecciona --</option>
-                    <option value="a">a. notas escritas</option>
-                    <option value="b">b. el escenario</option>
-                    <option value="c">c. ropa</option>
-                    <option value="d">d. lenguaje complicado</option>
-                    <option value="e">e. mucho movimiento</option>
-                    <option value="f">f. novela</option>
-                    <option value="g">g. personas en obra</option>
-                    <option value="h">h. emoción de la obra</option>
-                    <option value="i">i. teatro</option>
-                </select>
-            </div>
-
-            <div class="question">
-                <div class="question-text">3. decorado</div>
-                <select id="m3">
-                    <option value="">-- Selecciona --</option>
-                    <option value="a">a. notas</option>
-                    <option value="b">b. el escenario en el que se desarrolla la obra</option>
-                    <option value="c">c. ropa</option>
-                    <option value="d">d. lenguaje complicado</option>
-                    <option value="e">e. movimiento</option>
-                    <option value="f">f. novela</option>
-                    <option value="g">g. personas</option>
-                    <option value="h">h. emoción</option>
-                    <option value="i">i. teatro</option>
-                </select>
-            </div>
-
-            <div class="question">
-                <div class="question-text">4. personajes</div>
-                <select id="m4">
-                    <option value="">-- Selecciona --</option>
-                    <option value="a">a. notas</option>
-                    <option value="b">b. escenario</option>
-                    <option value="c">c. ropa</option>
-                    <option value="d">d. lenguaje complicado</option>
-                    <option value="e">e. movimiento</option>
-                    <option value="f">f. novela</option>
-                    <option value="g">g. las distintas personas que aparecen en una obra</option>
-                    <option value="h">h. emoción</option>
-                    <option value="i">i. teatro</option>
-                </select>
-            </div>
-
-            <div class="question">
-                <div class="question-text">5. acotaciones</div>
-                <select id="m5">
-                    <option value="">-- Selecciona --</option>
-                    <option value="a">a. notas escritas para explicar lo que hace cada personaje</option>
-                    <option value="b">b. escenario</option>
-                    <option value="c">c. ropa</option>
-                    <option value="d">d. lenguaje complicado</option>
-                    <option value="e">e. movimiento</option>
-                    <option value="f">f. novela</option>
-                    <option value="g">g. personas</option>
-                    <option value="h">h. emoción</option>
-                    <option value="i">i. teatro</option>
-                </select>
-            </div>
-
-            <div class="question">
-                <div class="question-text">6. obras de teatro</div>
-                <select id="m6">
-                    <option value="">-- Selecciona --</option>
-                    <option value="a">a. notas</option>
-                    <option value="b">b. escenario</option>
-                    <option value="c">c. ropa</option>
-                    <option value="d">d. lenguaje complicado</option>
-                    <option value="e">e. movimiento</option>
-                    <option value="f">f. novela</option>
-                    <option value="g">g. personas</option>
-                    <option value="h">h. emoción</option>
-                    <option value="i">i. género literario diseñado para representar una historia</option>
-                </select>
-            </div>
-
-            <div class="question">
-                <div class="question-text">7. dinámico</div>
-                <select id="m7">
-                    <option value="">-- Selecciona --</option>
-                    <option value="a">a. notas</option>
-                    <option value="b">b. escenario</option>
-                    <option value="c">c. ropa</option>
-                    <option value="d">d. lenguaje complicado</option>
-                    <option value="e">e. algo con mucho movimiento</option>
-                    <option value="f">f. novela</option>
-                    <option value="g">g. personas</option>
-                    <option value="h">h. emoción</option>
-                    <option value="i">i. teatro</option>
-                </select>
-            </div>
-
-            <div class="question">
-                <div class="question-text">8. novela</div>
-                <select id="m8">
-                    <option value="">-- Selecciona --</option>
-                    <option value="a">a. notas</option>
-                    <option value="b">b. escenario</option>
-                    <option value="c">c. ropa</option>
-                    <option value="d">d. lenguaje complicado</option>
-                    <option value="e">e. movimiento</option>
-                    <option value="f">f. género literario que cuenta una historia y que suele ser largo</option>
-                    <option value="g">g. personas</option>
-                    <option value="h">h. emoción</option>
-                    <option value="i">i. teatro</option>
-                </select>
-            </div>
-
-            <div class="question">
-                <div class="question-text">9. pomposo</div>
-                <select id="m9">
-                    <option value="">-- Selecciona --</option>
-                    <option value="a">a. notas</option>
-                    <option value="b">b. escenario</option>
-                    <option value="c">c. ropa</option>
-                    <option value="d">d. algo con un lenguaje demasiado complicado</option>
-                    <option value="e">e. movimiento</option>
-                    <option value="f">f. novela</option>
-                    <option value="g">g. personas</option>
-                    <option value="h">h. emoción</option>
-                    <option value="i">i. teatro</option>
-                </select>
-            </div>
-
-            <button class="check-btn" onclick="checkMatching()">Verificar respuestas</button>
-            <button class="check-btn" onclick="toggleAnswer('ans3')" style="background: #2196F3;">Ver respuestas</button>
-            
-            <div id="ans3" class="answer">
-                <strong>Respuestas:</strong> 1-c, 2-h, 3-b, 4-g, 5-a, 6-i, 7-e, 8-f, 9-d
-            </div>
-        </div>
-
-        <div id="ex5" class="exercise-section">
-            <h2 style="color: #f0a500; margin-bottom: 20px;">Ejercicio 5: Las clases sociales</h2>
-            <p style="color: #c0c0c0; margin-bottom: 20px;">Completa el texto con la opción adecuada (verás si aciertas al instante):</p>
-            
-            <div class="text-passage">
-                <p>Las 
-                <select id="c1" class="blank">
-                    <option value="">?</option><option value="a">diferente</option><option value="b">diferencias</option><option value="c">diferencia</option>
-                </select> 
-                sociales entre 
-                <select id="c2" class="blank">
-                    <option value="">?</option><option value="a">lo</option><option value="b">distintas</option><option value="c">distinto</option>
-                </select> 
-                clases están muy 
-                <select id="c3" class="blank">
-                    <option value="">?</option><option value="a">distintas</option><option value="b">presente</option><option value="c">presentes</option>
-                </select> 
-                en esta obra de teatro. En 
-                <select id="c4" class="blank">
-                    <option value="">?</option><option value="a">lo</option><option value="b">el</option><option value="c">la</option>
-                </select> 
-                parte inferior de 
-                <select id="c5" class="blank">
-                    <option value="">?</option><option value="a">lo</option><option value="b">el</option><option value="c">la</option>
-                </select> 
-                pirámide social tenemos a la mendiga, que se encuentra 
-                <select id="c6" class="blank">
-                    <option value="">?</option><option value="a">al</option><option value="b">en</option><option value="c">por</option>
-                </select> 
-                debajo de la criada de Bernarda.</p>
-
-                <p>Esto se ve por la manera en la que cada una de ellas le habla a la otra: la mendiga es educada con la criada, mientras que esta compara a la mendiga con los animales, al igual que hace Bernarda 
-                <select id="c7" class="blank">
-                    <option value="">?</option><option value="a">por</option><option value="b">al</option><option value="c">con</option>
-                </select> 
-                los pobres.</p>
-
-                <p>La mendiga y la criada no tienen nombres 
-                <select id="c8" class="blank">
-                    <option value="">?</option><option value="a">propias</option><option value="b">propios</option><option value="c">propia</option>
-                </select> 
-                en la obra, lo que se podría identificar como una manera de 
-                <select id="c9" class="blank">
-                    <option value="">?</option><option value="a">intensificando</option><option value="b">intensificado</option><option value="c">intensificar</option>
-                </select> 
-                su falta de poder en la estructura social. La Poncia es 
-                <select id="c10" class="blank">
-                    <option value="">?</option><option value="a">la</option><option value="b">un</option><option value="c">el</option>
-                </select> 
-                personaje más bajo de la escala social que tiene nombre en la obra.</p>
-
-                <p>Si seguimos 
-                <select id="c11" class="blank">
-                    <option value="">?</option><option value="a">lo</option><option value="b">subido</option><option value="c">subiendo</option>
-                </select> 
-                en la escala social, nos encontramos con las mujeres del pueblo. Están más arriba que Poncia en la escala social al no 
-                <select id="c12" class="blank">
-                    <option value="">?</option><option value="a">subiendo</option><option value="b">trabajado</option><option value="c">trabajar</option>
-                </select> 
-                a sueldo en una casa, pero parece que tienen una posición más baja que las hijas de Bernarda.</p>
-
-                <p>De Pepe no se habla mucho, pero si Bernarda aprueba el matrimonio de este con su hija Angustias, podemos 
-                <select id="c13" class="blank">
-                    <option value="">?</option><option value="a">intensificando</option><option value="b">asumido</option><option value="c">asumir</option>
-                </select> 
-                que es de un nivel social similar 
-                <select id="c14" class="blank">
-                    <option value="">?</option><option value="a">a</option><option value="b">a la</option><option value="c">al</option>
-                </select> 
-                de las hijas de Bernarda.</p>
-
-                <p>Por último, tendríamos a Bernarda en la parte más alta de la pirámide social, 
-                <select id="c15" class="blank">
-                    <option value="">?</option><option value="a">siendo</option><option value="b">sido</option><option value="c">ser</option>
-                </select> 
-                la que controla su casa y sus dominios, y 
-                <select id="c16" class="blank">
-                    <option value="">?</option><option value="a">siendo</option><option value="b">tenido</option><option value="c">teniendo</option>
-                </select> 
-                poder sobre sus trabajadores y sobre sus hijas.</p>
-            </div>
-
-            <button class="check-btn" onclick="checkMultiple()">Verificar respuestas</button>
-            <button class="check-btn" onclick="toggleAnswer('ans5')" style="background: #2196F3;">Ver respuestas</button>
-            
-            <div id="ans5" class="answer">
-                <strong>Respuestas:</strong> 1-b, 2-b, 3-c, 4-c, 5-c, 6-c, 7-c, 8-b, 9-c, 10-c, 11-c, 12-c, 13-c, 14-c, 15-a, 16-c
-            </div>
-        </div>
-
-        <div id="ex6" class="exercise-section">
-            <h2 style="color: #f0a500; margin-bottom: 20px;">Ejercicio 6: Traducciones al español</h2>
-            
-            <div class="question">
-                <div class="question-text">1. I would dare to say that The House of Bernarda Alba is the main masterpiece written by Lorca.</div>
-                <textarea id="tr1" placeholder="Escribe tu traducción..."></textarea>
-                <button class="check-btn" onclick="toggleAnswer('tra1')" style="background: #FF9800;">💡 Pista</button>
-                <button class="check-btn" onclick="toggleAnswer('ta1')">Verificar</button>
-                <div id="tra1" class="answer" style="background: rgba(255, 152, 0, 0.2); border-color: #FF9800; color: #ffb74d;">
-                    <strong>Pista:</strong> "atreverse a", "obra maestra"
-                </div>
-                <div id="ta1" class="answer">
-                    Me atrevería a decir que La Casa de Bernarda Alba es la principal obra maestra escrita por Lorca.
-                </div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">2. It is believed that Lorca's theatre deals with social and political problems of his time.</div>
-                <textarea id="tr2" placeholder="Escribe tu traducción..."></textarea>
-                <button class="check-btn" onclick="toggleAnswer('tra2')" style="background: #FF9800;">💡 Pista</button>
-                <button class="check-btn" onclick="toggleAnswer('ta2')">Verificar</button>
-                <div id="tra2" class="answer" style="background: rgba(255, 152, 0, 0.2); border-color: #FF9800; color: #ffb74d;">
-                    <strong>Pista:</strong> "se cree que", "tratar"
-                </div>
-                <div id="ta2" class="answer">
-                    Se cree que el teatro de Lorca trata problemas sociales y políticos de su tiempo.
-                </div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">3. The play is about a tyrannical mother who is obsessed not only with controlling everything that happens in her house, but also with the reputation of her family.</div>
-                <textarea id="tr3" placeholder="Escribe tu traducción..."></textarea>
-                <button class="check-btn" onclick="toggleAnswer('tra3')" style="background: #FF9800;">💡 Pista</button>
-                <button class="check-btn" onclick="toggleAnswer('ta3')">Verificar</button>
-                <div id="tra3" class="answer" style="background: rgba(255, 152, 0, 0.2); border-color: #FF9800; color: #ffb74d;">
-                    <strong>Pista:</strong> "tratar de", "no solamente... sino también"
-                </div>
-                <div id="ta3" class="answer">
-                    La obra trata de una madre tiránica que está obsesionada no solamente con controlar todo lo que pasa en su casa, sino también con la reputación de su familia.
-                </div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">4. It is important that we understand the message of the book if we want to understand Lorca's ideals.</div>
-                <textarea id="tr4" placeholder="Escribe tu traducción..."></textarea>
-                <button class="check-btn" onclick="toggleAnswer('tra4')" style="background: #FF9800;">💡 Pista</button>
-                <button class="check-btn" onclick="toggleAnswer('ta4')">Verificar</button>
-                <div id="tra4" class="answer" style="background: rgba(255, 152, 0, 0.2); border-color: #FF9800; color: #ffb74d;">
-                    <strong>Pista:</strong> "es importante que" + subjuntivo
-                </div>
-                <div id="ta4" class="answer">
-                    Es importante que comprendamos el mensaje del libro si queremos comprender los ideales de Lorca.
-                </div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">5. The author really manages to surprise the audience, who has to use every little clue to understand what's happening at all times.</div>
-                <textarea id="tr5" placeholder="Escribe tu traducción..."></textarea>
-                <button class="check-btn" onclick="toggleAnswer('tra5')" style="background: #FF9800;">💡 Pista</button>
-                <button class="check-btn" onclick="toggleAnswer('ta5')">Verificar</button>
-                <div id="tra5" class="answer" style="background: rgba(255, 152, 0, 0.2); border-color: #FF9800; color: #ffb74d;">
-                    <strong>Pista:</strong> "conseguir", "en todo momento"
-                </div>
-                <div id="ta5" class="answer">
-                    El autor realmente consigue sorprender a la audiencia, quien tiene que usar cada pequeña pista para comprender lo que está pasando en todo momento.
-                </div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">6. When my friend María read the book she said: 'That book is so boring!' I don't think she understood it at all.</div>
-                <textarea id="tr6" placeholder="Escribe tu traducción..."></textarea>
-                <button class="check-btn" onclick="toggleAnswer('tra6')" style="background: #FF9800;">💡 Pista</button>
-                <button class="check-btn" onclick="toggleAnswer('ta6')">Verificar</button>
-                <div id="tra6" class="answer" style="background: rgba(255, 152, 0, 0.2); border-color: #FF9800; color: #ffb74d;">
-                    <strong>Pista:</strong> "no creo que" + subjuntivo, "en absoluto"
-                </div>
-                <div id="ta6" class="answer">
-                    Cuando mi amiga María leyó el libro dijo: «¡Ese libro es tan aburrido!». No creo que lo comprendiese en absoluto.
-                </div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">7. In spite of the different opinions that most critics have, everyone agrees on the fact that Adela represents freedom and vitality and that Bernarda represents oppression.</div>
-                <textarea id="tr7" placeholder="Escribe tu traducción..."></textarea>
-                <button class="check-btn" onclick="toggleAnswer('tra7')" style="background: #FF9800;">💡 Pista</button>
-                <button class="check-btn" onclick="toggleAnswer('ta7')">Verificar</button>
-                <div id="tra7" class="answer" style="background: rgba(255, 152, 0, 0.2); border-color: #FF9800; color: #ffb74d;">
-                    <strong>Pista:</strong> "a pesar de", "estar de acuerdo con"
-                </div>
-                <div id="ta7" class="answer">
-                    A pesar de las opiniones diferentes que la mayoría de críticos tienen, todo el mundo está de acuerdo con el hecho de que Adela representa libertad y vitalidad y que Bernarda representa opresión.
-                </div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">8. Social classes and social hierarchy are present throughout the play.</div>
-                <textarea id="tr8" placeholder="Escribe tu traducción..."></textarea>
-                <button class="check-btn" onclick="toggleAnswer('tra8')" style="background: #FF9800;">💡 Pista</button>
-                <button class="check-btn" onclick="toggleAnswer('ta8')">Verificar</button>
-                <div id="tra8" class="answer" style="background: rgba(255, 152, 0, 0.2); border-color: #FF9800; color: #ffb74d;">
-                    <strong>Pista:</strong> "a lo largo de"
-                </div>
-                <div id="ta8" class="answer">
-                    Las clases sociales y la jerarquía social están presentes a lo largo de toda la obra de teatro.
-                </div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">9. Symbolism is one of the main literary devices that the playwright uses, such as using Bernarda's walking stick to represent her blindness and power.</div>
-                <textarea id="tr9" placeholder="Escribe tu traducción..."></textarea>
-                <button class="check-btn" onclick="toggleAnswer('tra9')" style="background: #FF9800;">💡 Pista</button>
-                <button class="check-btn" onclick="toggleAnswer('ta9')">Verificar</button>
-                <div id="tra9" class="answer" style="background: rgba(255, 152, 0, 0.2); border-color: #FF9800; color: #ffb74d;">
-                    <strong>Pista:</strong> "recursos literarios", "dramaturgo", "bastón"
-                </div>
-                <div id="ta9" class="answer">
-                    El simbolismo es uno de los principales recursos literarios que el dramaturgo usa, como usar el bastón de Bernarda para representar su ceguera y su poder.
-                </div>
-            </div>
-
-            <div class="question">
-                <div class="question-text">10. It is necessary to remember that in spite of Pepe's importance in the play he never appears in it.</div>
-                <textarea id="tr10" placeholder="Escribe tu traducción..."></textarea>
-                <button class="check-btn" onclick="toggleAnswer('tra10')" style="background: #FF9800;">💡 Pista</button>
-                <button class="check-btn" onclick="toggleAnswer('ta10')">Verificar</button>
-                <div id="tra10" class="answer" style="background: rgba(255, 152, 0, 0.2); border-color: #FF9800; color: #ffb74d;">
-                    <strong>Pista:</strong> "es necesario" + infinitivo, "a pesar de"
-                </div>
-                <div id="ta10" class="answer">
-                    Es necesario recordar que a pesar de la importancia de Pepe en la obra él nunca aparece en ella.
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <script>
-        let lastFocusedInput = null;
-
-        document.addEventListener('focusin', function(e) {
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
-                lastFocusedInput = e.target;
-            }
-        });
-
-        function toggleKeyboard() {
-            document.getElementById('accentKeyboard').classList.toggle('show');
-        }
-
-        function insertChar(char) {
-            if (lastFocusedInput) {
-                const start = lastFocusedInput.selectionStart;
-                const end = lastFocusedInput.selectionEnd;
-                const text = lastFocusedInput.value;
-                lastFocusedInput.value = text.substring(0, start) + char + text.substring(end);
-                lastFocusedInput.selectionStart = lastFocusedInput.selectionEnd = start + 1;
-                lastFocusedInput.focus();
-            }
-        }
-
-        function showExercise(num) {
-            document.querySelectorAll('.exercise-section').forEach(ex => ex.classList.remove('active'));
-            document.querySelectorAll('.exercise-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('ex' + num).classList.add('active');
-            event.target.classList.add('active');
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-
-        function toggleAnswer(id) {
-            document.getElementById(id).classList.toggle('show');
-        }
-
-        function checkExercise1() {
-            const answers = {
-                'v1':'nació','v2':'fue','v3':'tenía','v4':'era','v5':'terminar',
-                'v6':'fue','v7':'estudió','v8':'viajó','v9':'publicó','v10':'se mudó',
-                'v11':'conoció','v12':'fue','v13':'constaba','v14':'trataban','v15':'vio',
-                'v16':'se llamó','v17':'dio','v18':'fue','v19':'cursó','v20':'vividos',
-                'v21':'fueron','v22':'llegó','v23':'regresó','v24':'se instauró','v25':'comenzó',
-                'v26':'encargada','v27':'representar','v28':'Fue','v29':'escribió','v30':'formada',
-                'v31':'exploraban','v32':'terminó','v33':'se considera'
-            };
-            let correct = 0;
-            for (let key in answers) {
-                const input = document.getElementById(key);
-                const val = input.value.trim().toLowerCase();
-                const ans = answers[key].toLowerCase();
-                if (val === ans || (key === 'v16' && val === 'se llamaba')) {
-                    input.style.borderColor = '#4CAF50';
-                    input.style.background = 'rgba(76, 175, 80, 0.2)';
-                    correct++;
-                } else if (val !== '') {
-                    input.style.borderColor = '#f44336';
-                    input.style.background = 'rgba(244, 67, 54, 0.2)';
-                }
-            }
-            alert('Has completado ' + correct + '/33 verbos correctamente.');
-        }
-
-        function checkMatching() {
-            const answers = {'m1':'c','m2':'h','m3':'b','m4':'g','m5':'a','m6':'i','m7':'e','m8':'f','m9':'d'};
-            let correct = 0;
-            for (let key in answers) {
-                const select = document.getElementById(key);
-                if (select.value === answers[key]) {
-                    select.style.borderColor = '#4CAF50';
-                    select.style.background = 'rgba(76, 175, 80, 0.2)';
-                    correct++;
-                } else if (select.value !== '') {
-                    select.style.borderColor = '#f44336';
-                    select.style.background = 'rgba(244, 67, 54, 0.2)';
-                }
-            }
-            alert('Has emparejado ' + correct + '/9 términos correctamente.');
-        }
-
-        /* ✅ updated instant feedback for Exercise 5 */
-        const answers5 = {'c1':'b','c2':'b','c3':'c','c4':'c','c5':'c','c6':'c','c7':'c','c8':'b',
-            'c9':'c','c10':'c','c11':'c','c12':'c','c13':'c','c14':'c','c15':'a','c16':'c'};
-
-        // live checking
-        Object.keys(answers5).forEach(id => {
-            const sel = document.getElementById(id);
-            if (sel) {
-                sel.addEventListener('change', () => {
-                    if (sel.value === answers5[id]) {
-                        sel.style.borderColor = '#4CAF50';
-                        sel.style.background = 'rgba(76, 175, 80, 0.2)';
-                    } else {
-                        sel.style.borderColor = '#f44336';
-                        sel.style.background = 'rgba(244, 67, 54, 0.2)';
-                    }
-                });
-            }
-        });
-
-        // Verificar summary
-        function checkMultiple() {
-            let correct = 0;
-            for (let k in answers5) {
-                const s = document.getElementById(k);
-                if (s.value === answers5[k]) correct++;
-            }
-            alert('Has completado ' + correct + '/16 respuestas correctamente.');
-        }
-
-        function downloadWork() {
-            const studentName = document.getElementById('studentName').value.trim();
-            if (!studentName) {
-                alert('Por favor, introduce tu nombre antes de descargar.');
-                return;
-            }
-
-            let content = 'LORCA Y SU OBRA - EJERCICIOS\n';
-            content += '========================================\n';
-            content += 'Estudiante: ' + studentName + '\n';
-            content += 'Fecha: ' + new Date().toLocaleString('es-ES') + '\n';
-            content += '========================================\n\n';
-
-            content += 'EJERCICIO 1: LA VIDA DE LORCA\n==================================================\n\n';
-            for (let i = 1; i <= 33; i++) {
-                const val = document.getElementById('v' + i)?.value || '[No contestada]';
-                content += i + '. ' + val + '\n';
-            }
-
-            content += '\n\nEJERCICIO 2: CORRECCION DE ERRORES\n==================================================\n\n';
-            for (let i = 1; i <= 14; i++) {
-                const val = document.getElementById('e' + i)?.value || '[No contestada]';
-                content += i + '. ' + val + '\n';
-            }
-
-            content += '\n\nEJERCICIO 3: VOCABULARIO\n==================================================\n\n';
-            for (let i = 1; i <= 9; i++) {
-                const val = document.getElementById('m' + i)?.value || '[No seleccionada]';
-                content += i + '. ' + val + '\n';
-            }
-
-            content += '\n\nEJERCICIO 5: CLASES SOCIALES\n==================================================\n\n';
-            for (let i = 1; i <= 16; i++) {
-                const val = document.getElementById('c' + i)?.value || '[No seleccionada]';
-                content += i + '. ' + val + '\n';
-            }
-
-            content += '\n\nEJERCICIO 6: TRADUCCIONES\n==================================================\n\n';
-            for (let i = 1; i <= 10; i++) {
-                const val = document.getElementById('tr' + i)?.value || '[No contestada]';
-                content += i + '. ' + val + '\n\n';
-            }
-
-            let totalFields = 0, completedFields = 0;
-            document.querySelectorAll('input[type="text"], textarea, select').forEach(field => {
-                if (field.id !== 'studentName') {
-                    totalFields++;
-                    if (field.value.trim()) completedFields++;
-                }
-            });
-            const rate = Math.round((completedFields / totalFields) * 100);
-
-            content += '\n==================================================\n';
-            content += 'ESTADISTICAS\n';
-            content += '==================================================\n';
-            content += 'Completitud: ' + rate + '%\n';
-            content += 'Campos: ' + completedFields + '/' + totalFields + '\n';
-
-            const blob = new Blob([content], {type: 'text/plain;charset=utf-8'});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'Lorca_Ejercicios_' + studentName.replace(/\s+/g, '_') + '_' + new Date().toISOString().split('T')[0] + '.txt';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-
-            alert('✓ Trabajo descargado!\n\nCompletitud: ' + rate + '%\nCampos: ' + completedFields + '/' + totalFields);
-        }
-    </script>
-<script>window.BBA_KIT = {check:false, name:false};</script>
+<div class="wrap">
+<header>
+  <div class="kicker">Lectura obligatoria · Contexto</div>
+  <h1>Lorca y la España de los años treinta</h1>
+  <p class="lead">The context of the play: Lorca's life, Spain in the 1930s, the vocabulary of theatre and the social pyramid of the play. Type or choose your answer and press <b>Enter</b> or « Comprobar ». Spelling and accents count. If you are wrong the first time you get a <i>pista</i>; the second time you see the answer and why. Your work saves itself on this device.</p>
+  <div class="score" aria-live="polite"><span>Puntos <b id="sc">0</b> / <b id="tot">0</b></span><span>a la primera <b id="first">0</b></span><div class="meter"><i id="bar"></i></div></div>
+</header>
+<nav class="tabs" role="tablist" aria-label="Ejercicios" id="tabs"></nav>
+<main id="main"></main>
+<p class="src">Quotations: Federico García Lorca, <i>La casa de Bernarda Alba</i> (1936), short extracts quoted for study.</p>
+</div>
+<script>window.BBA_KIT = {check:false, download:false, save:false, enter:false};</script>
+<script>var D = {"key": "lcdba-contexto-v2", "dlhead": "LORCA Y LA ESPAÑA DE LOS AÑOS 30", "dlfile": "Lorca_contexto_", "sections": [{"tab": "1 · La vida", "h2": "1 · La vida de Lorca", "intro": "Put each verb into the right past tense: pretérito for completed events, imperfecto for background and description.", "items": [{"t": "gap", "en": null, "es": "Federico García Lorca {0} en Fuente Vaqueros (Granada) el 5 de junio de 1898 y {1} asesinado en agosto de 1936.", "gaps": [{"acc": ["nació"], "cue": "nacer"}, {"acc": ["fue"], "cue": "ser"}], "pista": "Two completed events: birth and death.", "why": "**nació** · **fue** asesinado (pretérito)."}, {"t": "gap", "en": null, "es": "Su padre {0} tierras y su madre {1} maestra.", "gaps": [{"acc": ["tenía", "poseía"], "cue": "tener"}, {"acc": ["era"], "cue": "ser"}], "pista": "Background description of the family.", "why": "**tenía** · **era** (imperfecto: description)."}, {"t": "gap", "en": null, "es": "En 1918 {0} su primer libro, Impresiones y paisajes, y un año más tarde {1} a la Residencia de Estudiantes de Madrid.", "gaps": [{"acc": ["publicó"], "cue": "publicar"}, {"acc": ["se mudó", "se trasladó", "fue"], "cue": "mudarse"}], "pista": "Two completed events.", "why": "**publicó** · **se mudó** (se trasladó)."}, {"t": "gap", "en": null, "es": "En la Residencia {0} a Luis Buñuel y a Salvador Dalí.", "gaps": [{"acc": ["conoció"], "cue": "conocer"}], "pista": "Meeting someone for the first time is a single event.", "why": "**conoció** (pretérito: met)."}, {"t": "gap", "en": null, "es": "Su libro de poemas más famoso, Romancero gitano, {0} la luz en 1928 y le {1} fama.", "gaps": [{"acc": ["vio"], "cue": "ver"}, {"acc": ["dio"], "cue": "dar"}], "pista": "“Ver la luz”: to be published. Neither vio nor dio has an accent.", "why": "**vio** · **dio** (one-syllable preterites: no accent)."}, {"t": "gap", "en": null, "es": "En 1929 {0} a Nueva York, donde {1} cursos en la Universidad de Columbia.", "gaps": [{"acc": ["fue", "viajó"], "cue": "ir"}, {"acc": ["siguió", "hizo", "cursó", "tomó"], "cue": "seguir"}], "pista": "Completed events in the past.", "why": "**fue** · **siguió** (cursó)."}, {"t": "gap", "en": null, "es": "Poeta en Nueva York no {0} a publicarse hasta 1940, después de su muerte.", "gaps": [{"acc": ["llegó"], "cue": "llegar"}], "pista": "“No llegar a + infinitive”: never managed to.", "why": "**llegó**. Published in 1940."}, {"t": "gap", "en": null, "es": "Lorca {0} a España en 1930. En abril de 1931 se {1} la Segunda República.", "gaps": [{"acc": ["volvió", "regresó"], "cue": "volver"}, {"acc": ["proclamó", "instauró"], "cue": "proclamar"}], "pista": "Two separate events, a year apart.", "why": "**volvió** · se **proclamó**. The Republic came after his return."}, {"t": "gap", "en": null, "es": "A partir de 1932, Lorca {0} La Barraca, un teatro universitario {1} de llevar los clásicos a los pueblos.", "gaps": [{"acc": ["dirigió"], "cue": "dirigir"}, {"acc": ["encargado"], "cue": "encargar"}], "pista": "The second gap is a participle used as an adjective: agree with “teatro”.", "why": "**dirigió** · **encargado** (agrees with teatro)."}, {"t": "gap", "en": null, "es": "En esos años {0} sus tragedias rurales Bodas de sangre (1933) y Yerma (1934).", "gaps": [{"acc": ["estrenó", "escribió"], "cue": "estrenar"}], "pista": "A completed action.", "why": "**estrenó** (escribió)."}, {"t": "gap", "en": null, "es": "La casa de Bernarda Alba, que {0} el subtítulo «Drama de mujeres en los pueblos de España», la {1} el 19 de junio de 1936.", "gaps": [{"acc": ["lleva", "llevaba", "tiene", "tenía"], "cue": "llevar"}, {"acc": ["terminó", "acabó"], "cue": "terminar"}], "pista": "The subtitle is a lasting fact; finishing the play is a dated event.", "why": "**lleva** (llevaba) · **terminó**. The subtitle belongs to this play only."}, {"t": "gap", "en": null, "es": "Dos meses después, al empezar la Guerra Civil, Lorca {0} asesinado cerca de Granada.", "gaps": [{"acc": ["fue"], "cue": "ser"}], "pista": "Passive: ser + participle, completed.", "why": "**fue** asesinado."}, {"t": "gap", "en": null, "es": "La obra no se {0} hasta 1945, en Buenos Aires.", "gaps": [{"acc": ["estrenó", "representó"], "cue": "estrenar"}], "pista": "First performance: a single event.", "why": "se **estrenó** (8 March 1945, Buenos Aires). In Spain it was first staged in 1964."}, {"t": "gap", "en": null, "es": "Hoy su asesinato se {0} un crimen político, aunque todavía se discuten muchos detalles.", "gaps": [{"acc": ["considera"], "cue": "considerar"}], "pista": "Hoy: present.", "why": "se **considera**."}]}, {"tab": "2 · Contexto", "h2": "2 · La España de los años treinta", "intro": "What the audience needs to know to read the play in its time.", "items": [{"t": "mc", "q": "¿Qué sugiere el subtítulo «Drama de mujeres en los pueblos de España»?", "opts": ["Que la historia representa la situación de las mujeres en los pueblos de toda España, no un caso aislado", "Que es el título de una trilogía de Lorca", "Que la obra trata de una sola familia real de Granada", "Que la obra es una comedia popular"], "a": 0, "pista": "Notice the plurals: mujeres, pueblos.", "why": "The plurals generalise: Bernarda's house stands for many houses. The subtitle belongs to this play alone (it is not the name of a trilogy)."}, {"t": "mc", "q": "Durante la Segunda República (1931–1936), las mujeres españolas…", "opts": ["obtuvieron el derecho al voto (Constitución de 1931)", "perdieron el derecho a trabajar", "no podían salir solas a la calle por ley", "estaban obligadas a llevar luto"], "a": 0, "pista": "Think of what changed in the 1931 Constitution.", "why": "Women gained the vote in 1931 and voted for the first time in 1933. The world of the play is the old order that the Republic was trying to change."}, {"t": "mc", "q": "En la Andalucía rural de los años treinta, la tierra…", "opts": ["estaba en manos de pocos propietarios, y muchos jornaleros trabajaban por un jornal", "estaba repartida por igual entre todos los vecinos", "pertenecía casi toda al Estado", "no tenía ningún valor"], "a": 0, "pista": "Think of Bernarda's land and of the gañanes and segadores.", "why": "Large estates and day labourers. Hence Bernarda's contempt: «Su padre fue gañán»."}, {"t": "mc", "q": "¿Por qué no se estrenó La casa de Bernarda Alba en España en 1936?", "opts": ["Porque Lorca fue asesinado y empezó la Guerra Civil; se estrenó en Buenos Aires en 1945", "Porque Lorca no la había terminado", "Porque la censura republicana la prohibió", "Porque Lorca prefería estrenar en Nueva York"], "a": 0, "pista": "What happened two months after he finished it?", "why": "Lorca finished it in June 1936 and was killed in August. Margarita Xirgu premiered it in Buenos Aires in 1945; in Spain it was first staged in 1964."}, {"t": "mc", "q": "¿Por qué no aparece ningún hombre en escena?", "opts": ["Porque Lorca quiere mostrar un mundo cerrado de mujeres, controlado por la ausencia y la mirada de los hombres", "Porque no había actores disponibles", "Porque los hombres de la familia han muerto todos", "Porque la censura lo prohibía"], "a": 0, "pista": "Pepe el Romano matters in every act. Why keep him off stage?", "why": "Men are outside, in the fields and the street; the women can only hear or glimpse them. The absence makes male power feel everywhere."}]}, {"tab": "3 · Teatro", "h2": "3 · El vocabulario del teatro", "intro": "Words you need to write about a play rather than a novel.", "items": [{"t": "gap", "en": null, "es": "Las {0} son las indicaciones del autor sobre lo que hacen o cómo hablan los personajes.", "gaps": [{"acc": ["acotaciones"], "cue": "stage directions"}], "pista": "In the text they are in brackets and italics.", "why": "**acotaciones**."}, {"t": "gap", "en": null, "es": "La obra está dividida en tres {0}.", "gaps": [{"acc": ["actos"], "cue": "acts"}], "pista": "Not “capítulos”: that's a novel.", "why": "**actos** (not capítulos)."}, {"t": "gap", "en": null, "es": "El {0} de la obra es una habitación blanca de la casa de Bernarda.", "gaps": [{"acc": ["decorado", "escenario"], "cue": "set"}], "pista": "What the audience sees on stage.", "why": "**decorado**."}, {"t": "gap", "en": null, "es": "Lorca no es un novelista: es un {0}.", "gaps": [{"acc": ["dramaturgo"], "cue": "playwright"}], "pista": "The writer of plays.", "why": "**dramaturgo**."}, {"t": "gap", "en": null, "es": "La muerte de Adela es el {0} de la obra.", "gaps": [{"acc": ["desenlace"], "cue": "ending, resolution"}], "pista": "The way the plot ends.", "why": "**desenlace**."}, {"t": "gap", "en": null, "es": "Al final del acto cae el {0}.", "gaps": [{"acc": ["telón"], "cue": "curtain"}], "pista": "The play ends: “Telón”.", "why": "**telón**."}, {"t": "gap", "en": null, "es": "El público no ve a Pepe: solo lo conocemos por lo que dicen los {0}.", "gaps": [{"acc": ["personajes"], "cue": "characters"}], "pista": "The people in a play.", "why": "**personajes**."}, {"t": "gap", "en": null, "es": "Lorca combina el realismo con un lenguaje muy {0}, lleno de imágenes y símbolos.", "gaps": [{"acc": ["poético", "lírico"], "cue": "poetic"}], "pista": "Lorca was a poet first.", "why": "**poético** (lírico)."}]}, {"tab": "4 · Clases", "h2": "4 · Las clases sociales en la obra", "intro": "The play is a pyramid. Who is above whom, and how do we know?", "items": [{"t": "mc", "q": "¿Quién está en lo más bajo de la pirámide social de la obra?", "opts": ["La Mendiga, que pide las sobras", "La Poncia", "Las vecinas", "Prudencia"], "a": 0, "pista": "Who has nothing at all, not even a name?", "why": "The Mendiga and her little girl. The Criada sends her away: «Las sobras de hoy son para mí»."}, {"t": "mc", "q": "¿Cómo trata la Criada a la Mendiga?", "opts": ["Con desprecio: la explotada desprecia a la que está por debajo", "Con cariño", "Con miedo", "Como a una igual"], "a": 0, "pista": "Compare with how Bernarda speaks of the poor.", "why": "Contempt passes down the ladder. Bernarda: «Los pobres son como los animales»."}, {"t": "mc", "q": "¿Qué revela que la Criada y la Mendiga no tengan nombre propio?", "opts": ["Su falta de importancia y de poder en esa sociedad", "Que Lorca olvidó ponérselo", "Que son personajes cómicos", "Que son de otro pueblo"], "a": 0, "pista": "Who gets a name in this play?", "why": "Without a name they are functions, not people. La Poncia is the lowest-ranking character who has a name."}, {"t": "mc", "q": "Cuando La Poncia critica su orgullo, ¿cómo la pone Bernarda en su sitio?", "opts": ["Recordándole su origen: «sabes muy bien cuál es tu origen»", "Despidiéndola", "Pidiéndole perdón", "Subiéndole el sueldo"], "a": 0, "pista": "Act Two, after La Poncia mentions Enrique Humanes.", "why": "Bernarda: «Los tengo porque puedo tenerlos. Y tú no los tienes porque sabes muy bien cuál es tu origen»."}, {"t": "mc", "q": "¿Por qué ningún hombre del pueblo puede casarse con las hijas de Bernarda?", "opts": ["Porque Bernarda cree que ninguno está a su altura: «Los hombres de aquí no son de su clase»", "Porque no hay hombres en el pueblo", "Porque las hijas no quieren casarse", "Porque la ley lo prohíbe durante el luto"], "a": 0, "pista": "Act One, Bernarda to La Poncia.", "why": "Class pride condemns the daughters to remain single. La Poncia: «Debías haberte ido a otro pueblo»."}, {"t": "mc", "q": "¿Por qué acepta Bernarda a Pepe el Romano como novio de Angustias?", "opts": ["Porque es de una familia de su nivel social y se casa con la hija rica", "Porque está enamorada de él", "Porque es gañán", "Porque Angustias se escapó con él"], "a": 0, "pista": "What makes him acceptable when Enrique Humanes was not?", "why": "Pepe is of a suitable class, and he is after the money: «viene por el dinero». Enrique Humanes was not: «Su padre fue gañán»."}]}, {"tab": "5 · Traducción", "h2": "5 · Traducción al español", "intro": "Complete the Spanish version of each sentence. Only the key structures are missing, and several answers are accepted. There is no model translation of the whole sentence: compare yours in class.", "items": [{"t": "gap", "en": "I would dare to say that this is Lorca's masterpiece.", "es": "Me {0} a decir que esta es la obra {1} de Lorca.", "gaps": [{"acc": ["atrevería"], "cue": "dare (conditional)"}, {"acc": ["maestra", "cumbre"], "cue": "masterpiece"}], "pista": "Atreverse a + infinitive, in the conditional. Masterpiece: obra + adjective.", "why": "Me **atrevería** a decir… · la obra **maestra**."}, {"t": "gap", "en": "It is believed that Lorca's theatre deals with the social problems of his time.", "es": "Se {0} que el teatro de Lorca {1} los problemas sociales de su tiempo.", "gaps": [{"acc": ["cree"], "cue": "believe"}, {"acc": ["trata", "aborda"], "cue": "deal with"}], "pista": "Impersonal se + verb. Tratar or abordar.", "why": "Se **cree** que… · **trata** (aborda)."}, {"t": "gap", "en": "It is important that we understand the message of the play.", "es": "Es importante que {0} el mensaje de la obra.", "gaps": [{"acc": ["comprendamos", "entendamos"], "cue": "understand"}], "pista": "Es importante que + ?", "why": "Subjuntivo: **comprendamos** (entendamos)."}, {"t": "gap", "en": "I don't think she understood it at all.", "es": "No creo que lo {0} en absoluto.", "gaps": [{"acc": ["entendiera", "entendiese", "comprendiera", "comprendiese", "haya entendido", "haya comprendido"], "cue": "understand (past)"}], "pista": "No creo que + a past action.", "why": "**entendiera / entendiese** (or haya entendido)."}, {"t": "gap", "en": "Social hierarchy is present throughout the play.", "es": "La jerarquía social está presente {0} toda la obra.", "gaps": [{"acc": ["a lo largo de"], "cue": "throughout"}], "pista": "A three-word phrase: “along the length of”.", "why": "**a lo largo de** toda la obra."}, {"t": "gap", "en": "Even though Pepe never appears, he is essential to the plot.", "es": "Aunque Pepe nunca {0}, es esencial para la trama.", "gaps": [{"acc": ["aparece", "sale"], "cue": "appear"}], "pista": "Aunque + a known fact.", "why": "Fact → indicative: **aparece**."}]}]};</script>
+<script>
+(function(){
+"use strict";
+var KEY = D.key;
+var S = {v:1, it:{}, tab:null, pub:false};
+try{ var raw=localStorage.getItem(KEY); if(raw){ var o=JSON.parse(raw); if(o&&o.v===1) S=o; } }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function nfc(s){ return (s||"").normalize ? s.normalize("NFC") : (s||""); }
+function deacc(s){ return nfc(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function clean(s){ return nfc(s).toLowerCase().replace(/[¡!¿?.,;:«»"“”()\[\]…]/g," ").replace(/\s+/g," ").trim(); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmt(s){ return esc(s).replace(/&lt;br&gt;/g,"<br>").replace(/\*\*(.+?)\*\*/g,"<b>$1</b>"); }
+function h(tag, attrs, html){ var e=document.createElement(tag); if(attrs) for(var k in attrs){ if(k==="class") e.className=attrs[k]; else e.setAttribute(k,attrs[k]); } if(html!=null) e.innerHTML=html; return e; }
+/* strict judge: exact (case, spacing, punctuation ignored) or accent-only slip */
+function judge(given, acc){
+  var g=clean(given); if(!g) return "blank";
+  for(var i=0;i<acc.length;i++){ if(g===clean(acc[i])) return "ok"; }
+  for(i=0;i<acc.length;i++){ if(deacc(g)===deacc(clean(acc[i]))) return "accent"; }
+  return "no";
+}
+var ITEMS=[], SECS=[];
+function fbBox(card){ var f=card.querySelector(".fb"); if(!f){ f=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(f); } return f; }
+function wire(it){
+  var st = S.it[it.id] || (S.it[it.id]={st:null, tries:0, first:false, given:null});
+  it.state = st;
+  it.run = function(){
+    if(st.st) return;
+    var r = it.check(); if(r==="blank") return;
+    st.tries++; st.given = it.given();
+    var fb = fbBox(it.card);
+    if(r==="ok"){ st.st="ok"; st.first=(st.tries===1); it.lock(true);
+      fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correcto</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+      it.card.classList.add("ok"); save(); refresh(); return; }
+    if(st.tries<2){
+      fb.className="fb ui show hint";
+      fb.innerHTML='<span class="tag ht">Pista</span>'+(r==="accent"?"Almost: the right form, but check the accent. ":"Not yet. ")+fmt(it.pista||"");
+      it.mark(); save(); return; }
+    st.st="rev"; it.lock(false); it.reveal();
+    fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Respuesta</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+    it.card.classList.add("rev"); save(); refresh();
+  };
+  it.restore = function(){
+    if(!st.st) return; it.setGiven(st.given);
+    var fb=fbBox(it.card);
+    if(st.st==="ok"){ it.lock(true); it.card.classList.add("ok"); fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correcto</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+    else { it.lock(false); it.reveal(); it.card.classList.add("rev"); fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Respuesta</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+  };
+  ITEMS.push(it);
+}
+function controls(card, it){
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Comprobar");
+  var p=h("button",{"class":"g",type:"button"},"Pista");
+  b.addEventListener("click", function(){ it.run(); });
+  p.addEventListener("click", function(){ var fb=fbBox(card); if(it.state.st) return; fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>'+fmt(it.pista||""); });
+  row.appendChild(b); row.appendChild(p); card.appendChild(row);
+  it.btns=[b,p];
+}
+function gapItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  var parts=Q.es.split(/\{(\d+)\}/), html='<span class="qn">'+n+' ·</span>';
+  for(var i=0;i<parts.length;i++){
+    if(i%2===0) html+=fmt(parts[i]);
+    else { var g=Q.gaps[+parts[i]]; html+='<input type="text" data-g="'+parts[i]+'" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="hueco '+(+parts[i]+1)+'">'+(g.cue?' <span class="cue">('+esc(g.cue)+')</span>':""); }
+  }
+  var s=h("div",{"class":"sent"},html); card.appendChild(s);
+  var inputs=[].slice.call(s.querySelectorAll("input"));
+  var it={id:id, sec:sec, card:card, q:Q.es.replace(/\{\d+\}/g,"___"), pista:Q.pista, why:Q.why};
+  it.given=function(){ return inputs.map(function(x){return x.value.trim();}).join(" | "); };
+  it.setGiven=function(v){ (v||"").split(" | ").forEach(function(x,i){ if(inputs[i]) inputs[i].value=x; }); };
+  it.res=function(){ return inputs.map(function(x){ return judge(x.value, Q.gaps[+x.getAttribute("data-g")].acc); }); };
+  it.check=function(){ var r=it.res(); if(r.some(function(x){return x==="blank";})) { var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML="Fill in every gap first."; return "blank"; }
+    if(r.every(function(x){return x==="ok";})) return "ok"; if(r.every(function(x){return x==="ok"||x==="accent";})) return "accent"; return "no"; };
+  it.mark=function(){ var r=it.res(); inputs.forEach(function(x,i){ x.classList.toggle("okf",r[i]==="ok"); x.classList.toggle("badf",r[i]!=="ok"); }); };
+  it.lock=function(good){ inputs.forEach(function(x){ x.disabled=true; x.classList.toggle("okf",good); }); it.btns.forEach(function(b){ b.disabled=true; }); };
+  it.reveal=function(){ it.mark(); };
+  it.answerText=function(){ return "**"+Q.gaps.map(function(g){return g.acc[0];}).join(" … ")+"**"+(Q.gaps.some(function(g){return g.acc.length>1;})?" (also accepted: "+Q.gaps.map(function(g){return g.acc.slice(1).join(", ");}).filter(Boolean).join("; ")+")":"")+"."; };
+  it.ans=Q.gaps.map(function(g){return g.acc[0];}).join(" | ");
+  inputs.forEach(function(x){ x.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); it.run(); } }); });
+  controls(card,it); wire(it); return card;
+}
+function seeded(n,seed){ var a=[]; for(var i=0;i<n;i++) a.push(i); var x=seed; for(i=n-1;i>0;i--){ x=(x*9301+49297)%233280; var j=Math.floor(x/233280*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function mcItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  card.appendChild(h("div",null,'<span class="qn">'+n+' ·</span>'+fmt(Q.q)));
+  var box=h("div",{"class":"opts"}); var order=seeded(Q.opts.length, id.length*31+n*7), btns=[], sel=null;
+  order.forEach(function(k){ var b=h("button",{"class":"opt",type:"button"},fmt(Q.opts[k])); b._i=k; b.addEventListener("click",function(){ if(it.state.st) return; sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); it.run(); }); btns.push(b); box.appendChild(b); });
+  card.appendChild(box);
+  var it={id:id, sec:sec, card:card, q:Q.q, pista:Q.pista, why:Q.why};
+  it.given=function(){ return sel==null?"":Q.opts[sel]; };
+  it.setGiven=function(v){ var k=Q.opts.indexOf(v); if(k>=0){ sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); } };
+  it.check=function(){ return sel==null?"blank":(sel===Q.a?"ok":"no"); };
+  it.mark=function(){ btns.forEach(function(x){ if(x._i===sel) x.classList.add("wrong"); }); };
+  it.lock=function(){ btns.forEach(function(x){ x.disabled=true; if(x._i===Q.a) x.classList.add("right"); }); if(it.pb) it.pb.disabled=true; };
+  it.reveal=function(){};
+  it.answerText=function(){ return "**"+Q.opts[Q.a]+"**."; };
+  it.ans=Q.opts[Q.a];
+  var row=h("div",{"class":"ctl ui"}); var p=h("button",{"class":"g",type:"button"},"Pista"); it.pb=p;
+  p.addEventListener("click",function(){ if(it.state.st) return; var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>'+fmt(Q.pista||""); });
+  row.appendChild(p); card.appendChild(row);
+  wire(it); return card;
+}
+var main=document.getElementById("main"), tabs=document.getElementById("tabs");
+D.sections.forEach(function(sx, si){
+  var id="s"+(si+1);
+  var s=h("section",{"class":"ex",id:id}); s.appendChild(h("h2",null,esc(sx.h2)));
+  if(sx.intro) s.appendChild(h("p",{"class":"how ui"},fmt(sx.intro)));
+  if(sx.rule) s.appendChild(h("div",{"class":"rule"},fmt(sx.rule)));
+  var n=0;
+  sx.items.forEach(function(Q,qi){ n++; if(Q.h3) s.appendChild(h("h3",null,esc(Q.h3)));
+    s.appendChild(Q.t==="mc" ? mcItem(id,id+"_"+qi,n,Q) : gapItem(id,id+"_"+qi,n,Q)); });
+  var f=h("div",{"class":"secfoot ui"}), l=h("div"), r=h("div");
+  if(si>0) l.appendChild(h("button",{"class":"g",type:"button","data-go":"s"+si},"← Atrás"));
+  var rs=h("button",{"class":"g",type:"button"},"Reintentar esta sección");
+  rs.addEventListener("click",function(){ if(!rs._a){ rs._a=true; rs.textContent="Pulsa otra vez para borrar"; setTimeout(function(){ rs._a=false; rs.textContent="Reintentar esta sección"; },3000); return; }
+    ITEMS.filter(function(it){return it.sec===id;}).forEach(function(it){ delete S.it[it.id]; }); save(); location.reload(); });
+  l.appendChild(document.createTextNode(" ")); l.appendChild(rs);
+  if(si<D.sections.length-1) r.appendChild(h("button",{"class":"b",type:"button","data-go":"s"+(si+2)},"Siguiente →"));
+  else { var dl=h("button",{"class":"b",type:"button"},"Descargar mis respuestas"); dl.addEventListener("click",download); r.appendChild(dl); }
+  f.appendChild(l); f.appendChild(r); s.appendChild(f);
+  main.appendChild(s);
+  var tb=h("button",{type:"button",role:"tab","data-go":id},esc(sx.tab)+' <span class="n"></span>'); tabs.appendChild(tb);
+  SECS.push({id:id, el:s, tab:tb});
+});
+function totals(){ var tot=ITEMS.length, sc=0, first=0, done=0; ITEMS.forEach(function(it){ var st=it.state; if(st.st==="ok"){ sc++; done++; if(st.first) first++; } else if(st.st==="rev") done++; }); return {tot:tot,sc:sc,first:first,done:done}; }
+function refresh(){
+  var T=totals(); document.getElementById("sc").textContent=T.sc; document.getElementById("tot").textContent=T.tot; document.getElementById("first").textContent=T.first;
+  document.getElementById("bar").style.width=(T.tot?Math.round(100*T.sc/T.tot):0)+"%";
+  SECS.forEach(function(s){ var its=ITEMS.filter(function(it){return it.sec===s.id;}); var d=its.filter(function(it){return it.state.st;}).length, ok=its.filter(function(it){return it.state.st==="ok";}).length; s.tab.querySelector(".n").textContent=ok+"/"+its.length; s.tab.classList.toggle("done",d===its.length); });
+  publish();
+}
+function publish(){
+  try{ var T=totals(); var all=JSON.parse(localStorage.getItem("bba-scores")||"{}"); var f=decodeURIComponent(location.pathname.split("/").pop()||"index"); var prev=all[f]||{};
+    var rec={title:(document.title||"").slice(0,120), score:T.sc, total:T.tot, best:Math.max(T.sc,prev.best||0), attempts:(prev.attempts||0)+(S.pub?0:1), t:Date.now()};
+    var n=Math.max(0,T.done-(S.pubDone||0)); rec.ans=(prev.ans||0)+n; rec.lg={}; for(var k in (prev.lg||{})) rec.lg[k]=prev.lg[k];
+    var day=String(Math.floor(Date.now()/86400000)); if(n) rec.lg[day]=(rec.lg[day]||0)+n;
+    all[f]=rec; localStorage.setItem("bba-scores",JSON.stringify(all)); S.pub=true; S.pubDone=T.done; save(); }catch(e){}
+}
+function studentName(){ var nm=document.querySelector("#bba-kit .nm"); var v=nm&&nm.value.trim(); if(!v){ try{ v=localStorage.getItem("bba-name")||""; }catch(e){} } return v||""; }
+function download(){
+  var T=totals(), name=studentName(), L=[];
+  L.push(D.dlhead); L.push("Nombre: "+(name||"(sin nombre)")); L.push("Fecha: "+new Date().toLocaleString("es-ES")); L.push("Puntos: "+T.sc+" / "+T.tot+"  ·  a la primera: "+T.first); L.push("");
+  SECS.forEach(function(s){ L.push("== "+s.el.querySelector("h2").textContent+" ==");
+    ITEMS.filter(function(it){return it.sec===s.id;}).forEach(function(it,i){ var st=it.state;
+      var mark=st.st==="ok"?(st.first?"✓":"✓ (2.º intento)"):st.st==="rev"?"✗ → "+it.ans:"— sin responder";
+      L.push((i+1)+". "+it.q.replace(/\*\*/g,"").replace(/\s+/g," ").slice(0,160)); L.push("   Respuesta: "+(it.given()||"—")+"   ["+mark+"]"); });
+    L.push(""); });
+  var blob=new Blob([L.join("\r\n")],{type:"text/plain;charset=utf-8"}); var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download=D.dlfile+(name||"sin_nombre").replace(/[^\wÁÉÍÓÚÑáéíóúñ-]+/g,"_")+".txt"; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },500);
+}
+function go(id){ SECS.forEach(function(s){ var on=s.id===id; s.el.classList.toggle("active",on); s.tab.setAttribute("aria-selected",on?"true":"false"); }); S.tab=id; save();
+  var nav=document.getElementById("tabs"); if(window.scrollY>nav.offsetTop) window.scrollTo({top:nav.offsetTop,behavior:"smooth"}); }
+document.addEventListener("click",function(e){ var b=e.target.closest("[data-go]"); if(b){ e.preventDefault(); go(b.getAttribute("data-go")); } });
+ITEMS.forEach(function(it){ it.restore(); });
+go(S.tab && document.getElementById(S.tab) ? S.tab : "s1"); refresh();
+window.LCDBA={items:ITEMS, totals:totals, judge:judge};
+})();
+</script>
 <script src="bba-kit-es.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
 </body>

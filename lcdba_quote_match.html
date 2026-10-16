@@ -2,542 +2,285 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>La Casa de Bernarda Alba — Quote & Scene Matching</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La casa de Bernarda Alba · Citas: quién, cuándo, cómo</title>
+<meta name="description" content="A-Level Spanish: key quotations from La casa de Bernarda Alba. Who says it, in which act, and the exact wording, all checked against the play.">
 <style>
-  :root{
-    --bg:#1a1410;
-    --panel:#241b14;
-    --ink:#f4ebd9;
-    --muted:#bfa37a;
-    --accent:#c9302c;      /* Lorca red */
-    --accent2:#3a6b3a;     /* Adela green */
-    --gold:#d4a64a;
-    --wall:#f1ece1;        /* white wall */
-    --good:#5fa463;
-    --bad:#d35a5a;
-    --shadow:0 10px 30px rgba(0,0,0,.4);
-    --mono:ui-monospace,Menlo,Consolas,monospace;
-    --serif:"Iowan Old Style","Palatino Linotype",Georgia,serif;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--serif);min-height:100vh}
-  body{
-    background:
-      radial-gradient(circle at 10% 0%,rgba(201,48,44,.12),transparent 40%),
-      radial-gradient(circle at 90% 100%,rgba(212,166,74,.10),transparent 50%),
-      var(--bg);
-  }
-  header{
-    padding:28px 24px 12px;
-    text-align:center;
-    border-bottom:1px solid rgba(212,166,74,.2);
-  }
-  header h1{margin:0;font-size:28px;letter-spacing:.5px;color:var(--wall)}
-  header .sub{color:var(--muted);font-style:italic;margin-top:6px;font-size:14px}
-
-  .wrap{max-width:980px;margin:0 auto;padding:18px 18px 140px}
-
-  .controls{
-    display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
-    background:var(--panel);border:1px solid rgba(212,166,74,.18);
-    border-radius:12px;padding:12px 14px;margin-bottom:14px;
-  }
-  .modes{display:flex;gap:6px;flex-wrap:wrap}
-  .mode-btn,.btn{
-    background:transparent;color:var(--ink);
-    border:1px solid rgba(212,166,74,.4);
-    padding:8px 12px;border-radius:8px;font:inherit;cursor:pointer;
-    transition:.15s;
-  }
-  .mode-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
-  .mode-btn:hover,.btn:hover{border-color:var(--gold)}
-  .btn.primary{background:var(--gold);color:#1a1410;border-color:var(--gold);font-weight:600}
-  .btn.primary:hover{background:#e8b95a}
-  .btn.ghost{background:transparent}
-  .score{font-family:var(--mono);color:var(--gold)}
-
-  .theme-bar{
-    display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;
-  }
-  .theme-pill{
-    background:rgba(212,166,74,.08);
-    border:1px solid rgba(212,166,74,.25);
-    color:var(--muted);padding:5px 9px;border-radius:999px;font-size:12px;
-    font-family:var(--mono);
-  }
-  .theme-pill .freq{color:var(--gold);margin-left:4px}
-
-  .card{
-    background:var(--wall);
-    color:#2a2118;
-    border-radius:14px;
-    padding:24px 22px;
-    box-shadow:var(--shadow);
-    position:relative;
-    overflow:hidden;
-  }
-  .card::before{
-    content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--accent);
-  }
-  .quote{
-    font-size:22px;line-height:1.4;font-style:italic;margin:6px 0 18px;
-    quotes:"«" "»";
-  }
-  .quote::before{content:open-quote;color:var(--accent);font-size:32px;line-height:0;vertical-align:-8px;margin-right:4px}
-  .quote::after{content:close-quote;color:var(--accent);font-size:32px;line-height:0;vertical-align:-8px;margin-left:2px}
-  .scene-hint{font-size:13px;color:#6b5740;font-family:var(--mono);margin-bottom:8px}
-  .scene-hint b{color:var(--accent2)}
-
-  .ask{margin-top:14px;color:#3a2c1f;font-weight:600;font-size:14px;letter-spacing:.3px;text-transform:uppercase}
-
-  .answer-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-  .input{
-    flex:1;min-width:200px;
-    padding:10px 12px;border-radius:8px;
-    border:1.5px solid #c8b990;background:#fffaf0;color:#2a2118;
-    font:inherit;font-size:16px;
-  }
-  .input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(201,48,44,.15)}
-  .choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin-top:8px}
-  .choice{
-    background:#fffaf0;border:1.5px solid #c8b990;color:#2a2118;
-    padding:10px 12px;border-radius:8px;font:inherit;text-align:left;cursor:pointer;
-  }
-  .choice:hover{border-color:var(--accent);background:#fff3df}
-  .choice.correct{background:#d6efd4;border-color:var(--good)}
-  .choice.wrong{background:#f7dada;border-color:var(--bad)}
-
-  .feedback{margin-top:14px;min-height:22px;font-size:14px}
-  .feedback.good{color:var(--good)}
-  .feedback.bad{color:var(--bad)}
-  .feedback .explain{display:block;color:#5e4a32;font-style:italic;margin-top:4px}
-
-  .next-row{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px}
-  .progress{font-family:var(--mono);font-size:12px;color:#6b5740}
-
-  /* Floating accent keyboard */
-  .kbd{
-    position:fixed;left:50%;transform:translateX(-50%);bottom:18px;
-    display:flex;gap:8px;background:rgba(36,27,20,.92);
-    backdrop-filter:blur(6px);
-    padding:10px 12px;border-radius:14px;
-    border:1px solid rgba(212,166,74,.35);
-    box-shadow:var(--shadow);
-    z-index:50;
-    user-select:none;
-  }
-  .kbd .key{
-    width:44px;height:44px;border-radius:10px;
-    background:#3a2c1f;color:var(--wall);border:1px solid rgba(212,166,74,.3);
-    font-size:22px;font-family:var(--serif);cursor:pointer;
-    display:flex;align-items:center;justify-content:center;
-    transition:.1s;
-  }
-  .kbd .key:hover{background:var(--accent);border-color:var(--accent)}
-  .kbd .key:active{transform:scale(.94)}
-  .kbd .label{
-    font-size:11px;color:var(--muted);align-self:center;
-    padding-right:6px;font-family:var(--mono);letter-spacing:.5px;
-  }
-  .kbd .drag{cursor:grab;font-size:14px;color:var(--muted);align-self:center;padding:0 4px}
-  .kbd.dragging{cursor:grabbing}
-
-  .final-card{text-align:center;padding:40px 22px}
-  .final-card h2{margin:0 0 8px;color:var(--accent)}
-  .final-card .grade{font-size:42px;color:var(--gold);font-family:var(--mono);margin:14px 0}
-
-  details{margin-top:16px;color:var(--muted);font-size:13px}
-  details summary{cursor:pointer;color:var(--gold)}
-
-  @media (max-width:520px){
-    .quote{font-size:18px}
-    .kbd .key{width:38px;height:38px;font-size:18px}
-    header h1{font-size:22px}
-  }
+:root{
+  --paper:#f6f1e7; --card:#fffdf8; --ink:#2a2320; --soft:#6a5a4c; --line:#dcd0bb;
+  --ox:#6e1f2a; --ox2:#8f3340; --oxs:#f4e4e4; --green:#1f4d3a; --gs:#e3efe8;
+  --gold:#a8843a; --golds:#f7efd9; --bad:#a23b2a; --bads:#fbe9e5; --ok:#226a43;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+.ui{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:22px 16px 160px}
+header{border-bottom:3px double var(--ox);padding-bottom:14px;margin-bottom:8px}
+.kicker{font:600 12px/1.2 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ox)}
+h1{font-size:31px;line-height:1.15;margin:6px 0 6px;color:var(--ox)}
+.lead{color:var(--soft);margin:0 0 4px;font:15px/1.55 system-ui,sans-serif}
+.score{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:10px;font:14px system-ui,sans-serif;color:var(--soft)}
+.score b{color:var(--ink);font-size:16px}
+.meter{flex:1 1 180px;height:8px;background:#e8dfcf;border-radius:99px;overflow:hidden;min-width:140px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#2f7a58);transition:width .4s}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 12px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+nav.tabs button{font:600 13.5px system-ui,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 12px;cursor:pointer;display:flex;gap:6px;align-items:center}
+nav.tabs button .n{font-weight:500;color:var(--soft);font-size:12px}
+nav.tabs button[aria-selected="true"]{background:var(--ox);border-color:var(--ox);color:#fff}
+nav.tabs button[aria-selected="true"] .n{color:#f1d7d9}
+nav.tabs button.done:not([aria-selected="true"]){border-color:var(--green);color:var(--green)}
+section.ex{display:none}
+section.ex.active{display:block}
+h2{font-size:24px;margin:4px 0 6px;color:var(--green)}
+h3{font:700 13px system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ox);margin:22px 0 8px}
+.how{font:15px/1.55 system-ui,sans-serif;color:var(--soft);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;position:relative}
+.card.ok{border-color:#9cc7ae;background:#fbfefc}
+.card.rev{border-color:#e3b6ad}
+.card .qn{font:700 13px system-ui,sans-serif;color:var(--ox);margin-right:6px}
+.quote{font-style:italic}
+blockquote{margin:2px 0 10px;padding:6px 0 6px 14px;border-left:3px solid var(--gold);font-style:italic;font-size:18px}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:10px}
+input[type=text],select,textarea{font:16px Georgia,serif;color:var(--ink);background:#fff;border:1px solid #bdae95;border-radius:7px;padding:7px 10px;max-width:100%}
+input[type=text]{width:15em}
+input.w8{width:8.5em} input.w6{width:7em}
+input.okf{border-color:var(--ok);background:#f2faf5} input.badf{border-color:var(--bad);background:var(--bads)}
+textarea{width:100%;min-height:200px;resize:vertical;line-height:1.6}
+button.b{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 13px;cursor:pointer;border:1px solid var(--ox);background:var(--ox);color:#fff}
+button.b:disabled{opacity:.45;cursor:default}
+button.g{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--green)}
+button.g:disabled{opacity:.45;cursor:default}
+.opts{display:grid;gap:7px;margin-top:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;font:15.5px/1.45 system-ui,sans-serif;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 12px;cursor:pointer;color:var(--ink)}
+.opt:before{content:"";flex:0 0 16px;height:16px;border:2px solid #b8a98f;border-radius:50%;margin-top:2px}
+.opt.sel{border-color:var(--ox);background:var(--oxs)}
+.opt.sel:before{border-color:var(--ox);background:radial-gradient(var(--ox) 45%,transparent 50%)}
+.opt.right{border-color:var(--ok);background:#eef8f2}
+.opt.wrong{border-color:var(--bad);background:var(--bads)}
+.opt:disabled{cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font:600 13px system-ui,sans-serif;border:1px solid #c9bba3;background:#fff;color:var(--soft);border-radius:999px;padding:6px 11px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.chip.core{outline:2px solid var(--ok);outline-offset:1px}
+.chip.acc{outline:2px dashed var(--gold);outline-offset:1px}
+.chip.wrongc{background:var(--bad);border-color:var(--bad);color:#fff}
+.chip:disabled{cursor:default}
+.fb{margin-top:10px;font:14.5px/1.55 system-ui,sans-serif;border-radius:8px;padding:9px 12px;display:none}
+.fb.show{display:block}
+.fb.okb{background:var(--gs);color:#163a2b}
+.fb.hint{background:var(--golds);color:#4d3c14}
+.fb.revb{background:var(--bads);color:#5a1d12}
+.fb .why{margin-top:6px;color:#2b2a26}
+.tag{display:inline-block;font:700 11px system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-right:6px}
+.tag.okt{background:var(--ok);color:#fff}.tag.ht{background:var(--gold);color:#fff}.tag.rt{background:var(--bad);color:#fff}
+.legend{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:14.5px/1.55 system-ui,sans-serif;margin-bottom:10px}
+.legend b{color:var(--ox)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}
+.who{font:13px system-ui,sans-serif;color:var(--soft)}
+.tr{line-height:2.25;font-size:17px;background:#faf6ee;border-left:3px solid var(--gold);padding:6px 12px;border-radius:4px;margin-top:6px}
+.secfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0 6px;flex-wrap:wrap}
+.reto{border:2px solid var(--ox);background:#fff}
+.reto .rt2{font:700 12px system-ui,sans-serif;letter-spacing:.16em;color:var(--ox)}
+.check li{margin:4px 0;list-style:none;padding-left:0}
+.check{padding:0;margin:10px 0 0;font:14.5px/1.5 system-ui,sans-serif}
+.check li:before{content:"○ ";color:#b8a98f;font-weight:700}
+.check li.on:before{content:"● ";color:var(--ok)}
+.check li.warn:before{content:"● ";color:var(--bad)}
+.qcheck{font:14px/1.5 system-ui,sans-serif;margin-top:8px}
+.qcheck div{padding:3px 0}
+.qcheck .y{color:var(--ok)} .qcheck .n{color:var(--bad)}
+.titles label{display:flex;gap:8px;align-items:flex-start;font:15.5px/1.45 Georgia,serif;margin:6px 0;cursor:pointer}
+.tips{font:14.5px/1.55 system-ui,sans-serif;background:var(--oxs);border-radius:8px;padding:10px 12px;margin:10px 0}
+.res{font:15px/1.6 system-ui,sans-serif}
+.res table{border-collapse:collapse;width:100%;margin:8px 0}
+.res td,.res th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+.src{font:13px/1.5 system-ui,sans-serif;color:var(--soft);margin-top:22px}
+@media (max-width:640px){h1{font-size:25px}.cols{grid-template-columns:1fr}input[type=text]{width:100%}input.w8,input.w6{width:8em}nav.tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}nav.tabs::-webkit-scrollbar{display:none}nav.tabs button{padding:6px 10px;font-size:12.5px;flex:0 0 auto;white-space:nowrap}}
+@media print{nav.tabs,.secfoot,button{display:none!important}section.ex{display:block!important}}
+</style>
+<style>
+.sent{font-size:18px;line-height:2.1}
+.sent input{width:9em;font-size:16px;padding:4px 8px;margin:0 2px}
+.en{font:14px/1.45 system-ui,sans-serif;color:var(--soft);margin:0 0 4px}
+.cue{font:13px system-ui,sans-serif;color:var(--soft)}
+.rule{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:8px;padding:10px 14px;font:14.5px/1.55 system-ui,sans-serif;margin:6px 0 12px}
 </style>
 </head>
 <body>
-
-<header>
-  <h1>La Casa de Bernarda Alba — Quote &amp; Scene Matching</h1>
-  <div class="sub">Federico García Lorca · Edexcel A-Level revision · 2018–2025 theme frequency</div>
-</header>
-
 <div class="wrap">
-
-  <div class="theme-bar" id="themeBar"></div>
-
-  <div class="controls">
-    <div class="modes">
-      <button class="mode-btn active" data-mode="character">Who said it?</button>
-      <button class="mode-btn" data-mode="theme">Theme</button>
-      <button class="mode-btn" data-mode="act">Which Act?</button>
-      <button class="mode-btn" data-mode="mixed">Mixed</button>
-    </div>
-    <div style="display:flex;gap:8px;align-items:center">
-      <span class="score" id="score">0 / 0</span>
-      <button class="btn ghost" id="resetBtn">Reset</button>
-      <button class="btn primary" id="downloadBtn">↓ Save .html</button>
-    </div>
-  </div>
-
-  <div id="cardHost"></div>
-
-  <details>
-    <summary>About this exercise</summary>
-    <p>Each quote is tagged by Act, speaker, and theme. The deck is weighted toward the themes that
-    recur most across Edexcel papers 2018–2025: repression, the female characters and women's role,
-    and the house's symbols and colours. Type Spanish names using the floating accent keyboard at
-    the bottom — drag it sideways if it's in the way.</p>
-  </details>
+<header>
+  <div class="kicker">Lectura obligatoria · Citas</div>
+  <h1>La casa de Bernarda Alba — citas: quién, cuándo y cómo</h1>
+  <p class="lead">Every quotation, speaker and act on this page has been checked against the text of the play. Choose or type your answer; if you are wrong the first time you get a <i>pista</i>, the second time the answer and its context. Your work saves itself on this device.</p>
+  <div class="score" aria-live="polite"><span>Puntos <b id="sc">0</b> / <b id="tot">0</b></span><span>a la primera <b id="first">0</b></span><div class="meter"><i id="bar"></i></div></div>
+</header>
+<nav class="tabs" role="tablist" aria-label="Ejercicios" id="tabs"></nav>
+<main id="main"></main>
+<p class="src">Quotations: Federico García Lorca, <i>La casa de Bernarda Alba</i> (1936), short extracts quoted for study.</p>
 </div>
-
-<!-- Floating 5-accent keyboard -->
-<div class="kbd" id="kbd" role="toolbar" aria-label="Spanish accents">
-  <span class="drag" title="Drag">⋮⋮</span>
-  <span class="label">Acentos</span>
-  <button class="key" data-c="á">á</button>
-  <button class="key" data-c="é">é</button>
-  <button class="key" data-c="í">í</button>
-  <button class="key" data-c="ó">ó</button>
-  <button class="key" data-c="ú">ú</button>
-  <button class="key" data-c="ñ" title="extra">ñ</button>
-  <button class="key" data-c="¿" title="extra">¿</button>
-  <button class="key" data-c="¡" title="extra">¡</button>
-</div>
-
+<script>window.BBA_KIT = {check:false, download:false, save:false, enter:false};</script>
+<script>var D = {"key": "lcdba-citas-v2", "dlhead": "LA CASA DE BERNARDA ALBA — CITAS", "dlfile": "Bernarda_citas_", "sections": [{"tab": "1 · ¿Quién?", "h2": "1 · ¿Quién lo dice?", "intro": "Choose the speaker. The answer explains when and why the line is said.", "items": [{"t": "mc", "q": "«Es capaz de sentarse encima de tu corazón y ver cómo te mueres durante un año»", "opts": ["La Poncia", "Magdalena", "Angustias", "Adela"], "a": 0, "pista": "Think about who would speak like this, and when in the play: this line is from the acto primero.", "why": "**La Poncia**, acto primero. The first portrait of Bernarda, before she appears, by the servant who has served her for thirty years."}, {"t": "mc", "q": "«Malditas sean las mujeres.»", "opts": ["Magdalena", "Angustias", "Amelia", "La Poncia"], "a": 0, "pista": "Think about who would speak like this, and when in the play: this line is from the acto primero.", "why": "**Magdalena**, acto primero. Her answer to Bernarda's «Eso tiene ser mujer»."}, {"t": "mc", "q": "«Nacer mujer es el mayor castigo.»", "opts": ["Amelia", "La Poncia", "María Josefa", "Martirio"], "a": 0, "pista": "Think about who would speak like this, and when in the play: this line is from the acto segundo.", "why": "**Amelia**, acto segundo. During the segadores scene, after «Los hombres necesitan estas cosas»."}, {"t": "mc", "q": "«Nací para tener los ojos abiertos.»", "opts": ["Bernarda", "Adela", "María Josefa", "Angustias"], "a": 0, "pista": "Think about who would speak like this, and when in the play: this line is from the acto segundo.", "why": "**Bernarda**, acto segundo. Said just before Adela appears at the door: dramatic irony."}, {"t": "mc", "q": "«Las cosas no son nunca a gusto nuestro.»", "opts": ["Bernarda", "Amelia", "María Josefa", "Adela"], "a": 0, "pista": "Think about who would speak like this, and when in the play: this line is from the acto segundo.", "why": "**Bernarda**, acto segundo. Her reply when La Poncia says Adela is «la verdadera novia del Romano»."}, {"t": "mc", "q": "«Yo veo que todo es una terrible repetición.»", "opts": ["Martirio", "Magdalena", "Amelia", "María Josefa"], "a": 0, "pista": "Think about who would speak like this, and when in the play: this line is from the acto primero.", "why": "**Martirio**, acto primero. Her fatalism about women's lives, on the afternoon of the funeral."}, {"t": "mc", "q": "«Me escapé porque me quiero casar»", "opts": ["María Josefa", "Angustias", "Bernarda", "Martirio"], "a": 0, "pista": "Think about who would speak like this, and when in the play: this line is from the acto primero.", "why": "**María Josefa**, acto primero. The grandmother's escape at the end of the act."}, {"t": "mc", "q": "«Y ni nuestros ojos siquiera nos pertenecen.»", "opts": ["Magdalena", "Adela", "Martirio", "María Josefa"], "a": 0, "pista": "Think about who would speak like this, and when in the play: this line is from the acto segundo.", "why": "**Magdalena**, acto segundo. After Amelia's «Nacer mujer es el mayor castigo»."}, {"t": "mc", "q": "«Dichosa ella mil veces que lo pudo tener.»", "opts": ["Martirio", "Adela", "Magdalena", "Bernarda"], "a": 0, "pista": "Think about who would speak like this, and when in the play: this line is from the acto tercero.", "why": "**Martirio**, acto tercero. Over Adela's body: envy even of the dead."}, {"t": "mc", "q": "«De aquí no sales tú con tu cuerpo en triunfo»", "opts": ["Angustias", "Amelia", "La Poncia", "Adela"], "a": 0, "pista": "Think about who would speak like this, and when in the play: this line is from the acto tercero.", "why": "**Angustias**, acto tercero. The betrayed fiancée holds Adela back."}, {"t": "mc", "q": "«¡Siquiera allí se ríe y se oyen porrazos!»", "opts": ["La Poncia", "Adela", "Magdalena", "Angustias"], "a": 0, "pista": "Think about who would speak like this, and when in the play: this line is from the acto segundo.", "why": "**La Poncia**, acto segundo. About the poor neighbours: noise is life."}, {"t": "mc", "q": "«No era mi padre.»", "opts": ["Angustias", "Amelia", "La Poncia", "Magdalena"], "a": 0, "pista": "Think about who would speak like this, and when in the play: this line is from the acto primero.", "why": "**Angustias**, acto primero. Her excuse for the powder on her face: she is the first husband's daughter."}, {"t": "mc", "q": "«Ésa es la peor. Es un pozo de veneno.»", "opts": ["La Poncia", "Martirio", "Amelia", "Magdalena"], "a": 0, "pista": "Think about who would speak like this, and when in the play: this line is from the acto tercero.", "why": "**La Poncia**, acto tercero. La Poncia to the Criada, about Martirio."}, {"t": "mc", "q": "«¡Que pague lo que debe!»", "opts": ["Martirio", "Adela", "Bernarda", "María Josefa"], "a": 0, "pista": "Think about who would speak like this, and when in the play: this line is from the acto segundo.", "why": "**Martirio**, acto segundo. Looking at Adela, as the village hunts the hija de la Librada."}, {"t": "mc", "q": "«Yo dejo que el agua corra.»", "opts": ["Prudencia", "Bernarda", "La Poncia", "Amelia"], "a": 0, "pista": "A visitor speaks about her own daughter.", "why": "**Prudencia**, acto tercero: she suffers because her husband will not forgive their daughter."}, {"t": "mc", "q": "«Es tan orgullosa que ella misma se pone una venda en los ojos.»", "opts": ["La Criada", "La Poncia", "Martirio", "Magdalena"], "a": 0, "pista": "Spoken about Bernarda behind her back, on the last night.", "why": "**La Criada**, acto tercero, as Bernarda goes to bed: «Esta noche voy a dormir bien»."}]}, {"tab": "2 · ¿Qué acto?", "h2": "2 · ¿En qué acto?", "intro": "Choose the act. Knowing where a quotation sits helps you build an essay that follows the play's development.", "items": [{"t": "mc", "q": "«En ocho años que dure el luto no ha de entrar en esta casa el viento de la calle.» (Bernarda)", "opts": ["Acto primero", "Acto segundo", "Acto tercero"], "a": 0, "pista": "Where does the line fit in the story: the funeral, the summer afternoon, or the last night?", "why": "**Acto primero**. Straight after the funeral: the sentence that seals the house."}, {"t": "mc", "q": "«¡Mi cuerpo será de quien yo quiera!» (Adela)", "opts": ["Acto primero", "Acto segundo", "Acto tercero"], "a": 1, "pista": "Where does the line fit in the story: the funeral, the summer afternoon, or the last night?", "why": "**Acto segundo**. Adela to Martirio, the morning after the night at the window."}, {"t": "mc", "q": "«El caballo garañón, que está encerrado y da coces contra el muro.» (Bernarda)", "opts": ["Acto primero", "Acto segundo", "Acto tercero"], "a": 2, "pista": "Where does the line fit in the story: the funeral, the summer afternoon, or the last night?", "why": "**Acto tercero**. During Prudencia's visit, at supper."}, {"t": "mc", "q": "«Hilo y aguja para las hembras. Látigo y mula para el varón.» (Bernarda)", "opts": ["Acto primero", "Acto segundo", "Acto tercero"], "a": 0, "pista": "Where does the line fit in the story: the funeral, the summer afternoon, or the last night?", "why": "**Acto primero**. Bernarda's answer to Magdalena's «Malditas sean las mujeres»."}, {"t": "mc", "q": "«Eso ¡eso!, una mulilla sin desbravar.» (Martirio)", "opts": ["Acto primero", "Acto segundo", "Acto tercero"], "a": 1, "pista": "Where does the line fit in the story: the funeral, the summer afternoon, or the last night?", "why": "**Acto segundo**. Martirio to Amelia, about the noise in the corral."}, {"t": "mc", "q": "«Ovejita, niño mío» (María Josefa)", "opts": ["Acto primero", "Acto segundo", "Acto tercero"], "a": 2, "pista": "Where does the line fit in the story: the funeral, the summer afternoon, or the last night?", "why": "**Acto tercero**. María Josefa's song, on the last night."}, {"t": "mc", "q": "«¡Yo quiero salir!» (Adela)", "opts": ["Acto primero", "Acto segundo", "Acto tercero"], "a": 0, "pista": "Where does the line fit in the story: the funeral, the summer afternoon, or the last night?", "why": "**Acto primero**. Adela, after learning that Pepe will marry Angustias."}, {"t": "mc", "q": "«Hace la que puede y la que se adelanta.» (Adela)", "opts": ["Acto primero", "Acto segundo", "Acto tercero"], "a": 1, "pista": "Where does the line fit in the story: the funeral, the summer afternoon, or the last night?", "why": "**Acto segundo**. Adela to Martirio, while the village gathers outside."}, {"t": "mc", "q": "«Mi vigilancia lo puede todo.» (Bernarda)", "opts": ["Acto primero", "Acto segundo", "Acto tercero"], "a": 2, "pista": "Where does the line fit in the story: the funeral, the summer afternoon, or the last night?", "why": "**Acto tercero**. Bernarda to La Poncia, just before going to bed."}, {"t": "mc", "q": "«Los hombres de aquí no son de su clase.» (Bernarda)", "opts": ["Acto primero", "Acto segundo", "Acto tercero"], "a": 0, "pista": "Where does the line fit in the story: the funeral, the summer afternoon, or the last night?", "why": "**Acto primero**. Bernarda explains to La Poncia why no one may court her daughters."}, {"t": "mc", "q": "«¡Carbón ardiendo en el sitio de su pecado!» (Bernarda)", "opts": ["Acto primero", "Acto segundo", "Acto tercero"], "a": 1, "pista": "Where does the line fit in the story: the funeral, the summer afternoon, or the last night?", "why": "**Acto segundo**. The end of the act: the hija de la Librada."}, {"t": "mc", "q": "«¡Nos hundiremos todas en un mar de luto!» (Bernarda)", "opts": ["Acto primero", "Acto segundo", "Acto tercero"], "a": 2, "pista": "Where does the line fit in the story: the funeral, the summer afternoon, or the last night?", "why": "**Acto tercero**. Bernarda's last speech."}, {"t": "mc", "q": "«Fue todo cosa de lenguas.» (Martirio)", "opts": ["Acto primero", "Acto segundo", "Acto tercero"], "a": 0, "pista": "Where does the line fit in the story: the funeral, the summer afternoon, or the last night?", "why": "**Acto primero**. Martirio's version of the Enrique Humanes story. The truth comes out in Act Two."}, {"t": "mc", "q": "«¡Mi sangre no se junta con la de los Humanes mientras yo viva!» (Bernarda)", "opts": ["Acto primero", "Acto segundo", "Acto tercero"], "a": 1, "pista": "Where does the line fit in the story: the funeral, the summer afternoon, or the last night?", "why": "**Acto segundo**. Bernarda to La Poncia, who has asked why she stopped Martirio's match."}]}, {"tab": "3 · Completa", "h2": "3 · Completa la cita exacta", "intro": "In an essay a quotation must be word for word. Type the missing word: the key image of each line.", "items": [{"t": "gap", "en": null, "es": "«pueblo sin río, pueblo de {0}» (Bernarda)", "gaps": [{"acc": ["pozos"], "cue": null}], "pista": "Acto primero. Think of the image, and check your copy.", "why": "«pueblo sin río, pueblo de pozos» Still water, possibly poisoned: the village without movement."}, {"t": "gap", "en": null, "es": "«Aquí se hace lo que yo {0}.» (Bernarda)", "gaps": [{"acc": ["mando"], "cue": null}], "pista": "Acto primero. Think of the image, and check your copy.", "why": "«Aquí se hace lo que yo mando.» Authority stated as a rule of the house."}, {"t": "gap", "en": null, "es": "«Tus hijas están y viven como metidas en {0}.» (La Poncia)", "gaps": [{"acc": ["alacenas"], "cue": null}], "pista": "Acto tercero. Think of the image, and check your copy.", "why": "«Tus hijas están y viven como metidas en alacenas.» Daughters stored like objects in a cupboard."}, {"t": "gap", "en": null, "es": "«Pepe el Romano es un {0}.» (María Josefa)", "gaps": [{"acc": ["gigante"], "cue": null}], "pista": "Acto tercero. Think of the image, and check your copy.", "why": "«Pepe el Romano es un gigante.» The grandmother's prophecy: «él os va a devorar»."}, {"t": "gap", "en": null, "es": "«¡No quiero perder mi {0} en estas habitaciones!» (Adela)", "gaps": [{"acc": ["blancura"], "cue": null}], "pista": "Acto primero. Think of the image, and check your copy.", "why": "«¡No quiero perder mi blancura en estas habitaciones!» Whiteness as the young body, against the white of the walls."}, {"t": "gap", "en": null, "es": "«Esto hago yo con la vara de la {0}.» (Adela)", "gaps": [{"acc": ["dominadora"], "cue": null}], "pista": "Acto tercero. Think of the image, and check your copy.", "why": "«Esto hago yo con la vara de la dominadora.» Adela breaks her mother's stick."}, {"t": "gap", "en": null, "es": "«Pues hay una {0} en cada cuarto.» (La Poncia)", "gaps": [{"acc": ["tormenta"], "cue": null}], "pista": "Acto tercero. Think of the image, and check your copy.", "why": "«Pues hay una tormenta en cada cuarto.» Silence on the surface, a storm behind each door."}, {"t": "gap", "en": null, "es": "«¡Ya me ha tocado en suerte este {0}!» (La Poncia)", "gaps": [{"acc": ["convento"], "cue": null}], "pista": "Acto segundo. Think of the image, and check your copy.", "why": "«¡Ya me ha tocado en suerte este convento!» A house of women with no men and no children."}, {"t": "gap", "en": null, "es": "«Mejor es tener una {0} que no tener nada.» (María Josefa)", "gaps": [{"acc": ["oveja"], "cue": null}], "pista": "Acto tercero. Think of the image, and check your copy.", "why": "«Mejor es tener una oveja que no tener nada.» The lamb as a child: motherhood denied."}, {"t": "gap", "en": null, "es": "«Una hija que desobedece deja de ser hija para convertirse en {0}.» (Bernarda)", "gaps": [{"acc": ["enemiga"], "cue": null}], "pista": "Acto tercero. Think of the image, and check your copy.", "why": "«Una hija que desobedece deja de ser hija para convertirse en enemiga.» Said of Prudencia's daughter; it foreshadows the night."}, {"t": "gap", "en": null, "es": "«¡Mi hija ha muerto {0}!» (Bernarda)", "gaps": [{"acc": ["virgen"], "cue": null}], "pista": "Acto tercero. Think of the image, and check your copy.", "why": "«¡Mi hija ha muerto virgen!» The lie that saves appearances."}, {"t": "gap", "en": null, "es": "«Mirando sus ojos me parece que bebo su {0} lentamente.» (Adela)", "gaps": [{"acc": ["sangre"], "cue": null}], "pista": "Acto segundo. Think of the image, and check your copy.", "why": "«Mirando sus ojos me parece que bebo su sangre lentamente.» Desire as blood: passion, and a warning of death."}]}]};</script>
 <script>
-/* ------------ DATA ------------- */
-const THEMES = [
-  ["Repression",4],
-  ["Symbols / house / colours",4],
-  ["Female characters · women's role",4],
-  ["Class & money",2],
-  ["Stage directions / technique",1],
-  ["Maternity",1],
-  ["Envy & rivalry",1],
-  ["Freedom",1],
-  ["Patriarchy",1],
-  ["Honour · qué dirán",1],
-];
-
-const CHARACTERS = ["Bernarda","Adela","La Poncia","María Josefa","Martirio","Angustias","Magdalena","Amelia","Criada"];
-
-const QUOTES = [
-  { q:"En ocho años que dure el luto no ha de entrar en esta casa el viento de la calle.",
-    who:"Bernarda", act:1, theme:"Repression",
-    note:"Opening salvo of mourning. Eight years of confinement — the literal sealing of the house." },
-  { q:"Hilo y aguja para las hembras. Látigo y mula para el varón.",
-    who:"Bernarda", act:1, theme:"Patriarchy",
-    note:"Bernarda voices the patriarchal order even while ruling a house of women." },
-  { q:"¡Quiero salir! ¡Bernarda! ¡A casarme a la orilla del mar!",
-    who:"María Josefa", act:1, theme:"Freedom",
-    note:"The grandmother — locked away — becomes the play's purest cry for freedom." },
-  { q:"Las cosas no son nunca a gusto nuestro.",
-    who:"La Poncia", act:2, theme:"Female characters · women's role",
-    note:"La Poncia's worldly resignation — survival, not rebellion." },
-  { q:"Yo no he podido ser de otra manera.",
-    who:"Adela", act:3, theme:"Freedom",
-    note:"Adela's defence just before her final defiance — identity against repression." },
-  { q:"Mi hija ha muerto virgen. ¡Silencio, he dicho! ¡Silencio!",
-    who:"Bernarda", act:3, theme:"Honour · qué dirán",
-    note:"The closing line — appearance preserved at any cost. Honour over truth." },
-  { q:"Nací para tener los ojos abiertos.",
-    who:"Martirio", act:2, theme:"Envy & rivalry",
-    note:"Martirio's vigilance — bitter, watchful, the engine of the play's catastrophe." },
-  { q:"¡Hija, déjame salir! ¡Llévame al campo!",
-    who:"María Josefa", act:3, theme:"Repression",
-    note:"Echoed plea in Act 3, now cradling a lamb as if it were a child — maternity warped by confinement." },
-  { q:"Aquí se hace lo que yo mando.",
-    who:"Bernarda", act:1, theme:"Repression",
-    note:"The tyrant's creed, declared early." },
-  { q:"Tengo el corazón lleno de una fuerza tan mala…",
-    who:"Martirio", act:3, theme:"Envy & rivalry",
-    note:"Martirio confessing the violence of her jealousy over Pepe el Romano." },
-  { q:"No, no callaré. No quiero estar encerrada.",
-    who:"Adela", act:3, theme:"Freedom",
-    note:"Adela rips the symbol of authority — her sister's engagement — to pieces." },
-  { q:"¡A ella, a ella y a su madre!",
-    who:"Bernarda", act:1, theme:"Class & money",
-    note:"Bernarda turns the village mourners on a 'lesser' woman — class snobbery laid bare." },
-  { q:"Pepe el Romano se casa con Angustias por su dinero.",
-    who:"La Poncia", act:2, theme:"Class & money",
-    note:"La Poncia names what everyone knows — marriage as economic transaction." },
-  { q:"(Aparece MARÍA JOSEFA, la madre de Bernarda, viejísima, ataviada con flores en la cabeza y en el pecho.)",
-    who:"Criada", act:1, theme:"Stage directions / technique",
-    note:"Lorca's didascalia — flowers worn by a 'caged' old woman, a visual emblem of stifled vitality.",
-    stageDir:true },
-  { q:"Malditas sean las mujeres.",
-    who:"Bernarda", act:2, theme:"Female characters · women's role",
-    note:"Bernarda's curse — internalised misogyny within an entirely female household." },
-  { q:"Pensamientos malos son los que tengo.",
-    who:"Adela", act:2, theme:"Repression",
-    note:"Adela admits to forbidden desire — repression breeds 'bad thoughts'." },
-  { q:"Yo veo que cada cosa tiene su tiempo.",
-    who:"La Poncia", act:2, theme:"Female characters · women's role",
-    note:"La Poncia's folk-wisdom — and warning — about the house's gathering storm." },
-  { q:"Yo no quiero estar con vosotras. ¡Dejadme ya!",
-    who:"Adela", act:2, theme:"Freedom",
-    note:"Adela rejecting the collective fate of her sisters." },
-  { q:"(Suena un disparo.)",
-    who:"Criada", act:3, theme:"Stage directions / technique",
-    note:"Off-stage gunshot — Lorca's pivot to tragedy through sound, not sight.",
-    stageDir:true },
-  { q:"¡Madre, madre, yo quisiera no ser de carne!",
-    who:"Martirio", act:3, theme:"Maternity",
-    note:"Martirio collapses into her mother — daughter-figure crying for unborn self." },
-  { q:"Esta casa parece un infierno.",
-    who:"Magdalena", act:2, theme:"Symbols / house / colours",
-    note:"The house itself — white walls, locked doors — becomes hell on stage." },
-  { q:"¡Ay qué pradera de luto!",
-    who:"Adela", act:1, theme:"Symbols / house / colours",
-    note:"Black mourning sweeps the white walls — Lorca's chromatic shorthand for grief." },
-  { q:"Abanico (le da un abanico redondo y plano, con flores rojas y verdes).",
-    who:"Criada", act:1, theme:"Symbols / house / colours",
-    note:"Adela's red-and-green fan — colour bursts in a black-clad room. Bernarda smashes it.",
-    stageDir:true },
-  { q:"¡Yo soy tu padre!",
-    who:"Bernarda", act:3, theme:"Patriarchy",
-    note:"Bernarda claims paternal authority — gender role transplanted onto her tyranny." },
-  { q:"Aquí no se vuelve a decir ni media palabra. ¡Nada de llantos!",
-    who:"Bernarda", act:3, theme:"Honour · qué dirán",
-    note:"Even mourning the dead daughter must be silent — image first." },
-];
-
-/* ------------ STATE ------------- */
-let mode = "character";
-let order = [];
-let idx = 0;
-let score = 0;
-let answered = 0;
-let lastFocusInput = null;
-
-/* ------------ INIT ------------- */
-function shuffled(a){return a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(p=>p[1])}
-
-function renderThemes(){
-  const bar = document.getElementById("themeBar");
-  bar.innerHTML = "";
-  THEMES.forEach(([name,freq])=>{
-    const p = document.createElement("span");
-    p.className = "theme-pill";
-    p.innerHTML = `${name} <span class="freq">·${freq}</span>`;
-    bar.appendChild(p);
-  });
-}
-
-function startRound(){
-  order = shuffled(QUOTES.slice());
-  idx = 0; score = 0; answered = 0;
-  updateScore();
-  renderCard();
-}
-function updateScore(){
-  document.getElementById("score").textContent = `${score} / ${answered}`;
-}
-
-/* ------------ CARD RENDER ------------- */
-function renderCard(){
-  const host = document.getElementById("cardHost");
-  if(idx >= order.length){ renderFinal(); return; }
-  const item = order[idx];
-  const askMode = mode === "mixed" ? ["character","theme","act"][idx%3] : mode;
-
-  let body = "";
-  if(askMode === "character"){
-    body = `
-      <div class="ask">Who said it?</div>
-      <div class="answer-row">
-        <input class="input" id="charInput" placeholder="Type the speaker — e.g. Mar${"í"}a Josefa"
-          autocomplete="off" spellcheck="false">
-        <button class="btn primary" id="submitBtn">Check</button>
-      </div>
-      <div style="font-size:12px;color:#6b5740;margin-top:6px;font-family:var(--mono)">
-        ${CHARACTERS.join(" · ")}
-      </div>
-    `;
-  } else if(askMode === "theme"){
-    const opts = shuffled([item.theme, ...shuffled(THEMES.filter(t=>t[0]!==item.theme).map(t=>t[0])).slice(0,3)]);
-    body = `
-      <div class="ask">Which theme does this quote most clearly serve?</div>
-      <div class="choices" id="choices">
-        ${opts.map(o=>`<button class="choice" data-v="${o}">${o}</button>`).join("")}
-      </div>
-    `;
-  } else if(askMode === "act"){
-    body = `
-      <div class="ask">Which Act?</div>
-      <div class="choices" id="choices">
-        ${[1,2,3].map(n=>`<button class="choice" data-v="${n}">Act ${n}</button>`).join("")}
-      </div>
-    `;
-  }
-
-  host.innerHTML = `
-    <div class="card">
-      <div class="scene-hint">
-        ${item.stageDir ? "<b>STAGE DIRECTION</b> · " : ""}
-        Act ${item.act} · theme tag: <b>${item.theme}</b>${askMode!=="theme"?"":" (hidden — your job)"}
-      </div>
-      <div class="quote">${item.q}</div>
-      ${body}
-      <div class="feedback" id="feedback"></div>
-      <div class="next-row">
-        <span class="progress">${idx+1} / ${order.length}</span>
-        <button class="btn" id="nextBtn" style="display:none">Next →</button>
-      </div>
-    </div>
-  `;
-
-  // hide theme tag if asked about theme
-  if(askMode === "theme"){
-    host.querySelector(".scene-hint").innerHTML =
-      `${item.stageDir ? "<b>STAGE DIRECTION</b> · " : ""}Act ${item.act} · speaker: <b>${item.who}</b>`;
-  }
-  if(askMode === "act"){
-    host.querySelector(".scene-hint").innerHTML =
-      `${item.stageDir ? "<b>STAGE DIRECTION</b> · " : ""}speaker: <b>${item.who}</b> · theme: <b>${item.theme}</b>`;
-  }
-
-  // wire interactions
-  if(askMode === "character"){
-    const inp = document.getElementById("charInput");
-    inp.focus();
-    inp.addEventListener("focus",()=> lastFocusInput = inp);
-    lastFocusInput = inp;
-    document.getElementById("submitBtn").onclick = ()=> checkChar(item, inp.value);
-    inp.addEventListener("keydown",e=>{ if(e.key==="Enter") checkChar(item, inp.value); });
-  } else {
-    host.querySelectorAll(".choice").forEach(btn=>{
-      btn.onclick = ()=>{
-        const v = btn.dataset.v;
-        const right = (askMode==="theme") ? (v===item.theme) : (parseInt(v)===item.act);
-        markChoice(btn, right, item, askMode);
-      };
-    });
-  }
-}
-
-function normalize(s){
-  return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").trim();
-}
-function checkChar(item, val){
-  if(!val.trim()) return;
-  const correct = normalize(val) === normalize(item.who);
-  showFeedback(correct, item);
-  answered++;
-  if(correct) score++;
-  updateScore();
-}
-function markChoice(btn, right, item, askMode){
-  // disable all
-  btn.parentElement.querySelectorAll(".choice").forEach(b=>b.disabled=true);
-  if(right){ btn.classList.add("correct"); }
-  else{
-    btn.classList.add("wrong");
-    // highlight correct one
-    btn.parentElement.querySelectorAll(".choice").forEach(b=>{
-      const ok = (askMode==="theme") ? (b.dataset.v===item.theme) : (parseInt(b.dataset.v)===item.act);
-      if(ok) b.classList.add("correct");
-    });
-  }
-  answered++; if(right) score++;
-  updateScore();
-  showFeedback(right, item);
-}
-function showFeedback(ok, item){
-  const fb = document.getElementById("feedback");
-  fb.className = "feedback " + (ok?"good":"bad");
-  fb.innerHTML = (ok ? "✓ Correct." : `✗ Not quite — it was <b>${item.who}</b>, Act ${item.act}, theme “${item.theme}”.`)
-    + `<span class="explain">${item.note}</span>`;
-  document.getElementById("nextBtn").style.display = "inline-block";
-  document.getElementById("nextBtn").onclick = ()=>{ idx++; renderCard(); };
-  document.getElementById("nextBtn").focus();
-}
-
-function renderFinal(){
-  const pct = answered? Math.round(100*score/answered) : 0;
-  const grade = pct>=85?"A*":pct>=70?"A":pct>=60?"B":pct>=50?"C":"Keep going";
-  document.getElementById("cardHost").innerHTML = `
-    <div class="card final-card">
-      <h2>Telón.</h2>
-      <div class="grade">${score} / ${answered}  ·  ${pct}%</div>
-      <div style="color:#5e4a32;font-style:italic">Indicative band: <b>${grade}</b></div>
-      <div style="margin-top:18px">
-        <button class="btn primary" onclick="startRound()">Run another round</button>
-      </div>
-    </div>
-  `;
-}
-
-/* ------------ MODE BUTTONS ------------- */
-document.querySelectorAll(".mode-btn").forEach(b=>{
-  b.onclick = ()=>{
-    document.querySelectorAll(".mode-btn").forEach(x=>x.classList.remove("active"));
-    b.classList.add("active");
-    mode = b.dataset.mode;
-    startRound();
-  };
-});
-document.getElementById("resetBtn").onclick = startRound;
-
-/* ------------ ACCENT KEYBOARD ------------- */
-document.querySelectorAll(".kbd .key").forEach(k=>{
-  k.addEventListener("mousedown",e=> e.preventDefault()); // keep focus
-  k.addEventListener("click",()=>{
-    const c = k.dataset.c;
-    const inp = lastFocusInput || document.activeElement;
-    if(inp && (inp.tagName==="INPUT" || inp.tagName==="TEXTAREA")){
-      const s = inp.selectionStart ?? inp.value.length;
-      const e = inp.selectionEnd ?? inp.value.length;
-      inp.value = inp.value.slice(0,s) + c + inp.value.slice(e);
-      inp.focus();
-      inp.selectionStart = inp.selectionEnd = s + c.length;
-    }
-  });
-});
-
-// draggable keyboard (horizontal)
 (function(){
-  const kbd = document.getElementById("kbd");
-  const handle = kbd.querySelector(".drag");
-  let startX=0, startLeft=0, dragging=false;
-  handle.addEventListener("mousedown",e=>{
-    dragging=true; startX=e.clientX;
-    const r = kbd.getBoundingClientRect();
-    kbd.style.left = r.left + "px";
-    kbd.style.transform = "none";
-    startLeft = r.left;
-    kbd.classList.add("dragging");
-    e.preventDefault();
-  });
-  window.addEventListener("mousemove",e=>{
-    if(!dragging) return;
-    let nl = startLeft + (e.clientX - startX);
-    nl = Math.max(4, Math.min(window.innerWidth - kbd.offsetWidth - 4, nl));
-    kbd.style.left = nl + "px";
-  });
-  window.addEventListener("mouseup",()=>{ dragging=false; kbd.classList.remove("dragging"); });
+"use strict";
+var KEY = D.key;
+var S = {v:1, it:{}, tab:null, pub:false};
+try{ var raw=localStorage.getItem(KEY); if(raw){ var o=JSON.parse(raw); if(o&&o.v===1) S=o; } }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function nfc(s){ return (s||"").normalize ? s.normalize("NFC") : (s||""); }
+function deacc(s){ return nfc(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function clean(s){ return nfc(s).toLowerCase().replace(/[¡!¿?.,;:«»"“”()\[\]…]/g," ").replace(/\s+/g," ").trim(); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmt(s){ return esc(s).replace(/&lt;br&gt;/g,"<br>").replace(/\*\*(.+?)\*\*/g,"<b>$1</b>"); }
+function h(tag, attrs, html){ var e=document.createElement(tag); if(attrs) for(var k in attrs){ if(k==="class") e.className=attrs[k]; else e.setAttribute(k,attrs[k]); } if(html!=null) e.innerHTML=html; return e; }
+/* strict judge: exact (case, spacing, punctuation ignored) or accent-only slip */
+function judge(given, acc){
+  var g=clean(given); if(!g) return "blank";
+  for(var i=0;i<acc.length;i++){ if(g===clean(acc[i])) return "ok"; }
+  for(i=0;i<acc.length;i++){ if(deacc(g)===deacc(clean(acc[i]))) return "accent"; }
+  return "no";
+}
+var ITEMS=[], SECS=[];
+function fbBox(card){ var f=card.querySelector(".fb"); if(!f){ f=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(f); } return f; }
+function wire(it){
+  var st = S.it[it.id] || (S.it[it.id]={st:null, tries:0, first:false, given:null});
+  it.state = st;
+  it.run = function(){
+    if(st.st) return;
+    var r = it.check(); if(r==="blank") return;
+    st.tries++; st.given = it.given();
+    var fb = fbBox(it.card);
+    if(r==="ok"){ st.st="ok"; st.first=(st.tries===1); it.lock(true);
+      fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correcto</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+      it.card.classList.add("ok"); save(); refresh(); return; }
+    if(st.tries<2){
+      fb.className="fb ui show hint";
+      fb.innerHTML='<span class="tag ht">Pista</span>'+(r==="accent"?"Almost: the right form, but check the accent. ":"Not yet. ")+fmt(it.pista||"");
+      it.mark(); save(); return; }
+    st.st="rev"; it.lock(false); it.reveal();
+    fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Respuesta</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+    it.card.classList.add("rev"); save(); refresh();
+  };
+  it.restore = function(){
+    if(!st.st) return; it.setGiven(st.given);
+    var fb=fbBox(it.card);
+    if(st.st==="ok"){ it.lock(true); it.card.classList.add("ok"); fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correcto</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+    else { it.lock(false); it.reveal(); it.card.classList.add("rev"); fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Respuesta</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+  };
+  ITEMS.push(it);
+}
+function controls(card, it){
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Comprobar");
+  var p=h("button",{"class":"g",type:"button"},"Pista");
+  b.addEventListener("click", function(){ it.run(); });
+  p.addEventListener("click", function(){ var fb=fbBox(card); if(it.state.st) return; fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>'+fmt(it.pista||""); });
+  row.appendChild(b); row.appendChild(p); card.appendChild(row);
+  it.btns=[b,p];
+}
+function gapItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  var parts=Q.es.split(/\{(\d+)\}/), html='<span class="qn">'+n+' ·</span>';
+  for(var i=0;i<parts.length;i++){
+    if(i%2===0) html+=fmt(parts[i]);
+    else { var g=Q.gaps[+parts[i]]; html+='<input type="text" data-g="'+parts[i]+'" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="hueco '+(+parts[i]+1)+'">'+(g.cue?' <span class="cue">('+esc(g.cue)+')</span>':""); }
+  }
+  var s=h("div",{"class":"sent"},html); card.appendChild(s);
+  var inputs=[].slice.call(s.querySelectorAll("input"));
+  var it={id:id, sec:sec, card:card, q:Q.es.replace(/\{\d+\}/g,"___"), pista:Q.pista, why:Q.why};
+  it.given=function(){ return inputs.map(function(x){return x.value.trim();}).join(" | "); };
+  it.setGiven=function(v){ (v||"").split(" | ").forEach(function(x,i){ if(inputs[i]) inputs[i].value=x; }); };
+  it.res=function(){ return inputs.map(function(x){ return judge(x.value, Q.gaps[+x.getAttribute("data-g")].acc); }); };
+  it.check=function(){ var r=it.res(); if(r.some(function(x){return x==="blank";})) { var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML="Fill in every gap first."; return "blank"; }
+    if(r.every(function(x){return x==="ok";})) return "ok"; if(r.every(function(x){return x==="ok"||x==="accent";})) return "accent"; return "no"; };
+  it.mark=function(){ var r=it.res(); inputs.forEach(function(x,i){ x.classList.toggle("okf",r[i]==="ok"); x.classList.toggle("badf",r[i]!=="ok"); }); };
+  it.lock=function(good){ inputs.forEach(function(x){ x.disabled=true; x.classList.toggle("okf",good); }); it.btns.forEach(function(b){ b.disabled=true; }); };
+  it.reveal=function(){ it.mark(); };
+  it.answerText=function(){ return "**"+Q.gaps.map(function(g){return g.acc[0];}).join(" … ")+"**"+(Q.gaps.some(function(g){return g.acc.length>1;})?" (also accepted: "+Q.gaps.map(function(g){return g.acc.slice(1).join(", ");}).filter(Boolean).join("; ")+")":"")+"."; };
+  it.ans=Q.gaps.map(function(g){return g.acc[0];}).join(" | ");
+  inputs.forEach(function(x){ x.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); it.run(); } }); });
+  controls(card,it); wire(it); return card;
+}
+function seeded(n,seed){ var a=[]; for(var i=0;i<n;i++) a.push(i); var x=seed; for(i=n-1;i>0;i--){ x=(x*9301+49297)%233280; var j=Math.floor(x/233280*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function mcItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  card.appendChild(h("div",null,'<span class="qn">'+n+' ·</span>'+fmt(Q.q)));
+  var box=h("div",{"class":"opts"}); var order=seeded(Q.opts.length, id.length*31+n*7), btns=[], sel=null;
+  order.forEach(function(k){ var b=h("button",{"class":"opt",type:"button"},fmt(Q.opts[k])); b._i=k; b.addEventListener("click",function(){ if(it.state.st) return; sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); it.run(); }); btns.push(b); box.appendChild(b); });
+  card.appendChild(box);
+  var it={id:id, sec:sec, card:card, q:Q.q, pista:Q.pista, why:Q.why};
+  it.given=function(){ return sel==null?"":Q.opts[sel]; };
+  it.setGiven=function(v){ var k=Q.opts.indexOf(v); if(k>=0){ sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); } };
+  it.check=function(){ return sel==null?"blank":(sel===Q.a?"ok":"no"); };
+  it.mark=function(){ btns.forEach(function(x){ if(x._i===sel) x.classList.add("wrong"); }); };
+  it.lock=function(){ btns.forEach(function(x){ x.disabled=true; if(x._i===Q.a) x.classList.add("right"); }); if(it.pb) it.pb.disabled=true; };
+  it.reveal=function(){};
+  it.answerText=function(){ return "**"+Q.opts[Q.a]+"**."; };
+  it.ans=Q.opts[Q.a];
+  var row=h("div",{"class":"ctl ui"}); var p=h("button",{"class":"g",type:"button"},"Pista"); it.pb=p;
+  p.addEventListener("click",function(){ if(it.state.st) return; var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>'+fmt(Q.pista||""); });
+  row.appendChild(p); card.appendChild(row);
+  wire(it); return card;
+}
+var main=document.getElementById("main"), tabs=document.getElementById("tabs");
+D.sections.forEach(function(sx, si){
+  var id="s"+(si+1);
+  var s=h("section",{"class":"ex",id:id}); s.appendChild(h("h2",null,esc(sx.h2)));
+  if(sx.intro) s.appendChild(h("p",{"class":"how ui"},fmt(sx.intro)));
+  if(sx.rule) s.appendChild(h("div",{"class":"rule"},fmt(sx.rule)));
+  var n=0;
+  sx.items.forEach(function(Q,qi){ n++; if(Q.h3) s.appendChild(h("h3",null,esc(Q.h3)));
+    s.appendChild(Q.t==="mc" ? mcItem(id,id+"_"+qi,n,Q) : gapItem(id,id+"_"+qi,n,Q)); });
+  var f=h("div",{"class":"secfoot ui"}), l=h("div"), r=h("div");
+  if(si>0) l.appendChild(h("button",{"class":"g",type:"button","data-go":"s"+si},"← Atrás"));
+  var rs=h("button",{"class":"g",type:"button"},"Reintentar esta sección");
+  rs.addEventListener("click",function(){ if(!rs._a){ rs._a=true; rs.textContent="Pulsa otra vez para borrar"; setTimeout(function(){ rs._a=false; rs.textContent="Reintentar esta sección"; },3000); return; }
+    ITEMS.filter(function(it){return it.sec===id;}).forEach(function(it){ delete S.it[it.id]; }); save(); location.reload(); });
+  l.appendChild(document.createTextNode(" ")); l.appendChild(rs);
+  if(si<D.sections.length-1) r.appendChild(h("button",{"class":"b",type:"button","data-go":"s"+(si+2)},"Siguiente →"));
+  else { var dl=h("button",{"class":"b",type:"button"},"Descargar mis respuestas"); dl.addEventListener("click",download); r.appendChild(dl); }
+  f.appendChild(l); f.appendChild(r); s.appendChild(f);
+  main.appendChild(s);
+  var tb=h("button",{type:"button",role:"tab","data-go":id},esc(sx.tab)+' <span class="n"></span>'); tabs.appendChild(tb);
+  SECS.push({id:id, el:s, tab:tb});
+});
+function totals(){ var tot=ITEMS.length, sc=0, first=0, done=0; ITEMS.forEach(function(it){ var st=it.state; if(st.st==="ok"){ sc++; done++; if(st.first) first++; } else if(st.st==="rev") done++; }); return {tot:tot,sc:sc,first:first,done:done}; }
+function refresh(){
+  var T=totals(); document.getElementById("sc").textContent=T.sc; document.getElementById("tot").textContent=T.tot; document.getElementById("first").textContent=T.first;
+  document.getElementById("bar").style.width=(T.tot?Math.round(100*T.sc/T.tot):0)+"%";
+  SECS.forEach(function(s){ var its=ITEMS.filter(function(it){return it.sec===s.id;}); var d=its.filter(function(it){return it.state.st;}).length, ok=its.filter(function(it){return it.state.st==="ok";}).length; s.tab.querySelector(".n").textContent=ok+"/"+its.length; s.tab.classList.toggle("done",d===its.length); });
+  publish();
+}
+function publish(){
+  try{ var T=totals(); var all=JSON.parse(localStorage.getItem("bba-scores")||"{}"); var f=decodeURIComponent(location.pathname.split("/").pop()||"index"); var prev=all[f]||{};
+    var rec={title:(document.title||"").slice(0,120), score:T.sc, total:T.tot, best:Math.max(T.sc,prev.best||0), attempts:(prev.attempts||0)+(S.pub?0:1), t:Date.now()};
+    var n=Math.max(0,T.done-(S.pubDone||0)); rec.ans=(prev.ans||0)+n; rec.lg={}; for(var k in (prev.lg||{})) rec.lg[k]=prev.lg[k];
+    var day=String(Math.floor(Date.now()/86400000)); if(n) rec.lg[day]=(rec.lg[day]||0)+n;
+    all[f]=rec; localStorage.setItem("bba-scores",JSON.stringify(all)); S.pub=true; S.pubDone=T.done; save(); }catch(e){}
+}
+function studentName(){ var nm=document.querySelector("#bba-kit .nm"); var v=nm&&nm.value.trim(); if(!v){ try{ v=localStorage.getItem("bba-name")||""; }catch(e){} } return v||""; }
+function download(){
+  var T=totals(), name=studentName(), L=[];
+  L.push(D.dlhead); L.push("Nombre: "+(name||"(sin nombre)")); L.push("Fecha: "+new Date().toLocaleString("es-ES")); L.push("Puntos: "+T.sc+" / "+T.tot+"  ·  a la primera: "+T.first); L.push("");
+  SECS.forEach(function(s){ L.push("== "+s.el.querySelector("h2").textContent+" ==");
+    ITEMS.filter(function(it){return it.sec===s.id;}).forEach(function(it,i){ var st=it.state;
+      var mark=st.st==="ok"?(st.first?"✓":"✓ (2.º intento)"):st.st==="rev"?"✗ → "+it.ans:"— sin responder";
+      L.push((i+1)+". "+it.q.replace(/\*\*/g,"").replace(/\s+/g," ").slice(0,160)); L.push("   Respuesta: "+(it.given()||"—")+"   ["+mark+"]"); });
+    L.push(""); });
+  var blob=new Blob([L.join("\r\n")],{type:"text/plain;charset=utf-8"}); var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download=D.dlfile+(name||"sin_nombre").replace(/[^\wÁÉÍÓÚÑáéíóúñ-]+/g,"_")+".txt"; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },500);
+}
+function go(id){ SECS.forEach(function(s){ var on=s.id===id; s.el.classList.toggle("active",on); s.tab.setAttribute("aria-selected",on?"true":"false"); }); S.tab=id; save();
+  var nav=document.getElementById("tabs"); if(window.scrollY>nav.offsetTop) window.scrollTo({top:nav.offsetTop,behavior:"smooth"}); }
+document.addEventListener("click",function(e){ var b=e.target.closest("[data-go]"); if(b){ e.preventDefault(); go(b.getAttribute("data-go")); } });
+ITEMS.forEach(function(it){ it.restore(); });
+go(S.tab && document.getElementById(S.tab) ? S.tab : "s1"); refresh();
+window.LCDBA={items:ITEMS, totals:totals, judge:judge};
 })();
-
-/* ------------ BLOB DOWNLOAD ------------- */
-document.getElementById("downloadBtn").onclick = ()=>{
-  const html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
-  const blob = new Blob([html], {type:"text/html;charset=utf-8"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "lcdba_quote_match.html";
-  document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(()=>URL.revokeObjectURL(url), 1500);
-};
-
-/* ------------ GO ------------- */
-renderThemes();
-startRound();
 </script>
-<script>window.BBA_KIT = {check:false};</script>
-  <script src="bba-kit-es.js" defer></script>
+<script src="bba-kit-es.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
 </body>
 </html>

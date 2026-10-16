@@ -1,788 +1,285 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spanish Grammar Practice - La casa de Bernarda Alba</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
-            padding: 20px;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        
-        .header {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        
-        .header h1 {
-            color: #1f2937;
-            font-size: 2em;
-            margin-bottom: 10px;
-        }
-        
-        .header p {
-            color: #6b7280;
-            font-style: italic;
-        }
-        
-        .section-nav {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        
-        .nav-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .nav-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .nav-btn.active {
-            background: #ea580c;
-            color: white;
-        }
-        
-        .nav-btn:not(.active) {
-            background: #e5e7eb;
-            color: #374151;
-        }
-        
-        .nav-btn:not(.active):hover {
-            background: #d1d5db;
-        }
-        
-        .exercise-section {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            display: none;
-        }
-        
-        .exercise-section.active {
-            display: block;
-        }
-        
-        .explanation {
-            background: #dbeafe;
-            border-left: 4px solid #3b82f6;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 25px;
-        }
-        
-        .explanation h3 {
-            color: #1e3a8a;
-            margin-bottom: 8px;
-        }
-        
-        .explanation p {
-            color: #1e40af;
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-        
-        .keyboard-hint {
-            background: #f0f9ff;
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 13px;
-            color: #0c4a6e;
-            margin-top: 8px;
-        }
-        
-        .keyboard-hint strong {
-            color: #075985;
-        }
-        
-        .question {
-            border: 1px solid #e5e7eb;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        
-        .question-text {
-            font-weight: 500;
-            color: #1f2937;
-            margin-bottom: 15px;
-        }
-        
-        .options {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .option-btn {
-            padding: 10px 20px;
-            border: 2px solid #d1d5db;
-            background: white;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-        
-        .option-btn:hover:not(:disabled) {
-            border-color: #fb923c;
-        }
-        
-        .option-btn.selected {
-            background: #fed7aa;
-            border-color: #ea580c;
-            color: #7c2d12;
-        }
-        
-        .option-btn.correct {
-            background: #dcfce7;
-            border-color: #16a34a;
-            color: #14532d;
-        }
-        
-        .option-btn.incorrect {
-            background: #fee2e2;
-            border-color: #dc2626;
-            color: #7f1d1d;
-        }
-        
-        .option-btn:disabled {
-            cursor: not-allowed;
-        }
-        
-        .text-input {
-            padding: 10px 15px;
-            border: 2px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 16px;
-            width: 200px;
-            transition: all 0.3s;
-        }
-        
-        .text-input:focus {
-            outline: none;
-            border-color: #fb923c;
-        }
-        
-        .text-input.correct {
-            background: #dcfce7;
-            border-color: #16a34a;
-        }
-        
-        .text-input.incorrect {
-            background: #fee2e2;
-            border-color: #dc2626;
-        }
-        
-        .text-input:disabled {
-            background: #f3f4f6;
-            cursor: not-allowed;
-        }
-        
-        .feedback {
-            margin-top: 10px;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 14px;
-            display: none;
-        }
-        
-        .feedback.show {
-            display: block;
-        }
-        
-        .feedback.correct {
-            background: #dcfce7;
-            color: #14532d;
-        }
-        
-        .feedback.incorrect {
-            background: #fef2f2;
-            color: #991b1b;
-        }
-        
-        .controls {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            margin-top: 25px;
-        }
-        
-        .check-btn, .reset-btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .check-btn {
-            background: #ea580c;
-            color: white;
-        }
-        
-        .check-btn:hover:not(:disabled) {
-            background: #c2410c;
-        }
-        
-        .check-btn:disabled {
-            background: #d1d5db;
-            cursor: not-allowed;
-        }
-        
-        .reset-btn {
-            background: #3b82f6;
-            color: white;
-            display: none;
-        }
-        
-        .reset-btn.show {
-            display: block;
-        }
-        
-        .reset-btn:hover {
-            background: #2563eb;
-        }
-        
-        .score {
-            padding: 12px 24px;
-            background: #f3f4f6;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #1f2937;
-            display: none;
-        }
-        
-        .score.show {
-            display: block;
-        }
-        
-        .tips {
-            background: #fff7ed;
-            border: 1px solid #fed7aa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-        
-        .tips h3 {
-            color: #7c2d12;
-            margin-bottom: 15px;
-        }
-        
-        .tips ul {
-            list-style: none;
-        }
-        
-        .tips li {
-            color: #9a3412;
-            font-size: 14px;
-            margin-bottom: 8px;
-            padding-left: 20px;
-            position: relative;
-        }
-        
-        .tips li:before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La casa de Bernarda Alba · Errores frecuentes</title>
+<meta name="description" content="A-Level Spanish: the commonest accuracy errors in essays on La casa de Bernarda Alba. Gender, accents, ser and estar, por and para, false friends.">
+<style>
+:root{
+  --paper:#f6f1e7; --card:#fffdf8; --ink:#2a2320; --soft:#6a5a4c; --line:#dcd0bb;
+  --ox:#6e1f2a; --ox2:#8f3340; --oxs:#f4e4e4; --green:#1f4d3a; --gs:#e3efe8;
+  --gold:#a8843a; --golds:#f7efd9; --bad:#a23b2a; --bads:#fbe9e5; --ok:#226a43;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+.ui{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:22px 16px 160px}
+header{border-bottom:3px double var(--ox);padding-bottom:14px;margin-bottom:8px}
+.kicker{font:600 12px/1.2 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ox)}
+h1{font-size:31px;line-height:1.15;margin:6px 0 6px;color:var(--ox)}
+.lead{color:var(--soft);margin:0 0 4px;font:15px/1.55 system-ui,sans-serif}
+.score{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:10px;font:14px system-ui,sans-serif;color:var(--soft)}
+.score b{color:var(--ink);font-size:16px}
+.meter{flex:1 1 180px;height:8px;background:#e8dfcf;border-radius:99px;overflow:hidden;min-width:140px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#2f7a58);transition:width .4s}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 12px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+nav.tabs button{font:600 13.5px system-ui,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 12px;cursor:pointer;display:flex;gap:6px;align-items:center}
+nav.tabs button .n{font-weight:500;color:var(--soft);font-size:12px}
+nav.tabs button[aria-selected="true"]{background:var(--ox);border-color:var(--ox);color:#fff}
+nav.tabs button[aria-selected="true"] .n{color:#f1d7d9}
+nav.tabs button.done:not([aria-selected="true"]){border-color:var(--green);color:var(--green)}
+section.ex{display:none}
+section.ex.active{display:block}
+h2{font-size:24px;margin:4px 0 6px;color:var(--green)}
+h3{font:700 13px system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ox);margin:22px 0 8px}
+.how{font:15px/1.55 system-ui,sans-serif;color:var(--soft);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;position:relative}
+.card.ok{border-color:#9cc7ae;background:#fbfefc}
+.card.rev{border-color:#e3b6ad}
+.card .qn{font:700 13px system-ui,sans-serif;color:var(--ox);margin-right:6px}
+.quote{font-style:italic}
+blockquote{margin:2px 0 10px;padding:6px 0 6px 14px;border-left:3px solid var(--gold);font-style:italic;font-size:18px}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:10px}
+input[type=text],select,textarea{font:16px Georgia,serif;color:var(--ink);background:#fff;border:1px solid #bdae95;border-radius:7px;padding:7px 10px;max-width:100%}
+input[type=text]{width:15em}
+input.w8{width:8.5em} input.w6{width:7em}
+input.okf{border-color:var(--ok);background:#f2faf5} input.badf{border-color:var(--bad);background:var(--bads)}
+textarea{width:100%;min-height:200px;resize:vertical;line-height:1.6}
+button.b{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 13px;cursor:pointer;border:1px solid var(--ox);background:var(--ox);color:#fff}
+button.b:disabled{opacity:.45;cursor:default}
+button.g{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--green)}
+button.g:disabled{opacity:.45;cursor:default}
+.opts{display:grid;gap:7px;margin-top:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;font:15.5px/1.45 system-ui,sans-serif;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 12px;cursor:pointer;color:var(--ink)}
+.opt:before{content:"";flex:0 0 16px;height:16px;border:2px solid #b8a98f;border-radius:50%;margin-top:2px}
+.opt.sel{border-color:var(--ox);background:var(--oxs)}
+.opt.sel:before{border-color:var(--ox);background:radial-gradient(var(--ox) 45%,transparent 50%)}
+.opt.right{border-color:var(--ok);background:#eef8f2}
+.opt.wrong{border-color:var(--bad);background:var(--bads)}
+.opt:disabled{cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font:600 13px system-ui,sans-serif;border:1px solid #c9bba3;background:#fff;color:var(--soft);border-radius:999px;padding:6px 11px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.chip.core{outline:2px solid var(--ok);outline-offset:1px}
+.chip.acc{outline:2px dashed var(--gold);outline-offset:1px}
+.chip.wrongc{background:var(--bad);border-color:var(--bad);color:#fff}
+.chip:disabled{cursor:default}
+.fb{margin-top:10px;font:14.5px/1.55 system-ui,sans-serif;border-radius:8px;padding:9px 12px;display:none}
+.fb.show{display:block}
+.fb.okb{background:var(--gs);color:#163a2b}
+.fb.hint{background:var(--golds);color:#4d3c14}
+.fb.revb{background:var(--bads);color:#5a1d12}
+.fb .why{margin-top:6px;color:#2b2a26}
+.tag{display:inline-block;font:700 11px system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-right:6px}
+.tag.okt{background:var(--ok);color:#fff}.tag.ht{background:var(--gold);color:#fff}.tag.rt{background:var(--bad);color:#fff}
+.legend{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:14.5px/1.55 system-ui,sans-serif;margin-bottom:10px}
+.legend b{color:var(--ox)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}
+.who{font:13px system-ui,sans-serif;color:var(--soft)}
+.tr{line-height:2.25;font-size:17px;background:#faf6ee;border-left:3px solid var(--gold);padding:6px 12px;border-radius:4px;margin-top:6px}
+.secfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0 6px;flex-wrap:wrap}
+.reto{border:2px solid var(--ox);background:#fff}
+.reto .rt2{font:700 12px system-ui,sans-serif;letter-spacing:.16em;color:var(--ox)}
+.check li{margin:4px 0;list-style:none;padding-left:0}
+.check{padding:0;margin:10px 0 0;font:14.5px/1.5 system-ui,sans-serif}
+.check li:before{content:"○ ";color:#b8a98f;font-weight:700}
+.check li.on:before{content:"● ";color:var(--ok)}
+.check li.warn:before{content:"● ";color:var(--bad)}
+.qcheck{font:14px/1.5 system-ui,sans-serif;margin-top:8px}
+.qcheck div{padding:3px 0}
+.qcheck .y{color:var(--ok)} .qcheck .n{color:var(--bad)}
+.titles label{display:flex;gap:8px;align-items:flex-start;font:15.5px/1.45 Georgia,serif;margin:6px 0;cursor:pointer}
+.tips{font:14.5px/1.55 system-ui,sans-serif;background:var(--oxs);border-radius:8px;padding:10px 12px;margin:10px 0}
+.res{font:15px/1.6 system-ui,sans-serif}
+.res table{border-collapse:collapse;width:100%;margin:8px 0}
+.res td,.res th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+.src{font:13px/1.5 system-ui,sans-serif;color:var(--soft);margin-top:22px}
+@media (max-width:640px){h1{font-size:25px}.cols{grid-template-columns:1fr}input[type=text]{width:100%}input.w8,input.w6{width:8em}nav.tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}nav.tabs::-webkit-scrollbar{display:none}nav.tabs button{padding:6px 10px;font-size:12.5px;flex:0 0 auto;white-space:nowrap}}
+@media print{nav.tabs,.secfoot,button{display:none!important}section.ex{display:block!important}}
+</style>
+<style>
+.sent{font-size:18px;line-height:2.1}
+.sent input{width:9em;font-size:16px;padding:4px 8px;margin:0 2px}
+.en{font:14px/1.45 system-ui,sans-serif;color:var(--soft);margin:0 0 4px}
+.cue{font:13px system-ui,sans-serif;color:var(--soft)}
+.rule{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:8px;padding:10px 14px;font:14.5px/1.55 system-ui,sans-serif;margin:6px 0 12px}
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>📚 Spanish Grammar Practice</h1>
-            <p>Based on your La casa de Bernarda Alba essay</p>
-        </div>
-
-        <div class="section-nav">
-            <div class="nav-buttons">
-                <button class="nav-btn active" onclick="changeSection('gender')">Gender Agreement</button>
-                <button class="nav-btn" onclick="changeSection('accents')">Accent Marks</button>
-                <button class="nav-btn" onclick="changeSection('pronouns')">Pronouns</button>
-                <button class="nav-btn" onclick="changeSection('vocabulary')">Vocabulary</button>
-                <button class="nav-btn" onclick="changeSection('verbforms')">Verb Forms</button>
-            </div>
-        </div>
-
-        <div id="gender" class="exercise-section active">
-            <div class="explanation">
-                <h3>Gender Agreement Practice</h3>
-                <p>Remember: Adjectives and articles must agree with the noun's gender. Common errors: el mano (✗) → la mano (✓)</p>
-            </div>
-            
-            <div class="question" data-question="g1">
-                <div class="question-text">1. La abuela está _____ (escondido/escondida) en su habitación.</div>
-                <div class="options">
-                    <button class="option-btn" onclick="selectAnswer('g1', 'escondido', 'escondida')">escondido</button>
-                    <button class="option-btn" onclick="selectAnswer('g1', 'escondida', 'escondida')">escondida</button>
-                </div>
-                <div class="feedback">Correct answer: escondida</div>
-            </div>
-
-            <div class="question" data-question="g2">
-                <div class="question-text">2. La represión es _____ (alto/alta) dentro de la casa.</div>
-                <div class="options">
-                    <button class="option-btn" onclick="selectAnswer('g2', 'alto', 'alta')">alto</button>
-                    <button class="option-btn" onclick="selectAnswer('g2', 'alta', 'alta')">alta</button>
-                </div>
-                <div class="feedback">Correct answer: alta</div>
-            </div>
-
-            <div class="question" data-question="g3">
-                <div class="question-text">3. Bernarda usa _____ (el/la) mano para controlar.</div>
-                <div class="options">
-                    <button class="option-btn" onclick="selectAnswer('g3', 'el', 'la')">el</button>
-                    <button class="option-btn" onclick="selectAnswer('g3', 'la', 'la')">la</button>
-                </div>
-                <div class="feedback">Correct answer: la</div>
-            </div>
-
-            <div class="question" data-question="g4">
-                <div class="question-text">4. El control físico está _____ (visto/vista) en la obra.</div>
-                <div class="options">
-                    <button class="option-btn" onclick="selectAnswer('g4', 'visto', 'visto')">visto</button>
-                    <button class="option-btn" onclick="selectAnswer('g4', 'vista', 'visto')">vista</button>
-                </div>
-                <div class="feedback">Correct answer: visto</div>
-            </div>
-
-            <div class="question" data-question="g5">
-                <div class="question-text">5. Las hijas están _____ (atrapados/atrapadas) en la casa.</div>
-                <div class="options">
-                    <button class="option-btn" onclick="selectAnswer('g5', 'atrapados', 'atrapadas')">atrapados</button>
-                    <button class="option-btn" onclick="selectAnswer('g5', 'atrapadas', 'atrapadas')">atrapadas</button>
-                </div>
-                <div class="feedback">Correct answer: atrapadas</div>
-            </div>
-
-            <div class="controls">
-                <button class="check-btn" onclick="checkAnswers('gender')">Check Answers</button>
-                <div class="score"></div>
-                <button class="reset-btn" onclick="resetSection('gender')">Try Again</button>
-            </div>
-        </div>
-
-        <div id="accents" class="exercise-section">
-            <div class="explanation">
-                <h3>Accent Mark Practice - Type the Word</h3>
-                <p>Type the complete word with the correct accent mark. These are the exact errors from your essay!</p>
-                <div class="keyboard-hint">
-                    <strong>Keyboard shortcuts:</strong><br>
-                    Mac: Hold Option + e, then type the vowel (á, é, í, ó, ú)<br>
-                    Windows: Hold Alt and type number code (á=160, é=130, í=161, ó=162, ú=163)<br>
-                    Or copy/paste: á é í ó ú
-                </div>
-            </div>
-            
-            <div class="question" data-question="a1">
-                <div class="question-text">1. La abuela _____ encerrada físicamente. (from your essay: "la abuela maría esta encerrado")</div>
-                <input type="text" class="text-input" data-answer="está" placeholder="Type here..." onkeyup="checkTypedAnswer(event, 'a1')">
-                <div class="feedback">Correct answer: está</div>
-            </div>
-
-            <div class="question" data-question="a2">
-                <div class="question-text">2. La represión _____ es evidente. (from your essay: "represión fisica")</div>
-                <input type="text" class="text-input" data-answer="física" placeholder="Type here..." onkeyup="checkTypedAnswer(event, 'a2')">
-                <div class="feedback">Correct answer: física</div>
-            </div>
-
-            <div class="question" data-question="a3">
-                <div class="question-text">3. La clase social _____ dentro del límite. (from your essay: "la clase social estas")</div>
-                <input type="text" class="text-input" data-answer="está" placeholder="Type here..." onkeyup="checkTypedAnswer(event, 'a3')">
-                <div class="feedback">Correct answer: está</div>
-            </div>
-
-            <div class="question" data-question="a4">
-                <div class="question-text">4. La represión es más _____. (from your essay: "mas alto")</div>
-                <input type="text" class="text-input" data-answer="alta" placeholder="Type here..." onkeyup="checkTypedAnswer(event, 'a4')">
-                <div class="feedback">Correct answer: alta</div>
-            </div>
-
-            <div class="question" data-question="a5">
-                <div class="question-text">5. Lorca escribió la obra durante un tiempo con reglas muy _____. (strange/different)</div>
-                <input type="text" class="text-input" data-answer="extrañas" placeholder="Type here..." onkeyup="checkTypedAnswer(event, 'a5')">
-                <div class="feedback">Correct answer: extrañas</div>
-            </div>
-
-            <div class="controls">
-                <button class="check-btn" onclick="checkTypedAnswers('accents')">Check Answers</button>
-                <div class="score"></div>
-                <button class="reset-btn" onclick="resetSection('accents')">Try Again</button>
-            </div>
-        </div>
-
-        <div id="pronouns" class="exercise-section">
-            <div class="explanation">
-                <h3>Object Pronoun Placement</h3>
-                <p>Object pronouns go BEFORE conjugated verbs: 'lo detuvo' not 'detuvo lo'</p>
-            </div>
-            
-            <div class="question" data-question="p1">
-                <div class="question-text">1. Bernarda _____ (detuvo lo/lo detuvo).</div>
-                <div class="options">
-                    <button class="option-btn" onclick="selectAnswer('p1', 'detuvo lo', 'lo detuvo')">detuvo lo</button>
-                    <button class="option-btn" onclick="selectAnswer('p1', 'lo detuvo', 'lo detuvo')">lo detuvo</button>
-                </div>
-                <div class="feedback">Correct answer: lo detuvo</div>
-            </div>
-
-            <div class="question" data-question="p2">
-                <div class="question-text">2. Lorca _____ (nos muestra/muestra nos) la represión.</div>
-                <div class="options">
-                    <button class="option-btn" onclick="selectAnswer('p2', 'nos muestra', 'nos muestra')">nos muestra</button>
-                    <button class="option-btn" onclick="selectAnswer('p2', 'muestra nos', 'nos muestra')">muestra nos</button>
-                </div>
-                <div class="feedback">Correct answer: nos muestra</div>
-            </div>
-
-            <div class="question" data-question="p3">
-                <div class="question-text">3. Bernarda _____ (paró la/la paró) inmediatamente.</div>
-                <div class="options">
-                    <button class="option-btn" onclick="selectAnswer('p3', 'paró la', 'la paró')">paró la</button>
-                    <button class="option-btn" onclick="selectAnswer('p3', 'la paró', 'la paró')">la paró</button>
-                </div>
-                <div class="feedback">Correct answer: la paró</div>
-            </div>
-
-            <div class="question" data-question="p4">
-                <div class="question-text">4. El autor _____ (explora lo/lo explora) en detalle.</div>
-                <div class="options">
-                    <button class="option-btn" onclick="selectAnswer('p4', 'explora lo', 'lo explora')">explora lo</button>
-                    <button class="option-btn" onclick="selectAnswer('p4', 'lo explora', 'lo explora')">lo explora</button>
-                </div>
-                <div class="feedback">Correct answer: lo explora</div>
-            </div>
-
-            <div class="question" data-question="p5">
-                <div class="question-text">5. Las criadas _____ (deben encerrarla/la deben encerrar).</div>
-                <div class="options">
-                    <button class="option-btn" onclick="selectAnswer('p5', 'deben encerrarla', 'deben encerrarla')">deben encerrarla</button>
-                    <button class="option-btn" onclick="selectAnswer('p5', 'la deben encerrar', 'deben encerrarla')">la deben encerrar</button>
-                </div>
-                <div class="feedback">Correct answer: deben encerrarla</div>
-            </div>
-
-            <div class="controls">
-                <button class="check-btn" onclick="checkAnswers('pronouns')">Check Answers</button>
-                <div class="score"></div>
-                <button class="reset-btn" onclick="resetSection('pronouns')">Try Again</button>
-            </div>
-        </div>
-
-        <div id="vocabulary" class="exercise-section">
-            <div class="explanation">
-                <h3>Precise Vocabulary Selection</h3>
-                <p>Choose the most appropriate verb for the context. 'Atrapar' = catch/trap; 'Encerrar' = lock up/confine</p>
-            </div>
-            
-            <div class="question" data-question="v1">
-                <div class="question-text">1. Las criadas deben _____ a la abuela en su habitación.</div>
-                <div class="options">
-                    <button class="option-btn" onclick="selectAnswer('v1', 'atrapar', 'encerrar')">atrapar</button>
-                    <button class="option-btn" onclick="selectAnswer('v1', 'encerrar', 'encerrar')">encerrar</button>
-                </div>
-                <div class="feedback">Correct answer: encerrar</div>
-            </div>
-
-            <div class="question" data-question="v2">
-                <div class="question-text">2. Lorca _____ este tema en su obra.</div>
-                <div class="options">
-                    <button class="option-btn" onclick="selectAnswer('v2', 'usa', 'explora')">usa</button>
-                    <button class="option-btn" onclick="selectAnswer('v2', 'explora', 'explora')">explora</button>
-                </div>
-                <div class="feedback">Correct answer: explora</div>
-            </div>
-
-            <div class="question" data-question="v3">
-                <div class="question-text">3. La represión _____ a todos los personajes.</div>
-                <div class="options">
-                    <button class="option-btn" onclick="selectAnswer('v3', 'daña', 'afecta')">daña</button>
-                    <button class="option-btn" onclick="selectAnswer('v3', 'afecta', 'afecta')">afecta</button>
-                </div>
-                <div class="feedback">Correct answer: afecta</div>
-            </div>
-
-            <div class="question" data-question="v4">
-                <div class="question-text">4. El autor ha _____ una sociedad represiva.</div>
-                <div class="options">
-                    <button class="option-btn" onclick="selectAnswer('v4', 'descubierto', 'descrito')">descubierto</button>
-                    <button class="option-btn" onclick="selectAnswer('v4', 'descrito', 'descrito')">descrito</button>
-                </div>
-                <div class="feedback">Correct answer: descrito</div>
-            </div>
-
-            <div class="question" data-question="v5">
-                <div class="question-text">5. Para _____ las ideas de Lorca...</div>
-                <div class="options">
-                    <button class="option-btn" onclick="selectAnswer('v5', 'usar', 'analizar')">usar</button>
-                    <button class="option-btn" onclick="selectAnswer('v5', 'analizar', 'analizar')">analizar</button>
-                </div>
-                <div class="feedback">Correct answer: analizar</div>
-            </div>
-
-            <div class="controls">
-                <button class="check-btn" onclick="checkAnswers('vocabulary')">Check Answers</button>
-                <div class="score"></div>
-                <button class="reset-btn" onclick="resetSection('vocabulary')">Try Again</button>
-            </div>
-        </div>
-
-        <div id="verbforms" class="exercise-section">
-            <div class="explanation">
-                <h3>Verb Forms and Moods</h3>
-                <p>After verbs like 'buscar' and 'luchar' use infinitive or indicative, not subjunctive (luchan not luchen)</p>
-            </div>
-            
-            <div class="question" data-question="vf1">
-                <div class="question-text">1. Ellos que _____ (luchen/luchan) la represión...</div>
-                <div class="options">
-                    <button class="option-btn" onclick="selectAnswer('vf1', 'luchen', 'luchan')">luchen</button>
-                    <button class="option-btn" onclick="selectAnswer('vf1', 'luchan', 'luchan')">luchan</button>
-                </div>
-                <div class="feedback">Correct answer: luchan</div>
-            </div>
-
-            <div class="question" data-question="vf2">
-                <div class="question-text">2. Las hijas que _____ (busquen/buscan) la libertad...</div>
-                <div class="options">
-                    <button class="option-btn" onclick="selectAnswer('vf2', 'busquen', 'buscan')">busquen</button>
-                    <button class="option-btn" onclick="selectAnswer('vf2', 'buscan', 'buscan')">buscan</button>
-                </div>
-                <div class="feedback">Correct answer: buscan</div>
-            </div>
-
-            <div class="question" data-question="vf3">
-                <div class="question-text">3. La clase social _____ (estas/está) dentro del límite.</div>
-                <div class="options">
-                    <button class="option-btn" onclick="selectAnswer('vf3', 'estas', 'está')">estas</button>
-                    <button class="option-btn" onclick="selectAnswer('vf3', 'está', 'está')">está</button>
-                </div>
-                <div class="feedback">Correct answer: está</div>
-            </div>
-
-            <div class="question" data-question="vf4">
-                <div class="question-text">4. Lorca _____ (se usa/usa) símbolos para...</div>
-                <div class="options">
-                    <button class="option-btn" onclick="selectAnswer('vf4', 'se usa', 'usa')">se usa</button>
-                    <button class="option-btn" onclick="selectAnswer('vf4', 'usa', 'usa')">usa</button>
-                </div>
-                <div class="feedback">Correct answer: usa</div>
-            </div>
-
-            <div class="question" data-question="vf5">
-                <div class="question-text">5. La represión _____ (se daña/daña) a la familia.</div>
-                <div class="options">
-                    <button class="option-btn" onclick="selectAnswer('vf5', 'se daña', 'daña')">se daña</button>
-                    <button class="option-btn" onclick="selectAnswer('vf5', 'daña', 'daña')">daña</button>
-                </div>
-                <div class="feedback">Correct answer: daña</div>
-            </div>
-
-            <div class="controls">
-                <button class="check-btn" onclick="checkAnswers('verbforms')">Check Answers</button>
-                <div class="score"></div>
-                <button class="reset-btn" onclick="resetSection('verbforms')">Try Again</button>
-            </div>
-        </div>
-
-        <div class="tips">
-            <h3>Study Tips</h3>
-            <ul>
-                <li>Practice each section until you score 100% consistently</li>
-                <li>Review the explanation at the top of each section</li>
-                <li>Apply these corrections when revising your essay</li>
-                <li>Create flashcards for the most challenging patterns</li>
-                <li>Read Spanish texts noting how native writers use these structures</li>
-            </ul>
-        </div>
-    </div>
-
-    <script>
-        const answers = {};
-        const typedAnswers = {};
-        
-        function changeSection(sectionId) {
-            document.querySelectorAll('.exercise-section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            
-            document.getElementById(sectionId).classList.add('active');
-            event.target.classList.add('active');
-            
-            resetSection(sectionId);
-        }
-        
-        function selectAnswer(questionId, selected, correct) {
-            answers[questionId] = selected;
-            
-            const question = document.querySelector(`[data-question="${questionId}"]`);
-            const buttons = question.querySelectorAll('.option-btn');
-            
-            buttons.forEach(btn => btn.classList.remove('selected'));
-            event.target.classList.add('selected');
-        }
-        
-        function checkTypedAnswer(event, questionId) {
-            const input = event.target;
-            typedAnswers[questionId] = input.value.trim();
-        }
-        
-        function checkAnswers(sectionId) {
-            const section = document.getElementById(sectionId);
-            const questions = section.querySelectorAll('.question');
-            let correct = 0;
-            let total = questions.length;
-            
-            questions.forEach(q => {
-                const questionId = q.getAttribute('data-question');
-                const buttons = q.querySelectorAll('.option-btn');
-                const feedback = q.querySelector('.feedback');
-                const userAnswer = answers[questionId];
-                
-                buttons.forEach(btn => {
-                    btn.disabled = true;
-                    const btnText = btn.textContent;
-                    const correctAnswer = feedback.textContent.replace('Correct answer: ', '');
-                    
-                    if (btnText === correctAnswer) {
-                        btn.classList.add('correct');
-                        if (btnText === userAnswer) correct++;
-                    } else if (btnText === userAnswer) {
-                        btn.classList.add('incorrect');
-                        feedback.classList.add('show');
-                    }
-                });
-            });
-            
-            const checkBtn = section.querySelector('.check-btn');
-            const resetBtn = section.querySelector('.reset-btn');
-            const scoreDiv = section.querySelector('.score');
-            
-            checkBtn.style.display = 'none';
-            resetBtn.classList.add('show');
-            scoreDiv.classList.add('show');
-            scoreDiv.textContent = `${correct}/${total} (${Math.round(correct/total*100)}%)`;
-        }
-        
-        function checkTypedAnswers(sectionId) {
-            const section = document.getElementById(sectionId);
-            const questions = section.querySelectorAll('.question');
-            let correct = 0;
-            let total = questions.length;
-            
-            questions.forEach(q => {
-                const questionId = q.getAttribute('data-question');
-                const input = q.querySelector('.text-input');
-                const feedback = q.querySelector('.feedback');
-                const correctAnswer = input.getAttribute('data-answer');
-                const userAnswer = typedAnswers[questionId] || '';
-                
-                input.disabled = true;
-                
-                if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
-                    input.classList.add('correct');
-                    feedback.classList.add('show', 'correct');
-                    feedback.textContent = '✓ Correct!';
-                    correct++;
-                } else {
-                    input.classList.add('incorrect');
-                    feedback.classList.add('show', 'incorrect');
-                    feedback.textContent = `Correct answer: ${correctAnswer}`;
-                }
-            });
-            
-            const checkBtn = section.querySelector('.check-btn');
-            const resetBtn = section.querySelector('.reset-btn');
-            const scoreDiv = section.querySelector('.score');
-            
-            checkBtn.style.display = 'none';
-            resetBtn.classList.add('show');
-            scoreDiv.classList.add('show');
-            scoreDiv.textContent = `${correct}/${total} (${Math.round(correct/total*100)}%)`;
-        }
-        
-        function resetSection(sectionId) {
-            const section = document.getElementById(sectionId);
-            const questions = section.querySelectorAll('.question');
-            
-            // Clear stored answers
-            Object.keys(answers).forEach(key => {
-                if (key.startsWith(sectionId.charAt(0))) {
-                    delete answers[key];
-                }
-            });
-            Object.keys(typedAnswers).forEach(key => {
-                if (key.startsWith(sectionId.charAt(0))) {
-                    delete typedAnswers[key];
-                }
-            });
-            
-            questions.forEach(q => {
-                const buttons = q.querySelectorAll('.option-btn');
-                const feedback = q.querySelector('.feedback');
-                const input = q.querySelector('.text-input');
-                
-                // Reset buttons
-                buttons.forEach(btn => {
-                    btn.disabled = false;
-                    btn.classList.remove('selected', 'correct', 'incorrect');
-                });
-                
-                // Reset text inputs
-                if (input) {
-                    input.disabled = false;
-                    input.value = '';
-                    input.classList.remove('correct', 'incorrect');
-                }
-                
-                // Reset feedback
-                feedback.classList.remove('show', 'correct', 'incorrect');
-            });
-            
-            const checkBtn = section.querySelector('.check-btn');
-            const resetBtn = section.querySelector('.reset-btn');
-            const scoreDiv = section.querySelector('.score');
-            
-            checkBtn.style.display = 'block';
-            resetBtn.classList.remove('show');
-            scoreDiv.classList.remove('show');
-        }
-    </script>
-<script>window.BBA_KIT = {check:false};</script>
+<div class="wrap">
+<header>
+  <div class="kicker">Lectura obligatoria · Precisión</div>
+  <h1>La casa de Bernarda Alba — errores frecuentes en el ensayo</h1>
+  <p class="lead">The mistakes that cost marks most often in essays on the play: gender, accents that change the meaning, ser and estar, por and para, and English words in disguise. Every sentence is about the play. Spelling and accents count. If you are wrong the first time you get a <i>pista</i>; the second time you see the answer and the rule. Your work saves itself on this device.</p>
+  <div class="score" aria-live="polite"><span>Puntos <b id="sc">0</b> / <b id="tot">0</b></span><span>a la primera <b id="first">0</b></span><div class="meter"><i id="bar"></i></div></div>
+</header>
+<nav class="tabs" role="tablist" aria-label="Ejercicios" id="tabs"></nav>
+<main id="main"></main>
+<p class="src">Quotations: Federico García Lorca, <i>La casa de Bernarda Alba</i> (1936), short extracts quoted for study.</p>
+</div>
+<script>window.BBA_KIT = {check:false, download:false, save:false, enter:false};</script>
+<script>var D = {"key": "lcdba-errores-v1", "dlhead": "LA CASA DE BERNARDA ALBA — ERRORES FRECUENTES", "dlfile": "Bernarda_errores_", "sections": [{"tab": "1 · Género", "h2": "1 · Género y concordancia", "intro": "Some of the most common nouns in a literature essay have a surprising gender. Then make adjectives agree.", "rule": "**el** tema, el drama, el problema, el poema, el sistema (Greek words in -ma are masculine) · **la** mano · **el** poder · **el** agua fría (feminine, but «el» before stressed a-) · **la** represión, la opresión, la tensión (-ión: feminine).", "items": [{"t": "gap", "en": null, "es": "{0} tema principal de la obra es la represión.", "gaps": [{"acc": ["El"], "cue": "el / la"}], "pista": "Words from Greek ending in -ma.", "why": "**El** tema (masculine)."}, {"t": "gap", "en": null, "es": "Bernarda gobierna la casa con {0} mano de hierro.", "gaps": [{"acc": ["una"], "cue": "un / una"}], "pista": "An exception: -o but feminine.", "why": "**una** mano (la mano)."}, {"t": "gap", "en": null, "es": "{0} poder de Bernarda parece absoluto.", "gaps": [{"acc": ["El"], "cue": "el / la"}], "pista": "Poder as a noun.", "why": "**El** poder."}, {"t": "gap", "en": null, "es": "El drama de Lorca presenta {0} problema social, no solo familiar.", "gaps": [{"acc": ["un"], "cue": "un / una"}], "pista": "-ma again.", "why": "**un** problema."}, {"t": "gap", "en": null, "es": "La tensión entre las hermanas es cada vez más {0}.", "gaps": [{"acc": ["fuerte", "intensa"], "cue": "strong"}], "pista": "Fuerte has one form for both genders; intensa must agree.", "why": "**fuerte** (or intensa: feminine like “tensión”)."}, {"t": "gap", "en": null, "es": "Las hijas de Bernarda viven {0} en la casa.", "gaps": [{"acc": ["encerradas"], "cue": "encerrado"}], "pista": "Agree with “las hijas”.", "why": "**encerradas** (feminine plural)."}, {"t": "gap", "en": null, "es": "María Josefa está {0} en su cuarto.", "gaps": [{"acc": ["encerrada"], "cue": "encerrado"}], "pista": "Agree with María Josefa.", "why": "**encerrada**."}, {"t": "gap", "en": null, "es": "Para Bernarda, la honra es {0} importante que la felicidad.", "gaps": [{"acc": ["más"], "cue": "more"}], "pista": "Más (more) has an accent; mas (but) does not.", "why": "**más** importante."}]}, {"tab": "2 · Acentos", "h2": "2 · Acentos que cambian el sentido", "intro": "These pairs are different words. A missing accent is a different word, and an examiner reads it as an error.", "rule": "**él** (he) / el (the) · **está** (is) / esta (this) · **sí** (yes, himself) / si (if) · **sé** (I know) / se · **qué, quién, cómo, dónde** in questions and indirect questions / que, quien… · **más** (more) / mas (but) · **también**, **así**, **después** always have an accent.", "items": [{"t": "gap", "en": null, "es": "Bernarda {0} convencida de que nadie sabe nada.", "gaps": [{"acc": ["está"], "cue": "is"}], "pista": "The verb, not “this”.", "why": "**está** (verb estar)."}, {"t": "gap", "en": null, "es": "Pepe nunca aparece, pero todo gira en torno a {0}.", "gaps": [{"acc": ["él"], "cue": "him"}], "pista": "The pronoun, not the article.", "why": "en torno a **él**."}, {"t": "gap", "en": null, "es": "Martirio no sabe {0} decir la verdad o callar.", "gaps": [{"acc": ["si"], "cue": "whether"}], "pista": "“Whether / if”, not “yes”.", "why": "**si** (whether): no accent."}, {"t": "gap", "en": null, "es": "Bernarda no entiende {0} pasa en su propia casa.", "gaps": [{"acc": ["qué", "lo que"], "cue": "what"}], "pista": "An indirect question: no entiende ¿qué pasa?", "why": "**qué** (indirect question) or lo que."}, {"t": "gap", "en": null, "es": "Adela piensa solo en {0} misma y en Pepe.", "gaps": [{"acc": ["sí"], "cue": "herself"}], "pista": "The reflexive pronoun after a preposition.", "why": "en **sí** misma (with accent)."}, {"t": "gap", "en": null, "es": "La Poncia {0} es víctima de la clase social.", "gaps": [{"acc": ["también"], "cue": "also"}], "pista": "Always with an accent.", "why": "**también**."}, {"t": "gap", "en": null, "es": "Bernarda le responde a La Poncia: «¡Yo sí {0} mi fin!»", "gaps": [{"acc": ["sé"], "cue": "I know"}], "pista": "The verb saber, not the pronoun se.", "why": "**sé** (I know) has an accent; se (pronoun) does not. Here sí (yes, indeed) has one too."}, {"t": "gap", "en": null, "es": "¿{0} es responsable de la muerte de Adela?", "gaps": [{"acc": ["Quién"], "cue": "Who"}], "pista": "A direct question: accent.", "why": "¿**Quién**…?"}]}, {"tab": "3 · Ser, estar, por, para", "h2": "3 · Ser / estar · por / para", "intro": "Two pairs that English speakers mix up all the time.", "rule": "**ser**: what something is (identity, characteristics, events) · **estar**: state, result, place.<br>**por**: cause, means, through, in exchange for · **para**: purpose, destination, deadline, “in order to”.", "items": [{"t": "gap", "en": null, "es": "La casa {0} un símbolo de la prisión.", "gaps": [{"acc": ["es"], "cue": "ser / estar"}], "pista": "Identity: what the house is.", "why": "**es**."}, {"t": "gap", "en": null, "es": "Las hermanas {0} aburridas y cansadas del calor.", "gaps": [{"acc": ["están"], "cue": "ser / estar"}], "pista": "A state, at this moment.", "why": "**están**."}, {"t": "gap", "en": null, "es": "Pepe se casa con Angustias {0} el dinero.", "gaps": [{"acc": ["por"], "cue": "por / para"}], "pista": "The cause or motive: because of the money.", "why": "**por** el dinero: cause («viene por el dinero»)."}, {"t": "gap", "en": null, "es": "Bernarda vigila a sus hijas {0} proteger la honra de la familia.", "gaps": [{"acc": ["para"], "cue": "por / para"}], "pista": "In order to: purpose.", "why": "**para** + infinitive: purpose."}, {"t": "gap", "en": null, "es": "Pepe habla con Angustias {0} la reja.", "gaps": [{"acc": ["por"], "cue": "por / para"}], "pista": "Through the bars.", "why": "**por** la reja: through."}, {"t": "gap", "en": null, "es": "El ajuar es {0} la boda de Angustias.", "gaps": [{"acc": ["para"], "cue": "por / para"}], "pista": "Destination: who or what is it for?", "why": "**para** la boda."}, {"t": "gap", "en": null, "es": "Adela muere {0} amor.", "gaps": [{"acc": ["por"], "cue": "por / para"}], "pista": "The cause.", "why": "**por** amor."}, {"t": "gap", "en": null, "es": "La boda de Angustias va a {0} pronto.", "gaps": [{"acc": ["ser"], "cue": "ser / estar"}], "pista": "An event taking place.", "why": "**ser**: events."}]}, {"tab": "4 · Anglicismos", "h2": "4 · Falsos amigos y anglicismos", "intro": "These English words in disguise are among the commonest errors in A-Level essays. Choose the Spanish that really means what you want to say.", "items": [{"t": "mc", "q": "“Bernarda realises that Adela has been with Pepe.” → Bernarda ___ de que Adela ha estado con Pepe.", "opts": ["se da cuenta", "realiza", "se realiza"], "a": 0, "pista": "«Realizar» means to carry out, to make happen.", "why": "To realise = **darse cuenta de**. «Realizar» = to carry out (realizar un proyecto)."}, {"t": "mc", "q": "“Actually, Martirio loves Pepe too.” → ___, Martirio también quiere a Pepe.", "opts": ["En realidad", "Actualmente", "Actual"], "a": 0, "pista": "«Actualmente» means «nowadays».", "why": "Actually = **en realidad** (de hecho). Actualmente = currently, nowadays."}, {"t": "mc", "q": "“Eventually, Adela kills herself.” → ___, Adela se suicida.", "opts": ["Al final", "Eventualmente", "Eventual"], "a": 0, "pista": "«Eventualmente» means “possibly, if the case arises”.", "why": "Eventually = **al final / finalmente**. Eventualmente = possibly, occasionally."}, {"t": "mc", "q": "“The play is set in a village in Andalusia.” → La obra ___ en un pueblo andaluz.", "opts": ["se desarrolla", "está puesta", "se pone"], "a": 0, "pista": "What verb describes where the action takes place?", "why": "**se desarrolla** (transcurre, tiene lugar)."}, {"t": "mc", "q": "“Lorca introduces Pepe through the other characters.” → Lorca ___ a Pepe a través de los otros personajes.", "opts": ["presenta", "introduce", "introduces"], "a": 0, "pista": "«Introducir» means to insert, to put in.", "why": "To introduce a character = **presentar**. Introducir = to insert (introducir una llave)."}, {"t": "mc", "q": "“The daughters cannot stand the heat.” → Las hijas no ___ el calor.", "opts": ["soportan", "apoyan", "sostienen"], "a": 0, "pista": "«Apoyar» means to support an idea or a person.", "why": "To stand (bear) = **soportar** (aguantar). Apoyar = to support."}, {"t": "mc", "q": "“The play deals with the role of women.” → La obra ___ el papel de la mujer.", "opts": ["trata de", "es acerca", "se trata de"], "a": 0, "pista": "«Se trata de» is impersonal (it's about); with a subject (“la obra”), use the other.", "why": "La obra **trata de** (o trata sobre). «Se trata de» has no subject: “Se trata de una tragedia”."}, {"t": "mc", "q": "“Bernarda is very conscious of what people will say.” → Bernarda ___ muy pendiente del qué dirán.", "opts": ["está", "es consciente", "es"], "a": 0, "pista": "“Estar pendiente de”: to be constantly attentive to.", "why": "**está** pendiente de (or es muy consciente de)."}]}]};</script>
+<script>
+(function(){
+"use strict";
+var KEY = D.key;
+var S = {v:1, it:{}, tab:null, pub:false};
+try{ var raw=localStorage.getItem(KEY); if(raw){ var o=JSON.parse(raw); if(o&&o.v===1) S=o; } }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function nfc(s){ return (s||"").normalize ? s.normalize("NFC") : (s||""); }
+function deacc(s){ return nfc(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function clean(s){ return nfc(s).toLowerCase().replace(/[¡!¿?.,;:«»"“”()\[\]…]/g," ").replace(/\s+/g," ").trim(); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmt(s){ return esc(s).replace(/&lt;br&gt;/g,"<br>").replace(/\*\*(.+?)\*\*/g,"<b>$1</b>"); }
+function h(tag, attrs, html){ var e=document.createElement(tag); if(attrs) for(var k in attrs){ if(k==="class") e.className=attrs[k]; else e.setAttribute(k,attrs[k]); } if(html!=null) e.innerHTML=html; return e; }
+/* strict judge: exact (case, spacing, punctuation ignored) or accent-only slip */
+function judge(given, acc){
+  var g=clean(given); if(!g) return "blank";
+  for(var i=0;i<acc.length;i++){ if(g===clean(acc[i])) return "ok"; }
+  for(i=0;i<acc.length;i++){ if(deacc(g)===deacc(clean(acc[i]))) return "accent"; }
+  return "no";
+}
+var ITEMS=[], SECS=[];
+function fbBox(card){ var f=card.querySelector(".fb"); if(!f){ f=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(f); } return f; }
+function wire(it){
+  var st = S.it[it.id] || (S.it[it.id]={st:null, tries:0, first:false, given:null});
+  it.state = st;
+  it.run = function(){
+    if(st.st) return;
+    var r = it.check(); if(r==="blank") return;
+    st.tries++; st.given = it.given();
+    var fb = fbBox(it.card);
+    if(r==="ok"){ st.st="ok"; st.first=(st.tries===1); it.lock(true);
+      fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correcto</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+      it.card.classList.add("ok"); save(); refresh(); return; }
+    if(st.tries<2){
+      fb.className="fb ui show hint";
+      fb.innerHTML='<span class="tag ht">Pista</span>'+(r==="accent"?"Almost: the right form, but check the accent. ":"Not yet. ")+fmt(it.pista||"");
+      it.mark(); save(); return; }
+    st.st="rev"; it.lock(false); it.reveal();
+    fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Respuesta</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+    it.card.classList.add("rev"); save(); refresh();
+  };
+  it.restore = function(){
+    if(!st.st) return; it.setGiven(st.given);
+    var fb=fbBox(it.card);
+    if(st.st==="ok"){ it.lock(true); it.card.classList.add("ok"); fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correcto</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+    else { it.lock(false); it.reveal(); it.card.classList.add("rev"); fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Respuesta</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+  };
+  ITEMS.push(it);
+}
+function controls(card, it){
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Comprobar");
+  var p=h("button",{"class":"g",type:"button"},"Pista");
+  b.addEventListener("click", function(){ it.run(); });
+  p.addEventListener("click", function(){ var fb=fbBox(card); if(it.state.st) return; fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>'+fmt(it.pista||""); });
+  row.appendChild(b); row.appendChild(p); card.appendChild(row);
+  it.btns=[b,p];
+}
+function gapItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  var parts=Q.es.split(/\{(\d+)\}/), html='<span class="qn">'+n+' ·</span>';
+  for(var i=0;i<parts.length;i++){
+    if(i%2===0) html+=fmt(parts[i]);
+    else { var g=Q.gaps[+parts[i]]; html+='<input type="text" data-g="'+parts[i]+'" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="hueco '+(+parts[i]+1)+'">'+(g.cue?' <span class="cue">('+esc(g.cue)+')</span>':""); }
+  }
+  var s=h("div",{"class":"sent"},html); card.appendChild(s);
+  var inputs=[].slice.call(s.querySelectorAll("input"));
+  var it={id:id, sec:sec, card:card, q:Q.es.replace(/\{\d+\}/g,"___"), pista:Q.pista, why:Q.why};
+  it.given=function(){ return inputs.map(function(x){return x.value.trim();}).join(" | "); };
+  it.setGiven=function(v){ (v||"").split(" | ").forEach(function(x,i){ if(inputs[i]) inputs[i].value=x; }); };
+  it.res=function(){ return inputs.map(function(x){ return judge(x.value, Q.gaps[+x.getAttribute("data-g")].acc); }); };
+  it.check=function(){ var r=it.res(); if(r.some(function(x){return x==="blank";})) { var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML="Fill in every gap first."; return "blank"; }
+    if(r.every(function(x){return x==="ok";})) return "ok"; if(r.every(function(x){return x==="ok"||x==="accent";})) return "accent"; return "no"; };
+  it.mark=function(){ var r=it.res(); inputs.forEach(function(x,i){ x.classList.toggle("okf",r[i]==="ok"); x.classList.toggle("badf",r[i]!=="ok"); }); };
+  it.lock=function(good){ inputs.forEach(function(x){ x.disabled=true; x.classList.toggle("okf",good); }); it.btns.forEach(function(b){ b.disabled=true; }); };
+  it.reveal=function(){ it.mark(); };
+  it.answerText=function(){ return "**"+Q.gaps.map(function(g){return g.acc[0];}).join(" … ")+"**"+(Q.gaps.some(function(g){return g.acc.length>1;})?" (also accepted: "+Q.gaps.map(function(g){return g.acc.slice(1).join(", ");}).filter(Boolean).join("; ")+")":"")+"."; };
+  it.ans=Q.gaps.map(function(g){return g.acc[0];}).join(" | ");
+  inputs.forEach(function(x){ x.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); it.run(); } }); });
+  controls(card,it); wire(it); return card;
+}
+function seeded(n,seed){ var a=[]; for(var i=0;i<n;i++) a.push(i); var x=seed; for(i=n-1;i>0;i--){ x=(x*9301+49297)%233280; var j=Math.floor(x/233280*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function mcItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  card.appendChild(h("div",null,'<span class="qn">'+n+' ·</span>'+fmt(Q.q)));
+  var box=h("div",{"class":"opts"}); var order=seeded(Q.opts.length, id.length*31+n*7), btns=[], sel=null;
+  order.forEach(function(k){ var b=h("button",{"class":"opt",type:"button"},fmt(Q.opts[k])); b._i=k; b.addEventListener("click",function(){ if(it.state.st) return; sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); it.run(); }); btns.push(b); box.appendChild(b); });
+  card.appendChild(box);
+  var it={id:id, sec:sec, card:card, q:Q.q, pista:Q.pista, why:Q.why};
+  it.given=function(){ return sel==null?"":Q.opts[sel]; };
+  it.setGiven=function(v){ var k=Q.opts.indexOf(v); if(k>=0){ sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); } };
+  it.check=function(){ return sel==null?"blank":(sel===Q.a?"ok":"no"); };
+  it.mark=function(){ btns.forEach(function(x){ if(x._i===sel) x.classList.add("wrong"); }); };
+  it.lock=function(){ btns.forEach(function(x){ x.disabled=true; if(x._i===Q.a) x.classList.add("right"); }); if(it.pb) it.pb.disabled=true; };
+  it.reveal=function(){};
+  it.answerText=function(){ return "**"+Q.opts[Q.a]+"**."; };
+  it.ans=Q.opts[Q.a];
+  var row=h("div",{"class":"ctl ui"}); var p=h("button",{"class":"g",type:"button"},"Pista"); it.pb=p;
+  p.addEventListener("click",function(){ if(it.state.st) return; var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>'+fmt(Q.pista||""); });
+  row.appendChild(p); card.appendChild(row);
+  wire(it); return card;
+}
+var main=document.getElementById("main"), tabs=document.getElementById("tabs");
+D.sections.forEach(function(sx, si){
+  var id="s"+(si+1);
+  var s=h("section",{"class":"ex",id:id}); s.appendChild(h("h2",null,esc(sx.h2)));
+  if(sx.intro) s.appendChild(h("p",{"class":"how ui"},fmt(sx.intro)));
+  if(sx.rule) s.appendChild(h("div",{"class":"rule"},fmt(sx.rule)));
+  var n=0;
+  sx.items.forEach(function(Q,qi){ n++; if(Q.h3) s.appendChild(h("h3",null,esc(Q.h3)));
+    s.appendChild(Q.t==="mc" ? mcItem(id,id+"_"+qi,n,Q) : gapItem(id,id+"_"+qi,n,Q)); });
+  var f=h("div",{"class":"secfoot ui"}), l=h("div"), r=h("div");
+  if(si>0) l.appendChild(h("button",{"class":"g",type:"button","data-go":"s"+si},"← Atrás"));
+  var rs=h("button",{"class":"g",type:"button"},"Reintentar esta sección");
+  rs.addEventListener("click",function(){ if(!rs._a){ rs._a=true; rs.textContent="Pulsa otra vez para borrar"; setTimeout(function(){ rs._a=false; rs.textContent="Reintentar esta sección"; },3000); return; }
+    ITEMS.filter(function(it){return it.sec===id;}).forEach(function(it){ delete S.it[it.id]; }); save(); location.reload(); });
+  l.appendChild(document.createTextNode(" ")); l.appendChild(rs);
+  if(si<D.sections.length-1) r.appendChild(h("button",{"class":"b",type:"button","data-go":"s"+(si+2)},"Siguiente →"));
+  else { var dl=h("button",{"class":"b",type:"button"},"Descargar mis respuestas"); dl.addEventListener("click",download); r.appendChild(dl); }
+  f.appendChild(l); f.appendChild(r); s.appendChild(f);
+  main.appendChild(s);
+  var tb=h("button",{type:"button",role:"tab","data-go":id},esc(sx.tab)+' <span class="n"></span>'); tabs.appendChild(tb);
+  SECS.push({id:id, el:s, tab:tb});
+});
+function totals(){ var tot=ITEMS.length, sc=0, first=0, done=0; ITEMS.forEach(function(it){ var st=it.state; if(st.st==="ok"){ sc++; done++; if(st.first) first++; } else if(st.st==="rev") done++; }); return {tot:tot,sc:sc,first:first,done:done}; }
+function refresh(){
+  var T=totals(); document.getElementById("sc").textContent=T.sc; document.getElementById("tot").textContent=T.tot; document.getElementById("first").textContent=T.first;
+  document.getElementById("bar").style.width=(T.tot?Math.round(100*T.sc/T.tot):0)+"%";
+  SECS.forEach(function(s){ var its=ITEMS.filter(function(it){return it.sec===s.id;}); var d=its.filter(function(it){return it.state.st;}).length, ok=its.filter(function(it){return it.state.st==="ok";}).length; s.tab.querySelector(".n").textContent=ok+"/"+its.length; s.tab.classList.toggle("done",d===its.length); });
+  publish();
+}
+function publish(){
+  try{ var T=totals(); var all=JSON.parse(localStorage.getItem("bba-scores")||"{}"); var f=decodeURIComponent(location.pathname.split("/").pop()||"index"); var prev=all[f]||{};
+    var rec={title:(document.title||"").slice(0,120), score:T.sc, total:T.tot, best:Math.max(T.sc,prev.best||0), attempts:(prev.attempts||0)+(S.pub?0:1), t:Date.now()};
+    var n=Math.max(0,T.done-(S.pubDone||0)); rec.ans=(prev.ans||0)+n; rec.lg={}; for(var k in (prev.lg||{})) rec.lg[k]=prev.lg[k];
+    var day=String(Math.floor(Date.now()/86400000)); if(n) rec.lg[day]=(rec.lg[day]||0)+n;
+    all[f]=rec; localStorage.setItem("bba-scores",JSON.stringify(all)); S.pub=true; S.pubDone=T.done; save(); }catch(e){}
+}
+function studentName(){ var nm=document.querySelector("#bba-kit .nm"); var v=nm&&nm.value.trim(); if(!v){ try{ v=localStorage.getItem("bba-name")||""; }catch(e){} } return v||""; }
+function download(){
+  var T=totals(), name=studentName(), L=[];
+  L.push(D.dlhead); L.push("Nombre: "+(name||"(sin nombre)")); L.push("Fecha: "+new Date().toLocaleString("es-ES")); L.push("Puntos: "+T.sc+" / "+T.tot+"  ·  a la primera: "+T.first); L.push("");
+  SECS.forEach(function(s){ L.push("== "+s.el.querySelector("h2").textContent+" ==");
+    ITEMS.filter(function(it){return it.sec===s.id;}).forEach(function(it,i){ var st=it.state;
+      var mark=st.st==="ok"?(st.first?"✓":"✓ (2.º intento)"):st.st==="rev"?"✗ → "+it.ans:"— sin responder";
+      L.push((i+1)+". "+it.q.replace(/\*\*/g,"").replace(/\s+/g," ").slice(0,160)); L.push("   Respuesta: "+(it.given()||"—")+"   ["+mark+"]"); });
+    L.push(""); });
+  var blob=new Blob([L.join("\r\n")],{type:"text/plain;charset=utf-8"}); var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download=D.dlfile+(name||"sin_nombre").replace(/[^\wÁÉÍÓÚÑáéíóúñ-]+/g,"_")+".txt"; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },500);
+}
+function go(id){ SECS.forEach(function(s){ var on=s.id===id; s.el.classList.toggle("active",on); s.tab.setAttribute("aria-selected",on?"true":"false"); }); S.tab=id; save();
+  var nav=document.getElementById("tabs"); if(window.scrollY>nav.offsetTop) window.scrollTo({top:nav.offsetTop,behavior:"smooth"}); }
+document.addEventListener("click",function(e){ var b=e.target.closest("[data-go]"); if(b){ e.preventDefault(); go(b.getAttribute("data-go")); } });
+ITEMS.forEach(function(it){ it.restore(); });
+go(S.tab && document.getElementById(S.tab) ? S.tab : "s1"); refresh();
+window.LCDBA={items:ITEMS, totals:totals, judge:judge};
+})();
+</script>
 <script src="bba-kit-es.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
 </body>

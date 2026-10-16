@@ -1,690 +1,285 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La casa de Bernarda Alba - Práctica de frases para ensayo</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
-    <style>
-        :root {
-            --primary: #8e44ad;
-            --secondary: #3498db;
-            --success: #2ecc71;
-            --warning: #f39c12;
-            --danger: #e74c3c;
-            --light: #ecf0f1;
-            --dark: #2c3e50;
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: var(--dark);
-            line-height: 1.6;
-            padding: 20px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            padding: 30px;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            padding: 30px;
-            margin: -30px -30px 30px -30px;
-            border-radius: 0 0 15px 15px;
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-        }
-        
-        .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .instructions {
-            background: var(--light);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            border-left: 5px solid var(--secondary);
-        }
-        
-        .instructions h2 {
-            color: var(--secondary);
-            margin-bottom: 10px;
-        }
-        
-        .instructions ul {
-            padding-left: 20px;
-        }
-        
-        .instructions li {
-            margin-bottom: 8px;
-        }
-        
-        .progress-container {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            border: 1px solid #e0e0e0;
-        }
-        
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-weight: bold;
-            color: var(--dark);
-        }
-        
-        .progress-bar {
-            height: 20px;
-            background: #e0e0e0;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(to right, var(--secondary), var(--primary));
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-        
-        .question {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-            border: 1px solid #e0e0e0;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .question:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .question-number {
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .sentence {
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-            line-height: 1.8;
-        }
-        
-        .input-container {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-        
-        input {
-            min-width: 150px;
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-        
-        input:focus {
-            outline: none;
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-        }
-        
-        button {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .check-btn {
-            background: var(--secondary);
-            color: white;
-        }
-        
-        .check-btn:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-        }
-        
-        .hint-btn {
-            background: var(--warning);
-            color: white;
-        }
-        
-        .hint-btn:hover {
-            background: #e67e22;
-            transform: translateY(-2px);
-        }
-        
-        .hint {
-            background: #fff9e6;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            border-left: 4px solid var(--warning);
-            display: none;
-        }
-        
-        .hint.show {
-            display: block;
-        }
-        
-        .status {
-            font-weight: 500;
-            padding: 8px 12px;
-            border-radius: 6px;
-            margin-top: 10px;
-            display: inline-block;
-        }
-        
-        .correct {
-            background: rgba(46, 204, 113, 0.15);
-            color: #27ae60;
-        }
-        
-        .incorrect {
-            background: rgba(231, 76, 60, 0.15);
-            color: #c0392b;
-        }
-        
-        .attempts {
-            font-size: 0.9rem;
-            color: #7f8c8d;
-            font-style: italic;
-        }
-        
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .pdf-btn {
-            background: var(--primary);
-            color: white;
-            padding: 15px 30px;
-            font-size: 1.1rem;
-        }
-        
-        .pdf-btn:hover {
-            background: #9b59b6;
-            transform: translateY(-2px);
-        }
-        
-        .reset-btn {
-            background: var(--dark);
-            color: white;
-            padding: 15px 30px;
-            font-size: 1.1rem;
-        }
-        
-        .reset-btn:hover {
-            background: #34495e;
-            transform: translateY(-2px);
-        }
-        
-        .question.correct-border {
-            border: 2px solid var(--success);
-        }
-        
-        .question.incorrect-border {
-            border: 2px solid var(--danger);
-        }
-        
-        .completion-message {
-            text-align: center;
-            padding: 20px;
-            background: rgba(46, 204, 113, 0.1);
-            border-radius: 10px;
-            margin-top: 20px;
-            border: 2px dashed var(--success);
-            display: none;
-        }
-        
-        .completion-message.show {
-            display: block;
-        }
-        
-        .answer-reveal {
-            background: rgba(52, 152, 219, 0.1);
-            padding: 10px 15px;
-            border-radius: 6px;
-            margin-top: 10px;
-            color: var(--secondary);
-            border-left: 3px solid var(--secondary);
-            display: none;
-        }
-        
-        .answer-reveal.show {
-            display: block;
-        }
-        
-        .input-wrapper {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-            
-            header {
-                padding: 20px;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .input-container {
-                flex-direction: column;
-            }
-            
-            input {
-                width: 100%;
-            }
-            
-            .controls {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La casa de Bernarda Alba · 50 frases para el ensayo</title>
+<meta name="description" content="A-Level Spanish: fifty essay sentences on La casa de Bernarda Alba with the key verb, structure or connector missing, with pistas and explanations.">
+<style>
+:root{
+  --paper:#f6f1e7; --card:#fffdf8; --ink:#2a2320; --soft:#6a5a4c; --line:#dcd0bb;
+  --ox:#6e1f2a; --ox2:#8f3340; --oxs:#f4e4e4; --green:#1f4d3a; --gs:#e3efe8;
+  --gold:#a8843a; --golds:#f7efd9; --bad:#a23b2a; --bads:#fbe9e5; --ok:#226a43;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+.ui{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:22px 16px 160px}
+header{border-bottom:3px double var(--ox);padding-bottom:14px;margin-bottom:8px}
+.kicker{font:600 12px/1.2 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ox)}
+h1{font-size:31px;line-height:1.15;margin:6px 0 6px;color:var(--ox)}
+.lead{color:var(--soft);margin:0 0 4px;font:15px/1.55 system-ui,sans-serif}
+.score{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:10px;font:14px system-ui,sans-serif;color:var(--soft)}
+.score b{color:var(--ink);font-size:16px}
+.meter{flex:1 1 180px;height:8px;background:#e8dfcf;border-radius:99px;overflow:hidden;min-width:140px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#2f7a58);transition:width .4s}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 12px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+nav.tabs button{font:600 13.5px system-ui,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 12px;cursor:pointer;display:flex;gap:6px;align-items:center}
+nav.tabs button .n{font-weight:500;color:var(--soft);font-size:12px}
+nav.tabs button[aria-selected="true"]{background:var(--ox);border-color:var(--ox);color:#fff}
+nav.tabs button[aria-selected="true"] .n{color:#f1d7d9}
+nav.tabs button.done:not([aria-selected="true"]){border-color:var(--green);color:var(--green)}
+section.ex{display:none}
+section.ex.active{display:block}
+h2{font-size:24px;margin:4px 0 6px;color:var(--green)}
+h3{font:700 13px system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ox);margin:22px 0 8px}
+.how{font:15px/1.55 system-ui,sans-serif;color:var(--soft);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;position:relative}
+.card.ok{border-color:#9cc7ae;background:#fbfefc}
+.card.rev{border-color:#e3b6ad}
+.card .qn{font:700 13px system-ui,sans-serif;color:var(--ox);margin-right:6px}
+.quote{font-style:italic}
+blockquote{margin:2px 0 10px;padding:6px 0 6px 14px;border-left:3px solid var(--gold);font-style:italic;font-size:18px}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:10px}
+input[type=text],select,textarea{font:16px Georgia,serif;color:var(--ink);background:#fff;border:1px solid #bdae95;border-radius:7px;padding:7px 10px;max-width:100%}
+input[type=text]{width:15em}
+input.w8{width:8.5em} input.w6{width:7em}
+input.okf{border-color:var(--ok);background:#f2faf5} input.badf{border-color:var(--bad);background:var(--bads)}
+textarea{width:100%;min-height:200px;resize:vertical;line-height:1.6}
+button.b{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 13px;cursor:pointer;border:1px solid var(--ox);background:var(--ox);color:#fff}
+button.b:disabled{opacity:.45;cursor:default}
+button.g{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--green)}
+button.g:disabled{opacity:.45;cursor:default}
+.opts{display:grid;gap:7px;margin-top:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;font:15.5px/1.45 system-ui,sans-serif;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 12px;cursor:pointer;color:var(--ink)}
+.opt:before{content:"";flex:0 0 16px;height:16px;border:2px solid #b8a98f;border-radius:50%;margin-top:2px}
+.opt.sel{border-color:var(--ox);background:var(--oxs)}
+.opt.sel:before{border-color:var(--ox);background:radial-gradient(var(--ox) 45%,transparent 50%)}
+.opt.right{border-color:var(--ok);background:#eef8f2}
+.opt.wrong{border-color:var(--bad);background:var(--bads)}
+.opt:disabled{cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font:600 13px system-ui,sans-serif;border:1px solid #c9bba3;background:#fff;color:var(--soft);border-radius:999px;padding:6px 11px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.chip.core{outline:2px solid var(--ok);outline-offset:1px}
+.chip.acc{outline:2px dashed var(--gold);outline-offset:1px}
+.chip.wrongc{background:var(--bad);border-color:var(--bad);color:#fff}
+.chip:disabled{cursor:default}
+.fb{margin-top:10px;font:14.5px/1.55 system-ui,sans-serif;border-radius:8px;padding:9px 12px;display:none}
+.fb.show{display:block}
+.fb.okb{background:var(--gs);color:#163a2b}
+.fb.hint{background:var(--golds);color:#4d3c14}
+.fb.revb{background:var(--bads);color:#5a1d12}
+.fb .why{margin-top:6px;color:#2b2a26}
+.tag{display:inline-block;font:700 11px system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-right:6px}
+.tag.okt{background:var(--ok);color:#fff}.tag.ht{background:var(--gold);color:#fff}.tag.rt{background:var(--bad);color:#fff}
+.legend{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:14.5px/1.55 system-ui,sans-serif;margin-bottom:10px}
+.legend b{color:var(--ox)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}
+.who{font:13px system-ui,sans-serif;color:var(--soft)}
+.tr{line-height:2.25;font-size:17px;background:#faf6ee;border-left:3px solid var(--gold);padding:6px 12px;border-radius:4px;margin-top:6px}
+.secfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0 6px;flex-wrap:wrap}
+.reto{border:2px solid var(--ox);background:#fff}
+.reto .rt2{font:700 12px system-ui,sans-serif;letter-spacing:.16em;color:var(--ox)}
+.check li{margin:4px 0;list-style:none;padding-left:0}
+.check{padding:0;margin:10px 0 0;font:14.5px/1.5 system-ui,sans-serif}
+.check li:before{content:"○ ";color:#b8a98f;font-weight:700}
+.check li.on:before{content:"● ";color:var(--ok)}
+.check li.warn:before{content:"● ";color:var(--bad)}
+.qcheck{font:14px/1.5 system-ui,sans-serif;margin-top:8px}
+.qcheck div{padding:3px 0}
+.qcheck .y{color:var(--ok)} .qcheck .n{color:var(--bad)}
+.titles label{display:flex;gap:8px;align-items:flex-start;font:15.5px/1.45 Georgia,serif;margin:6px 0;cursor:pointer}
+.tips{font:14.5px/1.55 system-ui,sans-serif;background:var(--oxs);border-radius:8px;padding:10px 12px;margin:10px 0}
+.res{font:15px/1.6 system-ui,sans-serif}
+.res table{border-collapse:collapse;width:100%;margin:8px 0}
+.res td,.res th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+.src{font:13px/1.5 system-ui,sans-serif;color:var(--soft);margin-top:22px}
+@media (max-width:640px){h1{font-size:25px}.cols{grid-template-columns:1fr}input[type=text]{width:100%}input.w8,input.w6{width:8em}nav.tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}nav.tabs::-webkit-scrollbar{display:none}nav.tabs button{padding:6px 10px;font-size:12.5px;flex:0 0 auto;white-space:nowrap}}
+@media print{nav.tabs,.secfoot,button{display:none!important}section.ex{display:block!important}}
+</style>
+<style>
+.sent{font-size:18px;line-height:2.1}
+.sent input{width:9em;font-size:16px;padding:4px 8px;margin:0 2px}
+.en{font:14px/1.45 system-ui,sans-serif;color:var(--soft);margin:0 0 4px}
+.cue{font:13px system-ui,sans-serif;color:var(--soft)}
+.rule{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:8px;padding:10px 14px;font:14.5px/1.55 system-ui,sans-serif;margin:6px 0 12px}
+</style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>La casa de Bernarda Alba - Práctica de frases para ensayo</h1>
-            <p class="subtitle">Escribe la palabra o expresión correcta en cada espacio. Tendrás dos intentos para cada frase.</p>
-        </header>
-        
-        <div class="instructions">
-            <h2>Instrucciones:</h2>
-            <ul>
-                <li>Completa cada frase con la palabra o expresión correcta.</li>
-                <li>Tienes <strong>dos intentos</strong> para cada pregunta.</li>
-                <li>Después de dos intentos incorrectos, se revelará la respuesta correcta.</li>
-                <li>Utiliza el botón <strong>"Mostrar pista"</strong> si necesitas ayuda.</li>
-                <li>Tu progreso se guarda automáticamente.</li>
-                <li>Al finalizar, genera un PDF con tus resultados usando el botón <strong>"Generar PDF"</strong>.</li>
-            </ul>
-        </div>
-        
-        <div class="progress-container">
-            <div class="progress-header">
-                <span>Progreso: <span id="progress-text">0%</span></span>
-                <span>Respuestas: <span id="score-text">0/50</span></span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill"></div>
-            </div>
-        </div>
-        
-        <div id="questions-container"></div>
-        
-        <div class="completion-message" id="completion-message">
-            <h2>¡Felicidades! Has completado todas las preguntas.</h2>
-            <p>Genera tu reporte en PDF para ver tus resultados detallados.</p>
-        </div>
-        
-        <div class="controls">
-            <button class="pdf-btn" id="generate-pdf">Generar PDF con resultados</button>
-            <button class="reset-btn" id="reset-btn">Reiniciar práctica</button>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Questions data with hints and answers
-            const questions = [
-                { id: 1, text: "Bernarda Alba impone un luto riguroso que ________ la represión y el control sobre sus hijas.", hint: "Hint: This verb means 'symbolises' and is in the present tense.", answer: "simboliza,representa" },
-                { id: 2, text: "Es esencial que el lector ________ el contexto histórico de la España rural de los años 30.", hint: "Hint: This verb means 'to understand' and is in the present subjunctive.", answer: "comprenda,entienda" },
-                { id: 3, text: "Adela se rebela contra las normas establecidas como si ________ derecho a ser feliz.", hint: "Hint: This verb means 'to have' and is in the imperfect subjunctive.", answer: "tuviera" },
-                { id: 4, text: "La obra muestra una sociedad en la que las mujeres ________ sometidas a la autoridad masculina, representada por Bernarda", hint: "Hint: This verb means 'to be' and is in the present indicative.", answer: "son,están" },
-                { id: 5, text: "Aunque ________ muchas restricciones, Adela busca su libertad a toda costa.", hint: "Hint: This verb means 'there are' and is in the present subjunctive.", answer: "haya" },
-                { id: 6, text: "Es probable que Lorca ________ criticar la opresión de la mujer en la sociedad tradicional.", hint: "Hint: This verb means 'to want' and is in the present subjunctive.", answer: "quiera" },
-                { id: 7, text: "La relación entre las hermanas se deteriora hasta que ________ enemigas entre sí.", hint: "Hint: This verb means 'to become' and is in the present subjunctive.", answer: "sean,se conviertan en,vuelvan ser,vuelven ser,son,se convierten en" },
-                { id: 8, text: "Es importante que el espectador ________ el simbolismo del color blanco y negro en la obra.", hint: "Hint: This verb means 'to notice' and is in the present subjunctive.", answer: "note,observe,perciba" },
-                { id: 9, text: "La Poncia actúa como si ________ más sobre los secretos de la familia.", hint: "Hint: This verb means 'to know' and is in the imperfect subjunctive.", answer: "supiera" },
-                { id: 10, text: "No cabe duda de que Bernarda ________ el personaje más autoritario de la obra.", hint: "Hint: This verb means 'to be' and is in the present indicative.", answer: "es" },
-                { id: 11, text: "Me sorprende que Pepe el Romano no ________ en escena nunca.", hint: "Hint: This verb means 'to appear' and is in the present subjunctive.", answer: "aparezca" },
-                { id: 12, text: "El calor sofocante hace que la atmósfera ________ aún más opresiva.", hint: "Hint: This verb means 'to feel' and is in the present subjunctive.", answer: "se sienta" },
-                { id: 13, text: "Es significativo que la obra ________ escrita en 1936, poco antes de la Guerra Civil.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" },
-                { id: 14, text: "Martirio confiesa que ________ celos de su hermana Adela.", hint: "Hint: This verb means 'to feel' and is in the present indicative.", answer: "siente" },
-                { id: 15, text: "No es que Bernarda ________ mala madre, sino que sigue ciegamente las convenciones sociales.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" },
-                { id: 16, text: "La obra sugiere que la represión sexual ________ a consecuencias trágicas.", hint: "Hint: This verb means 'to lead' and is in the present indicative.", answer: "lleva,conduce" },
-                { id: 17, text: "Es posible que el final de la obra ________ el más impactante del teatro lorquiano.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" },
-                { id: 18, text: "Lorca utiliza símbolos para que el público ________ la crítica social de manera indirecta.", hint: "Hint: This verb means 'to perceive' and is the present subjunctive.", answer: "perciba,comprenda" },
-                { id: 19, text: "A pesar de que ________ mucho tiempo desde su escritura, la obra sigue siendo relevante.", hint: "Hint: This verb means 'to pass' and is in the present subjunctive.", answer: "haya pasado" },
-                { id: 20, text: "La casa funciona como una metáfora que ________ la prisión en que viven las mujeres.", hint: "Hint: This verb means 'to represent' and is in the present indicative.", answer: "representa" },
-                { id: 21, text: "No me extraña que Adela ________ el único personaje que desafía abiertamente a Bernarda.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" },
-                { id: 22, text: "Es evidente que Lorca ________ muy consciente de las desigualdades de género.", hint: "Hint: This verb means 'to be' and is in the imperfect indicative.", answer: "era" },
-                { id: 23, text: "Angustias actúa como si ________ el derecho a heredar toda la fortuna. (in fact, she does have the right, as she inherited the money from Bernarda's first husband", hint: "Hint: This verb means 'to have' and is in the imperfect subjunctive.", answer: "tuviera" },
-                { id: 24, text: "La obra plantea que la honra ________ más importante que la felicidad individual.", hint: "Hint: This verb means 'to be' and is in the present indicative.", answer: "es" },
-                { id: 25, text: "Es imprescindible que el lector ________ el paralelismo entre la casa y la sociedad española.", hint: "Hint: This verb means 'to understand' and is in the present subjunctive.", answer: "comprenda,entienda" },
-                { id: 26, text: "Bernarda exige que sus hijas ________ el luto durante ocho años.", hint: "Hint: This verb means 'to keep' and is in the present subjunctive.", answer: "guarden,mantengan,observen" },
-                { id: 27, text: "No dudo que esta obra ________ una de las más importantes del teatro español.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" },
-                { id: 28, text: "Bernarda dice que los hombres en el pueblo no ________ dignos de sus hijas.", hint: "Hint: This verb means 'to be' and is in the present indicative.", answer: "son" },
-                { id: 29, text: "Es curioso que Pepe el Romano no ________ físicamente en la obra.", hint: "Hint: This verb means 'to appear' and is in the present subjunctive.", answer: "aparezca" },
-                { id: 30, text: "Magdalena confiesa que ________ cansada de sufrir.", hint: "Hint: This verb means 'to be' and is in the present indicative.", answer: "está" },
-                { id: 31, text: "Parece mentira que Bernarda ________ capaz de controlar hasta los sentimientos de sus hijas.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" },
-                { id: 32, text: "La obra muestra cómo las convenciones sociales ________ la vida de las mujeres.", hint: "Hint: This verb means 'to limit' and is in the present indicative.", answer: "limitan,determinan" },
-                { id: 33, text: "Es probable que Lorca ________ inspirado en mujeres reales para crear sus personajes.", hint: "Hint: This verb means 'to be' and is in the present perfect subjunctive.", answer: "se haya,haya sido" },
-                { id: 34, text: "Adela ________ victima de la oppresión e hipocresía materna y la perfidia de su hermana.", hint: "Hint: This verb means 'to die'.", answer: "muere" },
-                { id: 35, text: "No es cierto que las hermanas ________ bien entre sí antes de la llegada de Pepe.", hint: "Hint: This verb means 'to get along' and is in the imperfect subjunctive.", answer: "se llevaran" },
-                { id: 36, text: "La Poncia advierte a Bernarda que sus hijas ________ rebelarse si las oprime demasiado.", hint: "Hint: This verb means 'can' and is in the future indicative.", answer: "pueden,podrán" },
-                { id: 37, text: "Es trágico que Adela ________ suicidarse como única forma de rebelión.", hint: "Hint: This verb means 'to decide' and is in the present subjunctive.", answer: "decida" },
-                { id: 38, text: "La obra sugiere que la represión ________ inevitablemente a la tragedia.", hint: "Hint: This verb means 'to lead' and is in the present indicative.", answer: "lleva,conduce" },
-                { id: 39, text: "No pienso que Bernarda ________ consciente del daño que causa a sus hijas.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" },
-                { id: 40, text: "Es obvio que Lorca ________ una denuncia social a través de esta obra.", hint: "Hint: This verb means 'to make' and is in the present indicative.", answer: "hace" },
-                { id: 41, text: "Me emociona que esta obra todavía ________ relevante en el siglo XXI.", hint: "Hint: This verb means 'to be' and is in the present subjunctive.", answer: "sea" },
-                { id: 42, text: "Las hijas viven como si ________ en una cárcel.", hint: "Hint: This verb means 'to be' and is in the imperfect subjunctive.", answer: "estuvieran" },
-                { id: 43, text: "Es importante que el público ________ el papel de la religión en la opresión femenina.", hint: "Hint: This verb means 'to understand' and is in the present subjunctive.", answer: "comprenda,entienda" },
-                { id: 44, text: "Bernarda insiste en que sus hijas ________ las apariencias por encima de todo.", hint: "Hint: This verb means 'to keep' and is in the present subjunctive.", answer: "guarden" },
-                { id: 45, text: "No hay duda de que el color blanco ________ la pureza impuesta.", hint: "Hint: This verb means 'to represent' and is in the present indicative.", answer: "representa" },
-                { id: 46, text: "Es posible que Lorca ________ esta obra como parte de su trilogía rural.", hint: "Hint: This verb means 'to conceive' and is in the imperfect subjunctive.", answer: "concibiera" },
-                { id: 47, text: "La obra plantea que la moral tradicional ________ más dañina que liberadora.", hint: "Hint: This verb means 'to be' and is in the present indicative.", answer: "es" },
-                { id: 48, text: "Adela actúa como si no ________ miedo a las consecuencias de sus actos.", hint: "Hint: This verb means 'to have' and is in the imperfect subjunctive.", answer: "tuviera" },
-                { id: 49, text: "Es fundamental que el lector ________ el contexto de la España pre-guerra civil.", hint: "Hint: This verb means 'to know' and is in the present subjunctive.", answer: "conozca" },
-                { id: 50, text: "La obra demuestra que la opresión ________ la esencia misma de la condición femenina de la época.", hint: "Hint: This verb means 'to be' and is in the imperfect.", answer: "era" }
-            ];
-
-            let userAnswers = Array(questions.length).fill().map(() => ({
-                attempts: 0,
-                correct: false,
-                answers: []
-            }));
-            
-            // Initialize the application
-            function init() {
-                renderQuestions();
-                updateProgress();
-                setupEventListeners();
-            }
-            
-            // Render all questions
-            function renderQuestions() {
-                const container = document.getElementById('questions-container');
-                container.innerHTML = '';
-                
-                questions.forEach((q, index) => {
-                    const questionEl = document.createElement('div');
-                    questionEl.className = 'question';
-                    questionEl.dataset.id = q.id;
-                    
-                    const inputHtml = `<input type="text" class="answer-input" data-id="${q.id}" 
-                        placeholder="escribe aquí" value="${userAnswers[index].answers.length > 0 ? 
-                        userAnswers[index].answers[userAnswers[index].answers.length - 1] : ''}">`;
-                    
-                    questionEl.innerHTML = `
-                        <div class="question-number">
-                            <span>Pregunta ${q.id}</span>
-                            <span class="attempts">Intentos: ${userAnswers[index].attempts}/2</span>
-                        </div>
-                        <div class="sentence">${q.text.replace('________', inputHtml)}</div>
-                        <div class="input-container">
-                            <button class="check-btn" data-id="${q.id}">Comprobar respuesta</button>
-                            <button class="hint-btn" data-id="${q.id}">Mostrar pista</button>
-                        </div>
-                        <div class="hint" data-id="${q.id}">${q.hint}</div>
-                        <div class="status" data-id="${q.id}"></div>
-                        <div class="answer-reveal" data-id="${q.id}">Respuesta correcta: <strong>${q.answer.split(',').join(' o ')}</strong></div>
-                    `;
-                    container.appendChild(questionEl);
-                    
-                    // Get elements for this question
-                    const input = questionEl.querySelector('.answer-input');
-                    const checkBtn = questionEl.querySelector('.check-btn');
-                    const statusEl = questionEl.querySelector('.status');
-                    
-                    // Disable if already answered correctly or used both attempts
-                    if (userAnswers[index].correct || userAnswers[index].attempts >= 2) {
-                        input.disabled = true;
-                        checkBtn.disabled = true;
-                        checkBtn.textContent = userAnswers[index].correct ? '✓ Correcto' : '✗ Incorrecto';
-                        checkBtn.style.background = userAnswers[index].correct ? 'var(--success)' : 'var(--danger)';
-                    }
-                    
-                    // Show status if attempts made
-                    if (userAnswers[index].attempts > 0) {
-                        const lastAnswer = userAnswers[index].answers[userAnswers[index].answers.length - 1];
-                        const isCorrect = checkAnswerCorrect(lastAnswer, q.answer);
-                        
-                        if (isCorrect) {
-                            statusEl.textContent = '✓ Correcto!';
-                            statusEl.className = 'status correct';
-                            questionEl.classList.add('correct-border');
-                        } else if (userAnswers[index].attempts >= 2) {
-                            statusEl.textContent = '✗ Incorrecto';
-                            statusEl.className = 'status incorrect';
-                            questionEl.classList.add('incorrect-border');
-                            questionEl.querySelector('.answer-reveal').classList.add('show');
-                        } else {
-                            statusEl.textContent = `✗ Inténtalo de nuevo. Te queda ${2 - userAnswers[index].attempts} intento${userAnswers[index].attempts === 1 ? '' : 's'}.`;
-                            statusEl.className = 'status incorrect';
-                        }
-                    }
-                });
-            }
-            
-            // Check if answer is correct (handles multiple correct answers)
-            function checkAnswerCorrect(userAnswer, correctAnswers) {
-                if (!userAnswer) return false;
-                const correctOptions = correctAnswers.split(',').map(a => a.trim().toLowerCase());
-                return correctOptions.includes(userAnswer.trim().toLowerCase());
-            }
-            
-            // Check user's answer for a question
-            function checkAnswer(questionId) {
-                const index = questionId - 1;
-                const input = document.querySelector(`.answer-input[data-id="${questionId}"]`);
-                const answer = input.value.trim();
-                
-                if (!answer) return;
-                
-                const question = questions[index];
-                const userAnswer = userAnswers[index];
-                
-                // If already answered correctly or used both attempts, do nothing
-                if (userAnswer.correct || userAnswer.attempts >= 2) return;
-                
-                // Record the attempt
-                userAnswer.attempts++;
-                userAnswer.answers.push(answer);
-                
-                // Check if answer is correct
-                userAnswer.correct = checkAnswerCorrect(answer, question.answer);
-                
-                // Update UI
-                renderQuestions();
-                updateProgress();
-            }
-            
-            // Show hint for a question
-            function showHint(questionId) {
-                const hint = document.querySelector(`.hint[data-id="${questionId}"]`);
-                hint.classList.toggle('show');
-            }
-            
-            // Update progress bar and score
-            function updateProgress() {
-                const answeredCount = userAnswers.filter(a => a.attempts > 0).length;
-                const correctCount = userAnswers.filter(a => a.correct).length;
-                const progress = (answeredCount / questions.length) * 100;
-                
-                document.getElementById('progress-text').textContent = `${Math.round(progress)}%`;
-                document.getElementById('score-text').textContent = `${correctCount}/${questions.length}`;
-                document.getElementById('progress-fill').style.width = `${progress}%`;
-                
-                // Show completion message if all questions answered
-                if (answeredCount === questions.length) {
-                    document.getElementById('completion-message').classList.add('show');
-                }
-            }
-            
-            // Generate PDF report
-            function generatePDF() {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
-                
-                // Title
-                doc.setFontSize(20);
-                doc.text("Resultados - La casa de Bernarda Alba", 105, 20, null, null, 'center');
-                doc.setFontSize(12);
-                doc.text("Fecha: " + new Date().toLocaleDateString(), 105, 28, null, null, 'center');
-                
-                // Summary statistics
-                const answeredCount = userAnswers.filter(a => a.attempts > 0).length;
-                const correctCount = userAnswers.filter(a => a.correct).length;
-                const incorrectCount = answeredCount - correctCount;
-                const unansweredCount = questions.length - answeredCount;
-                const score = Math.round((correctCount / questions.length) * 100);
-                
-                doc.setFontSize(14);
-                doc.text("Resumen de resultados", 20, 40);
-                doc.setFontSize(11);
-                doc.text(`Preguntas totales: ${questions.length}`, 20, 50);
-                doc.text(`Respuestas correctas: ${correctCount} (${score}%)`, 20, 60);
-                doc.text(`Respuestas incorrectas: ${incorrectCount}`, 20, 70);
-                doc.text(`Preguntas sin contestar: ${unansweredCount}`, 20, 80);
-                
-                // Detailed results table
-                doc.setFontSize(14);
-                doc.text("Detalle de respuestas", 20, 95);
-                
-                const tableData = [];
-                questions.forEach((q, index) => {
-                    const userAnswer = userAnswers[index];
-                    const lastAnswer = userAnswer.answers.length > 0 ? userAnswer.answers[userAnswer.answers.length - 1] : '';
-                    const status = userAnswer.correct ? 'Correcto' : 
-                                  userAnswer.attempts >= 2 ? 'Incorrecto' : 'No contestada';
-                    
-                    tableData.push([
-                        q.id,
-                        q.text.replace('________', lastAnswer || '________'),
-                        q.answer.split(',').join(' o '),
-                        status
-                    ]);
-                });
-                
-                doc.autoTable({
-                    startY: 100,
-                    head: [['Pregunta', 'Tu respuesta', 'Respuesta correcta', 'Estado']],
-                    body: tableData,
-                    theme: 'grid',
-                    headStyles: { fillColor: [142, 68, 173] },
-                    styles: { fontSize: 10, cellPadding: 3 },
-                    columnStyles: {
-                        0: { cellWidth: 20 },
-                        1: { cellWidth: 70 },
-                        2: { cellWidth: 50 },
-                        3: { cellWidth: 30 }
-                    },
-                    margin: { left: 15 }
-                });
-                
-                // Save the PDF
-                doc.save(`Resultados_Bernarda_Alba_${new Date().toISOString().slice(0,10)}.pdf`);
-            }
-            
-            // Reset all answers
-            function resetAnswers() {
-                if (confirm('¿Estás seguro de que quieres reiniciar toda la práctica? Se perderán todas tus respuestas.')) {
-                    userAnswers = Array(questions.length).fill().map(() => ({
-                        attempts: 0,
-                        correct: false,
-                        answers: []
-                    }));
-                    renderQuestions();
-                    updateProgress();
-                    document.getElementById('completion-message').classList.remove('show');
-                }
-            }
-            
-            // Set up event listeners
-            function setupEventListeners() {
-                // Check answer buttons
-                document.addEventListener('click', function(e) {
-                    if (e.target && e.target.classList.contains('check-btn')) {
-                        const questionId = parseInt(e.target.dataset.id);
-                        checkAnswer(questionId);
-                    }
-                });
-                
-                // Hint buttons
-                document.addEventListener('click', function(e) {
-                    if (e.target && e.target.classList.contains('hint-btn')) {
-                        const questionId = parseInt(e.target.dataset.id);
-                        showHint(questionId);
-                    }
-                });
-                
-                // Enter key in input fields
-                document.addEventListener('keypress', function(e) {
-                    if (e.target && e.target.classList.contains('answer-input') && e.key === 'Enter') {
-                        const questionId = parseInt(e.target.dataset.id);
-                        checkAnswer(questionId);
-                    }
-                });
-                
-                // Generate PDF button
-                document.getElementById('generate-pdf').addEventListener('click', generatePDF);
-                
-                // Reset button
-                document.getElementById('reset-btn').addEventListener('click', resetAnswers);
-            }
-            
-            // Initialize the app
-            init();
-        });
-    </script>
-<script>window.BBA_KIT = {check:false};</script>
+<div class="wrap">
+<header>
+  <div class="kicker">Lectura obligatoria · Redacción</div>
+  <h1>La casa de Bernarda Alba — 50 frases para el ensayo</h1>
+  <p class="lead">Fifty sentences you could write in an essay on the play, each with one key word or structure missing. Every sentence is true to the play. Use the English cue, type the form and press <b>Enter</b> or « Comprobar ». Spelling and accents count. If you are wrong the first time you get a <i>pista</i>; the second time you see the answer and why. Your work saves itself on this device.</p>
+  <div class="score" aria-live="polite"><span>Puntos <b id="sc">0</b> / <b id="tot">0</b></span><span>a la primera <b id="first">0</b></span><div class="meter"><i id="bar"></i></div></div>
+</header>
+<nav class="tabs" role="tablist" aria-label="Ejercicios" id="tabs"></nav>
+<main id="main"></main>
+<p class="src">Quotations: Federico García Lorca, <i>La casa de Bernarda Alba</i> (1936), short extracts quoted for study.</p>
+</div>
+<script>window.BBA_KIT = {check:false, download:false, save:false, enter:false};</script>
+<script>var D = {"key": "lcdba-50-v2", "dlhead": "LA CASA DE BERNARDA ALBA — 50 FRASES PARA EL ENSAYO", "dlfile": "Bernarda_50_frases_", "sections": [{"tab": "1 · Verbos de análisis", "h2": "1 · Verbos para analizar", "intro": "An essay lives on its verbs. Replace «shows» with the precise verb in the cue.", "items": [{"t": "gap", "en": null, "es": "El bastón de Bernarda {0} su autoridad absoluta sobre la casa.", "gaps": [{"acc": ["simboliza", "representa"], "cue": "symbolises"}], "pista": "A concrete object standing for an abstract idea.", "why": "**simboliza** (representa)."}, {"t": "gap", "en": null, "es": "La orden de tapiar «puertas y ventanas» {0} hasta qué punto la casa es una cárcel.", "gaps": [{"acc": ["revela", "demuestra", "pone de manifiesto", "muestra"], "cue": "reveals"}], "pista": "Uncovers something not obvious at first.", "why": "**revela** (pone de manifiesto)."}, {"t": "gap", "en": null, "es": "La sal derramada y las perlas del anillo {0} la tragedia del final.", "gaps": [{"acc": ["anticipan", "presagian", "anuncian", "prefiguran"], "cue": "foreshadow"}], "pista": "Omens point forward. Plural subject.", "why": "**anticipan / presagian** (plural: two omens)."}, {"t": "gap", "en": null, "es": "Adela {0} el deseo de libertad frente a la represión.", "gaps": [{"acc": ["encarna", "personifica", "representa"], "cue": "embodies"}], "pista": "A character who gives a body to an idea.", "why": "**encarna**."}, {"t": "gap", "en": null, "es": "Con la historia de la hija de la Librada, Lorca {0} la violencia del pueblo contra la mujer.", "gaps": [{"acc": ["denuncia", "critica"], "cue": "denounces"}], "pista": "A strong, critical verb.", "why": "**denuncia** (critica)."}, {"t": "gap", "en": null, "es": "El canto de los segadores {0} un mundo de libertad que las hermanas solo pueden oír.", "gaps": [{"acc": ["evoca", "sugiere"], "cue": "evokes"}], "pista": "It calls up an image in the mind.", "why": "**evoca**."}, {"t": "gap", "en": null, "es": "La última palabra de Bernarda, «¡Silencio!», {0} la estructura circular de la obra.", "gaps": [{"acc": ["subraya", "pone de relieve", "destaca", "resalta"], "cue": "highlights"}], "pista": "Puts something in the spotlight.", "why": "**subraya** (pone de relieve)."}, {"t": "gap", "en": null, "es": "La comparación «como metidas en alacenas» {0} que las hijas son tratadas como objetos.", "gaps": [{"acc": ["sugiere", "da a entender", "insinúa"], "cue": "suggests"}], "pista": "A gentler verb than «demuestra».", "why": "**sugiere**."}, {"t": "gap", "en": null, "es": "El contraste entre el blanco de los muros y el negro del luto {0} el ambiente de muerte de la casa.", "gaps": [{"acc": ["refuerza", "intensifica", "acentúa"], "cue": "reinforces"}], "pista": "Makes stronger.", "why": "**refuerza**."}, {"t": "gap", "en": null, "es": "María Josefa {0} la verdad que nadie se atreve a decir.", "gaps": [{"acc": ["expresa", "dice", "proclama", "revela"], "cue": "voices"}], "pista": "She speaks out.", "why": "**expresa** (proclama)."}]}, {"tab": "2 · Subjuntivo", "h2": "2 · El subjuntivo en el comentario", "intro": "Judgements, possibilities and purposes take the subjunctive; certainties take the indicative. Watch the tense of the main verb.", "items": [{"t": "gap", "en": null, "es": "Es significativo que Lorca {0} la obra en 1936, poco antes de la Guerra Civil.", "gaps": [{"acc": ["escribiera", "escribiese", "terminara", "terminase"], "cue": "escribir"}], "pista": "Present judgement about a past action: which tense of the subjunctive?", "why": "Es significativo que + acción pasada → imperfecto de subjuntivo: **escribiera / escribiese** (o haya escrito)."}, {"t": "gap", "en": null, "es": "Es posible que Pepe {0} de verdad a Adela, pero se casa con Angustias por el dinero.", "gaps": [{"acc": ["quiera", "ame", "desee"], "cue": "querer"}], "pista": "Possibility → ?", "why": "Es posible que → subjuntivo: **quiera**."}, {"t": "gap", "en": null, "es": "No es casual que Pepe el Romano nunca {0} en escena.", "gaps": [{"acc": ["aparezca", "salga"], "cue": "aparecer"}], "pista": "Aparecer: think of «aparezco».", "why": "No es casual que → subjuntivo: **aparezca**."}, {"t": "gap", "en": null, "es": "Lorca hace que el público {0} la tensión desde el principio.", "gaps": [{"acc": ["sienta", "perciba", "note"], "cue": "sentir"}], "pista": "Hacer que + another subject.", "why": "Hacer que → subjuntivo: **sienta** (e → ie)."}, {"t": "gap", "en": null, "es": "Bernarda exige que sus hijas {0} las apariencias por encima de todo.", "gaps": [{"acc": ["guarden", "mantengan", "cuiden"], "cue": "keep"}], "pista": "A demand + que.", "why": "Exigir que → subjuntivo: **guarden / mantengan**."}, {"t": "gap", "en": null, "es": "No creo que Bernarda {0} consciente del daño que hace a sus hijas.", "gaps": [{"acc": ["sea"], "cue": "ser"}], "pista": "Negative opinion → ?", "why": "No creo que → subjuntivo: **sea**."}, {"t": "gap", "en": null, "es": "Es evidente que Bernarda {0} más por la honra que por la felicidad de sus hijas.", "gaps": [{"acc": ["se preocupa"], "cue": "preocuparse"}], "pista": "Certainty → ?", "why": "Es evidente que → indicativo: **se preocupa**."}, {"t": "gap", "en": null, "es": "No cabe duda de que la casa {0} una cárcel para las mujeres.", "gaps": [{"acc": ["es"], "cue": "ser"}], "pista": "There is no doubt: a certainty.", "why": "No cabe duda de que → indicativo: **es**."}, {"t": "gap", "en": null, "es": "Lorca utiliza símbolos para que el público {0} la crítica de manera indirecta.", "gaps": [{"acc": ["entienda", "comprenda", "perciba"], "cue": "understand"}], "pista": "Para que + ?", "why": "Para que → subjuntivo: **entienda / comprenda**."}, {"t": "gap", "en": null, "es": "Adela actúa como si no {0} miedo a las consecuencias.", "gaps": [{"acc": ["tuviera", "tuviese"], "cue": "tener"}], "pista": "Como si is never followed by the present.", "why": "Como si → imperfecto de subjuntivo: **tuviera / tuviese**."}]}, {"tab": "3 · Conectores", "h2": "3 · Conectores y matices", "intro": "Connectors show the logic of your argument. Choose the one that fits.", "items": [{"t": "gap", "en": null, "es": "Bernarda parece todopoderosa; {0}, no consigue controlar el deseo de sus hijas.", "gaps": [{"acc": ["sin embargo", "no obstante"], "cue": "however"}], "pista": "A contrast.", "why": "**sin embargo** (no obstante)."}, {"t": "gap", "en": null, "es": "Bernarda impone ocho años de luto; {0}, la casa se convierte en una prisión.", "gaps": [{"acc": ["por consiguiente", "por lo tanto", "así pues", "por eso", "en consecuencia"], "cue": "consequently"}], "pista": "A consequence.", "why": "**por consiguiente** (por lo tanto)."}, {"t": "gap", "en": null, "es": "Martirio no solo es víctima de su madre, {0} también es culpable de la muerte de Adela.", "gaps": [{"acc": ["sino"], "cue": "but (also)"}], "pista": "No solo… ___ también.", "why": "No solo… **sino** también."}, {"t": "gap", "en": null, "es": "Adela se rebela abiertamente, {0} Amelia prefiere no ver nada.", "gaps": [{"acc": ["mientras que", "en cambio"], "cue": "whereas"}], "pista": "Two people, opposite reactions.", "why": "**mientras que**."}, {"t": "gap", "en": null, "es": "Bernarda dice que su hija ha muerto virgen; {0}, impone una mentira para salvar la honra.", "gaps": [{"acc": ["es decir", "o sea"], "cue": "that is to say"}], "pista": "You explain what the first half means.", "why": "**es decir**."}, {"t": "gap", "en": null, "es": "{0} La Poncia la avisa varias veces, Bernarda se niega a ver la verdad.", "gaps": [{"acc": ["Aunque", "A pesar de que", "Si bien"], "cue": "Although"}], "pista": "A concession, followed by a verb.", "why": "**Aunque** (a pesar de que) + verbo."}, {"t": "gap", "en": null, "es": "{0} su autoridad, Bernarda no puede impedir la tragedia.", "gaps": [{"acc": ["A pesar de", "Pese a"], "cue": "Despite"}], "pista": "Followed by a noun, not a verb.", "why": "**A pesar de** + sustantivo."}, {"t": "gap", "en": null, "es": "{0}, la obra critica la situación de la mujer; por otro, retrata la España rural.", "gaps": [{"acc": ["Por un lado"], "cue": "On the one hand"}], "pista": "It pairs with «por otro».", "why": "**Por un lado**… por otro (lado)…"}, {"t": "gap", "en": null, "es": "Bernarda presume de verlo todo. {0}, es la última en enterarse de lo que pasa.", "gaps": [{"acc": ["De hecho", "En realidad"], "cue": "In fact"}], "pista": "You add a fact that sharpens the point.", "why": "**De hecho**."}, {"t": "gap", "en": null, "es": "Pepe se casa con Angustias {0} es la única rica.", "gaps": [{"acc": ["ya que", "puesto que", "porque", "dado que"], "cue": "since"}], "pista": "A cause.", "why": "**ya que** (puesto que)."}]}, {"tab": "4 · Citar", "h2": "4 · Introducir y comentar citas", "intro": "Weave the quotation into your sentence, then comment on it.", "items": [{"t": "gap", "en": null, "es": "{0} afirma Bernarda, «Aquí se hace lo que yo mando».", "gaps": [{"acc": ["Como"], "cue": "As"}], "pista": "As Bernarda says…", "why": "**Como** afirma Bernarda, «…»."}, {"t": "gap", "en": null, "es": "La Poncia describe a las hijas «como metidas en alacenas», {0} pone de manifiesto su falta de libertad.", "gaps": [{"acc": ["lo cual", "lo que"], "cue": "which"}], "pista": "«Which» referring to the whole idea before it.", "why": "**lo cual / lo que**: refers to the whole previous idea."}, {"t": "gap", "en": null, "es": "Cuando Adela {0} «¡Yo quiero salir!», expresa su deseo de libertad.", "gaps": [{"acc": ["grita", "exclama", "dice"], "cue": "shouts"}], "pista": "A verb of saying that shows her intensity.", "why": "**grita** (exclama)."}, {"t": "gap", "en": null, "es": "La palabra «convento» {0} que la casa se ha convertido en un lugar sin vida.", "gaps": [{"acc": ["sugiere", "indica", "da a entender"], "cue": "suggests"}], "pista": "Comment on one word.", "why": "**sugiere**."}, {"t": "gap", "en": null, "es": "{0} de esta imagen, Lorca muestra que el deseo no se puede encerrar.", "gaps": [{"acc": ["A través", "Por medio", "Mediante"], "cue": "Through"}], "pista": "Through this image: a phrase with «de».", "why": "**A través** de esta imagen (por medio de)."}, {"t": "gap", "en": null, "es": "Al decir «Nacer mujer es el mayor castigo», Amelia {0} la situación de todas las mujeres del pueblo.", "gaps": [{"acc": ["resume", "sintetiza", "condensa"], "cue": "sums up"}], "pista": "One sentence that gathers everything.", "why": "**resume**."}, {"t": "gap", "en": null, "es": "El uso del imperativo en «¡Silencio!» {0} el carácter autoritario de Bernarda.", "gaps": [{"acc": ["refleja", "muestra", "revela"], "cue": "reflects"}], "pista": "The form of the language mirrors the character.", "why": "**refleja**."}, {"t": "gap", "en": null, "es": "Esta cita es {0} porque muestra la hipocresía de Bernarda.", "gaps": [{"acc": ["significativa", "reveladora", "clave", "importante"], "cue": "significant"}], "pista": "Agree with «cita» (feminine).", "why": "**significativa** (feminine, like «cita»)."}, {"t": "gap", "en": null, "es": "Es importante {0} en cuenta que La Poncia también es víctima de la clase social.", "gaps": [{"acc": ["tener"], "cue": "bear"}], "pista": "Tener en cuenta: to bear in mind.", "why": "**tener** en cuenta."}, {"t": "gap", "en": null, "es": "Cabe {0} que Pepe nunca aparece en escena.", "gaps": [{"acc": ["destacar", "señalar", "subrayar", "mencionar"], "cue": "point out"}], "pista": "Cabe + infinitive: it is worth…", "why": "Cabe **destacar** (señalar)."}]}, {"tab": "5 · Juicios", "h2": "5 · Matizar y concluir", "intro": "Strong essays weigh up and conclude. Choose the phrase that nuances or closes the argument.", "items": [{"t": "gap", "en": null, "es": "{0} cierto punto, Bernarda también es víctima de la sociedad en la que vive.", "gaps": [{"acc": ["Hasta"], "cue": "To a"}], "pista": "Hasta cierto punto = to a certain extent.", "why": "**Hasta** cierto punto."}, {"t": "gap", "en": null, "es": "Se podría {0} que Martirio es más culpable que Bernarda.", "gaps": [{"acc": ["argumentar", "afirmar", "sostener", "decir"], "cue": "argue"}], "pista": "Se podría + infinitive.", "why": "Se podría **argumentar**."}, {"t": "gap", "en": null, "es": "{0} mi juicio, la mentira de Martirio es la causa directa de la muerte de Adela.", "gaps": [{"acc": ["A"], "cue": "In"}], "pista": "In my view: a fixed phrase with «juicio».", "why": "**A** mi juicio (en mi opinión)."}, {"t": "gap", "en": null, "es": "La responsabilidad de Bernarda es, {0}, mayor que la de Pepe.", "gaps": [{"acc": ["sin duda", "sin lugar a dudas"], "cue": "undoubtedly"}], "pista": "No doubt about it.", "why": "**sin duda**."}, {"t": "gap", "en": null, "es": "{0}, Lorca presenta una sociedad que destruye a las mujeres que desean.", "gaps": [{"acc": ["En definitiva", "En conclusión", "En resumen", "En suma"], "cue": "In short"}], "pista": "A closing phrase.", "why": "**En definitiva** (en conclusión)."}, {"t": "gap", "en": null, "es": "La obra {0} siendo actual porque el miedo al qué dirán no ha desaparecido.", "gaps": [{"acc": ["sigue"], "cue": "continues"}], "pista": "Seguir + gerund.", "why": "**sigue** siendo."}, {"t": "gap", "en": null, "es": "No se trata {0} de una tragedia familiar, sino de un retrato de la España rural.", "gaps": [{"acc": ["solo", "solamente", "sólo", "únicamente"], "cue": "only"}], "pista": "No se trata ___ de… sino de…", "why": "No se trata **solo** de… sino de…"}, {"t": "gap", "en": null, "es": "Por mucho que Bernarda {0}, no puede impedir que el deseo entre en su casa.", "gaps": [{"acc": ["vigile", "lo intente", "mande"], "cue": "vigilar"}], "pista": "Por mucho que + subjunctive.", "why": "Por mucho que → subjuntivo: **vigile**."}, {"t": "gap", "en": null, "es": "Lo que más {0} de la obra es la ausencia total de hombres en escena.", "gaps": [{"acc": ["llama la atención", "destaca", "sorprende", "impresiona"], "cue": "is striking"}], "pista": "A phrase meaning “catches the attention”.", "why": "Lo que más **llama la atención**."}, {"t": "gap", "en": null, "es": "El final, lejos de liberar a las hijas, las {0} de nuevo en el luto.", "gaps": [{"acc": ["encierra", "hunde", "sumerge"], "cue": "locks"}], "pista": "Bernarda: «¡Nos hundiremos todas en un mar de luto!»", "why": "**encierra** (hunde)."}]}]};</script>
+<script>
+(function(){
+"use strict";
+var KEY = D.key;
+var S = {v:1, it:{}, tab:null, pub:false};
+try{ var raw=localStorage.getItem(KEY); if(raw){ var o=JSON.parse(raw); if(o&&o.v===1) S=o; } }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function nfc(s){ return (s||"").normalize ? s.normalize("NFC") : (s||""); }
+function deacc(s){ return nfc(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function clean(s){ return nfc(s).toLowerCase().replace(/[¡!¿?.,;:«»"“”()\[\]…]/g," ").replace(/\s+/g," ").trim(); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmt(s){ return esc(s).replace(/&lt;br&gt;/g,"<br>").replace(/\*\*(.+?)\*\*/g,"<b>$1</b>"); }
+function h(tag, attrs, html){ var e=document.createElement(tag); if(attrs) for(var k in attrs){ if(k==="class") e.className=attrs[k]; else e.setAttribute(k,attrs[k]); } if(html!=null) e.innerHTML=html; return e; }
+/* strict judge: exact (case, spacing, punctuation ignored) or accent-only slip */
+function judge(given, acc){
+  var g=clean(given); if(!g) return "blank";
+  for(var i=0;i<acc.length;i++){ if(g===clean(acc[i])) return "ok"; }
+  for(i=0;i<acc.length;i++){ if(deacc(g)===deacc(clean(acc[i]))) return "accent"; }
+  return "no";
+}
+var ITEMS=[], SECS=[];
+function fbBox(card){ var f=card.querySelector(".fb"); if(!f){ f=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(f); } return f; }
+function wire(it){
+  var st = S.it[it.id] || (S.it[it.id]={st:null, tries:0, first:false, given:null});
+  it.state = st;
+  it.run = function(){
+    if(st.st) return;
+    var r = it.check(); if(r==="blank") return;
+    st.tries++; st.given = it.given();
+    var fb = fbBox(it.card);
+    if(r==="ok"){ st.st="ok"; st.first=(st.tries===1); it.lock(true);
+      fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correcto</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+      it.card.classList.add("ok"); save(); refresh(); return; }
+    if(st.tries<2){
+      fb.className="fb ui show hint";
+      fb.innerHTML='<span class="tag ht">Pista</span>'+(r==="accent"?"Almost: the right form, but check the accent. ":"Not yet. ")+fmt(it.pista||"");
+      it.mark(); save(); return; }
+    st.st="rev"; it.lock(false); it.reveal();
+    fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Respuesta</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+    it.card.classList.add("rev"); save(); refresh();
+  };
+  it.restore = function(){
+    if(!st.st) return; it.setGiven(st.given);
+    var fb=fbBox(it.card);
+    if(st.st==="ok"){ it.lock(true); it.card.classList.add("ok"); fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correcto</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+    else { it.lock(false); it.reveal(); it.card.classList.add("rev"); fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Respuesta</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+  };
+  ITEMS.push(it);
+}
+function controls(card, it){
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Comprobar");
+  var p=h("button",{"class":"g",type:"button"},"Pista");
+  b.addEventListener("click", function(){ it.run(); });
+  p.addEventListener("click", function(){ var fb=fbBox(card); if(it.state.st) return; fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>'+fmt(it.pista||""); });
+  row.appendChild(b); row.appendChild(p); card.appendChild(row);
+  it.btns=[b,p];
+}
+function gapItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  var parts=Q.es.split(/\{(\d+)\}/), html='<span class="qn">'+n+' ·</span>';
+  for(var i=0;i<parts.length;i++){
+    if(i%2===0) html+=fmt(parts[i]);
+    else { var g=Q.gaps[+parts[i]]; html+='<input type="text" data-g="'+parts[i]+'" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="hueco '+(+parts[i]+1)+'">'+(g.cue?' <span class="cue">('+esc(g.cue)+')</span>':""); }
+  }
+  var s=h("div",{"class":"sent"},html); card.appendChild(s);
+  var inputs=[].slice.call(s.querySelectorAll("input"));
+  var it={id:id, sec:sec, card:card, q:Q.es.replace(/\{\d+\}/g,"___"), pista:Q.pista, why:Q.why};
+  it.given=function(){ return inputs.map(function(x){return x.value.trim();}).join(" | "); };
+  it.setGiven=function(v){ (v||"").split(" | ").forEach(function(x,i){ if(inputs[i]) inputs[i].value=x; }); };
+  it.res=function(){ return inputs.map(function(x){ return judge(x.value, Q.gaps[+x.getAttribute("data-g")].acc); }); };
+  it.check=function(){ var r=it.res(); if(r.some(function(x){return x==="blank";})) { var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML="Fill in every gap first."; return "blank"; }
+    if(r.every(function(x){return x==="ok";})) return "ok"; if(r.every(function(x){return x==="ok"||x==="accent";})) return "accent"; return "no"; };
+  it.mark=function(){ var r=it.res(); inputs.forEach(function(x,i){ x.classList.toggle("okf",r[i]==="ok"); x.classList.toggle("badf",r[i]!=="ok"); }); };
+  it.lock=function(good){ inputs.forEach(function(x){ x.disabled=true; x.classList.toggle("okf",good); }); it.btns.forEach(function(b){ b.disabled=true; }); };
+  it.reveal=function(){ it.mark(); };
+  it.answerText=function(){ return "**"+Q.gaps.map(function(g){return g.acc[0];}).join(" … ")+"**"+(Q.gaps.some(function(g){return g.acc.length>1;})?" (also accepted: "+Q.gaps.map(function(g){return g.acc.slice(1).join(", ");}).filter(Boolean).join("; ")+")":"")+"."; };
+  it.ans=Q.gaps.map(function(g){return g.acc[0];}).join(" | ");
+  inputs.forEach(function(x){ x.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); it.run(); } }); });
+  controls(card,it); wire(it); return card;
+}
+function seeded(n,seed){ var a=[]; for(var i=0;i<n;i++) a.push(i); var x=seed; for(i=n-1;i>0;i--){ x=(x*9301+49297)%233280; var j=Math.floor(x/233280*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function mcItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  card.appendChild(h("div",null,'<span class="qn">'+n+' ·</span>'+fmt(Q.q)));
+  var box=h("div",{"class":"opts"}); var order=seeded(Q.opts.length, id.length*31+n*7), btns=[], sel=null;
+  order.forEach(function(k){ var b=h("button",{"class":"opt",type:"button"},fmt(Q.opts[k])); b._i=k; b.addEventListener("click",function(){ if(it.state.st) return; sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); it.run(); }); btns.push(b); box.appendChild(b); });
+  card.appendChild(box);
+  var it={id:id, sec:sec, card:card, q:Q.q, pista:Q.pista, why:Q.why};
+  it.given=function(){ return sel==null?"":Q.opts[sel]; };
+  it.setGiven=function(v){ var k=Q.opts.indexOf(v); if(k>=0){ sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); } };
+  it.check=function(){ return sel==null?"blank":(sel===Q.a?"ok":"no"); };
+  it.mark=function(){ btns.forEach(function(x){ if(x._i===sel) x.classList.add("wrong"); }); };
+  it.lock=function(){ btns.forEach(function(x){ x.disabled=true; if(x._i===Q.a) x.classList.add("right"); }); if(it.pb) it.pb.disabled=true; };
+  it.reveal=function(){};
+  it.answerText=function(){ return "**"+Q.opts[Q.a]+"**."; };
+  it.ans=Q.opts[Q.a];
+  var row=h("div",{"class":"ctl ui"}); var p=h("button",{"class":"g",type:"button"},"Pista"); it.pb=p;
+  p.addEventListener("click",function(){ if(it.state.st) return; var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Pista</span>'+fmt(Q.pista||""); });
+  row.appendChild(p); card.appendChild(row);
+  wire(it); return card;
+}
+var main=document.getElementById("main"), tabs=document.getElementById("tabs");
+D.sections.forEach(function(sx, si){
+  var id="s"+(si+1);
+  var s=h("section",{"class":"ex",id:id}); s.appendChild(h("h2",null,esc(sx.h2)));
+  if(sx.intro) s.appendChild(h("p",{"class":"how ui"},fmt(sx.intro)));
+  if(sx.rule) s.appendChild(h("div",{"class":"rule"},fmt(sx.rule)));
+  var n=0;
+  sx.items.forEach(function(Q,qi){ n++; if(Q.h3) s.appendChild(h("h3",null,esc(Q.h3)));
+    s.appendChild(Q.t==="mc" ? mcItem(id,id+"_"+qi,n,Q) : gapItem(id,id+"_"+qi,n,Q)); });
+  var f=h("div",{"class":"secfoot ui"}), l=h("div"), r=h("div");
+  if(si>0) l.appendChild(h("button",{"class":"g",type:"button","data-go":"s"+si},"← Atrás"));
+  var rs=h("button",{"class":"g",type:"button"},"Reintentar esta sección");
+  rs.addEventListener("click",function(){ if(!rs._a){ rs._a=true; rs.textContent="Pulsa otra vez para borrar"; setTimeout(function(){ rs._a=false; rs.textContent="Reintentar esta sección"; },3000); return; }
+    ITEMS.filter(function(it){return it.sec===id;}).forEach(function(it){ delete S.it[it.id]; }); save(); location.reload(); });
+  l.appendChild(document.createTextNode(" ")); l.appendChild(rs);
+  if(si<D.sections.length-1) r.appendChild(h("button",{"class":"b",type:"button","data-go":"s"+(si+2)},"Siguiente →"));
+  else { var dl=h("button",{"class":"b",type:"button"},"Descargar mis respuestas"); dl.addEventListener("click",download); r.appendChild(dl); }
+  f.appendChild(l); f.appendChild(r); s.appendChild(f);
+  main.appendChild(s);
+  var tb=h("button",{type:"button",role:"tab","data-go":id},esc(sx.tab)+' <span class="n"></span>'); tabs.appendChild(tb);
+  SECS.push({id:id, el:s, tab:tb});
+});
+function totals(){ var tot=ITEMS.length, sc=0, first=0, done=0; ITEMS.forEach(function(it){ var st=it.state; if(st.st==="ok"){ sc++; done++; if(st.first) first++; } else if(st.st==="rev") done++; }); return {tot:tot,sc:sc,first:first,done:done}; }
+function refresh(){
+  var T=totals(); document.getElementById("sc").textContent=T.sc; document.getElementById("tot").textContent=T.tot; document.getElementById("first").textContent=T.first;
+  document.getElementById("bar").style.width=(T.tot?Math.round(100*T.sc/T.tot):0)+"%";
+  SECS.forEach(function(s){ var its=ITEMS.filter(function(it){return it.sec===s.id;}); var d=its.filter(function(it){return it.state.st;}).length, ok=its.filter(function(it){return it.state.st==="ok";}).length; s.tab.querySelector(".n").textContent=ok+"/"+its.length; s.tab.classList.toggle("done",d===its.length); });
+  publish();
+}
+function publish(){
+  try{ var T=totals(); var all=JSON.parse(localStorage.getItem("bba-scores")||"{}"); var f=decodeURIComponent(location.pathname.split("/").pop()||"index"); var prev=all[f]||{};
+    var rec={title:(document.title||"").slice(0,120), score:T.sc, total:T.tot, best:Math.max(T.sc,prev.best||0), attempts:(prev.attempts||0)+(S.pub?0:1), t:Date.now()};
+    var n=Math.max(0,T.done-(S.pubDone||0)); rec.ans=(prev.ans||0)+n; rec.lg={}; for(var k in (prev.lg||{})) rec.lg[k]=prev.lg[k];
+    var day=String(Math.floor(Date.now()/86400000)); if(n) rec.lg[day]=(rec.lg[day]||0)+n;
+    all[f]=rec; localStorage.setItem("bba-scores",JSON.stringify(all)); S.pub=true; S.pubDone=T.done; save(); }catch(e){}
+}
+function studentName(){ var nm=document.querySelector("#bba-kit .nm"); var v=nm&&nm.value.trim(); if(!v){ try{ v=localStorage.getItem("bba-name")||""; }catch(e){} } return v||""; }
+function download(){
+  var T=totals(), name=studentName(), L=[];
+  L.push(D.dlhead); L.push("Nombre: "+(name||"(sin nombre)")); L.push("Fecha: "+new Date().toLocaleString("es-ES")); L.push("Puntos: "+T.sc+" / "+T.tot+"  ·  a la primera: "+T.first); L.push("");
+  SECS.forEach(function(s){ L.push("== "+s.el.querySelector("h2").textContent+" ==");
+    ITEMS.filter(function(it){return it.sec===s.id;}).forEach(function(it,i){ var st=it.state;
+      var mark=st.st==="ok"?(st.first?"✓":"✓ (2.º intento)"):st.st==="rev"?"✗ → "+it.ans:"— sin responder";
+      L.push((i+1)+". "+it.q.replace(/\*\*/g,"").replace(/\s+/g," ").slice(0,160)); L.push("   Respuesta: "+(it.given()||"—")+"   ["+mark+"]"); });
+    L.push(""); });
+  var blob=new Blob([L.join("\r\n")],{type:"text/plain;charset=utf-8"}); var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download=D.dlfile+(name||"sin_nombre").replace(/[^\wÁÉÍÓÚÑáéíóúñ-]+/g,"_")+".txt"; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },500);
+}
+function go(id){ SECS.forEach(function(s){ var on=s.id===id; s.el.classList.toggle("active",on); s.tab.setAttribute("aria-selected",on?"true":"false"); }); S.tab=id; save();
+  var nav=document.getElementById("tabs"); if(window.scrollY>nav.offsetTop) window.scrollTo({top:nav.offsetTop,behavior:"smooth"}); }
+document.addEventListener("click",function(e){ var b=e.target.closest("[data-go]"); if(b){ e.preventDefault(); go(b.getAttribute("data-go")); } });
+ITEMS.forEach(function(it){ it.restore(); });
+go(S.tab && document.getElementById(S.tab) ? S.tab : "s1"); refresh();
+window.LCDBA={items:ITEMS, totals:totals, judge:judge};
+})();
+</script>
 <script src="bba-kit-es.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
 </body>
