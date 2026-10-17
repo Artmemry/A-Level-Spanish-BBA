@@ -595,5 +595,61 @@
 <script>window.BBA_KIT = {check:false, name:false};</script>
 <script src="bba-kit-es.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
+<script>/* BBA progress hookup: counter + saved score for the hub tile (Oct 2026) */
+window.BBA_HOOKED=true;
+window.addEventListener("load",function(){
+  if(!window.BBAMeter)return;
+  var NAMEISH=/(^|[-_\s])(name|nom|nombre|prenom|apellido|student|eleve|alumno|candidate)([-_\s]|$)/i;
+  function bbaFields(scope){
+    var root=(scope&&document.querySelector(scope))||document.body, groups={}, list=[];
+    Array.prototype.forEach.call(root.querySelectorAll("input,select,textarea"),function(e){
+      var t=(e.type||"").toLowerCase();
+      if(e.closest("#bba-kit,#bba-howto,.bba-meter,#bba-resume")) return;
+      if(["hidden","button","submit","reset","file","range","color","search"].indexOf(t)>=0||e.disabled||e.readOnly) return;
+      if(NAMEISH.test(e.id||"")||NAMEISH.test(e.name||"")||NAMEISH.test(e.placeholder||"")) return;
+      if(t==="radio"||t==="checkbox"){ var k=t+":"+(e.name||e.id||Math.random()); if(!groups[k]){groups[k]=[];list.push(groups[k]);} groups[k].push(e); }
+      else list.push([e]);
+    });
+    return list;
+  }
+  function bbaFilled(g){ var e=g[0], t=(e.type||"").toLowerCase();
+    if(t==="radio"||t==="checkbox") return g.some(function(x){return x.checked;});
+    if(e.tagName==="SELECT") return e.selectedIndex>0;
+    return !!String(e.value||"").trim(); }
+
+  var OKC=/(^|[\s_-])(correct|right|ok|bien|is-correct|success|good|acierto|juste|valid)([\s_-]|$)/i,
+      BADC=/(^|[\s_-])(incorrect|wrong|bad|error|mal|is-wrong|fallo|faux|invalid|almost|near|partial)([\s_-]|$)/i;
+  function green(el){ var cs=getComputedStyle(el), c=(cs.borderTopColor||"")+" "+(cs.backgroundColor||"");
+    var m=(cs.borderTopColor||"").match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/); if(!m) return false;
+    var r=+m[1],g=+m[2],b=+m[3]; return g>120&&g>r+40&&g>b+10; }
+  function verdict(g){ var e=g[0], t=(e.type||"").toLowerCase(), nodes=[];
+    if(t==="radio"||t==="checkbox"){ var ch=g.filter(function(x){return x.checked;})[0]; if(!ch) return 0; nodes=[ch, ch.parentElement, ch.closest("label")]; }
+    else nodes=[e];
+    var ok=false,bad=false; nodes.forEach(function(n){ if(!n) return; var cl=n.className&&typeof n.className==="string"?n.className:""; if(BADC.test(cl)) bad=true; else if(OKC.test(cl)) ok=true; });
+    if(!ok&&!bad&&t!=="radio"&&t!=="checkbox"&&e.tagName!=="TEXTAREA"&&green(e)) ok=true;
+    return bad?-1:(ok?1:0); }
+  var marked=false, lastSig="", INIT=new Map(), CHECKED=false;
+  document.addEventListener("click",function(e){ var b=e.target.closest&&e.target.closest("button,input[type=button],input[type=submit],a.btn,.btn");
+    if(b&&!b.closest("#bba-kit")&&/v[ée]rifi|verifica|check|corrig|correg|comprob|valid|submit|soumet|[ée]valu|score|puntuaci|r[ée]sultat|resultado|terminer|finish/i.test(b.textContent||b.value||"")){ CHECKED=true; setTimeout(calc,400); } },true);
+  var RSEL=null||'[id*="score" i],[class*="score" i],[id*="result" i],[class*="result" i],[id*="puntu" i],[class*="puntu" i],[id*="acierto" i],[id*="total" i]';
+  function resultEls(){ return Array.prototype.filter.call(document.querySelectorAll(RSEL),function(e){ return !e.closest("#bba-kit,.bba-meter,.bba-strip,#bba-howto")&&!/(^|\s)bba-/.test(e.className||""); }); }
+  resultEls().forEach(function(e){ INIT.set(e,(e.textContent||"").replace(/\s+/g," ")); });
+  function pageMark(){ var best=null; resultEls().forEach(function(e){ if(best) return; var tx=(e.textContent||"").replace(/\s+/g," ");
+      if(tx.length>160||(tx===INIT.get(e)&&!CHECKED)) return; if(e.offsetParent===null&&getComputedStyle(e).position!=="fixed") return;
+      var m=tx.match(/(\d+(?:[.,]\d+)?)\s*\/\s*(\d+(?:[.,]\d+)?)/); if(!m) return; var x=parseFloat(m[1].replace(",",".")), y=parseFloat(m[2].replace(",","."));
+      if(y>0&&x<=y) best={s:x,m:y}; }); return best; }
+  function calc(){ var L=bbaFields(null); if(!L.length) return;
+    var a=0,c=0,anyMark=false; L.forEach(function(g){ if(bbaFilled(g)) a++; var v=verdict(g); if(v){ anyMark=true; if(v>0) c++; } });
+    if(anyMark) marked=true;
+    var pm=pageMark(), sig=a+"/"+c+"/"+L.length+"/"+(pm?pm.s+"/"+pm.m:""); var rec=(sig!==lastSig); lastSig=sig;
+    if(pm){ BBAMeter.points(a, L.length, pm.s, pm.m, {record:rec&&a>0}); return; }
+    BBAMeter.set(a, marked?c:null, L.length, {record:rec&&a>0}); }
+  var t=null, sched=function(){ clearTimeout(t); t=setTimeout(calc,120); };
+  new MutationObserver(function(ms){ for(var i=0;i<ms.length;i++){ var n=ms[i].target; if(n.closest&&n.closest("#bba-kit,.bba-meter")) continue; sched(); return; } })
+    .observe(document.body,{subtree:true,attributes:true,attributeFilter:["class","style"],childList:true,characterData:true});
+  ["input","change"].forEach(function(ev){ document.addEventListener(ev,function(e){ if(!(e.target.closest&&e.target.closest("#bba-kit"))) sched(); }); });
+  calc();
+});
+</script>
 </body>
 </html>

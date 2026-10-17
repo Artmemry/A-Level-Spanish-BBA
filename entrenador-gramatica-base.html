@@ -1020,5 +1020,19 @@ pintarInforme();
 <script>window.BBA_KIT = {check:false, name:false};</script>
 <script src="bba-kit-es.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
+<script>/* BBA progress hookup: counter + saved score for the hub tile (Oct 2026) */
+window.BBA_HOOKED=true;
+window.addEventListener("load",function(){
+  if(!window.BBAMeter||typeof window.pintarMapa!=="function")return;
+  var o=window.pintarMapa;
+  function report(rec){ try{ var T=0,a=0,c=0; BLOQUES.forEach(function(b){ var n=(b.items||[]).length; T+=n;
+      for(var j=0;j<n;j++){ var v=S.resp[b.id+"i"+j]; if(v!==undefined&&String(v).trim()) a++; }
+      var m=S.marcas[b.id]; if(m) c+=m.aciertos; });
+    BBAMeter.set(a,c,T,{record:rec!==false}); }catch(e){} }
+  window.pintarMapa=function(){ var r=o.apply(this,arguments); setTimeout(function(){report(true);},0); return r; };
+  ["input","change"].forEach(function(ev){ document.addEventListener(ev,function(e){ if(!(e.target.closest&&e.target.closest("#bba-kit"))) setTimeout(function(){report(false);},0); }); });
+  report(false);
+});
+</script>
 </body>
 </html>

@@ -551,5 +551,15 @@ render();
 <script>window.BBA_KIT = {check:false};</script>
 <script src="bba-kit-es.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
+<script>/* BBA progress hookup: counter + saved score for the hub tile (Oct 2026) */
+window.BBA_HOOKED=true;
+window.addEventListener("load",function(){
+  if(!window.BBAMeter)return;
+  function report(){ try{ BBAMeter.set(Object.keys(Object.assign({},quizAttempts,quizCorrect)).length, Object.values(quizCorrect).filter(Boolean).length, filteredPhrases.length); }catch(e){} }
+  ["updateProgressBar","checkQ"].forEach(function(n){ var o=window[n]; if(typeof o!=="function") return;
+    window[n]=function(){ var r=o.apply(this,arguments); setTimeout(report,0); return r; }; });
+  report();
+});
+</script>
 </body>
 </html>

@@ -850,5 +850,18 @@
 <script>window.BBA_KIT = {check:false};</script>
     <script src="bba-kit-es.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
+<script>/* BBA progress hookup: counter + saved score for the hub tile (Oct 2026) */
+window.BBA_HOOKED=true;
+window.addEventListener("load",function(){
+  if(!window.BBAMeter)return;
+  var T=15, last=null, bar=document.getElementById("progress");
+  var ans=function(){ return Math.min(T, Math.round((parseFloat(bar&&bar.style.width)||0)/100*T)); };
+  var show=function(rec){ BBAMeter.set(ans(), last, T, {record:!!rec}); };
+  if(typeof window.checkAnswers==="function"){ var o=window.checkAnswers;
+    window.checkAnswers=function(){ var r=o.apply(this,arguments); try{ var v=null; if(window.testResults) v=parseFloat(window.testResults.score); else { var st=document.getElementById('scoreText'); var m=st&&st.textContent.match(/(\d+(?:\.\d+)?)\s*\//); if(m) v=parseFloat(m[1]); } if(v!==null&&!isNaN(v)){ last=Math.round(v); show(true);} }catch(e){} return r; }; }
+  ["input","change"].forEach(function(ev){ document.addEventListener(ev,function(e){ if(!(e.target.closest&&e.target.closest("#bba-kit"))) setTimeout(function(){show(false);},0); }); });
+  show(false);
+});
+</script>
 </body>
 </html>

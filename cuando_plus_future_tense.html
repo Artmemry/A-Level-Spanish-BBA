@@ -471,5 +471,18 @@ function togglePad(){
 <script>window.BBA_KIT = {check:false, download:false, name:false};</script>
 <script src="bba-kit-es.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
+<script>/* BBA progress hookup: counter + saved score for the hub tile (Oct 2026) */
+window.BBA_HOOKED=true;
+window.addEventListener("load",function(){
+  if(!window.BBAMeter||typeof window.checkAll!=="function")return;
+  var items=function(){return Array.prototype.filter.call(document.querySelectorAll(".item"),function(it){return it.dataset.type==="mcq"||it.dataset.type==="text";});};
+  var answered=function(){return items().filter(function(it){ if(it.dataset.type==="mcq")return !!it.querySelector("input[type=radio]:checked"); var i=it.querySelector("input,textarea"); return !!(i&&i.value.trim());}).length;};
+  var last=null, show=function(rec){ var n=items().length; if(n) BBAMeter.set(answered(), last, n, {record:!!rec}); };
+  var orig=window.checkAll;
+  window.checkAll=function(){ var r=orig.apply(this,arguments); try{ if(window._score){ last=window._score.score; show(true);} }catch(e){} return r; };
+  ["input","change"].forEach(function(ev){ document.addEventListener(ev,function(e){ if(e.target.closest&&e.target.closest(".item")) show(false); }); });
+  show(false);
+});
+</script>
 </body>
 </html>

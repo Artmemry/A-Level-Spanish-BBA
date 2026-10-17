@@ -442,5 +442,15 @@ render();
 <script>window.BBA_KIT = {check:false, name:false};</script>
   <script src="bba-kit-es.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
+<script>/* BBA progress hookup: counter + saved score for the hub tile (Oct 2026) */
+window.BBA_HOOKED=true;
+window.addEventListener("load",function(){
+  if(!window.BBAMeter)return;
+  function report(){ try{ BBAMeter.set((function(){var f=function(t){return sections.find(function(s){return s.type===t})||{}};return mcAnswered.filter(function(x){return x!=null}).length+fillAnswered.filter(function(x){return x!=null}).length+(matchDone?(f('match').pairs||[]).length:0)+(clozeDone&&typeof clozeItems!=='undefined'?clozeItems.length:0);})(), Math.min(score,(function(){var f=function(t){return sections.find(function(s){return s.type===t})||{}};return mcAnswered.filter(function(x){return x!=null}).length+fillAnswered.filter(function(x){return x!=null}).length+(matchDone?(f('match').pairs||[]).length:0)+(clozeDone&&typeof clozeItems!=='undefined'?clozeItems.length:0);})()), (function(){var f=function(t){return sections.find(function(s){return s.type===t})||{}};return (f('mc').questions||[]).length+(f('fill').items||[]).length+(f('match').pairs||[]).length+(typeof clozeItems!=='undefined'?clozeItems.length:0);})()); }catch(e){} }
+  ["checkCloze","checkMC","checkAllFill","checkMatch"].forEach(function(n){ var o=window[n]; if(typeof o!=="function") return;
+    window[n]=function(){ var r=o.apply(this,arguments); setTimeout(report,0); return r; }; });
+  report();
+});
+</script>
 </body>
 </html>

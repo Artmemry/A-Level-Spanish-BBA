@@ -841,5 +841,37 @@
 <script>window.BBA_KIT = {check:false};</script>
     <script src="bba-kit-es.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
+<script>/* BBA progress hookup: counter + saved score for the hub tile (Oct 2026) */
+window.BBA_HOOKED=true;
+window.addEventListener("load",function(){
+  if(!window.BBAMeter)return;
+  var NAMEISH=/(^|[-_\s])(name|nom|nombre|prenom|apellido|student|eleve|alumno|candidate)([-_\s]|$)/i;
+  function bbaFields(scope){
+    var root=(scope&&document.querySelector(scope))||document.body, groups={}, list=[];
+    Array.prototype.forEach.call(root.querySelectorAll("input,select,textarea"),function(e){
+      var t=(e.type||"").toLowerCase();
+      if(e.closest("#bba-kit,#bba-howto,.bba-meter,#bba-resume")) return;
+      if(["hidden","button","submit","reset","file","range","color","search"].indexOf(t)>=0||e.disabled||e.readOnly) return;
+      if(NAMEISH.test(e.id||"")||NAMEISH.test(e.name||"")||NAMEISH.test(e.placeholder||"")) return;
+      if(t==="radio"||t==="checkbox"){ var k=t+":"+(e.name||e.id||Math.random()); if(!groups[k]){groups[k]=[];list.push(groups[k]);} groups[k].push(e); }
+      else list.push([e]);
+    });
+    return list;
+  }
+  function bbaFilled(g){ var e=g[0], t=(e.type||"").toLowerCase();
+    if(t==="radio"||t==="checkbox") return g.some(function(x){return x.checked;});
+    if(e.tagName==="SELECT") return e.selectedIndex>0;
+    return !!String(e.value||"").trim(); }
+
+  var IDS=["fillResult","translationResult","trueFalseResult","matchingResult"], N=bbaFields(null).length;
+  function calc(rec){ var a=0,c=0,L=bbaFields(null), typed=L.filter(bbaFilled).length;
+    IDS.forEach(function(id){ var e=document.getElementById(id), tx=e?(e.textContent||""):""; var m=tx.match(/(\d+)\s*(?:\/|de|of|sur)\s*(\d+)/i); if(m){ c+=+m[1]; a+=+m[2]; } });
+    var T=Math.max(N,a); BBAMeter.set(Math.max(a,typed), c, T, {record:!!rec}); }
+  var mo=new MutationObserver(function(){ clearTimeout(mo.t); mo.t=setTimeout(function(){calc(true);},60); });
+  IDS.forEach(function(id){ var e=document.getElementById(id); if(e) mo.observe(e,{childList:true,characterData:true,subtree:true}); });
+  ["input","change"].forEach(function(ev){ document.addEventListener(ev,function(e){ if(!(e.target.closest&&e.target.closest("#bba-kit"))) setTimeout(function(){calc(false);},0); }); });
+  calc(false);
+});
+</script>
 </body>
 </html>

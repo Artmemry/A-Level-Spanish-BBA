@@ -177,9 +177,13 @@ function watchScore() {
     if (!touched) return;
     /* a page wired to BBAMeter saves its own score and question count */
     if (window.BBA_HOOKED) { paint(); return; }
-    var m = /-?\d+(\.\d+)?/.exec(txt);
-    if (!m) return;
-    record(parseFloat(m[0]));
+    /* only a real mark: "x / y" becomes x/y, "72 %" stays 72 %; a bare number
+       (a points total, a question number) is not a percentage and is ignored */
+    var fr = /(\d+(?:[.,]\d+)?)\s*\/\s*(\d+(?:[.,]\d+)?)/.exec(txt), pc = /(\d+(?:[.,]\d+)?)\s*%/.exec(txt), v = null;
+    if (fr && parseFloat(fr[2].replace(",", ".")) > 0) v = 100 * parseFloat(fr[1].replace(",", ".")) / parseFloat(fr[2].replace(",", "."));
+    else if (pc) v = parseFloat(pc[1].replace(",", "."));
+    if (v === null || isNaN(v)) return;
+    record(v);
     paint();
   }).observe(el, {childList: true, characterData: true, subtree: true});
 }
