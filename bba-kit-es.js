@@ -40,6 +40,7 @@ window.__bbaKit = true;
      download  true   "Descargar" button
      save      true   autosave and resume
      enter     true   Enter submits the focused field
+     meter     true   progress counter and bar (BBAMeter)
      tries     2      wrong attempts allowed before the answer is shown
                       (set to 1 for the old behaviour, 0 for never reveal)
    ---------------------------------------------------------------------- */
@@ -418,7 +419,7 @@ function publishScore(scored, total, answered){
       title: (document.title||"").slice(0,120),
       score: scored, total: total,
       best: Math.max(scored, prev.best||0),
-      attempts: (prev.attempts||0) + 1,
+      attempts: (prev.attempts||0) + (LIVE.started ? 0 : 1),
       t: Date.now()
     };
     /* questions answered in this check: running total + per-day tally */
@@ -476,7 +477,22 @@ var CSS = ""
 + ".bba-tip.bad{color:#a5281b}.bba-tip.good{color:#1d5a3a}"
 + ".bba-tip .rv{font:inherit;background:none;border:0;border-bottom:1px dotted currentColor;color:inherit;"
 + "cursor:pointer;padding:0;margin-left:8px}"
-+ ".bba-sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}";
++ ".bba-sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}"
+/* v2.2 progress meter: how many answered, how many right, filling green */
++ ".bba-meter{display:flex;align-items:center;gap:12px;padding:8px 12px 0;max-width:1180px;margin:0 auto;"
++ "font:13px/1.3 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#cfe0f5}"
++ ".bba-meter .t{white-space:nowrap}"
++ ".bba-meter b{color:#fff;font-size:15px;font-weight:700}"
++ ".bba-meter .trk{flex:1 1 160px;min-width:110px;height:9px;border-radius:99px;background:rgba(255,255,255,.16);position:relative;overflow:hidden}"
++ ".bba-meter .trk i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:99px;transition:width .45s ease}"
++ ".bba-meter .trk .a{background:rgba(120,200,150,.42)}"
++ ".bba-meter .trk .c{background:#3fbf74}"
++ ".bba-meter.full .t{color:#bff0d2}"
++ ".bba-meter.solo{position:fixed;left:0;right:0;bottom:0;max-width:none;background:#14283f;padding:9px 14px;z-index:2147483000;box-shadow:0 -2px 14px rgba(0,0,0,.22)}"
++ ".bba-sec{display:inline-block;margin-left:10px;padding:4px 9px;border-radius:99px;background:#ecebe6;color:#5a6470;"
++ "font:600 12px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;vertical-align:middle;letter-spacing:0;text-transform:none}"
++ ".bba-sec.part{background:#dcefe3;color:#1d5a3a}"
++ ".bba-sec.full{background:#2e7d52;color:#fff}";
 
 /* ------------------------------------------------------------------ UI */
 var last = null;                          // last focused text field
@@ -908,6 +924,149 @@ function mobileAssets(){
 mobileAssets();
 
 /* ---------------------------------------------------------------- boot */
+/* ===================================================  v2.2: PROGRESS METER
+   One counter for every activity, at the top of the kit's bar: how many
+   questions are finished, how many are right, and a bar that fills as the
+   student answers and turns greener as more answers are right. Where the
+   page is split into exercises under h2 headings, each heading carries its
+   own "3/6", green once that exercise is finished.
+
+   The kit drives it for the pages it marks. A page that marks itself calls
+       BBAMeter.set(answered, correct, total)
+   and, if it wants per-exercise counters,
+       BBAMeter.section(headingElement, answered, total)
+   ---------------------------------------------------------------------- */
+var MT = (LANG === "fr") ? {ans:"réponses", ok:"justes", done:"terminé", q:"questions"}
+                         : {ans:"respuestas", ok:"correctas", done:"terminado", q:"preguntas"};
+var METER = {el:null, ext:false};
+function meterBuild(){
+  if (METER.el && document.body.contains(METER.el)) return METER.el;
+  var row = document.createElement("div");
+  row.className = "bba-meter"; row.setAttribute("aria-live","polite");
+  row.innerHTML = '<span class="t"></span><span class="trk" aria-hidden="true"><i class="a"></i><i class="c"></i></span>';
+  var host = document.getElementById("bba-kit");
+  if (host) host.insertBefore(row, host.firstChild);
+  else { row.classList.add("solo"); document.body.appendChild(row);
+         document.body.style.paddingBottom = (row.offsetHeight + 12) + "px"; }
+  METER.el = row;
+  return row;
+}
+function meterShow(done, correct, total){
+  total = Math.max(0, +total || 0);
+  done = Math.max(0, Math.min(+done || 0, total));
+  var open = (correct === null || correct === undefined);          /* no right answers: count only */
+  correct = open ? 0 : Math.max(0, Math.min(+correct || 0, done));
+  if (!total){ if (METER.el) METER.el.style.display = "none"; return; }
+  var row = meterBuild(); row.style.display = "";
+  row.querySelector(".a").style.width = (100 * done / total).toFixed(1) + "%";
+  row.querySelector(".c").style.width = (open ? 100 * done / total : 100 * correct / total).toFixed(1) + "%";
+  row.querySelector(".t").innerHTML = !done ? "<b>" + total + "</b> " + MT.q :
+    "<b>" + done + "</b> / " + total + " " + MT.ans
+    + (open ? "" : " · <b>" + correct + "</b> " + MT.ok) + (done >= total ? " · " + MT.done + " ✓" : "");
+  row.classList.toggle("full", done >= total);
+}
+/* A page that marks itself and reports through BBAMeter.set() is also
+   recorded in the shared score store, exactly as kit pages are, so the hub
+   tile and the teacher's code see it. Answers are counted once each. */
+var MREC = {last:0, started:false};
+function meterRecord(done, correct, total){
+  if (!total) return;
+  var n = Math.max(0, done - MREC.last); MREC.last = Math.max(MREC.last, done);
+  if (!n && MREC.started && correct === MREC.c) return;
+  MREC.c = correct;
+  try{
+    var all = JSON.parse(localStorage.getItem("bba-scores") || "{}");
+    var f = decodeURIComponent(location.pathname.split("/").pop() || "index");
+    var prev = all[f] || {}, open = (correct === null || correct === undefined);
+    var rec = {title:(document.title||"").slice(0,120), score: open ? done : correct, total: total,
+      best: Math.max((open ? done : correct) / total, (prev.best > 1 && prev.total) ? prev.best / prev.total : (prev.best || 0)),
+      attempts: (prev.attempts || 0) + (MREC.started ? 0 : 1), t: Date.now()};
+    if (open) rec.open = true;
+    rec.ans = (prev.ans || 0) + n; rec.lg = {};
+    for (var k in (prev.lg || {})) rec.lg[k] = prev.lg[k];
+    var day = String(Math.floor(Date.now()/86400000)); if (n) rec.lg[day] = (rec.lg[day] || 0) + n;
+    var ks = Object.keys(rec.lg).sort(function(a,b){return a-b;}); while (ks.length > 120) delete rec.lg[ks.shift()];
+    all[f] = rec; localStorage.setItem("bba-scores", JSON.stringify(all));
+    MREC.started = true;
+  }catch(e){}
+}
+function meterBadge(h, done, total){
+  if (!h || !total) return;
+  var b = h.querySelector(".bba-sec");
+  if (!b){ b = document.createElement("span"); b.className = "bba-sec"; h.appendChild(b); }
+  b.textContent = done + "/" + total;
+  b.classList.toggle("part", done > 0 && done < total);
+  b.classList.toggle("full", done >= total);
+}
+function meterItems(){
+  var key = externalKey();
+  return allFields().filter(function(el){ return answerOf(el, key) != null; });
+}
+function meterKit(){
+  if (METER.ext || !ON("check") || !ON("meter")) return;
+  var items = meterItems();
+  if (!items.length) return;
+  var done = 0, ok = 0, fin = function(el){ var k = fieldKey(el); return S.done[k] ? 2 : (S.shown[k] ? 1 : 0); };
+  items.forEach(function(el){ var f = fin(el); if (f){ done++; if (f === 2) ok++; } });
+  meterShow(done, ok, items.length);
+  /* per exercise: the h2 each question sits under */
+  var hs = Array.prototype.filter.call(document.querySelectorAll("h2"), function(h){ return !h.closest("#bba-kit"); });
+  if (hs.length < 2) return;
+  var groups = [];
+  items.forEach(function(el){
+    for (var i = hs.length - 1; i >= 0; i--){
+      if (hs[i].compareDocumentPosition(el) & 4){
+        var g = groups.filter(function(x){ return x.h === hs[i]; })[0];
+        if (!g){ g = {h:hs[i], n:0, d:0}; groups.push(g); }
+        g.n++; if (fin(el)) g.d++;
+        return;
+      }
+    }
+  });
+  if (groups.length < 2) return;
+  groups.forEach(function(g){ meterBadge(g.h, g.d, g.n); });
+}
+/* the kit's own marking refreshes the meter after every verdict */
+/* Every verdict is saved straight away, so the tile on the hub turns green
+   and shows "best X / Y" without waiting for the Vérifier button. One
+   attempt per visit; each new answer counts once as a question answered. */
+var LIVE = {started:false, inCheck:false};
+function livePublish(nNew){
+  if (!ON("check") || !ON("meter")) return;
+  var items = meterItems(); if (!items.length) return;
+  var ok = 0; items.forEach(function(el){ if (S.done[fieldKey(el)]) ok++; });
+  try{
+    var all = JSON.parse(localStorage.getItem("bba-scores") || "{}");
+    var f = decodeURIComponent(location.pathname.split("/").pop() || "index");
+    var prev = all[f] || {}, total = items.length;
+    var rec = {title:(document.title||"").slice(0,120), score:ok, total:total,
+      best: Math.max(ok / total, (prev.best > 1 && prev.total) ? prev.best / prev.total : (prev.best || 0)),
+      attempts: (prev.attempts || 0) + (LIVE.started ? 0 : 1), t: Date.now()};
+    rec.ans = (prev.ans || 0) + nNew; rec.lg = {};
+    for (var k in (prev.lg || {})) rec.lg[k] = prev.lg[k];
+    var day = String(Math.floor(Date.now()/86400000)); if (nNew) rec.lg[day] = (rec.lg[day] || 0) + nNew;
+    var ks = Object.keys(rec.lg).sort(function(a,b){return a-b;}); while (ks.length > 120) delete rec.lg[ks.shift()];
+    all[f] = rec; localStorage.setItem("bba-scores", JSON.stringify(all));
+    LIVE.started = true;
+  }catch(e){}
+}
+var checkOne0 = checkOne;
+checkOne = function(el, want){
+  var v = checkOne0(el, want);
+  if (!LIVE.inCheck && v && v.code !== "empty"){
+    var k = fieldKey(el), val = (el.tagName === "SELECT")
+      ? (el.options[el.selectedIndex] ? el.options[el.selectedIndex].text : "") : el.value, n = 0;
+    S.cnt = S.cnt || {};
+    if (S.cnt[k] !== val){ S.cnt[k] = val; n = 1; saveState(); }
+    livePublish(n);
+  }
+  meterKit();
+  return v;
+};
+var check0 = check;
+check = function(msg){ LIVE.inCheck = true; try { return check0(msg); } finally { LIVE.inCheck = false; LIVE.started = true; meterKit(); } };
+var clearState0 = clearState; clearState = function(){ clearState0(); meterKit(); };
+
 function boot(){
   loadState();
   build();
@@ -915,6 +1074,7 @@ function boot(){
   wireEnter();
   // Let a page's own restore logic run first; the kit only fills the gaps.
   setTimeout(offerResume, 350);
+  setTimeout(meterKit, 450);
 }
 if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",boot);
 else boot();
@@ -926,6 +1086,50 @@ window.BBA = {
   save: function(){ captureAll(); saveState(true); },
   reset: clearState,
   scores: function(){ try{ return JSON.parse(localStorage.getItem("bba-scores")||"{}"); }catch(e){ return {}; } },
-  version: 2.1
+  version: 2.2
 };
+window.BBAMeter = {
+  /* correct may be null for open tasks with no fixed answers; record:false
+     shows the counter without writing to the score store */
+  set: function(answered, correct, total, opts){ METER.ext = true; meterShow(answered, correct, total);
+         if (!(opts && opts.record === false) && (+answered || 0) > 0) meterRecord(Math.min(+answered||0, +total||0), correct, +total||0); },
+  section: function(h, answered, total){ meterBadge(h, +answered || 0, +total || 0); },
+  hide: function(){ METER.ext = true; if (METER.el) METER.el.style.display = "none"; },
+  /* For pages that mark in points rather than one mark per question:
+     answered / questions, plus the mark once there is one (score / max). */
+  points: function(answered, questions, score, max, opts){
+    METER.ext = true; questions = +questions || 0; answered = Math.min(+answered || 0, questions);
+    if (score === null || score === undefined || !max){ meterShow(answered, null, questions);
+      if (METER.el){ METER.el.querySelector(".c").style.width = "0%"; } return; }
+    score = Math.max(0, Math.min(+score || 0, +max)); max = +max;
+    if (max === questions){ this.set(answered, Math.round(score), questions, opts); return; }
+    var only = !questions; if (only){ questions = max; answered = 0; }
+    meterShow(answered || 1, null, questions);
+    var row = METER.el;
+    row.querySelector(".a").style.width = (only ? 0 : 100 * answered / questions).toFixed(1) + "%";
+    row.querySelector(".c").style.width = (100 * score / max).toFixed(1) + "%";
+    row.classList.remove("full");
+    row.querySelector(".t").innerHTML = (answered ? "<b>" + answered + "</b> / " + questions + " " + MT.ans + " · " : "")
+      + "<b>" + (Math.round(score * 10) / 10) + "</b> / " + max + " points";
+    if (!(opts && opts.record === false)){
+      var keep = MREC.last; MREC.last = 0;                 /* answers counted by questions, mark by points */
+      meterRecordPts(answered, keep, score, max);
+    }
+  }
+};
+function meterRecordPts(answered, prevAnswered, score, max){
+  var n = Math.max(0, answered - prevAnswered); MREC.last = Math.max(prevAnswered, answered);
+  try{
+    var all = JSON.parse(localStorage.getItem("bba-scores") || "{}");
+    var f = decodeURIComponent(location.pathname.split("/").pop() || "index"), prev = all[f] || {};
+    var rec = {title:(document.title||"").slice(0,120), score: Math.round(score * 10) / 10, total: max,
+      best: Math.max(score / max, (prev.best > 1 && prev.total) ? prev.best / prev.total : (prev.best || 0)),
+      attempts: (prev.attempts || 0) + (MREC.started ? 0 : 1), t: Date.now()};
+    rec.ans = (prev.ans || 0) + n; rec.lg = {};
+    for (var k in (prev.lg || {})) rec.lg[k] = prev.lg[k];
+    var day = String(Math.floor(Date.now()/86400000)); if (n) rec.lg[day] = (rec.lg[day] || 0) + n;
+    var ks = Object.keys(rec.lg).sort(function(a,b){return a-b;}); while (ks.length > 120) delete rec.lg[ks.shift()];
+    all[f] = rec; localStorage.setItem("bba-scores", JSON.stringify(all)); MREC.started = true;
+  }catch(e){}
+}
 })();

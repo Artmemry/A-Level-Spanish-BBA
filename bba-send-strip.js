@@ -14,7 +14,7 @@
 if (window.BBAStrip) return;
 window.BBAStrip = true;
 
-var T = {recorded:"Recorded:", notYet:"Finish the activity and your score is saved here automatically.", thisTerm:function(n){return n+" activities recorded on this device";}, back:"\u2190 All activities", send:"Enviar a tu profesor \u2192"};
+var T = {recorded:"Recorded:", notYet:"Finish the activity and your score is saved here automatically.", thisTerm:function(n){return n+" activities recorded on this device";}, back:"\u2190 All activities", send:"Send to your teacher \u2192"};
 var HUB = "index.html";
 var KEY = "bba-scores";
 
@@ -175,6 +175,8 @@ function watchScore() {
     if (txt === last) return;
     last = txt;
     if (!touched) return;
+    /* a page wired to BBAMeter saves its own score and question count */
+    if (window.BBA_HOOKED) { paint(); return; }
     var m = /-?\d+(\.\d+)?/.exec(txt);
     if (!m) return;
     record(parseFloat(m[0]));
