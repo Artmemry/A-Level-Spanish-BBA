@@ -817,14 +817,20 @@ function buildCode(){
       : null;
     secs[sec.id]=[d, sec.items.length, withScore.length, avg];
   });
-  var rows=[], hardIds=[], q=[], ansAll=0, ansT=0, mast=0;
+  var rows=[], hardIds=[], q=[], w=[], comp=0, ansAll=0, ansT=0, mast=0;
+  /* how far into each activity: questions answered out of questions on the
+     page (bba-done, written by the activity's counter); a page that only left
+     a score gives its mark as the floor, since every right answer was answered */
+  var DONE={}; try{ var rawD=JSON.parse(localStorage.getItem("bba-done")||"{}")||{};
+    for(var dk in rawD){ DONE[dk]=rawD[dk]; try{ DONE[decodeURIComponent(dk)]=rawD[dk]; }catch(e){} } }catch(e){}
+  var doneFor=function(it){ var f=it.file, r=DONE[f]; if(!r){ try{ r=DONE[decodeURIComponent(f)]; }catch(e){} } return r||null; };
   var ct=currentTask(), since=ct ? (Date.parse(ct.since||"")||ct.t||0) : 0;
   var OPEN={}; try{ OPEN=JSON.parse(localStorage.getItem("bba-answers")||"{}")||{}; }catch(e){}
   var openFor=function(it){ var f=it.file, r=OPEN[f]; if(!r){ try{ r=OPEN[decodeURIComponent(f)]; }catch(e){} } return r||null; };
   ALL.forEach(function(it,i){
     var r=S.a[it.id]||{}, rec=scoreFor(it);
     if(r.conf===1) hardIds.push(it.id);
-    if(!rec && !r.done && !r.opened && !openFor(it)) return;           // untouched: nothing to send
+    if(!rec && !r.done && !r.opened && !openFor(it) && !doneFor(it)) return;   // untouched: nothing to send
     if(rec){ scoredTotal++; pctSum+=pctFor(it); }
     /* questions answered (all time, and since the task) and mastered = best ≥ 80 % */
     var op=openFor(it);
@@ -835,6 +841,11 @@ function buildCode(){
       ansAll+=a; if(aT!=null) ansT+=aT; if(rec && pctFor(it)>=80) mast++;
       if(i<=254 && a) q.push([i, a, aT==null?-1:aT]);
     }
+    var dn=doneFor(it), dd=null, nn=null;
+    if(dn && dn.n){ dd=Math.min(dn.d||0, dn.n); nn=dn.n; }
+    if(rec && rec.total && !rec.parts){ var fl=Math.min(rec.total, Math.round(rec.score||0));
+      if(nn==null){ dd=fl; nn=rec.total; } else if(nn===rec.total) dd=Math.max(dd, fl); }
+    if(nn && i<=254){ w.push([i, dd, nn]); if(dd>=nn) comp++; }
     if(isClaimed(it)) claimed++;
     rows.push({index:i, pct:rec?pctFor(it):null, ticked:!!r.done,
                conf:r.conf||0, attempts:rec?rec.attempts:0});
@@ -846,8 +857,8 @@ function buildCode(){
     o:{done:done, total:ALL.length,
        opened:ALL.filter(function(it){return (S.a[it.id]||{}).opened||scoreFor(it);}).length,
        scored:scoredTotal, avg:scoredTotal?Math.round(pctSum/scoredTotal):null,
-       claimed:claimed, ans:ansAll, ansT:since?ansT:null, mast:mast, ts:since?Math.floor(since/86400000):null},
-    s:secs, h:hardIds.slice(0,25), q:q,
+       claimed:claimed, ans:ansAll, ansT:since?ansT:null, mast:mast, ts:since?Math.floor(since/86400000):null, comp:comp},
+    s:secs, h:hardIds.slice(0,25), q:q, w:w,
     r:BBAProgress.pack(rows)
   };
   if(S.sid) p.i=S.sid;          // stable id: lets a record survive a change of name spelling

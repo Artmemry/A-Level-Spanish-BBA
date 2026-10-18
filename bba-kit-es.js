@@ -951,12 +951,29 @@ function meterBuild(){
   METER.el = row;
   return row;
 }
+/* How far into each activity the student has got: the most questions
+   answered at any one time, out of the questions on the page. Kept apart
+   from the score store (bba-done) so nothing that reads bba-scores changes.
+   The hub sends it in the code; the dashboard counts an activity as
+   completed when every question has an answer. */
+function meterProgress(done, total){
+  if (!total) return;
+  try{
+    var f = decodeURIComponent(location.pathname.split("/").pop() || "index");
+    var all = JSON.parse(localStorage.getItem("bba-done") || "{}"), p = all[f] || {};
+    var d = Math.min(total, Math.max(p.n === total ? (p.d || 0) : 0, done));
+    if (p.n === total && p.d === d) return;
+    all[f] = {d: d, n: total, t: Date.now()};
+    localStorage.setItem("bba-done", JSON.stringify(all));
+  }catch(e){}
+}
 function meterShow(done, correct, total){
   total = Math.max(0, +total || 0);
   done = Math.max(0, Math.min(+done || 0, total));
   var open = (correct === null || correct === undefined);          /* no right answers: count only */
   correct = open ? 0 : Math.max(0, Math.min(+correct || 0, done));
   if (!total){ if (METER.el) METER.el.style.display = "none"; return; }
+  meterProgress(done, total);
   var row = meterBuild(); row.style.display = "";
   row.querySelector(".a").style.width = (100 * done / total).toFixed(1) + "%";
   row.querySelector(".c").style.width = (open ? 100 * done / total : 100 * correct / total).toFixed(1) + "%";
