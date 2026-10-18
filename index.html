@@ -934,8 +934,33 @@ $("#btnCopy").addEventListener("click",function(){
   else { ta.select(); document.execCommand("copy"); }
   markSent();                                  /* pasted into Teams counts as sent */
 });
+/* The backup carries everything this site keeps about the student's work, not
+   only the hub's ticks: the activities' scores (bba-scores), how far into each
+   activity they got (bba-done), open-task answers (bba-answers) and the answers
+   typed into each activity of this site (bba2:<file>). A backup made before
+   this change holds the ticks only, and still restores. */
+function backupData(){
+  var out={}; for(var k in S) out[k]=S[k];
+  var get=function(k){ try{ return JSON.parse(localStorage.getItem(k)||"null"); }catch(e){ return null; } };
+  out._v=2; out._scores=get("bba-scores")||{}; out._done=get("bba-done")||{}; out._answers=get("bba-answers")||{};
+  var pages={}; ALL.forEach(function(it){ if(isExternal(it)) return; var f=it.file; try{ f=decodeURIComponent(f); }catch(e){}
+    var v=get("bba2:"+f); if(v) pages[f]=v; });
+  out._pages=pages;
+  return out;
+}
+/* merge, never wipe: what this browser already has wins unless the backup holds more */
+function restoreStores(s){
+  var get=function(k){ try{ return JSON.parse(localStorage.getItem(k)||"{}")||{}; }catch(e){ return {}; } };
+  var put=function(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} };
+  var more=function(a,b){ if(!a) return true; return (b.ans||0)>(a.ans||0) || ((b.ans||0)===(a.ans||0) && (b.t||0)>(a.t||0)); };
+  if(s._scores){ var sc=get("bba-scores"); for(var f in s._scores){ if(more(sc[f], s._scores[f])) sc[f]=s._scores[f]; } put("bba-scores",sc); }
+  if(s._answers){ var an=get("bba-answers"); for(var f2 in s._answers){ if(more(an[f2], s._answers[f2])) an[f2]=s._answers[f2]; } put("bba-answers",an); }
+  if(s._done){ var dn=get("bba-done"); for(var f3 in s._done){ var a=dn[f3], b=s._done[f3]; if(!a || (b.d||0)>(a.d||0)) dn[f3]=b; } put("bba-done",dn); }
+  if(s._pages){ for(var f4 in s._pages){ var cur=get("bba2:"+f4), bk=s._pages[f4];
+    if(!cur || !cur.t || (bk.t||0)>(cur.t||0)) put("bba2:"+f4, bk); } }
+}
 $("#btnSave").addEventListener("click",function(){
-  var blob=new Blob([JSON.stringify(S)],{type:"application/json"});
+  var blob=new Blob([JSON.stringify(backupData())],{type:"application/json"});
   var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=CFG.saveFile;
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
 });
@@ -944,7 +969,13 @@ $("#btnLoad").addEventListener("click",function(){
   inp.addEventListener("change",function(){
     var f=inp.files[0]; if(!f)return;
     var rd=new FileReader();
-    rd.onload=function(){ try{var s=JSON.parse(rd.result); if(!s.a)throw 0; S=s; save(); location.reload(); }
+    rd.onload=function(){ try{var s=JSON.parse(rd.result); if(!s || !s.a)throw 0;
+        restoreStores(s);
+        var keep={}; for(var k in s){ if(k.charAt(0)!=="_") keep[k]=s[k]; }
+        /* ticks and "opened" marks: keep both browsers' */
+        var a=S.a||{}; for(var id in keep.a){ a[id]=Object.assign({}, keep.a[id], a[id]||{}); }
+        keep.a=a; if(!keep.name && S.name) keep.name=S.name;
+        S=keep; save(); location.reload(); }
       catch(e){ alert(CFG.badFile); } };
     rd.readAsText(f);
   });
