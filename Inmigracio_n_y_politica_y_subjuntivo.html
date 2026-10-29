@@ -416,16 +416,16 @@
         
         <div class="controls">
             <button id="check-answers">✅ Verificar mis respuestas</button>
-            <button id="download-report" class="download-btn">📥 Descargar Bilan</button>
+            <button id="download-report" class="download-btn">📥 Download results</button>
             <button id="toggle-keyboard" class="secondary">⌨️ Teclado Español</button>
-            <button id="reset" class="reset-btn">🔄 Recommencer</button>
+            <button id="reset" class="reset-btn">🔄 Start again</button>
         </div>
     </div>
 
     <div id="results-modal" class="modal">
         <div class="modal-content">
             <button onclick="document.getElementById('results-modal').style.display='none'" style="float:right; background:none; color:#555; box-shadow:none;">✕</button>
-            <h3>Felicidades! Su Bilan</h3>
+            <h3>Your results</h3>
             <div class="result-summary">
                 <div>Puntuación Global: <strong id="modal-total"></strong> / 36</div>
                 <div>Vocabulario (Cloze): <strong id="modal-cloze"></strong> / 5</div>
@@ -971,7 +971,7 @@
         // --- 5. REPORT DOWNLOAD LOGIC ---
         function downloadReport(results) {
             const { score, scores } = results;
-            let content = `BILAN: INMIGRACIÓN Y POLÍTICA ESPAÑOLA (A-LEVEL)\n`;
+            let content = `RESULTADOS: INMIGRACIÓN Y POLÍTICA ESPAÑOLA (A-LEVEL)\n`;
             content += `Fecha: ${new Date().toLocaleDateString('es-ES')}\n`;
             content += `Puntuación Global: ${score} / ${totalScore}\n`;
             content += `Nivel Estimado: ${document.getElementById('modal-level').textContent}\n`;
@@ -1025,7 +1025,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'A_Level_Inmigracion_Bilan.txt';
+            a.download = 'A_Level_Inmigracion_resultados.txt';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);

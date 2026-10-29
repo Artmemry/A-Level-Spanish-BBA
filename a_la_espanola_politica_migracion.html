@@ -309,7 +309,7 @@
 <div class="container">
   <header class="main">
     <h1>A la española</h1>
-    <p class="subtitle">Adaptado de Fred Harter — comprensión y léxico, nivel B2</p>
+    <p class="subtitle">Adaptado de Fred Harter (escrito durante el plazo de solicitudes, abril-junio de 2026) — comprensión y léxico, nivel B2</p>
   </header>
 
   <section>
@@ -346,6 +346,17 @@
 
       <p><span class="heading">Y además…</span> La UE ha expresado su preocupación, ya que los migrantes regularizados en España podrán moverse libremente por el bloque. Su comisión de inmigración ha afirmado que «todo Estado debe evitar decisiones que tengan efectos negativos sobre otros miembros».</p>
     </div>
+  
+    <aside class="update" style="margin:1.4em 0 0;padding:1em 1.2em;border-left:5px solid #8b1e2d;background:#f7f1e6;border-radius:6px">
+      <p style="margin:0 0 .4em;font-weight:700">Actualización · octubre de 2026</p>
+      <p style="margin:0">El plazo terminó el 30 de junio con <strong>1.174.978 solicitudes</strong>: más del doble de las 500.000 que esperaba el Gobierno. La tramitación avanza despacio: en julio solo se habían notificado unas 11.000 resoluciones favorables, y el Tribunal Supremo rechazó suspender la medida. Además, las «elecciones generales del año que viene» se adelantaron: Pedro Sánchez las convocó para el <strong>29 de noviembre de 2026</strong>, y Vox ha anunciado que no aceptará nuevos procesos de regularización.</p>
+      <details style="margin-top:.5em;font-size:.85em"><summary>Sources for this update</summary>
+        <a href="https://infomigrante.es/2026/10/16/seis-meses-de-regularizacion-extraordinaria-en-espana-mas-de-un-millon-de-solicitudes-y-pocas-respuestas-oficiales/" target="_blank" rel="noopener">Infomigrante, 16-10-2026</a> ·
+        <a href="https://es.euronews.com/my-europe/2026/05/22/espana-tribunal-supremo-descarta-paralizar-cautelarmente-regularizacion-inmigrantes" target="_blank" rel="noopener">Euronews, 22-5-2026</a> ·
+        <a href="https://www.lamoncloa.gob.es/presidente/actividades/Paginas/2026/051026-sanchez-convocatoria-elecciones.aspx" target="_blank" rel="noopener">La Moncloa, 5-10-2026</a> ·
+        <a href="https://infomigrante.es/2026/10/25/abascal-anuncia-que-vox-no-aceptara-procesos-de-regularizacion-de-migrantes-y-propone-repatriaciones/" target="_blank" rel="noopener">Infomigrante, 25-10-2026</a>
+      </details>
+    </aside>
   </section>
 
   <div class="name-bar">
@@ -396,10 +407,10 @@
   </section>
 
   <!-- =============================================================
-       EJERCICIO 4 — CLOZE / TEXTO A TROUS
+       EJERCICIO 4 — CLOZE / TEXTO CON HUECOS
   ============================================================== -->
   <section class="exercise" id="ex4">
-    <h2>5. Texto a trous — completa con las palabras del banco</h2>
+    <h2>5. Texto con huecos — completa con las palabras del banco</h2>
     <p class="instructions">Completa el resumen con las palabras adecuadas. Cada palabra se usa una sola vez.</p>
     <div class="word-bank">
       <strong>Banco de palabras:</strong> salud · sumida · población · doble · suerte · apertura · crecimiento · renovables
@@ -590,6 +601,21 @@ const ex5 = [
     s: "Italia tramita a los migrantes rescatados en el mar en centros fuera de su territorio.",
     correct: "V",
     fb: "« Italia procesa a los rescatados en el mar en centros de internamiento en el extranjero »."
+  },
+  {
+    s: "Actualización: al cerrar el plazo, las solicitudes superaron con creces el medio millón previsto.",
+    correct: "V",
+    fb: "« 1.174.978 solicitudes: más del doble de las 500.000 que esperaba el Gobierno »."
+  },
+  {
+    s: "Actualización: en julio ya se había aprobado la mayoría de las solicitudes.",
+    correct: "F",
+    fb: "Solo « unas 11.000 resoluciones favorables » en julio: la tramitación avanza despacio."
+  },
+  {
+    s: "Actualización: las elecciones generales se celebrarán en 2027, como estaba previsto.",
+    correct: "F",
+    fb: "Se adelantaron: Sánchez las convocó para el « 29 de noviembre de 2026 »."
   },
   {
     s: "El plan de regularización ha sido criticado por el Papa.",
@@ -915,7 +941,7 @@ document.getElementById('downloadBtn').addEventListener('click', () => {
     lines.push('');
   });
 
-  lines.push('--- EJERCICIO 5 · TEXTO A TROUS ---');
+  lines.push('--- EJERCICIO 5 · TEXTO CON HUECOS ---');
   results.ex4.forEach(r => {
     lines.push(`Hueco ${r.gap}:`);
     lines.push(`   Tu respuesta:    ${r.given || '(vacío)'}`);
