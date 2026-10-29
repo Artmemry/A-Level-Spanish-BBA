@@ -663,7 +663,7 @@
                 
                 <div class="reading-passage">
                     <strong>Párrafo C:</strong><br>
-                    No se puede subvalorar lo que Franco consiguió en octubre de 1936, a declararse Jefe de Estado, tomando el mando militar y creando incluso su propio partido político para respaldar sus pretensiones. Si la República hubiera podido hacer algo parecido para unificar su "bando", quizás se podría haber cambiado el curso de la guerra, pero era casi imposible que las diferentes facciones anarquistas, comunistas, socialistas y marxistas se pusieran de acuerdo.
+                    No se puede subvalorar lo que Franco consiguió en octubre de 1936, al declararse Jefe de Estado y tomar el mando militar; en abril de 1937 creó incluso su propio partido político para respaldar sus pretensiones. Si la República hubiera podido hacer algo parecido para unificar su "bando", quizás se podría haber cambiado el curso de la guerra, pero era casi imposible que las diferentes facciones anarquistas, comunistas, socialistas y marxistas se pusieran de acuerdo.
                 </div>
                 
                 <div class="question-box">
@@ -701,7 +701,7 @@
                 <div class="grammar-exercise">
                     <h3>Completa las frases con el imperfecto del subjuntivo:</h3>
                     
-                    <p><strong>1.</strong> Si la República <input type="text" id="g1" style="width: 150px; display: inline-block;"> (poder) unificar su bando, quizás habría ganado la guerra.</p>
+                    <p><strong>1.</strong> Los republicanos deseaban que la República <input type="text" id="g1" style="width: 150px; display: inline-block;"> (poder) unificar su bando.</p>
                     <button onclick="checkGrammar('g1', 'pudiera', 1)">Verificar</button>
                     <div id="feedback1"></div>
                     
@@ -789,6 +789,7 @@
         let comprehensionScore = 0;
         let comprehensionAnswered = 0;
         let grammarScore = 0;
+        const grammarCorrect = new Set();
         let lastFocusedInput = null;
         let vocabMatches = {};
         
@@ -1114,10 +1115,13 @@
             if (normalizedUser === normalizedCorrect || userAnswer === correctAnswer) {
                 feedbackDiv.innerHTML = '<div class="feedback success">✓ ¡Correcto! La respuesta es: ' + correctAnswer + '</div>';
                 input.style.borderColor = '#28a745';
-                grammarScore++;
+                grammarCorrect.add(questionNum);
+                grammarScore = grammarCorrect.size;
             } else {
                 feedbackDiv.innerHTML = '<div class="feedback error">✗ Incorrecto. La respuesta correcta es: ' + correctAnswer + '</div>';
                 input.style.borderColor = '#dc3545';
+                grammarCorrect.delete(questionNum);
+                grammarScore = grammarCorrect.size;
             }
             
             // Show total score

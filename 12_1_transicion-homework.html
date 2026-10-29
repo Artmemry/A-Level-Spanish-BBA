@@ -96,8 +96,8 @@
 
 <div id="nameSection">
   <h2>👋 ¡Bienvenido/a!</h2>
-  <p style="margin-bottom:1rem;color:var(--mid)">Introduce tu nombre y apellido para empezar. Tus resultados se podrán descargar al final.</p>
-  <input type="text" id="nameInput" placeholder="Nombre y apellido…">
+  <p style="margin-bottom:1rem;color:var(--mid)">Escribe tu nombre y la inicial de tu apellido para empezar. Tus resultados se podrán descargar al final.</p>
+  <input type="text" id="nameInput" placeholder="Nombre + inicial, p. ej. Lucía G.">
   <br><button class="btn" onclick="start()">Empezar los deberes →</button>
 </div>
 
@@ -117,12 +117,12 @@
     </div>
     <div class="rbox" style="margin-top:1rem">
       <h3>Las Cortes y la autodestrucción (Adolfo Suárez)</h3>
-      <p>Había que construir el camino de la democracia con urgencia y esto se demostró en un referéndum (diciembre de 1976) con el que se ratificó la Ley para la Reforma Política. Luego <span class="kw">se aprobó</span> en las Cortes, un año escaso después de la muerte de Franco, con casi todos los votos a favor y una participación <span class="kw">abrumadora</span> del 75%. Con este resultado sabía Suárez que se podía proceder a desmantelar las instituciones franquistas.</p>
+      <p>Había que construir el camino de la democracia con urgencia. El 18 de noviembre de 1976, un año escaso después de la muerte de Franco, la Ley para la Reforma Política <span class="kw">se aprobó</span> en las Cortes franquistas, que en la práctica votaron su propia desaparición. El 15 de diciembre la ley se ratificó en un referéndum, con una participación del 78 % y una mayoría <span class="kw">abrumadora</span> del 94 % de votos a favor. Con este resultado sabía Suárez que se podía proceder a desmantelar las instituciones franquistas.</p>
       <br>
-      <p>Hacía falta impulsar las primeras elecciones democráticas, pero para esto Suárez necesitaba que las Cortes <span class="kw">aprobaran</span> una ley que, en la práctica, significaba que se anulaba el régimen. Al mismo tiempo <span class="kw">se exigía</span> desde la oposición la legalización de todos los partidos políticos, incluido el Partido Comunista. Se consiguió después de una reunión <span class="kw">larguísima</span> con Santiago Carrillo, en febrero de 1977. Esta reunión secreta fue clave porque a Suárez ya no le quedaba ninguna duda de que la legitimidad de las elecciones dependería de la participación de todos los partidos.</p>
+      <p>Hacía falta impulsar las primeras elecciones democráticas. Al mismo tiempo <span class="kw">se exigía</span> desde la oposición la legalización de todos los partidos políticos, incluido el Partido Comunista. Se consiguió después de una reunión secreta y <span class="kw">larguísima</span> con Santiago Carrillo, en febrero de 1977. Esta reunión fue clave porque a Suárez ya no le quedaba ninguna duda de que la legitimidad de las elecciones dependería de la participación de todos los partidos.</p>
       <br>
       <p>En las primeras elecciones democráticas tras la dictadura (junio de 1977), el partido de Adolfo Suárez (UCD) ganaría el <span class="kw">34% de los votos</span> y los <span class="kw">165 escaños</span> le darían la razón al presidente del Gobierno.</p>
-      <div class="src">Textos adaptados: Manual Edexcel A-Level Spanish, Unidad 12 – La Transición española</div>
+      <div class="src">Textos adaptados: Manual Edexcel A-Level Spanish, Unidad 12 – La Transición española (fechas y cifras del referéndum corregidas)</div>
     </div>
   </div>
 
@@ -163,8 +163,8 @@
   </div>
 
   <div class="section">
-    <h2><span class="sn">6</span> Gramática – ¿<em>Se</em> pasivo o voz pasiva?</h2>
-    <p class="subtitle">Elige si la frase usa el <em>se</em> pasivo (reflexivo impersonal) o la voz pasiva con <em>ser</em>. Luego tradúcela al inglés en la casilla.</p>
+    <h2><span class="sn">6</span> Gramática – ¿<em>Se</em> pasivo, <em>se</em> impersonal o voz pasiva?</h2>
+    <p class="subtitle">Elige el tipo de frase. <em>Se</em> pasivo: el verbo concuerda con un sujeto (<em>se ratificó la ley</em>, <em>se ratificaron las leyes</em>). <em>Se</em> impersonal: no hay sujeto y el verbo va siempre en singular (<em>se confiaba en…</em>, <em>se puede decir que…</em>, <em>se excluyó a los militares</em>). Voz pasiva: <em>ser</em> + participio. Luego tradúcela al inglés en la casilla.</p>
     <div id="seBox"></div>
     <button class="btn" style="margin-top:.8rem" onclick="checkSe()">Comprobar ✓</button>
   </div>
@@ -250,8 +250,8 @@ const synData=[
   {word:"el presentimiento / la corazonada",opts:["el milagro","el alivio","la intuición","el rumbo"],ans:"la intuición"},
   {word:"evidente / palpable",opts:["abrumador","tangible","larguísimo","clave"],ans:"tangible"},
   {word:"la dirección / el camino",opts:["el peso","el rumbo","el escaño","el referéndum"],ans:"el rumbo"},
-  {word:"gobernar / dirigir",opts:["devolver","excluir","soportar","mandar — gobernar"],ans:"mandar — gobernar"},
-  {word:"enfrentarse con / chocar con",opts:["catapultar","prolongar","chocar contra","desmantelar"],ans:"chocar contra"},
+  {word:"desmontar / deshacer",opts:["devolver","excluir","soportar","desmantelar"],ans:"desmantelar"},
+  {word:"enfrentarse con / oponerse frontalmente a",opts:["catapultar","prolongar","chocar contra","desmantelar"],ans:"chocar contra"},
 ];
 
 const vocData=[
@@ -275,7 +275,7 @@ const gapData=[
   {before:"El cambio de rumbo no fue ",ans:"aplaudido",after:" por todos los sectores de la sociedad."},
   {before:"No se podía ",ans:"excluir",after:" al ejército del proceso democrático."},
   {before:"Cuando llegó el 23-F, el país fue ",ans:"catapultado",after:" hacia la libertad gracias al rey."},
-  {before:"La participación en el referéndum fue ",ans:"abrumadora",after:", con un 75% de ciudadanos votando."},
+  {before:"La mayoría a favor en el referéndum fue ",ans:"abrumadora",after:": un 94 % de los votos."},
   {before:"Suárez comprendió que la ",ans:"legitimidad",after:" de las elecciones dependía de todos los partidos."},
   {before:"El objetivo de Suárez era ",ans:"desmantelar",after:" las instituciones franquistas paso a paso."},
   {before:"Los 165 ",ans:"escaños",after:" obtenidos por la UCD en 1977 le dieron la razón a Suárez."},
@@ -295,8 +295,8 @@ const pasData=[
    ans:"Una vuelta a los horrores de la Guerra Civil ha sido evitada por los sucesivos gobiernos españoles.",
    hintEs:"Perfecto pasivo: <em>ha sido + participio</em>",
    hintEn:"Perfect passive: <em>has/have been + past participle</em>"},
-  {active:"Las fuerzas de la derecha en España no destruirán nunca la democracia.",
-   ans:"La democracia nunca será destruida por las fuerzas de la derecha en España.",
+  {active:"Los españoles no olvidarán nunca el 23-F.",
+   ans:"El 23-F nunca será olvidado por los españoles.",
    hintEs:"Futuro pasivo: <em>será + participio</em>",
    hintEn:"Future passive: <em>will be + past participle</em>"},
   {active:"No excluyeron del poder a los políticos de la izquierda.",
@@ -311,9 +311,9 @@ const pasData=[
 
 const seData=[
   {phrase:"Se prolongó bastante el efecto de aquellas tres décadas.",type:"se pasivo",trans:"The effect of those three decades was prolonged considerably."},
-  {phrase:"Se confiaba en la monarquía parlamentaria.",type:"se pasivo",trans:"Trust was placed in the parliamentary monarchy."},
-  {phrase:"Se puede decir que este fue el milagro de la democracia española.",type:"se pasivo",trans:"It can be said that this was the miracle of Spanish democracy."},
-  {phrase:"No se podía excluir al ejército.",type:"se pasivo",trans:"The army could not be excluded."},
+  {phrase:"Se confiaba en la monarquía parlamentaria.",type:"se impersonal",trans:"Trust was placed in the parliamentary monarchy."},
+  {phrase:"Se puede decir que este fue el milagro de la democracia española.",type:"se impersonal",trans:"It can be said that this was the miracle of Spanish democracy."},
+  {phrase:"No se podía excluir al ejército.",type:"se impersonal",trans:"The army could not be excluded."},
   {phrase:"El cambio de rumbo no fue aplaudido por todos.",type:"voz pasiva",trans:"The change of direction was not applauded by everyone."},
   {phrase:"La decisión de ascender a Suárez fue criticada en su momento por algunos.",type:"voz pasiva",trans:"The decision to promote Suárez was criticised at the time by some."},
   {phrase:"El país fue catapultado hacia la libertad.",type:"voz pasiva",trans:"The country was catapulted towards freedom."},
@@ -321,11 +321,11 @@ const seData=[
 ];
 
 const compData=[
-  {q:"¿Cómo se sabe que España quería dejar atrás la época de Franco? (2)",ans:"Ratificó la Ley para la Reforma Política con una participación abrumadora del 75%."},
-  {q:"¿Por qué tenía Adolfo Suárez la autoridad para efectuar tantos cambios importantes?",ans:"Por el resultado abrumador del referéndum, que le dio el mandato claro del pueblo español."},
-  {q:"¿Cómo consiguió Suárez el apoyo del Parlamento español para efectuar los cambios políticos?",ans:"Se reunió durante horas con el secretario general del Partido Comunista, Santiago Carrillo, en una reunión secreta."},
+  {q:"¿Cómo se sabe que España quería dejar atrás la época de Franco? (2)",ans:"La Ley para la Reforma Política se ratificó en referéndum con una participación del 78 % y un 94 % de votos a favor."},
+  {q:"¿Por qué tenía Adolfo Suárez la autoridad para efectuar tantos cambios importantes?",ans:"Por el resultado abrumador del referéndum de diciembre de 1976, que le dio un mandato claro del pueblo español."},
+  {q:"¿Cómo se consiguió la legalización de todos los partidos, incluido el Partido Comunista?",ans:"Después de una reunión secreta y larguísima entre Suárez y Santiago Carrillo, en febrero de 1977."},
   {q:"¿Por qué se consideraba necesaria la participación de todos los partidos en esta época?",ans:"Para asegurar la legitimidad de las elecciones democráticas."},
-  {q:"¿Qué quería decir Suárez al utilizar la palabra 'pluralismo' en su discurso televisado?",ans:"Que aceptaba la legalización de todos los partidos políticos, incluida la oposición."},
+  {q:"¿Qué hicieron las Cortes franquistas en noviembre de 1976, y por qué resulta sorprendente?",ans:"Aprobaron la Ley para la Reforma Política: en la práctica votaron su propia desaparición."},
   {q:"¿Cuál fue el resultado de las primeras elecciones democráticas de junio de 1977 para Suárez?",ans:"Su partido (UCD) obtuvo el 34% de los votos y 165 escaños, lo que legitimó su posición como presidente del Gobierno."},
 ];
 
@@ -347,8 +347,8 @@ const transData=[
    ans:"La decisión de ascender a Suárez fue criticada en su momento, pero su éxito se ha comprobado."},
   {en:"The army could not be excluded from the democratic process.",
    partial:"No ___ excluir al ejército del proceso democrático.",
-   hintEs:"Usa el <em>se</em> pasivo con el modal de imposibilidad en el pasado. ¿Qué tiempo verbal llevaría <em>poder</em>?",
-   hintEn:"Use the <em>se</em> passive with the past modal of impossibility. Which tense does <em>poder</em> take here?",
+   hintEs:"Usa el <em>se</em> impersonal (con «a» personal) y el modal de imposibilidad en el pasado. ¿Qué tiempo verbal llevaría <em>poder</em>?",
+   hintEn:"Use impersonal <em>se</em> (with the personal «a») and the past modal of impossibility. Which tense does <em>poder</em> take here?",
    ans:"No se podía excluir al ejército del proceso democrático."},
   {en:"Democracy was saved thanks to the actions of the new king.",
    partial:"___ la democracia gracias a las acciones del nuevo rey.",
@@ -446,6 +446,7 @@ function buildSe(){
     const sel=`<select class="ts" id="se${i}">
       <option value="">– elegir –</option>
       <option value="se pasivo">se pasivo</option>
+      <option value="se impersonal">se impersonal</option>
       <option value="voz pasiva">voz pasiva (ser + participio)</option>
     </select>`;
     d.innerHTML=`<div style="margin-bottom:.4rem"><strong>${i+1}.</strong> <em>${s.phrase}</em></div>
