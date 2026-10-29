@@ -391,7 +391,8 @@
             <div id="grammar-container-a"></div>
             
             <h3 style="margin-top: 30px;">Parte B: Práctica del Subjuntivo (8 puntos)</h3>
-            <p style="margin-bottom: 15px; font-style: italic;">Complete las frases con la forma correcta del subjuntivo.</p>
+            <p style="margin-bottom: 15px; font-style: italic;">Completa cada hueco con el verbo entre paréntesis en presente de subjuntivo.</p>
+            <p style="margin-bottom: 15px;"><strong>Reto:</strong> en cada frase, identifica la expresión que exige el subjuntivo (p. ej. <em>para que</em>, <em>hasta que</em>) y di qué expresa: finalidad, tiempo futuro, deseo, condición, duda, concesión o sentimiento.</p>
             <div id="grammar-container-b"></div>
         </div>
 
@@ -524,113 +525,25 @@
 
             // UPDATED GRAMMAR DATA - Complete sentences with verb form dropdowns
             grammar: {
-                partA: [ 
-                    { 
-                        id: "gA1", 
-                        sentence: "La ultraderecha miente a pesar de que la evidencia les ", 
-                        verb: "contradecir (3ª p. sing.)", 
-                        options: ["contradice", "contradiga"],
-                        answer: "contradice" 
-                    },
-                    { 
-                        id: "gA2", 
-                        sentence: "El Gobierno espera que los inmigrantes ", 
-                        verb: "encontrarse (3ª p. plu.)", 
-                        options: ["se encuentran", "se encuentren"],
-                        answer: "se encuentren" 
-                    },
-                    { 
-                        id: "gA3", 
-                        sentence: "Los políticos discutirán el tema migratorio tan pronto como el informe ", 
-                        verb: "llegar (3ª p. sing.)", 
-                        options: ["llega", "llegue"],
-                        answer: "llegue" 
-                    },
-                    { 
-                        id: "gA4", 
-                        sentence: "Ya que el país ", 
-                        verb: "ser (3ª p. sing.)", 
-                        options: ["es", "sea"],
-                        answer: "es" 
-                    },
-                    { 
-                        id: "gA5", 
-                        sentence: "No se puede avanzar a menos que la oposición ", 
-                        verb: "colaborar (3ª p. sing.)", 
-                        options: ["colabora", "colabore"],
-                        answer: "colabore" 
-                    },
-                    { 
-                        id: "gA6", 
-                        sentence: "La consejera afirma que la inmigración ", 
-                        verb: "impulsar (3ª p. sing.)", 
-                        options: ["impulsa", "impulse"],
-                        answer: "impulsa" 
-                    },
-                    { 
-                        id: "gA7", 
-                        sentence: "El PP endurecerá su discurso incluso si el electorado no lo ", 
-                        verb: "apoyar (3ª p. sing.)", 
-                        options: ["apoya", "apoye"],
-                        answer: "apoya" 
-                    },
-                    { 
-                        id: "gA8", 
-                        sentence: "Los ciudadanos reaccionaron con violencia porque no ", 
-                        verb: "tener (3ª p. plu.)", 
-                        options: ["tienen", "tengan"],
-                        answer: "tienen" 
-                    }
+                partA: [
+                    { id: "gA1", pre: "La ultraderecha sigue difundiendo bulos a pesar de que los datos oficiales la", post: "claramente.", verb: "contradecir (3ª p. plu.)", options: ["contradicen", "contradigan"], answer: "contradicen" },
+                    { id: "gA2", pre: "El Gobierno espera que los inmigrantes regularizados", post: "trabajo con más facilidad.", verb: "encontrar (3ª p. plu.)", options: ["encuentran", "encuentren"], answer: "encuentren" },
+                    { id: "gA3", pre: "Los políticos discutirán el tema migratorio tan pronto como", post: "el informe.", verb: "llegar (3ª p. sing.)", options: ["llega", "llegue"], answer: "llegue" },
+                    { id: "gA4", pre: "Ya que el país", post: "cada vez más diverso, la integración es una prioridad.", verb: "ser (3ª p. sing.)", options: ["es", "sea"], answer: "es" },
+                    { id: "gA5", pre: "No se puede avanzar a menos que la oposición", post: "con el Gobierno.", verb: "colaborar (3ª p. sing.)", options: ["colabora", "colabore"], answer: "colabore" },
+                    { id: "gA6", pre: "La consejera afirma que la inmigración", post: "el crecimiento económico.", verb: "impulsar (3ª p. sing.)", options: ["impulsa", "impulse"], answer: "impulsa" },
+                    { id: "gA7", pre: "El PP endurecerá su discurso incluso si el electorado moderado no lo", post: ".", verb: "apoyar (3ª p. sing.)", options: ["apoya", "apoye"], answer: "apoya" },
+                    { id: "gA8", pre: "Las autoridades reforzaron la presencia policial porque", post: "nuevos disturbios.", verb: "temer (3ª p. plu.)", options: ["temían", "temieran"], answer: "temían" }
                 ],
-                partB: [ 
-                    { 
-                        id: "gB1", 
-                        sentence: "La policía actúa para que no se repitan los incidentes violentos en Torre Pacheco.", 
-                        verb: "repetir (3ª p. sing.)", 
-                        answer: "repita" 
-                    },
-                    { 
-                        id: "gB2", 
-                        sentence: "El debate no terminará hasta que alguien proponga una solución viable.", 
-                        verb: "proponer (3ª p. sing.)", 
-                        answer: "proponga" 
-                    },
-                    { 
-                        id: "gB3", 
-                        sentence: "Pedimos a Vox que no fomente el odio hacia los inmigrantes.", 
-                        verb: "fomentar (3ª p. sing.)", 
-                        answer: "fomente" 
-                    },
-                    { 
-                        id: "gB4", 
-                        sentence: "Es importante que la juventud participe activamente en el debate político.", 
-                        verb: "participar (3ª p. sing.)", 
-                        answer: "participe" 
-                    },
-                    { 
-                        id: "gB5", 
-                        sentence: "Saldremos adelante siempre y cuando la economía crezca de forma sostenible.", 
-                        verb: "crecer (3ª p. sing.)", 
-                        answer: "crezca" 
-                    },
-                    { 
-                        id: "gB6", 
-                        sentence: "No creo que la violencia sea la solución a los problemas sociales.", 
-                        verb: "ser (3ª p. sing.)", 
-                        answer: "sea" 
-                    },
-                    { 
-                        id: "gB7", 
-                        sentence: "Lucharemos aunque la tarea sea difícil y requiera mucho esfuerzo.", 
-                        verb: "ser (3ª p. sing.)", 
-                        answer: "sea" 
-                    },
-                    { 
-                        id: "gB8", 
-                        sentence: "Me molesta que los partidos no se pongan de acuerdo en temas fundamentales.", 
-                        verb: "ponerse (3ª p. plu.)", 
-                        answer: "se pongan" 
-                    }
+                partB: [
+                    { id: "gB1", pre: "La policía actúa para que no se", post: "los incidentes violentos en Torre Pacheco.", verb: "repetir (3ª p. plu.)", answer: "repitan" },
+                    { id: "gB2", pre: "El debate no terminará hasta que alguien", post: "una solución viable.", verb: "proponer (3ª p. sing.)", answer: "proponga" },
+                    { id: "gB3", pre: "Pedimos a Vox que no", post: "el odio hacia los inmigrantes.", verb: "fomentar (3ª p. sing.)", answer: "fomente" },
+                    { id: "gB4", pre: "Es importante que la juventud", post: "activamente en el debate político.", verb: "participar (3ª p. sing.)", answer: "participe" },
+                    { id: "gB5", pre: "Saldremos adelante siempre y cuando la economía", post: "de forma sostenible.", verb: "crecer (3ª p. sing.)", answer: "crezca" },
+                    { id: "gB6", pre: "No creo que la violencia", post: "la solución a los problemas sociales.", verb: "ser (3ª p. sing.)", answer: "sea" },
+                    { id: "gB7", pre: "Lucharemos aunque la tarea sea difícil y", post: "mucho esfuerzo.", verb: "requerir (3ª p. sing.)", answer: "requiera" },
+                    { id: "gB8", pre: "Me molesta que los partidos no se", post: "de acuerdo en temas fundamentales.", verb: "poner (3ª p. plu.)", answer: "pongan" }
                 ]
             }
         };
@@ -816,20 +729,20 @@
             // Part A: Dropdown selection with actual verb forms
             containerA.innerHTML = quizData.grammar.partA.map((item, index) => `
                 <div class="grammar-sentence" data-id="${item.id}">
-                    ${index + 1}. ${item.sentence} 
+                    <span>${index + 1}. ${item.pre}</span>&nbsp;
                     <select class="verb-select" data-answer="${item.answer.toLowerCase().trim()}">
                         <option value="">--Seleccione--</option>
                         ${item.options.map(opt => `<option value="${opt.toLowerCase().trim()}">${opt}</option>`).join('')}
-                    </select>
+                    </select>&nbsp;<span>${item.post}</span>
                     <span class="infinitive-hint">(${item.verb})</span>
                 </div>
             `).join('');
 
-            // Part B: Direct conjugation (subjunctive practice)
+            // Part B: the student conjugates the verb in the gap
             containerB.innerHTML = quizData.grammar.partB.map((item, index) => `
                 <div class="grammar-sentence" data-id="${item.id}">
-                    ${index + 1}. ${item.sentence} 
-                    <input type="text" class="synonym-input" data-answer="${item.answer.toLowerCase().trim()}" placeholder="${item.verb.split('(')[0]}" size="20">
+                    <span>${index + 1}. ${item.pre}</span>&nbsp;
+                    <input type="text" class="synonym-input conj-input" data-answer="${item.answer.toLowerCase().trim()}" placeholder="…" size="12" autocomplete="off">&nbsp;<span>${item.post}</span>
                     <span class="infinitive-hint">(${item.verb})</span>
                 </div>
             `).join('');
@@ -881,7 +794,7 @@
             });
 
             // 3. Check Synonyms (5 points)
-            document.querySelectorAll('.synonym-input').forEach(input => {
+            document.querySelectorAll('.synonym-input:not(.conj-input)').forEach(input => {
                 const correctAnswer = input.getAttribute('data-answer').toLowerCase().trim();
                 const userAnswer = input.value.toLowerCase().trim();
                 input.classList.remove('correct', 'incorrect');
@@ -903,8 +816,9 @@
                 if (userAnswer === correctAnswer) { 
                     scores.grammar += 1;
                     select.classList.add('correct'); 
-                } else if (userAnswer !== "") { 
-                    select.classList.add('incorrect'); 
+                } else { 
+                    if (userAnswer !== "") select.classList.add('incorrect'); 
+                    select.insertAdjacentHTML('afterend', ` <span class="infinitive-hint">→ ${correctAnswer}</span>`);
                 }
                 select.disabled = true;
             });
@@ -917,9 +831,9 @@
                 if (userAnswer === correctAnswer) { 
                     scores.grammar += 1;
                     input.classList.add('correct'); 
-                } else if (userAnswer !== "") { 
-                    input.classList.add('incorrect'); 
-                    input.setAttribute('data-answer', `(Correcto: ${correctAnswer})`); 
+                } else { 
+                    if (userAnswer !== "") input.classList.add('incorrect'); 
+                    input.insertAdjacentHTML('afterend', ` <span class="infinitive-hint">→ ${correctAnswer}</span>`);
                 }
                 input.setAttribute('readonly', 'true');
             });
@@ -942,7 +856,7 @@
             
             completedTasks += Array.from(document.querySelectorAll('.cloze-input')).filter(i => i.value.trim() !== "").length;
             completedTasks += document.querySelectorAll('#mcq-container .option.selected').length;
-            completedTasks += Array.from(document.querySelectorAll('.synonym-input')).filter(i => i.value.trim() !== "").length;
+            completedTasks += Array.from(document.querySelectorAll('.synonym-input:not(.conj-input)')).filter(i => i.value.trim() !== "").length;
             completedTasks += matchedPairs.length;
             completedTasks += Array.from(document.querySelectorAll('.verb-select')).filter(s => s.value !== "").length;
             completedTasks += Array.from(document.querySelectorAll('#grammar-container-b .synonym-input')).filter(i => i.value.trim() !== "").length;
@@ -972,6 +886,7 @@
         function downloadReport(results) {
             const { score, scores } = results;
             let content = `RESULTADOS: INMIGRACIÓN Y POLÍTICA ESPAÑOLA (A-LEVEL)\n`;
+            content += `Nombre: ${((document.querySelector('input.nm')||{}).value||'').trim() || '(sin nombre)'}\n`;
             content += `Fecha: ${new Date().toLocaleDateString('es-ES')}\n`;
             content += `Puntuación Global: ${score} / ${totalScore}\n`;
             content += `Nivel Estimado: ${document.getElementById('modal-level').textContent}\n`;
@@ -994,7 +909,7 @@
             });
             
             content += `\n3. SINÓNIMOS Y DEFINICIONES - (${scores.synonym}/5):\n`;
-            document.querySelectorAll('.synonym-input').forEach((input, index) => {
+            document.querySelectorAll('.synonym-input:not(.conj-input)').forEach((input, index) => {
                 const item = quizData.synonyms[index];
                 const isCorrect = input.classList.contains('correct');
                 content += ` - Definición ${index + 1}: Su respuesta: "${input.value.trim() || 'Vacío'}". Correcta: ${item.answer} [${isCorrect ? 'CORRECTO' : 'INCORRECTO'}]\n`;
