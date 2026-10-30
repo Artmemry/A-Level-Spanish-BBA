@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paper 1 training 2 – 9SP0/01 practice</title>
+<style>
+:root{--ink:#111;--rule:#9a9a9a;--muted:#555;--paper:#fff;--bg:#e9e9e9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.45}
+.sheet{background:var(--paper);max-width:820px;margin:24px auto;padding:40px 56px 32px;box-shadow:0 1px 4px rgba(0,0,0,.25);position:relative}
+@media (max-width:700px){.sheet{margin:0 0 8px;padding:24px 16px}}
+.pageno{text-align:center;color:var(--muted);font-size:13px;margin-top:28px}
+.cover h1{font-size:28px;margin:4px 0 0}
+.cover .board{font-size:15px;color:var(--muted)}
+.cover .ref{float:right;text-align:right;font-size:14px;border:1px solid var(--ink);padding:6px 10px}
+.cover hr{border:0;border-top:2px solid var(--ink);margin:18px 0}
+.cover h2{font-size:17px;margin:18px 0 4px}
+.cover ul{margin:4px 0;padding-left:20px}
+.sec{text-align:center;font-weight:bold;font-size:19px;letter-spacing:.5px;margin:0}
+.sec+.sec{margin-bottom:10px}
+.rec{text-align:center;font-weight:bold;margin:4px 0 16px}
+.instr p{margin:6px 0}
+.durs{margin:10px 0 10px 40%}
+@media (max-width:700px){.durs{margin-left:8%}}
+.durs div{margin:2px 0}
+.ptitle{font-weight:bold;font-size:18px;margin:0 0 10px}
+.qhead{display:flex;gap:14px;font-weight:bold;margin:0 0 12px}
+.qhead .qn{min-width:22px}
+.item{margin:0 0 0 36px;position:relative}
+.item.mc{margin-bottom:14px}
+@media (max-width:700px){.item{margin-left:6px}}
+.q{margin:0 0 6px}
+.num{display:inline-block;min-width:38px}
+.bul{padding-left:24px}
+.mark{text-align:right;font-weight:bold;margin:0 0 12px}
+.total{text-align:right;font-weight:bold;margin:18px 0 0}
+.grand{text-align:right;font-weight:bold;font-size:18px;margin:16px 0 0}
+textarea.ans{width:100%;border:0;border-bottom:1px dotted var(--rule);resize:vertical;font:inherit;line-height:32px;padding:0 4px;
+  background:repeating-linear-gradient(transparent 0 31px,var(--rule) 31px 32px);outline-offset:2px;min-height:64px}
+textarea.ans:focus{outline:2px solid #2b5797;background-color:#f7f9fd}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;padding:0}
+.opt{display:flex;align-items:center;gap:12px;width:calc(100% - 38px);margin:6px 0 6px 38px;padding:4px 0;background:none;border:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.opt b{min-width:16px}
+.opt .ot{flex:1}
+.box{width:30px;height:24px;border:1.5px solid var(--ink);flex:none;position:relative}
+.opt[aria-checked="true"] .box::after{content:"\2715";position:absolute;inset:0;display:grid;place-items:center;font-size:20px;font-weight:bold}
+.opt:focus-visible{outline:2px solid #2b5797;outline-offset:2px}
+.player{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--rule);padding:8px 12px;margin:0 0 16px}
+.plab{font-weight:bold;font-size:15px}
+.player audio{flex:1;min-width:220px}
+.lead{font-weight:bold;margin:0 0 12px}
+.who{margin:14px 0 6px 36px;font-weight:bold}
+.src{margin:0 0 14px;font-size:15px;word-break:break-all}
+.src b{word-break:normal}
+.cand{display:block;margin:14px 0;font-weight:bold}
+.cand input{font:inherit;font-weight:normal;border:1px solid var(--ink);padding:6px 8px;width:min(340px,100%);margin-left:8px}
+.lpbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin:22px 0 0}
+.lpbar button{font:inherit;font-weight:bold;padding:9px 16px;border:1px solid #2b5797;background:#fff;color:#2b5797;cursor:pointer;border-radius:4px}
+.lpbar button.go{background:#2b5797;color:#fff}
+.lpres{border:2px solid #2b5797;padding:12px 16px;margin:14px 0 0;background:#f4f7fc}
+.lpres p{margin:4px 0}
+.fb{margin:-6px 0 14px 36px;padding:8px 12px;font-size:15px;border-left:4px solid #b0b0b0;background:#f6f6f6}
+.fb.full{border-color:#2e7d52;background:#eef7f1}
+.fb.part{border-color:#c98a00;background:#fdf6e6}
+.fb.zero{border-color:#b3261e;background:#fbeeed}
+.fb b{margin-right:6px}
+.locked textarea.ans,.locked .opt{pointer-events:none}
+.opt.right .box{background:#dff0e5}
+@media print{.lpbar,.fb,.lpres{display:none!important}}
+.rtext{border:1px solid var(--rule);padding:12px 16px;margin:0 0 16px;background:#fcfcfc}
+.rtext p{margin:0 0 10px;text-align:justify}
+.rtitle{font-weight:bold;text-align:center!important}
+.lead2{font-weight:bold;margin:12px 0 8px}
+.trans-fb table{border-collapse:collapse;width:100%;margin-top:8px;font-size:14px}
+.trans-fb td{border-top:1px solid #ddd;padding:4px 6px;vertical-align:top}
+.trans-fb td.ok{color:#2e7d52;font-weight:bold} .trans-fb td.no{color:#b3261e;font-weight:bold}
+.credit{font-size:13px;color:var(--muted);border-top:1px solid var(--rule);padding-top:10px;margin-top:22px}
+.defi ol{padding-left:22px}
+.defi li{margin-bottom:14px}
+@media print{body{background:#fff}.sheet{box-shadow:none;margin:0;page-break-after:always}.player,#bba-kit{display:none!important}}
+</style>
+</head>
+<body>
+
+<section class="sheet cover">
+  <div class="ref">Paper reference<br><b>9SP0/01</b><br>Paper 1 training 2</div>
+  <div class="board">BBA practice paper modelled on Pearson Edexcel Level 3 GCE</div>
+  <h1>Spanish</h1>
+  <div><b>Advanced</b><br>PAPER 1: Listening, Reading and Translation<br>Paper 1 training 2 · Theme 1 only · early Year 12</div>
+  <hr>
+  <label class="cand">Candidate name <input type="text" id="cand" autocomplete="name" placeholder="First name and initial"></label>
+  <p><b>You must have:</b> headphones or earphones. The recordings are on this page.</p>
+  <h2>Instructions</h2>
+  <ul>
+    <li>Type your name in the box above if you want it on your results file (optional).</li>
+    <li>Answer <b>all</b> questions in Sections A, B and C.</li>
+    <li>Candidates are recommended to start with Section A: Listening, and work through each section as presented.</li>
+    <li>Answer the questions in the spaces provided – there may be more space than you need.</li>
+    <li>We recommend you spend 50 minutes on Section A: Listening, 50 minutes on Section B: Reading and 20 minutes on Section C: Translation into English (2 hours in total).</li>
+    <li>You must not use a dictionary.</li>
+    <li>You can do one section at a time: each section ends with its own <b>Mark Section … only</b> button. To mark everything at once, press <b>Mark the whole paper</b> at the end of Section C.</li>
+    <li>Then press <b>Download results</b> at the end of Section C and send the file to your teacher: it contains every section you have marked.</li>
+  </ul>
+  <h2>Information</h2>
+  <ul>
+    <li>The total mark for this paper is 80.</li>
+    <li>The marks for each question are shown in brackets – use this as a guide as to how much time to spend on each question.</li>
+  </ul>
+  <h2>Advice</h2>
+  <ul>
+    <li>Read each question carefully before you start to answer it.</li>
+    <li>Try to answer every question.</li>
+    <li>Check your answers if you have time at the end.</li>
+  </ul>
+  <p class="pageno">1</p>
+</section>
+
+<section class="sheet">
+  <p style="margin-top:0">Answer ALL questions. Write your answers in the spaces provided.<br>
+  Some questions must be answered with a cross in a box ☒. If you change your mind about an answer, click another box.</p>
+  <p class="sec">SECTION A</p><p class="sec">LISTENING</p>
+  <p class="rec">We recommend you spend no more than 50 minutes on this section.</p>
+  <div class="instr">
+    <p>Questions 2, 3 and 4(a) do not require full sentences and you may respond using single words or phrases.</p>
+    <p>Summary Question 4(b) does not require full sentences and you may respond using short phrases.</p>
+    <p>You may use words from the listening passages but you must not transcribe whole sections.</p>
+    <p>You are going to listen to five passages. The duration of each passage is approximately:</p>
+    <div class="durs">
+      <div>Passage 1 = 0 minute 54 seconds</div><div>Passage 2 = 1 minute 06 seconds</div><div>Passage 3 = 1 minute 33 seconds</div>
+      <div>Passage 4(a) = 1 minute 06 seconds</div><div>Passage 4(b) = 1 minute 25 seconds</div>
+    </div>
+    <p>You will be in charge of the recording and you may listen to each passage as often as you wish, and write your answers whenever you wish to do so.</p>
+  </div>
+  <p class="pageno">2</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Texto 1 – Cada vez menos bebés</p>
+  <div class="player"><span class="plab">Texto 1</span><audio controls preload="none" src="listening_paper_02_passage_1.mp3"></audio></div>
+  <div class="qhead"><span class="qn">1</span><span>Escucha este reportaje sobre la natalidad en España. Pon una equis ☒ en la casilla apropiada.</span></div>
+  <div class="item mc" data-t="mc" data-k="q1.0" data-max="1" data-lab="1(i)"><p class="q"><span class="sr">1</span><span class="num">(i)</span> En 2024, el número de nacimientos…</p><div role="radiogroup" aria-label="1(i)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">aumentó ligeramente.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">bajó un poco.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">se mantuvo igual.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">se redujo a la mitad.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_i" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.1" data-max="1" data-lab="1(ii)"><p class="q"><span class="sr">1</span><span class="num">(ii)</span> Las mujeres en España tienen, de media,…</p><div role="radiogroup" aria-label="1(ii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">más de dos hijos.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">menos de un hijo.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">algo más de un hijo.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">dos hijos exactamente.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_ii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.2" data-max="1" data-lab="1(iii)"><p class="q"><span class="sr">1</span><span class="num">(iii)</span> La edad media de las madres…</p><div role="radiogroup" aria-label="1(iii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">es la misma que en 2021.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">ha subido mucho desde 2021.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">es de treinta años.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">ha bajado en el último año.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_iii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.3" data-max="1" data-lab="1(iv)"><p class="q"><span class="sr">1</span><span class="num">(iv)</span> En 2024, en España…</p><div role="radiogroup" aria-label="1(iv)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">hubo más nacimientos que muertes.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">se celebraron menos bodas.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">la mayoría de las madres eran extranjeras.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">murieron más personas de las que nacieron.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_iv" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 1 = 4 marks)</p>
+  <p class="pageno">3</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Texto 2 – Un año récord para el turismo</p>
+  <div class="player"><span class="plab">Texto 2</span><audio controls preload="none" src="listening_paper_02_passage_2.mp3"></audio></div>
+  <div class="qhead"><span class="qn">2</span><span>Escucha este reportaje sobre el turismo internacional. Contesta las preguntas en español.</span></div>
+  <div class="item" data-t="open" data-k="q2.0" data-max="2" data-lab="2(a)"><p class="q"><span class="sr">2</span><span class="num">(a)</span> ¿Qué dice el reportaje sobre el número de turistas en 2024? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q2.1" data-max="1" data-lab="2(b)"><p class="q"><span class="sr">2</span><span class="num">(b)</span> ¿De qué país llegan más turistas?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.2" data-max="1" data-lab="2(c)"><p class="q"><span class="sr">2</span><span class="num">(c)</span> ¿Por qué se menciona la Comunidad Valenciana?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.3" data-max="1" data-lab="2(d)"><p class="q"><span class="sr">2</span><span class="num">(d)</span> ¿Qué grupo de turistas aumentó más?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 2 = 5 marks)</p>
+  <p class="pageno">4</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Texto 3 – Mi barrio y los pisos turísticos</p>
+  <div class="player"><span class="plab">Texto 3</span><audio controls preload="none" src="listening_paper_02_passage_3.mp3"></audio></div>
+  <div class="qhead"><span class="qn">3</span><span>Escucha a esta persona hablando de los pisos turísticos en su barrio. Contesta las preguntas en español.</span></div>
+  <div class="item" data-t="open" data-k="q3.0" data-max="1" data-lab="3(a)"><p class="q"><span class="sr">3</span><span class="num">(a)</span> ¿Cómo era la vida en el edificio cuando la señora era niña?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.1" data-max="2" data-lab="3(b)"><p class="q"><span class="sr">3</span><span class="num">(b)</span> ¿Qué molestias causan los turistas en el edificio? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q3.2" data-max="1" data-lab="3(c)"><p class="q"><span class="sr">3</span><span class="num">(c)</span> ¿Por qué tuvo que irse Carmen del barrio?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.3" data-max="1" data-lab="3(d)"><p class="q"><span class="sr">3</span><span class="num">(d)</span> ¿Qué cambio se ha notado en las tiendas del barrio?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.4" data-max="2" data-lab="3(e)"><p class="q"><span class="sr">3</span><span class="num">(e)</span> ¿Qué anunció el alcalde en 2024? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q3.5" data-max="1" data-lab="3(f)"><p class="q"><span class="sr">3</span><span class="num">(f)</span> ¿Qué argumento da la asociación de propietarios?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.6" data-max="1" data-lab="3(g)"><p class="q"><span class="sr">3</span><span class="num">(g)</span> ¿Por qué no está la señora en contra del turismo?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 3 = 9 marks)</p>
+  <p class="pageno">5</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Texto 4(a) – Independizarse, una misión imposible</p>
+  <div class="player"><span class="plab">Texto 4(a)</span><audio controls preload="none" src="listening_paper_02_passage_4a.mp3"></audio></div>
+  <div class="qhead"><span class="qn">4</span><span>(a) Escucha este reportaje sobre la emancipación de los jóvenes. Contesta las preguntas en español.</span></div>
+  <div class="item" data-t="open" data-k="q4a.0" data-max="1" data-lab="4(a)(i)"><p class="q"><span class="sr">4(a)</span><span class="num">(i)</span> ¿Qué porcentaje de jóvenes vive fuera de la casa de sus padres?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.1" data-max="2" data-lab="4(a)(ii)"><p class="q"><span class="sr">4(a)</span><span class="num">(ii)</span> ¿Por qué es preocupante esta cifra? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q4a.2" data-max="1" data-lab="4(a)(iii)"><p class="q"><span class="sr">4(a)</span><span class="num">(iii)</span> ¿En qué se diferencia España de la media europea?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.3" data-max="1" data-lab="4(a)(iv)"><p class="q"><span class="sr">4(a)</span><span class="num">(iv)</span> ¿Qué diferencia hay entre hombres y mujeres?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.4" data-max="1" data-lab="4(a)(v)"><p class="q"><span class="sr">4(a)</span><span class="num">(v)</span> ¿Por qué es tan difícil pagar un alquiler?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="pageno">6</p>
+</section>
+
+<section class="sheet">
+  <p class="lead">Resume la siguiente conversación. Las expresiones cortas son válidas. Menciona tres detalles para la pregunta 4(b)(i) y tres detalles para la pregunta 4(b)(ii).</p>
+  <p class="ptitle">Texto 4(b) – Independizarse, una misión imposible</p>
+  <div class="player"><span class="plab">Texto 4(b)</span><audio controls preload="none" src="listening_paper_02_passage_4b.mp3"></audio></div>
+  <div class="qhead"><span class="qn"></span><span>(b) Escucha la conversación con dos expertos. Responde en español.</span></div>
+  <p class="who">(i) Resume lo que dice Javier sobre:</p>
+  <div class="item" data-t="open" data-k="q4b.key1.0" data-max="1" data-lab="4(b)(i) • vivir solo"><p class="q bul"><span class="sr">4(b)(i) </span>• vivir solo</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key1.1" data-max="1" data-lab="4(b)(i) • alquilar una habitación"><p class="q bul"><span class="sr">4(b)(i) </span>• alquilar una habitación</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key1.2" data-max="1" data-lab="4(b)(i) • comprar una vivienda"><p class="q bul"><span class="sr">4(b)(i) </span>• comprar una vivienda</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+  <p class="who">(ii) Resume lo que dice Lucía sobre:</p>
+  <div class="item" data-t="open" data-k="q4b.key2.0" data-max="1" data-lab="4(b)(ii) • los jóvenes que trabajan"><p class="q bul"><span class="sr">4(b)(ii) </span>• los jóvenes que trabajan</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key2.1" data-max="1" data-lab="4(b)(ii) • los jóvenes que alquilan"><p class="q bul"><span class="sr">4(b)(ii) </span>• los jóvenes que alquilan</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key2.2" data-max="1" data-lab="4(b)(ii) • lo que pide su asociación"><p class="q bul"><span class="sr">4(b)(ii) </span>• lo que pide su asociación</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 4 = 12 marks)</p>
+  <p class="grand">TOTAL FOR SECTION A = 30 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="A">Mark Section A only</button></div>
+  <div id="lp-res-A" class="lpres" aria-live="polite" hidden></div>
+  <p class="pageno">7</p>
+</section>
+
+<section class="sheet" id="secB">
+  <p class="sec">SECTION B</p><p class="sec">READING</p>
+  <p class="rec">We recommend you spend around 50 minutes on this section.</p>
+  <div class="instr"><p>Open-response questions do not have to be written in full sentences and you may respond using single words or phrases.</p>
+  <p>You may use words from the texts but you must not copy out whole sections.</p></div>
+  <div class="qhead"><span class="qn">5</span><span>Lee este artículo sobre los permisos por nacimiento.</span></div><div class="rtext"><p class="rtitle">Más tiempo para cuidar al bebé</p><p>El 29 de julio de 2025, el Gobierno aprobó un real decreto-ley que amplía el permiso por nacimiento y cuidado del menor de 16 a 19 semanas pagadas para cada progenitor. El permiso sigue siendo individual e intransferible: la madre no puede ceder sus semanas al padre, ni al revés.</p><p>Las seis primeras semanas después del parto son obligatorias y deben disfrutarse a tiempo completo. Las once siguientes pueden repartirse con flexibilidad hasta que el bebé cumpla un año. Las dos semanas restantes pueden utilizarse hasta que el niño tenga ocho años, por ejemplo durante las vacaciones escolares.</p><p>Las familias monoparentales, en las que hay un solo progenitor, disponen de más tiempo: 22 semanas flexibles en lugar de 11 y cuatro semanas adicionales en lugar de dos. La medida se aplica a los nacimientos y adopciones desde el 2 de agosto de 2024.</p></div><p class="lead2">Escoge la terminación correcta para estas frases. Pon una equis ☒ en la casilla apropiada.</p><div class="item mc" data-t="mc" data-k="B.q5.0" data-max="1" data-lab="5(i)"><p class="q"><span class="sr">5</span><span class="num">(i)</span> Con la reforma, cada progenitor tiene…</p><div role="radiogroup" aria-label="5(i)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">16 semanas pagadas.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">19 semanas pagadas.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">un año de permiso.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">ocho semanas sin sueldo.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_i" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.1" data-max="1" data-lab="5(ii)"><p class="q"><span class="sr">5</span><span class="num">(ii)</span> La madre…</p><div role="radiogroup" aria-label="5(ii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">puede dar sus semanas al padre.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">tiene más semanas que el padre.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">debe volver al trabajo después de seis semanas.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">no puede ceder sus semanas al otro progenitor.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_ii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.2" data-max="1" data-lab="5(iii)"><p class="q"><span class="sr">5</span><span class="num">(iii)</span> Las dos últimas semanas sirven, por ejemplo, para…</p><div role="radiogroup" aria-label="5(iii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">cuidar al niño durante las vacaciones escolares.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">trabajar a tiempo parcial.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">cuidar a los abuelos.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">preparar el parto.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_iii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.3" data-max="1" data-lab="5(iv)"><p class="q"><span class="sr">5</span><span class="num">(iv)</span> Las familias monoparentales…</p><div role="radiogroup" aria-label="5(iv)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">no tienen derecho al permiso.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">tienen el mismo permiso que las demás.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">disponen de más semanas.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">solo pueden usar el permiso el primer año.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_iv" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 5 = 4 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">6</span><span>Lee este artículo sobre el empleo en España.</span></div><div class="rtext"><p class="rtitle">El paro baja del 10 %</p><p>Por primera vez desde 2008, la tasa de paro en España ha bajado del 10 %. Según la Encuesta de Población Activa (EPA) del cuarto trimestre de 2025, publicada por el INE en enero de 2026, el paro se situó en el 9,93 %. El número de ocupados llegó a 22 463 300, con 605 400 empleos más que un año antes.</p><p>Sin embargo, las diferencias siguen siendo importantes. El paro afecta más a las mujeres (11,24 %) que a los hombres (8,76 %). Andalucía tiene la tasa más alta (14,66 %), mientras que Cantabria tiene la más baja (6,77 %).</p><p>Los jóvenes de 16 a 24 años son los más afectados: casi uno de cada cuatro está en paro (23,01 %), y el 43 % de los que trabajan tiene un contrato temporal.</p></div><p class="lead2">¿Cuáles de las siguientes declaraciones son correctas? Pon una equis ☒ en las cuatro casillas apropiadas.</p><div class="item mc" data-t="tick" data-k="B.q6" data-max="4" data-lab="6"><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="A"><b>A</b> <span class="ot">Cantabria es la región con más paro.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="B"><b>B</b> <span class="ot">El paro ha bajado del 10 % por primera vez en muchos años.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="C"><b>C</b> <span class="ot">En un año, el número de ocupados ha bajado.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="D"><b>D</b> <span class="ot">Las mujeres sufren más el paro que los hombres.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="E"><b>E</b> <span class="ot">Los datos fueron publicados por el Ministerio de Trabajo.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="F"><b>F</b> <span class="ot">La mitad de los jóvenes de 16 a 24 años está en paro.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="G"><b>G</b> <span class="ot">En Andalucía el paro supera el 14 %.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="H"><b>H</b> <span class="ot">Los hombres y las mujeres tienen la misma tasa de paro.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="I"><b>I</b> <span class="ot">Muchos jóvenes que trabajan no tienen un contrato fijo.</span><span class="box" aria-hidden="true"></span></button><input type="text" class="sr mcval" name="B_q6" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 6 = 4 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">7</span><span>Lee este relato de un chico y su abuela. Contesta las preguntas en español.</span></div><div class="rtext"><p class="rtitle">Los martes con la abuela</p><p>Desde que mis padres empezaron a trabajar los dos a jornada completa, mi abuela Remedios se convirtió en la segunda dueña de nuestra casa. Llegaba cada mañana a las siete y media, con su bolsa de tela y el periódico doblado bajo el brazo, para llevarnos a mi hermana y a mí al colegio.</p><p>Al principio, yo no estaba muy contento. Mis amigos volvían solos a casa y yo tenía que esperar a una señora de setenta años que caminaba despacio y saludaba a todo el barrio. Además, en su casa no había wifi y la televisión solo tenía los canales de siempre.</p><p>Todo cambió el invierno en que mi padre se quedó sin trabajo. En casa había silencios y discusiones en voz baja. La abuela no dijo nada, pero empezó a quedarse a cenar los martes y a traer una olla de lentejas «porque había hecho demasiadas». Más tarde supe que con su pensión pagaba también el comedor escolar de mi hermana.</p><p>Ahora tengo diecisiete años y soy yo quien la acompaña al médico. Ella dice que es al revés, que todavía me cuida ella. Probablemente tiene razón.</p></div><div class="item" data-t="open" data-k="B.q7.0" data-max="1" data-lab="7(a)"><p class="q"><span class="sr">7</span><span class="num">(a)</span> ¿Por qué empezó la abuela a cuidar a los niños?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q7.1" data-max="2" data-lab="7(b)"><p class="q"><span class="sr">7</span><span class="num">(b)</span> ¿Qué no le gustaba al narrador al principio? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q7.2" data-max="2" data-lab="7(c)"><p class="q"><span class="sr">7</span><span class="num">(c)</span> ¿Cómo ayudó la abuela a la familia cuando el padre perdió el trabajo? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q7.3" data-max="1" data-lab="7(d)"><p class="q"><span class="sr">7</span><span class="num">(d)</span> ¿Cómo ha cambiado la relación entre el narrador y su abuela?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 7 = 6 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">8</span><span>Lee este artículo sobre las protestas contra el turismo masivo. Contesta las preguntas en español.</span></div><div class="rtext"><p class="rtitle">«Canarias tiene un límite»</p><p>El 20 de abril de 2024, decenas de miles de personas salieron a la calle en las islas Canarias bajo el lema «Canarias tiene un límite». Las cifras varían según las fuentes, pero las estimaciones van de 20 000 a 50 000 manifestantes. Pedían una pausa en la llegada de turistas hasta que se aprobaran leyes para frenar la masificación. Antes de la marcha, once activistas habían iniciado una huelga de hambre contra dos grandes proyectos turísticos de lujo en Tenerife, que consideraban ilegales. Insistían en que no estaban en contra del turismo, sino de un crecimiento insostenible.</p><p>El movimiento se extendió durante el verano. En julio, en Barcelona, unas 3000 personas recorrieron las zonas turísticas; algunos manifestantes dispararon con pistolas de agua a los visitantes, un gesto que criticó el ministro de Turismo. Denunciaban la subida de los precios, la presión sobre los servicios públicos y el reparto desigual de la riqueza que genera el turismo.</p><p>El 21 de julio, en Palma de Mallorca, la protesta reunió a 20 000 personas según la policía local y a 50 000 según los organizadores. Exigían limitar los vuelos y la llegada de cruceros, regular el alojamiento para no residentes y proteger los recursos naturales de la isla.</p></div><div class="item" data-t="open" data-k="B.q8.0" data-max="1" data-lab="8(a)"><p class="q"><span class="sr">8</span><span class="num">(a)</span> ¿Qué pedían los manifestantes en Canarias?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.1" data-max="2" data-lab="8(b)"><p class="q"><span class="sr">8</span><span class="num">(b)</span> ¿Qué hicieron once activistas y por qué?</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q8.2" data-max="1" data-lab="8(c)"><p class="q"><span class="sr">8</span><span class="num">(c)</span> ¿Qué gesto polémico hubo en Barcelona?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.3" data-max="2" data-lab="8(d)"><p class="q"><span class="sr">8</span><span class="num">(d)</span> ¿Qué problemas denunciaban los manifestantes de Barcelona? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q8.4" data-max="2" data-lab="8(e)"><p class="q"><span class="sr">8</span><span class="num">(e)</span> ¿Qué exigían los manifestantes de Palma? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+  <p class="total">(Total for Question 8 = 8 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">9</span><span>Lee este artículo sobre el salario mínimo. Contesta las preguntas en español.</span></div><div class="rtext"><p class="rtitle">El salario mínimo sube a 1221 euros</p><p>El Consejo de Ministros aprobó en febrero de 2026 la subida del salario mínimo interprofesional (SMI) a 1221 euros brutos al mes, repartidos en catorce pagas, es decir, 17 094 euros al año. La subida, del 3,1 %, equivale a 37 euros más al mes y se aplica con efectos desde el 1 de enero de 2026.</p><p>El acuerdo se firmó con los dos grandes sindicatos, Comisiones Obreras (CCOO) y la Unión General de Trabajadores (UGT). Según el Gobierno, que se basa en la Encuesta de Población Activa, la medida beneficia a unos 2,5 millones de trabajadores. Además, el salario mínimo no tributará en el impuesto sobre la renta (IRPF). Desde 2018, el SMI ha subido un 66 %.</p><p>Las organizaciones empresariales CEOE y Cepyme, en cambio, no firmaron. Calificaron el acuerdo de «trampa», advirtieron de que los costes de las empresas subirían de forma muy importante y acusaron al Gobierno de despreciar el diálogo social.</p></div><div class="item" data-t="open" data-k="B.q9.0" data-max="1" data-lab="9(a)"><p class="q"><span class="sr">9</span><span class="num">(a)</span> ¿Cuánto cobra al mes un trabajador con el salario mínimo?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.1" data-max="2" data-lab="9(b)"><p class="q"><span class="sr">9</span><span class="num">(b)</span> ¿Qué supone la subida para un trabajador? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q9.2" data-max="1" data-lab="9(c)"><p class="q"><span class="sr">9</span><span class="num">(c)</span> ¿Quiénes firmaron el acuerdo?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.3" data-max="1" data-lab="9(d)"><p class="q"><span class="sr">9</span><span class="num">(d)</span> ¿Cuántos trabajadores se benefician?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.4" data-max="1" data-lab="9(e)"><p class="q"><span class="sr">9</span><span class="num">(e)</span> ¿Qué ventaja fiscal tiene el salario mínimo?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.5" data-max="2" data-lab="9(f)"><p class="q"><span class="sr">9</span><span class="num">(f)</span> ¿Por qué no firmaron las organizaciones empresariales? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+  <p class="total">(Total for Question 9 = 8 marks)</p>
+  <p class="grand">TOTAL FOR SECTION B = 30 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="B">Mark Section B only</button></div>
+  <div id="lp-res-B" class="lpres" aria-live="polite" hidden></div>
+</section>
+
+<section class="sheet" id="secC">
+  <p class="sec">SECTION C</p><p class="sec">TRANSLATION INTO ENGLISH</p>
+  <p class="rec">We recommend you spend around 20 minutes on this section.</p>
+  <div class="qhead"><span class="qn">10</span><span>Translate the following text about the 2021 labour reform into English.</span></div><p class="mark">(20)</p><div class="rtext"><p>A finales de 2021, el Gobierno aprobó una reforma laboral pactada con los sindicatos y la patronal. Su principal objetivo era reducir la temporalidad, un problema histórico del mercado de trabajo español. La reforma simplificó los tipos de contrato temporal y limitó su duración. Además, encadenar contratos temporales pasó a estar penalizado. Los resultados fueron rápidos: en los primeros siete meses de 2022, los contratos indefinidos se triplicaron en comparación con el mismo periodo de 2019. Los jóvenes menores de veinticinco años fueron de los más beneficiados. Sin embargo, algunos economistas señalan que muchos de los nuevos contratos son fijos discontinuos, es decir, empleos estables que solo se trabajan durante una parte del año.</p></div><div class="item" data-t="trans" data-k="C" data-max="20" data-lab="10"><textarea class="ans" rows="12" aria-label="10 – translation"></textarea></div>
+  <p class="total">(Total for Question 10 = 20 marks)</p>
+  <p class="grand">TOTAL FOR SECTION C = 20 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="C">Mark Section C only</button></div>
+  <div id="lp-res-C" class="lpres" aria-live="polite" hidden></div>
+  <p class="grand">TOTAL FOR PAPER = 80 MARKS</p>
+  <div id="lp-bar" class="lpbar">
+    <button type="button" class="go" data-mark="all">Mark the whole paper</button>
+    <button type="button" id="lp-dl">Download results</button>
+    <button type="button" id="lp-reset">Start again</button>
+  </div>
+  <div id="lp-res" class="lpres" aria-live="polite" hidden></div>
+</section>
+
+<section class="sheet defi" data-label="Reto">
+  <p class="ptitle">Reto – after the paper (not marked, not part of the 80 marks)</p>
+  <p>For students aiming at the top grades.</p>
+  <ol>
+<li>Resume en español, en unas 60 palabras, por qué los jóvenes españoles se independizan tan tarde (textos 4(a) y 4(b)).<textarea class="ans" rows="3" aria-label="Reto 1"></textarea></li>
+<li>¿Es limitar los pisos turísticos la mejor manera de proteger a los vecinos? Escribe un párrafo de unas 80 palabras con dos argumentos y un contraargumento.<textarea class="ans" rows="3" aria-label="Reto 2"></textarea></li>
+<li>Traduce al español: «Although the minimum wage has risen by 66% since 2018, many young people still cannot afford to live alone.»<textarea class="ans" rows="3" aria-label="Reto 3"></textarea></li>
+  </ol>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Source information:</p>
+  <p style="font-size:15px">The recordings and the reading and translation texts were written by the BBA Spanish department from the facts in the sources below; the recordings are read by synthetic voices. The narrative text («relato») is original.</p>
+<p class="src"><b>Texto 1 – Cada vez menos bebés</b><br>INE, Movimiento Natural de la Población 2024, nota de prensa, 19 de noviembre de 2025<br><a href="https://www.ine.es/dyngs/Prensa/es/MNP2024.htm" target="_blank" rel="noopener">https://www.ine.es/dyngs/Prensa/es/MNP2024.htm</a></p>
+<p class="src"><b>Texto 2 – Un año récord para el turismo</b><br>La Moncloa, «El gasto turístico cumple las previsiones y supera los 126.000 millones de euros en 2024», 3 de febrero de 2025 (datos Frontur y Egatur, INE)<br><a href="https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/industria-turismo/Paginas/2025/030225-gasto-turistico-2024.aspx" target="_blank" rel="noopener">https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/industria-turismo/Paginas/2025/030225-gasto-turistico-2024.aspx</a></p>
+<p class="src"><b>Texto 3 – Mi barrio y los pisos turísticos (speaker invented; facts on the licences from)</b><br>Xataka Home, «Barcelona le gana el pulso a Airbnb: el Tribunal Constitucional apoya a la Generalitat…», marzo de 2025<br><a href="https://www.xatakahome.com/hogar/barcelona-le-gana-pulso-a-airbnb-tribunal-constitucional-apoya-a-generalitat-para-prohibir-10-000-licencias-pisos" target="_blank" rel="noopener">https://www.xatakahome.com/hogar/barcelona-le-gana-pulso-a-airbnb-tribunal-constitucional-apoya-a-generalitat-para-prohibir-10-000-licencias-pisos</a><br>Wikipedia, «2024–2025 anti-tourism protests in Spain» (Collboni&#x27;s announcement, June 2024)<br><a href="https://en.wikipedia.org/wiki/2024%E2%80%932025_anti-tourism_protests_in_Spain" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/2024%E2%80%932025_anti-tourism_protests_in_Spain</a></p>
+<p class="src"><b>Textos 4(a) y 4(b) – Independizarse, una misión imposible (experts invented; figures from)</b><br>Consejo de la Juventud de España, Observatorio de Emancipación, datos de 2025, según RTVC/EFE, 22 de mayo de 2026<br><a href="https://rtvc.es/los-jovenes-tienen-cada-vez-mas-dificil-emanciparse-22-mayo-2026/" target="_blank" rel="noopener">https://rtvc.es/los-jovenes-tienen-cada-vez-mas-dificil-emanciparse-22-mayo-2026/</a><br>Euronews, «El alquiler consume el 98,7 % del salario juvenil…», 22 de mayo de 2026<br><a href="https://es.euronews.com/2026/05/22/el-alquiler-consume-el-987-del-salario-juvenil-en-pisos-individuales-y-mas-del-33-en-compa" target="_blank" rel="noopener">https://es.euronews.com/2026/05/22/el-alquiler-consume-el-987-del-salario-juvenil-en-pisos-individuales-y-mas-del-33-en-compa</a></p>
+<p class="src"><b>Pregunta 5 – Más tiempo para cuidar al bebé</b><br>ECIJA, «Ampliación del permiso por nacimiento a 19 semanas retribuidas» (Real Decreto-ley 9/2025, de 29 de julio)<br><a href="https://www.ecija.com/actualidad-insights/ampliacion-del-permiso-por-nacimiento-a-19-semanas-retribuidas/" target="_blank" rel="noopener">https://www.ecija.com/actualidad-insights/ampliacion-del-permiso-por-nacimiento-a-19-semanas-retribuidas/</a></p>
+<p class="src"><b>Pregunta 6 – El paro baja del 10 %</b><br>INE, Encuesta de Población Activa, cuarto trimestre de 2025, 27 de enero de 2026<br><a href="https://www.ine.es/dyngs/Prensa/es/EPA4T25.htm" target="_blank" rel="noopener">https://www.ine.es/dyngs/Prensa/es/EPA4T25.htm</a><br>INJUVE, EPA 4T 2025, jóvenes de 16 a 24 años<br><a href="https://injuve.es/sites/default/files/adjuntos/2026/02/EPAPResultados_2025-4T_16a24_NotInfo.pdf" target="_blank" rel="noopener">https://injuve.es/sites/default/files/adjuntos/2026/02/EPAPResultados_2025-4T_16a24_NotInfo.pdf</a><br>Vozpópuli, «España cerró 2025 con 605.400 ocupados más y un paro por debajo del 10 %»<br><a href="https://www.vozpopuli.com/economia/macroeconomia/espana-cerro-2025-con-605400-ocupados-mas-y-un-paro-por-debajo-del-10.html" target="_blank" rel="noopener">https://www.vozpopuli.com/economia/macroeconomia/espana-cerro-2025-con-605400-ocupados-mas-y-un-paro-por-debajo-del-10.html</a></p>
+<p class="src"><b>Pregunta 7 – Los martes con la abuela</b><br>Original text by the BBA Spanish department.</p>
+<p class="src"><b>Pregunta 8 – «Canarias tiene un límite»</b><br>Wikipedia, «2024–2025 anti-tourism protests in Spain»<br><a href="https://en.wikipedia.org/wiki/2024%E2%80%932025_anti-tourism_protests_in_Spain" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/2024%E2%80%932025_anti-tourism_protests_in_Spain</a><br>RTVC, «La manifestación ‘Canarias tiene un límite’ en imágenes», 20 de abril de 2024<br><a href="https://rtvc.es/manifestacion-canarias-tiene-un-limite-en-imagenes-20-abril-2024" target="_blank" rel="noopener">https://rtvc.es/manifestacion-canarias-tiene-un-limite-en-imagenes-20-abril-2024</a></p>
+<p class="src"><b>Pregunta 9 – El salario mínimo sube a 1221 euros</b><br>Laboral-Social, «El Consejo de Ministros acuerda la subida del 3,1 % del SMI hasta los 1.221 euros mensuales sin tributación», febrero de 2026<br><a href="https://www.laboral-social.com/consejo-ministros-acuerda-subida-3-1-por-ciento-SMI-hasta-1221-euros-mensuales-sin-tributacion" target="_blank" rel="noopener">https://www.laboral-social.com/consejo-ministros-acuerda-subida-3-1-por-ciento-SMI-hasta-1221-euros-mensuales-sin-tributacion</a><br>Bolsamanía / Europa Press, «Trabajo acuerda sólo con CCOO y UGT subir el SMI un 3,1 % en 2026»<br><a href="https://www.bolsamania.com/noticias_print/economia/economialaboral--amp2-trabajo-acuerda-solo-con-ccoo-y-ugt-subir-el-smi-un-31-en-2026-hasta-los-1221-euros-al-mes--21576883.html" target="_blank" rel="noopener">https://www.bolsamania.com/noticias_print/economia/economialaboral--amp2-trabajo-acuerda-solo-con-ccoo-y-ugt-subir-el-smi-un-31-en-2026-hasta-los-1221-euros-al-mes--21576883.html</a></p>
+<p class="src"><b>Pregunta 10 – La reforma laboral de 2021</b><br>BBVA Research, «España | Reforma laboral: luces y sombras», 22 de agosto de 2022<br><a href="https://www.bbvaresearch.com/publicaciones/espana-reforma-laboral-luces-y-sombras/" target="_blank" rel="noopener">https://www.bbvaresearch.com/publicaciones/espana-reforma-laboral-luces-y-sombras/</a><br>Orain, «El Gobierno español acuerda la reforma laboral con la patronal CEOE y los sindicatos UGT y CCOO», 23 de diciembre de 2021<br><a href="https://orain.eus/es/actualidad/economia/2021/12/23/el-gobierno-espanol-acuerda-reforma-laboral-con-patronal-y-sindicatos/" target="_blank" rel="noopener">https://orain.eus/es/actualidad/economia/2021/12/23/el-gobierno-espanol-acuerda-reforma-laboral-con-patronal-y-sindicatos/</a></p>
+  <p class="credit">Voices: Piper TTS. <i>en_GB-cori-high</i> (announcer) – LibriVox recordings, public domain. <i>es_ES-sharvard-medium</i> (one man, one woman) – SHARVARD Spanish speech corpus, licence CC BY 3.0 (<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">creativecommons.org/licenses/by/3.0</a>). The audio files of this paper are shared under the same licences.</p>
+</section>
+
+<script>
+(function(){
+  function paint(item){
+    var v=item.querySelector('.mcval').value, multi=item.dataset.t==='tick';
+    item.querySelectorAll('.opt').forEach(function(b){b.setAttribute('aria-checked', (multi ? v.indexOf(b.dataset.v)>=0 : b.dataset.v===v)?'true':'false');});
+  }
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.opt'); if(!b) return;
+    var item=b.closest('.item'), f=item.querySelector('.mcval');
+    if(item.dataset.t==='tick'){ var set=f.value.split('').filter(Boolean), k=set.indexOf(b.dataset.v); if(k>=0) set.splice(k,1); else set.push(b.dataset.v); f.value=set.sort().join(''); }
+    else f.value = (f.value===b.dataset.v) ? '' : b.dataset.v;
+    f.dispatchEvent(new Event('input',{bubbles:true})); f.dispatchEvent(new Event('change',{bubbles:true}));
+    paint(item);
+  });
+  /* keep the crosses in step with answers the kit restores after a reload */
+  setInterval(function(){document.querySelectorAll('.item.mc').forEach(paint);},800);
+})();
+</script>
+<script type="application/json" id="lp-key">{"q1": ["B", "C", "A", "D"], "q2": [{"ans": "93,8 millones de turistas AND un 10,1 % más que en 2023 / la cifra aumentó.", "pts": [[[["93", "noventa y tres"]]], [[["10,1", "10.1", "mas que", "aument", "subi", "crec", "record"]]]]}, {"ans": "Del Reino Unido.", "pts": [[[["reino unido", "britan", "inglaterra", "ingles"]]]]}, {"ans": "Fue la región donde más creció la llegada de turistas (un 14 %).", "pts": [[[["crec", "aument", "subi", "14"]]]]}, {"ans": "Los turistas asiáticos / de Asia.", "pts": [[[["asia"]]]]}], "q3": [{"ans": "Conocía a todos los vecinos de su escalera.", "pts": [[[["conoc"]], [["todos", "vecino"]]]]}, {"ans": "Any 2 from 3: cada semana llegan caras nuevas / desconocidos – las maletas de ruedas (ruido) – llegan de madrugada / a las tres de la mañana.", "pts": [[[["cara", "desconoc", "gente nueva", "cambian", "cada semana"]]], [[["maleta", "ruido"]]], [[["madrugada", "tres", "3", "noche", "tarde"]]]]}, {"ans": "El propietario no le renovó el contrato porque prefería alquilar el piso a turistas.", "pts": [[[["contrato", "renov", "echo", "turista", "propietario", "dueno"]]]]}, {"ans": "La panadería cerró y abrieron una tienda de recuerdos.", "pts": [[[["panader", "recuerdo", "souvenir"]]]]}, {"ans": "Any 2 from 3: no renovará unas diez mil licencias – los pisos turísticos desaparecerán en noviembre de 2028 – los pisos volverán al mercado para los residentes.", "pts": [[[["licencia", "10 000", "10.000", "10000", "diez mil"]]], [[["2028", "desaparec", "termin", "acab"]]], [[["residente", "vecino", "mercado", "alquiler normal", "volver"]]]]}, {"ans": "Los pisos turísticos representan el 40 % de las plazas de alojamiento / quieren reclamar indemnizaciones.", "pts": [[[["40", "cuarenta", "plaza", "alojamiento", "indemniz", "compens"]]]]}, {"ans": "Su hijo trabaja en un hotel / vive de los turistas.", "pts": [[[["hijo", "hotel"]]]]}], "q4a": [{"ans": "El 14,5 %.", "pts": [[[["14,5", "14.5", "catorce"]]]]}, {"ans": "Es la tasa más baja desde que hay registros AND hay casi 50 000 jóvenes emancipados menos que un año antes.", "pts": [[[["mas baja", "minimo", "nunca", "registro"]]], [[["50", "cincuenta"]], [["menos"], ["ano", "antes"]]]]}, {"ans": "Los jóvenes españoles se van de casa más tarde: a los 30,2 años frente a los 26,3.", "pts": [[[["tarde", "30", "mayores", "cuatro anos", "mas edad"]]]]}, {"ans": "Las mujeres se van de casa un poco antes (29,6 frente a 30,8 años).", "pts": [[[["mujer"], ["antes", "mas jovenes", "29"]], [["hombre"], ["tarde", "despues", "30,8"]]]]}, {"ans": "El alquiler medio (1 176 €) es casi igual al salario medio de un joven (1 191 €).", "pts": [[[["1176", "1 176", "1.176", "salario", "sueldo", "igual", "todo"]]]]}], "q4b": {"key1": [{"ans": "Un joven tendría que pagar el 98,7 % de su sueldo / casi todo su sueldo.", "pts": [[[["98", "todo", "casi todo", "sueldo entero", "salario entero"]]]]}, {"ans": "Cuesta de media 400 € / un 85,4 % más que en 2022.", "pts": [[[["400", "85", "mas caro", "caro", "aument", "subid", "subio"]]]]}, {"ans": "Hacen falta más de cuatro años de sueldo solo para la entrada (piso medio de 223 000 €).", "pts": [[[["cuatro", "4", "223", "entrada", "dificil", "imposible"]]]]}], "key2": [{"ans": "Casi el 20 % de los jóvenes que trabajan está en riesgo de pobreza / el trabajo ya no protege de la pobreza.", "pts": [[[["pobre", "20", "veinte"]]]]}, {"ans": "Su riesgo de pobreza pasa del 25,9 % al 43 % después de pagar la vivienda.", "pts": [[[["43", "pobre", "25,9", "empobrec"]]]]}, {"ans": "Más vivienda pública en alquiler y límites a los precios.", "pts": [[[["publica", "limit", "precio", "social"]]]]}]}, "B": {"q5": ["B", "D", "A", "C"], "q6": ["B", "D", "G", "I"], "q7": [{"ans": "Los padres trabajaban los dos a jornada completa.", "pts": [[[["trabaj", "jornada"]]]]}, {"ans": "Any 2: sus amigos volvían solos y él tenía que esperar a la abuela – ella caminaba despacio – saludaba a todo el barrio – en su casa no había wifi / la tele solo tenía los canales de siempre.", "pts": [[[["esperar", "solos", "amigos"]]], [[["despacio", "lent"]]], [[["salud"]]], [[["wifi", "internet", "tele", "canal"]]]]}, {"ans": "Se quedaba a cenar los martes y traía lentejas AND pagaba el comedor escolar de la hermana con su pensión.", "pts": [[[["cena", "lenteja", "comida", "olla"]]], [[["comedor", "pension", "pagaba", "colegio"]]]]}, {"ans": "Ahora es él quien la acompaña al médico / quien la cuida.", "pts": [[[["acompan", "medico", "el la cuida", "la cuida el", "cuida a su abuela", "la cuida"]]]]}], "q8": [{"ans": "Una pausa en la llegada de turistas hasta que hubiera leyes contra la masificación.", "pts": [[[["pausa", "limit", "parar", "frenar", "menos turista", "ley"]]]]}, {"ans": "Hicieron una huelga de hambre AND contra dos proyectos turísticos de lujo en Tenerife (que consideraban ilegales).", "pts": [[[["huelga", "hambre", "comer"]]], [[["proyecto", "lujo", "ilegal", "hotel", "construc"]]]]}, {"ans": "Dispararon con pistolas de agua a los turistas.", "pts": [[[["agua", "pistola", "dispar", "moja"]]]]}, {"ans": "Any 2 from 3: la subida de los precios – la presión sobre los servicios públicos – el reparto desigual de la riqueza del turismo.", "pts": [[[["precio", "caro", "coste de vida"]]], [[["servicio"]]], [[["riqueza", "desigual", "reparto", "dinero"]]]]}, {"ans": "Any 2 from 3: limitar los vuelos y los cruceros – regular el alojamiento para no residentes – proteger los recursos naturales.", "pts": [[[["vuelo", "crucero", "avion", "barco"]]], [[["alojamiento", "no residente", "pisos", "vivienda"]]], [[["natural", "recurso", "medio ambiente", "naturaleza"]]]]}], "q9": [{"ans": "1221 euros brutos (en 14 pagas).", "pts": [[[["1221", "1 221", "1.221", "mil doscientos veintiun"]]]]}, {"ans": "Any 2 from 3: 37 euros más al mes – un 3,1 % más – se cobra desde el 1 de enero de 2026.", "pts": [[[["37", "treinta y siete"]]], [[["3,1", "3.1", "tres coma"]]], [[["enero", "retroactiv"]]]]}, {"ans": "Los sindicatos CCOO y UGT (y el Gobierno).", "pts": [[[["ccoo", "ugt", "sindicato", "comisiones", "union general"]]]]}, {"ans": "Unos 2,5 millones.", "pts": [[[["2,5", "2.5", "dos millones y medio", "dos coma cinco"]]]]}, {"ans": "No paga el impuesto sobre la renta / IRPF.", "pts": [[[["irpf", "impuesto", "tribut", "hacienda"]]]]}, {"ans": "Any 2 from 3: el acuerdo es una «trampa» – los costes de las empresas subirán mucho – el Gobierno desprecia el diálogo social.", "pts": [[[["trampa"]]], [[["coste", "caro", "gasto"]]], [[["dialogo", "despreci", "no escucha", "negoci"]]]]}]}, "C": [{"es": "A finales de 2021,", "ans": "At the end of 2021,", "pts": [[[["end of 2021", "late 2021", "close of 2021"]]]]}, {"es": "el Gobierno aprobó una reforma laboral", "ans": "the Government approved a labour reform", "pts": [[[["government"], ["approv", "pass", "adopt"], ["labour", "labor", "employment", "work"], ["reform"]]]]}, {"es": "pactada con los sindicatos y la patronal.", "ans": "agreed with the trade unions and the employers.", "pts": [[[["agreed", "negotiated", "pact", "deal"], ["union"], ["employer", "business", "bosses", "employers' organisation"]]]]}, {"es": "Su principal objetivo era reducir la temporalidad,", "ans": "Its main aim was to reduce temporary employment,", "pts": [[[["main", "principal", "chief", "key"], ["aim", "objective", "goal", "purpose"], ["reduc", "cut", "lower", "decreas"], ["temporary", "temporal", "fixed-term", "short-term"]]]]}, {"es": "un problema histórico del mercado de trabajo español.", "ans": "a long-standing problem in the Spanish labour market.", "pts": [[[["histor", "long-standing", "longstanding", "long standing", "old", "traditional", "age-old"], ["problem", "issue"], ["labour market", "labor market", "job market", "employment market", "work market"]]]]}, {"es": "La reforma simplificó los tipos de contrato temporal", "ans": "The reform simplified the types of temporary contract", "pts": [[[["simplif"], ["type", "kind", "form"], ["temporary", "fixed-term", "short-term"]]]]}, {"es": "y limitó su duración.", "ans": "and limited their length.", "pts": [[[["limit", "restrict", "cap", "shorten"], ["length", "duration", "how long"]]]]}, {"es": "Además, encadenar contratos temporales", "ans": "In addition, chaining temporary contracts", "pts": [[[["chain", "string", "link", "consecutive", "back-to-back", "one after another", "series", "succession"]]]]}, {"es": "pasó a estar penalizado.", "ans": "became penalised.", "pts": [[[["became", "was now", "started to be", "began to be", "is now", "now"], ["penali", "punish", "sanction", "fined", "penalty"]]]]}, {"es": "Los resultados fueron rápidos:", "ans": "The results were quick:", "pts": [[[["result"], ["quick", "fast", "rapid", "swift", "immediate", "soon"]]]]}, {"es": "en los primeros siete meses de 2022,", "ans": "in the first seven months of 2022,", "pts": [[[["first"], ["seven", "7"], ["month"]]]]}, {"es": "los contratos indefinidos se triplicaron", "ans": "permanent contracts tripled", "pts": [[[["permanent", "indefinite", "open-ended", "open ended"], ["tripl", "three times", "threefold"]]]]}, {"es": "en comparación con el mismo periodo de 2019.", "ans": "compared with the same period in 2019.", "pts": [[[["compar", "than", "relative"], ["same"], ["period", "time", "months"], ["2019"]]]]}, {"es": "Los jóvenes menores de veinticinco años", "ans": "Young people under twenty-five", "pts": [[[["young", "youth"], ["under", "below", "less than", "younger than"], ["twenty-five", "25", "twenty five"]]]]}, {"es": "fueron de los más beneficiados.", "ans": "were among those who benefited most.", "pts": [[[["among", "some of", "one of"], ["benefit", "gain"]]]]}, {"es": "Sin embargo, algunos economistas señalan", "ans": "However, some economists point out", "pts": [[[["however", "nevertheless", "but", "yet"], ["economist"], ["point", "note", "indicate", "observe", "signal", "highlight", "say", "stress", "mention"]]]]}, {"es": "que muchos de los nuevos contratos", "ans": "that many of the new contracts", "pts": [[[["many"], ["new contract"]]]]}, {"es": "son fijos discontinuos,", "ans": "are seasonal permanent contracts,", "pts": [[[["discontinu", "intermittent", "seasonal", "fixed-discontinuous", "fijos discontinuos", "fixed discontinuous", "on-call", "on call"]]]]}, {"es": "es decir, empleos estables", "ans": "that is, stable jobs", "pts": [[[["that is", "in other words", "i.e", "meaning", "namely", "which means"], ["stable", "secure", "permanent", "steady"], ["job", "employment", "post", "position", "work"]]]]}, {"es": "que solo se trabajan durante una parte del año.", "ans": "that are only worked for part of the year.", "pts": [[[["only", "just", "solely"], ["part of the year", "some of the year", "some months", "part of the time", "certain months", "certain times of the year", "part of each year"]]]]}]}</script>
+<script src="paper-marker.js" defer></script>
+<script>window.BBA_KIT = Object.assign(window.BBA_KIT || {}, {check:false, download:false, name:false, meter:false, tries:0});</script>
+<script src="bba-kit-es.js" defer></script>
+</body>
+</html>

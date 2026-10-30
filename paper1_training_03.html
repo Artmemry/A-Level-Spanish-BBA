@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paper 1 training 3 – 9SP0/01 practice</title>
+<style>
+:root{--ink:#111;--rule:#9a9a9a;--muted:#555;--paper:#fff;--bg:#e9e9e9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.45}
+.sheet{background:var(--paper);max-width:820px;margin:24px auto;padding:40px 56px 32px;box-shadow:0 1px 4px rgba(0,0,0,.25);position:relative}
+@media (max-width:700px){.sheet{margin:0 0 8px;padding:24px 16px}}
+.pageno{text-align:center;color:var(--muted);font-size:13px;margin-top:28px}
+.cover h1{font-size:28px;margin:4px 0 0}
+.cover .board{font-size:15px;color:var(--muted)}
+.cover .ref{float:right;text-align:right;font-size:14px;border:1px solid var(--ink);padding:6px 10px}
+.cover hr{border:0;border-top:2px solid var(--ink);margin:18px 0}
+.cover h2{font-size:17px;margin:18px 0 4px}
+.cover ul{margin:4px 0;padding-left:20px}
+.sec{text-align:center;font-weight:bold;font-size:19px;letter-spacing:.5px;margin:0}
+.sec+.sec{margin-bottom:10px}
+.rec{text-align:center;font-weight:bold;margin:4px 0 16px}
+.instr p{margin:6px 0}
+.durs{margin:10px 0 10px 40%}
+@media (max-width:700px){.durs{margin-left:8%}}
+.durs div{margin:2px 0}
+.ptitle{font-weight:bold;font-size:18px;margin:0 0 10px}
+.qhead{display:flex;gap:14px;font-weight:bold;margin:0 0 12px}
+.qhead .qn{min-width:22px}
+.item{margin:0 0 0 36px;position:relative}
+.item.mc{margin-bottom:14px}
+@media (max-width:700px){.item{margin-left:6px}}
+.q{margin:0 0 6px}
+.num{display:inline-block;min-width:38px}
+.bul{padding-left:24px}
+.mark{text-align:right;font-weight:bold;margin:0 0 12px}
+.total{text-align:right;font-weight:bold;margin:18px 0 0}
+.grand{text-align:right;font-weight:bold;font-size:18px;margin:16px 0 0}
+textarea.ans{width:100%;border:0;border-bottom:1px dotted var(--rule);resize:vertical;font:inherit;line-height:32px;padding:0 4px;
+  background:repeating-linear-gradient(transparent 0 31px,var(--rule) 31px 32px);outline-offset:2px;min-height:64px}
+textarea.ans:focus{outline:2px solid #2b5797;background-color:#f7f9fd}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;padding:0}
+.opt{display:flex;align-items:center;gap:12px;width:calc(100% - 38px);margin:6px 0 6px 38px;padding:4px 0;background:none;border:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.opt b{min-width:16px}
+.opt .ot{flex:1}
+.box{width:30px;height:24px;border:1.5px solid var(--ink);flex:none;position:relative}
+.opt[aria-checked="true"] .box::after{content:"\2715";position:absolute;inset:0;display:grid;place-items:center;font-size:20px;font-weight:bold}
+.opt:focus-visible{outline:2px solid #2b5797;outline-offset:2px}
+.player{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--rule);padding:8px 12px;margin:0 0 16px}
+.plab{font-weight:bold;font-size:15px}
+.player audio{flex:1;min-width:220px}
+.lead{font-weight:bold;margin:0 0 12px}
+.who{margin:14px 0 6px 36px;font-weight:bold}
+.src{margin:0 0 14px;font-size:15px;word-break:break-all}
+.src b{word-break:normal}
+.cand{display:block;margin:14px 0;font-weight:bold}
+.cand input{font:inherit;font-weight:normal;border:1px solid var(--ink);padding:6px 8px;width:min(340px,100%);margin-left:8px}
+.lpbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin:22px 0 0}
+.lpbar button{font:inherit;font-weight:bold;padding:9px 16px;border:1px solid #2b5797;background:#fff;color:#2b5797;cursor:pointer;border-radius:4px}
+.lpbar button.go{background:#2b5797;color:#fff}
+.lpres{border:2px solid #2b5797;padding:12px 16px;margin:14px 0 0;background:#f4f7fc}
+.lpres p{margin:4px 0}
+.fb{margin:-6px 0 14px 36px;padding:8px 12px;font-size:15px;border-left:4px solid #b0b0b0;background:#f6f6f6}
+.fb.full{border-color:#2e7d52;background:#eef7f1}
+.fb.part{border-color:#c98a00;background:#fdf6e6}
+.fb.zero{border-color:#b3261e;background:#fbeeed}
+.fb b{margin-right:6px}
+.locked textarea.ans,.locked .opt{pointer-events:none}
+.opt.right .box{background:#dff0e5}
+@media print{.lpbar,.fb,.lpres{display:none!important}}
+.rtext{border:1px solid var(--rule);padding:12px 16px;margin:0 0 16px;background:#fcfcfc}
+.rtext p{margin:0 0 10px;text-align:justify}
+.rtitle{font-weight:bold;text-align:center!important}
+.lead2{font-weight:bold;margin:12px 0 8px}
+.trans-fb table{border-collapse:collapse;width:100%;margin-top:8px;font-size:14px}
+.trans-fb td{border-top:1px solid #ddd;padding:4px 6px;vertical-align:top}
+.trans-fb td.ok{color:#2e7d52;font-weight:bold} .trans-fb td.no{color:#b3261e;font-weight:bold}
+.credit{font-size:13px;color:var(--muted);border-top:1px solid var(--rule);padding-top:10px;margin-top:22px}
+.defi ol{padding-left:22px}
+.defi li{margin-bottom:14px}
+@media print{body{background:#fff}.sheet{box-shadow:none;margin:0;page-break-after:always}.player,#bba-kit{display:none!important}}
+</style>
+</head>
+<body>
+
+<section class="sheet cover">
+  <div class="ref">Paper reference<br><b>9SP0/01</b><br>Paper 1 training 3</div>
+  <div class="board">BBA practice paper modelled on Pearson Edexcel Level 3 GCE</div>
+  <h1>Spanish</h1>
+  <div><b>Advanced</b><br>PAPER 1: Listening, Reading and Translation<br>Paper 1 training 3 · Themes 1–2 · end of Year 12</div>
+  <hr>
+  <label class="cand">Candidate name <input type="text" id="cand" autocomplete="name" placeholder="First name and initial"></label>
+  <p><b>You must have:</b> headphones or earphones. The recordings are on this page.</p>
+  <h2>Instructions</h2>
+  <ul>
+    <li>Type your name in the box above if you want it on your results file (optional).</li>
+    <li>Answer <b>all</b> questions in Sections A, B and C.</li>
+    <li>Candidates are recommended to start with Section A: Listening, and work through each section as presented.</li>
+    <li>Answer the questions in the spaces provided – there may be more space than you need.</li>
+    <li>We recommend you spend 50 minutes on Section A: Listening, 50 minutes on Section B: Reading and 20 minutes on Section C: Translation into English (2 hours in total).</li>
+    <li>You must not use a dictionary.</li>
+    <li>You can do one section at a time: each section ends with its own <b>Mark Section … only</b> button. To mark everything at once, press <b>Mark the whole paper</b> at the end of Section C.</li>
+    <li>Then press <b>Download results</b> at the end of Section C and send the file to your teacher: it contains every section you have marked.</li>
+  </ul>
+  <h2>Information</h2>
+  <ul>
+    <li>The total mark for this paper is 80.</li>
+    <li>The marks for each question are shown in brackets – use this as a guide as to how much time to spend on each question.</li>
+  </ul>
+  <h2>Advice</h2>
+  <ul>
+    <li>Read each question carefully before you start to answer it.</li>
+    <li>Try to answer every question.</li>
+    <li>Check your answers if you have time at the end.</li>
+  </ul>
+  <p class="pageno">1</p>
+</section>
+
+<section class="sheet">
+  <p style="margin-top:0">Answer ALL questions. Write your answers in the spaces provided.<br>
+  Some questions must be answered with a cross in a box ☒. If you change your mind about an answer, click another box.</p>
+  <p class="sec">SECTION A</p><p class="sec">LISTENING</p>
+  <p class="rec">We recommend you spend no more than 50 minutes on this section.</p>
+  <div class="instr">
+    <p>Questions 2, 3 and 4(a) do not require full sentences and you may respond using single words or phrases.</p>
+    <p>Summary Question 4(b) does not require full sentences and you may respond using short phrases.</p>
+    <p>You may use words from the listening passages but you must not transcribe whole sections.</p>
+    <p>You are going to listen to five passages. The duration of each passage is approximately:</p>
+    <div class="durs">
+      <div>Passage 1 = 0 minute 54 seconds</div><div>Passage 2 = 1 minute 08 seconds</div><div>Passage 3 = 1 minute 36 seconds</div>
+      <div>Passage 4(a) = 0 minute 59 seconds</div><div>Passage 4(b) = 1 minute 12 seconds</div>
+    </div>
+    <p>You will be in charge of the recording and you may listen to each passage as often as you wish, and write your answers whenever you wish to do so.</p>
+  </div>
+  <p class="pageno">2</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Texto 1 – Ochenta años de Tomatina</p>
+  <div class="player"><span class="plab">Texto 1</span><audio controls preload="none" src="listening_paper_03_passage_1.mp3"></audio></div>
+  <div class="qhead"><span class="qn">1</span><span>Escucha este reportaje sobre una fiesta valenciana. Pon una equis ☒ en la casilla apropiada.</span></div>
+  <div class="item mc" data-t="mc" data-k="q1.0" data-max="1" data-lab="1(i)"><p class="q"><span class="sr">1</span><span class="num">(i)</span> La Tomatina se celebra…</p><div role="radiogroup" aria-label="1(i)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">el primer miércoles de agosto.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">a finales de agosto.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">en primavera.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">cada dos años.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_i" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.1" data-max="1" data-lab="1(ii)"><p class="q"><span class="sr">1</span><span class="num">(ii)</span> Los tomates de la fiesta…</p><div role="radiogroup" aria-label="1(ii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">se compran en el mercado de Buñol.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">son de muy buena calidad.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">no sirven para comer.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">vienen del extranjero.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_ii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.2" data-max="1" data-lab="1(iii)"><p class="q"><span class="sr">1</span><span class="num">(iii)</span> El número de participantes…</p><div role="radiogroup" aria-label="1(iii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">no tiene límite.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">bajó en 2025.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">es de 45 000.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">está limitado.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_iii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.3" data-max="1" data-lab="1(iv)"><p class="q"><span class="sr">1</span><span class="num">(iv)</span> En 2025, la fiesta…</p><div role="radiogroup" aria-label="1(iv)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">cumplió ochenta años.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">se celebró por primera vez.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">fue cancelada.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">solo atrajo a valencianos.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_iv" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 1 = 4 marks)</p>
+  <p class="pageno">3</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Texto 2 – La música grabada vuelve a crecer</p>
+  <div class="player"><span class="plab">Texto 2</span><audio controls preload="none" src="listening_paper_03_passage_2.mp3"></audio></div>
+  <div class="qhead"><span class="qn">2</span><span>Escucha este reportaje sobre el mercado de la música en España. Contesta las preguntas en español.</span></div>
+  <div class="item" data-t="open" data-k="q2.0" data-max="2" data-lab="2(a)"><p class="q"><span class="sr">2</span><span class="num">(a)</span> ¿Cómo le fue al mercado de la música grabada en 2025? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q2.1" data-max="1" data-lab="2(b)"><p class="q"><span class="sr">2</span><span class="num">(b)</span> ¿Qué dato muestra el éxito de las suscripciones?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.2" data-max="1" data-lab="2(c)"><p class="q"><span class="sr">2</span><span class="num">(c)</span> ¿Qué formato físico tiene cada vez más éxito?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.3" data-max="1" data-lab="2(d)"><p class="q"><span class="sr">2</span><span class="num">(d)</span> ¿Qué problema sigue existiendo?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 2 = 5 marks)</p>
+  <p class="pageno">4</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Texto 3 – El Día de Muertos</p>
+  <div class="player"><span class="plab">Texto 3</span><audio controls preload="none" src="listening_paper_03_passage_3.mp3"></audio></div>
+  <div class="qhead"><span class="qn">3</span><span>Escucha a esta persona hablando de una fiesta mexicana. Contesta las preguntas en español.</span></div>
+  <div class="item" data-t="open" data-k="q3.0" data-max="1" data-lab="3(a)"><p class="q"><span class="sr">3</span><span class="num">(a)</span> ¿Qué se celebra cada día de la fiesta?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.1" data-max="1" data-lab="3(b)"><p class="q"><span class="sr">3</span><span class="num">(b)</span> ¿Para qué sirven los pétalos de cempasúchil?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.2" data-max="2" data-lab="3(c)"><p class="q"><span class="sr">3</span><span class="num">(c)</span> ¿Qué pone la familia en el altar? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q3.3" data-max="1" data-lab="3(d)"><p class="q"><span class="sr">3</span><span class="num">(d)</span> ¿Qué hace la familia en el cementerio?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.4" data-max="1" data-lab="3(e)"><p class="q"><span class="sr">3</span><span class="num">(e)</span> ¿Cómo nació el desfile de la Ciudad de México?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.5" data-max="2" data-lab="3(f)"><p class="q"><span class="sr">3</span><span class="num">(f)</span> ¿Qué muestra el éxito del desfile en 2025? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q3.6" data-max="1" data-lab="3(g)"><p class="q"><span class="sr">3</span><span class="num">(g)</span> ¿Qué diferencia ve Guadalupe con Halloween?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 3 = 9 marks)</p>
+  <p class="pageno">5</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Texto 4(a) – ¿Cómo nos informamos?</p>
+  <div class="player"><span class="plab">Texto 4(a)</span><audio controls preload="none" src="listening_paper_03_passage_4a.mp3"></audio></div>
+  <div class="qhead"><span class="qn">4</span><span>(a) Escucha este reportaje sobre las noticias en España. Contesta las preguntas en español.</span></div>
+  <div class="item" data-t="open" data-k="q4a.0" data-max="2" data-lab="4(a)(i)"><p class="q"><span class="sr">4(a)</span><span class="num">(i)</span> ¿Qué dice el estudio sobre la confianza en las noticias? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q4a.1" data-max="1" data-lab="4(a)(ii)"><p class="q"><span class="sr">4(a)</span><span class="num">(ii)</span> ¿Cómo ha cambiado el papel de la televisión?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.2" data-max="1" data-lab="4(a)(iii)"><p class="q"><span class="sr">4(a)</span><span class="num">(iii)</span> ¿Qué fuente ocupa el segundo lugar?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.3" data-max="1" data-lab="4(a)(iv)"><p class="q"><span class="sr">4(a)</span><span class="num">(iv)</span> ¿Qué hacen muchos españoles con las noticias?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.4" data-max="1" data-lab="4(a)(v)"><p class="q"><span class="sr">4(a)</span><span class="num">(v)</span> ¿Qué preocupa al 69 % de los españoles?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="pageno">6</p>
+</section>
+
+<section class="sheet">
+  <p class="lead">Resume la siguiente conversación. Las expresiones cortas son válidas. Menciona tres detalles para la pregunta 4(b)(i) y tres detalles para la pregunta 4(b)(ii).</p>
+  <p class="ptitle">Texto 4(b) – ¿Cómo nos informamos?</p>
+  <div class="player"><span class="plab">Texto 4(b)</span><audio controls preload="none" src="listening_paper_03_passage_4b.mp3"></audio></div>
+  <div class="qhead"><span class="qn"></span><span>(b) Escucha la conversación con dos expertos. Responde en español.</span></div>
+  <p class="who">(i) Resume lo que dice Andrés sobre:</p>
+  <div class="item" data-t="open" data-k="q4b.key1.0" data-max="1" data-lab="4(b)(i) • los jóvenes de 18 a 24 años"><p class="q bul"><span class="sr">4(b)(i) </span>• los jóvenes de 18 a 24 años</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key1.1" data-max="1" data-lab="4(b)(i) • la inteligencia artificial"><p class="q bul"><span class="sr">4(b)(i) </span>• la inteligencia artificial</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key1.2" data-max="1" data-lab="4(b)(i) • las noticias locales"><p class="q bul"><span class="sr">4(b)(i) </span>• las noticias locales</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+  <p class="who">(ii) Resume lo que dice Elena sobre:</p>
+  <div class="item" data-t="open" data-k="q4b.key2.0" data-max="1" data-lab="4(b)(ii) • el origen de la desinformación"><p class="q bul"><span class="sr">4(b)(ii) </span>• el origen de la desinformación</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key2.1" data-max="1" data-lab="4(b)(ii) • pagar por las noticias"><p class="q bul"><span class="sr">4(b)(ii) </span>• pagar por las noticias</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key2.2" data-max="1" data-lab="4(b)(ii) • sus consejos a los estudiantes"><p class="q bul"><span class="sr">4(b)(ii) </span>• sus consejos a los estudiantes</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 4 = 12 marks)</p>
+  <p class="grand">TOTAL FOR SECTION A = 30 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="A">Mark Section A only</button></div>
+  <div id="lp-res-A" class="lpres" aria-live="polite" hidden></div>
+  <p class="pageno">7</p>
+</section>
+
+<section class="sheet" id="secB">
+  <p class="sec">SECTION B</p><p class="sec">READING</p>
+  <p class="rec">We recommend you spend around 50 minutes on this section.</p>
+  <div class="instr"><p>Open-response questions do not have to be written in full sentences and you may respond using single words or phrases.</p>
+  <p>You may use words from the texts but you must not copy out whole sections.</p></div>
+  <div class="qhead"><span class="qn">5</span><span>Lee este artículo sobre una fiesta valenciana.</span></div><div class="rtext"><p class="rtitle">Las Fallas, patrimonio de la humanidad</p><p>En 2016, la UNESCO inscribió las Fallas de Valencia en la Lista Representativa del Patrimonio Cultural Inmaterial de la Humanidad. Entre el 14 y el 19 de marzo, en las plazas de la ciudad se levantan enormes conjuntos de figuras de aspecto caricaturesco, los «ninots», para dar la bienvenida a la primavera.</p><p>Los artistas y artesanos locales que los fabrican se inspiran a menudo en la actualidad política y social. Sus conocimientos se transmiten de generación en generación, sobre todo dentro de las familias de artesanos.</p><p>Durante la fiesta, las bandas de música recorren las calles, la gente come al aire libre y hay numerosos espectáculos de fuegos artificiales. Cada año se elige también a una Fallera Mayor, que representa la fiesta. Todo termina el 19 de marzo con la «cremà»: las fallas se queman, un símbolo de purificación y de renovación de la vida social de los barrios.</p></div><p class="lead2">Escoge la terminación correcta para estas frases. Pon una equis ☒ en la casilla apropiada.</p><div class="item mc" data-t="mc" data-k="B.q5.0" data-max="1" data-lab="5(i)"><p class="q"><span class="sr">5</span><span class="num">(i)</span> Las Fallas se celebran…</p><div role="radiogroup" aria-label="5(i)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">en invierno.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">al principio de la primavera.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">en pleno verano.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">en otoño.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_i" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.1" data-max="1" data-lab="5(ii)"><p class="q"><span class="sr">5</span><span class="num">(ii)</span> Los «ninots» muchas veces…</p><div role="radiogroup" aria-label="5(ii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">representan a santos.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">se compran en el extranjero.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">se refieren a la actualidad.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">son de tamaño muy pequeño.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_ii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.2" data-max="1" data-lab="5(iii)"><p class="q"><span class="sr">5</span><span class="num">(iii)</span> Los conocimientos de los artesanos…</p><div role="radiogroup" aria-label="5(iii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">pasan de padres a hijos.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">se aprenden en la universidad.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">están desapareciendo.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">son secretos.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_iii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.3" data-max="1" data-lab="5(iv)"><p class="q"><span class="sr">5</span><span class="num">(iv)</span> Al final de la fiesta, las fallas…</p><div role="radiogroup" aria-label="5(iv)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">se guardan en un museo.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">se venden.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">se llevan a otras ciudades.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">se queman.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_iv" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 5 = 4 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">6</span><span>Lee este artículo sobre el flamenco.</span></div><div class="rtext"><p class="rtitle">El flamenco, patrimonio de todos</p><p>El 16 de noviembre se celebra el Día Internacional del Flamenco. La fecha recuerda que en 2010, en Nairobi, la UNESCO reconoció el flamenco como Patrimonio Cultural Inmaterial de la Humanidad.</p><p>La candidatura partió de la Junta de Andalucía y contó con el apoyo de Murcia, Extremadura y el Gobierno de España. El flamenco nació en Andalucía de la mezcla de las culturas que convivieron en la región.</p><p>Combina tres elementos: el cante, el toque de la guitarra y el baile. Existen más de cincuenta «palos», es decir, estilos diferentes. Uno de ellos, el martinete, se asocia con los antiguos herreros gitanos, que cantaban al ritmo del martillo.</p></div><p class="lead2">¿Cuáles de las siguientes declaraciones son correctas? Pon una equis ☒ en las cuatro casillas apropiadas.</p><div class="item mc" data-t="tick" data-k="B.q6" data-max="4" data-lab="6"><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="A"><b>A</b> <span class="ot">El Día Internacional del Flamenco es en verano.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="B"><b>B</b> <span class="ot">La UNESCO reconoció el flamenco en 2010.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="C"><b>C</b> <span class="ot">El reconocimiento tuvo lugar en Sevilla.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="D"><b>D</b> <span class="ot">La candidatura fue una iniciativa andaluza.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="E"><b>E</b> <span class="ot">Extremadura se opuso a la candidatura.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="F"><b>F</b> <span class="ot">El flamenco es el resultado de una mezcla de culturas.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="G"><b>G</b> <span class="ot">El flamenco solo se baila, no se canta.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="H"><b>H</b> <span class="ot">Hay más de cincuenta estilos de flamenco.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="I"><b>I</b> <span class="ot">El martinete es un instrumento de música.</span><span class="box" aria-hidden="true"></span></button><input type="text" class="sr mcval" name="B_q6" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 6 = 4 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">7</span><span>Lee este relato de una joven música en Madrid. Contesta las preguntas en español.</span></div><div class="rtext"><p class="rtitle">Estación de Sol</p><p>Toco el violín en el metro de Madrid desde hace dos años. Al principio lo hacía para pagar el alquiler de la habitación, porque las clases del conservatorio no me dejaban tiempo para un trabajo de verdad. Ahora ya no estoy tan segura de que sea solo por el dinero.</p><p>El primer día me temblaban tanto las manos que tuve que parar a mitad de una pieza de Bach. Nadie se detuvo. Una señora dejó una moneda de veinte céntimos sin mirarme, y un niño me preguntó si conocía alguna canción de Rosalía. No la conocía. Esa noche la aprendí.</p><p>He descubierto que el público del metro es el más sincero del mundo: si no le gustas, sigue andando. Los lunes por la mañana la gente va con prisa y casi no gano nada; los viernes por la tarde, en cambio, hay quien se queda a escuchar tres o cuatro canciones y hasta me graba con el móvil.</p><p>El mes pasado, un hombre mayor se acercó al terminar y me contó que había tocado en una orquesta durante cuarenta años. No dijo nada sobre mi técnica. Solo me dijo: «No dejes de tocar para la gente que no ha pagado entrada». Desde entonces, cada vez que pienso en abandonar, recuerdo su frase.</p></div><div class="item" data-t="open" data-k="B.q7.0" data-max="2" data-lab="7(a)"><p class="q"><span class="sr">7</span><span class="num">(a)</span> ¿Por qué empezó la narradora a tocar en el metro? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q7.1" data-max="2" data-lab="7(b)"><p class="q"><span class="sr">7</span><span class="num">(b)</span> ¿Qué pasó el primer día? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q7.2" data-max="1" data-lab="7(c)"><p class="q"><span class="sr">7</span><span class="num">(c)</span> ¿Por qué es diferente tocar un viernes por la tarde?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q7.3" data-max="1" data-lab="7(d)"><p class="q"><span class="sr">7</span><span class="num">(d)</span> ¿Qué efecto tuvo en la narradora el consejo del hombre mayor?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 7 = 6 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">8</span><span>Lee este artículo sobre los salarios de mujeres y hombres. Contesta las preguntas en español.</span></div><div class="rtext"><p class="rtitle">La brecha salarial se reduce, pero no desaparece</p><p>Según la Encuesta Anual de Estructura Salarial del Instituto Nacional de Estadística (INE), publicada en mayo de 2025, el salario medio anual en España fue de 28 049,94 euros brutos en 2023, un 4,1 % más que el año anterior.</p><p>Los hombres ganaron de media 30 372,49 euros y las mujeres, 25 591,31 euros. Dicho de otro modo, el salario medio de una mujer equivale al 84,3 % del de un hombre. La diferencia sigue siendo grande, pero se reduce: ese año, el sueldo de las mujeres subió un 5,1 %, frente al 3,4 % de los hombres.</p><p>Las diferencias también dependen del sector y del lugar. La hostelería es la actividad peor pagada, con 16 985,78 euros al año, mientras que el sector de la energía (electricidad y gas) es el mejor pagado, con 54 447,96 euros. Por comunidades, el País Vasco tiene los salarios más altos (33 504,92 euros) y Extremadura, los más bajos (23 684,22 euros).</p><p>Según el INE, el tipo de contrato, la jornada, la ocupación y la antigüedad en la empresa influyen en el salario.</p></div><div class="item" data-t="open" data-k="B.q8.0" data-max="1" data-lab="8(a)"><p class="q"><span class="sr">8</span><span class="num">(a)</span> ¿Cómo evolucionó el salario medio en 2023?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.1" data-max="2" data-lab="8(b)"><p class="q"><span class="sr">8</span><span class="num">(b)</span> ¿Qué diferencia hay entre el sueldo de las mujeres y el de los hombres? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q8.2" data-max="1" data-lab="8(c)"><p class="q"><span class="sr">8</span><span class="num">(c)</span> ¿Por qué se puede decir que la brecha se reduce?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.3" data-max="2" data-lab="8(d)"><p class="q"><span class="sr">8</span><span class="num">(d)</span> ¿Qué sectores tienen los salarios más bajos y más altos? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q8.4" data-max="1" data-lab="8(e)"><p class="q"><span class="sr">8</span><span class="num">(e)</span> ¿Qué comunidad tiene los salarios más bajos?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.5" data-max="1" data-lab="8(f)"><p class="q"><span class="sr">8</span><span class="num">(f)</span> Además del sexo, ¿qué factor influye en el salario, según el INE?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 8 = 8 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">9</span><span>Lee este artículo sobre un cantante puertorriqueño. Contesta las preguntas en español.</span></div><div class="rtext"><p class="rtitle">Bad Bunny se queda en casa</p><p>En el verano de 2025, el cantante puertorriqueño Bad Bunny hizo algo poco habitual para una estrella mundial: en lugar de salir de gira, organizó una residencia de conciertos en su propia isla. Se llamó «No me quiero ir de aquí» y se celebró en el Coliseo de Puerto Rico, en San Juan, los fines de semana entre el 11 de julio y el 14 de septiembre.</p><p>Al principio se anunciaron 21 conciertos, pero la demanda fue tal que la cifra subió a 30. Según la promotora Move Concerts, se vendieron unas 400 000 entradas en aproximadamente cuatro horas. Los nueve primeros conciertos se reservaron para los residentes de Puerto Rico, para que el público local no se quedara sin entradas.</p><p>La residencia acompañaba a su disco «Debí tirar más fotos». Un estudio encargado por el Municipio de San Juan calculó un impacto económico de unos 377 millones de dólares y la creación de unos 3600 empleos directos, indirectos e inducidos.</p></div><div class="item" data-t="open" data-k="B.q9.0" data-max="1" data-lab="9(a)"><p class="q"><span class="sr">9</span><span class="num">(a)</span> ¿Qué hizo Bad Bunny de diferente en 2025?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.1" data-max="2" data-lab="9(b)"><p class="q"><span class="sr">9</span><span class="num">(b)</span> ¿Dónde y cuándo se celebraron los conciertos? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q9.2" data-max="2" data-lab="9(c)"><p class="q"><span class="sr">9</span><span class="num">(c)</span> ¿Qué muestra el éxito de la residencia? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q9.3" data-max="1" data-lab="9(d)"><p class="q"><span class="sr">9</span><span class="num">(d)</span> ¿Por qué se reservaron algunos conciertos para los residentes?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.4" data-max="2" data-lab="9(e)"><p class="q"><span class="sr">9</span><span class="num">(e)</span> ¿Qué beneficios tuvo la residencia para la isla? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+  <p class="total">(Total for Question 9 = 8 marks)</p>
+  <p class="grand">TOTAL FOR SECTION B = 30 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="B">Mark Section B only</button></div>
+  <div id="lp-res-B" class="lpres" aria-live="polite" hidden></div>
+</section>
+
+<section class="sheet" id="secC">
+  <p class="sec">SECTION C</p><p class="sec">TRANSLATION INTO ENGLISH</p>
+  <p class="rec">We recommend you spend around 20 minutes on this section.</p>
+  <div class="qhead"><span class="qn">10</span><span>Translate the following text about the San Fermín festival into English.</span></div><p class="mark">(20)</p><div class="rtext"><p>Cada año, del 6 al 14 de julio, Pamplona celebra las fiestas de San Fermín, declaradas de interés turístico internacional. Todo empieza el 6 de julio a las doce del mediodía con el chupinazo, que se lanza desde el balcón del Ayuntamiento. Al día siguiente, a las ocho en punto de la mañana, comienza el primer encierro. Los toros recorren 848 metros por las calles del casco antiguo en unos tres minutos. Los participantes visten de blanco con un pañuelo rojo al cuello. La fiesta se hizo famosa en todo el mundo gracias a la novela Fiesta, del escritor estadounidense Ernest Hemingway. Termina el 14 de julio a medianoche, cuando miles de personas se reúnen en la plaza del Ayuntamiento con velas encendidas y cantan el «Pobre de mí».</p></div><div class="item" data-t="trans" data-k="C" data-max="20" data-lab="10"><textarea class="ans" rows="12" aria-label="10 – translation"></textarea></div>
+  <p class="total">(Total for Question 10 = 20 marks)</p>
+  <p class="grand">TOTAL FOR SECTION C = 20 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="C">Mark Section C only</button></div>
+  <div id="lp-res-C" class="lpres" aria-live="polite" hidden></div>
+  <p class="grand">TOTAL FOR PAPER = 80 MARKS</p>
+  <div id="lp-bar" class="lpbar">
+    <button type="button" class="go" data-mark="all">Mark the whole paper</button>
+    <button type="button" id="lp-dl">Download results</button>
+    <button type="button" id="lp-reset">Start again</button>
+  </div>
+  <div id="lp-res" class="lpres" aria-live="polite" hidden></div>
+</section>
+
+<section class="sheet defi" data-label="Reto">
+  <p class="ptitle">Reto – after the paper (not marked, not part of the 80 marks)</p>
+  <p>For students aiming at the top grades.</p>
+  <ol>
+<li>Compara las Fallas y la Tomatina en unas 60 palabras: ¿qué tienen en común y en qué se diferencian?<textarea class="ans" rows="3" aria-label="Reto 1"></textarea></li>
+<li>¿Debería el Estado proteger la música en formato físico, como el vinilo? Escribe un párrafo de unas 80 palabras con dos argumentos y un contraargumento.<textarea class="ans" rows="3" aria-label="Reto 2"></textarea></li>
+<li>Traduce al español: «If more young people paid for news, newspapers would depend less on advertising.»<textarea class="ans" rows="3" aria-label="Reto 3"></textarea></li>
+  </ol>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Source information:</p>
+  <p style="font-size:15px">The recordings and the reading and translation texts were written by the BBA Spanish department from the facts in the sources below; the recordings are read by synthetic voices. The narrative text («relato») is original.</p>
+<p class="src"><b>Texto 1 – Ochenta años de Tomatina</b><br>Valencia News, «Tomatina de Buñol 2025: 120.000 kg de tomate y 22.000 asistentes», 26 de agosto de 2025<br><a href="https://valencianews.es/comarcas/tomatina-de-bunol-2025-120-000-kg-de-tomate-22-000-asistentes/" target="_blank" rel="noopener">https://valencianews.es/comarcas/tomatina-de-bunol-2025-120-000-kg-de-tomate-22-000-asistentes/</a><br>ABC7, «Lo que debe saber sobre la Tomatina de España, la batalla callejera de tomates que cumple 80 años»<br><a href="https://abc7.com/post/lo-debe-saber-sobre-la-tomatina-de-espana-batalla-callejera-de-tomates-cumple-80-anos/17647252/" target="_blank" rel="noopener">https://abc7.com/post/lo-debe-saber-sobre-la-tomatina-de-espana-batalla-callejera-de-tomates-cumple-80-anos/17647252/</a></p>
+<p class="src"><b>Texto 2 – La música grabada vuelve a crecer</b><br>Music Business Worldwide, «Spain&#x27;s recorded music market grew 13.7% in 2025…» (datos de Promusicae)<br><a href="https://www.musicbusinessworldwide.com/spains-recorded-music-market-grew-13-7-in-2025-with-subscription-streaming-revenues-up-19-2-yoy" target="_blank" rel="noopener">https://www.musicbusinessworldwide.com/spains-recorded-music-market-grew-13-7-in-2025-with-subscription-streaming-revenues-up-19-2-yoy</a></p>
+<p class="src"><b>Texto 3 – El Día de Muertos (speaker invented; facts from)</b><br>National Geographic en español, «¿Qué es el Día de Muertos?», noviembre de 2022<br><a href="https://www.nationalgeographicla.com/historia/2022/11/que-es-el-dia-de-muertos" target="_blank" rel="noopener">https://www.nationalgeographicla.com/historia/2022/11/que-es-el-dia-de-muertos</a><br>Xataka México, «La curiosa historia de cómo una superproducción de 300 millones de dólares cambió para siempre el Día de Muertos en México»<br><a href="https://www.xataka.com.mx/cine-y-tv/curiosa-historia-como-superproduccion-300-millones-dolares-cambio-para-siempre-dia-muertos-mexico" target="_blank" rel="noopener">https://www.xataka.com.mx/cine-y-tv/curiosa-historia-como-superproduccion-300-millones-dolares-cambio-para-siempre-dia-muertos-mexico</a></p>
+<p class="src"><b>Textos 4(a) y 4(b) – ¿Cómo nos informamos? (experts invented; figures from)</b><br>Universidad de Navarra, Digital News Report España 2025, informe ejecutivo<br><a href="https://www.unav.edu/web/digital-news-report/entradas/-/blogs/informe-ejecutivo-2025" target="_blank" rel="noopener">https://www.unav.edu/web/digital-news-report/entradas/-/blogs/informe-ejecutivo-2025</a></p>
+<p class="src"><b>Pregunta 5 – Las Fallas, patrimonio de la humanidad</b><br>UNESCO, Patrimonio Cultural Inmaterial, «Las Fallas de Valencia», inscrito en 2016 (11.COM)<br><a href="https://ich.unesco.org/es/RL/las-fallas-de-valencia-00859" target="_blank" rel="noopener">https://ich.unesco.org/es/RL/las-fallas-de-valencia-00859</a></p>
+<p class="src"><b>Pregunta 6 – El flamenco, patrimonio de todos</b><br>Euronews, «Día Internacional del Flamenco: el arte centenario que combina cante, baile, música y sentimiento», 16 de noviembre de 2024<br><a href="https://es.euronews.com/2024/11/16/dia-internacional-del-flamenco-el-arte-centenario-que-combina-cante-baile-musica-y-sentimi" target="_blank" rel="noopener">https://es.euronews.com/2024/11/16/dia-internacional-del-flamenco-el-arte-centenario-que-combina-cante-baile-musica-y-sentimi</a></p>
+<p class="src"><b>Pregunta 7 – Estación de Sol</b><br>Original text by the BBA Spanish department.</p>
+<p class="src"><b>Pregunta 8 – La brecha salarial se reduce, pero no desaparece</b><br>INE, Encuesta Anual de Estructura Salarial 2023, nota de prensa, 28 de mayo de 2025<br><a href="https://www.ine.es/dyngs/Prensa/es/EAES2023.htm" target="_blank" rel="noopener">https://www.ine.es/dyngs/Prensa/es/EAES2023.htm</a></p>
+<p class="src"><b>Pregunta 9 – Bad Bunny se queda en casa</b><br>Telemundo, «Bad Bunny emociona a Puerto Rico con su “histórica” residencia de 30 conciertos», julio de 2025<br><a href="https://www.telemundo.com/entretenimiento/telemundo-entretenimiento/musica/bad-bunny-emociona-a-puerto-rico-con-su-historica-residencia-rcna218679" target="_blank" rel="noopener">https://www.telemundo.com/entretenimiento/telemundo-entretenimiento/musica/bad-bunny-emociona-a-puerto-rico-con-su-historica-residencia-rcna218679</a></p>
+<p class="src"><b>Pregunta 10 – Los Sanfermines</b><br>Spain.info (Turespaña), «Fiestas de San Fermín»<br><a href="https://www.spain.info/es/que-quieres/agenda/fiestas/navarra/fiestas_de_san_fermin.html" target="_blank" rel="noopener">https://www.spain.info/es/que-quieres/agenda/fiestas/navarra/fiestas_de_san_fermin.html</a></p>
+  <p class="credit">Voices: Piper TTS. <i>en_GB-cori-high</i> (announcer) – LibriVox recordings, public domain. <i>es_ES-sharvard-medium</i> (one man, one woman) – SHARVARD Spanish speech corpus, licence CC BY 3.0 (<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">creativecommons.org/licenses/by/3.0</a>). The audio files of this paper are shared under the same licences.</p>
+</section>
+
+<script>
+(function(){
+  function paint(item){
+    var v=item.querySelector('.mcval').value, multi=item.dataset.t==='tick';
+    item.querySelectorAll('.opt').forEach(function(b){b.setAttribute('aria-checked', (multi ? v.indexOf(b.dataset.v)>=0 : b.dataset.v===v)?'true':'false');});
+  }
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.opt'); if(!b) return;
+    var item=b.closest('.item'), f=item.querySelector('.mcval');
+    if(item.dataset.t==='tick'){ var set=f.value.split('').filter(Boolean), k=set.indexOf(b.dataset.v); if(k>=0) set.splice(k,1); else set.push(b.dataset.v); f.value=set.sort().join(''); }
+    else f.value = (f.value===b.dataset.v) ? '' : b.dataset.v;
+    f.dispatchEvent(new Event('input',{bubbles:true})); f.dispatchEvent(new Event('change',{bubbles:true}));
+    paint(item);
+  });
+  /* keep the crosses in step with answers the kit restores after a reload */
+  setInterval(function(){document.querySelectorAll('.item.mc').forEach(paint);},800);
+})();
+</script>
+<script type="application/json" id="lp-key">{"q1": ["B", "C", "D", "A"], "q2": [{"ans": "Any 2 from 3: ingresó 409,5 millones de euros – un 13,7 % más que el año anterior – el mejor resultado desde 2003.", "pts": [[[["409"]]], [[["13,7", "13.7", "mas que", "aument", "crec", "subi"]]], [[["2003", "mejor"]]]]}, {"ans": "Más de ocho millones de personas pagan una suscripción (un 18 % más que en 2024).", "pts": [[[["ocho millones", "8 millones", "8 000 000", "18"]]]]}, {"ans": "El vinilo.", "pts": [[[["vinilo", "disco"]]]]}, {"ans": "La piratería (el 34 % de los consumidores).", "pts": [[[["pirat", "ilegal", "34"]]]]}], "q3": [{"ans": "El 1 de noviembre se recuerda a los niños difuntos y el 2 a los adultos.", "pts": [[[["nino"], ["adult"]]]]}, {"ans": "Para guiar a las almas en su regreso / indicar el camino.", "pts": [[[["guia", "camino", "regres", "volver", "encontrar"]]]]}, {"ans": "Any 2 from 3: fotos de los difuntos – velas – su comida favorita (mole) / pan de muerto.", "pts": [[[["foto"]]], [[["vela"]]], [[["comida", "plato", "mole", "pan de", "favorit"]]]]}, {"ans": "Lleva comida a la tumba / pasa la noche allí / limpia la tumba.", "pts": [[[["tumba", "noche", "comida", "limpi"]]]]}, {"ans": "Se inspiró en una película de James Bond (Spectre, 2015): el desfile no existía antes.", "pts": [[[["pelicula", "bond", "spectre", "cine", "007"]]]]}, {"ans": "Más de 1,4 millones de asistentes AND más de ocho mil participantes.", "pts": [[[["1,4", "1.4", "millon"]]], [[["ocho mil", "8000", "8 000", "8.000", "participante"]]]]}, {"ans": "No es una fiesta triste ni de miedo: es para recordar a los muertos con alegría.", "pts": [[[["miedo", "trist", "alegr", "recordar", "recuerdo", "memoria", "no es de terror", "disfraz"]]]]}], "q4a": [{"ans": "Solo el 31 % confía en la mayoría de las noticias AND el 40 % no confía.", "pts": [[[["31"]]], [[["40"]]]]}, {"ans": "Sigue siendo la primera fuente (54 %), pero ha perdido 18 puntos desde 2019.", "pts": [[[["18", "perdido", "baja", "menos", "bajado", "caido"]]]]}, {"ans": "Las redes sociales (46 %).", "pts": [[[["redes", "social"]]]]}, {"ans": "El 37 % las evita a menudo o a veces.", "pts": [[[["evit", "37"]]]]}, {"ans": "Las noticias falsas en internet / la desinformación.", "pts": [[[["falsa", "desinform", "bulo", "fake", "mentira"]]]]}], "q4b": {"key1": [{"ans": "Se informan en redes: el 28 % en Instagram y el 25 % en TikTok.", "pts": [[[["instagram", "tiktok", "28", "25", "redes"]]]]}, {"ans": "Solo el 3 % usa chatbots / la inteligencia artificial para informarse.", "pts": [[[["3", "tres", "poco", "pocos", "casi nadie", "solo"]]]]}, {"ans": "El interés ha bajado: 47 %, quince puntos menos que en 2020.", "pts": [[[["47", "15", "quince", "baj", "menos", "perdid"]]]]}], "key2": [{"ans": "El 57 % ve a los políticos nacionales como la principal fuente de desinformación.", "pts": [[[["politic", "57"]]]]}, {"ans": "Solo el 10 % pagó por noticias digitales el último año.", "pts": [[[["10", "diez", "poco", "pocos"]]]]}, {"ans": "Comprobar la fuente / buscar la noticia en dos medios antes de compartirla.", "pts": [[[["fuente", "compr", "verific", "dos medios", "contrast", "compartir"]]]]}]}, "B": {"q5": ["B", "C", "A", "D"], "q6": ["B", "D", "F", "H"], "q7": [{"ans": "Para pagar el alquiler de la habitación AND las clases del conservatorio no le dejaban tiempo para otro trabajo.", "pts": [[[["alquiler", "dinero", "pagar"]]], [[["tiempo", "conservatorio", "clases", "estudi"]]]]}, {"ans": "Any 2: le temblaban las manos / tuvo que parar – nadie se detuvo – una señora le dio veinte céntimos sin mirarla – un niño le pidió una canción de Rosalía.", "pts": [[[["tembl", "parar", "nervio", "miedo"]]], [[["nadie"]]], [[["moneda", "centimo", "senora"]]], [[["rosalia", "nino", "cancion"]]]]}, {"ans": "La gente se queda a escuchar varias canciones / la graba con el móvil.", "pts": [[[["escuch", "se queda", "quedan", "graba", "movil", "tiempo", "prisa"]]]]}, {"ans": "Cada vez que piensa en abandonar, recuerda su frase / sigue tocando.", "pts": [[[["abandon", "dejar", "seguir", "sigue", "recuerda", "motiv", "continu"]]]]}], "q8": [{"ans": "Subió un 4,1 % (hasta 28 049,94 euros).", "pts": [[[["4,1", "4.1", "sub", "aument", "crec", "28"]]]]}, {"ans": "Los hombres ganan unos 30 372 € y las mujeres unos 25 591 € AND el salario de una mujer equivale al 84,3 % del de un hombre.", "pts": [[[["30", "25"]]], [[["84", "15,7", "16"]]]]}, {"ans": "El sueldo de las mujeres subió más (5,1 %) que el de los hombres (3,4 %).", "pts": [[[["5,1", "mas", "rapid"]]]]}, {"ans": "La hostelería es el peor pagado AND la energía (electricidad y gas) es el mejor pagado.", "pts": [[[["hosteler", "hotel", "bar", "restaura"]]], [[["energ", "electric", "gas"]]]]}, {"ans": "Extremadura.", "pts": [[[["extremadura"]]]]}, {"ans": "Any 1: el tipo de contrato – la jornada – la ocupación – la antigüedad.", "pts": [[[["contrato", "jornada", "ocupacion", "antig", "puesto", "horas"]]]]}], "q9": [{"ans": "En vez de salir de gira, dio una serie de conciertos en su isla / en Puerto Rico.", "pts": [[[["isla", "puerto rico", "casa", "gira", "residencia"]]]]}, {"ans": "En el Coliseo de Puerto Rico (San Juan) AND los fines de semana entre julio y septiembre.", "pts": [[[["coliseo", "san juan"]]], [[["fin", "julio", "septiembre", "verano"]]]]}, {"ans": "Any 2 from 3: pasó de 21 a 30 conciertos – se vendieron unas 400 000 entradas – en unas cuatro horas.", "pts": [[[["21", "30", "treinta"]]], [[["400"]]], [[["cuatro horas", "4 horas"]]]]}, {"ans": "Para que el público local no se quedara sin entradas.", "pts": [[[["local", "sin entrada", "isleno", "puertorrique", "gente de"]]]]}, {"ans": "Un impacto económico de unos 377 millones de dólares AND unos 3600 empleos.", "pts": [[[["377", "dolar", "dinero", "econom"]]], [[["empleo", "trabajo", "3600", "3 600"]]]]}]}, "C": [{"es": "Cada año, del 6 al 14 de julio,", "ans": "Every year, from 6 to 14 July,", "pts": [[[["every year", "each year", "annually", "yearly"], ["6", "sixth", "six"], ["14", "fourteenth", "fourteen"], ["july"]]]]}, {"es": "Pamplona celebra las fiestas de San Fermín,", "ans": "Pamplona celebrates the San Fermín festival,", "pts": [[[["celebrat", "hold", "host"], ["festiv", "fiesta", "celebration", "feast"]]]]}, {"es": "declaradas de interés turístico internacional.", "ans": "declared of international tourist interest.", "pts": [[[["declared", "designated", "classed", "recogni", "listed", "named"], ["international"], ["touris"]]]]}, {"es": "Todo empieza el 6 de julio a las doce del mediodía", "ans": "Everything starts on 6 July at twelve noon", "pts": [[[["everything", "it all", "all", "the whole thing"], ["start", "begin", "kick"], ["noon", "midday", "12", "twelve"]]]]}, {"es": "con el chupinazo,", "ans": "with the chupinazo,", "pts": [[[["chupinazo", "rocket", "firework", "launch", "opening"]]]]}, {"es": "que se lanza desde el balcón del Ayuntamiento.", "ans": "which is launched from the balcony of the Town Hall.", "pts": [[[["launch", "fired", "set off", "let off", "shot", "thrown"], ["balcon"], ["town hall", "city hall", "council"]]]]}, {"es": "Al día siguiente, a las ocho en punto de la mañana,", "ans": "The following day, at eight o'clock sharp in the morning,", "pts": [[[["next day", "following day", "day after"], ["eight", "8"], ["sharp", "on the dot", "exactly", "precisely", "prompt", "o'clock"]]]]}, {"es": "comienza el primer encierro.", "ans": "the first bull run begins.", "pts": [[[["first"], ["bull run", "running of the bull", "bull-run", "encierro", "bullrun"], ["begin", "start", "commence"]]]]}, {"es": "Los toros recorren 848 metros", "ans": "The bulls run 848 metres", "pts": [[[["bull"], ["run", "cover", "race", "travel", "go along", "charge"], ["848"], ["metre", "meter"]]]]}, {"es": "por las calles del casco antiguo", "ans": "through the streets of the old town", "pts": [[[["street"], ["old town", "old quarter", "historic", "old part", "old city", "city centre"]]]]}, {"es": "en unos tres minutos.", "ans": "in about three minutes.", "pts": [[[["about", "around", "approximately", "roughly", "some"], ["three", "3"], ["minute"]]]]}, {"es": "Los participantes visten de blanco", "ans": "The participants dress in white", "pts": [[[["participant", "people taking part", "runners", "those taking part"], ["dress", "wear", "are dressed", "clothe", "clad"], ["white"]]]]}, {"es": "con un pañuelo rojo al cuello.", "ans": "with a red scarf round their neck.", "pts": [[[["red"], ["scarf", "neckerchief", "handkerchief", "bandana", "kerchief"], ["neck"]]]]}, {"es": "La fiesta se hizo famosa en todo el mundo", "ans": "The festival became famous all over the world", "pts": [[[["became", "got", "grew", "was made"], ["famous", "well-known", "well known", "renowned"], ["world", "globe", "international"]]]]}, {"es": "gracias a la novela Fiesta,", "ans": "thanks to the novel Fiesta,", "pts": [[[["thanks to", "because of", "owing to", "due to"], ["novel", "book"], ["fiesta", "sun also rises"]]]]}, {"es": "del escritor estadounidense Ernest Hemingway.", "ans": "by the American writer Ernest Hemingway.", "pts": [[[["american", "us", "u.s"], ["writer", "author", "novelist"], ["hemingway"]]]]}, {"es": "Termina el 14 de julio a medianoche,", "ans": "It ends on 14 July at midnight,", "pts": [[[["end", "finish", "close", "conclude"], ["midnight", "twelve at night", "12 at night"]]]]}, {"es": "cuando miles de personas se reúnen", "ans": "when thousands of people gather", "pts": [[[["thousands"], ["gather", "meet", "assemble", "come together", "get together", "congregate"]]]]}, {"es": "en la plaza del Ayuntamiento con velas encendidas", "ans": "in the Town Hall square with lit candles", "pts": [[[["square", "plaza"], ["candle"], ["lit", "lighted", "burning", "alight"]]]]}, {"es": "y cantan el «Pobre de mí».", "ans": "and sing the «Pobre de mí».", "pts": [[[["sing"], ["pobre de mi", "poor me", "poor old me"]]]]}]}</script>
+<script src="paper-marker.js" defer></script>
+<script>window.BBA_KIT = Object.assign(window.BBA_KIT || {}, {check:false, download:false, name:false, meter:false, tries:0});</script>
+<script src="bba-kit-es.js" defer></script>
+</body>
+</html>

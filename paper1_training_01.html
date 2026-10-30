@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paper 1 training 1 – 9SP0/01 practice</title>
+<style>
+:root{--ink:#111;--rule:#9a9a9a;--muted:#555;--paper:#fff;--bg:#e9e9e9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.45}
+.sheet{background:var(--paper);max-width:820px;margin:24px auto;padding:40px 56px 32px;box-shadow:0 1px 4px rgba(0,0,0,.25);position:relative}
+@media (max-width:700px){.sheet{margin:0 0 8px;padding:24px 16px}}
+.pageno{text-align:center;color:var(--muted);font-size:13px;margin-top:28px}
+.cover h1{font-size:28px;margin:4px 0 0}
+.cover .board{font-size:15px;color:var(--muted)}
+.cover .ref{float:right;text-align:right;font-size:14px;border:1px solid var(--ink);padding:6px 10px}
+.cover hr{border:0;border-top:2px solid var(--ink);margin:18px 0}
+.cover h2{font-size:17px;margin:18px 0 4px}
+.cover ul{margin:4px 0;padding-left:20px}
+.sec{text-align:center;font-weight:bold;font-size:19px;letter-spacing:.5px;margin:0}
+.sec+.sec{margin-bottom:10px}
+.rec{text-align:center;font-weight:bold;margin:4px 0 16px}
+.instr p{margin:6px 0}
+.durs{margin:10px 0 10px 40%}
+@media (max-width:700px){.durs{margin-left:8%}}
+.durs div{margin:2px 0}
+.ptitle{font-weight:bold;font-size:18px;margin:0 0 10px}
+.qhead{display:flex;gap:14px;font-weight:bold;margin:0 0 12px}
+.qhead .qn{min-width:22px}
+.item{margin:0 0 0 36px;position:relative}
+.item.mc{margin-bottom:14px}
+@media (max-width:700px){.item{margin-left:6px}}
+.q{margin:0 0 6px}
+.num{display:inline-block;min-width:38px}
+.bul{padding-left:24px}
+.mark{text-align:right;font-weight:bold;margin:0 0 12px}
+.total{text-align:right;font-weight:bold;margin:18px 0 0}
+.grand{text-align:right;font-weight:bold;font-size:18px;margin:16px 0 0}
+textarea.ans{width:100%;border:0;border-bottom:1px dotted var(--rule);resize:vertical;font:inherit;line-height:32px;padding:0 4px;
+  background:repeating-linear-gradient(transparent 0 31px,var(--rule) 31px 32px);outline-offset:2px;min-height:64px}
+textarea.ans:focus{outline:2px solid #2b5797;background-color:#f7f9fd}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;padding:0}
+.opt{display:flex;align-items:center;gap:12px;width:calc(100% - 38px);margin:6px 0 6px 38px;padding:4px 0;background:none;border:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.opt b{min-width:16px}
+.opt .ot{flex:1}
+.box{width:30px;height:24px;border:1.5px solid var(--ink);flex:none;position:relative}
+.opt[aria-checked="true"] .box::after{content:"\2715";position:absolute;inset:0;display:grid;place-items:center;font-size:20px;font-weight:bold}
+.opt:focus-visible{outline:2px solid #2b5797;outline-offset:2px}
+.player{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--rule);padding:8px 12px;margin:0 0 16px}
+.plab{font-weight:bold;font-size:15px}
+.player audio{flex:1;min-width:220px}
+.lead{font-weight:bold;margin:0 0 12px}
+.who{margin:14px 0 6px 36px;font-weight:bold}
+.src{margin:0 0 14px;font-size:15px;word-break:break-all}
+.src b{word-break:normal}
+.cand{display:block;margin:14px 0;font-weight:bold}
+.cand input{font:inherit;font-weight:normal;border:1px solid var(--ink);padding:6px 8px;width:min(340px,100%);margin-left:8px}
+.lpbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin:22px 0 0}
+.lpbar button{font:inherit;font-weight:bold;padding:9px 16px;border:1px solid #2b5797;background:#fff;color:#2b5797;cursor:pointer;border-radius:4px}
+.lpbar button.go{background:#2b5797;color:#fff}
+.lpres{border:2px solid #2b5797;padding:12px 16px;margin:14px 0 0;background:#f4f7fc}
+.lpres p{margin:4px 0}
+.fb{margin:-6px 0 14px 36px;padding:8px 12px;font-size:15px;border-left:4px solid #b0b0b0;background:#f6f6f6}
+.fb.full{border-color:#2e7d52;background:#eef7f1}
+.fb.part{border-color:#c98a00;background:#fdf6e6}
+.fb.zero{border-color:#b3261e;background:#fbeeed}
+.fb b{margin-right:6px}
+.locked textarea.ans,.locked .opt{pointer-events:none}
+.opt.right .box{background:#dff0e5}
+@media print{.lpbar,.fb,.lpres{display:none!important}}
+.rtext{border:1px solid var(--rule);padding:12px 16px;margin:0 0 16px;background:#fcfcfc}
+.rtext p{margin:0 0 10px;text-align:justify}
+.rtitle{font-weight:bold;text-align:center!important}
+.lead2{font-weight:bold;margin:12px 0 8px}
+.trans-fb table{border-collapse:collapse;width:100%;margin-top:8px;font-size:14px}
+.trans-fb td{border-top:1px solid #ddd;padding:4px 6px;vertical-align:top}
+.trans-fb td.ok{color:#2e7d52;font-weight:bold} .trans-fb td.no{color:#b3261e;font-weight:bold}
+.credit{font-size:13px;color:var(--muted);border-top:1px solid var(--rule);padding-top:10px;margin-top:22px}
+.defi ol{padding-left:22px}
+.defi li{margin-bottom:14px}
+@media print{body{background:#fff}.sheet{box-shadow:none;margin:0;page-break-after:always}.player,#bba-kit{display:none!important}}
+</style>
+</head>
+<body>
+
+<section class="sheet cover">
+  <div class="ref">Paper reference<br><b>9SP0/01</b><br>Paper 1 training 1</div>
+  <div class="board">BBA practice paper modelled on Pearson Edexcel Level 3 GCE</div>
+  <h1>Spanish</h1>
+  <div><b>Advanced</b><br>PAPER 1: Listening, Reading and Translation<br>Paper 1 training 1 · All four themes · Year 13</div>
+  <hr>
+  <label class="cand">Candidate name <input type="text" id="cand" autocomplete="name" placeholder="First name and initial"></label>
+  <p><b>You must have:</b> headphones or earphones. The recordings are on this page.</p>
+  <h2>Instructions</h2>
+  <ul>
+    <li>Type your name in the box above if you want it on your results file (optional).</li>
+    <li>Answer <b>all</b> questions in Sections A, B and C.</li>
+    <li>Candidates are recommended to start with Section A: Listening, and work through each section as presented.</li>
+    <li>Answer the questions in the spaces provided – there may be more space than you need.</li>
+    <li>We recommend you spend 50 minutes on Section A: Listening, 50 minutes on Section B: Reading and 20 minutes on Section C: Translation into English (2 hours in total).</li>
+    <li>You must not use a dictionary.</li>
+    <li>You can do one section at a time: each section ends with its own <b>Mark Section … only</b> button. To mark everything at once, press <b>Mark the whole paper</b> at the end of Section C.</li>
+    <li>Then press <b>Download results</b> at the end of Section C and send the file to your teacher: it contains every section you have marked.</li>
+  </ul>
+  <h2>Information</h2>
+  <ul>
+    <li>The total mark for this paper is 80.</li>
+    <li>The marks for each question are shown in brackets – use this as a guide as to how much time to spend on each question.</li>
+  </ul>
+  <h2>Advice</h2>
+  <ul>
+    <li>Read each question carefully before you start to answer it.</li>
+    <li>Try to answer every question.</li>
+    <li>Check your answers if you have time at the end.</li>
+  </ul>
+  <p class="pageno">1</p>
+</section>
+
+<section class="sheet">
+  <p style="margin-top:0">Answer ALL questions. Write your answers in the spaces provided.<br>
+  Some questions must be answered with a cross in a box ☒. If you change your mind about an answer, click another box.</p>
+  <p class="sec">SECTION A</p><p class="sec">LISTENING</p>
+  <p class="rec">We recommend you spend no more than 50 minutes on this section.</p>
+  <div class="instr">
+    <p>Questions 2, 3 and 4(a) do not require full sentences and you may respond using single words or phrases.</p>
+    <p>Summary Question 4(b) does not require full sentences and you may respond using short phrases.</p>
+    <p>You may use words from the listening passages but you must not transcribe whole sections.</p>
+    <p>You are going to listen to five passages. The duration of each passage is approximately:</p>
+    <div class="durs">
+      <div>Passage 1 = 1 minute 03 seconds</div><div>Passage 2 = 0 minute 56 seconds</div><div>Passage 3 = 1 minute 14 seconds</div>
+      <div>Passage 4(a) = 1 minute 02 seconds</div><div>Passage 4(b) = 1 minute 13 seconds</div>
+    </div>
+    <p>You will be in charge of the recording and you may listen to each passage as often as you wish, and write your answers whenever you wish to do so.</p>
+  </div>
+  <p class="pageno">2</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Texto 1 – El 23-F</p>
+  <div class="player"><span class="plab">Texto 1</span><audio controls preload="none" src="listening_paper_01_passage_1.mp3"></audio></div>
+  <div class="qhead"><span class="qn">1</span><span>Escucha este relato de un día histórico. Pon una equis ☒ en la casilla apropiada.</span></div>
+  <div class="item mc" data-t="mc" data-k="q1.0" data-max="1" data-lab="1(i)"><p class="q"><span class="sr">1</span><span class="num">(i)</span> Tejero entró en el Congreso…</p><div role="radiogroup" aria-label="1(i)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">por la mañana.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">durante una votación.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">cuando estaba vacío.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">con cuatro soldados.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_i" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.1" data-max="1" data-lab="1(ii)"><p class="q"><span class="sr">1</span><span class="num">(ii)</span> El general Gutiérrez Mellado…</p><div role="radiogroup" aria-label="1(ii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">se tiró al suelo.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">huyó del Congreso.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">se quedó de pie.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">llamó por teléfono al rey.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_ii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.2" data-max="1" data-lab="1(iii)"><p class="q"><span class="sr">1</span><span class="num">(iii)</span> En Valencia…</p><div role="radiogroup" aria-label="1(iii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">salieron tanques a la calle.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">la gente salió a protestar.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">no pasó nada.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">el rey dio un discurso.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_iii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.3" data-max="1" data-lab="1(iv)"><p class="q"><span class="sr">1</span><span class="num">(iv)</span> El rey Juan Carlos I…</p><div role="radiogroup" aria-label="1(iv)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">apoyó a Tejero.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">no dijo nada.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">se fue de Madrid.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">condenó el golpe por televisión.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_iv" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 1 = 4 marks)</p>
+  <p class="pageno">3</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Texto 2 – Lux, el disco de Rosalía</p>
+  <div class="player"><span class="plab">Texto 2</span><audio controls preload="none" src="listening_paper_01_passage_2.mp3"></audio></div>
+  <div class="qhead"><span class="qn">2</span><span>Escucha este reportaje sobre un disco. Contesta las preguntas en español.</span></div>
+  <div class="item" data-t="open" data-k="q2.0" data-max="2" data-lab="2(a)"><p class="q"><span class="sr">2</span><span class="num">(a)</span> ¿Por qué es diferente este disco? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q2.1" data-max="1" data-lab="2(b)"><p class="q"><span class="sr">2</span><span class="num">(b)</span> ¿Qué récord batió Lux?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.2" data-max="1" data-lab="2(c)"><p class="q"><span class="sr">2</span><span class="num">(c)</span> ¿Quién tenía el récord anterior?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.3" data-max="1" data-lab="2(d)"><p class="q"><span class="sr">2</span><span class="num">(d)</span> ¿Cómo se compara Lux con Motomami?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 2 = 5 marks)</p>
+  <p class="pageno">4</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Texto 3 – Las manos de la fresa</p>
+  <div class="player"><span class="plab">Texto 3</span><audio controls preload="none" src="listening_paper_01_passage_3.mp3"></audio></div>
+  <div class="qhead"><span class="qn">3</span><span>Escucha a esta persona hablando de su trabajo en España. Contesta las preguntas en español.</span></div>
+  <div class="item" data-t="open" data-k="q3.0" data-max="1" data-lab="3(a)"><p class="q"><span class="sr">3</span><span class="num">(a)</span> ¿Dónde fue seleccionada Fátima?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.1" data-max="2" data-lab="3(b)"><p class="q"><span class="sr">3</span><span class="num">(b)</span> ¿Qué perfil tienen casi todas las trabajadoras contratadas? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q3.2" data-max="1" data-lab="3(c)"><p class="q"><span class="sr">3</span><span class="num">(c)</span> ¿Cuántas temporeras marroquíes trabajan en esta campaña?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.3" data-max="1" data-lab="3(d)"><p class="q"><span class="sr">3</span><span class="num">(d)</span> ¿Cuánto tiempo dura su contrato?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.4" data-max="2" data-lab="3(e)"><p class="q"><span class="sr">3</span><span class="num">(e)</span> ¿Qué es lo más duro del trabajo? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q3.5" data-max="1" data-lab="3(f)"><p class="q"><span class="sr">3</span><span class="num">(f)</span> ¿Para qué usa Fátima el dinero que gana?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.6" data-max="1" data-lab="3(g)"><p class="q"><span class="sr">3</span><span class="num">(g)</span> ¿Qué espera la empresa al final de la campaña?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 3 = 9 marks)</p>
+  <p class="pageno">5</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Texto 4(a) – Trabajar desde casa</p>
+  <div class="player"><span class="plab">Texto 4(a)</span><audio controls preload="none" src="listening_paper_01_passage_4a.mp3"></audio></div>
+  <div class="qhead"><span class="qn">4</span><span>(a) Escucha este reportaje sobre el teletrabajo. Contesta las preguntas en español.</span></div>
+  <div class="item" data-t="open" data-k="q4a.0" data-max="1" data-lab="4(a)(i)"><p class="q"><span class="sr">4(a)</span><span class="num">(i)</span> ¿Qué porcentaje de ocupados teletrabajó?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.1" data-max="1" data-lab="4(a)(ii)"><p class="q"><span class="sr">4(a)</span><span class="num">(ii)</span> ¿Cómo ha cambiado la cifra respecto a 2024?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.2" data-max="1" data-lab="4(a)(iii)"><p class="q"><span class="sr">4(a)</span><span class="num">(iii)</span> ¿Qué dato hay sobre los trabajadores que pueden teletrabajar?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.3" data-max="2" data-lab="4(a)(iv)"><p class="q"><span class="sr">4(a)</span><span class="num">(iv)</span> ¿En qué comunidades se teletrabaja más? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q4a.4" data-max="1" data-lab="4(a)(v)"><p class="q"><span class="sr">4(a)</span><span class="num">(v)</span> ¿Qué opinan los teletrabajadores de esta forma de trabajar?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="pageno">6</p>
+</section>
+
+<section class="sheet">
+  <p class="lead">Resume la siguiente conversación. Las expresiones cortas son válidas. Menciona tres detalles para la pregunta 4(b)(i) y tres detalles para la pregunta 4(b)(ii).</p>
+  <p class="ptitle">Texto 4(b) – Trabajar desde casa</p>
+  <div class="player"><span class="plab">Texto 4(b)</span><audio controls preload="none" src="listening_paper_01_passage_4b.mp3"></audio></div>
+  <div class="qhead"><span class="qn"></span><span>(b) Escucha la conversación con dos expertos. Responde en español.</span></div>
+  <p class="who">(i) Resume lo que dice Sergio sobre:</p>
+  <div class="item" data-t="open" data-k="q4b.key1.0" data-max="1" data-lab="4(b)(i) • la frecuencia del teletrabajo"><p class="q bul"><span class="sr">4(b)(i) </span>• la frecuencia del teletrabajo</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key1.1" data-max="1" data-lab="4(b)(i) • la ley de 2021"><p class="q bul"><span class="sr">4(b)(i) </span>• la ley de 2021</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key1.2" data-max="1" data-lab="4(b)(i) • los gastos"><p class="q bul"><span class="sr">4(b)(i) </span>• los gastos</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+  <p class="who">(ii) Resume lo que dice Marta sobre:</p>
+  <div class="item" data-t="open" data-k="q4b.key2.0" data-max="1" data-lab="4(b)(ii) • las ventajas"><p class="q bul"><span class="sr">4(b)(ii) </span>• las ventajas</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key2.1" data-max="1" data-lab="4(b)(ii) • el riesgo principal"><p class="q bul"><span class="sr">4(b)(ii) </span>• el riesgo principal</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key2.2" data-max="1" data-lab="4(b)(ii) • la inteligencia artificial"><p class="q bul"><span class="sr">4(b)(ii) </span>• la inteligencia artificial</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 4 = 12 marks)</p>
+  <p class="grand">TOTAL FOR SECTION A = 30 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="A">Mark Section A only</button></div>
+  <div id="lp-res-A" class="lpres" aria-live="polite" hidden></div>
+  <p class="pageno">7</p>
+</section>
+
+<section class="sheet" id="secB">
+  <p class="sec">SECTION B</p><p class="sec">READING</p>
+  <p class="rec">We recommend you spend around 50 minutes on this section.</p>
+  <div class="instr"><p>Open-response questions do not have to be written in full sentences and you may respond using single words or phrases.</p>
+  <p>You may use words from the texts but you must not copy out whole sections.</p></div>
+  <div class="qhead"><span class="qn">5</span><span>Lee este artículo sobre un episodio de la posguerra.</span></div><div class="rtext"><p class="rtitle">Las Trece Rosas</p><p>El 5 de agosto de 1939, pocos meses después del final de la Guerra Civil, trece mujeres jóvenes fueron fusiladas en el cementerio del Este de Madrid. Habían estado presas en la cárcel de mujeres de Ventas. La mayoría pertenecía a las Juventudes Socialistas Unificadas (JSU).</p><p>Un consejo de guerra las había condenado a muerte por «adhesión a la rebelión». Su ejecución se aceleró después de que tres militantes de las JSU mataran, el 29 de julio, al comandante de la Guardia Civil Isaac Gabaldón. Las trece mujeres no habían participado en ese crimen.</p><p>Ocho de ellas tenían menos de 21 años, la mayoría de edad de la época; las más jóvenes tenían solo 18. Fueron ejecutadas 48 horas después de la sentencia. Hoy, las Trece Rosas son uno de los símbolos más conocidos de la represión franquista.</p></div><p class="lead2">Escoge la terminación correcta para estas frases. Pon una equis ☒ en la casilla apropiada.</p><div class="item mc" data-t="mc" data-k="B.q5.0" data-max="1" data-lab="5(i)"><p class="q"><span class="sr">5</span><span class="num">(i)</span> Las Trece Rosas murieron…</p><div role="radiogroup" aria-label="5(i)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">durante la Guerra Civil.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">poco después del final de la guerra.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">en los años cincuenta.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">en el exilio.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_i" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.1" data-max="1" data-lab="5(ii)"><p class="q"><span class="sr">5</span><span class="num">(ii)</span> Antes de morir, estaban…</p><div role="radiogroup" aria-label="5(ii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">en un campo de refugiados.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">escondidas en Madrid.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">en una cárcel de mujeres.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">en Francia.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_ii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.2" data-max="1" data-lab="5(iii)"><p class="q"><span class="sr">5</span><span class="num">(iii)</span> Las condenaron…</p><div role="radiogroup" aria-label="5(iii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">por haber matado a un guardia civil.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">sin juicio.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">por robar.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">por «adhesión a la rebelión».</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_iii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.3" data-max="1" data-lab="5(iv)"><p class="q"><span class="sr">5</span><span class="num">(iv)</span> Muchas de ellas…</p><div role="radiogroup" aria-label="5(iv)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">eran menores de edad según la ley de entonces.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">tenían más de 40 años.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">eran extranjeras.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">fueron liberadas después.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_iv" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 5 = 4 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">6</span><span>Lee este artículo sobre los premios del cine español.</span></div><div class="rtext"><p class="rtitle">Los Goya cumplen cuarenta años</p><p>La 40.ª edición de los Premios Goya, los premios más importantes del cine español, se celebró a finales de febrero de 2026 en Barcelona, en el Auditori Fòrum del Centre de Convencions Internacionals.</p><p>La gran triunfadora fue «Los domingos», de Alauda Ruiz de Azúa, que ganó el Goya a la mejor película y el de mejor dirección. Su protagonista, Patricia López Arnaiz, se llevó el premio a la mejor actriz. El de mejor actor fue para José Ramón Soroiz, por «Maspalomas».</p><p>Sin embargo, la película con más estatuillas fue «Sirat», que se llevó seis premios técnicos, entre ellos los de fotografía, montaje, sonido y música original. El Goya de Honor fue para el director Gonzalo Suárez, y la actriz estadounidense Susan Sarandon recibió el Goya Internacional.</p></div><p class="lead2">¿Cuáles de las siguientes declaraciones son correctas? Pon una equis ☒ en las cuatro casillas apropiadas.</p><div class="item mc" data-t="tick" data-k="B.q6" data-max="4" data-lab="6"><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="A"><b>A</b> <span class="ot">La gala de 2026 se celebró en Madrid.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="B"><b>B</b> <span class="ot">Era la cuadragésima edición de los premios.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="C"><b>C</b> <span class="ot">«Sirat» ganó el premio a la mejor película.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="D"><b>D</b> <span class="ot">Una mujer ganó el premio a la mejor dirección.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="E"><b>E</b> <span class="ot">El mejor actor trabajaba en «Los domingos».</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="F"><b>F</b> <span class="ot">«Sirat» fue la película que ganó más premios.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="G"><b>G</b> <span class="ot">«Los domingos» ganó seis premios técnicos.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="H"><b>H</b> <span class="ot">Una actriz extranjera recibió un premio.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="I"><b>I</b> <span class="ot">Gonzalo Suárez ganó el Goya a la mejor película.</span><span class="box" aria-hidden="true"></span></button><input type="text" class="sr mcval" name="B_q6" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 6 = 4 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">7</span><span>Lee esta carta escrita por un joven republicano en 1939. Contesta las preguntas en español.</span></div><div class="rtext"><p class="rtitle">Carta desde la arena</p><p>Argelès-sur-Mer, marzo de 1939. Querida madre: no sé cuándo le llegará esta carta, ni si le llegará. Crucé la frontera a pie, por los Pirineos, con mi compañero Julián y miles de personas más: soldados, mujeres con niños en brazos, ancianos que apenas podían andar. Nadie hablaba. Solo se oía el ruido de los pasos en la nieve.</p><p>Los gendarmes franceses nos quitaron lo poco que llevábamos y nos trajeron a esta playa. Aquí no hay casas, ni camas, ni siquiera tiendas para todos. Dormimos en agujeros que cavamos en la arena para protegernos del viento, rodeados de alambradas. El agua sabe a sal y el pan llega cuando llega.</p><p>Hace unos días nos enteramos de que el poeta Antonio Machado ha muerto en Colliure, muy cerca de aquí. Julián, que sabe de memoria sus versos, estuvo toda la noche recitándolos en voz baja.</p><p>No se preocupe por mí. Tengo las manos fuertes y aprenderé francés. Algún día volveré a casa. Guárdeme la silla junto a la ventana. Su hijo, Tomás.</p></div><div class="item" data-t="open" data-k="B.q7.0" data-max="2" data-lab="7(a)"><p class="q"><span class="sr">7</span><span class="num">(a)</span> ¿Cómo cruzó Tomás la frontera? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q7.1" data-max="2" data-lab="7(b)"><p class="q"><span class="sr">7</span><span class="num">(b)</span> ¿Cómo eran las condiciones en la playa? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q7.2" data-max="1" data-lab="7(c)"><p class="q"><span class="sr">7</span><span class="num">(c)</span> ¿Qué noticia triste recibieron?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q7.3" data-max="1" data-lab="7(d)"><p class="q"><span class="sr">7</span><span class="num">(d)</span> ¿Qué actitud muestra Tomás al final de la carta?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 7 = 6 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">8</span><span>Lee este artículo sobre un impuesto turístico. Contesta las preguntas en español.</span></div><div class="rtext"><p class="rtitle">La ecotasa balear</p><p>Desde julio de 2016, los turistas que se alojan en las islas Baleares pagan el impuesto sobre estancias turísticas, conocido popularmente como «ecotasa». Se cobra por persona y por noche en hoteles, apartamentos turísticos, albergues y viviendas vacacionales.</p><p>El importe depende del tipo de alojamiento y de la temporada. En temporada alta, del 1 de mayo al 31 de octubre, un cliente de un hotel de cinco estrellas paga hasta 4 euros por noche, mientras que en un camping o un albergue paga como máximo 1 euro. En temporada baja, las cantidades son mucho menores. Además, a partir del noveno día de estancia, el impuesto se reduce a la mitad.</p><p>El dinero recaudado se destina, entre otras cosas, a proteger los espacios naturales y las zonas costeras, a restaurar el patrimonio cultural, a crear rutas de senderismo y carriles bici, y a financiar investigaciones sobre el cambio climático y la biodiversidad de las islas.</p></div><div class="item" data-t="open" data-k="B.q8.0" data-max="1" data-lab="8(a)"><p class="q"><span class="sr">8</span><span class="num">(a)</span> ¿Quién paga la ecotasa?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.1" data-max="2" data-lab="8(b)"><p class="q"><span class="sr">8</span><span class="num">(b)</span> ¿Cómo se calcula el impuesto? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q8.2" data-max="1" data-lab="8(c)"><p class="q"><span class="sr">8</span><span class="num">(c)</span> ¿Qué diferencia hay entre un hotel de lujo y un camping?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.3" data-max="1" data-lab="8(d)"><p class="q"><span class="sr">8</span><span class="num">(d)</span> ¿Qué ventaja tienen los turistas que se quedan mucho tiempo?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.4" data-max="3" data-lab="8(e)"><p class="q"><span class="sr">8</span><span class="num">(e)</span> ¿En qué se invierte el dinero? Da tres ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(3)</p>
+  <p class="total">(Total for Question 8 = 8 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">9</span><span>Lee este artículo sobre una crisis en la frontera. Contesta las preguntas en español.</span></div><div class="rtext"><p class="rtitle">Ceuta, mayo de 2021</p><p>Entre el 17 y el 18 de mayo de 2021, más de 8000 personas llegaron a Ceuta desde Marruecos, muchas de ellas nadando o rodeando los espigones de las playas de Benzú y El Tarajal. Unas 1500 eran menores de edad.</p><p>La crisis tenía un origen diplomático. En abril, España había acogido en un hospital de La Rioja, por «razones estrictamente humanitarias», a Brahim Ghali, líder del Frente Polisario, el movimiento que reclama la independencia del Sáhara Occidental. Marruecos reaccionó relajando el control de su frontera. Además, llamó a consultas a su embajadora en Madrid.</p><p>España envió refuerzos policiales y vehículos blindados a la playa, y la mayoría de los adultos fue devuelta a Marruecos en pocos días. La Unión Europea mostró su apoyo a España: según la comisaria Ylva Johansson, «las fronteras españolas son fronteras europeas». El 19 de mayo, Marruecos volvió a controlar el paso y las llegadas bajaron de forma drástica.</p></div><div class="item" data-t="open" data-k="B.q9.0" data-max="1" data-lab="9(a)"><p class="q"><span class="sr">9</span><span class="num">(a)</span> ¿Cómo llegaron muchas personas a Ceuta?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.1" data-max="1" data-lab="9(b)"><p class="q"><span class="sr">9</span><span class="num">(b)</span> ¿Por qué es especialmente preocupante esta crisis?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.2" data-max="2" data-lab="9(c)"><p class="q"><span class="sr">9</span><span class="num">(c)</span> ¿Por qué reaccionó Marruecos? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q9.3" data-max="2" data-lab="9(d)"><p class="q"><span class="sr">9</span><span class="num">(d)</span> ¿Cómo reaccionó Marruecos? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q9.4" data-max="1" data-lab="9(e)"><p class="q"><span class="sr">9</span><span class="num">(e)</span> ¿Qué hizo España?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.5" data-max="1" data-lab="9(f)"><p class="q"><span class="sr">9</span><span class="num">(f)</span> ¿Cómo terminó la llegada masiva?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 9 = 8 marks)</p>
+  <p class="grand">TOTAL FOR SECTION B = 30 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="B">Mark Section B only</button></div>
+  <div id="lp-res-B" class="lpres" aria-live="polite" hidden></div>
+</section>
+
+<section class="sheet" id="secC">
+  <p class="sec">SECTION C</p><p class="sec">TRANSLATION INTO ENGLISH</p>
+  <p class="rec">We recommend you spend around 20 minutes on this section.</p>
+  <div class="qhead"><span class="qn">10</span><span>Translate the following text about the 1978 Constitution into English.</span></div><p class="mark">(20)</p><div class="rtext"><p>Tres años después de la muerte de Franco, los españoles votaron en referéndum una nueva Constitución. Las Cortes la habían aprobado el 31 de octubre de 1978, y el 6 de diciembre participó el 67 % de los electores. Más del 90 % de los votos válidos fueron favorables al texto. Sin embargo, en el País Vasco la abstención superó el 55 %, porque el Partido Nacionalista Vasco pidió no votar. La Constitución definió España como una monarquía parlamentaria y reconoció el derecho a la autonomía de las nacionalidades y regiones. También garantizó derechos fundamentales, como la libertad de expresión y la igualdad ante la ley.</p></div><div class="item" data-t="trans" data-k="C" data-max="20" data-lab="10"><textarea class="ans" rows="12" aria-label="10 – translation"></textarea></div>
+  <p class="total">(Total for Question 10 = 20 marks)</p>
+  <p class="grand">TOTAL FOR SECTION C = 20 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="C">Mark Section C only</button></div>
+  <div id="lp-res-C" class="lpres" aria-live="polite" hidden></div>
+  <p class="grand">TOTAL FOR PAPER = 80 MARKS</p>
+  <div id="lp-bar" class="lpbar">
+    <button type="button" class="go" data-mark="all">Mark the whole paper</button>
+    <button type="button" id="lp-dl">Download results</button>
+    <button type="button" id="lp-reset">Start again</button>
+  </div>
+  <div id="lp-res" class="lpres" aria-live="polite" hidden></div>
+</section>
+
+<section class="sheet defi" data-label="Reto">
+  <p class="ptitle">Reto – after the paper (not marked, not part of the 80 marks)</p>
+  <p>For students aiming at the top grades.</p>
+  <ol>
+<li>¿Por qué crees que el 23-F es un momento clave de la Transición? Explícalo en unas 60 palabras.<textarea class="ans" rows="3" aria-label="Reto 1"></textarea></li>
+<li>¿Deberían todas las comunidades turísticas cobrar una ecotasa como la de Baleares? Escribe un párrafo de unas 80 palabras con dos argumentos y un contraargumento.<textarea class="ans" rows="3" aria-label="Reto 2"></textarea></li>
+<li>Traduce al español: «Had the King not condemned the coup, democracy might not have survived.»<textarea class="ans" rows="3" aria-label="Reto 3"></textarea></li>
+  </ol>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Source information:</p>
+  <p style="font-size:15px">The recordings and the reading and translation texts were written by the BBA Spanish department from the facts in the sources below; the recordings are read by synthetic voices. The narrative text («relato») is original.</p>
+<p class="src"><b>Texto 1 – El 23-F</b><br>Wikipedia, «1981 Spanish coup attempt»<br><a href="https://en.wikipedia.org/wiki/23F" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/23F</a></p>
+<p class="src"><b>Texto 2 – Lux, el disco de Rosalía</b><br>Euronews, «Lux de Rosalía, el álbum con más reproducciones en un día en Spotify de una artista en español», 10 de noviembre de 2025<br><a href="https://es.euronews.com/culture/2025/11/10/lux-de-rosalia-el-album-con-mas-reproducciones-en-un-dia-en-spotify-de-una-artista-espanol" target="_blank" rel="noopener">https://es.euronews.com/culture/2025/11/10/lux-de-rosalia-el-album-con-mas-reproducciones-en-un-dia-en-spotify-de-una-artista-espanol</a></p>
+<p class="src"><b>Texto 3 – Las manos de la fresa (speaker invented; facts from)</b><br>Infoagro, «Concluyen en Marruecos las contrataciones en origen para trabajar en la próxima campaña de frutos rojos», 2026<br><a href="https://www.infoagro.com/noticias/2026/concluyen_en_marruecos_contrataciones_en_origen_para_trabajar_en_la_pr.asp" target="_blank" rel="noopener">https://www.infoagro.com/noticias/2026/concluyen_en_marruecos_contrataciones_en_origen_para_trabajar_en_la_pr.asp</a></p>
+<p class="src"><b>Textos 4(a) y 4(b) – Trabajar desde casa (experts invented; facts from)</b><br>INE, Encuesta sobre Equipamiento y Uso de TIC en los Hogares 2025, 20 de noviembre de 2025<br><a href="https://www.ine.es/dyngs/Prensa/TICH2025.htm" target="_blank" rel="noopener">https://www.ine.es/dyngs/Prensa/TICH2025.htm</a><br>Sepín, «Ley 10/2021, de 9 de julio, de trabajo a distancia»<br><a href="https://blog.sepin.es/2021/07/ley-trabajo-a-distancia" target="_blank" rel="noopener">https://blog.sepin.es/2021/07/ley-trabajo-a-distancia</a></p>
+<p class="src"><b>Pregunta 5 – Las Trece Rosas</b><br>Moncloa.com, «¿Quiénes eran las 13 rosas?», 8 de abril de 2022<br><a href="https://www.moncloa.com/2022/04/08/quienes-eran-las-13-rosas-59057/" target="_blank" rel="noopener">https://www.moncloa.com/2022/04/08/quienes-eran-las-13-rosas-59057/</a></p>
+<p class="src"><b>Pregunta 6 – Los Goya cumplen cuarenta años</b><br>Forbes España, «Premios Goya 2026: lista completa de ganadores», 1 de marzo de 2026<br><a href="https://forbes.es/actualidad/882174/premios-goya-2026-lista-completa-de-ganadores/" target="_blank" rel="noopener">https://forbes.es/actualidad/882174/premios-goya-2026-lista-completa-de-ganadores/</a></p>
+<p class="src"><b>Pregunta 7 – Carta desde la arena</b><br>Original text by the BBA Spanish department. Historical background: La Moncloa, «El Gobierno inaugura en Francia como Lugar de Memoria Democrática el campo de concentración de Argelès-sur-Mer», 22 de febrero de 2025<br><a href="https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/politica-territorial-memoria-democratica/Paginas/2025/220225-lugar-memoria-democratica-argeles-sur-mer.aspx" target="_blank" rel="noopener">https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/politica-territorial-memoria-democratica/Paginas/2025/220225-lugar-memoria-democratica-argeles-sur-mer.aspx</a></p>
+<p class="src"><b>Pregunta 8 – La ecotasa balear</b><br>Smoobu, «Ecotasa en las Islas Baleares: ¿qué es y cómo afecta al alquiler vacacional?»<br><a href="https://www.smoobu.com/es/blog/ecotasa-islas-baleares-alquiler-vacacional/" target="_blank" rel="noopener">https://www.smoobu.com/es/blog/ecotasa-islas-baleares-alquiler-vacacional/</a></p>
+<p class="src"><b>Pregunta 9 – Ceuta, mayo de 2021</b><br>Wikipedia, «2021 Morocco–Spain border incident»<br><a href="https://en.wikipedia.org/wiki/2021_Morocco%E2%80%93Spain_border_incident" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/2021_Morocco%E2%80%93Spain_border_incident</a></p>
+<p class="src"><b>Pregunta 10 – La Constitución de 1978</b><br>Wikipedia, «1978 Spanish constitutional referendum»<br><a href="https://en.wikipedia.org/wiki/1978_Spanish_constitutional_referendum" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/1978_Spanish_constitutional_referendum</a></p>
+  <p class="credit">Voices: Piper TTS. <i>en_GB-cori-high</i> (announcer) – LibriVox recordings, public domain. <i>es_ES-sharvard-medium</i> (one man, one woman) – SHARVARD Spanish speech corpus, licence CC BY 3.0 (<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">creativecommons.org/licenses/by/3.0</a>). The audio files of this paper are shared under the same licences.</p>
+</section>
+
+<script>
+(function(){
+  function paint(item){
+    var v=item.querySelector('.mcval').value, multi=item.dataset.t==='tick';
+    item.querySelectorAll('.opt').forEach(function(b){b.setAttribute('aria-checked', (multi ? v.indexOf(b.dataset.v)>=0 : b.dataset.v===v)?'true':'false');});
+  }
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.opt'); if(!b) return;
+    var item=b.closest('.item'), f=item.querySelector('.mcval');
+    if(item.dataset.t==='tick'){ var set=f.value.split('').filter(Boolean), k=set.indexOf(b.dataset.v); if(k>=0) set.splice(k,1); else set.push(b.dataset.v); f.value=set.sort().join(''); }
+    else f.value = (f.value===b.dataset.v) ? '' : b.dataset.v;
+    f.dispatchEvent(new Event('input',{bubbles:true})); f.dispatchEvent(new Event('change',{bubbles:true}));
+    paint(item);
+  });
+  /* keep the crosses in step with answers the kit restores after a reload */
+  setInterval(function(){document.querySelectorAll('.item.mc').forEach(paint);},800);
+})();
+</script>
+<script type="application/json" id="lp-key">{"q1": ["B", "C", "A", "D"], "q2": [{"ans": "Any 2 from 3: se grabó con la Orquesta Sinfónica de Londres – tiene cuatro movimientos – Rosalía canta en trece idiomas.", "pts": [[[["orquesta", "sinfonic", "londres"]]], [[["cuatro", "4", "movimiento"]]], [[["trece", "13", "idioma", "lengua"]]]]}, {"ans": "Más reproducciones en un día en Spotify para una artista de habla hispana (más de 42 millones).", "pts": [[[["42", "cuarenta y dos", "reproduc", "spotify", "escucha"]]]]}, {"ans": "Karol G (35,7 millones).", "pts": [[[["karol"]]]]}, {"ans": "Motomami tuvo solo 16 millones de reproducciones el primer día: Lux tuvo muchas más.", "pts": [[[["16", "dieciseis", "menos", "mas"]]]]}], "q3": [{"ans": "En Tánger (Marruecos).", "pts": [[[["tanger", "marruecos"]]]]}, {"ans": "Son mujeres AND del mundo rural.", "pts": [[[["mujer"]]], [[["rural", "campo", "pueblo"]]]]}, {"ans": "Algo más de 17 000.", "pts": [[[["17", "diecisiete"]]]]}, {"ans": "De marzo a mayo o junio / unos tres meses.", "pts": [[[["marzo", "mayo", "junio", "tres meses", "3 meses"]]]]}, {"ans": "Any 2 from 3: estar todo el día agachada / el dolor de espalda – el calor de los invernaderos – estar lejos de sus hijos.", "pts": [[[["agach", "espalda", "dolor"]]], [[["calor", "invernadero"]]], [[["hijo", "lejos", "famil"]]]]}, {"ans": "Para construir su casa / pagar los estudios de sus hijos.", "pts": [[[["casa", "estudi", "hijo", "construi"]]]]}, {"ans": "Que las mujeres vuelvan a Marruecos con el dinero ganado.", "pts": [[[["vuelv", "volver", "regres", "marruecos"]]]]}], "q4a": [{"ans": "El 14,8 %.", "pts": [[[["14,8", "14.8", "catorce"]]]]}, {"ans": "Ha bajado un poco (0,3 puntos).", "pts": [[[["baj", "0,3", "menos", "poco", "dismin", "descend"]]]]}, {"ans": "Casi la mitad (47,7 %) teletrabaja.", "pts": [[[["47", "mitad"]]]]}, {"ans": "Madrid (26,2 %) AND Cataluña (21,5 %).", "pts": [[[["madrid"]]], [[["cataluna"]]]]}, {"ans": "Lo valoran muy bien: 8,9 sobre 10.", "pts": [[[["8,9", "8.9", "bien", "positiv", "content", "satisf", "nota"]]]]}], "q4b": {"key1": [{"ans": "Se teletrabaja de media 2,9 días por semana: es un modelo híbrido.", "pts": [[[["2,9", "tres dias", "3 dias", "hibrid", "casi tres"]]]]}, {"ans": "El teletrabajo es voluntario para las dos partes y necesita un acuerdo por escrito.", "pts": [[[["voluntar", "escrito", "acuerdo"]]]]}, {"ans": "La empresa debe pagar los equipos y los gastos.", "pts": [[[["empresa"], ["pag", "asum", "cubr", "gasto", "equipo"]], [["no paga el trabajador"]]]]}], "key2": [{"ans": "No pierden tiempo en desplazamientos / concilian mejor con la familia.", "pts": [[[["desplaz", "transporte", "trayecto", "concil", "famil", "tiempo"]]]]}, {"ans": "No desconectar nunca / el aislamiento (aunque la ley reconoce el derecho a la desconexión digital).", "pts": [[[["desconect", "aisla", "solo", "soledad"]]]]}, {"ans": "La usan el 75,6 % de los jóvenes de 16 a 24 años (frente al 37,9 % de la población).", "pts": [[[["75", "joven", "37"]]]]}]}, "B": {"q5": ["B", "C", "D", "A"], "q6": ["B", "D", "F", "H"], "q7": [{"ans": "A pie, por los Pirineos AND con miles de personas / con su compañero Julián.", "pts": [[[["pie", "andando", "caminando", "pirineo", "montana", "nieve"]]], [[["miles", "julian", "compan", "gente"]]]]}, {"ans": "Any 2: no había casas, camas ni tiendas – dormían en agujeros en la arena – había alambradas – el agua era salada – faltaba pan.", "pts": [[[["casa", "cama", "tienda", "refugio"]]], [[["agujero", "arena"]]], [[["alambr"]]], [[["agua", "sal"]]], [[["pan ", "pan,", "pan.", "el pan", "de pan", "comida"]]]]}, {"ans": "Que el poeta Antonio Machado había muerto en Colliure.", "pts": [[[["machado", "poeta"]]]]}, {"ans": "Es optimista / tiene esperanza de volver a casa.", "pts": [[[["optimis", "esperanza", "volver", "positiv", "fuerte", "valiente", "confi"]]]]}], "q8": [{"ans": "Los turistas que se alojan en las islas Baleares.", "pts": [[[["turista", "visitante"]]]]}, {"ans": "Any 2 from 3: por persona y por noche – según el tipo de alojamiento – según la temporada.", "pts": [[[["persona", "noche"]]], [[["alojamiento", "hotel", "estrella", "categor"]]], [[["temporada", "alta", "baja", "verano", "invierno"]]]]}, {"ans": "En un hotel de cinco estrellas se paga hasta 4 € por noche; en un camping, como máximo 1 €.", "pts": [[[["4", "cuatro", "mas", "1 €", "1 euro", "un euro"]]]]}, {"ans": "A partir del noveno día, el impuesto se reduce a la mitad.", "pts": [[[["mitad", "50", "noveno", "nueve", "reduc"]]]]}, {"ans": "Any 3: proteger los espacios naturales y las costas – restaurar el patrimonio cultural – rutas de senderismo y carriles bici – investigar sobre el cambio climático y la biodiversidad.", "pts": [[[["natural", "costa", "costera", "naturaleza"]]], [[["patrimonio", "cultural", "monumento", "restaur"]]], [[["senderismo", "bici", "ruta", "carril"]]], [[["clima", "biodivers", "investig"]]]]}], "q9": [{"ans": "Nadando / rodeando los espigones.", "pts": [[[["nad", "espig", "agua", "mar"]]]]}, {"ans": "Unas 1500 eran menores de edad.", "pts": [[[["menor", "nino", "1500", "1 500", "1.500"]]]]}, {"ans": "España acogió en un hospital a Brahim Ghali AND líder del Frente Polisario / que reclama la independencia del Sáhara Occidental.", "pts": [[[["ghali", "hospital", "acogi"]]], [[["polisario", "sahara", "independ"]]]]}, {"ans": "Relajó el control de la frontera AND llamó a consultas a su embajadora.", "pts": [[[["control", "frontera", "relaj", "dej"]]], [[["embajad"]]]]}, {"ans": "Envió refuerzos policiales y blindados / devolvió a la mayoría de los adultos a Marruecos.", "pts": [[[["polic", "refuerzo", "blindad", "devol", "expuls"]]]]}, {"ans": "El 19 de mayo Marruecos volvió a controlar el paso.", "pts": [[[["19", "control", "marruecos"]]]]}]}, "C": [{"es": "Tres años después de la muerte de Franco,", "ans": "Three years after Franco's death,", "pts": [[[["three", "3"], ["after"], ["death", "died"]]]]}, {"es": "los españoles votaron en referéndum", "ans": "Spaniards voted in a referendum", "pts": [[[["spaniards", "spanish people", "the spanish", "people of spain"], ["vot"], ["referend"]]]]}, {"es": "una nueva Constitución.", "ans": "on a new Constitution.", "pts": [[[["new"], ["constitution"]]]]}, {"es": "Las Cortes la habían aprobado", "ans": "Parliament had approved it", "pts": [[[["parliament", "cortes", "courts"], ["had"], ["approv", "pass", "adopt"]]]]}, {"es": "el 31 de octubre de 1978,", "ans": "on 31 October 1978,", "pts": [[[["31", "thirty-first"], ["october"], ["1978"]]]]}, {"es": "y el 6 de diciembre", "ans": "and on 6 December", "pts": [[[["6", "sixth"], ["december"]]]]}, {"es": "participó el 67 % de los electores.", "ans": "67% of voters took part.", "pts": [[[["67", "sixty-seven"], ["voter", "elector", "electorate"], ["took part", "participated", "voted", "turned out", "turnout"]]]]}, {"es": "Más del 90 % de los votos válidos", "ans": "More than 90% of the valid votes", "pts": [[[["more than", "over"], ["90", "ninety"], ["valid"], ["vote"]]]]}, {"es": "fueron favorables al texto.", "ans": "were in favour of the text.", "pts": [[[["favour", "favor", "support", "yes", "approv", "backed"]]]]}, {"es": "Sin embargo, en el País Vasco", "ans": "However, in the Basque Country", "pts": [[[["however", "nevertheless", "but", "yet"], ["basque"]]]]}, {"es": "la abstención superó el 55 %,", "ans": "abstention exceeded 55%,", "pts": [[[["abstention", "abstain", "did not vote", "didn't vote", "stayed away"], ["exceed", "over", "more than", "above", "topped", "went beyond", "surpass"], ["55", "fifty-five"]]]]}, {"es": "porque el Partido Nacionalista Vasco", "ans": "because the Basque Nationalist Party", "pts": [[[["because", "as", "since"], ["basque nationalist party", "pnv", "basque national party"]]]]}, {"es": "pidió no votar.", "ans": "called for people not to vote.", "pts": [[[["called", "asked", "urged", "recommended", "told", "advised", "requested"], ["not to vote", "to abstain", "abstention", "abstain", "not vote", "no vote"]]]]}, {"es": "La Constitución definió España", "ans": "The Constitution defined Spain", "pts": [[[["constitution"], ["defin", "describ", "establish", "declared"]]]]}, {"es": "como una monarquía parlamentaria", "ans": "as a parliamentary monarchy", "pts": [[[["parliamentary"], ["monarchy"]]]]}, {"es": "y reconoció el derecho a la autonomía", "ans": "and recognised the right to autonomy", "pts": [[[["recogni", "acknowledg"], ["right"], ["autonom", "self-government", "self government"]]]]}, {"es": "de las nacionalidades y regiones.", "ans": "of the nationalities and regions.", "pts": [[[["nationalit"], ["region"]]]]}, {"es": "También garantizó derechos fundamentales,", "ans": "It also guaranteed fundamental rights,", "pts": [[[["also"], ["guarantee", "ensured", "protected", "secured"], ["fundamental", "basic"], ["right"]]]]}, {"es": "como la libertad de expresión", "ans": "such as freedom of expression", "pts": [[[["such as", "like", "including", "for example", "for instance", "e.g"], ["freedom", "liberty"], ["expression", "speech"]]]]}, {"es": "y la igualdad ante la ley.", "ans": "and equality before the law.", "pts": [[[["equal"], ["before the law", "in the eyes of the law", "under the law", "before law"]]]]}]}</script>
+<script src="paper-marker.js" defer></script>
+<script>window.BBA_KIT = Object.assign(window.BBA_KIT || {}, {check:false, download:false, name:false, meter:false, tries:0});</script>
+<script src="bba-kit-es.js" defer></script>
+</body>
+</html>

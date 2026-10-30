@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paper 1 training 6 – 9SP0/01 practice</title>
+<style>
+:root{--ink:#111;--rule:#9a9a9a;--muted:#555;--paper:#fff;--bg:#e9e9e9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.45}
+.sheet{background:var(--paper);max-width:820px;margin:24px auto;padding:40px 56px 32px;box-shadow:0 1px 4px rgba(0,0,0,.25);position:relative}
+@media (max-width:700px){.sheet{margin:0 0 8px;padding:24px 16px}}
+.pageno{text-align:center;color:var(--muted);font-size:13px;margin-top:28px}
+.cover h1{font-size:28px;margin:4px 0 0}
+.cover .board{font-size:15px;color:var(--muted)}
+.cover .ref{float:right;text-align:right;font-size:14px;border:1px solid var(--ink);padding:6px 10px}
+.cover hr{border:0;border-top:2px solid var(--ink);margin:18px 0}
+.cover h2{font-size:17px;margin:18px 0 4px}
+.cover ul{margin:4px 0;padding-left:20px}
+.sec{text-align:center;font-weight:bold;font-size:19px;letter-spacing:.5px;margin:0}
+.sec+.sec{margin-bottom:10px}
+.rec{text-align:center;font-weight:bold;margin:4px 0 16px}
+.instr p{margin:6px 0}
+.durs{margin:10px 0 10px 40%}
+@media (max-width:700px){.durs{margin-left:8%}}
+.durs div{margin:2px 0}
+.ptitle{font-weight:bold;font-size:18px;margin:0 0 10px}
+.qhead{display:flex;gap:14px;font-weight:bold;margin:0 0 12px}
+.qhead .qn{min-width:22px}
+.item{margin:0 0 0 36px;position:relative}
+.item.mc{margin-bottom:14px}
+@media (max-width:700px){.item{margin-left:6px}}
+.q{margin:0 0 6px}
+.num{display:inline-block;min-width:38px}
+.bul{padding-left:24px}
+.mark{text-align:right;font-weight:bold;margin:0 0 12px}
+.total{text-align:right;font-weight:bold;margin:18px 0 0}
+.grand{text-align:right;font-weight:bold;font-size:18px;margin:16px 0 0}
+textarea.ans{width:100%;border:0;border-bottom:1px dotted var(--rule);resize:vertical;font:inherit;line-height:32px;padding:0 4px;
+  background:repeating-linear-gradient(transparent 0 31px,var(--rule) 31px 32px);outline-offset:2px;min-height:64px}
+textarea.ans:focus{outline:2px solid #2b5797;background-color:#f7f9fd}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;padding:0}
+.opt{display:flex;align-items:center;gap:12px;width:calc(100% - 38px);margin:6px 0 6px 38px;padding:4px 0;background:none;border:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.opt b{min-width:16px}
+.opt .ot{flex:1}
+.box{width:30px;height:24px;border:1.5px solid var(--ink);flex:none;position:relative}
+.opt[aria-checked="true"] .box::after{content:"\2715";position:absolute;inset:0;display:grid;place-items:center;font-size:20px;font-weight:bold}
+.opt:focus-visible{outline:2px solid #2b5797;outline-offset:2px}
+.player{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--rule);padding:8px 12px;margin:0 0 16px}
+.plab{font-weight:bold;font-size:15px}
+.player audio{flex:1;min-width:220px}
+.lead{font-weight:bold;margin:0 0 12px}
+.who{margin:14px 0 6px 36px;font-weight:bold}
+.src{margin:0 0 14px;font-size:15px;word-break:break-all}
+.src b{word-break:normal}
+.cand{display:block;margin:14px 0;font-weight:bold}
+.cand input{font:inherit;font-weight:normal;border:1px solid var(--ink);padding:6px 8px;width:min(340px,100%);margin-left:8px}
+.lpbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin:22px 0 0}
+.lpbar button{font:inherit;font-weight:bold;padding:9px 16px;border:1px solid #2b5797;background:#fff;color:#2b5797;cursor:pointer;border-radius:4px}
+.lpbar button.go{background:#2b5797;color:#fff}
+.lpres{border:2px solid #2b5797;padding:12px 16px;margin:14px 0 0;background:#f4f7fc}
+.lpres p{margin:4px 0}
+.fb{margin:-6px 0 14px 36px;padding:8px 12px;font-size:15px;border-left:4px solid #b0b0b0;background:#f6f6f6}
+.fb.full{border-color:#2e7d52;background:#eef7f1}
+.fb.part{border-color:#c98a00;background:#fdf6e6}
+.fb.zero{border-color:#b3261e;background:#fbeeed}
+.fb b{margin-right:6px}
+.locked textarea.ans,.locked .opt{pointer-events:none}
+.opt.right .box{background:#dff0e5}
+@media print{.lpbar,.fb,.lpres{display:none!important}}
+.rtext{border:1px solid var(--rule);padding:12px 16px;margin:0 0 16px;background:#fcfcfc}
+.rtext p{margin:0 0 10px;text-align:justify}
+.rtitle{font-weight:bold;text-align:center!important}
+.lead2{font-weight:bold;margin:12px 0 8px}
+.trans-fb table{border-collapse:collapse;width:100%;margin-top:8px;font-size:14px}
+.trans-fb td{border-top:1px solid #ddd;padding:4px 6px;vertical-align:top}
+.trans-fb td.ok{color:#2e7d52;font-weight:bold} .trans-fb td.no{color:#b3261e;font-weight:bold}
+.credit{font-size:13px;color:var(--muted);border-top:1px solid var(--rule);padding-top:10px;margin-top:22px}
+.defi ol{padding-left:22px}
+.defi li{margin-bottom:14px}
+@media print{body{background:#fff}.sheet{box-shadow:none;margin:0;page-break-after:always}.player,#bba-kit{display:none!important}}
+</style>
+</head>
+<body>
+
+<section class="sheet cover">
+  <div class="ref">Paper reference<br><b>9SP0/01</b><br>Paper 1 training 6</div>
+  <div class="board">BBA practice paper modelled on Pearson Edexcel Level 3 GCE</div>
+  <h1>Spanish</h1>
+  <div><b>Advanced</b><br>PAPER 1: Listening, Reading and Translation<br>Paper 1 training 6 · All four themes · Year 13</div>
+  <hr>
+  <label class="cand">Candidate name <input type="text" id="cand" autocomplete="name" placeholder="First name and initial"></label>
+  <p><b>You must have:</b> headphones or earphones. The recordings are on this page.</p>
+  <h2>Instructions</h2>
+  <ul>
+    <li>Type your name in the box above if you want it on your results file (optional).</li>
+    <li>Answer <b>all</b> questions in Sections A, B and C.</li>
+    <li>Candidates are recommended to start with Section A: Listening, and work through each section as presented.</li>
+    <li>Answer the questions in the spaces provided – there may be more space than you need.</li>
+    <li>We recommend you spend 50 minutes on Section A: Listening, 50 minutes on Section B: Reading and 20 minutes on Section C: Translation into English (2 hours in total).</li>
+    <li>You must not use a dictionary.</li>
+    <li>You can do one section at a time: each section ends with its own <b>Mark Section … only</b> button. To mark everything at once, press <b>Mark the whole paper</b> at the end of Section C.</li>
+    <li>Then press <b>Download results</b> at the end of Section C and send the file to your teacher: it contains every section you have marked.</li>
+  </ul>
+  <h2>Information</h2>
+  <ul>
+    <li>The total mark for this paper is 80.</li>
+    <li>The marks for each question are shown in brackets – use this as a guide as to how much time to spend on each question.</li>
+  </ul>
+  <h2>Advice</h2>
+  <ul>
+    <li>Read each question carefully before you start to answer it.</li>
+    <li>Try to answer every question.</li>
+    <li>Check your answers if you have time at the end.</li>
+  </ul>
+  <p class="pageno">1</p>
+</section>
+
+<section class="sheet">
+  <p style="margin-top:0">Answer ALL questions. Write your answers in the spaces provided.<br>
+  Some questions must be answered with a cross in a box ☒. If you change your mind about an answer, click another box.</p>
+  <p class="sec">SECTION A</p><p class="sec">LISTENING</p>
+  <p class="rec">We recommend you spend no more than 50 minutes on this section.</p>
+  <div class="instr">
+    <p>Questions 2, 3 and 4(a) do not require full sentences and you may respond using single words or phrases.</p>
+    <p>Summary Question 4(b) does not require full sentences and you may respond using short phrases.</p>
+    <p>You may use words from the listening passages but you must not transcribe whole sections.</p>
+    <p>You are going to listen to five passages. The duration of each passage is approximately:</p>
+    <div class="durs">
+      <div>Passage 1 = 1 minute 00 seconds</div><div>Passage 2 = 1 minute 01 seconds</div><div>Passage 3 = 1 minute 20 seconds</div>
+      <div>Passage 4(a) = 0 minute 54 seconds</div><div>Passage 4(b) = 1 minute 07 seconds</div>
+    </div>
+    <p>You will be in charge of the recording and you may listen to each passage as often as you wish, and write your answers whenever you wish to do so.</p>
+  </div>
+  <p class="pageno">2</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Texto 1 – Franco sale de Cuelgamuros</p>
+  <div class="player"><span class="plab">Texto 1</span><audio controls preload="none" src="listening_paper_06_passage_1.mp3"></audio></div>
+  <div class="qhead"><span class="qn">1</span><span>Escucha este reportaje sobre un hecho de 2019. Pon una equis ☒ en la casilla apropiada.</span></div>
+  <div class="item mc" data-t="mc" data-k="q1.0" data-max="1" data-lab="1(i)"><p class="q"><span class="sr">1</span><span class="num">(i)</span> La exhumación tuvo lugar…</p><div role="radiogroup" aria-label="1(i)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">en 1975.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">44 años después de la muerte del dictador.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">el día del aniversario de su muerte.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">durante una misa.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_i" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.1" data-max="1" data-lab="1(ii)"><p class="q"><span class="sr">1</span><span class="num">(ii)</span> Los restos de Franco salieron de la basílica…</p><div role="radiogroup" aria-label="1(ii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">llevados por sus familiares.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">en secreto, de noche.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">en un coche oficial.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">sin ningún testigo.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_ii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.2" data-max="1" data-lab="1(iii)"><p class="q"><span class="sr">1</span><span class="num">(iii)</span> El féretro fue trasladado…</p><div role="radiogroup" aria-label="1(iii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">en tren.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">a Galicia.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">en helicóptero.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">a una iglesia de Madrid.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_iii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.3" data-max="1" data-lab="1(iv)"><p class="q"><span class="sr">1</span><span class="num">(iv)</span> Hoy Franco está enterrado…</p><div role="radiogroup" aria-label="1(iv)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">en el Valle de Cuelgamuros.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">en El Ferrol.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">junto a su esposa, en Mingorrubio.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">en un lugar desconocido.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_iv" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 1 = 4 marks)</p>
+  <p class="pageno">3</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Texto 2 – Cuatro lenguas en el Congreso</p>
+  <div class="player"><span class="plab">Texto 2</span><audio controls preload="none" src="listening_paper_06_passage_2.mp3"></audio></div>
+  <div class="qhead"><span class="qn">2</span><span>Escucha este reportaje sobre las lenguas en el Parlamento. Contesta las preguntas en español.</span></div>
+  <div class="item" data-t="open" data-k="q2.0" data-max="1" data-lab="2(a)"><p class="q"><span class="sr">2</span><span class="num">(a)</span> ¿Qué cambió en septiembre de 2023?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.1" data-max="2" data-lab="2(b)"><p class="q"><span class="sr">2</span><span class="num">(b)</span> ¿Cómo funciona la interpretación? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q2.2" data-max="1" data-lab="2(c)"><p class="q"><span class="sr">2</span><span class="num">(c)</span> ¿Qué partidos apoyaron la reforma?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.3" data-max="1" data-lab="2(d)"><p class="q"><span class="sr">2</span><span class="num">(d)</span> ¿Qué dice el Congreso sobre el presupuesto de 270 000 euros?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 2 = 5 marks)</p>
+  <p class="pageno">4</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Texto 3 – Volver a ser española</p>
+  <div class="player"><span class="plab">Texto 3</span><audio controls preload="none" src="listening_paper_06_passage_3.mp3"></audio></div>
+  <div class="qhead"><span class="qn">3</span><span>Escucha a esta persona hablando de su nacionalidad. Contesta las preguntas en español.</span></div>
+  <div class="item" data-t="open" data-k="q3.0" data-max="1" data-lab="3(a)"><p class="q"><span class="sr">3</span><span class="num">(a)</span> ¿Por qué salió de España el abuelo de Valeria?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.1" data-max="2" data-lab="3(b)"><p class="q"><span class="sr">3</span><span class="num">(b)</span> ¿Qué conservaba la familia del abuelo? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q3.2" data-max="1" data-lab="3(c)"><p class="q"><span class="sr">3</span><span class="num">(c)</span> ¿Qué ley le permitió pedir la nacionalidad?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.3" data-max="1" data-lab="3(d)"><p class="q"><span class="sr">3</span><span class="num">(d)</span> ¿Qué hizo Valeria antes del 22 de octubre de 2025?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.4" data-max="1" data-lab="3(e)"><p class="q"><span class="sr">3</span><span class="num">(e)</span> ¿Qué dato muestra el interés en Argentina?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.5" data-max="2" data-lab="3(f)"><p class="q"><span class="sr">3</span><span class="num">(f)</span> ¿Por qué es importante la nacionalidad para Valeria? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q3.6" data-max="1" data-lab="3(g)"><p class="q"><span class="sr">3</span><span class="num">(g)</span> ¿Qué le diría a su abuelo?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 3 = 9 marks)</p>
+  <p class="pageno">5</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Texto 4(a) – Otro año récord para el turismo</p>
+  <div class="player"><span class="plab">Texto 4(a)</span><audio controls preload="none" src="listening_paper_06_passage_4a.mp3"></audio></div>
+  <div class="qhead"><span class="qn">4</span><span>(a) Escucha este reportaje sobre el turismo internacional. Contesta las preguntas en español.</span></div>
+  <div class="item" data-t="open" data-k="q4a.0" data-max="1" data-lab="4(a)(i)"><p class="q"><span class="sr">4(a)</span><span class="num">(i)</span> ¿Cuántos turistas internacionales llegaron en 2025?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.1" data-max="2" data-lab="4(a)(ii)"><p class="q"><span class="sr">4(a)</span><span class="num">(ii)</span> ¿Cómo evolucionó el gasto de los turistas? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q4a.2" data-max="1" data-lab="4(a)(iii)"><p class="q"><span class="sr">4(a)</span><span class="num">(iii)</span> ¿Qué tendencia se observa al comparar gasto y llegadas?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.3" data-max="1" data-lab="4(a)(iv)"><p class="q"><span class="sr">4(a)</span><span class="num">(iv)</span> ¿Qué país envía más turistas?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.4" data-max="1" data-lab="4(a)(v)"><p class="q"><span class="sr">4(a)</span><span class="num">(v)</span> ¿Qué región recibió más visitantes?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="pageno">6</p>
+</section>
+
+<section class="sheet">
+  <p class="lead">Resume la siguiente conversación. Las expresiones cortas son válidas. Menciona tres detalles para la pregunta 4(b)(i) y tres detalles para la pregunta 4(b)(ii).</p>
+  <p class="ptitle">Texto 4(b) – Otro año récord para el turismo</p>
+  <div class="player"><span class="plab">Texto 4(b)</span><audio controls preload="none" src="listening_paper_06_passage_4b.mp3"></audio></div>
+  <div class="qhead"><span class="qn"></span><span>(b) Escucha la conversación con dos expertos. Responde en español.</span></div>
+  <p class="who">(i) Resume lo que dice Jordi sobre:</p>
+  <div class="item" data-t="open" data-k="q4b.key1.0" data-max="1" data-lab="4(b)(i) • el gasto diario"><p class="q bul"><span class="sr">4(b)(i) </span>• el gasto diario</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key1.1" data-max="1" data-lab="4(b)(i) • los alemanes y los franceses"><p class="q bul"><span class="sr">4(b)(i) </span>• los alemanes y los franceses</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key1.2" data-max="1" data-lab="4(b)(i) • Canarias"><p class="q bul"><span class="sr">4(b)(i) </span>• Canarias</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+  <p class="who">(ii) Resume lo que dice Ana sobre:</p>
+  <div class="item" data-t="open" data-k="q4b.key2.0" data-max="1" data-lab="4(b)(ii) • el crecimiento de las llegadas"><p class="q bul"><span class="sr">4(b)(ii) </span>• el crecimiento de las llegadas</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key2.1" data-max="1" data-lab="4(b)(ii) • la concentración del turismo"><p class="q bul"><span class="sr">4(b)(ii) </span>• la concentración del turismo</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key2.2" data-max="1" data-lab="4(b)(ii) • su propuesta"><p class="q bul"><span class="sr">4(b)(ii) </span>• su propuesta</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 4 = 12 marks)</p>
+  <p class="grand">TOTAL FOR SECTION A = 30 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="A">Mark Section A only</button></div>
+  <div id="lp-res-A" class="lpres" aria-live="polite" hidden></div>
+  <p class="pageno">7</p>
+</section>
+
+<section class="sheet" id="secB">
+  <p class="sec">SECTION B</p><p class="sec">READING</p>
+  <p class="rec">We recommend you spend around 50 minutes on this section.</p>
+  <div class="instr"><p>Open-response questions do not have to be written in full sentences and you may respond using single words or phrases.</p>
+  <p>You may use words from the texts but you must not copy out whole sections.</p></div>
+  <div class="qhead"><span class="qn">5</span><span>Lee este artículo sobre un cuadro famoso.</span></div><div class="rtext"><p class="rtitle">El último exiliado vuelve a casa</p><p>Pablo Picasso pintó el Guernica en 1937, como reacción al bombardeo de la villa vasca, y lo expuso en la Exposición Internacional de París de ese año. Es un enorme lienzo en blanco y negro de 3,49 por 7,77 metros, con seis figuras humanas y tres animales.</p><p>El pintor decidió que la obra no debía exponerse en España hasta que se restablecieran las libertades democráticas. Por eso, durante décadas, el cuadro estuvo en el Museo de Arte Moderno (MoMA) de Nueva York. Picasso murió en Francia en 1973, a los 91 años, sin volver a España; Franco murió dos años después.</p><p>El Guernica llegó a Madrid el 10 de septiembre de 1981, con una fuerte vigilancia. Se instaló en un anexo del Museo del Prado y se abrió al público el 25 de octubre, protegido por un cristal blindado. En 1992 se trasladó al Museo Reina Sofía, donde sigue hoy.</p></div><p class="lead2">Escoge la terminación correcta para estas frases. Pon una equis ☒ en la casilla apropiada.</p><div class="item mc" data-t="mc" data-k="B.q5.0" data-max="1" data-lab="5(i)"><p class="q"><span class="sr">5</span><span class="num">(i)</span> Picasso pintó el Guernica…</p><div role="radiogroup" aria-label="5(i)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">por encargo de Franco.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">como respuesta a un bombardeo.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">en Nueva York.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">en los años cincuenta.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_i" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.1" data-max="1" data-lab="5(ii)"><p class="q"><span class="sr">5</span><span class="num">(ii)</span> El cuadro…</p><div role="radiogroup" aria-label="5(ii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">tiene muchos colores.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">es muy pequeño.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">solo representa animales.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">es en blanco y negro.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_ii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.2" data-max="1" data-lab="5(iii)"><p class="q"><span class="sr">5</span><span class="num">(iii)</span> Picasso no quería que el cuadro llegara a España…</p><div role="radiogroup" aria-label="5(iii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">mientras no hubiera democracia.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">porque prefería Francia.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">porque estaba dañado.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">hasta su muerte.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_iii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.3" data-max="1" data-lab="5(iv)"><p class="q"><span class="sr">5</span><span class="num">(iv)</span> En 1981, el Guernica…</p><div role="radiogroup" aria-label="5(iv)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">volvió a Nueva York.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">se expuso protegido por un cristal blindado.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">se vendió a un museo privado.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">se quedó en un almacén.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_iv" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 5 = 4 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">6</span><span>Lee este artículo sobre los delitos de odio.</span></div><div class="rtext"><p class="rtitle">Los delitos de odio en 2024</p><p>Según el informe del Ministerio del Interior publicado en julio de 2025, en 2024 se investigaron en España 1955 delitos e incidentes de odio, un 13,8 % menos que el año anterior.</p><p>El racismo y la xenofobia siguen siendo la primera causa, con 804 casos, aunque bajaron un 6 %. Les siguen los delitos por orientación sexual e identidad de género (528) y por sexo o género (181). Por primera vez se registró la islamofobia como categoría propia, con 13 casos. En cambio, el antisemitismo aumentó un 60,9 %.</p><p>La policía resolvió el 71,9 % de los casos. Entre los detenidos o investigados, la mayoría eran hombres (81,9 %) de entre 26 y 40 años. Los menores representaron el 12,8 % de las víctimas. Navarra y el País Vasco registraron las tasas más altas por habitante.</p></div><p class="lead2">¿Cuáles de las siguientes declaraciones son correctas? Pon una equis ☒ en las cuatro casillas apropiadas.</p><div class="item mc" data-t="tick" data-k="B.q6" data-max="4" data-lab="6"><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="A"><b>A</b> <span class="ot">Los delitos de odio aumentaron en 2024.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="B"><b>B</b> <span class="ot">El racismo y la xenofobia son la causa más frecuente.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="C"><b>C</b> <span class="ot">Los casos de racismo aumentaron un 6 %.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="D"><b>D</b> <span class="ot">La islamofobia aparece en las estadísticas por primera vez.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="E"><b>E</b> <span class="ot">El antisemitismo bajó en 2024.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="F"><b>F</b> <span class="ot">La policía resolvió la mayoría de los casos.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="G"><b>G</b> <span class="ot">La mayoría de los detenidos eran mujeres.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="H"><b>H</b> <span class="ot">Ningún menor fue víctima de delitos de odio.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="I"><b>I</b> <span class="ot">Navarra tiene una de las tasas más altas.</span><span class="box" aria-hidden="true"></span></button><input type="text" class="sr mcval" name="B_q6" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 6 = 4 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">7</span><span>Lee este relato sobre un abuelo emigrante. Contesta las preguntas en español.</span></div><div class="rtext"><p class="rtitle">La maleta de cartón</p><p>En el desván de la casa de mis abuelos hay una maleta de cartón atada con una cuerda. Mi abuelo Manuel la llevó a Alemania en 1963, cuando tenía veintidós años y en su pueblo de Extremadura no había más trabajo que el de jornalero, unos pocos días al año.</p><p>Viajó tres días en tren hasta Colonia. Allí trabajó en una fábrica de coches, en el turno de noche, y compartía habitación con otros cinco españoles en una residencia para trabajadores. No hablaba ni una palabra de alemán. «Aprendí a decir “ja” y “danke” antes que mi propio número de trabajador», me cuenta riéndose.</p><p>Cada mes enviaba casi todo su sueldo a casa. Con ese dinero, mi bisabuela arregló el tejado y mi tía pudo estudiar para maestra. Mi abuelo volvió en 1972 y abrió un taller mecánico que todavía existe.</p><p>Este verano, cuando le conté que quería hacer unas prácticas en Berlín, se quedó en silencio. Luego subió al desván, bajó la maleta y me la puso delante. «Llévatela», me dijo. «Pero tú, vuelve cuando quieras, no cuando puedas».</p></div><div class="item" data-t="open" data-k="B.q7.0" data-max="1" data-lab="7(a)"><p class="q"><span class="sr">7</span><span class="num">(a)</span> ¿Por qué emigró el abuelo a Alemania?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q7.1" data-max="2" data-lab="7(b)"><p class="q"><span class="sr">7</span><span class="num">(b)</span> ¿Cómo eran sus condiciones de vida en Colonia? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q7.2" data-max="2" data-lab="7(c)"><p class="q"><span class="sr">7</span><span class="num">(c)</span> ¿Para qué sirvió el dinero que enviaba? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q7.3" data-max="1" data-lab="7(d)"><p class="q"><span class="sr">7</span><span class="num">(d)</span> ¿Qué quiere decir el abuelo con su última frase?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 7 = 6 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">8</span><span>Lee este artículo sobre el Camino de Santiago. Contesta las preguntas en español.</span></div><div class="rtext"><p class="rtitle">Un camino cada vez más internacional</p><p>Según la Oficina del Peregrino, en 2025 llegaron a Santiago de Compostela 530 844 peregrinos que pidieron la Compostela, el certificado que acredita haber hecho el Camino. Es una cifra récord, un 6 % más que el año anterior, y la cifra real podría ser mayor, porque no todos los peregrinos piden el certificado.</p><p>Los españoles siguen siendo la nacionalidad más numerosa (43 %), pero los extranjeros ya son mayoría. Entre ellos destacan los estadounidenses (más de 44 000), seguidos de italianos, alemanes y portugueses.</p><p>El Camino Francés sigue siendo el más popular, con casi la mitad de los peregrinos, seguido del Camino Portugués. Casi el 94 % hace el Camino a pie y un 4 % en bicicleta. Algo más del 46 % declara una motivación religiosa. Septiembre fue el mes con más llegadas, con casi 77 000 peregrinos.</p></div><div class="item" data-t="open" data-k="B.q8.0" data-max="1" data-lab="8(a)"><p class="q"><span class="sr">8</span><span class="num">(a)</span> ¿Qué es la Compostela?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.1" data-max="1" data-lab="8(b)"><p class="q"><span class="sr">8</span><span class="num">(b)</span> ¿Por qué podría ser mayor la cifra real de peregrinos?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.2" data-max="2" data-lab="8(c)"><p class="q"><span class="sr">8</span><span class="num">(c)</span> ¿Qué cambio muestra el origen de los peregrinos? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q8.3" data-max="1" data-lab="8(d)"><p class="q"><span class="sr">8</span><span class="num">(d)</span> ¿Qué camino eligen más peregrinos?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.4" data-max="1" data-lab="8(e)"><p class="q"><span class="sr">8</span><span class="num">(e)</span> ¿Cómo hacen el Camino la mayoría de los peregrinos?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.5" data-max="1" data-lab="8(f)"><p class="q"><span class="sr">8</span><span class="num">(f)</span> ¿Qué dato muestra que el Camino no es solo religioso?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.6" data-max="1" data-lab="8(g)"><p class="q"><span class="sr">8</span><span class="num">(g)</span> ¿Cuál fue el mes con más peregrinos?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 8 = 8 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">9</span><span>Lee este artículo sobre las camareras de piso. Contesta las preguntas en español.</span></div><div class="rtext"><p class="rtitle">Las «kellys», diez años de lucha</p><p>Hacia 2014, varias camareras de piso de hoteles empezaron a organizarse a través de las redes sociales. En 2016 crearon la asociación Las Kellys, un nombre que viene de «las que limpian», y se presentaron en Barcelona. «El gran problema que tuvimos al principio fue que estábamos totalmente invisibilizadas», recuerda Vania Arana, de Las Kellys Barcelona.</p><p>Su principal reivindicación es la llamada «ley kelly»: cambiar el Estatuto de los Trabajadores para que los hoteles no puedan contratar la limpieza de habitaciones a empresas externas o multiservicios. También piden la jubilación anticipada y el reconocimiento de sus enfermedades profesionales.</p><p>Han conseguido algunos avances. En 2018 se reconocieron como enfermedades profesionales el síndrome del túnel carpiano, la bursitis, la tendinitis y la epicondilitis. Sin embargo, según la asociación, la carga de trabajo ha aumentado y el tiempo para cada habitación se ha reducido. Además, una camarera contratada por el hotel cobra según el convenio de hostelería, mientras que una contratada por una empresa externa puede cobrar según el de limpieza.</p></div><div class="item" data-t="open" data-k="B.q9.0" data-max="1" data-lab="9(a)"><p class="q"><span class="sr">9</span><span class="num">(a)</span> ¿Qué significa el nombre «kellys»?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.1" data-max="1" data-lab="9(b)"><p class="q"><span class="sr">9</span><span class="num">(b)</span> ¿Qué problema tenían al principio?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.2" data-max="1" data-lab="9(c)"><p class="q"><span class="sr">9</span><span class="num">(c)</span> ¿Qué es la «ley kelly»?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.3" data-max="2" data-lab="9(d)"><p class="q"><span class="sr">9</span><span class="num">(d)</span> ¿Qué otras reivindicaciones tienen? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q9.4" data-max="1" data-lab="9(e)"><p class="q"><span class="sr">9</span><span class="num">(e)</span> ¿Qué consiguieron en 2018?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.5" data-max="2" data-lab="9(f)"><p class="q"><span class="sr">9</span><span class="num">(f)</span> ¿Por qué siguen protestando? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+  <p class="total">(Total for Question 9 = 8 marks)</p>
+  <p class="grand">TOTAL FOR SECTION B = 30 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="B">Mark Section B only</button></div>
+  <div id="lp-res-B" class="lpres" aria-live="polite" hidden></div>
+</section>
+
+<section class="sheet" id="secC">
+  <p class="sec">SECTION C</p><p class="sec">TRANSLATION INTO ENGLISH</p>
+  <p class="rec">We recommend you spend around 20 minutes on this section.</p>
+  <div class="qhead"><span class="qn">10</span><span>Translate the following text about the Republican exile of 1939 into English.</span></div><p class="mark">(20)</p><div class="rtext"><p>Al final de la Guerra Civil, miles de republicanos españoles cruzaron la frontera con Francia para huir de la represión franquista. Muchos acabaron en campos de concentración como el de Argelès-sur-Mer, en una playa del sur de Francia, donde estuvieron internados más de 80 000 militares y civiles entre 1939 y 1940. Entre los exiliados estaba el poeta Antonio Machado, que murió en Colliure el 22 de febrero de 1939, pocos días después de salir de España con su madre y uno de sus hermanos. En 2025, el Gobierno español declaró el antiguo campo Lugar de Memoria Democrática y colocó una placa en la tumba del poeta.</p></div><div class="item" data-t="trans" data-k="C" data-max="20" data-lab="10"><textarea class="ans" rows="12" aria-label="10 – translation"></textarea></div>
+  <p class="total">(Total for Question 10 = 20 marks)</p>
+  <p class="grand">TOTAL FOR SECTION C = 20 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="C">Mark Section C only</button></div>
+  <div id="lp-res-C" class="lpres" aria-live="polite" hidden></div>
+  <p class="grand">TOTAL FOR PAPER = 80 MARKS</p>
+  <div id="lp-bar" class="lpbar">
+    <button type="button" class="go" data-mark="all">Mark the whole paper</button>
+    <button type="button" id="lp-dl">Download results</button>
+    <button type="button" id="lp-reset">Start again</button>
+  </div>
+  <div id="lp-res" class="lpres" aria-live="polite" hidden></div>
+</section>
+
+<section class="sheet defi" data-label="Reto">
+  <p class="ptitle">Reto – after the paper (not marked, not part of the 80 marks)</p>
+  <p>For students aiming at the top grades.</p>
+  <ol>
+<li>Explica en unas 60 palabras qué tienen en común la historia del abuelo de Valeria (texto 3) y la del abuelo Manuel (pregunta 7).<textarea class="ans" rows="3" aria-label="Reto 1"></textarea></li>
+<li>¿Debería España limitar el número de turistas? Escribe un párrafo de unas 80 palabras con dos argumentos y un contraargumento.<textarea class="ans" rows="3" aria-label="Reto 2"></textarea></li>
+<li>Traduce al español: «Picasso refused to let the painting go to Spain until democracy had been restored.»<textarea class="ans" rows="3" aria-label="Reto 3"></textarea></li>
+  </ol>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Source information:</p>
+  <p style="font-size:15px">The recordings and the reading and translation texts were written by the BBA Spanish department from the facts in the sources below; the recordings are read by synthetic voices. The narrative text («relato») is original.</p>
+<p class="src"><b>Texto 1 – Franco sale de Cuelgamuros</b><br>The Objective, «Francisco Franco es exhumado 44 años después del final de la dictadura», 24 de octubre de 2019<br><a href="https://theobjective.com/directo-exhumacion-franco/" target="_blank" rel="noopener">https://theobjective.com/directo-exhumacion-franco/</a></p>
+<p class="src"><b>Texto 2 – Cuatro lenguas en el Congreso</b><br>Maldita.es, «Las lenguas cooficiales en el Congreso: una reforma del reglamento de la cámara permite su uso», 21 de septiembre de 2023<br><a href="https://maldita.es/malditateexplica/20230921/lenguas-cooficiales-congreso-norma/" target="_blank" rel="noopener">https://maldita.es/malditateexplica/20230921/lenguas-cooficiales-congreso-norma/</a></p>
+<p class="src"><b>Texto 3 – Volver a ser española (speaker invented; facts from)</b><br>Telemundo, «Finaliza el plazo para presentar solicitudes a la Ley de Memoria Democrática», octubre de 2025<br><a href="https://www.telemundo51.com/noticias/local/finaliza-el-plazo-para-presentar-solicitudes-a-la-ley-de-memoria-democratica/2708395/" target="_blank" rel="noopener">https://www.telemundo51.com/noticias/local/finaliza-el-plazo-para-presentar-solicitudes-a-la-ley-de-memoria-democratica/2708395/</a></p>
+<p class="src"><b>Textos 4(a) y 4(b) – Otro año récord para el turismo (experts invented; figures from)</b><br>La Moncloa, datos de Frontur y Egatur del INE, 3 de febrero de 2026<br><a href="https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/industria-turismo/Paginas/2026/030226-gasto-turistas-internacionales.aspx" target="_blank" rel="noopener">https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/industria-turismo/Paginas/2026/030226-gasto-turistas-internacionales.aspx</a></p>
+<p class="src"><b>Pregunta 5 – El último exiliado vuelve a casa</b><br>History.com, «Guernica returned to Spain», 10 de septiembre<br><a href="https://www.history.com/this-day-in-history/september-10/guernica-returned-to-spain" target="_blank" rel="noopener">https://www.history.com/this-day-in-history/september-10/guernica-returned-to-spain</a><br>El Orden Mundial, «26 de abril de 1937…»<br><a href="https://elordenmundial.com/hoy-en-la-historia/26-abril/26-de-abril-de-1937-aviones-alemanes-e-italianos-desatan-el-bombardeo-de-guernica/" target="_blank" rel="noopener">https://elordenmundial.com/hoy-en-la-historia/26-abril/26-de-abril-de-1937-aviones-alemanes-e-italianos-desatan-el-bombardeo-de-guernica/</a></p>
+<p class="src"><b>Pregunta 6 – Los delitos de odio en 2024</b><br>La Moncloa, «Los delitos e incidentes de odio descendieron un 13,8 % en 2024», 18 de julio de 2025<br><a href="https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/interior/paginas/2025/180725-informe-delitos-odio.aspx" target="_blank" rel="noopener">https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/interior/paginas/2025/180725-informe-delitos-odio.aspx</a></p>
+<p class="src"><b>Pregunta 7 – La maleta de cartón</b><br>Original text by the BBA Spanish department.</p>
+<p class="src"><b>Pregunta 8 – Un camino cada vez más internacional</b><br>Viaje Camino de Santiago, «Estadísticas del Camino de Santiago 2025» (datos de la Oficina del Peregrino)<br><a href="https://viajecaminodesantiago.com/noticias/estadisticas-camino-ano/" target="_blank" rel="noopener">https://viajecaminodesantiago.com/noticias/estadisticas-camino-ano/</a></p>
+<p class="src"><b>Pregunta 9 – Las «kellys», diez años de lucha</b><br>Ara, «La lucha de las kellys una década después: “Estábamos totalmente invisibilizadas”»<br><a href="https://es.ara.cat/economia/mercado-laboral/lucha-kellys-decada-despues-estabamos-totalmente-invisibilizadas_130_5359508.html" target="_blank" rel="noopener">https://es.ara.cat/economia/mercado-laboral/lucha-kellys-decada-despues-estabamos-totalmente-invisibilizadas_130_5359508.html</a></p>
+<p class="src"><b>Pregunta 10 – El exilio de 1939</b><br>La Moncloa, «El Gobierno inaugura en Francia como Lugar de Memoria Democrática el campo de concentración de Argelès-sur-Mer», 22 de febrero de 2025<br><a href="https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/politica-territorial-memoria-democratica/Paginas/2025/220225-lugar-memoria-democratica-argeles-sur-mer.aspx" target="_blank" rel="noopener">https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/politica-territorial-memoria-democratica/Paginas/2025/220225-lugar-memoria-democratica-argeles-sur-mer.aspx</a></p>
+  <p class="credit">Voices: Piper TTS. <i>en_GB-cori-high</i> (announcer) – LibriVox recordings, public domain. <i>es_ES-sharvard-medium</i> (one man, one woman) – SHARVARD Spanish speech corpus, licence CC BY 3.0 (<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">creativecommons.org/licenses/by/3.0</a>). The audio files of this paper are shared under the same licences.</p>
+</section>
+
+<script>
+(function(){
+  function paint(item){
+    var v=item.querySelector('.mcval').value, multi=item.dataset.t==='tick';
+    item.querySelectorAll('.opt').forEach(function(b){b.setAttribute('aria-checked', (multi ? v.indexOf(b.dataset.v)>=0 : b.dataset.v===v)?'true':'false');});
+  }
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.opt'); if(!b) return;
+    var item=b.closest('.item'), f=item.querySelector('.mcval');
+    if(item.dataset.t==='tick'){ var set=f.value.split('').filter(Boolean), k=set.indexOf(b.dataset.v); if(k>=0) set.splice(k,1); else set.push(b.dataset.v); f.value=set.sort().join(''); }
+    else f.value = (f.value===b.dataset.v) ? '' : b.dataset.v;
+    f.dispatchEvent(new Event('input',{bubbles:true})); f.dispatchEvent(new Event('change',{bubbles:true}));
+    paint(item);
+  });
+  /* keep the crosses in step with answers the kit restores after a reload */
+  setInterval(function(){document.querySelectorAll('.item.mc').forEach(paint);},800);
+})();
+</script>
+<script type="application/json" id="lp-key">{"q1": ["B", "A", "C", "C"], "q2": [{"ans": "Se aprobó que los diputados pueden usar el catalán, el euskera y el gallego en el Congreso.", "pts": [[[["catalan", "euskera", "gallego", "lengua", "cooficial", "idioma"]]]]}, {"ans": "Any 2 from 3: doce intérpretes – los diputados usan auriculares – hay 650 receptores.", "pts": [[[["interprete", "doce", "12"]]], [[["auricular", "casco", "pinganillo"]]], [[["650", "receptor"]]]]}, {"ans": "PSOE, Sumar, ERC, EH Bildu, PNV y BNG (con el apoyo de Junts y Coalición Canaria).", "pts": [[[["psoe", "sumar", "erc", "bildu", "pnv", "bng", "junts", "coalicion canaria"]]]]}, {"ans": "Es un máximo, no un gasto previsto: el coste real se sabrá a final de año.", "pts": [[[["maximo", "limite", "tope", "no es", "final de ano", "real"]]]]}], "q3": [{"ans": "Se exilió al final de la Guerra Civil / era republicano.", "pts": [[[["exili", "guerra", "republic", "franco", "huy"]]]]}, {"ans": "Any 2 from 3: una foto de su pueblo – su carné de maestro – una carta.", "pts": [[[["foto"]]], [[["carne", "maestro"]]], [[["carta"]]]]}, {"ans": "La Ley de Memoria Democrática (2022).", "pts": [[[["memoria democratica", "memoria", "ley de nietos"]]]]}, {"ans": "Consiguió una cita en el consulado y presentó sus documentos.", "pts": [[[["consulado", "cita", "document", "turno", "present"]]]]}, {"ans": "Entre 800 000 y 900 000 usuarios consulares en Argentina.", "pts": [[[["800", "900", "ochocientos", "novecientos"]]]]}, {"ans": "Any 2 from 3: es una forma de reparar lo que sufrió su abuelo – podría estudiar / trabajar en Europa – siente que recupera una parte de su historia.", "pts": [[[["repar", "justicia", "abuelo"]]], [[["estudi", "trabaj", "europa"]]], [[["historia", "identidad", "raices", "origen"]]]]}, {"ans": "Que ha vuelto a casa / que su nombre no se ha perdido.", "pts": [[[["volv", "casa", "nombre", "no se ha perdido", "perdid"]]]]}], "q4a": [{"ans": "96,8 millones (la cifra más alta de la historia).", "pts": [[[["96", "97", "noventa y seis", "casi cien"]]]]}, {"ans": "Gastaron 134 712 millones de euros AND un 6,8 % más que en 2024.", "pts": [[[["134", "135"]]], [[["6,8", "6.8", "mas que", "aument", "sub", "crec"]]]]}, {"ans": "El gasto crece más que el número de turistas.", "pts": [[[["gasto"], ["mas", "rapid"]], [["gastan mas"]]]]}, {"ans": "El Reino Unido (19 millones).", "pts": [[[["reino unido", "britan", "ingles", "inglaterra"]]]]}, {"ans": "Cataluña (20 millones).", "pts": [[[["cataluna"]]]]}], "q4b": {"key1": [{"ans": "En diciembre, cada turista gastaba 167 € al día, un 5 % más.", "pts": [[[["167", "5"]]]]}, {"ans": "Los alemanes crecieron muy poco (0,6 %) y los franceses bajaron un poco (−1 %).", "pts": [[[["poco", "0,6", "baj", "menos", "1 %", "1%", "estanc"]]]]}, {"ans": "Canarias casi iguala a Cataluña en gasto: 24 431 millones de euros.", "pts": [[[["24", "gast", "segunda", "casi"]]]]}], "key2": [{"ans": "Las llegadas crecieron solo un 3,2 %, menos que antes / el crecimiento se modera.", "pts": [[[["3,2", "3.2", "moder", "menos", "despacio", "lento"]]]]}, {"ans": "Solo tres comunidades (Cataluña, Baleares y Canarias) reciben más de 50 millones de visitantes.", "pts": [[[["tres", "cataluna", "baleares", "canarias", "mitad"]]]]}, {"ans": "Repartir mejor a los turistas en el tiempo y en el territorio / turismo fuera del verano y en el interior.", "pts": [[[["repart", "interior", "fuera", "otono", "invierno", "temporada", "distribu"]]]]}]}, "B": {"q5": ["B", "D", "A", "B"], "q6": ["B", "D", "F", "I"], "q7": [{"ans": "En su pueblo no había trabajo (solo de jornalero unos días al año).", "pts": [[[["trabajo", "jornalero", "empleo", "paro"]]]]}, {"ans": "Any 2: trabajaba de noche en una fábrica de coches – compartía habitación con cinco españoles – no hablaba alemán.", "pts": [[[["noche", "fabrica", "turno"]]], [[["habitacion", "compart", "residencia", "cinco"]]], [[["aleman", "idioma", "lengua", "no hablaba"]]]]}, {"ans": "Arreglar el tejado AND que la tía estudiara para maestra.", "pts": [[[["tejado", "casa", "arregl"]]], [[["tia", "estudi", "maestra"]]]]}, {"ans": "Que su nieto tenga libertad para volver / que no emigre por necesidad como él.", "pts": [[[["libre", "libertad", "quiera", "necesidad", "obligad", "elegir", "decid"]]]]}], "q8": [{"ans": "El certificado que acredita haber hecho el Camino.", "pts": [[[["certific", "document", "diploma", "acredit"]]]]}, {"ans": "Porque no todos los peregrinos piden el certificado.", "pts": [[[["no todos", "no piden", "certific"]]]]}, {"ans": "Los españoles son la nacionalidad más numerosa (43 %) AND los extranjeros ya son mayoría (sobre todo estadounidenses).", "pts": [[[["espanol", "43"]]], [[["extranjer", "mayoria", "estadounid", "americano"]]]]}, {"ans": "El Camino Francés.", "pts": [[[["frances"]]]]}, {"ans": "A pie (casi el 94 %).", "pts": [[[["pie", "andando", "caminando", "94"]]]]}, {"ans": "Solo algo más del 46 % declara una motivación religiosa.", "pts": [[[["46", "menos de la mitad", "no todos"]]]]}, {"ans": "Septiembre.", "pts": [[[["septiembre"]]]]}], "q9": [{"ans": "«Las que limpian».", "pts": [[[["limpian", "limpiar"]]]]}, {"ans": "Estaban totalmente invisibilizadas / nadie las veía.", "pts": [[[["invisib", "nadie", "no se las", "ignor"]]]]}, {"ans": "Cambiar el Estatuto para que los hoteles no puedan subcontratar la limpieza a empresas externas.", "pts": [[[["extern", "subcontrat", "multiservicio", "externaliz"]]]]}, {"ans": "La jubilación anticipada AND el reconocimiento de sus enfermedades profesionales.", "pts": [[[["jubila"]]], [[["enfermedad"]]]]}, {"ans": "Se reconocieron varias enfermedades profesionales (túnel carpiano, bursitis, tendinitis, epicondilitis).", "pts": [[[["enfermedad", "carpiano", "tendinitis", "bursitis", "epicondil"]]]]}, {"ans": "La carga de trabajo ha aumentado / menos tiempo por habitación AND las subcontratadas pueden cobrar menos (convenio de limpieza).", "pts": [[[["carga", "tiempo", "habitacion"]]], [[["convenio", "cobr", "salario", "sueldo", "limpieza", "menos dinero"]]]]}]}, "C": [{"es": "Al final de la Guerra Civil,", "ans": "At the end of the Civil War,", "pts": [[[["end"], ["civil war"]]]]}, {"es": "miles de republicanos españoles", "ans": "thousands of Spanish Republicans", "pts": [[[["thousands"], ["republican"]]]]}, {"es": "cruzaron la frontera con Francia", "ans": "crossed the border into France", "pts": [[[["cross"], ["border", "frontier"], ["france"]]]]}, {"es": "para huir de la represión franquista.", "ans": "to flee Francoist repression.", "pts": [[[["flee", "escape", "run away", "get away"], ["franco"], ["repress", "persecution", "crackdown"]]]]}, {"es": "Muchos acabaron en campos de concentración", "ans": "Many ended up in concentration camps", "pts": [[[["many"], ["ended up", "finished up", "wound up", "ended", "landed"], ["concentration camp", "internment camp", "camp"]]]]}, {"es": "como el de Argelès-sur-Mer,", "ans": "such as Argelès-sur-Mer,", "pts": [[[["such as", "like", "for example", "including", "for instance"], ["argeles"]]]]}, {"es": "en una playa del sur de Francia,", "ans": "on a beach in the south of France,", "pts": [[[["beach"], ["south"]]]]}, {"es": "donde estuvieron internados", "ans": "where they were interned", "pts": [[[["where"], ["intern", "held", "detain", "confined", "kept", "imprison", "locked"]]]]}, {"es": "más de 80 000 militares y civiles", "ans": "more than 80,000 soldiers and civilians", "pts": [[[["more than", "over"], ["80"], ["soldier", "military", "troops", "servicemen"], ["civilian"]]]]}, {"es": "entre 1939 y 1940.", "ans": "between 1939 and 1940.", "pts": [[[["between", "from"], ["1939"], ["1940"]]]]}, {"es": "Entre los exiliados estaba el poeta Antonio Machado,", "ans": "Among the exiles was the poet Antonio Machado,", "pts": [[[["among"], ["exile"], ["poet"], ["machado"]]]]}, {"es": "que murió en Colliure", "ans": "who died in Collioure", "pts": [[[["died", "passed away", "death"], ["colliure", "collioure"]]]]}, {"es": "el 22 de febrero de 1939,", "ans": "on 22 February 1939,", "pts": [[[["22", "twenty-second"], ["february"], ["1939"]]]]}, {"es": "pocos días después de salir de España", "ans": "a few days after leaving Spain", "pts": [[[["few days"], ["after"], ["leav", "left", "fled", "departing"]]]]}, {"es": "con su madre y uno de sus hermanos.", "ans": "with his mother and one of his brothers.", "pts": [[[["mother"], ["one of his brothers", "a brother", "his brother"]]]]}, {"es": "En 2025,", "ans": "In 2025,", "pts": [[[["2025"]]]]}, {"es": "el Gobierno español declaró el antiguo campo", "ans": "the Spanish Government declared the former camp", "pts": [[[["government"], ["declar", "designat", "named", "made", "recogni"], ["former", "old", "ex-"], ["camp"]]]]}, {"es": "Lugar de Memoria Democrática", "ans": "a Place of Democratic Memory", "pts": [[[["place", "site"], ["democratic memory"]]]]}, {"es": "y colocó una placa", "ans": "and put up a plaque", "pts": [[[["put", "placed", "installed", "unveiled", "set up", "fixed", "mounted", "laid"], ["plaque"]]]]}, {"es": "en la tumba del poeta.", "ans": "on the poet's grave.", "pts": [[[["grave", "tomb", "burial"], ["poet"]]]]}]}</script>
+<script src="paper-marker.js" defer></script>
+<script>window.BBA_KIT = Object.assign(window.BBA_KIT || {}, {check:false, download:false, name:false, meter:false, tries:0});</script>
+<script src="bba-kit-es.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paper 1 training 4 – 9SP0/01 practice</title>
+<style>
+:root{--ink:#111;--rule:#9a9a9a;--muted:#555;--paper:#fff;--bg:#e9e9e9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.45}
+.sheet{background:var(--paper);max-width:820px;margin:24px auto;padding:40px 56px 32px;box-shadow:0 1px 4px rgba(0,0,0,.25);position:relative}
+@media (max-width:700px){.sheet{margin:0 0 8px;padding:24px 16px}}
+.pageno{text-align:center;color:var(--muted);font-size:13px;margin-top:28px}
+.cover h1{font-size:28px;margin:4px 0 0}
+.cover .board{font-size:15px;color:var(--muted)}
+.cover .ref{float:right;text-align:right;font-size:14px;border:1px solid var(--ink);padding:6px 10px}
+.cover hr{border:0;border-top:2px solid var(--ink);margin:18px 0}
+.cover h2{font-size:17px;margin:18px 0 4px}
+.cover ul{margin:4px 0;padding-left:20px}
+.sec{text-align:center;font-weight:bold;font-size:19px;letter-spacing:.5px;margin:0}
+.sec+.sec{margin-bottom:10px}
+.rec{text-align:center;font-weight:bold;margin:4px 0 16px}
+.instr p{margin:6px 0}
+.durs{margin:10px 0 10px 40%}
+@media (max-width:700px){.durs{margin-left:8%}}
+.durs div{margin:2px 0}
+.ptitle{font-weight:bold;font-size:18px;margin:0 0 10px}
+.qhead{display:flex;gap:14px;font-weight:bold;margin:0 0 12px}
+.qhead .qn{min-width:22px}
+.item{margin:0 0 0 36px;position:relative}
+.item.mc{margin-bottom:14px}
+@media (max-width:700px){.item{margin-left:6px}}
+.q{margin:0 0 6px}
+.num{display:inline-block;min-width:38px}
+.bul{padding-left:24px}
+.mark{text-align:right;font-weight:bold;margin:0 0 12px}
+.total{text-align:right;font-weight:bold;margin:18px 0 0}
+.grand{text-align:right;font-weight:bold;font-size:18px;margin:16px 0 0}
+textarea.ans{width:100%;border:0;border-bottom:1px dotted var(--rule);resize:vertical;font:inherit;line-height:32px;padding:0 4px;
+  background:repeating-linear-gradient(transparent 0 31px,var(--rule) 31px 32px);outline-offset:2px;min-height:64px}
+textarea.ans:focus{outline:2px solid #2b5797;background-color:#f7f9fd}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;padding:0}
+.opt{display:flex;align-items:center;gap:12px;width:calc(100% - 38px);margin:6px 0 6px 38px;padding:4px 0;background:none;border:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.opt b{min-width:16px}
+.opt .ot{flex:1}
+.box{width:30px;height:24px;border:1.5px solid var(--ink);flex:none;position:relative}
+.opt[aria-checked="true"] .box::after{content:"\2715";position:absolute;inset:0;display:grid;place-items:center;font-size:20px;font-weight:bold}
+.opt:focus-visible{outline:2px solid #2b5797;outline-offset:2px}
+.player{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--rule);padding:8px 12px;margin:0 0 16px}
+.plab{font-weight:bold;font-size:15px}
+.player audio{flex:1;min-width:220px}
+.lead{font-weight:bold;margin:0 0 12px}
+.who{margin:14px 0 6px 36px;font-weight:bold}
+.src{margin:0 0 14px;font-size:15px;word-break:break-all}
+.src b{word-break:normal}
+.cand{display:block;margin:14px 0;font-weight:bold}
+.cand input{font:inherit;font-weight:normal;border:1px solid var(--ink);padding:6px 8px;width:min(340px,100%);margin-left:8px}
+.lpbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin:22px 0 0}
+.lpbar button{font:inherit;font-weight:bold;padding:9px 16px;border:1px solid #2b5797;background:#fff;color:#2b5797;cursor:pointer;border-radius:4px}
+.lpbar button.go{background:#2b5797;color:#fff}
+.lpres{border:2px solid #2b5797;padding:12px 16px;margin:14px 0 0;background:#f4f7fc}
+.lpres p{margin:4px 0}
+.fb{margin:-6px 0 14px 36px;padding:8px 12px;font-size:15px;border-left:4px solid #b0b0b0;background:#f6f6f6}
+.fb.full{border-color:#2e7d52;background:#eef7f1}
+.fb.part{border-color:#c98a00;background:#fdf6e6}
+.fb.zero{border-color:#b3261e;background:#fbeeed}
+.fb b{margin-right:6px}
+.locked textarea.ans,.locked .opt{pointer-events:none}
+.opt.right .box{background:#dff0e5}
+@media print{.lpbar,.fb,.lpres{display:none!important}}
+.rtext{border:1px solid var(--rule);padding:12px 16px;margin:0 0 16px;background:#fcfcfc}
+.rtext p{margin:0 0 10px;text-align:justify}
+.rtitle{font-weight:bold;text-align:center!important}
+.lead2{font-weight:bold;margin:12px 0 8px}
+.trans-fb table{border-collapse:collapse;width:100%;margin-top:8px;font-size:14px}
+.trans-fb td{border-top:1px solid #ddd;padding:4px 6px;vertical-align:top}
+.trans-fb td.ok{color:#2e7d52;font-weight:bold} .trans-fb td.no{color:#b3261e;font-weight:bold}
+.credit{font-size:13px;color:var(--muted);border-top:1px solid var(--rule);padding-top:10px;margin-top:22px}
+.defi ol{padding-left:22px}
+.defi li{margin-bottom:14px}
+@media print{body{background:#fff}.sheet{box-shadow:none;margin:0;page-break-after:always}.player,#bba-kit{display:none!important}}
+</style>
+</head>
+<body>
+
+<section class="sheet cover">
+  <div class="ref">Paper reference<br><b>9SP0/01</b><br>Paper 1 training 4</div>
+  <div class="board">BBA practice paper modelled on Pearson Edexcel Level 3 GCE</div>
+  <h1>Spanish</h1>
+  <div><b>Advanced</b><br>PAPER 1: Listening, Reading and Translation<br>Paper 1 training 4 · Themes 1–3 · start of Year 13</div>
+  <hr>
+  <label class="cand">Candidate name <input type="text" id="cand" autocomplete="name" placeholder="First name and initial"></label>
+  <p><b>You must have:</b> headphones or earphones. The recordings are on this page.</p>
+  <h2>Instructions</h2>
+  <ul>
+    <li>Type your name in the box above if you want it on your results file (optional).</li>
+    <li>Answer <b>all</b> questions in Sections A, B and C.</li>
+    <li>Candidates are recommended to start with Section A: Listening, and work through each section as presented.</li>
+    <li>Answer the questions in the spaces provided – there may be more space than you need.</li>
+    <li>We recommend you spend 50 minutes on Section A: Listening, 50 minutes on Section B: Reading and 20 minutes on Section C: Translation into English (2 hours in total).</li>
+    <li>You must not use a dictionary.</li>
+    <li>You can do one section at a time: each section ends with its own <b>Mark Section … only</b> button. To mark everything at once, press <b>Mark the whole paper</b> at the end of Section C.</li>
+    <li>Then press <b>Download results</b> at the end of Section C and send the file to your teacher: it contains every section you have marked.</li>
+  </ul>
+  <h2>Information</h2>
+  <ul>
+    <li>The total mark for this paper is 80.</li>
+    <li>The marks for each question are shown in brackets – use this as a guide as to how much time to spend on each question.</li>
+  </ul>
+  <h2>Advice</h2>
+  <ul>
+    <li>Read each question carefully before you start to answer it.</li>
+    <li>Try to answer every question.</li>
+    <li>Check your answers if you have time at the end.</li>
+  </ul>
+  <p class="pageno">1</p>
+</section>
+
+<section class="sheet">
+  <p style="margin-top:0">Answer ALL questions. Write your answers in the spaces provided.<br>
+  Some questions must be answered with a cross in a box ☒. If you change your mind about an answer, click another box.</p>
+  <p class="sec">SECTION A</p><p class="sec">LISTENING</p>
+  <p class="rec">We recommend you spend no more than 50 minutes on this section.</p>
+  <div class="instr">
+    <p>Questions 2, 3 and 4(a) do not require full sentences and you may respond using single words or phrases.</p>
+    <p>Summary Question 4(b) does not require full sentences and you may respond using short phrases.</p>
+    <p>You may use words from the listening passages but you must not transcribe whole sections.</p>
+    <p>You are going to listen to five passages. The duration of each passage is approximately:</p>
+    <div class="durs">
+      <div>Passage 1 = 1 minute 07 seconds</div><div>Passage 2 = 1 minute 00 seconds</div><div>Passage 3 = 1 minute 26 seconds</div>
+      <div>Passage 4(a) = 1 minute 02 seconds</div><div>Passage 4(b) = 1 minute 10 seconds</div>
+    </div>
+    <p>You will be in charge of the recording and you may listen to each passage as often as you wish, and write your answers whenever you wish to do so.</p>
+  </div>
+  <p class="pageno">2</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Texto 1 – Un año récord en Canarias</p>
+  <div class="player"><span class="plab">Texto 1</span><audio controls preload="none" src="listening_paper_04_passage_1.mp3"></audio></div>
+  <div class="qhead"><span class="qn">1</span><span>Escucha este reportaje sobre la llegada de migrantes. Pon una equis ☒ en la casilla apropiada.</span></div>
+  <div class="item mc" data-t="mc" data-k="q1.0" data-max="1" data-lab="1(i)"><p class="q"><span class="sr">1</span><span class="num">(i)</span> En 2024, la llegada de migrantes a Canarias…</p><div role="radiogroup" aria-label="1(i)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">bajó ligeramente.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">fue la más alta de su historia.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">fue igual que en 2023.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">se redujo a la mitad.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_i" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.1" data-max="1" data-lab="1(ii)"><p class="q"><span class="sr">1</span><span class="num">(ii)</span> La mayoría de los migrantes llegó a Canarias…</p><div role="radiogroup" aria-label="1(ii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">en avión.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">por tierra.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">en embarcaciones.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">desde Baleares.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_ii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.2" data-max="1" data-lab="1(iii)"><p class="q"><span class="sr">1</span><span class="num">(iii)</span> En la península y Baleares, las llegadas por mar…</p><div role="radiogroup" aria-label="1(iii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">disminuyeron.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">se duplicaron.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">no se contabilizaron.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">superaron a las de Canarias.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_iii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.3" data-max="1" data-lab="1(iv)"><p class="q"><span class="sr">1</span><span class="num">(iv)</span> El récord absoluto de llegadas a España…</p><div role="radiogroup" aria-label="1(iv)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">se alcanzó en 2024.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">es de la crisis de los cayucos de 2006.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">se registró en 2018.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">no se conoce.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_iv" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 1 = 4 marks)</p>
+  <p class="pageno">3</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Texto 2 – La jornada de 37,5 horas, rechazada</p>
+  <div class="player"><span class="plab">Texto 2</span><audio controls preload="none" src="listening_paper_04_passage_2.mp3"></audio></div>
+  <div class="qhead"><span class="qn">2</span><span>Escucha este reportaje sobre la jornada laboral. Contesta las preguntas en español.</span></div>
+  <div class="item" data-t="open" data-k="q2.0" data-max="1" data-lab="2(a)"><p class="q"><span class="sr">2</span><span class="num">(a)</span> ¿Qué proponía la ley?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.1" data-max="2" data-lab="2(b)"><p class="q"><span class="sr">2</span><span class="num">(b)</span> ¿Qué pasó en el Congreso? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q2.2" data-max="1" data-lab="2(c)"><p class="q"><span class="sr">2</span><span class="num">(c)</span> ¿Qué argumento dio Junts?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.3" data-max="1" data-lab="2(d)"><p class="q"><span class="sr">2</span><span class="num">(d)</span> ¿Qué piensan las organizaciones empresariales?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 2 = 5 marks)</p>
+  <p class="pageno">4</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Texto 3 – Empezar de nuevo en Madrid</p>
+  <div class="player"><span class="plab">Texto 3</span><audio controls preload="none" src="listening_paper_04_passage_3.mp3"></audio></div>
+  <div class="qhead"><span class="qn">3</span><span>Escucha a esta persona hablando de su llegada a España. Contesta las preguntas en español.</span></div>
+  <div class="item" data-t="open" data-k="q3.0" data-max="1" data-lab="3(a)"><p class="q"><span class="sr">3</span><span class="num">(a)</span> ¿Por qué eligió Daniela España?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.1" data-max="1" data-lab="3(b)"><p class="q"><span class="sr">3</span><span class="num">(b)</span> ¿Qué problema tuvo con su solicitud de asilo?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.2" data-max="2" data-lab="3(c)"><p class="q"><span class="sr">3</span><span class="num">(c)</span> ¿Qué trabajos hizo al principio? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q3.3" data-max="2" data-lab="3(d)"><p class="q"><span class="sr">3</span><span class="num">(d)</span> ¿Qué cambió con el nuevo reglamento de extranjería? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q3.4" data-max="1" data-lab="3(e)"><p class="q"><span class="sr">3</span><span class="num">(e)</span> ¿Qué dato muestra la importancia de los venezolanos en el empleo?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.5" data-max="1" data-lab="3(f)"><p class="q"><span class="sr">3</span><span class="num">(f)</span> ¿Cómo es su situación hoy?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.6" data-max="1" data-lab="3(g)"><p class="q"><span class="sr">3</span><span class="num">(g)</span> ¿Qué le preocupa todavía?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 3 = 9 marks)</p>
+  <p class="pageno">5</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Texto 4(a) – Los trabajadores extranjeros</p>
+  <div class="player"><span class="plab">Texto 4(a)</span><audio controls preload="none" src="listening_paper_04_passage_4a.mp3"></audio></div>
+  <div class="qhead"><span class="qn">4</span><span>(a) Escucha este reportaje sobre los trabajadores extranjeros. Contesta las preguntas en español.</span></div>
+  <div class="item" data-t="open" data-k="q4a.0" data-max="1" data-lab="4(a)(i)"><p class="q"><span class="sr">4(a)</span><span class="num">(i)</span> ¿Cuántos trabajadores extranjeros había a finales de 2025?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.1" data-max="1" data-lab="4(a)(ii)"><p class="q"><span class="sr">4(a)</span><span class="num">(ii)</span> ¿Qué porcentaje del total representan?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.2" data-max="2" data-lab="4(a)(iii)"><p class="q"><span class="sr">4(a)</span><span class="num">(iii)</span> ¿Cómo ha evolucionado su número desde 2021? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q4a.3" data-max="1" data-lab="4(a)(iv)"><p class="q"><span class="sr">4(a)</span><span class="num">(iv)</span> ¿Qué nacionalidades son las más numerosas? Da dos.</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.4" data-max="1" data-lab="4(a)(v)"><p class="q"><span class="sr">4(a)</span><span class="num">(v)</span> ¿Qué dato hay sobre las mujeres?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="pageno">6</p>
+</section>
+
+<section class="sheet">
+  <p class="lead">Resume la siguiente conversación. Las expresiones cortas son válidas. Menciona tres detalles para la pregunta 4(b)(i) y tres detalles para la pregunta 4(b)(ii).</p>
+  <p class="ptitle">Texto 4(b) – Los trabajadores extranjeros</p>
+  <div class="player"><span class="plab">Texto 4(b)</span><audio controls preload="none" src="listening_paper_04_passage_4b.mp3"></audio></div>
+  <div class="qhead"><span class="qn"></span><span>(b) Escucha la conversación con dos expertos. Responde en español.</span></div>
+  <p class="who">(i) Resume lo que dice Rocío sobre:</p>
+  <div class="item" data-t="open" data-k="q4b.key1.0" data-max="1" data-lab="4(b)(i) • la hostelería"><p class="q bul"><span class="sr">4(b)(i) </span>• la hostelería</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key1.1" data-max="1" data-lab="4(b)(i) • el campo y la construcción"><p class="q bul"><span class="sr">4(b)(i) </span>• el campo y la construcción</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key1.2" data-max="1" data-lab="4(b)(i) • los autónomos"><p class="q bul"><span class="sr">4(b)(i) </span>• los autónomos</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+  <p class="who">(ii) Resume lo que dice Alberto sobre:</p>
+  <div class="item" data-t="open" data-k="q4b.key2.0" data-max="1" data-lab="4(b)(ii) • las pensiones"><p class="q bul"><span class="sr">4(b)(ii) </span>• las pensiones</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key2.1" data-max="1" data-lab="4(b)(ii) • los venezolanos"><p class="q bul"><span class="sr">4(b)(ii) </span>• los venezolanos</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key2.2" data-max="1" data-lab="4(b)(ii) • lo que falta todavía"><p class="q bul"><span class="sr">4(b)(ii) </span>• lo que falta todavía</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 4 = 12 marks)</p>
+  <p class="grand">TOTAL FOR SECTION A = 30 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="A">Mark Section A only</button></div>
+  <div id="lp-res-A" class="lpres" aria-live="polite" hidden></div>
+  <p class="pageno">7</p>
+</section>
+
+<section class="sheet" id="secB">
+  <p class="sec">SECTION B</p><p class="sec">READING</p>
+  <p class="rec">We recommend you spend around 50 minutes on this section.</p>
+  <div class="instr"><p>Open-response questions do not have to be written in full sentences and you may respond using single words or phrases.</p>
+  <p>You may use words from the texts but you must not copy out whole sections.</p></div>
+  <div class="qhead"><span class="qn">5</span><span>Lee este artículo sobre un concurso de canciones.</span></div><div class="rtext"><p class="rtitle">España se retira de Eurovisión</p><p>El 4 de diciembre de 2025, la Unión Europea de Radiodifusión (UER) confirmó en Ginebra que Israel participaría en Eurovisión 2026, que se celebraba en Viena en mayo. La votación terminó con 738 votos a favor, 264 en contra y 120 abstenciones.</p><p>Pocos minutos después, el presidente de RTVE, José Pablo López, anunció que España se retiraba del festival. El consejo de administración de la televisión pública ya lo había decidido el 16 de septiembre, en caso de que Israel siguiera en el concurso. RTVE anunció además que no emitiría las galas. Según López, Eurovisión «no es un concurso de canciones sino un festival dominado por intereses geopolíticos y fracturado».</p><p>La decisión es importante porque España forma parte del llamado «Big Five», los cinco países que más dinero aportan al festival, junto con Francia, Italia, Alemania y el Reino Unido. Los Países Bajos, Irlanda y Eslovenia adoptaron la misma postura que España.</p></div><p class="lead2">Escoge la terminación correcta para estas frases. Pon una equis ☒ en la casilla apropiada.</p><div class="item mc" data-t="mc" data-k="B.q5.0" data-max="1" data-lab="5(i)"><p class="q"><span class="sr">5</span><span class="num">(i)</span> La UER decidió que Israel…</p><div role="radiogroup" aria-label="5(i)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">quedaba excluido de Eurovisión.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">podía participar en Eurovisión 2026.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">organizaría el festival.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">tendría que pagar una multa.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_i" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.1" data-max="1" data-lab="5(ii)"><p class="q"><span class="sr">5</span><span class="num">(ii)</span> La retirada de España…</p><div role="radiogroup" aria-label="5(ii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">fue una sorpresa total.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">se decidió en Viena.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">ya estaba prevista desde septiembre.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">fue una decisión del Gobierno.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_ii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.2" data-max="1" data-lab="5(iii)"><p class="q"><span class="sr">5</span><span class="num">(iii)</span> Los espectadores españoles…</p><div role="radiogroup" aria-label="5(iii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">no podrán ver el festival en RTVE.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">votarán por internet.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">verán el festival en directo.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">elegirán otra canción.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_iii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.3" data-max="1" data-lab="5(iv)"><p class="q"><span class="sr">5</span><span class="num">(iv)</span> España es uno de los países que…</p><div role="radiogroup" aria-label="5(iv)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">han ganado más veces.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">organizan el festival cada año.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">nunca votan a Israel.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">más dinero aportan al festival.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_iv" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 5 = 4 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">6</span><span>Lee este artículo sobre la opinión pública y la inmigración.</span></div><div class="rtext"><p class="rtitle">La inmigración, primera preocupación</p><p>En septiembre de 2024, por primera vez en muchos años, la inmigración se convirtió en el principal problema de España para los ciudadanos. Según el barómetro del Centro de Investigaciones Sociológicas (CIS), el 30,4 % de los encuestados la mencionó, frente al 16,9 % solo dos meses antes, en julio, cuando ocupaba el cuarto lugar. Era el nivel más alto desde 2007, durante la llamada «crisis de los cayucos».</p><p>Sin embargo, la misma encuesta muestra una visión más amplia del fenómeno: el 87,3 % de los españoles cree que las desigualdades entre países ricos y pobres son una de las causas del aumento de la inmigración, y el 72,2 % opina que España debería esforzarse más en ayudar al desarrollo de los países más pobres.</p><p>Un año después, en septiembre de 2025, la vivienda había pasado al primer lugar (30,4 %), y la inmigración ocupaba el segundo (20,7 %).</p></div><p class="lead2">¿Cuáles de las siguientes declaraciones son correctas? Pon una equis ☒ en las cuatro casillas apropiadas.</p><div class="item mc" data-t="tick" data-k="B.q6" data-max="4" data-lab="6"><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="A"><b>A</b> <span class="ot">En julio de 2024, la inmigración era el primer problema.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="B"><b>B</b> <span class="ot">La preocupación por la inmigración casi se duplicó en dos meses.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="C"><b>C</b> <span class="ot">En 2007 la preocupación por la inmigración era menor.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="D"><b>D</b> <span class="ot">La mayoría de los españoles relaciona la inmigración con la pobreza en el mundo.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="E"><b>E</b> <span class="ot">Los españoles no quieren ayudar a los países pobres.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="F"><b>F</b> <span class="ot">La encuesta fue realizada por el INE.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="G"><b>G</b> <span class="ot">Muchos españoles piensan que España debería hacer más por los países pobres.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="H"><b>H</b> <span class="ot">En 2025, la inmigración seguía siendo el primer problema.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="I"><b>I</b> <span class="ot">En septiembre de 2025, la vivienda preocupaba más que la inmigración.</span><span class="box" aria-hidden="true"></span></button><input type="text" class="sr mcval" name="B_q6" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 6 = 4 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">7</span><span>Lee este relato de una chica que acaba de llegar a España. Contesta las preguntas en español.</span></div><div class="rtext"><p class="rtitle">La chica nueva</p><p>Llegué a Zaragoza desde Medellín en el mes de febrero, cuando el curso ya había empezado. Mi madre llevaba tres años trabajando aquí y por fin había conseguido traernos a mi hermano y a mí. Yo pensaba que, como hablábamos el mismo idioma, todo sería fácil.</p><p>El primer día, la tutora me presentó a la clase y alguien se rió cuando dije «¿me regalas un lápiz?». Aquí no se dice así. En el recreo nadie me hablaba, y yo pasaba el tiempo mirando el móvil para no parecer sola. Por las noches lloraba sin hacer ruido para que mi madre, que volvía agotada del hospital donde limpiaba, no se diera cuenta.</p><p>Las cosas cambiaron gracias a un trabajo de Historia. La profesora nos pidió presentar una fiesta de nuestra familia y yo hablé de la Feria de las Flores, de los silleteros que bajan de las montañas con flores a la espalda. Al terminar, un chico llamado Hugo me preguntó si de verdad pesaban tanto. Desde entonces comemos juntos en el recreo.</p><p>No he dejado de echar de menos a mis abuelos. Pero ahora, cuando digo «¿me regalas un lápiz?», media clase me lo presta riéndose, y yo me río con ellos.</p></div><div class="item" data-t="open" data-k="B.q7.0" data-max="1" data-lab="7(a)"><p class="q"><span class="sr">7</span><span class="num">(a)</span> ¿Por qué llegó la narradora a España en febrero?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q7.1" data-max="1" data-lab="7(b)"><p class="q"><span class="sr">7</span><span class="num">(b)</span> ¿Qué esperaba la narradora antes de llegar?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q7.2" data-max="2" data-lab="7(c)"><p class="q"><span class="sr">7</span><span class="num">(c)</span> ¿Qué dificultades tuvo los primeros días? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q7.3" data-max="1" data-lab="7(d)"><p class="q"><span class="sr">7</span><span class="num">(d)</span> ¿Cómo consiguió hacer un amigo?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q7.4" data-max="1" data-lab="7(e)"><p class="q"><span class="sr">7</span><span class="num">(e)</span> ¿Qué muestra el final del relato?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 7 = 6 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">8</span><span>Lee este artículo sobre los toros. Contesta las preguntas en español.</span></div><div class="rtext"><p class="rtitle">Adiós al Premio Nacional de Tauromaquia</p><p>En mayo de 2024, el ministro de Cultura, Ernest Urtasun, anunció la desaparición del Premio Nacional de Tauromaquia. El Ministerio se negó a convocar la edición de ese año y después inició los trámites para eliminarlo definitivamente; la orden se publicó en el Boletín Oficial del Estado en septiembre. El premio, creado en 2011 y concedido por primera vez en 2013, estaba dotado con 30 000 euros.</p><p>Según el Ministerio, «los valores y sentimientos de la sociedad respecto a la tauromaquia han ido evolucionando», y una parte importante de la sociedad considera algunos espectáculos taurinos una forma inaceptable de violencia contra los animales. En una consulta pública previa, más del 90 % de los comentarios apoyaba retirar el premio.</p><p>El ministro también recordó que solo el 1,9 % de la población asiste a espectáculos taurinos, según la Encuesta de Hábitos y Prácticas Culturales 2021-2022. El mundo del toro respondió que esos datos corresponden a una época de restricciones por la covid; en 2018-2019, alrededor del 8 % de la población había asistido a algún espectáculo taurino.</p><p>La tradición sigue muy viva en algunas regiones: en 2022 se celebraron en España 16 868 festejos taurinos, sobre todo populares, y más de la mitad en la Comunidad Valenciana. El Partido Popular ha prometido recuperar el premio si vuelve al Gobierno.</p></div><div class="item" data-t="open" data-k="B.q8.0" data-max="1" data-lab="8(a)"><p class="q"><span class="sr">8</span><span class="num">(a)</span> ¿Cuándo se publicó la eliminación definitiva del premio?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.1" data-max="2" data-lab="8(b)"><p class="q"><span class="sr">8</span><span class="num">(b)</span> ¿Qué razones dio el Ministerio? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q8.2" data-max="1" data-lab="8(c)"><p class="q"><span class="sr">8</span><span class="num">(c)</span> ¿Qué dato usó el ministro para defender su decisión?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.3" data-max="2" data-lab="8(d)"><p class="q"><span class="sr">8</span><span class="num">(d)</span> ¿Cómo respondió el mundo del toro? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q8.4" data-max="1" data-lab="8(e)"><p class="q"><span class="sr">8</span><span class="num">(e)</span> ¿Qué región celebra más festejos taurinos?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.5" data-max="1" data-lab="8(f)"><p class="q"><span class="sr">8</span><span class="num">(f)</span> ¿Qué ha prometido el Partido Popular?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 8 = 8 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">9</span><span>Lee este artículo sobre la regularización de inmigrantes. Contesta las preguntas en español.</span></div><div class="rtext"><p class="rtitle">Una regularización extraordinaria</p><p>El 14 de abril de 2026, el Consejo de Ministros aprobó una regularización extraordinaria de personas migrantes en situación irregular. La medida tenía su origen en una iniciativa legislativa popular (ILP) que llegó al Congreso en abril de 2024 con más de 700 000 firmas, impulsada por organizaciones de la sociedad civil.</p><p>Para solicitarla, era necesario haber llegado a España antes del 31 de diciembre de 2025, demostrar una estancia continuada de al menos cinco meses y no tener antecedentes penales. Además, había que cumplir uno de estos criterios: haber trabajado en España o querer hacerlo, tener hijos menores u otros familiares a cargo, o estar en situación de vulnerabilidad.</p><p>El permiso de residencia dura inicialmente un año, y los solicitantes pueden trabajar desde que se admite su solicitud. El Gobierno calculaba unos 500 000 beneficiarios; sin embargo, cuando el plazo se cerró, el 30 de junio, se habían registrado 1 174 978 solicitudes.</p></div><div class="item" data-t="open" data-k="B.q9.0" data-max="2" data-lab="9(a)"><p class="q"><span class="sr">9</span><span class="num">(a)</span> ¿Cuál fue el origen de la regularización? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q9.1" data-max="2" data-lab="9(b)"><p class="q"><span class="sr">9</span><span class="num">(b)</span> ¿Qué condiciones había que cumplir? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q9.2" data-max="1" data-lab="9(c)"><p class="q"><span class="sr">9</span><span class="num">(c)</span> ¿Qué ventaja tienen los solicitantes mientras esperan?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.3" data-max="1" data-lab="9(d)"><p class="q"><span class="sr">9</span><span class="num">(d)</span> ¿Cuánto dura el permiso de residencia?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.4" data-max="2" data-lab="9(e)"><p class="q"><span class="sr">9</span><span class="num">(e)</span> ¿Por qué sorprendió el número de solicitudes? Da dos ideas.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+  <p class="total">(Total for Question 9 = 8 marks)</p>
+  <p class="grand">TOTAL FOR SECTION B = 30 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="B">Mark Section B only</button></div>
+  <div id="lp-res-B" class="lpres" aria-live="polite" hidden></div>
+</section>
+
+<section class="sheet" id="secC">
+  <p class="sec">SECTION C</p><p class="sec">TRANSLATION INTO ENGLISH</p>
+  <p class="rec">We recommend you spend around 20 minutes on this section.</p>
+  <div class="qhead"><span class="qn">10</span><span>Translate the following text about Spain&#x27;s population into English.</span></div><p class="mark">(20)</p><div class="rtext"><p>Según el Instituto Nacional de Estadística, España tenía 49 570 725 habitantes el 1 de enero de 2026, una cifra récord. A lo largo de 2025, la población aumentó en más de 440 000 personas. Por primera vez, los residentes nacidos en el extranjero superan los diez millones, es decir, alrededor de uno de cada cinco habitantes. En cambio, el número de personas nacidas en España sigue bajando, porque hay más muertes que nacimientos. Por eso, el crecimiento depende casi totalmente de la inmigración. Las nacionalidades que más llegan son la colombiana, la venezolana y la marroquí. La Comunitat Valenciana fue la región que más creció al final del año.</p></div><div class="item" data-t="trans" data-k="C" data-max="20" data-lab="10"><textarea class="ans" rows="12" aria-label="10 – translation"></textarea></div>
+  <p class="total">(Total for Question 10 = 20 marks)</p>
+  <p class="grand">TOTAL FOR SECTION C = 20 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="C">Mark Section C only</button></div>
+  <div id="lp-res-C" class="lpres" aria-live="polite" hidden></div>
+  <p class="grand">TOTAL FOR PAPER = 80 MARKS</p>
+  <div id="lp-bar" class="lpbar">
+    <button type="button" class="go" data-mark="all">Mark the whole paper</button>
+    <button type="button" id="lp-dl">Download results</button>
+    <button type="button" id="lp-reset">Start again</button>
+  </div>
+  <div id="lp-res" class="lpres" aria-live="polite" hidden></div>
+</section>
+
+<section class="sheet defi" data-label="Reto">
+  <p class="ptitle">Reto – after the paper (not marked, not part of the 80 marks)</p>
+  <p>For students aiming at the top grades.</p>
+  <ol>
+<li>Explica en unas 60 palabras por qué los trabajadores extranjeros son importantes para la economía española (textos 4(a) y 4(b)).<textarea class="ans" rows="3" aria-label="Reto 1"></textarea></li>
+<li>¿Fue acertada la decisión de RTVE de retirarse de Eurovisión? Escribe un párrafo de unas 80 palabras con dos argumentos y un contraargumento.<textarea class="ans" rows="3" aria-label="Reto 2"></textarea></li>
+<li>Traduce al español: «If the regularisation had not been approved, hundreds of thousands of people would still be working without a contract.»<textarea class="ans" rows="3" aria-label="Reto 3"></textarea></li>
+  </ol>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Source information:</p>
+  <p style="font-size:15px">The recordings and the reading and translation texts were written by the BBA Spanish department from the facts in the sources below; the recordings are read by synthetic voices. The narrative text («relato») is original.</p>
+<p class="src"><b>Texto 1 – Un año récord en Canarias</b><br>Valencia Plaza / Europa Press, «Un total de 63.970 inmigrantes han llegado a España de forma irregular en 2024» (datos del Ministerio del Interior)<br><a href="https://valenciaplaza.com/valenciaplaza/total-63970-inmigrantes-han-llegado-espana-forma-irregular-2024" target="_blank" rel="noopener">https://valenciaplaza.com/valenciaplaza/total-63970-inmigrantes-han-llegado-espana-forma-irregular-2024</a></p>
+<p class="src"><b>Texto 2 – La jornada de 37,5 horas, rechazada</b><br>RTVC, «PP, Vox y Junts tumban la ley de reducción de la jornada laboral», 10 de septiembre de 2025<br><a href="https://rtvc.es/pp-vox-junts-tumban-ley-jornada-laboral-10-septiembre-2025/" target="_blank" rel="noopener">https://rtvc.es/pp-vox-junts-tumban-ley-jornada-laboral-10-septiembre-2025/</a></p>
+<p class="src"><b>Texto 3 – Empezar de nuevo en Madrid (speaker invented; facts from)</b><br>RTVC, «Entra en vigor el nuevo reglamento de extranjería», 20 de mayo de 2025<br><a href="https://rtvc.es/entra-vigor-nuevo-reglamento-extranjeria-20-mayo-2025/" target="_blank" rel="noopener">https://rtvc.es/entra-vigor-nuevo-reglamento-extranjeria-20-mayo-2025/</a><br>La Moncloa, balance anual de afiliados extranjeros, 16 de enero de 2026<br><a href="https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/inclusion/Paginas/2026/160126-balance-anual-afiliados-extranjeros.aspx" target="_blank" rel="noopener">https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/inclusion/Paginas/2026/160126-balance-anual-afiliados-extranjeros.aspx</a></p>
+<p class="src"><b>Textos 4(a) y 4(b) – Los trabajadores extranjeros (experts invented; figures from)</b><br>La Moncloa, «La Seguridad Social suma más de 800.000 afiliados extranjeros desde la reforma laboral y cierra 2025 en máximos históricos», 16 de enero de 2026<br><a href="https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/inclusion/Paginas/2026/160126-balance-anual-afiliados-extranjeros.aspx" target="_blank" rel="noopener">https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/inclusion/Paginas/2026/160126-balance-anual-afiliados-extranjeros.aspx</a></p>
+<p class="src"><b>Pregunta 5 – España se retira de Eurovisión</b><br>El Independiente, «La UER mantiene a Israel en Eurovisión 2026 y España confirma su retirada», 4 de diciembre de 2025<br><a href="https://www.elindependiente.com/series-y-television/2025/12/04/la-uer-mantiene-a-israel-en-eurovision-2026-y-espana-confirma-su-retirada/" target="_blank" rel="noopener">https://www.elindependiente.com/series-y-television/2025/12/04/la-uer-mantiene-a-israel-en-eurovision-2026-y-espana-confirma-su-retirada/</a></p>
+<p class="src"><b>Pregunta 6 – La inmigración, primera preocupación</b><br>Escudo Digital, «La inmigración se ha convertido en el principal problema para los españoles, según el CIS» (barómetro de septiembre de 2024)<br><a href="https://www.escudodigital.com/interior/inmigracion-es-principal-problema-espanoles-segun-destaca-cis.html" target="_blank" rel="noopener">https://www.escudodigital.com/interior/inmigracion-es-principal-problema-espanoles-segun-destaca-cis.html</a><br>Bolsamanía / Europa Press, barómetro del CIS de septiembre de 2025<br><a href="https://www.bolsamania.com/noticias_print/economia/economia--amp-la-vivienda-sigue-como-principal-problema-y-la-calidad-del-empleo-escala-al-tercer-puesto-segun-el-cis--20875120.html" target="_blank" rel="noopener">https://www.bolsamania.com/noticias_print/economia/economia--amp-la-vivienda-sigue-como-principal-problema-y-la-calidad-del-empleo-escala-al-tercer-puesto-segun-el-cis--20875120.html</a></p>
+<p class="src"><b>Pregunta 7 – La chica nueva</b><br>Original text by the BBA Spanish department.</p>
+<p class="src"><b>Pregunta 8 – Adiós al Premio Nacional de Tauromaquia</b><br>Euronews, «España pone fin al Premio Nacional de Tauromaquia en medio de cambios culturales», 7 de septiembre de 2024<br><a href="https://es.euronews.com/culture/2024/09/07/espana-pone-fin-al-premio-nacional-de-tauromaquia-en-medio-de-cambios-culturales" target="_blank" rel="noopener">https://es.euronews.com/culture/2024/09/07/espana-pone-fin-al-premio-nacional-de-tauromaquia-en-medio-de-cambios-culturales</a></p>
+<p class="src"><b>Pregunta 9 – Una regularización extraordinaria</b><br>Maldita.es, «La regularización extraordinaria de personas migrantes en España: preguntas y respuestas» (actualizado en 2026)<br><a href="https://maldita.es/malditobulo/20260708/regularizacion-extraordinaria-inmigrantes-espana/" target="_blank" rel="noopener">https://maldita.es/malditobulo/20260708/regularizacion-extraordinaria-inmigrantes-espana/</a></p>
+<p class="src"><b>Pregunta 10 – La población de España</b><br>INE, Estadística Continua de Población, 1 de enero de 2026 (datos provisionales), 12 de febrero de 2026<br><a href="https://www.ine.es/dyngs/Prensa/es/ECP4T25.htm" target="_blank" rel="noopener">https://www.ine.es/dyngs/Prensa/es/ECP4T25.htm</a></p>
+  <p class="credit">Voices: Piper TTS. <i>en_GB-cori-high</i> (announcer) – LibriVox recordings, public domain. <i>es_ES-sharvard-medium</i> (one man, one woman) – SHARVARD Spanish speech corpus, licence CC BY 3.0 (<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">creativecommons.org/licenses/by/3.0</a>). The audio files of this paper are shared under the same licences.</p>
+</section>
+
+<script>
+(function(){
+  function paint(item){
+    var v=item.querySelector('.mcval').value, multi=item.dataset.t==='tick';
+    item.querySelectorAll('.opt').forEach(function(b){b.setAttribute('aria-checked', (multi ? v.indexOf(b.dataset.v)>=0 : b.dataset.v===v)?'true':'false');});
+  }
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.opt'); if(!b) return;
+    var item=b.closest('.item'), f=item.querySelector('.mcval');
+    if(item.dataset.t==='tick'){ var set=f.value.split('').filter(Boolean), k=set.indexOf(b.dataset.v); if(k>=0) set.splice(k,1); else set.push(b.dataset.v); f.value=set.sort().join(''); }
+    else f.value = (f.value===b.dataset.v) ? '' : b.dataset.v;
+    f.dispatchEvent(new Event('input',{bubbles:true})); f.dispatchEvent(new Event('change',{bubbles:true}));
+    paint(item);
+  });
+  /* keep the crosses in step with answers the kit restores after a reload */
+  setInterval(function(){document.querySelectorAll('.item.mc').forEach(paint);},800);
+})();
+</script>
+<script type="application/json" id="lp-key">{"q1": ["B", "C", "A", "C"], "q2": [{"ans": "Reducir la jornada laboral de 40 a 37,5 horas semanales.", "pts": [[[["37", "40", "reduc", "menos horas", "bajar"]]]]}, {"ans": "La ley fue rechazada AND 178 votos contra 170 / la tumbaron PP, Vox, Junts (y UPN).", "pts": [[[["rechaz", "tumb", "no se aprob", "no aprob", "no paso", "perdi"]]], [[["178", "170", "pp", "vox", "junts", "upn"]]]]}, {"ans": "Causaría dificultades a las pymes / a Cataluña.", "pts": [[[["pyme", "pequena", "empresa", "cataluna"]]]]}, {"ans": "Que debe negociarse en los convenios / subiría los costes, sobre todo de las pymes.", "pts": [[[["convenio", "negoci", "coste", "caro", "pyme"]]]]}], "q3": [{"ans": "Por el idioma / tenía una tía en Madrid.", "pts": [[[["idioma", "lengua", "espanol", "tia", "familia"]]]]}, {"ans": "Se la denegaron / tardaron mucho y luego la rechazaron.", "pts": [[[["deneg", "rechaz", "no se la", "no le dieron", "no aceptaron"]]]]}, {"ans": "Any 2 from 3: cuidaba a una señora mayor – limpiaba casas – sin contrato.", "pts": [[[["cuid", "senora", "mayor", "anciana"]]], [[["limpi", "casa"]]], [[["contrato", "negro", "ilegal"]]]]}, {"ans": "Any 2 from 3: basta con dos años en España (antes tres) – el primer permiso dura un año – la renovación dura cuatro años.", "pts": [[[["dos anos", "2 anos", "tres", "3 anos"]]], [[["un ano", "1 ano", "primer permiso"]]], [[["cuatro", "4 anos", "renov"]]]]}, {"ans": "Son la nacionalidad cuyos afiliados más crecieron en 2025 (+23 %).", "pts": [[[["23", "crec", "aument", "mas que nadie", "mas rapid"]]]]}, {"ans": "Tiene contrato en una residencia de mayores / paga la Seguridad Social.", "pts": [[[["contrato", "residencia", "seguridad social", "cotiz", "papeles", "legal"]]]]}, {"ans": "Su hermano sigue sin papeles / en situación irregular.", "pts": [[[["herman"]]]]}], "q4a": [{"ans": "Unos 3,1 millones (3 135 581).", "pts": [[[["3,1", "3.1", "3 135", "3.135", "tres millones", "3 millones"]]]]}, {"ans": "El 14,1 %.", "pts": [[[["14"]]]]}, {"ans": "Más de 800 000 afiliados más desde la reforma laboral de diciembre de 2021 AND unos 208 000 más solo en el último año.", "pts": [[[["800"]]], [[["208", "200"]]]]}, {"ans": "Marruecos y Rumanía (después Colombia).", "pts": [[[["marrue", "marroqu"], ["ruman"]], [["marrue", "marroqu"], ["colombi"]], [["ruman"], ["colombi"]]]]}, {"ans": "Son más de 1,3 millones / el 43 % de los trabajadores extranjeros.", "pts": [[[["1,3", "43", "millon"]]]]}], "q4b": {"key1": [{"ans": "Casi tres de cada diez trabajadores de la hostelería (28,8 %) son extranjeros.", "pts": [[[["28", "tres de cada diez", "casi un tercio", "30"]]]]}, {"ans": "Un 26 % en el campo y un 23 % en la construcción son extranjeros.", "pts": [[[["26", "23", "cuarto"]]]]}, {"ans": "Hay casi 500 000 autónomos extranjeros (un 6,3 % más).", "pts": [[[["500", "496", "6,3", "negocio", "propia cuenta"]]]]}], "key2": [{"ans": "La ministra dice que contribuyen a que el sistema de pensiones sea sostenible.", "pts": [[[["sostenib", "pagan", "cotiz", "financ", "manten"]]]]}, {"ans": "Son los que más han crecido: más de 40 000 afiliados más (+23,2 %).", "pts": [[[["40", "23", "crec", "aument"]]]]}, {"ans": "Que se reconozcan los títulos / que no trabajen por debajo de su formación.", "pts": [[[["titulo", "formacion", "cualific", "reconoc", "diploma"]]]]}]}, "B": {"q5": ["B", "C", "A", "D"], "q6": ["B", "D", "G", "I"], "q7": [{"ans": "Su madre trabajaba en España desde hacía tres años y por fin pudo traerlos.", "pts": [[[["madre", "mama"]]]]}, {"ans": "Que todo sería fácil porque hablaban el mismo idioma.", "pts": [[[["facil", "idioma", "lengua"]]]]}, {"ans": "Any 2: se rieron de su forma de hablar – nadie le hablaba en el recreo – se sentía sola / miraba el móvil – lloraba por las noches.", "pts": [[[["rie", "rio", "burl", "manera de hablar", "expresion"]]], [[["nadie", "recreo"]]], [[["sola", "movil"]]], [[["llor"]]]]}, {"ans": "Presentó la Feria de las Flores en un trabajo de Historia y Hugo le hizo una pregunta.", "pts": [[[["feria", "flor", "trabajo", "presenta", "historia", "silleter", "hugo"]]]]}, {"ans": "Ahora está integrada / sus compañeros aceptan su manera de hablar y se ríen juntos.", "pts": [[[["integr", "acept", "amig", "juntos", "con ellos", "presta", "feliz", "bien"]]]]}], "q8": [{"ans": "En septiembre de 2024 (en el BOE).", "pts": [[[["septiembre", "boe", "boletin"]]]]}, {"ans": "Any 2 from 3: los valores de la sociedad han cambiado – muchos lo consideran violencia contra los animales – más del 90 % de los comentarios en la consulta pública apoyaba retirarlo.", "pts": [[[["valor", "sentimiento", "evolu", "cambi"]]], [[["violencia", "animal", "maltrato", "crueldad"]]], [[["90", "consulta", "comentario"]]]]}, {"ans": "Solo el 1,9 % de la población asiste a espectáculos taurinos.", "pts": [[[["1,9", "1.9", "poca gente", "pocos"]]]]}, {"ans": "Los datos eran de la época de la covid / de restricciones AND en 2018-2019 asistía alrededor del 8 %.", "pts": [[[["covid", "pandemia", "restric", "coronavirus"]]], [[["8 %", "8%", "ocho", "2018", "2019"]]]]}, {"ans": "La Comunidad Valenciana.", "pts": [[[["valencia"]]]]}, {"ans": "Recuperar el premio si vuelve al Gobierno.", "pts": [[[["recuper", "restablec", "volver a crear", "devolver", "de nuevo", "otra vez"]]]]}], "q9": [{"ans": "Una iniciativa legislativa popular (ILP) AND con más de 700 000 firmas.", "pts": [[[["ilp", "iniciativa", "popular", "sociedad civil", "organizacion"]]], [[["700", "firma"]]]]}, {"ans": "Any 2: llegar antes del 31 de diciembre de 2025 – estancia de al menos cinco meses – no tener antecedentes penales – trabajo / familia / vulnerabilidad.", "pts": [[[["31", "diciembre", "2025", "antes"]]], [[["cinco", "5 meses", "meses"]]], [[["antecedente", "penal", "delito"]]], [[["trabaj", "hijo", "famili", "vulnerab"]]]]}, {"ans": "Pueden trabajar desde que se admite la solicitud.", "pts": [[[["trabaj"]]]]}, {"ans": "Un año.", "pts": [[[["un ano", "1 ano", "doce meses"]]]]}, {"ans": "El Gobierno calculaba unos 500 000 AND hubo 1 174 978 solicitudes (más del doble).", "pts": [[[["500"]]], [[["1 174", "1.174", "1174", "millon", "doble"]]]]}]}, "C": [{"es": "Según el Instituto Nacional de Estadística,", "ans": "According to the National Statistics Institute,", "pts": [[[["according to"], ["national"], ["statistic"], ["institute", "office"]]]]}, {"es": "España tenía 49 570 725 habitantes", "ans": "Spain had 49,570,725 inhabitants", "pts": [[[["spain"], ["had", "has", "was home to", "counted"], ["49"], ["inhabitant", "resident", "people", "population"]]]]}, {"es": "el 1 de enero de 2026,", "ans": "on 1 January 2026,", "pts": [[[["1", "first"], ["january"], ["2026"]]]]}, {"es": "una cifra récord.", "ans": "a record figure.", "pts": [[[["record"], ["figure", "number", "total"]]]]}, {"es": "A lo largo de 2025,", "ans": "Over the course of 2025,", "pts": [[[["over", "throughout", "during", "in the course", "across", "in"], ["2025"]]]]}, {"es": "la población aumentó en más de 440 000 personas.", "ans": "the population increased by more than 440,000 people.", "pts": [[[["population"], ["increas", "grew", "rose", "went up"], ["more than", "over"], ["440"]]]]}, {"es": "Por primera vez,", "ans": "For the first time,", "pts": [[[["first time"]]]]}, {"es": "los residentes nacidos en el extranjero", "ans": "residents born abroad", "pts": [[[["resident", "people", "inhabitant"], ["born"], ["abroad", "overseas", "outside", "in another country", "foreign"]]]]}, {"es": "superan los diez millones,", "ans": "exceed ten million,", "pts": [[[["exceed", "surpass", "top", "over", "more than", "pass", "outnumber", "go beyond"], ["ten million", "10 million", "10,000,000"]]]]}, {"es": "es decir, alrededor de uno de cada cinco habitantes.", "ans": "that is, around one in five inhabitants.", "pts": [[[["that is", "in other words", "i.e", "meaning", "which means", "which is"], ["around", "about", "roughly", "approximately", "some", "nearly"], ["one in five", "one out of five", "1 in 5", "a fifth", "20"]]]]}, {"es": "En cambio,", "ans": "On the other hand,", "pts": [[[["on the other hand", "by contrast", "in contrast", "however", "whereas", "conversely", "on the contrary", "meanwhile", "but"]]]]}, {"es": "el número de personas nacidas en España", "ans": "the number of people born in Spain", "pts": [[[["number"], ["born in spain", "spanish-born", "native"]]]]}, {"es": "sigue bajando,", "ans": "keeps falling,", "pts": [[[["keep", "continu", "still"], ["fall", "drop", "declin", "decreas", "go down", "going down", "shrink"]]]]}, {"es": "porque hay más muertes que nacimientos.", "ans": "because there are more deaths than births.", "pts": [[[["because", "as", "since", "due to"], ["more deaths"], ["birth"]]]]}, {"es": "Por eso,", "ans": "That is why,", "pts": [[[["that is why", "that's why", "therefore", "so", "for that reason", "for this reason", "hence", "consequently", "thus", "which is why"]]]]}, {"es": "el crecimiento depende casi totalmente de la inmigración.", "ans": "growth depends almost entirely on immigration.", "pts": [[[["growth", "increase", "rise"], ["depend", "relies", "rely", "based"], ["almost", "nearly", "practically", "virtually"], ["entirely", "completely", "totally", "wholly", "fully", "exclusively"], ["immigra", "migra"]]]]}, {"es": "Las nacionalidades que más llegan", "ans": "The nationalities that arrive most", "pts": [[[["nationalit"], ["arriv", "come"], ["most", "in the largest", "the biggest", "the highest"]]]]}, {"es": "son la colombiana, la venezolana y la marroquí.", "ans": "are Colombian, Venezuelan and Moroccan.", "pts": [[[["colombia"], ["venezuela"], ["morocc"]]]]}, {"es": "La Comunitat Valenciana fue la región", "ans": "The Valencian Community was the region", "pts": [[[["valencia"], ["region", "autonomous community", "area"]]]]}, {"es": "que más creció al final del año.", "ans": "that grew most at the end of the year.", "pts": [[[["grew", "increased", "expanded", "growth"], ["most", "fastest", "the largest", "the biggest", "the highest", "the more"], ["end of the year", "last quarter", "fourth quarter", "end of year", "year-end", "final quarter"]]]]}]}</script>
+<script src="paper-marker.js" defer></script>
+<script>window.BBA_KIT = Object.assign(window.BBA_KIT || {}, {check:false, download:false, name:false, meter:false, tries:0});</script>
+<script src="bba-kit-es.js" defer></script>
+</body>
+</html>
