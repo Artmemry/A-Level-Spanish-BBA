@@ -1,3 +1,8 @@
+/* dark mode: the shared switch (bba-theme.js, beside this file); activity pages use its filter */
+(function(){ try{ if (window.__bbaTheme) return; window.__bbaThemeMode = "filter";
+  var cs = document.currentScript, s = document.createElement("script");
+  s.src = (cs && cs.src) ? cs.src.replace(/[^\/?#]*([?#].*)?$/, "bba-theme.js") : "bba-theme.js";
+  (document.head || document.documentElement).appendChild(s); }catch(e){} })();
 /* =====================================================================
    BBA activity kit — Spanish — v2.1
    Drop-in replacement for bba-kit-es.js. Same <script src> tag, no page
