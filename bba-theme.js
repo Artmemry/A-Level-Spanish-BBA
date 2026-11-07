@@ -34,6 +34,10 @@
   'html[data-theme=dark][data-theme-mode=vars] .howto>summary{color:var(--ink)!important}' +
   'html[data-theme=dark][data-theme-mode=vars] .howto .who{color:var(--ink-soft)!important}' +
   'html[data-theme=dark][data-theme-mode=vars] .bba-dk-fix{color:#12151C!important}' +
+  'html[data-theme=dark][data-theme-mode=vars] .bba-dk-ink{color:var(--ink)!important;border-color:var(--line-strong)!important}' +
+  /* the link to the sister site, styled in the page itself */
+  'html[data-theme=dark][data-theme-mode=vars] a.xsite{color:var(--ink)!important;border-color:var(--ink-soft)!important}' +
+  'html[data-theme=dark][data-theme-mode=vars] a.xsite:hover{border-color:var(--bleu)!important;color:var(--bleu)!important}' +
   /* any other page: invert, and turn pictures back */
   'html[data-theme=dark][data-theme-mode=filter]{filter:invert(.92) hue-rotate(180deg);background:#fff}' +
   'html[data-theme=dark][data-theme-mode=filter] img,html[data-theme=dark][data-theme-mode=filter] video,' +
@@ -78,12 +82,15 @@
     for (var i = 0; i < els.length && i < 6000; i++){
       var e = els[i]; if (e.id === "bba-theme-btn") continue;
       var cs = getComputedStyle(e);
+      /* dark text written into the page's own markup (style="color:#1A2440"), now on a dark ground */
+      if (e.getAttribute("style") && /color\s*:/i.test(e.getAttribute("style")) && lum(cs.color) >= 0 && lum(cs.color) < 0.35
+          && lum(cs.backgroundColor) < 0.5){ e.classList.add("bba-dk-ink"); continue; }
       if (cs.color !== "rgb(255, 255, 255)") continue;
       if (lum(cs.backgroundColor) > 0.5) e.classList.add("bba-dk-fix");
     }
   }
   function queueFix(){ if (!fixT) fixT = setTimeout(fixContrast, 250); }
-  function clearFix(){ var f = document.querySelectorAll(".bba-dk-fix"); for (var i = 0; i < f.length; i++) f[i].classList.remove("bba-dk-fix"); }
+  function clearFix(){ var f = document.querySelectorAll(".bba-dk-fix,.bba-dk-ink"); for (var i = 0; i < f.length; i++) f[i].classList.remove("bba-dk-fix", "bba-dk-ink"); }
   function addStyle(){
     if (document.getElementById("bba-theme-css")) return;
     var s = document.createElement("style"); s.id = "bba-theme-css"; s.textContent = CSS;
