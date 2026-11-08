@@ -34,7 +34,20 @@
   'html[data-theme=dark][data-theme-mode=vars] .howto>summary{color:var(--ink)!important}' +
   'html[data-theme=dark][data-theme-mode=vars] .howto .who{color:var(--ink-soft)!important}' +
   'html[data-theme=dark][data-theme-mode=vars] .bba-dk-fix{color:#12151C!important}' +
-  'html[data-theme=dark][data-theme-mode=vars] .bba-dk-ink{color:var(--ink)!important;border-color:var(--line-strong)!important}' +
+  'html[data-theme=dark][data-theme-mode=vars] .bba-dk-ink{color:var(--bba-fg,var(--ink))!important}' +
+  'html[data-theme=dark][data-theme-mode=vars] .bba-dk-bg{background-color:var(--bba-bg,var(--card))!important;border-color:var(--line-strong)!important}' +
+  /* the "sent to your teacher" strip on the home pages */
+  'html[data-theme=dark][data-theme-mode=vars] .sendbar{color:var(--ink)}' +
+  'html[data-theme=dark][data-theme-mode=vars] .sendbar.waiting{background:#33290F!important;border-bottom-color:#6B5520!important}' +
+  'html[data-theme=dark][data-theme-mode=vars] .sendbar.waiting .dot{background:var(--or)!important}' +
+  'html[data-theme=dark][data-theme-mode=vars] .sendbar.clear{background:var(--vert-pale)!important;border-bottom-color:#2F5A3E!important}' +
+  /* status labels: done / to do / opened, and scores */
+  'html[data-theme=dark][data-theme-mode=vars] .week .st.done,html[data-theme=dark][data-theme-mode=vars] .tile .score.hi,' +
+  'html[data-theme=dark][data-theme-mode=vars] .mark.on{background:#18301F!important;color:#8FE0B0!important}' +
+  'html[data-theme=dark][data-theme-mode=vars] .week .st.pending,html[data-theme=dark][data-theme-mode=vars] .tile .score.lo{background:#3A1D22!important;color:#F4A3AB!important}' +
+  'html[data-theme=dark][data-theme-mode=vars] .week .st.opened,html[data-theme=dark][data-theme-mode=vars] .tile .score.mid,' +
+  'html[data-theme=dark][data-theme-mode=vars] .conf button.on{background:#33290F!important;color:#F0CF7A!important}' +
+  'html[data-theme=dark][data-theme-mode=vars] .claimed{background:#2A2414!important;border-color:#5A4A24!important;color:#E6D3A3!important}' +
   /* the link to the sister site, styled in the page itself */
   'html[data-theme=dark][data-theme-mode=vars] a.xsite{color:var(--ink)!important;border-color:var(--ink-soft)!important}' +
   'html[data-theme=dark][data-theme-mode=vars] a.xsite:hover{border-color:var(--bleu)!important;color:var(--bleu)!important}' +
@@ -69,28 +82,66 @@
       b.title = v === "dark" ? "Switch back to the light pages" : "Switch to dark pages (remembered on this device)";
     }
   }
-  /* White text sitting on what is now a light colour (a button filled with the
-     link blue, a selected chip filled with the ink colour) would vanish: give it
-     dark text instead. Runs only while the dark palette is on. */
+  /* After the palette changes, some colours written into a page itself stay as
+     they were: a pale tinted box (now bright behind light text), dark text (now
+     on a dark ground), white text on what is now a light fill. Each piece of
+     text is checked against the colour actually behind it, and anything hard to
+     read is given a dark version of its box colour or a light version of its
+     own colour, keeping the hue (green stays green, red stays red).
+     Runs only while the dark palette is on; switching back removes it all. */
   var fixT = null;
-  function lum(c){ var m = /rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)(?:,\s*([\d.]+))?/.exec(c || "");
-    if (!m || (m[4] !== undefined && +m[4] < .5)) return -1; return (0.2126*m[1] + 0.7152*m[2] + 0.0722*m[3]) / 255; }
+  function rgb(c){ var m = /rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)(?:,\s*([\d.]+))?/.exec(c || "");
+    if (!m) return null; return {r:+m[1], g:+m[2], b:+m[3], a:m[4] === undefined ? 1 : +m[4]}; }
+  function rl(o){ function ch(v){ v /= 255; return v <= 0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055, 2.4); }
+    return 0.2126*ch(o.r) + 0.7152*ch(o.g) + 0.0722*ch(o.b); }
+  function ratio(a, b){ var x = rl(a), y = rl(b); return (Math.max(x,y) + 0.05) / (Math.min(x,y) + 0.05); }
+  function hsl(o){ var r = o.r/255, g = o.g/255, b = o.b/255, mx = Math.max(r,g,b), mn = Math.min(r,g,b), h = 0, s = 0, l = (mx+mn)/2, d = mx-mn;
+    if (d){ s = l > .5 ? d/(2-mx-mn) : d/(mx+mn);
+      h = mx === r ? (g-b)/d + (g < b ? 6 : 0) : mx === g ? (b-r)/d + 2 : (r-g)/d + 4; h *= 60; }
+    return {h:h, s:s, l:l}; }
+  function hslStr(h, s, l){ return "hsl(" + Math.round(h) + "," + Math.round(s*100) + "%," + Math.round(l*100) + "%)"; }
+  var PAPER = {r:18, g:21, b:28, a:1};
+  function behind(e){                      /* the colour actually behind an element */
+    for (var n = e; n && n.nodeType === 1; n = n.parentElement){
+      var c = rgb(getComputedStyle(n).backgroundColor); if (c && c.a >= .5) return c; }
+    return PAPER; }
+  function ownText(e){ for (var c = e.firstChild; c; c = c.nextSibling) if (c.nodeType === 3 && /\S/.test(c.nodeValue)) return true;
+    return /^(INPUT|BUTTON|SELECT|TEXTAREA)$/.test(e.tagName); }
   function fixContrast(){
     fixT = null;
     if (root.getAttribute("data-theme") !== "dark" || root.getAttribute("data-theme-mode") !== "vars" || !document.body) return;
     var els = document.body.querySelectorAll("*");
-    for (var i = 0; i < els.length && i < 6000; i++){
-      var e = els[i]; if (e.id === "bba-theme-btn") continue;
-      var cs = getComputedStyle(e);
-      /* dark text written into the page's own markup (style="color:#1A2440"), now on a dark ground */
-      if (e.getAttribute("style") && /color\s*:/i.test(e.getAttribute("style")) && lum(cs.color) >= 0 && lum(cs.color) < 0.35
-          && lum(cs.backgroundColor) < 0.5){ e.classList.add("bba-dk-ink"); continue; }
-      if (cs.color !== "rgb(255, 255, 255)") continue;
-      if (lum(cs.backgroundColor) > 0.5) e.classList.add("bba-dk-fix");
+    for (var i = 0; i < els.length && i < 8000; i++){
+      var e = els[i];
+      if (e.id === "bba-theme-btn" || e.closest("svg,#bba-theme-btn") || e.classList.contains("bba-dk-skip")) continue;
+      var cs = getComputedStyle(e); if (cs.display === "none") continue;
+      var fg = rgb(cs.color), bg = rgb(cs.backgroundColor);
+      /* 1. a pale box written into the page (beige, pale green, pale red, white):
+            give it a dark box of the same hue */
+      if (bg && bg.a >= .5 && !e.classList.contains("bba-dk-bg") && !(fg && fg.r > 250 && fg.g > 250 && fg.b > 250)){
+        var hb = hsl(bg);
+        if (hb.l > .86 && !(bg.r === 231 && bg.g === 233 && bg.b === 239)){
+          e.style.setProperty("--bba-bg", hb.s < .12 ? "#1B202B" : hslStr(hb.h, Math.min(hb.s, .45), .15));
+          e.classList.add("bba-dk-bg"); cs = getComputedStyle(e); fg = rgb(cs.color);
+        }
+      }
+      if (!fg || !ownText(e)) continue;
+      var back = behind(e);
+      if (ratio(fg, back) >= 3.6) continue;
+      if (rl(back) > .3){                  /* light ground (a button filled with link blue): dark text */
+        e.classList.add("bba-dk-fix");
+      } else {                             /* dark ground: a light version of the text's own colour */
+        var hf = hsl(fg);
+        e.style.setProperty("--bba-fg", hf.s < .15 ? "#E7E9EF" : hslStr(hf.h, Math.min(Math.max(hf.s, .45), .75), .76));
+        e.classList.add("bba-dk-ink");
+      }
     }
   }
   function queueFix(){ if (!fixT) fixT = setTimeout(fixContrast, 250); }
-  function clearFix(){ var f = document.querySelectorAll(".bba-dk-fix,.bba-dk-ink"); for (var i = 0; i < f.length; i++) f[i].classList.remove("bba-dk-fix", "bba-dk-ink"); }
+  function clearFix(){ var f = document.querySelectorAll(".bba-dk-fix,.bba-dk-ink,.bba-dk-bg");
+    for (var i = 0; i < f.length; i++){ f[i].classList.remove("bba-dk-fix", "bba-dk-ink", "bba-dk-bg");
+      f[i].style.removeProperty("--bba-fg"); f[i].style.removeProperty("--bba-bg");
+      if (f[i].getAttribute("style") === "") f[i].removeAttribute("style"); } }
   function addStyle(){
     if (document.getElementById("bba-theme-css")) return;
     var s = document.createElement("style"); s.id = "bba-theme-css"; s.textContent = CSS;
