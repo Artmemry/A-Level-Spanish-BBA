@@ -4,7 +4,9 @@
   s.src = (cs && cs.src) ? cs.src.replace(/[^\/?#]*([?#].*)?$/, "bba-theme.js") : "bba-theme.js";
   (document.head || document.documentElement).appendChild(s); }catch(e){} })();
 /* =====================================================================
-   BBA activity kit — Spanish — v2.1
+   BBA activity kit — Spanish — v2.1 + feedback (12 Nov 2026):
+   answer keys may carry an explanation; open answers get key-idea
+   feedback and a model answer; radios and tick boxes are marked
    Drop-in replacement for bba-kit-es.js. Same <script src> tag, no page
    edits required.
 
@@ -96,6 +98,11 @@ var T = {
   "cluePlural": "plural (los / las)",
   "clueEnding": "La palabra es correcta; lo que falla es la terminación.",
   "clueClose": "Casi — fíjate bien en la ortografía.",
+  "fbIdeas": function(a,b){ return "Key ideas found in your answer: " + a + " of " + b + "."; },
+  "fbModel": "Show a model answer", "fbModelIs": "Model answer:", "fbCompare": "Now compare your answer with a model.",
+  "fbOpenDone": "Open answers are not marked: read the note under each one and compare with the model.",
+  "fbTick": "This one should be ticked.", "fbNoTick": "This one should not be ticked.", "fbWhy": "Why:",
+  "fbOpenCsv": "Open answers (self-checked against a model)",
   "clueStart": "Empieza por:"
 };
 
@@ -283,7 +290,39 @@ function labelFor(el){
   t = (t || el.name || el.id || "").replace(/\s+/g," ").trim();
   return t.length > 90 ? t.slice(0,90) + "…" : t;
 }
+/* v2.4 — a key entry is either a plain answer ("a | b") or an object:
+     {a:"answer | variant", why:"shown once the answer is settled"}   closed
+     {model:"…", ideas:["label::stem|stem", …], why:"…"}              open
+   Open answers are never marked right or wrong: the student is told which
+   key ideas were found and can open a model answer to compare. Entries are
+   looked up by id, name, or the kit's own field key ("~12" by position). */
+function entryOf(el, key){
+  var e=null, i;
+  if (el.getAttribute("data-model")){
+    e={model:el.getAttribute("data-model"), ideas:(el.getAttribute("data-ideas")||"").split(";").filter(Boolean), why:el.getAttribute("data-why")||""};
+    return e;
+  }
+  for(i=0;i<ANSWER_ATTRS.length;i++){
+    var v=el.getAttribute(ANSWER_ATTRS[i]);
+    if(v!=null && v!==""){ return {a:v, why:el.getAttribute("data-why")||""}; }
+  }
+  if(el.id && key[el.id]!=null) e=key[el.id];
+  else if(el.name && key[el.name]!=null) e=key[el.name];
+  else { var fk=fieldKey(el); if(key[fk]!=null) e=key[fk]; }
+  if(e==null) return null;
+  if(typeof e!=="object") return {a:String(e), why:""};
+  return e;
+}
+function isChoice(el){ var ty=(el.type||"").toLowerCase(); return ty==="radio"||ty==="checkbox"; }
+function valueOf(el){
+  var ty=(el.type||"").toLowerCase();
+  if(ty==="checkbox") return el.checked ? "1" : "0";
+  if(el.tagName==="SELECT") return el.options[el.selectedIndex] ? el.options[el.selectedIndex].text : "";
+  return el.value;
+}
 function answerOf(el, key){
+  var e0=entryOf(el, key);
+  if(e0) return (e0.a!=null && e0.a!=="") ? String(e0.a) : null;
   var want=null, i;
   for(i=0;i<ANSWER_ATTRS.length;i++){
     var v=el.getAttribute(ANSWER_ATTRS[i]);
@@ -304,17 +343,26 @@ function allFields(){
     document.querySelectorAll("input,textarea,select"), marked);
 }
 function fields(){
-  var key = externalKey(), out = [], seen = 0;
+  var key = externalKey(), out = [], seen = 0, radios = {};
   allFields().forEach(function(el){
     var ty=(el.type||"").toLowerCase();
-    var want = answerOf(el, key);
-    if(want!=null) seen++;
+    var want = answerOf(el, key), ent = entryOf(el, key);
+    var open = (ent && want==null && ent.model) ? ent : null;
+    if(want!=null || open) seen++;
     var val;
-    if (ty==="radio"||ty==="checkbox") { if(!el.checked) return; val = el.value||"on"; }
+    if (ty==="checkbox" && want!=null) { if(want==="0" && !el.checked) return;   /* a box rightly left empty is not a question */
+      val = el.checked ? "1" : "0"; }
+    else if (ty==="radio" && want!=null) {
+      radios[el.name] = radios[el.name] || {first:el, want:want, hit:false};
+      if(!el.checked) return; radios[el.name].hit = true; val = el.value||"on"; }
+    else if (ty==="radio"||ty==="checkbox") { if(!el.checked) return; val = el.value||"on"; }
     else if (el.tagName==="SELECT")    { val = el.options[el.selectedIndex] ? el.options[el.selectedIndex].text : ""; }
     else                                { val = el.value; }
-    out.push({el:el, label:labelFor(el), value:val, want:want, key:fieldKey(el)});
+    out.push({el:el, label:labelFor(el), value:val, want:want, key:fieldKey(el), open:open, why:ent?ent.why:""});
   });
+  /* a keyed radio question nobody answered still counts, as a blank */
+  for (var rn in radios){ if(!radios[rn].hit){ var r0=radios[rn];
+    out.push({el:r0.first, label:labelFor(r0.first), value:"", want:r0.want, key:fieldKey(r0.first), blank:true, why:""}); } }
   out.__withAnswers = seen;
   return out;
 }
@@ -480,6 +528,10 @@ var CSS = ""
 + ".bba-tip{display:block;font:12.5px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;"
 + "margin-top:4px;color:#7a5c00}"
 + ".bba-tip.bad{color:#a5281b}.bba-tip.good{color:#1d5a3a}"
++ ".bba-tip.open{color:#2b3a55;background:#eef2f8;border-left:3px solid #5a6f8f;padding:6px 10px;margin-top:6px;border-radius:4px}"
++ ".bba-tip .bba-ideas{display:block;margin:3px 0}.bba-tip .bba-ideas span{display:inline-block;margin-right:12px}"
++ ".bba-tip .bba-ideas .hit{color:#1d5a3a}.bba-tip .bba-ideas .miss{color:#6b5b3e}"
++ ".bba-tip .bba-model{display:block;margin-top:4px;color:#2b2418}"
 + ".bba-tip .rv{font:inherit;background:none;border:0;border-bottom:1px dotted currentColor;color:inherit;"
 + "cursor:pointer;padding:0;margin-left:8px}"
 + ".bba-sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}"
@@ -732,7 +784,8 @@ function wireEnter(){
     // In a textarea Enter is a newline; Ctrl/Cmd+Enter submits instead.
     if(el.tagName === "TEXTAREA" && !(e.ctrlKey || e.metaKey)) return;
     e.preventDefault();
-    var key = externalKey(), want = answerOf(el, key);
+    var key = externalKey(), want = answerOf(el, key), ent = entryOf(el, key);
+    if(want == null && ent && ent.model){ checkOpen(el, ent); return; }
     if(want == null){ focusBelowBar(nextField(el)); return; }
     var v = checkOne(el, want);
     if(v && (v.code === "ok" || v.code === "accent" || v.code === "typo")) focusBelowBar(nextField(el));
@@ -740,13 +793,33 @@ function wireEnter(){
 }
 
 /* ==============================================  v2: PER-FIELD MARKING */
+/* v2.4 — a tip for a radio or a tick box goes under the whole option (or
+   the whole set of options), never inside the label next to the button. */
+function tipAnchor(el){
+  var ty=(el.type||"").toLowerCase();
+  if(ty==="radio" && el.name){
+    var all=document.querySelectorAll('input[type="radio"][name="'+el.name.replace(/"/g,'\\"')+'"]');
+    var last=all[all.length-1]||el; return last.closest("label")||last;
+  }
+  if(ty==="checkbox") return el.closest("label")||el;
+  return el;
+}
+function optionText(el, value){
+  try{
+    var o=document.querySelector('input[type="radio"][name="'+el.name.replace(/"/g,'\\"')+'"][value="'+String(value).replace(/"/g,'\\"')+'"]');
+    if(!o) return value;
+    var l=o.closest("label")||o.parentNode; return (l.textContent||"").replace(/\s+/g," ").trim()||value;
+  }catch(e){ return value; }
+}
 function tipFor(el){
+  el = tipAnchor(el);
   var n = el.nextSibling;
   while(n){ if(n.nodeType===1 && n.classList && n.classList.contains("bba-tip")) return n; n = n.nextSibling; }
   return null;
 }
 function setTip(el, text, cls, revealFn){
   var tip = tipFor(el);
+  el = tipAnchor(el);
   if(!tip){
     tip = document.createElement("small");
     tip.className = "bba-tip";
@@ -768,21 +841,24 @@ function paint(el, cls){
 }
 /* Marks a single field, honouring the two-attempt rule.
    Returns the verdict, or null when the field has no answer key. */
-function checkOne(el, want){
+function checkOne(el, want, blank){
   if(want == null) return null;
-  var k = fieldKey(el);
-  var val = (el.tagName === "SELECT")
-      ? (el.options[el.selectedIndex] ? el.options[el.selectedIndex].text : "")
-      : el.value;
+  var k = fieldKey(el), ty = (el.type||"").toLowerCase();
+  if(ty==="radio"){ var fr0=document.querySelector('input[type="radio"][name="'+el.name.replace(/"/g,'\\"')+'"]'); if(fr0) k = fieldKey(fr0); }
+  var val = blank ? "" : valueOf(el);
   var v = judge(val, want);
+  var ent = entryOf(el, externalKey()), why = (ent && ent.why) ? ent.why : "";
+  var shown = v.want;
+  if(ty==="radio") shown = optionText(el, v.want);
+  if(ty==="checkbox") shown = (v.want==="1") ? T.fbTick : T.fbNoTick;
 
   if(v.code === "empty"){ paint(el, null); setTip(el, T.blank, ""); say(T.blank); return v; }
 
   if(v.code === "ok" || v.code === "accent" || v.code === "typo"){
     S.done[k] = 1; saveState();
     paint(el, v.code === "ok" ? "bba-ok" : "bba-warn");
-    if(v.code === "ok"){ var t = tipFor(el); if(t) t.remove(); }
-    else setTip(el, v.note, "good");
+    if(v.code === "ok"){ var t = tipFor(el); if(t) t.remove(); if(why) setTip(el, why, "good"); }
+    else setTip(el, v.note + (why ? "  " + why : ""), "good");
     say(v.code === "ok" ? T.right : v.note);
     return v;
   }
@@ -793,12 +869,12 @@ function checkOne(el, want){
   var reveal = function(){
     S.shown[k] = 1; saveState();
     paint(el, "bba-bad");
-    setTip(el, T.answerIs + " " + v.want + (v.note && v.note !== T.wrong ? "  —  " + v.note : ""), "bad");
-    say(T.answerIs + " " + v.want);
+    setTip(el, (ty==="checkbox" ? shown : T.answerIs + " " + shown) + (v.note && v.note !== T.wrong ? "  —  " + v.note : "") + (why ? "  " + T.fbWhy + " " + why : ""), "bad");
+    say(T.answerIs + " " + shown);
   };
   if(TRIES > 0 && n < TRIES && !S.shown[k]){
     paint(el, "bba-warn");
-    var msg = (v.note && v.note !== T.wrong ? v.note + "  " : T.tryAgain + "  ") + clueFor(val, v.want);
+    var msg = (v.note && v.note !== T.wrong ? v.note + "  " : T.tryAgain + "  ") + ((isChoice(el)||el.tagName==="SELECT") ? "" : clueFor(val, v.want));
     setTip(el, msg, "", reveal);
     say(msg);
   } else {
@@ -807,6 +883,41 @@ function checkOne(el, want){
   return v;
 }
 
+/* v2.4 — feedback on an open answer: which key ideas were found, and a
+   model to compare with. Nothing is marked wrong. */
+function checkOpen(el, o){
+  var val = String(el.value||"").trim();
+  if(!val){ setTip(el, T.blank, ""); return false; }
+  var g = norm(val), found = 0, ideas = (o.ideas||[]);
+  var tip = setTip(el, "", "open");
+  tip.textContent = "";
+  if(ideas.length){
+    var head = document.createElement("b"), ul = document.createElement("span");
+    ul.className = "bba-ideas";
+    ideas.forEach(function(it){
+      var p = String(it).split("::"), label = p.length>1 ? p[0] : "", stems = (p.length>1 ? p[1] : p[0]).split("|");
+      var hit = stems.some(function(st){ st = norm(st); return st && g.indexOf(st) >= 0; });
+      if(hit) found++;
+      var li = document.createElement("span"); li.className = hit ? "hit" : "miss";
+      li.textContent = (hit ? "✓ " : "○ ") + (label || stems[0]);
+      ul.appendChild(li);
+    });
+    head.textContent = T.fbIdeas(found, ideas.length);
+    tip.appendChild(head); tip.appendChild(ul);
+  } else {
+    tip.appendChild(document.createTextNode(T.fbCompare + " "));
+  }
+  var b = document.createElement("button");
+  b.type = "button"; b.className = "rv"; b.textContent = T.fbModel;
+  b.addEventListener("click", function(){
+    var m = document.createElement("span"); m.className = "bba-model";
+    var mb = document.createElement("b"); mb.textContent = T.fbModelIs + " ";
+    m.appendChild(mb); m.appendChild(document.createTextNode(o.model + (o.why ? "  " + T.fbWhy + " " + o.why : "")));
+    b.replaceWith(m);
+  });
+  tip.appendChild(b);
+  return true;
+}
 /* --------------------------------------------------------------- check */
 var LAST_RESULT = null;
 function clearTips(){
@@ -838,12 +949,13 @@ function check(msg){
     say(T.noKeyTitle);
     return null;
   }
-  var ok=0,acc=0,typo=0,bad=0,blank=0,rows=[],answered=0;
+  var ok=0,acc=0,typo=0,bad=0,blank=0,rows=[],answered=0,nOpenDone=0;
   S.cnt = S.cnt || {};
   F.forEach(function(f){
+    if(f.open){ if(checkOpen(f.el, f.open)){ nOpenDone++; if(S.cnt[f.key] !== f.value){ answered++; S.cnt[f.key] = f.value; } } return; }
     if(f.want==null) return;
     var before = S.tries[f.key] || 0;
-    var v = checkOne(f.el, f.want);
+    var v = checkOne(f.el, f.want, f.blank);
     rows.push({label:f.label, given:f.value, want:v.want, code:v.code, note:v.note,
                tries:(v.code==="ok"||v.code==="accent"||v.code==="typo") ? before+1 : (S.tries[f.key]||before)||""});
     /* a question counts as answered once per answer given: checking the same
@@ -853,11 +965,27 @@ function check(msg){
     else if(v.code==="empty")blank++; else bad++;
   });
   var scored = ok+acc+typo, total = rows.length-blank;
+  if(!rows.length){
+    /* open answers only: nothing to score, but the work still counts as answered */
+    LAST_RESULT = null;
+    try{
+      if(answered){
+        var A2 = JSON.parse(localStorage.getItem("bba-answers") || "{}");
+        var fn2 = decodeURIComponent(location.pathname.split("/").pop() || "index"), q0 = A2[fn2] || {};
+        var q1 = {title:(document.title||"").slice(0,120), ans:(q0.ans||0)+answered, t:Date.now(), lg:{}};
+        for (var k2 in (q0.lg||{})) q1.lg[k2] = q0.lg[k2];
+        var d2 = String(Math.floor(Date.now()/86400000)); q1.lg[d2] = (q1.lg[d2]||0) + answered;
+        A2[fn2] = q1; localStorage.setItem("bba-answers", JSON.stringify(A2));
+      }
+    }catch(e){}
+    msg.innerHTML = T.fbOpenDone; say(T.fbOpenDone); saveState(true);
+    return null;
+  }
   LAST_RESULT = {rows:rows, ok:ok, acc:acc, typo:typo, bad:bad, blank:blank, scored:scored, total:total};
   publishScore(scored, rows.length, answered);
   var line = "<b>"+scored+" / "+(rows.length)+"</b> · "
     + T.exact+": "+ok+" · "+T.accSlip+": "+acc+" · "+T.typoSlip+": "+typo
-    + " · "+T.wrongN+": "+bad + (blank?" · "+T.blankN+": "+blank:"");
+    + " · "+T.wrongN+": "+bad + (blank?" · "+T.blankN+": "+blank:"") + (nOpenDone ? "<br>"+T.fbOpenDone : "");
   msg.innerHTML = line;
   say(scored + " / " + rows.length);
   saveState(true);
@@ -888,6 +1016,11 @@ function download(name, msg){
     R.rows.forEach(function(r){
       L.push([r.label, r.given, r.want, T.codes[r.code], r.tries||"", r.note].map(csvCell).join(","));
     });
+    var opens = F.filter(function(f){ return f.open && String(f.value||"").trim(); });
+    if(opens.length){
+      L.push(""); L.push([T.fbOpenCsv].map(csvCell).join(","));
+      opens.forEach(function(f){ L.push([f.label, f.value].map(csvCell).join(",")); });
+    }
     var review = R.rows.filter(function(r){return r.code==="no"||r.code==="accent"||r.code==="typo";});
     if(review.length){
       L.push(""); L.push([T.hReview].map(csvCell).join(","));
@@ -1022,7 +1155,12 @@ function meterBadge(h, done, total){
 }
 function meterItems(){
   var key = externalKey();
-  return allFields().filter(function(el){ return answerOf(el, key) != null; });
+  var seenR = {};
+  return allFields().filter(function(el){
+    if(answerOf(el, key) == null) return false;
+    if((el.type||"").toLowerCase()==="radio"){ if(seenR[el.name]) return false; seenR[el.name]=1; }
+    return true;
+  });
 }
 function meterKit(){
   if (METER.ext || !ON("check") || !ON("meter")) return;
