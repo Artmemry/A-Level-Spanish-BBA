@@ -278,6 +278,11 @@
             font-size: 1.05rem;
             width: 100%;
         }
+                /* the reason gets a full line of its own, and feedback sits under it */
+        .genre-row { grid-template-columns: auto 1fr auto; border-radius: 28px; padding: 14px 20px; }
+        .genre-row .scene-ref { grid-row: 1; grid-column: 3; }
+        .genre-row .justify-input { grid-row: 2; grid-column: 1 / -1; border-radius: 16px; }
+        .genre-row .bba-tip { grid-column: 1 / -1; }
         .justify-input:focus {
             outline: none;
             border-color: #712f12;
@@ -333,7 +338,7 @@
     <div class="student-row">
         <span class="student-label">🧑‍🎓</span>
         <div class="student-input">
-            <input type="text" id="studentName" placeholder="Nombre del estudiante" value="Estudiante">
+            <input type="text" id="studentName" placeholder="Nombre del estudiante">
         </div>
         <button class="download-btn" id="downloadResults">⬇️ DESCARGAR ANÁLISIS</button>
     </div>
@@ -354,67 +359,67 @@
             <div class="scene-card" data-scene="1">
                 <div class="scene-time">⏱️ 0:01 Cementerio</div>
                 <div class="scene-desc">Raimunda, Sole y Paula limpian lápidas. Hablan de la muerte de sus padres.</div>
-                <div class="scene-quote">"Mira qué abandonao está to, Sole."</div>
+                <div class="scene-quote">«Las mujeres de aquí viven más que los hombres.»</div>
             </div>
             <div class="scene-card" data-scene="2">
                 <div class="scene-time">⏱️ 0:03 Tía Paula</div>
-                <div class="scene-desc">La tía confunde a Raimunda con su madre muerta. Ambiente de confusión y misterio.</div>
-                <div class="scene-quote">"Ayer la vi sentá aquí, tan campante."</div>
+                <div class="scene-desc">La tía Paula habla de la madre de Raimunda como si siguiera viva. Ambiente de confusión y misterio.</div>
+                <div class="scene-quote">«La Agustina me trae el pan, vuestra madre hace la comida.»</div>
             </div>
             <div class="scene-card" data-scene="3">
-                <div class="scene-time">⏱️ 0:12 Intento de violación</div>
-                <div class="scene-desc">Paco intenta forzar a Raimunda, ella lo rechaza. Tensión sexual y dominación.</div>
-                <div class="scene-quote">"Estoy rendía, Paco. No tengo ganas de na."</div>
+                <div class="scene-time">⏱️ 0:12 Paco y Raimunda</div>
+                <div class="scene-desc">Paco, recién despedido, quiere acostarse con Raimunda; ella está agotada y lo rechaza. Tensión doméstica.</div>
+                <div class="scene-quote">«Que estoy molida y mañana tengo que madrugar.»</div>
             </div>
             <div class="scene-card" data-scene="4">
                 <div class="scene-time">⏱️ 0:16 Muerte de Paco</div>
                 <div class="scene-desc">Paula apuñala a Paco cuando intenta violarla. Escena cruda, violenta, trágica.</div>
-                <div class="scene-quote">"Quería abusar de mí. Le clavé un cuchillo."</div>
+                <div class="scene-quote">«Recuerda que fui yo quien lo mató... y que tú no lo viste porque estabas en la calle.»</div>
             </div>
             <div class="scene-card" data-scene="5">
                 <div class="scene-time">⏱️ 00:21 Limpiando la sangre</div>
                 <div class="scene-desc">Raimunda, con frialdad, friega la sangre. Llega Emilio con las llaves del restaurante.</div>
-                <div class="scene-quote">"Toma las llaves del restaurante."</div>
+                <div class="scene-quote">«Oye, ¿estás herida?» — «No, cosas de mujeres.»</div>
             </div>
             <div class="scene-card" data-scene="6">
                 <div class="scene-time">⏱️ 00:25 El congelador</div>
                 <div class="scene-desc">Raimunda y Paula meten el cuerpo de Paco en el congelador del restaurante.</div>
-                <div class="scene-quote">"Ayúdame a meterlo."</div>
+                <div class="scene-quote">«Espero que esté todo como cuando trabajaba yo aquí.»</div>
             </div>
             <div class="scene-card" data-scene="7">
                 <div class="scene-time">⏱️ 00:28 Productor de cine</div>
-                <div class="scene-desc">Un productor llega y Raimunda acepta cocinar para el equipo. Comedia / oportunidad.</div>
-                <div class="scene-quote">"¿Tú cocinas? – Sí, me encanta."</div>
+                <div class="scene-desc">Un auxiliar de producción llega y Raimunda acepta cocinar para el equipo de rodaje. Comedia / oportunidad.</div>
+                <div class="scene-quote">«Pues yo misma os lo preparo, si quieres.»</div>
             </div>
             <div class="scene-card" data-scene="8">
                 <div class="scene-time">⏱️ 00:32 Funeral / Aparición</div>
                 <div class="scene-desc">Sole cree ver a su madre muerta en el funeral. Misterio, realismo mágico.</div>
-                <div class="scene-quote">"¡Mamá! pero si está muerta..."</div>
+                <div class="scene-quote">«Soledad. Hija mía. Sole. Tengo que hablar contigo.»</div>
             </div>
             <div class="scene-card" data-scene="9">
                 <div class="scene-time">⏱️ 00:39 Madre en el maletero</div>
                 <div class="scene-desc">Sole encuentra a su madre escondida. Diálogo absurdo y conmovedor.</div>
-                <div class="scene-quote">"No grites, hija, que soy yo."</div>
+                <div class="scene-quote">«Ábreme, soy tu madre. No te voy a hacer nada.»</div>
             </div>
             <div class="scene-card" data-scene="10">
                 <div class="scene-time">⏱️ 0:59 Raimunda canta 'Volver'</div>
                 <div class="scene-desc">Actuación pública, la madre la observa escondida. Momento catártico, nostálgico.</div>
-                <div class="scene-quote">"Volver... con la frente marchita..."</div>
+                <div class="scene-quote">«Yo hace mucho tiempo que no canto.»</div>
             </div>
             <div class="scene-card" data-scene="11">
                 <div class="scene-time">⏱️ 01:22 Confesión de Agustina</div>
                 <div class="scene-desc">Agustina revela la relación entre su madre y el padre de Raimunda.</div>
-                <div class="scene-quote">"Tu padre y mi madre se querían."</div>
+                <div class="scene-quote">«Mi madre estaba liada con tu padre.»</div>
             </div>
             <div class="scene-card" data-scene="12">
                 <div class="scene-time">⏱️ 01:35 La verdad final</div>
                 <div class="scene-desc">La madre confiesa: el padre abusó de Raimunda, Paula es hija de ambos, y ella los quemó.</div>
-                <div class="scene-quote">"Tu padre abusó de ti... Paula es hija tuya y hermana."</div>
+                <div class="scene-quote">«Estaba ciega. Me enteré el mismo día del incendio.»</div>
             </div>
             <div class="scene-card" data-scene="13">
                 <div class="scene-time">⏱️ 01:40 Irene cuida a Agustina</div>
                 <div class="scene-desc">La madre se queda a cuidar a Agustina moribunda. Redención, perdón, cierre.</div>
-                <div class="scene-quote">"Ahora la cuido yo. Es mi turno."</div>
+                <div class="scene-quote">«Estoy yo para cuidarte lo que haga falta.»</div>
             </div>
         </div>
 
@@ -426,156 +431,169 @@
                 <div class="genre-row">
                     <span class="genre-label">0:01</span>
                     <select class="genre-select" id="genre1">
+                        <option value="" selected>— elige —</option>
                         <option value="tragedia">TRAGEDIA</option>
                         <option value="comedia">COMEDIA</option>
                         <option value="melodrama">MELODRAMA</option>
-                        <option value="tragicomedia" selected>TRAGICOMEDIA</option>
+                        <option value="tragicomedia">TRAGICOMEDIA</option>
                     </select>
-                    <input type="text" class="justify-input" id="just1" placeholder="¿Por qué?" value="mezcla luto cotidiano + humor negro">
+                    <input type="text" class="justify-input" id="just1" placeholder="¿Por qué?">
                     <span class="scene-ref">cementerio</span>
                 </div>
                 <!-- Escena 2 -->
                 <div class="genre-row">
                     <span class="genre-label">0:03</span>
                     <select class="genre-select" id="genre2">
+                        <option value="" selected>— elige —</option>
                         <option value="tragedia">TRAGEDIA</option>
                         <option value="comedia">COMEDIA</option>
                         <option value="melodrama">MELODRAMA</option>
-                        <option value="tragicomedia" selected>TRAGICOMEDIA</option>
+                        <option value="tragicomedia">TRAGICOMEDIA</option>
                     </select>
-                    <input type="text" class="justify-input" id="just2" placeholder="¿Por qué?" value="confusión tierna + ve a muerta">
+                    <input type="text" class="justify-input" id="just2" placeholder="¿Por qué?">
                     <span class="scene-ref">tía Paula</span>
                 </div>
                 <!-- Escena 3 -->
                 <div class="genre-row">
                     <span class="genre-label">0:12</span>
                     <select class="genre-select" id="genre3">
-                        <option value="tragedia" selected>TRAGEDIA</option>
+                        <option value="" selected>— elige —</option>
+                        <option value="tragedia">TRAGEDIA</option>
                         <option value="comedia">COMEDIA</option>
                         <option value="melodrama">MELODRAMA</option>
                         <option value="tragicomedia">TRAGICOMEDIA</option>
                     </select>
-                    <input type="text" class="justify-input" id="just3" placeholder="¿Por qué?" value="tensión sexual, violencia psicológica">
+                    <input type="text" class="justify-input" id="just3" placeholder="¿Por qué?">
                     <span class="scene-ref">Paco / Raimunda</span>
                 </div>
                 <!-- Escena 4 -->
                 <div class="genre-row">
                     <span class="genre-label">0:16</span>
                     <select class="genre-select" id="genre4">
-                        <option value="tragedia" selected>TRAGEDIA</option>
+                        <option value="" selected>— elige —</option>
+                        <option value="tragedia">TRAGEDIA</option>
                         <option value="comedia">COMEDIA</option>
                         <option value="melodrama">MELODRAMA</option>
                         <option value="tragicomedia">TRAGICOMEDIA</option>
                     </select>
-                    <input type="text" class="justify-input" id="just4" placeholder="¿Por qué?" value="violación, asesinato, sangre">
+                    <input type="text" class="justify-input" id="just4" placeholder="¿Por qué?">
                     <span class="scene-ref">muerte Paco</span>
                 </div>
                 <!-- Escena 5 -->
                 <div class="genre-row">
                     <span class="genre-label">00:21</span>
                     <select class="genre-select" id="genre5">
+                        <option value="" selected>— elige —</option>
                         <option value="tragedia">TRAGEDIA</option>
                         <option value="comedia">COMEDIA</option>
                         <option value="melodrama">MELODRAMA</option>
-                        <option value="tragicomedia" selected>TRAGICOMEDIA</option>
+                        <option value="tragicomedia">TRAGICOMEDIA</option>
                     </select>
-                    <input type="text" class="justify-input" id="just5" placeholder="¿Por qué?" value="fregar sangre + oferta restaurante">
+                    <input type="text" class="justify-input" id="just5" placeholder="¿Por qué?">
                     <span class="scene-ref">llaves</span>
                 </div>
                 <!-- Escena 6 -->
                 <div class="genre-row">
                     <span class="genre-label">00:25</span>
                     <select class="genre-select" id="genre6">
+                        <option value="" selected>— elige —</option>
                         <option value="tragedia">TRAGEDIA</option>
-                        <option value="comedia" selected>COMEDIA</option>
+                        <option value="comedia">COMEDIA</option>
                         <option value="melodrama">MELODRAMA</option>
                         <option value="tragicomedia">TRAGICOMEDIA</option>
                     </select>
-                    <input type="text" class="justify-input" id="just6" placeholder="¿Por qué?" value="meter cadáver en congelador es grotesco">
+                    <input type="text" class="justify-input" id="just6" placeholder="¿Por qué?">
                     <span class="scene-ref">congelador</span>
                 </div>
                 <!-- Escena 7 -->
                 <div class="genre-row">
                     <span class="genre-label">00:28</span>
                     <select class="genre-select" id="genre7">
+                        <option value="" selected>— elige —</option>
                         <option value="tragedia">TRAGEDIA</option>
-                        <option value="comedia" selected>COMEDIA</option>
+                        <option value="comedia">COMEDIA</option>
                         <option value="melodrama">MELODRAMA</option>
                         <option value="tragicomedia">TRAGICOMEDIA</option>
                     </select>
-                    <input type="text" class="justify-input" id="just7" placeholder="¿Por qué?" value="oportunidad inesperada, ligereza">
+                    <input type="text" class="justify-input" id="just7" placeholder="¿Por qué?">
                     <span class="scene-ref">catering</span>
                 </div>
                 <!-- Escena 8 -->
                 <div class="genre-row">
                     <span class="genre-label">00:32</span>
                     <select class="genre-select" id="genre8">
+                        <option value="" selected>— elige —</option>
                         <option value="tragedia">TRAGEDIA</option>
                         <option value="comedia">COMEDIA</option>
                         <option value="melodrama">MELODRAMA</option>
-                        <option value="tragicomedia" selected>TRAGICOMEDIA</option>
+                        <option value="tragicomedia">TRAGICOMEDIA</option>
                     </select>
-                    <input type="text" class="justify-input" id="just8" placeholder="¿Por qué?" value="aparición fantasmal, tono misterioso">
+                    <input type="text" class="justify-input" id="just8" placeholder="¿Por qué?">
                     <span class="scene-ref">funeral</span>
                 </div>
                 <!-- Escena 9 -->
                 <div class="genre-row">
                     <span class="genre-label">00:39</span>
                     <select class="genre-select" id="genre9">
+                        <option value="" selected>— elige —</option>
                         <option value="tragedia">TRAGEDIA</option>
                         <option value="comedia">COMEDIA</option>
                         <option value="melodrama">MELODRAMA</option>
-                        <option value="tragicomedia" selected>TRAGICOMEDIA</option>
+                        <option value="tragicomedia">TRAGICOMEDIA</option>
                     </select>
-                    <input type="text" class="justify-input" id="just9" placeholder="¿Por qué?" value="situación absurda pero reencuentro emocionante">
+                    <input type="text" class="justify-input" id="just9" placeholder="¿Por qué?">
                     <span class="scene-ref">maletero</span>
                 </div>
                 <!-- Escena 10 -->
                 <div class="genre-row">
                     <span class="genre-label">0:59</span>
                     <select class="genre-select" id="genre10">
+                        <option value="" selected>— elige —</option>
                         <option value="tragedia">TRAGEDIA</option>
                         <option value="comedia">COMEDIA</option>
-                        <option value="melodrama" selected>MELODRAMA</option>
+                        <option value="melodrama">MELODRAMA</option>
                         <option value="tragicomedia">TRAGICOMEDIA</option>
                     </select>
-                    <input type="text" class="justify-input" id="just10" placeholder="¿Por qué?" value="canción nostálgica, lágrimas, emoción pura">
+                    <input type="text" class="justify-input" id="just10" placeholder="¿Por qué?">
                     <span class="scene-ref">Volver canción</span>
                 </div>
                 <!-- Escena 11 -->
                 <div class="genre-row">
                     <span class="genre-label">01:22</span>
                     <select class="genre-select" id="genre11">
-                        <option value="tragedia" selected>TRAGEDIA</option>
+                        <option value="" selected>— elige —</option>
+                        <option value="tragedia">TRAGEDIA</option>
                         <option value="comedia">COMEDIA</option>
                         <option value="melodrama">MELODRAMA</option>
                         <option value="tragicomedia">TRAGICOMEDIA</option>
                     </select>
-                    <input type="text" class="justify-input" id="just11" placeholder="¿Por qué?" value="revelación dolorosa, adulterio, silencio">
+                    <input type="text" class="justify-input" id="just11" placeholder="¿Por qué?">
                     <span class="scene-ref">Agustina</span>
                 </div>
                 <!-- Escena 12 -->
                 <div class="genre-row">
                     <span class="genre-label">01:35</span>
                     <select class="genre-select" id="genre12">
-                        <option value="tragedia" selected>TRAGEDIA</option>
+                        <option value="" selected>— elige —</option>
+                        <option value="tragedia">TRAGEDIA</option>
                         <option value="comedia">COMEDIA</option>
                         <option value="melodrama">MELODRAMA</option>
                         <option value="tragicomedia">TRAGICOMEDIA</option>
                     </select>
-                    <input type="text" class="justify-input" id="just12" placeholder="¿Por qué?" value="incesto, abuso, muerte, incendiario">
+                    <input type="text" class="justify-input" id="just12" placeholder="¿Por qué?">
                     <span class="scene-ref">verdad final</span>
                 </div>
                 <!-- Escena 13 -->
                 <div class="genre-row">
                     <span class="genre-label">01:40</span>
                     <select class="genre-select" id="genre13">
+                        <option value="" selected>— elige —</option>
                         <option value="tragedia">TRAGEDIA</option>
                         <option value="comedia">COMEDIA</option>
-                        <option value="melodrama" selected>MELODRAMA</option>
+                        <option value="melodrama">MELODRAMA</option>
                         <option value="tragicomedia">TRAGICOMEDIA</option>
                     </select>
-                    <input type="text" class="justify-input" id="just13" placeholder="¿Por qué?" value="cuidado, redención, perdón, lágrima final">
+                    <input type="text" class="justify-input" id="just13" placeholder="¿Por qué?">
                     <span class="scene-ref">Irene cuida</span>
                 </div>
             </div>
@@ -587,15 +605,15 @@
         <h3>📝 PREGUNTAS DE SÍNTESIS (GÉNERO GLOBAL)</h3>
         <div class="q-block">
             <label>🎭 1. ¿Consideras que Volver es principalmente una tragedia, una comedia, un melodrama o una tragicomedia? Justifica con varias escenas.</label>
-            <textarea id="globalGenre" rows="4">Volver es una tragicomedia con elementos fuertes de melodrama. Mezcla el horror (abuso, asesinato) con situaciones absurdas (madre 'resucitada', congelador) y mucha emoción.</textarea>
+            <textarea id="globalGenre" rows="4"></textarea>
         </div>
         <div class="q-block">
             <label>🔄 2. Elige una escena que mezcle claramente tragedia y comedia. ¿Cómo consigue Almodóvar ese tono agridulce?</label>
-            <textarea id="mixScene" rows="3">Escena 00:21 – Raimunda friega la sangre de un asesinato mientras recibe las llaves de un restaurante. Lo trágico (muerte) se mezcla con lo práctico/cotidiano, casi cómico.</textarea>
+            <textarea id="mixScene" rows="3"></textarea>
         </div>
         <div class="q-block">
             <label>💧 3. ¿Qué papel juega el melodrama (exageración sentimental) en la película? ¿Hay algún exceso de emociones?</label>
-            <textarea id="melodramaRole" rows="3">Sí, sobre todo en la confesión final (1:35) y la canción Volver (0:59). La música, los llantos y los secretos familiares son puro melodrama.</textarea>
+            <textarea id="melodramaRole" rows="3"></textarea>
         </div>
     </div>
 
@@ -730,6 +748,141 @@ window.addEventListener("load",function(){
   ["input","change"].forEach(function(ev){ document.addEventListener(ev,function(e){ if(!(e.target.closest&&e.target.closest("#bba-kit"))) sched(); }); });
   calc();
 });
+</script>
+<script id="bba-answers" type="application/json">
+{
+ "just1": {
+  "model": "Una lectura posible: tragicomedia, porque la muerte está presente (limpian la tumba de sus padres), pero el tono es cotidiano y hasta cómico: Agustina viene a cuidar su propia tumba.",
+  "ideas": [
+   "a feature of the genre::muerte|muert|humor|risa|cómic|comic|emoci|lágrima|llor|dolor|absurd|agridulce|mezcla|suspens|tensión|violen|ironía|ternura|misterio|sentiment",
+   "evidence from the scene::porque|ya que|cuando|dice|«|\"|puesto que|se ve"
+  ],
+  "why": "Genre is a matter of interpretation: any of the four can be right if your reason points to what happens or what is said in the scene."
+ },
+ "just2": {
+  "model": "Una lectura posible: melodrama, porque la vejez y la confusión de la tía despiertan ternura y preocupación, y la escena deja un misterio: ¿quién le hace la comida?",
+  "ideas": [
+   "a feature of the genre::muerte|muert|humor|risa|cómic|comic|emoci|lágrima|llor|dolor|absurd|agridulce|mezcla|suspens|tensión|violen|ironía|ternura|misterio|sentiment",
+   "evidence from the scene::porque|ya que|cuando|dice|«|\"|puesto que|se ve"
+  ],
+  "why": "Genre is a matter of interpretation: any of the four can be right if your reason points to what happens or what is said in the scene."
+ },
+ "just3": {
+  "model": "Una lectura posible: melodrama, porque es un conflicto doméstico cargado de tensión: el despido, el cansancio de Raimunda y el deseo de Paco anuncian el drama que viene.",
+  "ideas": [
+   "a feature of the genre::muerte|muert|humor|risa|cómic|comic|emoci|lágrima|llor|dolor|absurd|agridulce|mezcla|suspens|tensión|violen|ironía|ternura|misterio|sentiment",
+   "evidence from the scene::porque|ya que|cuando|dice|«|\"|puesto que|se ve"
+  ],
+  "why": "Genre is a matter of interpretation: any of the four can be right if your reason points to what happens or what is said in the scene."
+ },
+ "just4": {
+  "model": "Una lectura posible: tragedia, porque hay un intento de abuso y una muerte violenta, y Raimunda decide cargar con la culpa para proteger a su hija.",
+  "ideas": [
+   "a feature of the genre::muerte|muert|humor|risa|cómic|comic|emoci|lágrima|llor|dolor|absurd|agridulce|mezcla|suspens|tensión|violen|ironía|ternura|misterio|sentiment",
+   "evidence from the scene::porque|ya que|cuando|dice|«|\"|puesto que|se ve"
+  ],
+  "why": "Genre is a matter of interpretation: any of the four can be right if your reason points to what happens or what is said in the scene."
+ },
+ "just5": {
+  "model": "Una lectura posible: tragicomedia, porque Raimunda acaba de limpiar la sangre, pero la conversación con Emilio tiene humor negro: explica la mancha con un «cosas de mujeres».",
+  "ideas": [
+   "a feature of the genre::muerte|muert|humor|risa|cómic|comic|emoci|lágrima|llor|dolor|absurd|agridulce|mezcla|suspens|tensión|violen|ironía|ternura|misterio|sentiment",
+   "evidence from the scene::porque|ya que|cuando|dice|«|\"|puesto que|se ve"
+  ],
+  "why": "Genre is a matter of interpretation: any of the four can be right if your reason points to what happens or what is said in the scene."
+ },
+ "just6": {
+  "model": "Una lectura posible: tragicomedia, porque esconder un cadáver es un acto terrible, pero la situación, arrastrarlo entre madre e hija hasta un congelador, roza lo absurdo.",
+  "ideas": [
+   "a feature of the genre::muerte|muert|humor|risa|cómic|comic|emoci|lágrima|llor|dolor|absurd|agridulce|mezcla|suspens|tensión|violen|ironía|ternura|misterio|sentiment",
+   "evidence from the scene::porque|ya que|cuando|dice|«|\"|puesto que|se ve"
+  ],
+  "why": "Genre is a matter of interpretation: any of the four can be right if your reason points to what happens or what is said in the scene."
+ },
+ "just7": {
+  "model": "Una lectura posible: comedia, porque con el cadáver al lado, Raimunda improvisa y acepta dar de comer a treinta personas: el contraste produce risa y alivio.",
+  "ideas": [
+   "a feature of the genre::muerte|muert|humor|risa|cómic|comic|emoci|lágrima|llor|dolor|absurd|agridulce|mezcla|suspens|tensión|violen|ironía|ternura|misterio|sentiment",
+   "evidence from the scene::porque|ya que|cuando|dice|«|\"|puesto que|se ve"
+  ],
+  "why": "Genre is a matter of interpretation: any of the four can be right if your reason points to what happens or what is said in the scene."
+ },
+ "just8": {
+  "model": "Una lectura posible: tragicomedia, porque es un velatorio, con rezos y dolor, pero las habladurías sobre el fantasma y el susto de Sole introducen humor.",
+  "ideas": [
+   "a feature of the genre::muerte|muert|humor|risa|cómic|comic|emoci|lágrima|llor|dolor|absurd|agridulce|mezcla|suspens|tensión|violen|ironía|ternura|misterio|sentiment",
+   "evidence from the scene::porque|ya que|cuando|dice|«|\"|puesto que|se ve"
+  ],
+  "why": "Genre is a matter of interpretation: any of the four can be right if your reason points to what happens or what is said in the scene."
+ },
+ "just9": {
+  "model": "Una lectura posible: comedia, porque una madre «muerta» que sale del maletero es una situación absurda, y el diálogo pasa enseguida a lo práctico: teñirse el pelo y dónde dormir.",
+  "ideas": [
+   "a feature of the genre::muerte|muert|humor|risa|cómic|comic|emoci|lágrima|llor|dolor|absurd|agridulce|mezcla|suspens|tensión|violen|ironía|ternura|misterio|sentiment",
+   "evidence from the scene::porque|ya que|cuando|dice|«|\"|puesto que|se ve"
+  ],
+  "why": "Genre is a matter of interpretation: any of the four can be right if your reason points to what happens or what is said in the scene."
+ },
+ "just10": {
+  "model": "Una lectura posible: melodrama, porque la música, los recuerdos de la infancia y las lágrimas de Irene, que escucha escondida, buscan la emoción intensa del espectador.",
+  "ideas": [
+   "a feature of the genre::muerte|muert|humor|risa|cómic|comic|emoci|lágrima|llor|dolor|absurd|agridulce|mezcla|suspens|tensión|violen|ironía|ternura|misterio|sentiment",
+   "evidence from the scene::porque|ya que|cuando|dice|«|\"|puesto que|se ve"
+  ],
+  "why": "Genre is a matter of interpretation: any of the four can be right if your reason points to what happens or what is said in the scene."
+ },
+ "just11": {
+  "model": "Una lectura posible: melodrama, porque Agustina, enferma de cáncer, revela un secreto de familia: emociones fuertes y un pasado que vuelve.",
+  "ideas": [
+   "a feature of the genre::muerte|muert|humor|risa|cómic|comic|emoci|lágrima|llor|dolor|absurd|agridulce|mezcla|suspens|tensión|violen|ironía|ternura|misterio|sentiment",
+   "evidence from the scene::porque|ya que|cuando|dice|«|\"|puesto que|se ve"
+  ],
+  "why": "Genre is a matter of interpretation: any of the four can be right if your reason points to what happens or what is said in the scene."
+ },
+ "just12": {
+  "model": "Una lectura posible: tragedia, porque se descubren el abuso, el incesto y el incendio: los temas más oscuros de la película, aunque contados con la emoción del melodrama.",
+  "ideas": [
+   "a feature of the genre::muerte|muert|humor|risa|cómic|comic|emoci|lágrima|llor|dolor|absurd|agridulce|mezcla|suspens|tensión|violen|ironía|ternura|misterio|sentiment",
+   "evidence from the scene::porque|ya que|cuando|dice|«|\"|puesto que|se ve"
+  ],
+  "why": "Genre is a matter of interpretation: any of the four can be right if your reason points to what happens or what is said in the scene."
+ },
+ "just13": {
+  "model": "Una lectura posible: melodrama, porque es una escena de perdón y cuidado, con lágrimas, pero termina con una nota de humor: «los fantasmas no lloran».",
+  "ideas": [
+   "a feature of the genre::muerte|muert|humor|risa|cómic|comic|emoci|lágrima|llor|dolor|absurd|agridulce|mezcla|suspens|tensión|violen|ironía|ternura|misterio|sentiment",
+   "evidence from the scene::porque|ya que|cuando|dice|«|\"|puesto que|se ve"
+  ],
+  "why": "Genre is a matter of interpretation: any of the four can be right if your reason points to what happens or what is said in the scene."
+ },
+ "globalGenre": {
+  "model": "En mi opinión, Volver es sobre todo una tragicomedia. Trata temas trágicos, como el abuso, la muerte de Paco y el incendio, pero los cuenta con humor: Irene sale de un maletero y se hace pasar por rusa. Además, recurre al melodrama en los momentos de mayor emoción, como la canción o la reconciliación entre madre e hija.",
+  "ideas": [
+   "a clear choice of genre::tragicomedia|tragedia|comedia|melodrama",
+   "two scenes as evidence::maletero|rusa|congelador|canción|canta|incendio|Paco|funeral|Agustina|cementerio|tumba",
+   "an opinion marker::en mi opinión|a mi juicio|considero|creo que|pienso que|me parece",
+   "a concession::aunque|sin embargo|pero|no obstante|por un lado"
+  ],
+  "why": "The exam rewards a position that is argued: one main genre, evidence from at least two scenes, and a concession."
+ },
+ "mixScene": {
+  "model": "La escena del congelador mezcla tragedia y comedia. Raimunda y Paula esconden el cadáver de Paco, pero enseguida aparece el auxiliar de producción y Raimunda, nerviosa, termina aceptando un encargo para treinta personas, lo que resulta cómico. Almodóvar consigue el tono agridulce porque no deja tiempo para el dolor: lo cotidiano interrumpe lo terrible.",
+  "ideas": [
+   "one scene named::congelador|maletero|funeral|velatorio|llaves|sangre|cementerio|rusa|peluquería",
+   "the tragic side::muert|cadáver|sangre|dolor|abus|duelo|cáncer",
+   "the comic side::humor|risa|cómic|comic|absurd|gracia|ironía",
+   "how the director does it::contraste|interrump|mezcla|cotidian|diálogo|tono|ritmo"
+  ]
+ },
+ "melodramaRole": {
+  "model": "El melodrama sirve para que el espectador comparta las emociones de las mujeres. Se nota sobre todo cuando Raimunda canta mientras su madre llora escondida, y en el reencuentro final, cuando Raimunda dice «Te necesito mamá». Sin embargo, Almodóvar evita el exceso: después de las lágrimas suele llegar una frase de humor, como «los fantasmas no lloran».",
+  "ideas": [
+   "what melodrama does::emoci|sentim|identific|conmov|llor|lágrima",
+   "one scene as evidence::canta|canción|reencuentro|perdón|hospital|cáncer|final|Agustina|Irene",
+   "a judgement on excess::exceso|exager|equilibr|evita|humor|sin embargo|aunque"
+  ]
+ }
+}
 </script>
 </body>
 </html>
